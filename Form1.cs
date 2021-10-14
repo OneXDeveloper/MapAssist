@@ -144,7 +144,7 @@ namespace D2RAssist
             if (currentGameData != null)
             {
 
-                if (lastGameData?.MapSeed != currentGameData.MapSeed && currentGameData.MapSeed != 0)
+                if (lastGameData?.MapSeed != currentGameData.MapSeed && currentGameData.HasMapSeed())
                 {
                     if (mapApiSession != null)
                     {
@@ -178,20 +178,20 @@ namespace D2RAssist
                  
                 }
 
-                if (currentGameData.MapSeed == 0)
-                {
-                    pictureBox1.Hide();
-                } else
-                {
-                    pictureBox1.Show();
-                }
-
-
-
-                if (currentGameData.MapSeed != 0 && this.mapData == null || currentGameData.AreaId != lastGameData?.AreaId && currentGameData.AreaId != 0)
+                if (currentGameData.HasMapSeed() && this.mapData == null || currentGameData.AreaId != lastGameData?.AreaId && currentGameData.AreaId != 0)
                 {
                     await GetMapData();
                 }
+
+                if (currentGameData.HasMapSeed() && currentGameData.IsOutsideTown())
+                {
+                    pictureBox1.Show();
+                } else
+                {
+                    pictureBox1.Hide();
+                }
+
+
 
                 lastGameData = currentGameData;
 
