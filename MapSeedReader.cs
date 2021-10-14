@@ -28,11 +28,31 @@ namespace D2RAssist
 {
     class GameData
     {
+        private static readonly HashSet<UInt32> TownIDs = new HashSet<UInt32> {1, 40, 75, 103, 109};
+
         public UInt16 PlayerX;
         public UInt16 PlayerY;
         public UInt32 MapSeed;
         public UInt16 Difficulty;
         public UInt32 AreaId;
+
+        internal Boolean IsOutsideTown()
+        {
+            if (TownIDs.Contains(this.AreaId))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        internal Boolean HasMapSeed()
+        {
+            if(this.MapSeed != 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
     class MapSeedReader
