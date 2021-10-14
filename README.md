@@ -4,8 +4,6 @@ Join the discussion: https://discord.gg/5b2B7QrVqa
 
 Feel free to contribute a pull request with new features or fixes, the code is under GPL so make sure to please follow the license.
 
-**Donations**: BTC: 361pk9AHfTpWY2xVyrHgMGHsHEavDWb872 -- This goes directly to `misterokaygo` who will also support you on Discord (look for him in Discord) for being apart of the donaters club. There are some precompiled builds with tweaked settings and the feeling of giving back to me for my time spent creating this. Donations do not imply any kind of sale of product, or warranty and are completely optional. Thank you to the people who have donated.
-
 **Suggestions/Roadmap**
 - [x] Better class/variable/file names
 - [x] Seperation of concerns for data / form
