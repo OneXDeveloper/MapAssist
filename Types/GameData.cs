@@ -1,6 +1,6 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
- *   
+ *
  *   https://github.com/misterokaygo/D2RAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,21 +17,22 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static D2RAssist.Types.Game;
 
-namespace D2RAssist
+namespace D2RAssist.Types
 {
-    static class Program
+    public class GameData
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Overlay());
-        }
+        public UInt16 PlayerX;
+        public UInt16 PlayerY;
+        public UInt32 MapSeed;
+        public UInt16 Difficulty;
+        public Area AreaId;
+        public bool MapShown;
+        public IntPtr MainWindowHandle;
     }
 }

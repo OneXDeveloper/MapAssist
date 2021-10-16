@@ -1,6 +1,6 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
- *   
+ *
  *   https://github.com/misterokaygo/D2RAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,21 +17,33 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace D2RAssist
 {
-    static class Program
+    public class MapData
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        public class XY
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Overlay());
+            public int x;
+            public int y;
         }
+
+        public class AdjacentLevel
+        {
+            public XY[] exits;
+            public XY origin;
+            public int width;
+            public int height;
+        }
+
+        public XY levelOrigin;
+        public Dictionary<string, AdjacentLevel> adjacentLevels;
+        public int[][] mapRows;
+        public Dictionary<string, XY[]> npcs;
+        public Dictionary<string, XY[]> objects;
     }
 }

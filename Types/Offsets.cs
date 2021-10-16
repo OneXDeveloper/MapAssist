@@ -1,6 +1,6 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
- *   
+ *
  *   https://github.com/misterokaygo/D2RAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace D2RAssist
+namespace D2RAssist.Types
 {
-    class SessionData
+    public static class Offsets
     {
-        public string id;
-        public uint difficulty;
-        public uint mapId;
+        public static int PlayerUnit = 0x205CE60;
+        public static int InGameMap = 0x2051342;
     }
 }
