@@ -59,14 +59,17 @@ namespace D2RAssist.Helpers
             MapRenderer.Clear();
         }
 
-        public static async Task<MapData> GetMapData(Area area)
+        public static async Task<MapData> GetMapData(Area area, bool shouldClearMap = true)
         {
             if (Globals.MapApiSession == null)
             {
                 return null;
             }
 
-            MapRenderer.Clear();
+            if (shouldClearMap)
+            {
+                MapRenderer.Clear();
+            }
 
             using (HttpClient client = new HttpClient())
             {

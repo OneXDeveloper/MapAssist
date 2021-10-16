@@ -71,6 +71,24 @@ namespace D2RAssist
             mapOverlay.BackColor = Color.Transparent;
         }
 
+        private async void LoadTombs()
+        {
+            // load tombs
+            if (Globals.TombData != null)
+            {
+                Globals.TombData.Clear();
+            } else
+            {
+                Globals.TombData = new Dictionary<Game.Area, MapData>();
+            }
+            foreach (string mapObjectKey in MapRenderer.MapPointsOfInterest.TalTombs)
+            {
+                Game.Area tomb = (Game.Area)Int32.Parse(mapObjectKey);
+                MapData tombMapData = await MapApi.GetMapData(tomb, false);
+                Globals.TombData.Add(tomb, tombMapData);
+            }
+        }
+
         private async void MapUpdateTimer_Tick(object sender, EventArgs e)
         {
             Timer timer = sender as Timer;
@@ -87,7 +105,8 @@ namespace D2RAssist
 
                 if (Globals.LastGameData?.MapSeed != Globals.CurrentGameData.MapSeed && Globals.CurrentGameData.MapSeed != 0)
                 {
-                    await MapApi.CreateNewSession();            
+                    await MapApi.CreateNewSession();
+                    LoadTombs();
                 }
 
                 if (shouldUpdateMap)
@@ -141,7 +160,7 @@ namespace D2RAssist
         private void MapOverlay_Paint(object sender, PaintEventArgs e)
         {
             // Handle race condition where mapData hasn't been received yet.
-            if (Globals.MapData == null || Globals.MapData.mapRows[0].Length == 0)
+            if (Globals.MapData == null || Globals.MapData.mapRows == null || Globals.MapData.mapRows[0].Length == 0)
             {
                 return;
             }

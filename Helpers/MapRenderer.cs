@@ -254,13 +254,16 @@ namespace D2RAssist.Helpers
             }
         }
 
-        private async static void TombCheck(string mapObjectKey)
+        private static void TombCheck(string mapObjectKey)
         {
             Game.Area tomb = (Game.Area)Int32.Parse(mapObjectKey);
-            MapData tombMapData = await MapApi.GetMapData(tomb);
-            if (tombMapData.objects.ContainsKey("152"))
+            if (Globals.TombData.ContainsKey(tomb))
             {
-                TombID = mapObjectKey;
+                MapData tombMapData = Globals.TombData[tomb];
+                if (tombMapData.objects.ContainsKey("152"))
+                {
+                    TombID = mapObjectKey;
+                }
             }
         }
 
