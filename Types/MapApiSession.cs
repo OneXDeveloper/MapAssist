@@ -1,6 +1,6 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
- *   
+ *
  *   https://github.com/misterokaygo/D2RAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,21 +17,17 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace D2RAssist
 {
-    static class Program
+    public class MapApiSession
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Overlay());
-        }
+        public string id;
+        public uint difficulty;
+        public uint mapId;
     }
 }

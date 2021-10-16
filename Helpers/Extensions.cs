@@ -1,6 +1,6 @@
-/**
- *   Copyright (C) 2021 okaygo
- *   
+﻿/**
+ *   Copyright (C) 2021 okaygo, OneXDeveloper
+ *
  *   https://github.com/misterokaygo/D2RAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,22 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
-using System;
-using System.Windows.Forms;
+using static D2RAssist.Types.Game;
 
-namespace D2RAssist
+namespace D2RAssist.Helpers
 {
-    static class Program
+    public static class Extensions
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Overlay());
-        }
+        public static bool IsTown(this Area area) =>
+            area == Area.RogueEncampment || area == Area.LutGholein || area == Area.KurastDocks ||
+            area == Area.ThePandemoniumFortress || area == Area.Harrogath;
     }
 }
