@@ -49,6 +49,14 @@ namespace D2RAssist.Types
                 public static readonly Color ArrowWaypoint = ColorTranslator.FromHtml(ConfigurationManager.AppSettings["ArrowWaypoint"]);
                 public static readonly Color LabelColor = ColorTranslator.FromHtml(ConfigurationManager.AppSettings["LabelColor"]);
 
+                public static void InitMapColors()
+                {
+                    for (var i = -1; i < 600; i++)//not sure what the max is here...
+                    {
+                        LookupMapColor(i);
+                    }
+                }
+
                 public static Color? LookupMapColor(int type)
                 {
                     string key = "MapColor[" + type + "]";

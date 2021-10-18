@@ -45,6 +45,7 @@ namespace D2RAssist
 
         public Overlay()
         {
+            Settings.Map.Colors.InitMapColors();
             InitializeComponent();
         }
 

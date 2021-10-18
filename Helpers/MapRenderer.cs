@@ -95,7 +95,7 @@ namespace D2RAssist.Helpers
                     for (int y = 0; y < mapData.mapRows[x].Length; y++)
                     {
                         int type = mapData.mapRows[x][y];
-                        Color? typeColor = Settings.Map.Colors.LookupMapColor(type);
+                        Color? typeColor = Settings.Map.Colors.MapColors[type];
                         if (typeColor != null)
                         {
                             uncroppedBackground.SetPixel(y, x, (Color)typeColor);

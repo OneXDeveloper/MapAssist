@@ -95,36 +95,45 @@ namespace D2RAssist.Helpers
 
         public static Bitmap CropBitmap(Bitmap originalBitmap)
         {
-
             // Find the min/max non-white/transparent pixels
             Point min = new Point(int.MaxValue, int.MaxValue);
             Point max = new Point(int.MinValue, int.MinValue);
 
-            for (int x = 0; x < originalBitmap.Width; ++x)
+            unsafe
             {
-                for (int y = 0; y < originalBitmap.Height; ++y)
+                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                byte bitsPerPixel = 32;
+                byte* scan0 = (byte*)bData.Scan0.ToPointer();
+                
+                for (int y = 0; y < bData.Height; ++y)
                 {
-                    Color pixelColor = originalBitmap.GetPixel(x, y);
-                    if (pixelColor.A == 255)
+                    for (int x = 0; x < bData.Width; ++x)
                     {
-                        if (x < min.X) min.X = x;
-                        if (y < min.Y) min.Y = y;
+                        byte* data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
+                        //data[0 = blue, 1 = green, 2 = red, 3 = alpha]
+                        if (data[3] == byte.MaxValue)
+                        {
+                            if (x < min.X) min.X = x;
+                            if (y < min.Y) min.Y = y;
 
-                        if (x > max.X) max.X = x;
-                        if (y > max.Y) max.Y = y;
+                            if (x > max.X) max.X = x;
+                            if (y > max.Y) max.Y = y;
+                        }
                     }
                 }
-            }
+                originalBitmap.UnlockBits(bData);
 
-            // Create a new bitmap from the crop rectangle
-            Rectangle cropRectangle = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
-            Bitmap newBitmap = new Bitmap(cropRectangle.Width, cropRectangle.Height);
-            using (Graphics g = Graphics.FromImage(newBitmap))
-            {
-                g.DrawImage(originalBitmap, 0, 0, cropRectangle, GraphicsUnit.Pixel);
-            }
+                // Create a new bitmap from the crop rectangle
+                Rectangle cropRectangle = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+                Bitmap newBitmap = new Bitmap(cropRectangle.Width, cropRectangle.Height);
+                
+                using (Graphics g = Graphics.FromImage(newBitmap))
+                {
+                    g.DrawImage(originalBitmap, 0, 0, cropRectangle, GraphicsUnit.Pixel);
+                }
 
-            return newBitmap;
+                return newBitmap;
+            }
         }
 
         public static Rectangle GetAutoCropBounds(Bitmap bitmap)
