@@ -1,4 +1,9 @@
 ﻿
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace D2RAssist
 {
     partial class Overlay
@@ -6,7 +11,7 @@ namespace D2RAssist
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -29,41 +34,42 @@ namespace D2RAssist
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Overlay));
-            this.mapOverlay = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.mapOverlay)).BeginInit();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(Overlay));
+            mapOverlay = new PictureBox();
+            ((ISupportInitialize)(mapOverlay)).BeginInit();
             this.SuspendLayout();
             // 
             // mapOverlay
             // 
-            this.mapOverlay.BackColor = System.Drawing.Color.Transparent;
-            this.mapOverlay.Location = new System.Drawing.Point(12, 3);
-            this.mapOverlay.Name = "mapOverlay";
-            this.mapOverlay.Size = new System.Drawing.Size(0, 0);
-            this.mapOverlay.TabIndex = 0;
-            this.mapOverlay.TabStop = false;
-            this.mapOverlay.Paint += new System.Windows.Forms.PaintEventHandler(this.MapOverlay_Paint);
+            mapOverlay.BackColor = Color.Transparent;
+            mapOverlay.Location = new Point(12, 3);
+            mapOverlay.Name = "mapOverlay";
+            mapOverlay.Size = new Size(0, 0);
+            mapOverlay.TabIndex = 0;
+            mapOverlay.TabStop = false;
+            mapOverlay.Paint += new PaintEventHandler(MapOverlay_Paint);
+
             // 
             // frmOverlay
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1767, 996);
-            this.Controls.Add(this.mapOverlay);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Overlay";
-            this.TransparencyKey = System.Drawing.SystemColors.Control;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Overlay_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.mapOverlay)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1767, 996);
+            Controls.Add(mapOverlay);
+            FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)(resources.GetObject("$this.Icon"));
+            Name = "Overlay";
+            TransparencyKey = Color.Black;
+            BackColor = Color.Black;
+            WindowState = FormWindowState.Maximized;
+            Load += new EventHandler(Overlay_Load);
+            FormClosing += new FormClosingEventHandler(Overlay_FormClosing);
+            ((ISupportInitialize)(mapOverlay)).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox mapOverlay;
+        private PictureBox mapOverlay;
     }
 }
-

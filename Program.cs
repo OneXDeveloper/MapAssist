@@ -16,8 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
+
 using System;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
 
 namespace D2RAssist
 {
@@ -29,9 +31,12 @@ namespace D2RAssist
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Overlay());
+            using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Overlay(globalHook));
+            }
         }
     }
 }

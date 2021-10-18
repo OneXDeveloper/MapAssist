@@ -16,21 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
-using System;
+
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace D2RAssist.Types
 {
-    public static class Globals
+    public class AdjacentLevel
     {
-        public static MapApiSession MapApiSession { get; set; }
-        public static MapData MapData { get; set; }
-        public static GameData CurrentGameData { get; set; }
-        public static GameData LastGameData { get; set; }
-        public static Bitmap MapBackground { get; set; }
+        public Area Area;
+        public Point[] Exits;
+        public Point Origin;
+        public int Width;
+        public int Height;
+    }
+
+    public class AreaData
+    {
+        public Area Area;
+        public Point Origin;
+        public Dictionary<Area, AdjacentLevel> AdjacentLevels;
+        public int[][] CollisionGrid;
+        public Dictionary<NPC, Point[]> NPCs;
+        public Dictionary<GameObject, Point[]> Objects;
     }
 }

@@ -16,23 +16,38 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static D2RAssist.Types.Game;
+using System.Drawing;
 
 namespace D2RAssist.Types
 {
     public class GameData
     {
-        public UInt16 PlayerX;
-        public UInt16 PlayerY;
-        public UInt32 MapSeed;
-        public UInt16 Difficulty;
-        public Area AreaId;
+        public Point PlayerPosition;
+        public uint MapSeed;
+        public Difficulty Difficulty;
+        public Area Area;
         public bool MapShown;
         public IntPtr MainWindowHandle;
+
+        public bool HasGameChanged(GameData other)
+        {
+            if (other == null) return true;
+            if (MapSeed != other.MapSeed) return true;
+            if (Difficulty != other.Difficulty) return true;
+            return false;
+        }
+
+        public bool HasMapChanged(GameData other)
+        {
+            return HasGameChanged(other) || Area != other.Area;
+        }
+
+        public override string ToString()
+        {
+            return
+                $"{nameof(PlayerPosition)}: {PlayerPosition}, {nameof(MapSeed)}: {MapSeed}, {nameof(Difficulty)}: {Difficulty}, {nameof(Area)}: {Area}, {nameof(MapShown)}: {MapShown}";
+        }
     }
 }

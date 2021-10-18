@@ -16,7 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
-using static D2RAssist.Types.Game;
+
+using System.Drawing;
+using D2RAssist.Types;
 
 namespace D2RAssist.Helpers
 {
@@ -25,5 +27,12 @@ namespace D2RAssist.Helpers
         public static bool IsTown(this Area area) =>
             area == Area.RogueEncampment || area == Area.LutGholein || area == Area.KurastDocks ||
             area == Area.ThePandemoniumFortress || area == Area.Harrogath;
+
+        public static bool IsWaypoint(this GameObject obj) => obj.ToString().Contains("Waypoint");
+
+        public static Point OffsetFrom(this Point point, Point offset)
+        {
+            return new Point(point.X - offset.X, point.Y - offset.Y);
+        }
     }
 }
