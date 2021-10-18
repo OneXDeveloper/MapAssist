@@ -41,12 +41,14 @@ namespace D2RAssist.Helpers
             public static readonly Bitmap DoorPrevious = CreateFilledRectangle(Settings.Map.Colors.DoorPrevious, 10, 10);
             public static readonly Bitmap Waypoint = CreateFilledRectangle(Settings.Map.Colors.Waypoint, 10, 10);
             public static readonly Bitmap Player = CreateFilledRectangle(Settings.Map.Colors.Player, 10, 10);
+            public static readonly Bitmap Chest = CreateFilledEllipse(Settings.Map.Colors.Chest, 10, 10);
             public static readonly Bitmap SuperChest = CreateFilledEllipse(Settings.Map.Colors.SuperChest, 10, 10);
         }
 
         public static class MapPointsOfInterest
         {
-            public static readonly string[] Chests = { "5", "6", "87", "104", "105", "106", "107", "143", "140", "141", "144", "146", "147", "148", "176", "177", "181", "183", "198", "240", "241", "242", "243", "329", "330", "331", "332", "333", "334", "335", "336", "354", "355", "356", "371", "387", "389", "390", "391", "397", "405", "406", "407", "413", "420", "424", "425", "430", "431", "432", "433", "454", "455", "501", "502", "504", "505", "580", "581", };
+            public static readonly string[] Chests = { "5", "6", "87", "104", "105", "106", "107", "143", "140", "141", "144", "146", "147", "148", "176", "177", "181", "183", "198", "240", "241", "242", "243", "329", "330", "331", "332", "333", "334", "335", "336", "354", "355", "356", "371", "387", "389", "390", "391", "397", "405", "406", "407", "413", "420", "424", "425", "430", "431", "432", "433", "454", "455", "501", "502", "504", "505", "581" };
+            public static readonly string[] SuperChests = { "580"};
             public static readonly string[] Quests = { "61", "152", "266","357", "356", "354", "355", "376" };
             public static readonly string[] Waypoints = { "182", "298", "119", "145", "156", "157", "238", "237", "288", "323", "324", "398", "402", "429", "494", "496", "511", "539", "59", "60", "100" };
         }
@@ -221,7 +223,7 @@ namespace D2RAssist.Helpers
                 {
                     CachedBackgroundGraphics.DrawImage(Icons.DoorNext, mapObjectPoint);
                 }
-                else if (MapPointsOfInterest.Chests.Contains(mapObjectKey))
+                else if (MapPointsOfInterest.SuperChests.Contains(mapObjectKey))
                 {
                     foreach (XY coordinates in mapData.objects[mapObject.Key])
                     {
@@ -229,6 +231,16 @@ namespace D2RAssist.Helpers
                         coordY = MultiplyIntByDouble(coordinates.y - originY, multiplier);
                         mapObjectPoint = new Point(coordX, coordY);
                         CachedBackgroundGraphics.DrawImage(Icons.SuperChest, mapObjectPoint);
+                    }
+                }
+                else if (MapPointsOfInterest.Chests.Contains(mapObjectKey))
+                {
+                    foreach (XY coordinates in mapData.objects[mapObject.Key])
+                    {
+                        coordX = MultiplyIntByDouble(coordinates.x - originX, multiplier);
+                        coordY = MultiplyIntByDouble(coordinates.y - originY, multiplier);
+                        mapObjectPoint = new Point(coordX, coordY);
+                        CachedBackgroundGraphics.DrawImage(Icons.Chest, mapObjectPoint);
                     }
                 }
             }

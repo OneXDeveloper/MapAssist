@@ -41,7 +41,8 @@ namespace D2RAssist.Types
                 public static readonly Color DoorPrevious = Color.FromArgb(255, 0, 149);
                 public static readonly Color Waypoint = Color.FromArgb(16, 140, 235);
                 public static readonly Color Player = Color.FromArgb(255, 255, 0);
-                public static readonly Color SuperChest = Color.FromArgb(17, 255, 0);
+                public static readonly Color Chest = Color.FromArgb(17, 255, 0);
+                public static readonly Color SuperChest = Color.FromArgb(255, 128, 0);
                 public static readonly Color ArrowExit = Color.FromArgb(0,72,186);
                 public static readonly Color ArrowQuest = Color.FromArgb(255, 255, 255);
                 public static readonly Color ArrowWaypoint = Color.FromArgb(0, 204, 153);
