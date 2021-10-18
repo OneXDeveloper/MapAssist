@@ -83,6 +83,8 @@ namespace D2RAssist.Types
             public static bool DrawExitArrow = Convert.ToBoolean(ConfigurationManager.AppSettings["DrawExitArrow"]);
             public static bool DrawQuestArrow = Convert.ToBoolean(ConfigurationManager.AppSettings["DrawQuestArrow"]);
             public static bool DrawWaypointArrow = Convert.ToBoolean(ConfigurationManager.AppSettings["DrawWaypointArrow"]);
+            public static int MinArrowDistance = Convert.ToInt16(ConfigurationManager.AppSettings["MinArrowDistance"]);
+            public static int AvgArrowLength = Convert.ToInt32(ConfigurationManager.AppSettings["AvgArrowLength"]);
         }
 
         public static class Api

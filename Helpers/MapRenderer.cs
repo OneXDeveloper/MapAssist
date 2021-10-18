@@ -81,6 +81,7 @@ namespace D2RAssist.Helpers
 
         public static Bitmap FromMapData(MapData mapData)
         {
+            if (mapData.mapRows.Length == 0) return null;
 
             Graphics CachedBackgroundGraphics;
             Bitmap updatedMap;
@@ -220,12 +221,18 @@ namespace D2RAssist.Helpers
                 int y = mapData.adjacentLevels[i.Key].exits[0].y;
                 int coordX = (int)((x - originX) * multiplier);
                 int coordY = (int)((y - originY) * multiplier);
+                
+                pen.Color = int.Parse(i.Key) == mapData.adjacentLevels.Min(lvl => int.Parse(lvl.Key)) ? Settings.Map.Colors.DoorPrevious : Settings.Map.Colors.DoorNext;
+                var distance = Math.Sqrt(Math.Pow(Math.Max(miniMapPlayerX, coordX) - Math.Min(miniMapPlayerX, coordX), 2) + 
+                                         Math.Pow(Math.Max(miniMapPlayerY, coordY) - Math.Min(miniMapPlayerY, coordY), 2));
 
-                // Draw arrow
-                pen.Color = Settings.Map.Colors.ArrowExit;
-                minimap.DrawLine(pen, miniMapPlayerX, miniMapPlayerY, coordX, coordY);
-                // Draw label
-                DrawLabelAt("Area", i.Key, coordX, coordY, minimap);
+                if (distance > Settings.Map.MinArrowDistance)
+                {
+                    //Draw arrow
+                    DrawSplitLine(minimap, pen, Math.Max(1, (int)(distance / Settings.Map.AvgArrowLength)), miniMapPlayerX, miniMapPlayerY, coordX, coordY);
+                    //Draw label
+                    DrawLabelAt("Area", i.Key, coordX, coordY, minimap);
+                }
             }
             
             bool waypointFound = false;
@@ -234,22 +241,33 @@ namespace D2RAssist.Helpers
                 if (Settings.Map.DrawWaypointArrow && !waypointFound && MapPointsOfInterest.Waypoints.Contains(mapObject.Key))
                 {
                     Point destPoint = GetMapObjectPoint(mapData, mapObject.Key, originX, originY, multiplier);
-                    // Draw arrow
                     pen.Color = Settings.Map.Colors.ArrowWaypoint;
-                    minimap.DrawLine(pen, miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
-                    // Draw label
-                    DrawLabelAt("GameObject", mapObject.Key, destPoint.X, destPoint.Y, minimap);
+
+                    var distance = Distance(miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
+                    if (distance > Settings.Map.MinArrowDistance)
+                    {
+                        // Draw arrow
+                        DrawSplitLine(minimap, pen, (int)(distance / Settings.Map.AvgArrowLength), miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
+                        // Draw label
+                        DrawLabelAt("GameObject", mapObject.Key, destPoint.X, destPoint.Y, minimap);
+                    }
+                    
                     waypointFound = true;
                 }
 
                 if (Settings.Map.DrawQuestArrow && (MapPointsOfInterest.Quests.Contains(mapObject.Key) || MapPointsOfInterest.TalTombs.Contains(mapObject.Key)))
                 {
                     Point destPoint = GetMapObjectPoint(mapData, mapObject.Key, originX, originY, multiplier);
-                    // Draw arrow
                     pen.Color = Settings.Map.Colors.ArrowQuest;
-                    minimap.DrawLine(pen, miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
-                    // Draw label
-                    DrawLabelAt("GameObject", mapObject.Key, destPoint.X, destPoint.Y, minimap);
+
+                    var distance = Distance(miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
+                    if (distance > Settings.Map.MinArrowDistance)
+                    {
+                        //Draw arrow
+                        DrawSplitLine(minimap, pen, (int)(distance / Settings.Map.AvgArrowLength), miniMapPlayerX, miniMapPlayerY, destPoint.X, destPoint.Y);
+                        // Draw label
+                        DrawLabelAt("GameObject", mapObject.Key, destPoint.X, destPoint.Y, minimap);
+                    }
                 }
             }
         }
@@ -296,6 +314,37 @@ namespace D2RAssist.Helpers
                 if (objName.Contains("Waypoint")) objName = "Waypoint";
                 minimap.DrawString(objName, drawFont, drawBrush, rectangleF, drawFormat);
             }
+
+        }
+
+        
+
+        private static double Distance(int x1, int y1, int x2, int y2)
+        {
+            return Math.Sqrt(Math.Pow(Math.Max(x1, x2) - Math.Min(x1, x2), 2) +
+                                 Math.Pow(Math.Max(y1, y2) - Math.Min(y1, y2), 2));
+        }
+
+        private static List<Tuple<Point, Point>> DrawSplitLine(Graphics minimap, Pen pen, double segments, int startX, int startY, int endX, int endY)
+        {
+            var pointList = new List<Tuple<Point, Point>>();
+            for (double i = 0; i < segments; i++)
+            {
+                var startM = (segments - i) / segments;
+                var endM = i / segments;
+                var startM2 = (segments - (i + 1)) / segments;
+                var endM2 = (i + 1) / segments;
+                var startPoint = new Point((int)(startM * startX + endM * endX), (int)(startY * startM + endY * endM));
+                var endPoint = new Point((int)(startM2 * startX + endM2 * endX), (int)(startY * startM2 + endY * endM2));
+                pointList.Add(new Tuple<Point, Point>(startPoint, endPoint));
+            }
+
+            foreach (var point in pointList)
+            {
+                minimap.DrawLine(pen, point.Item1, point.Item2);
+            }
+
+            return pointList;
         }
     }
 }
