@@ -102,6 +102,8 @@ namespace MapAssist.Settings
 
         public static bool ClearPrefetchedOnAreaChange =
             Convert.ToBoolean(ConfigurationManager.AppSettings["ClearPrefetchedOnAreaChange"]);
+
+        public static string ShrineHealth = ConfigurationManager.AppSettings["HealthShrineIcon"];
     }
 
     public static class Api

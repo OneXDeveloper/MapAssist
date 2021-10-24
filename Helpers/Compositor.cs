@@ -166,6 +166,24 @@ namespace MapAssist.Helpers
                     }
                 }
 
+                // Shrines
+                Image shrineicon = Image.FromFile(Settings.Map.ShrineHealth);
+                shrineicon = ImageUtils.RotateImage(shrineicon, -53, true, false, Color.Transparent);
+                foreach (KeyValuePair<GameObject, Point[]> s in _areaData.Objects)
+                {
+                    if (s.Key == GameObject.HealingWell)
+                    {
+                        Point[] points = s.Value;
+                        foreach (Point p in points)
+                        {
+                            Point tmpp = p;
+                            tmpp.Y -= shrineicon.Height;
+                            tmpp.X -= shrineicon.Width;
+                            backgroundGraphics.DrawImage(shrineicon, tmpp.OffsetFrom(_areaData.Origin));
+                        }
+                    }
+                }
+
                 return ImageUtils.CropBitmap(background);
             }
         }
