@@ -168,14 +168,13 @@ namespace MapAssist.Helpers
             }
         }
 
-    }
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        private class MapApiSession
+        {
+            public string id;
+            public uint difficulty;
+            public uint mapId;
+        }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private class MapApiSession
-    {
-        public string id;
-        public uint difficulty;
-        public uint mapId;
     }
-}
 }
