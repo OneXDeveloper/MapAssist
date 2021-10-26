@@ -1,7 +1,7 @@
 ﻿/**
  *   Copyright (C) 2021 okaygo
  *
- *   https://github.com/misterokaygo/D2RAssist/
+ *   https://github.com/misterokaygo/MapAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,105 +16,108 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
-using System;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using D2RAssist.Types;
-using D2RAssist.Helpers;
 
-namespace D2RAssist
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using MapAssist.Types;
+using MapAssist.Helpers;
+using MapAssist.Settings;
+using Gma.System.MouseKeyHook;
+using System.Numerics;
+
+namespace MapAssist
 {
     public partial class Overlay : Form
     {
         // Move to windows external
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
-        private const UInt32 SWP_NOSIZE = 0x0001;
-        private const UInt32 SWP_NOMOVE = 0x0002;
-        private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+        private const uint SWP_NOSIZE = 0x0001;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+        private readonly Timer _timer = new Timer();
+        private GameData _currentGameData;
+        private Compositor _compositor;
+        private AreaData _areaData;
+        private MapApi _mapApi;
+        private bool _show = true;
         private Screen _screen;
 
-        public Overlay()
+        public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
             InitializeComponent();
+            keyboardMouseEvents.KeyPress += (_, args) =>
+            {
+                if (InGame() && args.KeyChar == Settings.Map.ToggleKey)
+                {
+                    _show = !_show;
+                }
+            };
         }
 
         private void Overlay_Load(object sender, EventArgs e)
         {
-            this.Opacity = Settings.Map.Opacity;
+            Settings.Map.InitMapColors();
+            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
+            int width = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 2;
+            int height = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 2;
+            Location = new Point((screen.Width - width) / 2, (screen.Height - height) / 2);
+            Size = new Size(width, height);
+            Opacity = Settings.Map.Opacity;
 
-            Timer MapUpdateTimer = new Timer();
-            MapUpdateTimer.Interval = Settings.Map.UpdateTime;
-            MapUpdateTimer.Tick += new EventHandler(MapUpdateTimer_Tick);
-            MapUpdateTimer.Start();
-            
+            _timer.Interval = Settings.Map.UpdateTime;
+            _timer.Tick += MapUpdateTimer_Tick;
+            _timer.Start();
 
             if (Settings.Map.AlwaysOnTop)
             {
-                uint initialStyle = (uint)WindowsExternal.GetWindowLongPtr(this.Handle, -20);
-                WindowsExternal.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
-                WindowsExternal.SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+                var initialStyle = (uint)WindowsExternal.GetWindowLongPtr(Handle, -20);
+                WindowsExternal.SetWindowLong(Handle, -20, initialStyle | 0x80000 | 0x20);
+                WindowsExternal.SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
             }
 
             mapOverlay.Location = new Point(0, 0);
-            mapOverlay.Width = this.Width;
-            mapOverlay.Height = this.Height;
+            mapOverlay.Width = Width;
+            mapOverlay.Height = Height;
             mapOverlay.BackColor = Color.Transparent;
         }
 
-        private async void LoadTombs()
+        private void Overlay_FormClosing(object sender, EventArgs e)
         {
-            // load tombs
-            if (Globals.TombData != null)
-            {
-                Globals.TombData.Clear();
-            } else
-            {
-                Globals.TombData = new Dictionary<Game.Area, MapData>();
-            }
-            foreach (string mapObjectKey in MapRenderer.MapPointsOfInterest.TalTombs)
-            {
-                Game.Area tomb = (Game.Area)Int32.Parse(mapObjectKey);
-                MapData tombMapData = await MapApi.GetMapData(tomb, false);
-                Globals.TombData.Add(tomb, tombMapData);
-            }
+            _mapApi?.Dispose();
         }
 
-        private async void MapUpdateTimer_Tick(object sender, EventArgs e)
+        private void MapUpdateTimer_Tick(object sender, EventArgs e)
         {
-            Timer timer = sender as Timer;
-            timer.Stop();
+            _timer.Stop();
 
-            Globals.CurrentGameData = GameMemory.GetGameData();
-
-            if (Globals.CurrentGameData != null)
+            GameData gameData = GameMemory.GetGameData();
+            if (gameData != null)
             {
-                bool shouldUpdateMap = (Globals.CurrentGameData.MapSeed != 0 && Globals.MapData == null) ||
-                    (Globals.CurrentGameData.AreaId != Globals.LastGameData?.AreaId &&
-                    Globals.CurrentGameData.AreaId != 0 ||
-                    Globals.CurrentGameData.Difficulty != Globals.LastGameData?.Difficulty);
-
-                if (Globals.LastGameData?.MapSeed != Globals.CurrentGameData.MapSeed && Globals.CurrentGameData.MapSeed != 0)
+                if (gameData.HasGameChanged(_currentGameData))
                 {
-                    await MapApi.CreateNewSession();
-                    LoadTombs();
+                    Console.WriteLine($"Game changed: {gameData}");
+                    _mapApi?.Dispose();
+                    _mapApi = new MapApi(MapApi.Client, Settings.Api.Endpoint, gameData.Difficulty, gameData.MapSeed);
                 }
 
-                if (shouldUpdateMap)
+                if (gameData.HasMapChanged(_currentGameData))
                 {
-                    Globals.MapData = await MapApi.GetMapData(Globals.CurrentGameData.AreaId);
+                    Console.WriteLine($"Area changed: {gameData.Area}");
+                    if (gameData.Area != Area.None)
+                    {
+                        _areaData = _mapApi.GetMapData(gameData.Area);
+                        List<PointOfInterest> pointsOfInterest = PointOfInterestHandler.Get(_mapApi, _areaData);
+                        _compositor = new Compositor(_areaData, pointsOfInterest);
+                    }
+                    else
+                    {
+                        _compositor = null;
+                    }
                 }
 
-                Globals.LastGameData = Globals.CurrentGameData;
+                _currentGameData = gameData;
 
                 if (ShouldHideMap())
                 {
@@ -125,71 +128,137 @@ namespace D2RAssist
                     mapOverlay.Show();
                     mapOverlay.Refresh();
                 }
-
             }
-            timer.Start();
+
+            _timer.Start();
         }
 
         private bool ShouldHideMap()
         {
-            if (Globals.CurrentGameData.MapSeed == 0 || !D2RProcessInForeground())
-            {
-                return true;
-            }
-
-            if (Settings.Map.HideInTown && Globals.CurrentGameData.AreaId.IsTown())
-            {
-                return true;
-            }
-
-            if (Settings.Map.ToggleViaInGameMap)
-            {
-                // Hide the map if the ingame map is hidden
-                return !Globals.CurrentGameData.MapShown;
-            }
-
+            if (!_show) return true;
+            if (_currentGameData.Area == Area.None) return true;
+            if (Array.Exists(Settings.Map.HiddenAreas, element => element == _currentGameData.Area)) return true;
+            if (!InGame()) return true;
+            if (Settings.Map.ToggleViaInGameMap && !_currentGameData.MapShown) return true;
             return false;
         }
 
-        private bool D2RProcessInForeground()
+        private bool InGame()
         {
-            IntPtr activeWindowHandle = WindowsExternal.GetForegroundWindow();
-            return activeWindowHandle == Globals.CurrentGameData.MainWindowHandle;
+            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero &&
+                   WindowsExternal.GetForegroundWindow() == _currentGameData.MainWindowHandle;
         }
 
         private void MapOverlay_Paint(object sender, PaintEventArgs e)
         {
-            // Handle race condition where mapData hasn't been received yet.
-            if (Globals.MapData == null || Globals.MapData.mapRows == null || Globals.MapData.mapRows[0].Length == 0)
+            if (_compositor == null)
             {
                 return;
             }
-            
+
             UpdateLocation();
 
-            Bitmap gameMap = MapRenderer.FromMapData(Globals.MapData);
-            Point anchor = new Point(0, 0);
-            switch (Settings.Map.MapPosition) {
-                case MapPosition.TopRight:
-                    anchor = new Point(_screen.WorkingArea.Width - gameMap.Width, 0);
+            Bitmap gameMap = _compositor.Compose(_currentGameData, !Settings.Map.OverlayMode);
 
-                    break;
-                case MapPosition.TopLeft:
-                    anchor = new Point(0, 0);
-                    break;
+            if (Settings.Map.OverlayMode)
+            {
+                float w = 0;
+                float h = 0;
+                float scale = 0.0F;
+                Vector2 center = new Vector2();
+
+                if (Settings.Map.Position == MapPosition.Center)
+                {
+                    w = _screen.WorkingArea.Width;
+                    h = _screen.WorkingArea.Height;
+                    scale = 1024.0F / h * w * 3f / 4f / 2.3F;
+                    center = new Vector2(w / 2, h / 2);
+
+                    e.Graphics.SetClip(new RectangleF(0, 0, w, h));
+                }
+                else if (Settings.Map.Position == MapPosition.TopLeft)
+                {
+                    w = 640;
+                    h = 360;
+                    scale = 1024.0F / h * w * 3f / 4f / 3.35F;
+                    center = new Vector2(w / 2, (h / 2) + 48);
+
+                    e.Graphics.SetClip(new RectangleF(0, 50, w, h));
+                }
+                else if (Settings.Map.Position == MapPosition.TopRight)
+                {
+                    w = 640;
+                    h = 360;
+                    scale = 1024.0F / h * w * 3f / 4f / 3.35F;
+                    center = new Vector2(w / 2, (h / 2) + 40);
+
+                    e.Graphics.TranslateTransform(_screen.WorkingArea.Width - w, -8);
+                    e.Graphics.SetClip(new RectangleF(0, 50, w, h));
+                }
+
+                Point playerPosInArea = _currentGameData.PlayerPosition.OffsetFrom(_areaData.Origin).OffsetFrom(_compositor.CropOffset);
+
+                Vector2 playerPos = new Vector2(playerPosInArea.X, playerPosInArea.Y);
+                Vector2 Transform(Vector2 p) =>
+                    center +
+                    DeltaInWorldToMinimapDelta(
+                        p - playerPos,
+                        (float)Math.Sqrt(w * w + h * h),
+                        scale,
+                        0);
+
+                var p1 = Transform(new Vector2(0, 0));
+                var p2 = Transform(new Vector2(gameMap.Width, 0));
+                var p4 = Transform(new Vector2(0, gameMap.Height));
+
+                PointF[] destinationPoints = {
+                    new PointF(p1.X, p1.Y),
+                    new PointF(p2.X, p2.Y),
+                    new PointF(p4.X, p4.Y)
+                };
+
+                e.Graphics.DrawImage(gameMap, destinationPoints);
             }
-            e.Graphics.DrawImage(gameMap, anchor);
+            else
+            {
+                var anchor = new Point(0, 0);
+                switch (Settings.Map.Position)
+                {
+                    case MapPosition.Center:
+                        anchor = new Point(_screen.WorkingArea.Width / 2, _screen.WorkingArea.Height / 2);
+                        break;
+                    case MapPosition.TopRight:
+                        anchor = new Point(_screen.WorkingArea.Width - gameMap.Width, 0);
+                        break;
+                    case MapPosition.TopLeft:
+                        anchor = new Point(0, 0);
+                        break;
+                }
+
+                e.Graphics.DrawImage(gameMap, anchor);
+            }
+        }
+
+        public Vector2 DeltaInWorldToMinimapDelta(Vector2 delta, double diag, float scale, float deltaZ = 0)
+        {
+            var CAMERA_ANGLE = -26F * 3.14159274F / 180;
+
+            var cos = (float)(diag * Math.Cos(CAMERA_ANGLE) / scale);
+            var sin = (float)(diag * Math.Sin(CAMERA_ANGLE) /
+                               scale);
+
+            return new Vector2((delta.X - delta.Y) * cos, deltaZ - (delta.X + delta.Y) * sin);
         }
 
         /// <summary>
-        /// Update the location and size of the form relative to the D2R window location.
+        /// Update the location and size of the form relative to the window location.
         /// </summary>
         private void UpdateLocation()
         {
-            this.WindowState = FormWindowState.Normal;
-            _screen = Screen.FromHandle(Globals.CurrentGameData.MainWindowHandle);
-            this.Location = new Point(_screen.WorkingArea.X, _screen.WorkingArea.Y);
-            this.Size = new Size(_screen.WorkingArea.Width, _screen.WorkingArea.Height);
+            _screen = Screen.FromHandle(_currentGameData.MainWindowHandle);
+            Location = new Point(_screen.WorkingArea.X, _screen.WorkingArea.Y);
+            Size = new Size(_screen.WorkingArea.Width, _screen.WorkingArea.Height);
+            mapOverlay.Size = Size;
         }
     }
 }

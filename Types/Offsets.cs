@@ -1,7 +1,7 @@
-﻿/**
+/**
  *   Copyright (C) 2021 okaygo
  *
- *   https://github.com/misterokaygo/D2RAssist/
+ *   https://github.com/misterokaygo/MapAssist/
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,17 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace D2RAssist.Types
+namespace MapAssist.Types
 {
     public static class Offsets
     {
-        public static int PlayerUnit = 0x205CE60;
-        public static int InGameMap = 0x2051342;
+        public static int PlayerUnit = 0x2027660;
+        public static int InGameMap = 0x2037322;
     }
 }
