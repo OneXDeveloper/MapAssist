@@ -92,7 +92,7 @@ namespace MapAssist.Settings
 
         public static int UpdateTime = Convert.ToInt16(ConfigurationManager.AppSettings["UpdateTime"]);
         public static bool Rotate = Convert.ToBoolean(ConfigurationManager.AppSettings["Rotate"]);
-        public static char ToggleKey = Convert.ToChar(ConfigurationManager.AppSettings["ToggleKey"]);
+        public static char ToggleKey;
         public static char ZoomInKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomInKey"]);
         public static char ZoomOutKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomOutKey"]);
         public static float zoomLevel = Convert.ToSingle(ConfigurationManager.AppSettings["ZoomLevelDefault"]);
