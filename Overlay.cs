@@ -52,6 +52,18 @@ namespace MapAssist
             {
                 if (InGame())
                 {
+                
+                    if (ConfigurationManager.AppSettings["ToggleKey"].Contains("(char)"))
+                    {
+                        var ASCII = Convert.ToInt32(ConfigurationManager.AppSettings["ToggleKey"].Replace("(char)", ""));
+                        Settings.Map.ToggleKey = (char)+ASCII;
+                    }
+
+                    else
+                    {
+                        Settings.Map.ToggleKey = Convert.ToChar(ConfigurationManager.AppSettings["ToggleKey"]);
+                    }
+                    
                     if (args.KeyChar == Settings.Map.ToggleKey)
                     {
                         _show = !_show;
