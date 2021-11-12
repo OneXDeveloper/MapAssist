@@ -41,6 +41,8 @@ namespace MapAssist.Settings
 
         public static PointOfInterestRendering SuperChest =
             Utils.GetRenderingSettingsForPrefix("SuperChest");
+
+        public static PointOfInterestRendering Shrine = Utils.GetRenderingSettingsForPrefix("Shrine");
     }
 
     public static class Map

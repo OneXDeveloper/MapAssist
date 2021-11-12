@@ -23,6 +23,7 @@ namespace MapAssist.Settings
     {
         None,
         Rectangle,
-        Ellipse
+        Ellipse,
+        Polygon
     }
 }

@@ -66,7 +66,7 @@ namespace MapAssist.Helpers
                     .OffsetFrom(_areaData.Origin)
                     .OffsetFrom(CropOffset)
                     .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
-                
+
                 if (Settings.Rendering.Player.CanDrawIcon())
                 {
                     Bitmap playerIcon = GetIcon(Settings.Rendering.Player);
@@ -201,6 +201,21 @@ namespace MapAssist.Helpers
                         case Shape.Rectangle:
                             g.FillRectangle(new SolidBrush(poiSettings.IconColor), 0, 0, poiSettings.IconSize,
                                 poiSettings.IconSize);
+                            break;
+                        case Shape.Polygon:
+                            var halfSize = poiSettings.IconSize / 2;
+                            var cutSize = poiSettings.IconSize / 10;
+                            PointF[] curvePoints = {
+                                new PointF(0, halfSize),
+                                new PointF(halfSize - cutSize, halfSize - cutSize),
+                                new PointF(halfSize, 0),
+                                new PointF(halfSize + cutSize, halfSize - cutSize),
+                                new PointF(poiSettings.IconSize, halfSize),
+                                new PointF(halfSize + cutSize, halfSize + cutSize),
+                                new PointF(halfSize, poiSettings.IconSize),
+                                new PointF(halfSize - cutSize, halfSize + cutSize)
+                            };
+                            g.FillPolygon(new SolidBrush(poiSettings.IconColor), curvePoints);
                             break;
                     }
                 }

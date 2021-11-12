@@ -52,6 +52,11 @@ namespace MapAssist.Helpers
             GameObject.ArcaneSmallChestRight
         };
 
+        private static readonly HashSet<GameObject> Shrines = new HashSet<GameObject>
+        {
+            GameObject.Shrine
+        };
+
         public static List<PointOfInterest> Get(MapApi mapApi, AreaData areaData)
         {
             List<PointOfInterest> pointOfInterest = new List<PointOfInterest>();
@@ -170,6 +175,19 @@ namespace MapAssist.Helpers
                             Label = obj.ToString(),
                             Position = point,
                             RenderingSettings = Settings.Rendering.SuperChest
+                        });
+                    }
+                }
+                // Shrines
+                else if (Shrines.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = Settings.Rendering.Shrine
                         });
                     }
                 }
