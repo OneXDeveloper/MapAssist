@@ -35,19 +35,19 @@ namespace MapAssist.Helpers
                 return (Bitmap)inputImage.Clone();
 
             // Set up old and new image dimensions, assuming upsizing not wanted and clipping OK
-            int oldWidth = inputImage.Width;
-            int oldHeight = inputImage.Height;
-            int newWidth = oldWidth;
-            int newHeight = oldHeight;
+            var oldWidth = inputImage.Width;
+            var oldHeight = inputImage.Height;
+            var newWidth = oldWidth;
+            var newHeight = oldHeight;
             var scaleFactor = 1f;
 
             // If upsizing wanted or clipping not OK calculate the size of the resulting bitmap
             if (upsizeOk || !clipOk)
             {
-                double angleRadians = angleDegrees * Math.PI / 180d;
+                var angleRadians = angleDegrees * Math.PI / 180d;
 
-                double cos = Math.Abs(Math.Cos(angleRadians));
-                double sin = Math.Abs(Math.Sin(angleRadians));
+                var cos = Math.Abs(Math.Cos(angleRadians));
+                var sin = Math.Abs(Math.Sin(angleRadians));
                 newWidth = (int)Math.Round(oldWidth * cos + oldHeight * sin);
                 newHeight = (int)Math.Round(oldWidth * sin + oldHeight * cos);
             }
@@ -67,7 +67,7 @@ namespace MapAssist.Helpers
             newBitmap.SetResolution(inputImage.HorizontalResolution, inputImage.VerticalResolution);
 
             // Create the Graphics object that does the work
-            using (Graphics graphicsObject = Graphics.FromImage(newBitmap))
+            using (var graphicsObject = Graphics.FromImage(newBitmap))
             {
                 graphicsObject.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphicsObject.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -103,13 +103,13 @@ namespace MapAssist.Helpers
             {
                 var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
                 byte bitsPerPixel = 32;
-                byte* scan0 = (byte*)bData.Scan0.ToPointer();
+                var scan0 = (byte*)bData.Scan0.ToPointer();
 
-                for (int y = 0; y < bData.Height; ++y)
+                for (var y = 0; y < bData.Height; ++y)
                 {
-                    for (int x = 0; x < bData.Width; ++x)
+                    for (var x = 0; x < bData.Width; ++x)
                     {
-                        byte* data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
+                        var data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
                         // data[0 = blue, 1 = green, 2 = red, 3 = alpha]
                         if (data[3] == byte.MaxValue)
                         {
@@ -127,7 +127,7 @@ namespace MapAssist.Helpers
             // Create a new bitmap from the crop rectangle
             var cropRectangle = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
             var newBitmap = new Bitmap(cropRectangle.Width, cropRectangle.Height);
-            using (Graphics g = Graphics.FromImage(newBitmap))
+            using (var g = Graphics.FromImage(newBitmap))
             {
                 g.DrawImage(originalBitmap, 0, 0, cropRectangle, GraphicsUnit.Pixel);
             }
@@ -149,7 +149,7 @@ namespace MapAssist.Helpers
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-            using (Graphics graphics = Graphics.FromImage(destImage))
+            using (var graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
                 graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -170,7 +170,7 @@ namespace MapAssist.Helpers
         public static Bitmap CreateFilledRectangle(Color color, int width, int height)
         {
             var rectangle = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            Graphics graphics = Graphics.FromImage(rectangle);
+            var graphics = Graphics.FromImage(rectangle);
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.FillRectangle(new SolidBrush(color), 0, 0, width, height);
             graphics.Dispose();
@@ -180,7 +180,7 @@ namespace MapAssist.Helpers
         public static Bitmap CreateFilledEllipse(Color color, int width, int height)
         {
             var ellipse = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            Graphics graphics = Graphics.FromImage(ellipse);
+            var graphics = Graphics.FromImage(ellipse);
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.FillEllipse(new SolidBrush(color), 0, 0, width, height);
             graphics.Dispose();

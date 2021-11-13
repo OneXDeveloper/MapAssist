@@ -78,7 +78,7 @@ namespace MapAssist.Types
                     .Select(o =>
                     {
                         var adjacentArea = Area.None;
-                        if (int.TryParse(o.Key, out int parsed))
+                        if (int.TryParse(o.Key, out var parsed))
                         {
                             adjacentArea = (Area)parsed;
                         }
@@ -92,7 +92,7 @@ namespace MapAssist.Types
                     {
                         Point[] positions = o.Value.Select(j => j.ToPoint()).ToArray();
                         var npc = Npc.Invalid;
-                        if (int.TryParse(o.Key, out int parsed))
+                        if (int.TryParse(o.Key, out var parsed))
                         {
                             npc = (Npc)parsed;
                         }
@@ -105,7 +105,7 @@ namespace MapAssist.Types
                     {
                         Point[] positions = o.Value.Select(j => j.ToPoint()).ToArray();
                         var gameObject = GameObject.NotApplicable;
-                        if (int.TryParse(o.Key, out int parsed))
+                        if (int.TryParse(o.Key, out var parsed))
                         {
                             gameObject = (GameObject)parsed;
                         }

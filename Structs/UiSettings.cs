@@ -22,8 +22,8 @@ using System.Runtime.InteropServices;
 namespace MapAssist.Structs
 {
     [StructLayout(LayoutKind.Explicit)]
-    unsafe public struct UiSettings
+    public struct UiSettings
     {
-        [FieldOffset(0x00)] public bool MapShown;
+        [FieldOffset(0x00)] public byte MapShown;
     }
 }

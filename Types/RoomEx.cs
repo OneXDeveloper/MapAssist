@@ -17,18 +17,32 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Helpers;
+using MapAssist.Interfaces;
 using System;
-using System.Runtime.InteropServices;
 
-namespace MapAssist.Structs
+namespace MapAssist.Types
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public struct Path
+    public class RoomEx : IUpdatable<RoomEx>
     {
-        [FieldOffset(0x02)] public ushort DynamicX;
-        [FieldOffset(0x06)] public ushort DynamicY;
-        [FieldOffset(0x10)] public ushort StaticX;
-        [FieldOffset(0x14)] public ushort StaticY;
-        [FieldOffset(0x20)] public IntPtr pRoom;
+        private readonly IntPtr _pRoomEx = IntPtr.Zero;
+        private Structs.RoomEx _roomEx;
+
+        public RoomEx(IntPtr pRoomEx)
+        {
+            _pRoomEx = pRoomEx;
+            Update();
+        }
+
+        public RoomEx Update()
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                _roomEx = processContext.Read<Structs.RoomEx>(_pRoomEx);
+            }
+            return this;
+        }
+
+        public Level Level => new Level(_roomEx.pLevel);
     }
 }

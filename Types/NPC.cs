@@ -1,24 +1,83 @@
 ﻿/**
- *   Copyright (C) 2021 okaygo
- *
- *   https://github.com/misterokaygo/MapAssist/
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- **/
-
+*   Copyright (C) 2021 okaygo
+*
+*   https://github.com/misterokaygo/MapAssist/
+*
+*  This program is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+**/
+using System.Collections.Generic;
 namespace MapAssist.Types
 {
+    public static class NPC
+    {
+        public static Dictionary<uint, Npc> Dummies = new Dictionary<uint, Npc> {
+            { 149, Npc.Chicken },
+            { 151, Npc.Rat },
+            { 152, Npc.Rogue },
+            { 153, Npc.HellMeteor },
+            { 157, Npc.Bird },
+            { 158, Npc.Bird2 },
+            { 159, Npc.Bat },
+            { 195, Npc.Act2Male },
+            { 196, Npc.Act2Female },
+            { 197, Npc.Act2Child },
+            { 179, Npc.Cow },
+            { 185, Npc.Camel },
+            { 203, Npc.Act2Guard },
+            { 204, Npc.Act2Vendor },
+            { 205, Npc.Act2Vendor2 },
+            { 268, Npc.Bug },
+            { 269, Npc.Scorpion },
+            { 271, Npc.Rogue2 },
+            { 272, Npc.Rogue3 },
+            { 293, Npc.Familiar },
+            { 294, Npc.Act3Male },
+            { 289, Npc.ClayGolem },
+            { 290, Npc.BloodGolem },
+            { 291, Npc.IronGolem },
+            { 292, Npc.FireGolem },
+            { 296, Npc.Act3Female },
+            { 318, Npc.Snake },
+            { 319, Npc.Parrot },
+            { 320, Npc.Fish },
+            { 321, Npc.EvilHole },
+            { 322, Npc.EvilHole2 },
+            { 323, Npc.EvilHole3 },
+            { 324, Npc.EvilHole4 },
+            { 325, Npc.EvilHole5 },
+            { 332, Npc.InvisoSpawner },
+            { 338, Npc.Guard },
+            { 339, Npc.MiniSpider },
+            { 344, Npc.BoneWall },
+            { 355, Npc.SevenTombs },
+            { 359, Npc.IronWolf },
+            { 363, Npc.NecroSkeleton },
+            { 364, Npc.NecroMage },
+            { 370, Npc.SpiritMummy },
+            { 377, Npc.Act2Guard4 },
+            { 378, Npc.Act2Guard5 },
+            { 392, Npc.Window },
+            { 393, Npc.Window2 },
+            { 401, Npc.MephistoSpirit },
+            { 411, Npc.ChargedBoltSentry },
+            { 412, Npc.LightningSentry },
+            { 414, Npc.InvisiblePet },
+            { 415, Npc.InfernoSentry },
+            { 416, Npc.DeathSentry },
+            { 711, Npc.DemonHole },
+        };
+    }
     public enum Npc
     {
         Skeleton = 0,

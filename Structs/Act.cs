@@ -17,15 +17,16 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
 {
     [StructLayout(LayoutKind.Explicit)]
-    unsafe public struct Act
+    public struct Act
     {
         [FieldOffset(0x14)] public uint MapSeed;
         [FieldOffset(0x20)] public uint ActId;
-        [FieldOffset(0x70)] public ActMisc* ActMisc;
+        [FieldOffset(0x70)] public IntPtr pActMisc;
     }
 }

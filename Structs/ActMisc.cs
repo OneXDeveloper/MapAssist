@@ -17,16 +17,18 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using System;
 using System.Runtime.InteropServices;
 using MapAssist.Types;
 
 namespace MapAssist.Structs
 {
     [StructLayout(LayoutKind.Explicit)]
-    unsafe public struct ActMisc
+    public struct ActMisc
     {
+        [FieldOffset(0x120)] public Area RealTombArea;
         [FieldOffset(0x830)] public Difficulty GameDifficulty;
-        [FieldOffset(0x858)] public Act* pAct;
-        [FieldOffset(0x868)] public Level* pLevelFirst;
+        [FieldOffset(0x858)] public IntPtr pAct;
+        [FieldOffset(0x868)] public IntPtr pLevelFirst;
     }
 }

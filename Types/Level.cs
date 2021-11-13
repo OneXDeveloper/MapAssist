@@ -18,17 +18,32 @@
  **/
 
 using System;
-using System.Runtime.InteropServices;
+using MapAssist.Helpers;
+using MapAssist.Interfaces;
 
-namespace MapAssist.Structs
+namespace MapAssist.Types
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public struct Path
+    public class Level : IUpdatable<Level>
     {
-        [FieldOffset(0x02)] public ushort DynamicX;
-        [FieldOffset(0x06)] public ushort DynamicY;
-        [FieldOffset(0x10)] public ushort StaticX;
-        [FieldOffset(0x14)] public ushort StaticY;
-        [FieldOffset(0x20)] public IntPtr pRoom;
+        private readonly IntPtr _pLevel = IntPtr.Zero;
+        private Structs.Level _level;
+
+        public Level(IntPtr pLevel)
+        {
+            _pLevel = pLevel;
+            Update();
+        }
+
+        public Level Update()
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                _level = processContext.Read<Structs.Level>(_pLevel);
+            }
+            return this;
+        }
+
+        public Area LevelId => _level.LevelId;
+
     }
 }

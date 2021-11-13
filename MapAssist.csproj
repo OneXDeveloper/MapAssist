@@ -9,7 +9,7 @@
     <ProjectGuid>{FB3AC437-B7BB-42FF-A2A2-F10551F95F6C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MapAssist</RootNamespace>
-    <CustomAssemblyName></CustomAssemblyName>
+    <CustomAssemblyName />
     <AssemblyName Condition=" '$(CustomAssemblyName)' != '' ">$(CustomAssemblyName)</AssemblyName>
     <AssemblyName Condition=" '$(Configuration)' == 'Release' AND '$(CustomAssemblyName)' == '' ">$(RandomGuid)</AssemblyName>
     <AssemblyName Condition=" '$(Configuration)' == 'Debug' AND '$(CustomAssemblyName)' == ''">MapAssist</AssemblyName>
@@ -106,6 +106,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\GameManager.cs" />
+    <Compile Include="Helpers\ProcessContext.cs" />
+    <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Overlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,15 +122,23 @@
     <Compile Include="Helpers\Compositor.cs" />
     <Compile Include="Helpers\WindowsExternal.cs" />
     <Compile Include="Structs\Act.cs" />
+    <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />
     <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\Level.cs" />
+    <Compile Include="Structs\MonsterData.cs" />
     <Compile Include="Structs\Path.cs" />
     <Compile Include="Structs\Room.cs" />
     <Compile Include="Structs\RoomEx.cs" />
+    <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\UnitAny.cs" />
-    <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
+    <Compile Include="Types\UiSettings.cs" />
+    <Compile Include="Types\RoomEx.cs" />
+    <Compile Include="Types\Room.cs" />
+    <Compile Include="Types\Level.cs" />
+    <Compile Include="Types\ActMisc.cs" />
+    <Compile Include="Types\Act.cs" />
     <Compile Include="Types\Area.cs" />
     <Compile Include="Types\Difficulty.cs" />
     <Compile Include="Types\GameData.cs" />
@@ -138,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Npc.cs" />
     <Compile Include="Types\Offsets.cs" />
+    <Compile Include="Types\Path.cs" />
     <Compile Include="Types\PointOfInterest.cs" />
     <Compile Include="Types\RawAreaData.cs" />
     <Compile Include="Settings\MapPosition.cs" />
@@ -145,6 +157,8 @@
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\Shape.cs" />
     <Compile Include="Settings\Utils.cs" />
+    <Compile Include="Types\UnitAny.cs" />
+    <Compile Include="Types\UnitType.cs" />
     <EmbeddedResource Include="Overlay.resx">
       <DependentUpon>Overlay.cs</DependentUpon>
     </EmbeddedResource>

@@ -17,18 +17,32 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Helpers;
+using MapAssist.Interfaces;
 using System;
-using System.Runtime.InteropServices;
 
-namespace MapAssist.Structs
+namespace MapAssist.Types
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public struct Path
+    public class UiSettings : IUpdatable<UiSettings>
     {
-        [FieldOffset(0x02)] public ushort DynamicX;
-        [FieldOffset(0x06)] public ushort DynamicY;
-        [FieldOffset(0x10)] public ushort StaticX;
-        [FieldOffset(0x14)] public ushort StaticY;
-        [FieldOffset(0x20)] public IntPtr pRoom;
+        private readonly IntPtr _pUiSettings = IntPtr.Zero;
+        private Structs.UiSettings _uiSettings;
+
+        public UiSettings(IntPtr pUiSettings)
+        {
+            _pUiSettings = pUiSettings;
+            Update();
+        }
+
+        public UiSettings Update()
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                _uiSettings = processContext.Read<Structs.UiSettings>(_pUiSettings);
+            }
+            return this;
+        }
+
+        public bool MapShown => _uiSettings.MapShown == 1;
     }
 }

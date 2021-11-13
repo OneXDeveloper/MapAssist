@@ -18,186 +18,64 @@
  **/
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
-using MapAssist.Structs;
 using MapAssist.Types;
 
 namespace MapAssist.Helpers
 {
-    class GameMemory
+    public static class GameMemory
     {
-        private static readonly string ProcessName = Encoding.UTF8.GetString(new byte[] { 68, 50, 82 });
-        private static UnitAny PlayerUnit = default;
-        private static int _lastProcessId = 0;
-
-        unsafe public static GameData GetGameData()
+        public static GameData GetGameData()
         {
-            IntPtr processHandle = IntPtr.Zero;
-
             try
             {
-                Process[] process = Process.GetProcessesByName(ProcessName);
-
-                Process gameProcess = null;
-
-                IntPtr windowInFocus = WindowsExternal.GetForegroundWindow();
-                if (windowInFocus == IntPtr.Zero)
+                using (var processContext = GameManager.GetProcessContext())
                 {
-                    gameProcess = process.FirstOrDefault();
-                }
-                else
-                {
-                    gameProcess = process.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
-                }
+                    var playerUnit = GameManager.PlayerUnit;
+                    playerUnit.Update();
 
-                if (gameProcess == null)
-                {
-                    throw new Exception("Game process not found.");
-                }
+                    var mapSeed = playerUnit.Act.MapSeed;
 
-                // If changing processes we need to re-find the player
-                if (gameProcess.Id != _lastProcessId)
-                {
-                    ResetPlayerUnit();
-                }
-
-                _lastProcessId = gameProcess.Id;
-
-                processHandle =
-                    WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, gameProcess.Id);
-                IntPtr processAddress = gameProcess.MainModule.BaseAddress;
-
-                if (Equals(PlayerUnit, default(UnitAny)))
-                {
-                    var unitHashTable =
-                        Read<UnitHashTable>(processHandle, IntPtr.Add(processAddress, Offsets.UnitHashTable));
-                    foreach (var pUnitAny in unitHashTable.UnitTable)
+                    if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
                     {
-                        var pListNext = pUnitAny;
-
-                        while (pListNext != IntPtr.Zero)
-                        {
-                            var unitAny = Read<UnitAny>(processHandle, pListNext);
-                            if (unitAny.Inventory != IntPtr.Zero)
-                            {
-                                var inventory = Read<Inventory>(processHandle, (IntPtr)unitAny.Inventory);
-                                if (inventory.pUnk1 != IntPtr.Zero)
-                                {
-                                    PlayerUnit = unitAny;
-                                    break;
-                                }
-                            }
-
-                            pListNext = (IntPtr)unitAny.pListNext;
-                        }
-
-                        if (!Equals(PlayerUnit, default(UnitAny)))
-                        {
-                            break;
-                        }
+                        throw new Exception("Map seed is out of bounds.");
                     }
 
-                    if (Equals(PlayerUnit, default(UnitAny)))
+                    var actId = playerUnit.Act.ActId;
+
+                    var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;
+
+                    if (!gameDifficulty.IsValid())
                     {
-                        throw new Exception("Unable to find player unit");
+                        throw new Exception("Game difficulty out of bounds.");
                     }
+
+                    var levelId = playerUnit.Path.Room.RoomEx.Level.LevelId;
+
+                    if (!levelId.IsValid())
+                    {
+                        throw new Exception("Level id out of bounds.");
+                    }
+
+                    var mapShown = GameManager.UiSettings.MapShown;
+
+                    return new GameData
+                    {
+                        PlayerPosition = playerUnit.Position,
+                        MapSeed = mapSeed,
+                        Area = levelId,
+                        Difficulty = gameDifficulty,
+                        MapShown = mapShown,
+                        MainWindowHandle = GameManager.MainWindowHandle,
+                        PlayerName = playerUnit.Name
+                    };
                 }
-
-                var playerName = Encoding.ASCII.GetString(Read<byte>(processHandle, PlayerUnit.UnitData, 16)).TrimEnd((char)0);
-                var act = Read<Act>(processHandle, (IntPtr)PlayerUnit.pAct);
-                var mapSeed = act.MapSeed;
-
-                if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
-                {
-                    throw new Exception("Map seed is out of bounds.");
-                }
-
-                var actId = act.ActId;
-                var actMisc = Read<ActMisc>(processHandle, (IntPtr)act.ActMisc);
-                var gameDifficulty = actMisc.GameDifficulty;
-
-                if (!gameDifficulty.IsValid())
-                {
-                    throw new Exception("Game difficulty out of bounds.");
-                }
-
-                var path = Read<Path>(processHandle, (IntPtr)PlayerUnit.pPath);
-                var positionX = path.DynamicX;
-                var positionY = path.DynamicY;
-                var room = Read<Room>(processHandle, (IntPtr)path.pRoom);
-                var roomEx = Read<RoomEx>(processHandle, (IntPtr)room.pRoomEx);
-                var level = Read<Level>(processHandle, (IntPtr)roomEx.pLevel);
-                var levelId = level.LevelId;
-
-                if (!levelId.IsValid())
-                {
-                    throw new Exception("Level id out of bounds.");
-                }
-
-                var mapShown = Read<UiSettings>(processHandle, IntPtr.Add(processAddress, Offsets.UiSettings)).MapShown;
-
-                return new GameData
-                {
-                    PlayerPosition = new Point(positionX, positionY),
-                    MapSeed = mapSeed,
-                    Area = levelId,
-                    Difficulty = gameDifficulty,
-                    MapShown = mapShown,
-                    MainWindowHandle = gameProcess.MainWindowHandle,
-                    PlayerName = playerName
-                };
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
-                ResetPlayerUnit();
+                GameManager.ResetPlayerUnit();
                 return null;
             }
-            finally
-            {
-                if (processHandle != IntPtr.Zero)
-                {
-                    WindowsExternal.CloseHandle(processHandle);
-                }
-            }
-        }
-
-        private static void ResetPlayerUnit()
-        {
-            PlayerUnit = default;
-        }
-
-        public static T[] Read<T>(IntPtr processHandle, IntPtr address, int count) where T : struct
-        {
-            var sz = Marshal.SizeOf<T>();
-            var buf = new byte[sz * count];
-            WindowsExternal.ReadProcessMemory(processHandle, address, buf, buf.Length, out _);
-
-            var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
-            try
-            {
-                var result = new T[count];
-                for (var i = 0; i < count; i++)
-                {
-                    result[i] = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject() + (i * sz), typeof(T));
-                }
-
-                return result;
-            }
-            finally
-            {
-                handle.Free();
-            }
-        }
-
-        public static T Read<T>(IntPtr processHandle, IntPtr address) where T : struct
-        {
-            return Read<T>(processHandle, address, 1)[0];
         }
     }
 }

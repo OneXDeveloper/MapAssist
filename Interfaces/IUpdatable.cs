@@ -17,18 +17,10 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System;
-using System.Runtime.InteropServices;
-
-namespace MapAssist.Structs
+namespace MapAssist.Interfaces
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public struct Path
+    public interface IUpdatable<T>
     {
-        [FieldOffset(0x02)] public ushort DynamicX;
-        [FieldOffset(0x06)] public ushort DynamicY;
-        [FieldOffset(0x10)] public ushort StaticX;
-        [FieldOffset(0x14)] public ushort StaticY;
-        [FieldOffset(0x20)] public IntPtr pRoom;
+        T Update();
     }
 }

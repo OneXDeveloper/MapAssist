@@ -19,27 +19,27 @@
 
 using System;
 using System.Runtime.InteropServices;
+using MapAssist.Types;
 
 namespace MapAssist.Structs
 {
     [StructLayout(LayoutKind.Explicit)]
-    unsafe public struct UnitAny
+    public struct UnitAny
     {
-        [FieldOffset(0x00)] public uint UnitType;
+        [FieldOffset(0x00)] public UnitType UnitType;
         [FieldOffset(0x04)] public uint TxtFileNo;
         [FieldOffset(0x08)] public uint UnitId;
         [FieldOffset(0x0C)] public uint Mode;
-        [FieldOffset(0x10)] public IntPtr UnitData;
-        [FieldOffset(0x10)] public IntPtr IsPlayer;
-        [FieldOffset(0x20)] public Act* pAct;
-        [FieldOffset(0x38)] public Path* pPath;
-        [FieldOffset(0x88)] public IntPtr StatsListEx;
-        [FieldOffset(0x90)] public IntPtr Inventory;
+        [FieldOffset(0x10)] public IntPtr pUnitData;
+        [FieldOffset(0x20)] public IntPtr pAct;
+        [FieldOffset(0x38)] public IntPtr pPath;
+        [FieldOffset(0x88)] public IntPtr pStatsListEx;
+        [FieldOffset(0x90)] public IntPtr pInventory;
         [FieldOffset(0xB8)] public uint OwnerType; // ?
         [FieldOffset(0xC4)] public ushort X;
         [FieldOffset(0xC6)] public ushort Y;
-        [FieldOffset(0x150)] public UnitAny* pListNext;
-        [FieldOffset(0x158)] public UnitAny* pRoomNext;
+        [FieldOffset(0x150)] public IntPtr pListNext;
+        [FieldOffset(0x158)] public IntPtr pRoomNext;
 
         public override bool Equals(object obj) => obj is UnitAny other && Equals(other);
 

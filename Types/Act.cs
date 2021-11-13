@@ -18,17 +18,33 @@
  **/
 
 using System;
-using System.Runtime.InteropServices;
+using MapAssist.Helpers;
+using MapAssist.Interfaces;
 
-namespace MapAssist.Structs
+namespace MapAssist.Types
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public struct Path
+    public class Act : IUpdatable<Act>
     {
-        [FieldOffset(0x02)] public ushort DynamicX;
-        [FieldOffset(0x06)] public ushort DynamicY;
-        [FieldOffset(0x10)] public ushort StaticX;
-        [FieldOffset(0x14)] public ushort StaticY;
-        [FieldOffset(0x20)] public IntPtr pRoom;
+        private readonly IntPtr _pAct = IntPtr.Zero;
+        private Structs.Act _act;
+
+        public Act(IntPtr pAct)
+        {
+            _pAct = pAct;
+            Update();
+        }
+
+        public Act Update()
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                _act = processContext.Read<Structs.Act>(_pAct);
+            }
+            return this;
+        }
+
+        public uint MapSeed => _act.MapSeed;
+        public uint ActId => _act.ActId;
+        public ActMisc ActMisc => new ActMisc(_act.pActMisc);
     }
 }

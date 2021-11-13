@@ -21,7 +21,8 @@ namespace MapAssist.Types
 {
     public static class Offsets
     {
-        public static int UnitHashTable = 0x20546E0;
-        public static int UiSettings = 0x20643A2;
+        public static int UnitHashTable = 0x20AF660;
+        public static int UiSettings = 0x20BF322;
+        public static int ExpansionCheck = 0x20BF335;
     }
 }
