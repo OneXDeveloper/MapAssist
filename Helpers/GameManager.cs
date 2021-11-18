@@ -90,6 +90,61 @@ namespace MapAssist.Helpers
             LastProcessId = GameProcess.Id;
             _MainWindowHandle = GameProcess.MainWindowHandle;
             _ProcessContext = new ProcessContext(GameProcess);
+
+
+            /////////---------------------SigScan Add Here---------------------/////////
+            //SigScan (may fix this piece of crab.)
+            IntPtr processHandle = IntPtr.Zero;
+            processHandle =
+                    WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, GameProcess.Id);
+
+            if (PlayerUnitPtr == IntPtr.Zero)
+            {
+
+                var Sigscan1 = new SigScanSharp(GameProcess.Handle);
+                Sigscan1.SelectModule(GameProcess.MainModule);
+                IntPtr processAddress = GameProcess.MainModule.BaseAddress;
+
+                Sigscan1.AddPattern("Pattern1", "48 8D 05 ? ? ? ? 8B D1 44 8B C1 49 8B C9 83 E2 7F 48 C1 E1 0A 48 03 C8");
+                Sigscan1.AddPattern("UnitTableOffset", "8B D1 44 8B C1 49 8B C9 83 E2 7F 48 C1 E1 0A 48 03 C8");
+                Sigscan1.AddPattern("Pattern2", "C6 05 ? ? ? ? 00 40 84 F6 74 ? B9 0A 00 00 00 E8 ? ? ? ? B9 0A 00 00 00 E8 ? ? ? ? 48");
+                Sigscan1.AddPattern("UISettingOffset", "40 84 F6 74 ? B9 0A 00 00 00 E8 ? ? ? ? B9 0A 00 00 00 E8 ? ? ? ? 48");
+                Sigscan1.AddPattern("Pattern3", "0F B6 2D ? ? ? ? C7 05 ? ? ? ? 00 00 00 00 48 85 C0 0F 84 ? ? ? ? 83 78 5C 00 0F 84 ? ? ? ? 33 D2 41");
+                Sigscan1.AddPattern("ExpansionOffset", "C7 05 ? ? ? ? 00 00 00 00 48 85 C0 0F 84 ? ? ? ? 83 78 5C 00 0F 84 ? ? ? ? 33 D2 41");
+
+                long lTime;
+                var BasePointer = processAddress;
+                var sResult = Sigscan1.FindPatterns(out lTime);
+                var sc = (long)sResult["Pattern1"];
+                var sx = ProcessContext.Reads<int>(processHandle, (IntPtr)(long)sc + 3);
+                var sLabel = (long)sResult["UnitTableOffset"];
+                var sOffset = sLabel + sx;
+                var UnitOffset = (long)sOffset - (long)BasePointer;
+                Offsets.UnitHashTable = (int)UnitOffset;
+
+                var ac = (long)sResult["Pattern2"];
+                var ax = ProcessContext.Reads<int>(processHandle, (IntPtr)(long)ac + 2);
+                var aLabel = (long)sResult["UISettingOffset"];
+                var aOffset = aLabel + ax;
+                var UiOffset = (long)aOffset - (long)BasePointer;
+                Offsets.UiSettings = (int)UiOffset;
+
+                var ec = (long)sResult["Pattern3"];
+                var ex = ProcessContext.Reads<int>(processHandle, (IntPtr)(long)ec + 3);
+                var eLabel = (long)sResult["ExpansionOffset"];
+                var eOffset = eLabel + ex;
+                var ExpansionOffset = (long)eOffset - (long)BasePointer;
+                Offsets.ExpansionCheck = (int)ExpansionOffset;
+            }
+
+            // Sorry for my bad coding. I really don't know much about C#, well there will be more easier ways to do.
+            // I had to understand the memory fucking reading. with C#. 
+            // and some weird calcs. that kinda looks crazy and weird.. but. it works fine.
+            // I believe that more experts on C# or whatever peoples will fix it more lightly.
+
+            /////////---------------------SigScan End Here---------------------/////////
+
+
             return _ProcessContext;
         }
 
