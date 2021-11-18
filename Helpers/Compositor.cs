@@ -67,7 +67,7 @@ namespace MapAssist.Helpers
                     .OffsetFrom(CropOffset)
                     .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
 
-                if (Settings.Rendering.Player.CanDrawIcon())
+                if (Rendering.Player.CanDrawIcon())
                 {
                     Bitmap playerIcon = GetIcon(Settings.Rendering.Player);
                     imageGraphics.DrawImage(playerIcon, localPlayerPosition);
