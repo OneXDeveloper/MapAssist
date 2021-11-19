@@ -71,6 +71,34 @@ namespace MapAssist.Helpers
         {
             return Read<T>(address, 1)[0];
         }
+        
+        //
+        public static T[] Reads<T>(IntPtr processHandle, IntPtr address, int count) where T : struct
+        {
+            var sz = Marshal.SizeOf<T>();
+            var buf = new byte[sz * count];
+            WindowsExternal.ReadProcessMemory(processHandle, address, buf, buf.Length, out _);
+
+            var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
+            try
+            {
+                var result = new T[count];
+                for (var i = 0; i < count; i++)
+                {
+                    result[i] = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject() + (i * sz), typeof(T));
+                }
+
+                return result;
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
+        public static T Reads<T>(IntPtr processHandle, IntPtr address) where T : struct
+        {
+            return Reads<T>(processHandle, address, 1)[0];
+        }
 
         protected virtual void Dispose(bool disposing)
         {
