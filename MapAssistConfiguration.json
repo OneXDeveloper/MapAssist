@@ -1,0 +1,104 @@
+{
+  "UpdateTime": 50,
+  "PrefetchAreas": "Catacombs Level 2,Durance Of Hate Level 2",
+  "HiddenAreas": "Rogue Encampment,Lut Gholein,Kurast Docktown,The Pandemonium Fortress,Harrogath,Forgotten Tower,Nihlathaks Temple",
+  "ClearPrefetchedOnAreaChange": true,
+  "RenderingConfiguration": {
+    "Opacity": 0.7,
+    "OverlayMode": true,
+    "AlwaysOnTop": true,
+    "ToggleViaInGameMap": true,
+    "Size": 450,
+    "Position": "TopRight",
+    "Rotate": true,
+    "ZoomLevel": 1.0
+  },
+  "MonsterRendering": {
+    "NormalColor": "DarkRed",
+    "EliteColor": "DarkOrange"
+  },
+  "MapConfiguration": {
+    "NextArea": {
+      "IconColor": "237, 107, 0",
+      "IconShape": "Rectangle",
+      "IconSize": 10,
+      "LineColor": "Chartreuse",
+      "LineThickness": 0.0,
+      "ArrowHeadSize": 10,
+      "LabelColor": "Chartreuse",
+      "LabelFont": null,
+      "LabelFontSize": 0
+    },
+    "PreviousArea": {
+      "IconColor": "255, 0, 149",
+      "IconShape": "Rectangle",
+      "IconSize": 10,
+      "LineColor": "",
+      "LineThickness": 0.0,
+      "ArrowHeadSize": 0,
+      "LabelColor": "Chartreuse",
+      "LabelFont": null,
+      "LabelFontSize": 0
+    },
+    "Waypoint": {
+      "IconColor": "16, 140, 235",
+      "IconShape": "Rectangle",
+      "IconSize": 10,
+    },
+    "Quest": {
+      "IconColor": "",
+      "IconShape": 0,
+      "IconSize": 0,
+      "LineColor": "Chartreuse",
+      "LineThickness": 0.0,
+      "ArrowHeadSize": 5,
+      "LabelColor": "",
+      "LabelFont": null,
+      "LabelFontSize": 0
+    },
+    "Player": {
+      "IconColor": "255, 255, 0",
+      "IconShape": "Rectangle",
+      "IconSize": 5,
+    },
+    "SuperChest": {
+      "IconColor": "17, 255, 0",
+      "IconShape": "Ellipse",
+      "IconSize": 10,
+    },
+    "Shrine": {
+      "IconColor": "255, 218, 100",
+      "IconShape": "Polygon",
+      "IconSize": 10,
+    }
+  },
+  "MapColorConfiguration": {
+    "MapColors": { 
+	  0: "50, 50, 50",
+	  2: "10, 51, 23",
+	  3: "255, 255, 255",
+	  4: "0, 255, 255",
+	  6: "50, 50, 50",
+	  7: "0, 0, 0",
+	  16: "50, 50, 50",
+	  17: "50, 50, 50",
+	  19: "100, 100, 100",
+	  20: "40, 40, 40",
+	  21: "50, 50, 50",
+	  23: "120, 120, 120",
+	  33: "0, 0, 0",
+	  37: "0, 0, 0",
+	  39: "0, 0, 0",
+	  53: "0, 0, 0"
+	  }
+  },
+  "HotkeyConfiguration": {
+    "ToggleKey": "p",
+    "ZoomInKey": "+",
+    "ZoomOutKey": "-"
+  },
+  "ApiConfiguration": {
+    "Endpoint": "127.0.0.1:8080",
+    "ApiToken": ""
+  }
+}
