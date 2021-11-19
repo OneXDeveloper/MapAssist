@@ -84,6 +84,8 @@ namespace MapAssist.Settings
                 LabelColor = GetConfigValue($"{name}.LabelColor", ParseColor, Color.Transparent),
                 LabelFont = GetConfigValue($"{name}.LabelFont", t => t, "Arial"),
                 LabelFontSize = GetConfigValue($"{name}.LabelFontSize", Convert.ToInt32, 8),
+                PathColor = GetConfigValue($"{name}.PathColor", ParseColor, Color.Transparent),
+                PathThickness = GetConfigValue($"{name}.PathThickness", Convert.ToSingle, 1),
             };
         }
         public static MonsterRendering GetMonsterRendering()

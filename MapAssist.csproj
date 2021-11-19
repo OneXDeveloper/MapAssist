@@ -107,7 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\GameManager.cs" />
+    <Compile Include="Helpers\Pathing.cs" />
     <Compile Include="Helpers\ProcessContext.cs" />
+    <Compile Include="Helpers\TeleportPather.cs" />
     <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Overlay.cs">
       <SubType>Form</SubType>
@@ -121,16 +123,17 @@
     <Compile Include="Helpers\MapApi.cs" />
     <Compile Include="Helpers\Compositor.cs" />
     <Compile Include="Helpers\WindowsExternal.cs" />
+    <Compile Include="Settings\MovementMode.cs" />
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />
+    <Compile Include="Structs\TeleportPath.cs" />
     <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\Level.cs" />
     <Compile Include="Structs\MonsterData.cs" />
     <Compile Include="Structs\Path.cs" />
     <Compile Include="Structs\Room.cs" />
     <Compile Include="Structs\RoomEx.cs" />
-    <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Stats.cs" />
@@ -186,6 +189,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="RoyT.AStar">
+      <Version>3.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

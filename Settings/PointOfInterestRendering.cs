@@ -36,6 +36,9 @@ namespace MapAssist.Settings
         public string LabelFont;
         public int LabelFontSize;
 
+        public Color PathColor;
+        public float PathThickness;
+
         public bool CanDrawIcon()
         {
             return IconShape != Shape.None && IconSize > 0 && IconColor != Color.Transparent;
@@ -55,6 +58,11 @@ namespace MapAssist.Settings
         {
             return LabelColor != Color.Transparent && !string.IsNullOrWhiteSpace(LabelFont) &&
                    LabelFontSize > 0;
+        }
+
+        public bool CanDrawPath()
+        {
+            return PathColor != Color.Transparent && PathThickness > 0;
         }
     }
     public class MonsterRendering

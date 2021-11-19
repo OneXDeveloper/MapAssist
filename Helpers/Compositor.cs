@@ -34,6 +34,7 @@ namespace MapAssist.Helpers
         public readonly Point CropOffset;
         private readonly IReadOnlyList<PointOfInterest> _pointsOfInterest;
         private readonly Dictionary<(string, int), Font> _fontCache = new Dictionary<(string, int), Font>();
+        private Pathing _pathing = new Pathing();
 
         private readonly Dictionary<(Shape, int, Color), Bitmap> _iconCache =
             new Dictionary<(Shape, int, Color), Bitmap>();
@@ -88,6 +89,21 @@ namespace MapAssist.Helpers
 
                         imageGraphics.DrawLine(pen, localPlayerPosition,
                             poi.Position.OffsetFrom(_areaData.Origin).OffsetFrom(CropOffset));
+                    }
+
+                    if (poi.RenderingSettings.CanDrawPath())
+                    {
+                        List<Point> path = _pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, _areaData.Area, _areaData, Settings.Map.MovementMode, gameData.PlayerPosition, poi.Position);
+                        var pen = new Pen(poi.RenderingSettings.PathColor, poi.RenderingSettings.PathThickness);
+                        Point startPoint = localPlayerPosition;
+                        foreach (Point p in path)
+                        {
+                            Point tmp = p.OffsetFrom(_areaData.Origin)
+                                         .OffsetFrom(CropOffset)
+                                         .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
+                            imageGraphics.DrawLine(pen, startPoint, tmp);
+                            startPoint = tmp;
+                        }
                     }
                 }
                 MonsterRendering renderMonster = Utils.GetMonsterRendering();

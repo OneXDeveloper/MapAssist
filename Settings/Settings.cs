@@ -107,6 +107,9 @@ namespace MapAssist.Settings
 
         public static bool ClearPrefetchedOnAreaChange =
             Convert.ToBoolean(ConfigurationManager.AppSettings["ClearPrefetchedOnAreaChange"]);
+
+        public static MovementMode MovementMode =
+            (MovementMode)Enum.Parse(typeof(MovementMode), ConfigurationManager.AppSettings["MovementMode"], true);
     }
 
     public static class Api
