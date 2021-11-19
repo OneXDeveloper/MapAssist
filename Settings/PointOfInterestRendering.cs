@@ -17,15 +17,22 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Drawing;
+using ColorConverter = MapAssist.Helpers.ColorConverter;
 
 namespace MapAssist.Settings
 {
     public class IconRendering
     {
-        public Color IconColor;
-        public Shape IconShape;
-        public int IconSize;
+        [JsonRequired]
+        [JsonProperty("IconColor")]
+        [JsonConverter(typeof(ColorConverter))]
+        public Color IconColor { get; set; }
+        
+        [JsonProperty("IconThickness")]
         public float IconThickness;
 
         public bool CanDrawIcon()
@@ -36,14 +43,32 @@ namespace MapAssist.Settings
 
     public class PointOfInterestRendering : IconRendering
     {
-        public Color LineColor;
-        public float LineThickness;
+        [JsonConverter(typeof(StringEnumConverter<Shape>))]
+        public Shape IconShape { get; set; }
 
-        public int ArrowHeadSize;
+        [JsonRequired]
+        [JsonProperty("IconSize")]
+        public int IconSize { get; set; }
 
-        public Color LabelColor;
-        public string LabelFont;
-        public int LabelFontSize;
+        [JsonProperty("LineColor")]
+        [JsonConverter(typeof(ColorConverter))]
+        public Color LineColor { get; set; }
+        
+        [JsonProperty("LineThickness")]
+        public float LineThickness { get; set; }
+
+        [JsonProperty("ArrowHeadSize")]
+        public int ArrowHeadSize { get; set; }
+
+        [JsonProperty("LabelColor")]
+        [JsonConverter(typeof(ColorConverter))]
+        public Color LabelColor { get; set; }
+        
+        [JsonProperty("LabelFont")]
+        public string LabelFont { get; set; }
+        
+        [JsonProperty("LabelFontSize")]
+        public int LabelFontSize { get; set; }
 
         public bool CanDrawLine()
         {
@@ -62,9 +87,4 @@ namespace MapAssist.Settings
         }
     }
 
-    public class MonsterRendering
-    {
-        public Color NormalColor;
-        public Color EliteColor;
-    }
 }

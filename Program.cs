@@ -18,8 +18,11 @@
  **/
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
+using MapAssist.Files;
+using MapAssist.Settings;
 
 namespace MapAssist
 {
@@ -31,11 +34,21 @@ namespace MapAssist
         [STAThread]
         static void Main()
         {
-            using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+            try 
+            { 
+                var configuration = MapAssistConfiguration.Load();
+
+                using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Overlay(globalHook));
+                }
+            } 
+            catch (Exception e)
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Overlay(globalHook));
+                MessageBox.Show(e.Message,"Configuration parsing error!",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
         }
     }
