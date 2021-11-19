@@ -75,13 +75,6 @@ namespace MapAssist.Settings
         {
             new ConfigurationParser<MapAssistConfiguration>().SerializeToFile(this);
         }
-
-        [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext)
-        {
-            Debug.WriteLine($"Serialization error in MapAssistConfiguration: {context.ToString()} {errorContext}");
-            errorContext.Handled = true;
-        }
     }
 
     public class MapColorConfiguration

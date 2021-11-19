@@ -18,7 +18,6 @@ namespace MapAssist.Files
                 Debug.WriteLine($"File for {fileManager.GetAbsolutePath()} was empty ... Failed to parse configuration");
                 return default(T);
             }
-
             T content = JsonConvert.DeserializeObject<T>(JSONString);
             return content;
         }

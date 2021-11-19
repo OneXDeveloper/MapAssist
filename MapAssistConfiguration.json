@@ -23,53 +23,39 @@
       "IconShape": "Rectangle",
       "IconSize": 10,
       "LineColor": "Chartreuse",
-      "LineThickness": 0.0,
       "ArrowHeadSize": 10,
-      "LabelColor": "Chartreuse",
-      "LabelFont": null,
-      "LabelFontSize": 0
+      "LabelColor": "Chartreuse"
     },
     "PreviousArea": {
       "IconColor": "255, 0, 149",
       "IconShape": "Rectangle",
       "IconSize": 10,
       "LineColor": "",
-      "LineThickness": 0.0,
-      "ArrowHeadSize": 0,
-      "LabelColor": "Chartreuse",
-      "LabelFont": null,
-      "LabelFontSize": 0
+      "LabelColor": "Chartreuse"
     },
     "Waypoint": {
       "IconColor": "16, 140, 235",
       "IconShape": "Rectangle",
-      "IconSize": 10,
+      "IconSize": 10
     },
     "Quest": {
-      "IconColor": "",
-      "IconShape": 0,
-      "IconSize": 0,
       "LineColor": "Chartreuse",
-      "LineThickness": 0.0,
-      "ArrowHeadSize": 5,
-      "LabelColor": "",
-      "LabelFont": null,
-      "LabelFontSize": 0
+      "ArrowHeadSize": 5
     },
     "Player": {
       "IconColor": "255, 255, 0",
       "IconShape": "Rectangle",
-      "IconSize": 5,
+      "IconSize": 5
     },
     "SuperChest": {
       "IconColor": "17, 255, 0",
       "IconShape": "Ellipse",
-      "IconSize": 10,
+      "IconSize": 10
     },
     "Shrine": {
       "IconColor": "255, 218, 100",
       "IconShape": "Polygon",
-      "IconSize": 10,
+      "IconSize": 10
     }
   },
   "MapColorConfiguration": {

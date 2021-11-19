@@ -165,6 +165,9 @@
         <EmbeddedResource Include="Overlay.resx">
             <DependentUpon>Overlay.cs</DependentUpon>
         </EmbeddedResource>
+    <Content Include="MapAssistConfiguration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
         <None Include="Resources\Icon1.ico"/>
     </ItemGroup>
     <ItemGroup>

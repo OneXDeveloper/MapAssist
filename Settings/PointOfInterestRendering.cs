@@ -27,7 +27,6 @@ namespace MapAssist.Settings
 {
     public class IconRendering
     {
-        [JsonRequired]
         [JsonProperty("IconColor")]
         [JsonConverter(typeof(ColorConverter))]
         public Color IconColor { get; set; }
@@ -46,7 +45,6 @@ namespace MapAssist.Settings
         [JsonConverter(typeof(StringEnumConverter<Shape>))]
         public Shape IconShape { get; set; }
 
-        [JsonRequired]
         [JsonProperty("IconSize")]
         public int IconSize { get; set; }
 
