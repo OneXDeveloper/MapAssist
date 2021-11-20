@@ -45,8 +45,8 @@ namespace MapAssist.Settings
 
         public static PointOfInterestRendering Shrine = Utils.GetRenderingSettingsForPrefix("Shrine");
 
-        public static PointOfInterestRendering EliteMonster = Utils.GetRenderingSettingsForPrefix("EliteMonster");
-        public static PointOfInterestRendering NormalMonster = Utils.GetRenderingSettingsForPrefix("NormalMonster");
+        public static IconRendering EliteMonster = Utils.GetRenderingSettingsForPrefix("EliteMonster");
+        public static IconRendering NormalMonster = Utils.GetRenderingSettingsForPrefix("NormalMonster");
     }
 
     public static class Map

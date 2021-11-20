@@ -228,18 +228,18 @@ namespace MapAssist.Helpers
             return _fontCache[cacheKey];
         }
 
-        private Bitmap GetIcon(PointOfInterestRendering poiSettings)
+        private Bitmap GetIcon(IconRendering poiSettings)
         {
             (Shape IconShape, int IconSize, Color Color, float LineThickness) cacheKey = (
                 poiSettings.IconShape,
                 poiSettings.IconSize,
                 poiSettings.IconColor,
-                poiSettings.LineThickness
+                poiSettings.IconThickness
             );
             if (!_iconCache.ContainsKey(cacheKey))
             {
                 var bitmap = new Bitmap(poiSettings.IconSize, poiSettings.IconSize, PixelFormat.Format32bppArgb);
-                var pen = new Pen(poiSettings.IconColor, poiSettings.LineThickness);
+                var pen = new Pen(poiSettings.IconColor, poiSettings.IconThickness);
                 var brush = new SolidBrush(poiSettings.IconColor);
                 using (var g = Graphics.FromImage(bitmap))
                 {
