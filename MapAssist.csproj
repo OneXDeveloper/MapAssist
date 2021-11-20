@@ -148,7 +148,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Npc.cs" />
-    <Compile Include="Types\Offsets.cs" />
     <Compile Include="Types\Path.cs" />
     <Compile Include="Types\PointOfInterest.cs" />
     <Compile Include="Types\RawAreaData.cs" />

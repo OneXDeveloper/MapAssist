@@ -122,7 +122,7 @@ namespace MapAssist.Types
             {
                 if (IsPlayer() && _unitAny.pInventory != IntPtr.Zero)
                 {
-                    var expansionCharacter = processContext.Read<byte>(processContext.FromOffset(Offsets.ExpansionCheck)) == 1;
+                    var expansionCharacter = processContext.Read<byte>(GameManager.ExpansionCheckOffset) == 1;
                     var userBaseOffset = 0x30;
                     var checkUser1 = 1;
                     if (expansionCharacter)
