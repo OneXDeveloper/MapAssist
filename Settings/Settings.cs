@@ -39,11 +39,11 @@ namespace MapAssist.Settings
         public static PointOfInterestRendering Waypoint = Utils.GetRenderingSettingsForPrefix("Waypoint");
         public static PointOfInterestRendering Quest = Utils.GetRenderingSettingsForPrefix("Quest");
         public static PointOfInterestRendering Player = Utils.GetRenderingSettingsForPrefix("Player");
-
-        public static PointOfInterestRendering SuperChest =
-            Utils.GetRenderingSettingsForPrefix("SuperChest");
-
         public static PointOfInterestRendering Shrine = Utils.GetRenderingSettingsForPrefix("Shrine");
+
+        public static PointOfInterestRendering SuperChest = Utils.GetRenderingSettingsForPrefix("SuperChest");
+        public static PointOfInterestRendering NormalChest = Utils.GetRenderingSettingsForPrefix("NormalChest");
+        public static PointOfInterestRendering ArmorWeapRack = Utils.GetRenderingSettingsForPrefix("ArmorWeapRack");
 
         public static IconRendering EliteMonster = Utils.GetRenderingSettingsForPrefix("EliteMonster");
         public static IconRendering NormalMonster = Utils.GetRenderingSettingsForPrefix("NormalMonster");

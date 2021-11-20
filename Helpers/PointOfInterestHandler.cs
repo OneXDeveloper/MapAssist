@@ -42,7 +42,7 @@ namespace MapAssist.Helpers
             GameObject.NihlathakWildernessStartPosition
         };
         
-        private static readonly HashSet<GameObject> GoodChests = new HashSet<GameObject>
+        private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
         {
             GameObject.GoodChest,
             GameObject.SparklyChest,
@@ -50,6 +50,73 @@ namespace MapAssist.Helpers
             GameObject.ArcaneLargeChestRight,
             GameObject.ArcaneSmallChestLeft,
             GameObject.ArcaneSmallChestRight
+        };
+
+        private static readonly HashSet<GameObject> NormalChests = new HashSet<GameObject>
+        {
+            GameObject.LargeChestRight,
+            GameObject.LargeChestLeft,
+            GameObject.TombLargeChestL,
+            GameObject.TombLargeChestR,
+            GameObject.Act1LargeChestRight,
+            GameObject.Act1TallChestRight,
+            GameObject.Act1MediumChestRight,
+            GameObject.Act1LargeChest1,
+            GameObject.Act2MediumChestRight,
+            GameObject.Act2LargeChestRight,
+            GameObject.Act2LargeChestLeft,
+            GameObject.MediumChestLeft,
+            GameObject.LargeChestLeft2,
+            GameObject.JungleChest,
+            GameObject.JungleMediumChestLeft,
+            GameObject.TallChestLeft,
+            GameObject.Gchest1L,
+            GameObject.Gchest2R,
+            GameObject.Gchest3R,
+            GameObject.GLchest3L,
+            GameObject.MafistoLargeChestLeft,
+            GameObject.MafistoLargeChestRight,
+            GameObject.MafistoMediumChestLeft,
+            GameObject.MafistoMediumChestRight,
+            GameObject.SpiderLairLargeChestLeft,
+            GameObject.SpiderLairTallChestLeft,
+            GameObject.SpiderLairMediumChestRight,
+            GameObject.SpiderLairTallChestRight,
+            GameObject.HoradricCubeChest,
+            GameObject.HoradricScrollChest,
+            GameObject.StaffOfKingsChest,
+            GameObject.LargeChestR,
+            GameObject.InnerHellBoneChest,
+            GameObject.KhalimChest1,
+            GameObject.KhalimChest2,
+            GameObject.KhalimChest3,
+            GameObject.ExpansionChestRight,
+            GameObject.ExpansionWoodChestLeft,
+            GameObject.BurialChestLeft,
+            GameObject.BurialChestRight,
+            GameObject.ExpansionChestLeft,
+            GameObject.ExpansionWoodChestRight,
+            GameObject.ExpansionSmallChestLeft,
+            GameObject.ExpansionSmallChestRight,
+            GameObject.ExpansionExplodingChest,
+            GameObject.ExpansionSpecialChest,
+            GameObject.ExpansionSnowyWoodChestLeft,
+            GameObject.ExpansionSnowyWoodChestRight,
+            GameObject.ExpansionSnowyWoodChest2Left,
+            GameObject.ExpansionSnowyWoodChest2Right,
+            GameObject.NotSoGoodChest,
+        };
+
+        private static readonly HashSet<GameObject> ArmorWeapRacks = new HashSet<GameObject>
+        {
+            GameObject.ExpansionArmorStandRight,
+            GameObject.ExpansionArmorStandLeft,
+            GameObject.ArmorStandRight,
+            GameObject.ArmorStandLeft,
+            GameObject.ExpansionWeaponRackRight,
+            GameObject.ExpansionWeaponRackLeft,
+            GameObject.WeaponRackRight,
+            GameObject.WeaponRackLeft,
         };
 
         private static readonly HashSet<GameObject> Shrines = new HashSet<GameObject>
@@ -173,8 +240,21 @@ namespace MapAssist.Helpers
                         RenderingSettings = Settings.Rendering.Quest
                     });
                 }
-                // Chests
-                else if (GoodChests.Contains(obj))
+                // Shrines
+                else if (Shrines.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = Settings.Rendering.Shrine
+                        });
+                    }
+                }
+                // Super Chest
+                else if (SuperChests.Contains(obj))
                 {
                     foreach (Point point in points)
                     {
@@ -186,8 +266,8 @@ namespace MapAssist.Helpers
                         });
                     }
                 }
-                // Shrines
-                else if (Shrines.Contains(obj))
+                // Normal Chest
+                else if (NormalChests.Contains(obj))
                 {
                     foreach (Point point in points)
                     {
@@ -195,7 +275,20 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.Shrine
+                            RenderingSettings = Settings.Rendering.NormalChest
+                        });
+                    }
+                }
+                // Armor Stands & Weapon Racks
+                else if (ArmorWeapRacks.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = Settings.Rendering.ArmorWeapRack
                         });
                     }
                 }
