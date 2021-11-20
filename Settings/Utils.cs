@@ -93,13 +93,5 @@ namespace MapAssist.Settings
                 LabelFontSize = GetConfigValue($"{name}.LabelFontSize", Convert.ToInt32, 8),
             };
         }
-        public static MonsterRendering GetMonsterRendering()
-        {
-            return new MonsterRendering
-            {
-                NormalColor = GetConfigValue($"MonsterColor.Normal", ParseColor, Color.Transparent),
-                EliteColor = GetConfigValue($"MonsterColor.Elite", ParseColor, Color.Transparent)
-            };
-        }
     }
 }
