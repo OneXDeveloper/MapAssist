@@ -116,16 +116,16 @@ namespace MapAssist.Helpers
                         var iCount = unitAny.Immunities.Count;
                         if (iCount > 0)
                         {
-                            var extraOffset = mobRender.IconShape == Shape.Cross;
-                            var iY = extraOffset ? --iCount : iCount;
-                            var iX = extraOffset ? -iY : -(iY - 2);
+                            var shortOffset = mobRender.IconShape == Shape.Cross;
+                            var iY = shortOffset ? --iCount : iCount;
+                            var iX = shortOffset ? -iY : -(iY - 2);
 
                             foreach (var immunity in unitAny.Immunities)
                             {
                                 var iPoint = new Point(iX, iY);
                                 var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
-                                var rect2 = new Rectangle(origin.OffsetFrom(iPoint), new Size(2, 2));
-                                imageGraphics.FillRectangle(brush, rect2);
+                                var rect = new Rectangle(origin.OffsetFrom(iPoint), new Size(2, 2));
+                                imageGraphics.FillRectangle(brush, rect);
                                 iY -= 2;
                                 iX += 2;
                             }
