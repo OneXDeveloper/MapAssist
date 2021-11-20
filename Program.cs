@@ -44,12 +44,10 @@ namespace MapAssist
             catch (JsonSerializationException e)
             {
                 MessageBox.Show(e.Message, "Configuration parsing error during deserialization!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
             }
             catch (JsonException e)
             {
                 MessageBox.Show(e.Message, "General configuration parsing error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
             }
             catch (Exception e)
             {
