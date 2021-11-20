@@ -165,9 +165,7 @@
         <EmbeddedResource Include="Overlay.resx">
             <DependentUpon>Overlay.cs</DependentUpon>
         </EmbeddedResource>
-    <Content Include="MapAssistConfiguration.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="AppConfig.json" />
         <None Include="Resources\Icon1.ico"/>
     </ItemGroup>
     <ItemGroup>
@@ -195,4 +193,7 @@
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)AppConfig.json $(ProjectDir)$(OutDir)$(TargetName)$(TargetExt).json</PostBuildEvent>
+  </PropertyGroup>
 </Project>
