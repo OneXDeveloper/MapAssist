@@ -247,16 +247,13 @@ namespace MapAssist.Helpers
                     switch (poiSettings.IconShape)
                     {
                         case Shape.Ellipse:
-                            g.FillEllipse(brush, 0, 0, poiSettings.IconSize,
-                                poiSettings.IconSize);
+                            g.FillEllipse(brush, 0, 0, poiSettings.IconSize, poiSettings.IconSize);
                             break;
                         case Shape.Square:
-                            g.FillRectangle(brush, 0, 0, poiSettings.IconSize,
-                                poiSettings.IconSize);
+                            g.FillRectangle(brush, 0, 0, poiSettings.IconSize, poiSettings.IconSize);
                             break;
                         case Shape.OpenSquare:
-                            g.DrawRectangle(pen, 0, 0, poiSettings.IconSize - 1,
-                                poiSettings.IconSize - 1);
+                            g.DrawRectangle(pen, 0, 0, poiSettings.IconSize - 1, poiSettings.IconSize - 1);
                             break;
                         case Shape.Polygon:
                             var halfSize = poiSettings.IconSize / 2;
