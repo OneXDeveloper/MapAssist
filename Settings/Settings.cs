@@ -45,8 +45,8 @@ namespace MapAssist.Settings
         public static PointOfInterestRendering NormalChest = Utils.GetRenderingSettingsForPrefix("NormalChest");
         public static PointOfInterestRendering ArmorWeapRack = Utils.GetRenderingSettingsForPrefix("ArmorWeapRack");
 
-        public static IconRendering EliteMonster = Utils.GetRenderingSettingsForPrefix("EliteMonster");
-        public static IconRendering NormalMonster = Utils.GetRenderingSettingsForPrefix("NormalMonster");
+        public static IconRendering EliteMonster = Utils.GetIconRenderingSettingsForPrefix("EliteMonster");
+        public static IconRendering NormalMonster = Utils.GetIconRenderingSettingsForPrefix("NormalMonster");
     }
 
     public static class Map
