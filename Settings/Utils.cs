@@ -78,6 +78,17 @@ namespace MapAssist.Settings
             return Color.FromName(value);
         }
 
+        public static IconRendering GetIconRenderingSettingsForPrefix(string name)
+        {
+            return new IconRendering
+            {
+                IconColor = GetConfigValue($"{name}.IconColor", ParseColor, Color.Transparent),
+                IconShape = GetConfigValue($"{name}.IconShape", t => (Shape)Enum.Parse(typeof(Shape), t, true)),
+                IconSize = GetConfigValue($"{name}.IconSize", Convert.ToInt32),
+                IconThickness = GetConfigValue($"{name}.IconThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
+            };
+        }
+
         public static PointOfInterestRendering GetRenderingSettingsForPrefix(string name)
         {
             return new PointOfInterestRendering
@@ -85,20 +96,13 @@ namespace MapAssist.Settings
                 IconColor = GetConfigValue($"{name}.IconColor", ParseColor, Color.Transparent),
                 IconShape = GetConfigValue($"{name}.IconShape", t => (Shape)Enum.Parse(typeof(Shape), t, true)),
                 IconSize = GetConfigValue($"{name}.IconSize", Convert.ToInt32),
+                IconThickness = GetConfigValue($"{name}.IconThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
                 LineColor = GetConfigValue($"{name}.LineColor", ParseColor, Color.Transparent),
-                LineThickness = GetConfigValue($"{name}.LineThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1.0f),
+                LineThickness = GetConfigValue($"{name}.LineThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
                 ArrowHeadSize = GetConfigValue($"{name}.ArrowHeadSize", Convert.ToInt32),
                 LabelColor = GetConfigValue($"{name}.LabelColor", ParseColor, Color.Transparent),
                 LabelFont = GetConfigValue($"{name}.LabelFont", t => t, "Arial"),
                 LabelFontSize = GetConfigValue($"{name}.LabelFontSize", Convert.ToInt32, 8),
-            };
-        }
-        public static MonsterRendering GetMonsterRendering()
-        {
-            return new MonsterRendering
-            {
-                NormalColor = GetConfigValue($"MonsterColor.Normal", ParseColor, Color.Transparent),
-                EliteColor = GetConfigValue($"MonsterColor.Elite", ParseColor, Color.Transparent)
             };
         }
     }
