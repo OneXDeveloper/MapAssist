@@ -24,6 +24,7 @@ namespace MapAssist.Settings
         None,
         Rectangle,
         Ellipse,
-        Polygon
+        Polygon,
+        Cross
     }
 }

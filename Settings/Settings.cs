@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Globalization;
 using MapAssist.Types;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -100,7 +101,7 @@ namespace MapAssist.Settings
         public static char ToggleKey = Convert.ToChar(ConfigurationManager.AppSettings["ToggleKey"]);
         public static char ZoomInKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomInKey"]);
         public static char ZoomOutKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomOutKey"]);
-        public static float ZoomLevel = Convert.ToSingle(ConfigurationManager.AppSettings["ZoomLevelDefault"]);
+        public static float ZoomLevel = Convert.ToSingle(ConfigurationManager.AppSettings["ZoomLevelDefault"], CultureInfo.InvariantCulture);
 
         public static Area[] PrefetchAreas =
             Utils.ParseCommaSeparatedAreasByName(ConfigurationManager.AppSettings["PrefetchAreas"]);

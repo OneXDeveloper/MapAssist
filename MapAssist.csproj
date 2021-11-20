@@ -130,7 +130,6 @@
     <Compile Include="Structs\Path.cs" />
     <Compile Include="Structs\Room.cs" />
     <Compile Include="Structs\RoomEx.cs" />
-    <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Stats.cs" />

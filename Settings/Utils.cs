@@ -20,6 +20,7 @@
 using System;
 using System.Configuration;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using MapAssist.Types;
 
@@ -45,6 +46,12 @@ namespace MapAssist.Settings
         {
             var valueString = ConfigurationManager.AppSettings[key];
             return string.IsNullOrWhiteSpace(valueString) ? fallback : converter.Invoke(valueString);
+        }
+
+        private static T GetConfigValue<T>(string key, Func<string, IFormatProvider, T> converter, IFormatProvider format, T fallback = default)
+        {
+            string valueString = ConfigurationManager.AppSettings[key];
+            return string.IsNullOrWhiteSpace(valueString) ? fallback : converter.Invoke(valueString, format);
         }
 
         public static Color ParseColor(string value)
@@ -79,7 +86,7 @@ namespace MapAssist.Settings
                 IconShape = GetConfigValue($"{name}.IconShape", t => (Shape)Enum.Parse(typeof(Shape), t, true)),
                 IconSize = GetConfigValue($"{name}.IconSize", Convert.ToInt32),
                 LineColor = GetConfigValue($"{name}.LineColor", ParseColor, Color.Transparent),
-                LineThickness = GetConfigValue($"{name}.LineThickness", Convert.ToSingle, 1),
+                LineThickness = GetConfigValue($"{name}.LineThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1.0f),
                 ArrowHeadSize = GetConfigValue($"{name}.ArrowHeadSize", Convert.ToInt32),
                 LabelColor = GetConfigValue($"{name}.LabelColor", ParseColor, Color.Transparent),
                 LabelFont = GetConfigValue($"{name}.LabelFont", t => t, "Arial"),
