@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using MapAssist.Types;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MapAssist.Helpers
 {
@@ -90,7 +91,9 @@ namespace MapAssist.Helpers
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var areas = ParseCommaSeparatedAreasByName((string)reader.Value);
+            JArray array = JArray.Load(reader);
+            var areasString = array.ToObject<IList<string>>();     
+            var areas = areasString.Select(x => LookupAreaByName(x)).ToList();
             return areas;
         }
 
