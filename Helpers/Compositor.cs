@@ -97,31 +97,39 @@ namespace MapAssist.Helpers
                         imageGraphics.DrawLine(pen, localPlayerCenterPosition, poiPosition);
                     }
                 }
-                
+
                 foreach (var unitAny in gameData.Monsters)
                 {
                     var mobRender = unitAny.IsElite() ? Rendering.EliteMonster : Rendering.NormalMonster;
 
-                    // Draw Monster Icon
-                    Bitmap icon = GetIcon(mobRender);
-                    Point origin = unitAny.Position
-                        .OffsetFrom(_areaData.Origin)
-                        .OffsetFrom(CropOffset)
-                        .OffsetFrom(GetIconOffset(mobRender.IconSize));
-                    imageGraphics.DrawImage(icon, origin);
-
-                    // Draw Monster Immunities
-                    var immunityCount = unitAny.Immunities.Count;
-                    var baseY = immunityCount - 1;
-                    var baseX = -baseY;
-                    foreach (var immunity in unitAny.Immunities)
+                    if (mobRender.CanDrawIcon())
                     {
-                        var iPoint = new Point(baseX, baseY);
-                        var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
-                        var rect2 = new Rectangle(origin.OffsetFrom(iPoint), new Size(2, 2));
-                        imageGraphics.FillRectangle(brush, rect2);
-                        baseY -= 2;
-                        baseX += 2;
+                        // Draw Monster Icon
+                        Bitmap icon = GetIcon(mobRender);
+                        Point origin = unitAny.Position
+                            .OffsetFrom(_areaData.Origin)
+                            .OffsetFrom(CropOffset)
+                            .OffsetFrom(GetIconOffset(mobRender.IconSize));
+                        imageGraphics.DrawImage(icon, origin);
+
+                        // Draw Monster Immunities
+                        var iCount = unitAny.Immunities.Count;
+                        if (iCount > 0)
+                        {
+                            var extraOffset = mobRender.IconShape == Shape.Cross;
+                            var iY = extraOffset ? --iCount : iCount;
+                            var iX = extraOffset ? -iY : -(iY - 2);
+
+                            foreach (var immunity in unitAny.Immunities)
+                            {
+                                var iPoint = new Point(iX, iY);
+                                var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
+                                var rect2 = new Rectangle(origin.OffsetFrom(iPoint), new Size(2, 2));
+                                imageGraphics.FillRectangle(brush, rect2);
+                                iY -= 2;
+                                iX += 2;
+                            }
+                        }
                     }
                 }
             }
