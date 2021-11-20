@@ -51,7 +51,6 @@ namespace MapAssist.Helpers
             var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
             try
             {
-                IntPtr processAddress = _process.MainModule.BaseAddress;
                 WindowsExternal.ReadProcessMemory(_handle, address, buf, buf.Length, out _);
                 var result = new T[count];
                 for (var i = 0; i < count; i++)
