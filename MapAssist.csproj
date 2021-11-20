@@ -109,7 +109,6 @@
     <Compile Include="Helpers\GameManager.cs" />
     <Compile Include="Helpers\Pathing.cs" />
     <Compile Include="Helpers\ProcessContext.cs" />
-    <Compile Include="Helpers\TeleportPather.cs" />
     <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Overlay.cs">
       <SubType>Form</SubType>
@@ -127,7 +126,6 @@
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />
-    <Compile Include="Structs\TeleportPath.cs" />
     <Compile Include="Structs\UiSettings.cs" />
     <Compile Include="Structs\Level.cs" />
     <Compile Include="Structs\MonsterData.cs" />

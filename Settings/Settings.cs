@@ -110,6 +110,9 @@ namespace MapAssist.Settings
 
         public static MovementMode MovementMode =
             (MovementMode)Enum.Parse(typeof(MovementMode), ConfigurationManager.AppSettings["MovementMode"], true);
+        public static short TpRange = Convert.ToInt16(ConfigurationManager.AppSettings["TpRange"]);
+        public static int PathUpdateTime = Convert.ToInt16(ConfigurationManager.AppSettings["PathUpdateTime"]);
+
     }
 
     public static class Api

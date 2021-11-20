@@ -34,7 +34,7 @@ namespace MapAssist.Helpers
         public readonly Point CropOffset;
         private readonly IReadOnlyList<PointOfInterest> _pointsOfInterest;
         private readonly Dictionary<(string, int), Font> _fontCache = new Dictionary<(string, int), Font>();
-        private Pathing _pathing = new Pathing();
+        private Pathing Pathing;
 
         private readonly Dictionary<(Shape, int, Color), Bitmap> _iconCache =
             new Dictionary<(Shape, int, Color), Bitmap>();
@@ -44,6 +44,7 @@ namespace MapAssist.Helpers
             _areaData = areaData;
             _pointsOfInterest = pointOfInterest;
             (_background, CropOffset) = DrawBackground(areaData, pointOfInterest);
+            Pathing = new Pathing(areaData);
         }
 
         public Bitmap Compose(GameData gameData, bool scale = true)
@@ -93,7 +94,7 @@ namespace MapAssist.Helpers
 
                     if (poi.RenderingSettings.CanDrawPath())
                     {
-                        List<Point> path = _pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, _areaData.Area, _areaData, Settings.Map.MovementMode, gameData.PlayerPosition, poi.Position);
+                        List<Point> path = Pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, Settings.Map.MovementMode, gameData.PlayerPosition, poi.Position);
                         var pen = new Pen(poi.RenderingSettings.PathColor, poi.RenderingSettings.PathThickness);
                         Point startPoint = localPlayerPosition;
                         foreach (Point p in path)
