@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using MapAssist.Files;
 using MapAssist.Settings;
+using Newtonsoft.Json;
 
 namespace MapAssist
 {
@@ -34,21 +35,35 @@ namespace MapAssist
         [STAThread]
         static void Main()
         {
-            try 
-            { 
+            bool configurationOk = false;
+            try
+            {
                 var configuration = MapAssistConfiguration.Load();
+                configurationOk = true;
+            }
+            catch (JsonSerializationException e)
+            {
+                MessageBox.Show(e.Message, "Configuration parsing error during deserialization!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+            catch (JsonException e)
+            {
+                MessageBox.Show(e.Message, "General configuration parsing error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+            if (configurationOk)
+            {
                 using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Overlay(globalHook));
                 }
-            } 
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message,"Configuration parsing error!",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
             }
         }
     }
