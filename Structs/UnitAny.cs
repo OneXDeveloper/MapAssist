@@ -73,6 +73,7 @@ namespace MapAssist.Structs
         [FieldOffset(0x8)] public readonly uint OwnerType;
         [FieldOffset(0xC)] public readonly uint OwnerId;
         [FieldOffset(0x1C)] public readonly uint Flags;
-        [FieldOffset(0x30)] public readonly StatArrayStruct Stats;
+        [FieldOffset(0x30)] public readonly StatArrayStruct BaseStats;
+        [FieldOffset(0x80)] public readonly StatArrayStruct Stats;
     }
 }

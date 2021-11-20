@@ -57,7 +57,17 @@ namespace MapAssist.Types
                     _unitAny = processContext.Read<Structs.UnitAny>(_pUnit);
                     _path = new Path(_unitAny.pPath);
                     var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
-                    _statList = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size)).ToDictionary(s => s.Stat, s => s.Value);
+                    var statList = new Dictionary<Stat, int>();
+                    var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size));
+                    foreach (var stat in statValues)
+                    {
+                        //ensure we dont add duplicates
+                        if (!statList.TryGetValue(stat.Stat, out var _))
+                        {
+                            statList.Add(stat.Stat, stat.Value);
+                        }
+                    }
+                    _statList = statList;
                     _immunities = GetImmunities();
                     switch (_unitAny.UnitType)
                     {
