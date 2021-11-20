@@ -38,10 +38,9 @@ namespace MapAssist.Helpers
 
         public static ProcessContext GetProcessContext()
         {
-            var windowInFocus = IntPtr.Zero;
             if (_ProcessContext != null && _ProcessContext.OpenContextCount > 0)
             {
-                windowInFocus = WindowsExternal.GetForegroundWindow();
+                IntPtr windowInFocus = WindowsExternal.GetForegroundWindow();
                 if (_MainWindowHandle == windowInFocus)
                 {
                     _ProcessContext.OpenContextCount++;
@@ -59,11 +58,20 @@ namespace MapAssist.Helpers
 
                 Process gameProcess = null;
 
+                IntPtr windowInFocus = WindowsExternal.GetForegroundWindow();
                 if (windowInFocus == IntPtr.Zero)
                 {
-                    windowInFocus = WindowsExternal.GetForegroundWindow();
+                    gameProcess = processes.FirstOrDefault();
                 }
-                gameProcess = processes.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
+                else
+                {
+                    gameProcess = processes.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
+                }
+
+                if (gameProcess == null)
+                {
+                    gameProcess = processes.FirstOrDefault();
+                }
 
                 if (gameProcess == null)
                 {
