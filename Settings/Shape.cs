@@ -26,6 +26,6 @@ namespace MapAssist.Settings
         Ellipse,
         Polygon,
         Cross,
-        OpenSquare,
+        SquareOutline,
     }
 }

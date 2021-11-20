@@ -252,7 +252,7 @@ namespace MapAssist.Helpers
                         case Shape.Square:
                             g.FillRectangle(brush, 0, 0, poiSettings.IconSize, poiSettings.IconSize);
                             break;
-                        case Shape.OpenSquare:
+                        case Shape.SquareOutline:
                             g.DrawRectangle(pen, 0, 0, poiSettings.IconSize - 1, poiSettings.IconSize - 1);
                             break;
                         case Shape.Polygon:
