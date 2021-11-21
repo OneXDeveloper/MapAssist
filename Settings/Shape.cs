@@ -22,7 +22,10 @@ namespace MapAssist.Settings
     public enum Shape
     {
         None,
-        Rectangle,
-        Ellipse
+        Square,
+        Ellipse,
+        Polygon,
+        Cross,
+        SquareOutline,
     }
 }

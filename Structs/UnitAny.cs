@@ -51,4 +51,29 @@ namespace MapAssist.Structs
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
     }
+    [StructLayout(LayoutKind.Explicit)]
+    public readonly struct StatValue
+    {
+        [FieldOffset(0x0)] public readonly ushort Layer;
+        [FieldOffset(0x2)] public readonly Stat Stat;
+        [FieldOffset(0x4)] public readonly int Value;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    public readonly struct StatArrayStruct
+    {
+        [FieldOffset(0x0)] public readonly IntPtr FirstStatPtr;
+        [FieldOffset(0x8)] public readonly ulong Size;
+        [FieldOffset(0x10)] public readonly ulong Capacity;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    public readonly struct StatListStruct
+    {
+        [FieldOffset(0x8)] public readonly uint OwnerType;
+        [FieldOffset(0xC)] public readonly uint OwnerId;
+        [FieldOffset(0x1C)] public readonly uint Flags;
+        [FieldOffset(0x30)] public readonly StatArrayStruct BaseStats;
+        [FieldOffset(0x80)] public readonly StatArrayStruct Stats;
+    }
 }

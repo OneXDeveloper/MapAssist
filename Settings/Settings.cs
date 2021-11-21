@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Globalization;
 using MapAssist.Types;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -38,9 +39,14 @@ namespace MapAssist.Settings
         public static PointOfInterestRendering Waypoint = Utils.GetRenderingSettingsForPrefix("Waypoint");
         public static PointOfInterestRendering Quest = Utils.GetRenderingSettingsForPrefix("Quest");
         public static PointOfInterestRendering Player = Utils.GetRenderingSettingsForPrefix("Player");
+        public static PointOfInterestRendering Shrine = Utils.GetRenderingSettingsForPrefix("Shrine");
 
-        public static PointOfInterestRendering SuperChest =
-            Utils.GetRenderingSettingsForPrefix("SuperChest");
+        public static PointOfInterestRendering SuperChest = Utils.GetRenderingSettingsForPrefix("SuperChest");
+        public static PointOfInterestRendering NormalChest = Utils.GetRenderingSettingsForPrefix("NormalChest");
+        public static PointOfInterestRendering ArmorWeapRack = Utils.GetRenderingSettingsForPrefix("ArmorWeapRack");
+
+        public static IconRendering EliteMonster = Utils.GetIconRenderingSettingsForPrefix("EliteMonster");
+        public static IconRendering NormalMonster = Utils.GetIconRenderingSettingsForPrefix("NormalMonster");
     }
 
     public static class Map
@@ -95,7 +101,7 @@ namespace MapAssist.Settings
         public static char ToggleKey = Convert.ToChar(ConfigurationManager.AppSettings["ToggleKey"]);
         public static char ZoomInKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomInKey"]);
         public static char ZoomOutKey = Convert.ToChar(ConfigurationManager.AppSettings["ZoomOutKey"]);
-        public static float ZoomLevel = Convert.ToSingle(ConfigurationManager.AppSettings["ZoomLevelDefault"]);
+        public static float ZoomLevel = Convert.ToSingle(ConfigurationManager.AppSettings["ZoomLevelDefault"], CultureInfo.InvariantCulture);
 
         public static Area[] PrefetchAreas =
             Utils.ParseCommaSeparatedAreasByName(ConfigurationManager.AppSettings["PrefetchAreas"]);

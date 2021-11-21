@@ -18,6 +18,7 @@
  **/
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace MapAssist.Types
@@ -31,6 +32,7 @@ namespace MapAssist.Types
         public bool MapShown;
         public IntPtr MainWindowHandle;
         public string PlayerName;
+        public List<UnitAny> Monsters;
 
         public bool HasGameChanged(GameData other)
         {

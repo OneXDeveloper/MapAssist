@@ -21,12 +21,21 @@ using System.Drawing;
 
 namespace MapAssist.Settings
 {
-    public class PointOfInterestRendering
+    public class IconRendering
     {
         public Color IconColor;
         public Shape IconShape;
         public int IconSize;
+        public float IconThickness;
 
+        public bool CanDrawIcon()
+        {
+            return IconShape != Shape.None && IconSize > 0 && IconColor != Color.Transparent;
+        }
+    }
+
+    public class PointOfInterestRendering : IconRendering
+    {
         public Color LineColor;
         public float LineThickness;
 
@@ -35,11 +44,6 @@ namespace MapAssist.Settings
         public Color LabelColor;
         public string LabelFont;
         public int LabelFontSize;
-
-        public bool CanDrawIcon()
-        {
-            return IconShape != Shape.None && IconSize > 0 && IconColor != Color.Transparent;
-        }
 
         public bool CanDrawLine()
         {
@@ -56,5 +60,10 @@ namespace MapAssist.Settings
             return LabelColor != Color.Transparent && !string.IsNullOrWhiteSpace(LabelFont) &&
                    LabelFontSize > 0;
         }
+    }
+    public class MonsterRendering
+    {
+        public Color NormalColor;
+        public Color EliteColor;
     }
 }

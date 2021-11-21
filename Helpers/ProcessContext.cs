@@ -25,23 +25,26 @@ namespace MapAssist.Helpers
 {
     public class ProcessContext : IDisposable
     {
+        public int OpenContextCount = 1;
         private Process _process;
         private IntPtr _handle;
+        private IntPtr _baseAddr;
+        private int _moduleSize;
         private bool _disposedValue;
-        public int OpenContextCount = 1;
 
         public ProcessContext(Process process)
         {
             _process = process;
             _handle = WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, process.Id);
+            _baseAddr = process.MainModule.BaseAddress;
+            _moduleSize = _process.MainModule.ModuleMemorySize;
         }
 
         public IntPtr Handle { get => _handle; }
 
         public IntPtr FromOffset(int offset)
         {
-            IntPtr processAddress = _process.MainModule.BaseAddress;
-            return IntPtr.Add(processAddress, offset);
+            return IntPtr.Add(_baseAddr, offset);
         }
 
         public T[] Read<T>(IntPtr address, int count) where T : struct
@@ -51,7 +54,6 @@ namespace MapAssist.Helpers
             var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
             try
             {
-                IntPtr processAddress = _process.MainModule.BaseAddress;
                 WindowsExternal.ReadProcessMemory(_handle, address, buf, buf.Length, out _);
                 var result = new T[count];
                 for (var i = 0; i < count; i++)
@@ -108,6 +110,114 @@ namespace MapAssist.Helpers
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }
+
+        public IntPtr GetUnitHashtableOffset()
+        {
+            var buffer = GetProcessMemory();
+            IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
+                "\x48\x8d\x00\x00\x00\x00\x00\x8b\xd1", "xx?????xx");
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                Console.WriteLine("We failed to read the process memory");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
+        }
+
+        public IntPtr GetUiSettingsOffset()
+        {
+            var buffer = GetProcessMemory();
+            var patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize, "\x40\x84\xed\x0f\x94\x05", "xxxxxx");
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 6);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                Console.WriteLine("We failed to read the process memory");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + 10 + offsetAddressToInt));
+        }
+
+        public IntPtr GetExpansionOffset()
+        {
+            var buffer = GetProcessMemory();
+            IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
+                "\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\x48\x85\xC0\x0F\x84\x00\x00\x00\x00\x83\x78\x5C\x00\x0F\x84\x00\x00\x00\x00\x33\xD2\x41",
+                "xx????xxxxxxxxx????xxxxxx????xxx");
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, -4);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                Console.WriteLine("We failed to read the process memory");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + offsetAddressToInt));
+        }
+        
+        private static int FindPattern(ref byte[] buffer, ref int size, ref string pattern, ref string mask)
+        {
+            var patternLength = pattern.Length;
+            for (var i = 0; i < size - patternLength; i++)
+            {
+                var found = true;
+                for (var j = 0; j < patternLength; j++)
+                {
+                    if (mask[j] != '?' && pattern[j] != buffer[i + j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        private byte[] GetProcessMemory()
+        {
+            var memoryBuffer = new byte[_moduleSize];
+            if (WindowsExternal.ReadProcessMemory(_handle, _baseAddr, memoryBuffer, _moduleSize, out _) == false)
+            {
+                Console.WriteLine("We failed to read the process memory");
+                return null;
+            }
+
+            return memoryBuffer;
+        }
+        
+        private IntPtr FindPatternEx(ref byte[] buffer, IntPtr baseAddr, int size, string pattern, string mask)
+        {
+            var offset = FindPattern(ref buffer, ref size, ref pattern, ref mask);
+            return offset != 0 ? IntPtr.Add(baseAddr, offset) : IntPtr.Zero;
+        }
+
+        private IntPtr FindPatternEx(IntPtr baseAddr, int size, string pattern, string mask)
+        {
+            var buffer = new byte[size];
+            if (!WindowsExternal.ReadProcessMemory(_handle, baseAddr, buffer, size, out _))
+            {
+                return IntPtr.Zero;
+            }
+
+            var offset = FindPattern(ref buffer, ref size, ref pattern, ref mask);
+            return offset != 0 ? IntPtr.Add(baseAddr, offset) : IntPtr.Zero;
         }
     }
 }

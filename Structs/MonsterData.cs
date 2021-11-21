@@ -30,6 +30,13 @@ namespace MapAssist.Structs
         [FieldOffset(0x1A)] public MonsterTypeFlags MonsterType;
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MonStats
+    {
+        private ushort Id;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+        public string Name;
+    }
     [Flags]
     public enum MonsterTypeFlags : byte
     {
