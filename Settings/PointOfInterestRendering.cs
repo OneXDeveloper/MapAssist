@@ -30,7 +30,13 @@ namespace MapAssist.Settings
         [JsonProperty("IconColor")]
         [JsonConverter(typeof(ColorConverter))]
         public Color IconColor { get; set; }
-        
+
+        [JsonConverter(typeof(StringEnumConverter<Shape>))]
+        public Shape IconShape { get; set; }
+
+        [JsonProperty("IconSize")]
+        public int IconSize { get; set; }
+
         [JsonProperty("IconThickness")]
         public float IconThickness;
 
@@ -42,12 +48,6 @@ namespace MapAssist.Settings
 
     public class PointOfInterestRendering : IconRendering
     {
-        [JsonConverter(typeof(StringEnumConverter<Shape>))]
-        public Shape IconShape { get; set; }
-
-        [JsonProperty("IconSize")]
-        public int IconSize { get; set; }
-
         [JsonProperty("LineColor")]
         [JsonConverter(typeof(ColorConverter))]
         public Color LineColor { get; set; }

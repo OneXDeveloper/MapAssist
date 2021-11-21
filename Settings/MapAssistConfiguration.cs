@@ -100,6 +100,12 @@ namespace MapAssist.Settings
     public class MapConfiguration
     {
 
+        [JsonProperty("EliteMonster")]
+        public PointOfInterestRendering EliteMonster { get; set; }
+
+        [JsonProperty("NormalMonster")]
+        public PointOfInterestRendering NormalMonster { get; set; }
+
         [JsonProperty("NextArea")]
         public PointOfInterestRendering NextArea { get; set; }
 

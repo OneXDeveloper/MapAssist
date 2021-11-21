@@ -24,14 +24,20 @@
     "Rotate": true,
     "ZoomLevel": 1.0
   },
-  "MonsterRendering": {
-    "NormalColor": "DarkRed",
-    "EliteColor": "DarkOrange"
-  },
   "MapConfiguration": {
+    "EliteMonster": {
+      "IconColor": "DarkOrange",
+      "IconShape": "SquareOutline",
+      "IconSize": 6
+    },
+    "NormalMonster": {
+      "IconColor": "DarkRed",
+      "IconShape": "SquareOutline",
+      "IconSize": 6
+    },
     "NextArea": {
       "IconColor": "237, 107, 0",
-      "IconShape": "Rectangle",
+      "IconShape": "Square",
       "IconSize": 10,
       "LineColor": "Chartreuse",
       "ArrowHeadSize": 10,
@@ -39,14 +45,14 @@
     },
     "PreviousArea": {
       "IconColor": "255, 0, 149",
-      "IconShape": "Rectangle",
+      "IconShape": "Square",
       "IconSize": 10,
       "LineColor": "",
       "LabelColor": "Chartreuse"
     },
     "Waypoint": {
       "IconColor": "16, 140, 235",
-      "IconShape": "Rectangle",
+      "IconShape": "Square",
       "IconSize": 10
     },
     "Quest": {
@@ -55,7 +61,7 @@
     },
     "Player": {
       "IconColor": "255, 255, 0",
-      "IconShape": "Rectangle",
+      "IconShape": "Square",
       "IconSize": 5
     },
     "SuperChest": {
@@ -67,6 +73,11 @@
       "IconColor": "255, 218, 100",
       "IconShape": "Polygon",
       "IconSize": 10
+    },
+    "ArmorWeapRack": {
+      "IconColor": "132, 132, 132",
+      "IconShape": "Square",
+      "IconSize": 4
     }
   },
   "MapColorConfiguration": {
