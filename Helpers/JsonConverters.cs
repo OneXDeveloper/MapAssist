@@ -75,11 +75,11 @@ namespace MapAssist.Helpers
         }
     }
 
-    public class AreaListConverter : JsonConverter
+    public class AreaArrayConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var areaList = (List<Area>)value;
+            var areaList = (Area[])value;
             var configurationString = "";
 
             foreach(var areaNumber in areaList) {
@@ -91,10 +91,10 @@ namespace MapAssist.Helpers
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JArray array = JArray.Load(reader);
+            var array = JArray.Load(reader);
             var areasString = array.ToObject<IList<string>>();     
             var areas = areasString.Select(x => LookupAreaByName(x)).ToList();
-            return areas;
+            return areas.ToArray();
         }
 
         public override bool CanConvert(Type objectType)
