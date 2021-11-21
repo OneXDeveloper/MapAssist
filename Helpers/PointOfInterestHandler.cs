@@ -175,19 +175,18 @@ namespace MapAssist.Helpers
                 }
                 // Other Areas with special Pathfinding
                 switch (areaData.Area)
-                {   
+                {
                     // Nilathak
                     case Area.HallsOfVaught:
                         if (obj == GameObject.NihlathakWildernessStartPosition)
                         {
                             pointOfInterest.Add(new PointOfInterest
                             {
-                                Label = obj.ToString(),
+                                Label = "Nilathak",                                 // Hardcoded in case someone wants to add Labels to Questline, currently unused
                                 Position = points[0],
                                 RenderingSettings = Settings.Rendering.Quest
                             });
                         }
-                        break;
                         break;
                     // Lilith
                     case Area.MatronsDen:
@@ -195,7 +194,7 @@ namespace MapAssist.Helpers
                         {
                             pointOfInterest.Add(new PointOfInterest
                             {
-                                Label = obj.ToString(),
+                                Label = "Lilith",                                   // Hardcoded in case someone wants to add Labels to Questline, currently unused
                                 Position = points[0],
                                 RenderingSettings = Settings.Rendering.Quest
                             });
@@ -207,14 +206,13 @@ namespace MapAssist.Helpers
                         {
                             pointOfInterest.Add(new PointOfInterest
                             {
-                                Label = obj.ToString(),
+                                Label = "Uber Izual",                               // Hardcoded in case someone wants to add Labels to Questline, currently unused
                                 Position = points[0],
                                 RenderingSettings = Settings.Rendering.Quest
                             });
                         }
                         break;
                 }
-            }
 
             return pointOfInterest;
         }
