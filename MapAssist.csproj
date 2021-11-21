@@ -122,7 +122,7 @@
     <Compile Include="Helpers\MapApi.cs" />
     <Compile Include="Helpers\Compositor.cs" />
     <Compile Include="Helpers\WindowsExternal.cs" />
-    <Compile Include="Settings\MovementMode.cs" />
+    <Compile Include="Settings\PathLineStyle.cs" />
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />

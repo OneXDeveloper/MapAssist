@@ -19,8 +19,9 @@
 
 namespace MapAssist.Settings
 {
-    public enum MovementMode
+    public enum PathLineStyle
     {
+        Simple,
         Teleport,
         Walking
     }

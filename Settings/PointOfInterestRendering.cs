@@ -36,8 +36,8 @@ namespace MapAssist.Settings
 
     public class PointOfInterestRendering : IconRendering
     {
-        public Color LineColor;
-        public float LineThickness;
+        public Color PathColor;
+        public float PathLineThickness;
 
         public int ArrowHeadSize;
 
@@ -45,33 +45,26 @@ namespace MapAssist.Settings
         public string LabelFont;
         public int LabelFontSize;
 
-        public Color PathColor;
-        public float PathThickness;
 
 
         public bool CanDrawIcon()
         {
             return IconShape != Shape.None && IconSize > 0 && IconColor != Color.Transparent;
         }
-        public bool CanDrawLine()
+        public bool CanDrawPath()
         {
-            return LineColor != Color.Transparent && LineThickness > 0;
+            return PathColor != Color.Transparent && PathLineThickness > 0;
         }
 
         public bool CanDrawArrowHead()
         {
-            return CanDrawLine() && ArrowHeadSize > 0;
+            return CanDrawPath() && ArrowHeadSize > 0;
         }
 
         public bool CanDrawLabel()
         {
             return LabelColor != Color.Transparent && !string.IsNullOrWhiteSpace(LabelFont) &&
                    LabelFontSize > 0;
-        }
-
-        public bool CanDrawPath()
-        {
-            return PathColor != Color.Transparent && PathThickness > 0;
         }
     }
     public class MonsterRendering

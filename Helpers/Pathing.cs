@@ -53,7 +53,7 @@ namespace MapAssist.Helpers
             Grid = _areaData.MapToGrid();
         }
 
-        public List<Point> GetPathToLocation(uint mapId, Difficulty difficulty, MovementMode movementMode, Point fromLocation, Point toLocation)
+        public List<Point> GetPathToLocation(uint mapId, Difficulty difficulty, PathLineStyle movementMode, Point fromLocation, Point toLocation)
         {
             // check if we have a valid cache entry for this path. if thats the case we are done and can return the cache entry
             (uint mapId, Difficulty difficulty, Area area, Point toLocation) pathCacheKey = (mapId, difficulty, _areaData.Area, toLocation);
@@ -71,7 +71,7 @@ namespace MapAssist.Helpers
                 return result;
             }
 
-            if (movementMode == MovementMode.Teleport)
+            if (movementMode == PathLineStyle.Teleport)
             {
                 var pathFound = false;
                 var teleportPath = GetTeleportPath(fromPosition, toPosition, out pathFound);

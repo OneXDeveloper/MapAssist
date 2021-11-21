@@ -81,36 +81,44 @@ namespace MapAssist.Helpers
                 // The rest can be done in DrawBackground.
                 foreach (PointOfInterest poi in _pointsOfInterest)
                 {
-                    if (poi.RenderingSettings.CanDrawLine())
-                    {
-                        var pen = new Pen(poi.RenderingSettings.LineColor, poi.RenderingSettings.LineThickness);
-                        if (poi.RenderingSettings.CanDrawArrowHead())
-                        {
-                            pen.CustomEndCap = new AdjustableArrowCap(poi.RenderingSettings.ArrowHeadSize,
-                                poi.RenderingSettings.ArrowHeadSize);
-                        }
-
-                        var localPlayerCenterPosition = new Point(
-                            localPlayerPosition.X + playerIconRadius,
-                            localPlayerPosition.Y + playerIconRadius
-                        );
-                        var poiPosition = poi.Position.OffsetFrom(_areaData.Origin).OffsetFrom(CropOffset);
-
-                        imageGraphics.DrawLine(pen, localPlayerCenterPosition, poiPosition);
-                    }
+                    var pen = new Pen(poi.RenderingSettings.PathColor, poi.RenderingSettings.PathLineThickness);
 
                     if (poi.RenderingSettings.CanDrawPath())
                     {
-                        List<Point> path = Pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, Settings.Map.MovementMode, gameData.PlayerPosition, poi.Position);
-                        var pen = new Pen(poi.RenderingSettings.PathColor, poi.RenderingSettings.PathThickness);
-                        Point startPoint = localPlayerPosition;
-                        foreach (Point p in path)
+                        switch(Settings.Map.PathLineStyle)
                         {
-                            Point tmp = p.OffsetFrom(_areaData.Origin)
-                                         .OffsetFrom(CropOffset)
-                                         .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
-                            imageGraphics.DrawLine(pen, startPoint, tmp);
-                            startPoint = tmp;
+                            case PathLineStyle.Simple:
+                                if (poi.RenderingSettings.CanDrawArrowHead())
+                                {
+                                    pen.CustomEndCap = new AdjustableArrowCap(poi.RenderingSettings.ArrowHeadSize, poi.RenderingSettings.ArrowHeadSize);
+                                }
+
+                                var localPlayerCenterPosition = new Point(
+                                    localPlayerPosition.X + playerIconRadius,
+                                    localPlayerPosition.Y + playerIconRadius
+                                );
+                                var poiPosition = poi.Position.OffsetFrom(_areaData.Origin).OffsetFrom(CropOffset);
+
+                                imageGraphics.DrawLine(pen, localPlayerCenterPosition, poiPosition);
+                                break;
+
+                            case PathLineStyle.Teleport:
+                            case PathLineStyle.Walking:
+                                List<Point> path = Pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, Settings.Map.PathLineStyle, gameData.PlayerPosition, poi.Position);
+                                Point startPoint = localPlayerPosition;
+                                foreach (Point p in path)
+                                {
+                                    Point tmp = p.OffsetFrom(_areaData.Origin)
+                                                 .OffsetFrom(CropOffset)
+                                                 .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
+                                    imageGraphics.DrawLine(pen, startPoint, tmp);
+                                    startPoint = tmp;
+                                }
+                                break;
+
+                            default:
+                                // unsupported PathLineStyle...
+                                break;
                         }
                     }
                 }

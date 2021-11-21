@@ -97,14 +97,12 @@ namespace MapAssist.Settings
                 IconShape = GetConfigValue($"{name}.IconShape", t => (Shape)Enum.Parse(typeof(Shape), t, true)),
                 IconSize = GetConfigValue($"{name}.IconSize", Convert.ToInt32),
                 IconThickness = GetConfigValue($"{name}.IconThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
-                LineColor = GetConfigValue($"{name}.LineColor", ParseColor, Color.Transparent),
-                LineThickness = GetConfigValue($"{name}.LineThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
+                PathColor = GetConfigValue($"{name}.PathColor", ParseColor, Color.Transparent),
+                PathLineThickness = GetConfigValue($"{name}.PathLineThickness", Convert.ToSingle, CultureInfo.InvariantCulture, 1f),
                 ArrowHeadSize = GetConfigValue($"{name}.ArrowHeadSize", Convert.ToInt32),
                 LabelColor = GetConfigValue($"{name}.LabelColor", ParseColor, Color.Transparent),
                 LabelFont = GetConfigValue($"{name}.LabelFont", t => t, "Arial"),
                 LabelFontSize = GetConfigValue($"{name}.LabelFontSize", Convert.ToInt32, 8),
-                PathColor = GetConfigValue($"{name}.PathColor", ParseColor, Color.Transparent),
-                PathThickness = GetConfigValue($"{name}.PathThickness", Convert.ToSingle, 1),
             };
         }
     }

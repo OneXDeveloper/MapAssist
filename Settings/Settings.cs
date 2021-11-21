@@ -112,8 +112,8 @@ namespace MapAssist.Settings
         public static bool ClearPrefetchedOnAreaChange =
             Convert.ToBoolean(ConfigurationManager.AppSettings["ClearPrefetchedOnAreaChange"]);
 
-        public static MovementMode MovementMode =
-            (MovementMode)Enum.Parse(typeof(MovementMode), ConfigurationManager.AppSettings["MovementMode"], true);
+        public static PathLineStyle PathLineStyle =
+            (PathLineStyle)Enum.Parse(typeof(PathLineStyle), ConfigurationManager.AppSettings["PathLineStyle"], true);
         public static short TpRange = Convert.ToInt16(ConfigurationManager.AppSettings["TpRange"]);
         public static int PathUpdateTime = Convert.ToInt16(ConfigurationManager.AppSettings["PathUpdateTime"]);
 
