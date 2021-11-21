@@ -38,37 +38,35 @@ namespace MapAssist.Settings
         public int UpdateTime { get; set; }
 
         [JsonProperty("PrefetchAreas")]
-        [JsonConverter(typeof(AreaListConverter))]
-        public List<Area> PrefetchAreas { get; set; }
+        [JsonConverter(typeof(AreaArrayConverter))]
+        public Area[] PrefetchAreas { get; set; }
 
         [JsonProperty("HiddenAreas")]
-        [JsonConverter(typeof(AreaListConverter))]
-        public List<Area> HiddenAreas { get; set; }
+        [JsonConverter(typeof(AreaArrayConverter))]
+        public Area[] HiddenAreas { get; set; }
 
         [JsonProperty("ClearPrefetchedOnAreaChange")]
         public bool ClearPrefetchedOnAreaChange { get; set; }
 
         [JsonProperty("RenderingConfiguration")]
-        RenderingConfiguration RenderingConfiguration { get; set; }
-        
-        [JsonProperty("MonsterRendering")]
-        MonsterRendering MonsterRendering { get; set; }
+        public RenderingConfiguration RenderingConfiguration { get; set; }
 
         [JsonProperty("MapConfiguration")]
-        MapConfiguration MapConfiguration { get; set; }
+        public MapConfiguration MapConfiguration { get; set; }
 
         [JsonProperty("MapColorConfiguration")]
-        MapColorConfiguration MapColorConfiguration { get; set; }
+        public MapColorConfiguration MapColorConfiguration { get; set; }
 
         [JsonProperty("HotkeyConfiguration")]
-        HotkeyConfiguration HotkeyConfiguration { get; set; }
+        public HotkeyConfiguration HotkeyConfiguration { get; set; }
 
         [JsonProperty("ApiConfiguration")]
-        ApiConfiguration ApiConfiguration { get; set; }
+        public ApiConfiguration ApiConfiguration { get; set; }
 
-        public static MapAssistConfiguration Load()
+        public static MapAssistConfiguration Loaded { get; set; }
+        public static void Load()
         {
-            return new ConfigurationParser<MapAssistConfiguration>().ParseConfiguration();
+            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration();
         }
 
         public void Save()
@@ -101,10 +99,10 @@ namespace MapAssist.Settings
     {
 
         [JsonProperty("EliteMonster")]
-        public PointOfInterestRendering EliteMonster { get; set; }
+        public IconRendering EliteMonster { get; set; }
 
         [JsonProperty("NormalMonster")]
-        public PointOfInterestRendering NormalMonster { get; set; }
+        public IconRendering NormalMonster { get; set; }
 
         [JsonProperty("NextArea")]
         public PointOfInterestRendering NextArea { get; set; }
@@ -124,32 +122,17 @@ namespace MapAssist.Settings
         [JsonProperty("SuperChest")]
         public PointOfInterestRendering SuperChest { get; set; }
 
+        [JsonProperty("NormalChest")]
+        public PointOfInterestRendering NormalChest { get; set; }
+
         [JsonProperty("Shrine")]
         public PointOfInterestRendering Shrine { get; set; }
 
-        public MapConfiguration()
-        {
-            NextArea = new PointOfInterestRendering();
-            PreviousArea = new PointOfInterestRendering();
-            Waypoint = new PointOfInterestRendering();
-            Quest = new PointOfInterestRendering();
-            Player = new PointOfInterestRendering();
-            SuperChest = new PointOfInterestRendering();
-            Shrine = new PointOfInterestRendering();
-        }
+        [JsonProperty("ArmorWeapRack")]
+        public PointOfInterestRendering ArmorWeapRack { get; set; }
     }
 }
 
-public class MonsterRendering
-{
-    [JsonProperty("NormalColor")]
-    [JsonConverter(typeof(ColorConverter))]
-    public Color NormalColor;
-
-    [JsonProperty("EliteColor")]
-    [JsonConverter(typeof(ColorConverter))]
-    public Color EliteColor;
-}
 public class RenderingConfiguration
 {
     [JsonProperty("Opacity")]
@@ -176,18 +159,6 @@ public class RenderingConfiguration
 
     [JsonProperty("ZoomLevel")]
     public float ZoomLevel { get; set; }
-
-    public RenderingConfiguration()
-    {
-        Opacity = 0.7f;
-        OverlayMode = true;
-        AlwaysOnTop = true;
-        ToggleViaInGameMap = true;
-        Size = 450;
-        Position = MapPosition.TopRight;
-        Rotate = true;
-        ZoomLevel = 1.0f;
-    }
 }
 
 public class HotkeyConfiguration
@@ -200,13 +171,6 @@ public class HotkeyConfiguration
 
     [JsonProperty("ZoomOutKey")]
     public char ZoomOutKey { get; set; }
-
-    public HotkeyConfiguration()
-    {
-        ToggleKey = 'p';
-        ZoomInKey = '+';
-        ZoomOutKey = '-';
-    }
 }
 
 public class ApiConfiguration
@@ -216,10 +180,4 @@ public class ApiConfiguration
 
     [JsonProperty("ApiToken")]
     public string Token { get; set; }
-
-    public ApiConfiguration()
-    {
-        Endpoint = "127.0.0.1:8080";
-        Token = "";
-    }
 }

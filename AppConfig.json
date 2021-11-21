@@ -16,7 +16,7 @@
   "ClearPrefetchedOnAreaChange": true,
   "RenderingConfiguration": {
     "Opacity": 0.7,
-    "OverlayMode": true,
+    "OverlayMode": false,
     "AlwaysOnTop": true,
     "ToggleViaInGameMap": true,
     "Size": 450,
@@ -69,6 +69,11 @@
       "IconShape": "Ellipse",
       "IconSize": 10
     },
+    "NormalChest": {
+      "IconColor": "96, 96, 96",
+      "IconShape": "Square",
+      "IconSize": 5
+    },
     "Shrine": {
       "IconColor": "255, 218, 100",
       "IconShape": "Polygon",
@@ -101,12 +106,12 @@
 	  }
   },
   "HotkeyConfiguration": {
-    "ToggleKey": "p",
+    "ToggleKey": "\\",
     "ZoomInKey": "+",
     "ZoomOutKey": "-"
   },
   "ApiConfiguration": {
-    "Endpoint": "127.0.0.1:8080",
+    "Endpoint": "http://localhost:8080/",
     "ApiToken": ""
   }
 }
