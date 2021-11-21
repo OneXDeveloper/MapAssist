@@ -35,10 +35,10 @@ namespace MapAssist
         [STAThread]
         static void Main()
         {
-            bool configurationOk = false;
+            var configurationOk = false;
             try
             {
-                var configuration = MapAssistConfiguration.Load();
+                MapAssistConfiguration.Load();
                 configurationOk = true;
             }
             catch (JsonSerializationException e)
