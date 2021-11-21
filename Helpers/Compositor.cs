@@ -65,13 +65,13 @@ namespace MapAssist.Helpers
                 Point localPlayerPosition = gameData.PlayerPosition
                     .OffsetFrom(_areaData.Origin)
                     .OffsetFrom(CropOffset)
-                    .OffsetFrom(GetIconOffset(Settings.Rendering.Player.IconSize));
+                    .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize));
 
-                var playerIconRadius = GetIconRadius(Settings.Rendering.Player.IconSize);
+                var playerIconRadius = GetIconRadius(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize);
 
-                if (Rendering.Player.CanDrawIcon())
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
                 {
-                    Bitmap playerIcon = GetIcon(Settings.Rendering.Player);
+                    Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
                     imageGraphics.DrawImage(playerIcon, localPlayerPosition);
                 }
 
@@ -100,7 +100,7 @@ namespace MapAssist.Helpers
 
                 foreach (var unitAny in gameData.Monsters)
                 {
-                    var mobRender = unitAny.IsElite() ? Rendering.EliteMonster : Rendering.NormalMonster;
+                    var mobRender = unitAny.IsElite() ? MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster : MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
 
                     if (mobRender.CanDrawIcon())
                     {
@@ -140,7 +140,7 @@ namespace MapAssist.Helpers
             {
                 double biggestDimension = Math.Max(image.Width, image.Height);
 
-                multiplier = Settings.Map.Size / biggestDimension;
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
 
                 if (multiplier == 0)
                 {
@@ -156,7 +156,7 @@ namespace MapAssist.Helpers
             }
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (scale && Settings.Map.Rotate)
+            if (scale && MapAssistConfiguration.Loaded.RenderingConfiguration.Rotate)
             {
                 image = ImageUtils.RotateImage(image, 53, true, false, Color.Transparent);
             }
@@ -183,7 +183,7 @@ namespace MapAssist.Helpers
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                     {
                         var type = areaData.CollisionGrid[y][x];
-                        Color? typeColor = Settings.Map.MapColors[type];
+                        Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
                         if (typeColor != null)
                         {
                             background.SetPixel(x, y, (Color)typeColor);

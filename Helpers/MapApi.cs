@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Settings;
 using MapAssist.Types;
 using Newtonsoft.Json;
 using System;
@@ -36,7 +37,7 @@ namespace MapAssist.Helpers
 {
     public class MapApi : IDisposable
     {
-        public static readonly HttpClient Client = HttpClient(Settings.Api.Endpoint, Settings.Api.Token);
+        public static readonly HttpClient Client = HttpClient(MapAssistConfiguration.Loaded.ApiConfiguration.Endpoint, MapAssistConfiguration.Loaded.ApiConfiguration.Token);
         private readonly string _sessionId;
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
         private readonly BlockingCollection<Area[]> _prefetchRequests;
@@ -74,9 +75,9 @@ namespace MapAssist.Helpers
             _thread = new Thread(Prefetch) {IsBackground = true};
             _thread.Start();
 
-            if (Settings.Map.PrefetchAreas.Any())
+            if (MapAssistConfiguration.Loaded.PrefetchAreas.Any())
             {
-                _prefetchRequests.Add(Settings.Map.PrefetchAreas);
+                _prefetchRequests.Add(MapAssistConfiguration.Loaded.PrefetchAreas);
             }
         }
 
@@ -103,7 +104,7 @@ namespace MapAssist.Helpers
             while (true)
             {
                 Area[] areas = _prefetchRequests.Take();
-                if (Settings.Map.ClearPrefetchedOnAreaChange)
+                if (MapAssistConfiguration.Loaded.ClearPrefetchedOnAreaChange)
                 {
                     _cache.Clear();
                 }

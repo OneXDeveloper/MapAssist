@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using MapAssist.Settings;
 using MapAssist.Types;
 
 namespace MapAssist.Helpers
@@ -163,7 +164,7 @@ namespace MapAssist.Helpers
                         {
                             Label = realTomb.Name(),
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
-                            RenderingSettings = Settings.Rendering.NextArea
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                         });
                         ;
                     }
@@ -183,7 +184,7 @@ namespace MapAssist.Helpers
                                 {
                                     Label = highestArea.Name(),
                                     Position = areaData.AdjacentLevels[highestArea].Exits[0],
-                                    RenderingSettings = Settings.Rendering.NextArea
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                                 });
                             }
                         }
@@ -202,7 +203,7 @@ namespace MapAssist.Helpers
                                 {
                                     Label = level.Area.Name(),
                                     Position = position,
-                                    RenderingSettings = Settings.Rendering.PreviousArea
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
                                 });
                             }
                         }
@@ -228,7 +229,7 @@ namespace MapAssist.Helpers
                     {
                         Label = obj.ToString(),
                         Position = points[0],
-                        RenderingSettings = Settings.Rendering.Waypoint
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint
                     });
                 }
                 // Quest objects
@@ -236,7 +237,9 @@ namespace MapAssist.Helpers
                 {
                     pointOfInterest.Add(new PointOfInterest
                     {
-                        Label = obj.ToString(), Position = points[0], RenderingSettings = Settings.Rendering.Quest
+                        Label = obj.ToString(), 
+                        Position = points[0], 
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
                     });
                 }
                 // Shrines
@@ -246,7 +249,9 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = obj.ToString(), Position = point, RenderingSettings = Settings.Rendering.Shrine
+                            Label = obj.ToString(), 
+                            Position = point, 
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Shrine
                         });
                     }
                 }
@@ -259,7 +264,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.SuperChest
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.SuperChest
                         });
                     }
                 }
@@ -272,7 +277,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.NormalChest
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NormalChest
                         });
                     }
                 }
@@ -285,7 +290,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.ArmorWeapRack
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack
                         });
                     }
                 }
