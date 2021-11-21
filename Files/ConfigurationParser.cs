@@ -8,7 +8,7 @@ namespace MapAssist.Files
 {
     public class ConfigurationParser<T>
     {
-        public T ParseConfiguration()
+        public static T ParseConfiguration()
         {
             var fileName = "";
             
