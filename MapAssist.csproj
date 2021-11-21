@@ -157,7 +157,6 @@
         <Compile Include="Types\RawAreaData.cs"/>
         <Compile Include="Settings\MapPosition.cs"/>
         <Compile Include="Settings\PointOfInterestRendering.cs"/>
-        <Compile Include="Settings\Settings.cs"/>
         <Compile Include="Settings\Shape.cs"/>
         <Compile Include="Settings\Utils.cs"/>
         <Compile Include="Types\UnitAny.cs"/>
@@ -167,9 +166,6 @@
         </EmbeddedResource>
     <None Include="AppConfig.json" />
         <None Include="Resources\Icon1.ico"/>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="App.config"/>
     </ItemGroup>
     <ItemGroup>
         <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
