@@ -213,7 +213,7 @@ namespace MapAssist.Helpers
                         }
                         break;
                 }
-
+            }
             return pointOfInterest;
         }
     }
