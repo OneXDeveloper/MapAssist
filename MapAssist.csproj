@@ -121,6 +121,11 @@
     <Compile Include="Helpers\MapApi.cs" />
     <Compile Include="Helpers\Compositor.cs" />
     <Compile Include="Helpers\WindowsExternal.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />
@@ -160,6 +165,10 @@
     <Compile Include="Types\UnitType.cs" />
     <EmbeddedResource Include="Overlay.resx">
       <DependentUpon>Overlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>

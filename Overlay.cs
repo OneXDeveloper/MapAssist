@@ -186,6 +186,19 @@ namespace MapAssist
 
             Bitmap gameMap = _compositor.Compose(_currentGameData, !Map.OverlayMode);
 
+            // IP Overlay
+            // To Do: Relative Position, Position relativ to window not to screen (for windowed mode and ppl who want it on the top of their screen)
+            // To Do: Split Overlays so IP is shown in Hidden Areas
+            var fontSize = 12;
+            var font = new Font("Diablo", fontSize);
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Near;
+            stringFormat.LineAlignment = StringAlignment.Near;
+            var color = Color.Goldenrod;
+            e.Graphics.DrawString("Game IP: " + ProcessContext.gameIP, font,
+            new SolidBrush(color),
+            new Point(50, 950), stringFormat);
+
             if (Map.OverlayMode)
             {
                 float w = 0;
@@ -288,5 +301,6 @@ namespace MapAssist
             Size = new Size(_screen.WorkingArea.Width, _screen.WorkingArea.Height);
             mapOverlay.Size = Size;
         }
+
     }
 }

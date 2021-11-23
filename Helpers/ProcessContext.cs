@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MapAssist.Helpers
 {
@@ -31,6 +32,8 @@ namespace MapAssist.Helpers
         private IntPtr _baseAddr;
         private int _moduleSize;
         private bool _disposedValue;
+        private IntPtr IPOffset;
+        public static string gameIP;
 
         public ProcessContext(Process process)
         {
@@ -38,9 +41,14 @@ namespace MapAssist.Helpers
             _handle = WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, process.Id);
             _baseAddr = process.MainModule.BaseAddress;
             _moduleSize = _process.MainModule.ModuleMemorySize;
+            IPOffset = GetGameIPOffset();
+            // Debug.WriteLine(IPOffset);
+            gameIP = Encoding.ASCII.GetString(Read<byte>(IPOffset, 15)).TrimEnd((char)0);
+            //Debug.WriteLine(gameIP);
         }
 
         public IntPtr Handle { get => _handle; }
+        public string GameIP { get => gameIP; set => gameIP = value; }
 
         public IntPtr FromOffset(int offset)
         {
@@ -165,7 +173,25 @@ namespace MapAssist.Helpers
             var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
             return IntPtr.Add(_baseAddr, (int)(delta + offsetAddressToInt));
         }
-        
+
+        public IntPtr GetGameIPOffset()
+        {
+            var buffer = GetProcessMemory();
+            IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
+                "\x48\x8D\x0D\x00\x00\x00\x00\x44\x88\x2D",
+                "xxx????xxx");
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                Console.WriteLine("We failed to read the process memory");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + 7 + 208 + offsetAddressToInt));
+        }
         private static int FindPattern(ref byte[] buffer, ref int size, ref string pattern, ref string mask)
         {
             var patternLength = pattern.Length;

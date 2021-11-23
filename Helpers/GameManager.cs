@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using MapAssist.Structs;
 using MapAssist.Types;
+using System.Threading;
 
 namespace MapAssist.Helpers
 {
@@ -37,7 +38,8 @@ namespace MapAssist.Helpers
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _UiSettingOffset;
         private static IntPtr _ExpansionCheckOffset;
-        
+        private static IntPtr _CheckGameIPOffset;
+
         public static ProcessContext GetProcessContext()
         {
             var windowInFocus = IntPtr.Zero;
@@ -178,6 +180,25 @@ namespace MapAssist.Helpers
             _UiSettingOffset = IntPtr.Zero;
             _UnitHashTableOffset = IntPtr.Zero;
             _ExpansionCheckOffset = IntPtr.Zero;
+            _CheckGameIPOffset = IntPtr.Zero;
+        }
+
+        public static IntPtr GameIPCheckOffset
+        {
+            get
+            {
+                if (_CheckGameIPOffset != IntPtr.Zero)
+                {
+                    return _CheckGameIPOffset;
+                }
+
+                using (var processContext = GetProcessContext())
+                {
+                    _CheckGameIPOffset = processContext.GetGameIPOffset();
+                }
+                //Debug.WriteLine(_CheckGameIPOffset);
+                return _CheckGameIPOffset;
+            }
         }
     }
 }

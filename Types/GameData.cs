@@ -17,9 +17,11 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 namespace MapAssist.Types
 {
@@ -33,6 +35,7 @@ namespace MapAssist.Types
         public IntPtr MainWindowHandle;
         public string PlayerName;
         public List<UnitAny> Monsters;
+        
 
         public bool HasGameChanged(GameData other)
         {
