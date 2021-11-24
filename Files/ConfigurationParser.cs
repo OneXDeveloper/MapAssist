@@ -33,8 +33,10 @@ namespace MapAssist.Files
             var fileManager = new FileManager(fileName);
 
             var YamlString = fileManager.ReadFile();
+            Debug.WriteLine(YamlString);
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
+                .WithTypeConverter(new AreaArrayYamlTypeConverter())
                 .Build();
             var configuration = deserializer.Deserialize<T>(YamlString);
             return configuration;

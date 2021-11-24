@@ -41,13 +41,9 @@ namespace MapAssist
                 MapAssistConfiguration.Load();
                 configurationOk = true;
             }
-            catch (JsonSerializationException e)
+            catch(YamlDotNet.Core.YamlException e)
             {
-                MessageBox.Show(e.Message, "Configuration parsing error during deserialization!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (JsonException e)
-            {
-                MessageBox.Show(e.Message, "General configuration parsing error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Yaml parsing error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {

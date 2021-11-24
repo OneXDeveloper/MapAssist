@@ -57,6 +57,7 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "ApiConfiguration", ApplyNamingConventions = false)]
         public ApiConfiguration ApiConfiguration { get; set; }
 
+        [YamlIgnore]
         public static MapAssistConfiguration Loaded { get; set; }
         public static void Load()
         {

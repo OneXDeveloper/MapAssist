@@ -1,15 +1,15 @@
 UpdateTime: 50
 PrefetchAreas:
- - Catacombs Level 2
- - Durance Of Hate Level 2
+ - 'Catacombs Level 2'
+ - 'Durance Of Hate Level 2'
 HiddenAreas:
- - Rogue Encampment
- - Lut Gholein
- - Kurast Docktown
- - The Pandemonium Fortress
- - Harrogath
- - Forgotten Tower
- - Nihlathaks Temple
+ - 'Rogue Encampment'
+ - 'Lut Gholein'
+ - 'Kurast Docktown'
+ - 'The Pandemonium Fortress'
+ - 'Harrogath'
+ - 'Forgotten Tower'
+ - 'Nihlathaks Temple'
 ClearPrefetchedOnAreaChange: true
 RenderingConfiguration:
   Opacity: 0.7
@@ -92,6 +92,6 @@ HotkeyConfiguration:
   ToggleKey: '\'
   ZoomInKey: '+'
   ZoomOutKey: '-'
-ApiConfiguration:
+ApiConfiguration: 
   Endpoint: 'http://localhost:8080/'
   ApiToken: ''

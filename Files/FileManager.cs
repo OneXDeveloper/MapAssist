@@ -68,7 +68,7 @@ namespace MapAssist.Files
                     string s;
                     while ((s = sr.ReadLine()) != null)
                     {
-                        sb.Append(s);
+                        sb.Append($"{s}\n");
                     }
                 }
             }
