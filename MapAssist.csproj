@@ -109,7 +109,6 @@
     <Compile Include="Files\ConfigurationParser.cs" />
     <Compile Include="Files\FileManager.cs" />
     <Compile Include="Helpers\YamlConverters.cs" />
-    <Compile Include="Helpers\JsonConverters.cs" />
         <Compile Include="Helpers\GameManager.cs"/>
         <Compile Include="Helpers\ProcessContext.cs"/>
         <Compile Include="Interfaces\IUpdatable.cs"/>
@@ -166,7 +165,6 @@
             <DependentUpon>Overlay.cs</DependentUpon>
         </EmbeddedResource>
     <None Include="AppConfig.yaml" />
-    <None Include="AppConfig.json" />
         <None Include="Resources\Icon1.ico"/>
     </ItemGroup>
     <ItemGroup>

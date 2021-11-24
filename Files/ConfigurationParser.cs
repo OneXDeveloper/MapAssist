@@ -13,24 +13,14 @@ namespace MapAssist.Files
     {
         public static T ParseConfiguration()
         {
-            var fileName = "";
+            var fileName = $"./{System.AppDomain.CurrentDomain.FriendlyName}.yaml";
             
-            foreach(var fileNameInDirectory in System.IO.Directory.EnumerateFiles(System.IO.Directory.GetCurrentDirectory())) 
-            {
-                if(fileNameInDirectory.Contains("yaml"))
-                {
-                    fileName = fileNameInDirectory;
-                    Debug.WriteLine($"Configuration file {fileNameInDirectory} found!");
-                    break;
-                }
-            }
-
-            if(fileName.Length < 1)
-            {
-                throw new Exception("Configuration yaml file not found!");
-            }
-
             var fileManager = new FileManager(fileName);
+
+            if(!fileManager.FileExists())
+            {
+                throw new Exception($"{fileName} needs to be present on the same level as the executable");
+            }
 
             var YamlString = fileManager.ReadFile();
             var deserializer = new DeserializerBuilder()
