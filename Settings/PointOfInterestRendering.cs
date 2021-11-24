@@ -17,12 +17,8 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using MapAssist.Helpers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Drawing;
 using YamlDotNet.Serialization;
-using ColorConverter = MapAssist.Helpers.ColorConverter;
 
 namespace MapAssist.Settings
 {

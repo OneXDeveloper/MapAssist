@@ -24,7 +24,6 @@ using MapAssist.Files;
 using MapAssist.Settings;
 using MapAssist.Types;
 using YamlDotNet.Serialization;
-using ColorConverter = MapAssist.Helpers.ColorConverter;
 
 namespace MapAssist.Settings
 {
