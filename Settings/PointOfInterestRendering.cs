@@ -21,23 +21,23 @@ using MapAssist.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Drawing;
+using YamlDotNet.Serialization;
 using ColorConverter = MapAssist.Helpers.ColorConverter;
 
 namespace MapAssist.Settings
 {
     public class IconRendering
     {
-        [JsonProperty("IconColor")]
-        [JsonConverter(typeof(ColorConverter))]
+        [YamlMember(Alias = "IconColor", ApplyNamingConventions = false)]
         public Color IconColor { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter<Shape>))]
+        [YamlMember(Alias = "IconShape", ApplyNamingConventions = false)]
         public Shape IconShape { get; set; }
 
-        [JsonProperty("IconSize")]
+        [YamlMember(Alias = "IconSize", ApplyNamingConventions = false)]
         public int IconSize { get; set; }
 
-        [JsonProperty("IconThickness")]
+        [YamlMember(Alias = "IconThickness", ApplyNamingConventions = false)]
         public float IconThickness;
 
         public bool CanDrawIcon()
@@ -48,24 +48,22 @@ namespace MapAssist.Settings
 
     public class PointOfInterestRendering : IconRendering
     {
-        [JsonProperty("LineColor")]
-        [JsonConverter(typeof(ColorConverter))]
+        [YamlMember(Alias = "LineColor", ApplyNamingConventions = false)]
         public Color LineColor { get; set; }
-        
-        [JsonProperty("LineThickness")]
+
+        [YamlMember(Alias = "LineThickness", ApplyNamingConventions = false)]
         public float LineThickness { get; set; }
 
-        [JsonProperty("ArrowHeadSize")]
+        [YamlMember(Alias = "ArrowHeadSize", ApplyNamingConventions = false)]
         public int ArrowHeadSize { get; set; }
 
-        [JsonProperty("LabelColor")]
-        [JsonConverter(typeof(ColorConverter))]
+        [YamlMember(Alias = "LabelColor", ApplyNamingConventions = false)]
         public Color LabelColor { get; set; }
-        
-        [JsonProperty("LabelFont")]
+
+        [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
         public string LabelFont { get; set; }
-        
-        [JsonProperty("LabelFontSize")]
+
+        [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
         public int LabelFontSize { get; set; }
 
         public bool CanDrawLine()

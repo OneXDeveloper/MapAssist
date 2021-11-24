@@ -108,6 +108,7 @@
     <ItemGroup>
     <Compile Include="Files\ConfigurationParser.cs" />
     <Compile Include="Files\FileManager.cs" />
+    <Compile Include="Helpers\YamlConverters.cs" />
     <Compile Include="Helpers\JsonConverters.cs" />
         <Compile Include="Helpers\GameManager.cs"/>
         <Compile Include="Helpers\ProcessContext.cs"/>
@@ -164,6 +165,7 @@
         <EmbeddedResource Include="Overlay.resx">
             <DependentUpon>Overlay.cs</DependentUpon>
         </EmbeddedResource>
+    <None Include="AppConfig.yaml" />
     <None Include="AppConfig.json" />
         <None Include="Resources\Icon1.ico"/>
     </ItemGroup>
@@ -186,10 +188,11 @@
         <PackageReference Include="Newtonsoft.Json">
             <Version>13.0.1</Version>
         </PackageReference>
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)AppConfig.json $(ProjectDir)$(OutDir)$(TargetName)$(TargetExt).json</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)AppConfig.yaml $(ProjectDir)$(OutDir)$(TargetName)$(TargetExt).yaml</PostBuildEvent>
   </PropertyGroup>
 </Project>

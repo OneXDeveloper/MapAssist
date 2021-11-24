@@ -19,48 +19,42 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.Serialization;
 using MapAssist.Files;
-using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using YamlDotNet.Serialization;
 using ColorConverter = MapAssist.Helpers.ColorConverter;
 
 namespace MapAssist.Settings
 {
     public class MapAssistConfiguration
     {
-        [JsonProperty("UpdateTime")]
+        [YamlMember(Alias = "UpdateTime", ApplyNamingConventions = false)]
         public int UpdateTime { get; set; }
 
-        [JsonProperty("PrefetchAreas")]
-        [JsonConverter(typeof(AreaArrayConverter))]
+        [YamlMember(Alias = "PrefetchAreas", ApplyNamingConventions = false)]
         public Area[] PrefetchAreas { get; set; }
 
-        [JsonProperty("HiddenAreas")]
-        [JsonConverter(typeof(AreaArrayConverter))]
+        [YamlMember(Alias = "HiddenAreas", ApplyNamingConventions = false)]
         public Area[] HiddenAreas { get; set; }
 
-        [JsonProperty("ClearPrefetchedOnAreaChange")]
+        [YamlMember(Alias = "ClearPrefetchedOnAreaChange", ApplyNamingConventions = false)]
         public bool ClearPrefetchedOnAreaChange { get; set; }
 
-        [JsonProperty("RenderingConfiguration")]
+        [YamlMember(Alias = "RenderingConfiguration", ApplyNamingConventions = false)]
         public RenderingConfiguration RenderingConfiguration { get; set; }
 
-        [JsonProperty("MapConfiguration")]
+        [YamlMember(Alias = "MapConfiguration", ApplyNamingConventions = false)]
         public MapConfiguration MapConfiguration { get; set; }
 
-        [JsonProperty("MapColorConfiguration")]
+        [YamlMember(Alias = "MapColorConfiguration", ApplyNamingConventions = false)]
         public MapColorConfiguration MapColorConfiguration { get; set; }
 
-        [JsonProperty("HotkeyConfiguration")]
+        [YamlMember(Alias = "HotkeyConfiguration", ApplyNamingConventions = false)]
         public HotkeyConfiguration HotkeyConfiguration { get; set; }
 
-        [JsonProperty("ApiConfiguration")]
+        [YamlMember(Alias = "ApiConfiguration", ApplyNamingConventions = false)]
         public ApiConfiguration ApiConfiguration { get; set; }
 
         public static MapAssistConfiguration Loaded { get; set; }
@@ -77,7 +71,7 @@ namespace MapAssist.Settings
 
     public class MapColorConfiguration
     {
-        [JsonProperty("MapColors")]
+        [YamlMember(Alias = "MapColors", ApplyNamingConventions = false)]
         public Dictionary<int, Color?> MapColors { get; set; }
 
         public Color? LookupMapColor(int type)
@@ -98,86 +92,85 @@ namespace MapAssist.Settings
     public class MapConfiguration
     {
 
-        [JsonProperty("EliteMonster")]
+        [YamlMember(Alias = "EliteMonster", ApplyNamingConventions = false)]
         public IconRendering EliteMonster { get; set; }
 
-        [JsonProperty("NormalMonster")]
+        [YamlMember(Alias = "NormalMonster", ApplyNamingConventions = false)]
         public IconRendering NormalMonster { get; set; }
 
-        [JsonProperty("NextArea")]
+        [YamlMember(Alias = "NextArea", ApplyNamingConventions = false)]
         public PointOfInterestRendering NextArea { get; set; }
 
-        [JsonProperty("PreviousArea")]
+        [YamlMember(Alias = "PreviousArea", ApplyNamingConventions = false)]
         public PointOfInterestRendering PreviousArea { get; set; }
 
-        [JsonProperty("Waypoint")]
+        [YamlMember(Alias = "Waypoint", ApplyNamingConventions = false)]
         public PointOfInterestRendering Waypoint { get; set; }
 
-        [JsonProperty("Quest")]
+        [YamlMember(Alias = "Quest", ApplyNamingConventions = false)]
         public PointOfInterestRendering Quest { get; set; }
 
-        [JsonProperty("Player")]
+        [YamlMember(Alias = "Player", ApplyNamingConventions = false)]
         public PointOfInterestRendering Player { get; set; }
 
-        [JsonProperty("SuperChest")]
+        [YamlMember(Alias = "SuperChest", ApplyNamingConventions = false)]
         public PointOfInterestRendering SuperChest { get; set; }
 
-        [JsonProperty("NormalChest")]
+        [YamlMember(Alias = "NormalChest", ApplyNamingConventions = false)]
         public PointOfInterestRendering NormalChest { get; set; }
 
-        [JsonProperty("Shrine")]
+        [YamlMember(Alias = "Shrine", ApplyNamingConventions = false)]
         public PointOfInterestRendering Shrine { get; set; }
 
-        [JsonProperty("ArmorWeapRack")]
+        [YamlMember(Alias = "ArmorWeapRack", ApplyNamingConventions = false)]
         public PointOfInterestRendering ArmorWeapRack { get; set; }
     }
 }
 
 public class RenderingConfiguration
 {
-    [JsonProperty("Opacity")]
+    [YamlMember(Alias = "Opacity", ApplyNamingConventions = false)]
     public double Opacity { get; set; }
 
-    [JsonProperty("OverlayMode")]
+    [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
     public bool OverlayMode { get; set; }
 
-    [JsonProperty("AlwaysOnTop")]
+    [YamlMember(Alias = "AlwaysOnTop", ApplyNamingConventions = false)]
     public bool AlwaysOnTop { get; set; }
 
-    [JsonProperty("ToggleViaInGameMap")]
+    [YamlMember(Alias = "ToggleViaInGameMap", ApplyNamingConventions = false)]
     public bool ToggleViaInGameMap { get; set; }
 
-    [JsonProperty("Size")]
+    [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
     public int Size { get; set; }
 
-    [JsonProperty("Position")]
-    [JsonConverter(typeof(StringEnumConverter<MapPosition>))]
+    [YamlMember(Alias = "Position", ApplyNamingConventions = false)]
     public MapPosition Position { get; set; }
 
-    [JsonProperty("Rotate")]
+    [YamlMember(Alias = "Rotate", ApplyNamingConventions = false)]
     public bool Rotate { get; set; }
 
-    [JsonProperty("ZoomLevel")]
+    [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
     public float ZoomLevel { get; set; }
 }
 
 public class HotkeyConfiguration
 {
-    [JsonProperty("ToggleKey")]
+    [YamlMember(Alias = "ToggleKey", ApplyNamingConventions = false)]
     public char ToggleKey { get; set; }
 
-    [JsonProperty("ZoomInKey")]
+    [YamlMember(Alias = "ZoomInKey", ApplyNamingConventions = false)]
     public char ZoomInKey { get; set; }
 
-    [JsonProperty("ZoomOutKey")]
+    [YamlMember(Alias = "ZoomOutKey", ApplyNamingConventions = false)]
     public char ZoomOutKey { get; set; }
 }
 
 public class ApiConfiguration
 {
-    [JsonProperty("Endpoint")]
+    [YamlMember(Alias = "Endpoint", ApplyNamingConventions = false)]
     public string Endpoint { get; set; }
 
-    [JsonProperty("ApiToken")]
+    [YamlMember(Alias = "Token", ApplyNamingConventions = false)]
     public string Token { get; set; }
 }

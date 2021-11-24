@@ -1,0 +1,97 @@
+UpdateTime: 50
+PrefetchAreas:
+ - Catacombs Level 2
+ - Durance Of Hate Level 2
+HiddenAreas:
+ - Rogue Encampment
+ - Lut Gholein
+ - Kurast Docktown
+ - The Pandemonium Fortress
+ - Harrogath
+ - Forgotten Tower
+ - Nihlathaks Temple
+ClearPrefetchedOnAreaChange: true
+RenderingConfiguration:
+  Opacity: 0.7
+  OverlayMode: false
+  AlwaysOnTop: true
+  ToggleViaInGameMap: true
+  Size: 450
+  Position: TopRight
+  Rotate: true
+  ZoomLevel: 1
+MapConfiguration:
+  EliteMonster:
+    IconColor: DarkOrange
+    IconShape: SquareOutline
+    IconSize: 6
+  NormalMonster:
+    IconColor: DarkRed
+    IconShape: SquareOutline
+    IconSize: 6
+  NextArea:
+    IconColor: '237, 107, 0'
+    IconShape: Square
+    IconSize: 10
+    LineColor: Chartreuse
+    LineThickness: 2
+    ArrowHeadSize: 10
+    LabelColor: Chartreuse
+  PreviousArea:
+    IconColor: '255, 0, 149'
+    IconShape: Square
+    IconSize: 10
+    LineColor: ''
+    LabelColor: Chartreuse
+  Waypoint:
+    IconColor: '16, 140, 235'
+    IconShape: Square
+    IconSize: 10
+  Quest:
+    LineColor: Chartreuse
+    ArrowHeadSize: 5
+  Player:
+    IconColor: '255, 255, 0'
+    IconShape: Square
+    IconSize: 5
+  SuperChest:
+    IconColor: '17, 255, 0'
+    IconShape: Ellipse
+    IconSize: 10
+  NormalChest:
+    IconColor: '96, 96, 96'
+    IconShape: Square
+    IconSize: 5
+  Shrine:
+    IconColor: '255, 218, 100'
+    IconShape: Polygon
+    IconSize: 10
+  ArmorWeapRack:
+    IconColor: '132, 132, 132'
+    IconShape: Square
+    IconSize: 4
+MapColorConfiguration:
+  MapColors:
+    '0': '50, 50, 50'
+    '2': '10, 51, 23'
+    '3': '255, 255, 255'
+    '4': '0, 255, 255'
+    '6': '50, 50, 50'
+    '7': '0, 0, 0'
+    '16': '50, 50, 50'
+    '17': '50, 50, 50'
+    '19': '100, 100, 100'
+    '20': '40, 40, 40'
+    '21': '50, 50, 50'
+    '23': '120, 120, 120'
+    '33': '0, 0, 0'
+    '37': '0, 0, 0'
+    '39': '0, 0, 0'
+    '53': '0, 0, 0'
+HotkeyConfiguration:
+  ToggleKey: '\'
+  ZoomInKey: '+'
+  ZoomOutKey: '-'
+ApiConfiguration:
+  Endpoint: 'http://localhost:8080/'
+  ApiToken: ''

@@ -3,6 +3,9 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+using MapAssist.Helpers;
 
 namespace MapAssist.Files
 {
@@ -14,7 +17,7 @@ namespace MapAssist.Files
             
             foreach(var fileNameInDirectory in System.IO.Directory.EnumerateFiles(System.IO.Directory.GetCurrentDirectory())) 
             {
-                if(fileNameInDirectory.Contains("json"))
+                if(fileNameInDirectory.Contains("yaml"))
                 {
                     fileName = fileNameInDirectory;
                     Debug.WriteLine($"Configuration file {fileNameInDirectory} found!");
@@ -24,26 +27,22 @@ namespace MapAssist.Files
 
             if(fileName.Length < 1)
             {
-                throw new Exception("Configuration JSON file not found!");
+                throw new Exception("Configuration yaml file not found!");
             }
 
             var fileManager = new FileManager(fileName);
-            var JSONString = fileManager.ReadFile();
-            if (JSONString.Length <= 0)
-            {
-                Debug.WriteLine($"File for {fileManager.GetAbsolutePath()} was empty ... Failed to parse configuration");
-                return default(T);
-            }
-            T content = JsonConvert.DeserializeObject<T>(JSONString);
-            return content;
+
+            var YamlString = fileManager.ReadFile();
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(PascalCaseNamingConvention.Instance)
+                .Build();
+            var configuration = deserializer.Deserialize<T>(YamlString);
+            return configuration;
         }
 
         public void SerializeToFile(T unserializedConfiguration)
         {
-            var fileName = "MapAssistConfiguration.json";
-            var serialized = JsonConvert.SerializeObject(unserializedConfiguration,Formatting.Indented);
-            var fileManager = new FileManager(fileName);
-            fileManager.WriteFile(serialized);
+            throw new System.NotImplementedException();
         }
     }
 }
