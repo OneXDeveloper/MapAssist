@@ -92,6 +92,6 @@ HotkeyConfiguration:
   ToggleKey: '\'
   ZoomInKey: '+'
   ZoomOutKey: '-'
-ApiConfiguration: 
+ApiConfiguration:
   Endpoint: 'http://localhost:8080/'
-  ApiToken: ''
+  Token: ''

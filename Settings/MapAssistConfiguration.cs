@@ -30,6 +30,17 @@ namespace MapAssist.Settings
 {
     public class MapAssistConfiguration
     {
+        public static MapAssistConfiguration Loaded { get; set; }
+        public static void Load()
+        {
+            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration();
+        }
+
+        public void Save()
+        {
+            new ConfigurationParser<MapAssistConfiguration>().SerializeToFile(this);
+        }
+
         [YamlMember(Alias = "UpdateTime", ApplyNamingConventions = false)]
         public int UpdateTime { get; set; }
 
@@ -56,18 +67,6 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "ApiConfiguration", ApplyNamingConventions = false)]
         public ApiConfiguration ApiConfiguration { get; set; }
-
-        [YamlIgnore]
-        public static MapAssistConfiguration Loaded { get; set; }
-        public static void Load()
-        {
-            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration();
-        }
-
-        public void Save()
-        {
-            new ConfigurationParser<MapAssistConfiguration>().SerializeToFile(this);
-        }
     }
 
     public class MapColorConfiguration
