@@ -37,7 +37,7 @@ namespace MapAssist.Helpers
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _UiSettingOffset;
         private static IntPtr _ExpansionCheckOffset;
-        
+
         public static ProcessContext GetProcessContext()
         {
             var windowInFocus = IntPtr.Zero;
@@ -65,6 +65,7 @@ namespace MapAssist.Helpers
                 {
                     windowInFocus = WindowsExternal.GetForegroundWindow();
                 }
+
                 gameProcess = processes.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
 
                 if (gameProcess == null)
@@ -149,6 +150,7 @@ namespace MapAssist.Helpers
                     {
                         _UiSettingOffset = processContext.GetUiSettingsOffset();
                     }
+
                     return new Types.UiSettings(_UiSettingOffset);
                 }
             }

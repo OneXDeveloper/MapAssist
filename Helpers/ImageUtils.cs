@@ -101,7 +101,8 @@ namespace MapAssist.Helpers
 
             unsafe
             {
-                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
                 byte bitsPerPixel = 32;
                 var scan0 = (byte*)bData.Scan0.ToPointer();
 
@@ -121,6 +122,7 @@ namespace MapAssist.Helpers
                         }
                     }
                 }
+
                 originalBitmap.UnlockBits(bData);
             }
 

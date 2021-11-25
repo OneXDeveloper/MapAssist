@@ -40,10 +40,10 @@ namespace MapAssist.Types
             {
                 _level = processContext.Read<Structs.Level>(_pLevel);
             }
+
             return this;
         }
 
         public Area LevelId => _level.LevelId;
-
     }
 }

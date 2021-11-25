@@ -29,6 +29,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
+
 #pragma warning disable 649
 
 namespace MapAssist.Helpers
@@ -44,11 +45,7 @@ namespace MapAssist.Helpers
 
         private string CreateSession(Difficulty difficulty, uint mapSeed)
         {
-            var values = new Dictionary<string, uint>
-            {
-                { "difficulty", (uint)difficulty },
-                { "mapid", mapSeed }
-            };
+            var values = new Dictionary<string, uint> {{"difficulty", (uint)difficulty}, {"mapid", mapSeed}};
 
             var json = JsonConvert.SerializeObject(values);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -74,10 +71,7 @@ namespace MapAssist.Helpers
             // Cache for pre-fetching maps for the surrounding areas.
             _cache = new ConcurrentDictionary<Area, AreaData>();
             _prefetchRequests = new BlockingCollection<Area[]>();
-            _thread = new Thread(Prefetch)
-            {
-                IsBackground = true
-            };
+            _thread = new Thread(Prefetch) {IsBackground = true};
             _thread.Start();
 
             if (Settings.Map.PrefetchAreas.Any())
@@ -146,10 +140,7 @@ namespace MapAssist.Helpers
             var client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            })
-            {
-                BaseAddress = new Uri(endpoint)
-            };
+            }) {BaseAddress = new Uri(endpoint)};
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
             client.DefaultRequestHeaders.AcceptEncoding.Add(
                 new StringWithQualityHeaderValue("gzip"));
@@ -158,8 +149,9 @@ namespace MapAssist.Helpers
             if (!string.IsNullOrEmpty(token))
             {
                 client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
+                    new AuthenticationHeaderValue("Bearer", token);
             }
+
             return client;
         }
 

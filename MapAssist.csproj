@@ -1,191 +1,191 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <RandomGuid>$([System.Guid]::NewGuid())</RandomGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{FB3AC437-B7BB-42FF-A2A2-F10551F95F6C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>MapAssist</RootNamespace>
-    <CustomAssemblyName />
-    <AssemblyName Condition=" '$(CustomAssemblyName)' != '' ">$(CustomAssemblyName)</AssemblyName>
-    <AssemblyName Condition=" '$(Configuration)' == 'Release' AND '$(CustomAssemblyName)' == '' ">$(RandomGuid)</AssemblyName>
-    <AssemblyName Condition=" '$(Configuration)' == 'Debug' AND '$(CustomAssemblyName)' == ''">MapAssist</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>none</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>3DB9B26A33D3BC5805AF01B7BC6B71FE986ABD87</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>MapAssist_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Win32Resource>
-    </Win32Resource>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationIcon>Resources\Icon1.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Helpers\GameManager.cs" />
-    <Compile Include="Helpers\ProcessContext.cs" />
-    <Compile Include="Interfaces\IUpdatable.cs" />
-    <Compile Include="Overlay.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Overlay.Designer.cs">
-      <DependentUpon>Overlay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Helpers\ImageUtils.cs" />
-    <Compile Include="Helpers\PointOfInterestHandler.cs" />
-    <Compile Include="Helpers\MapApi.cs" />
-    <Compile Include="Helpers\Compositor.cs" />
-    <Compile Include="Helpers\WindowsExternal.cs" />
-    <Compile Include="Structs\Act.cs" />
-    <Compile Include="Structs\ActMisc.cs" />
-    <Compile Include="Structs\Inventory.cs" />
-    <Compile Include="Structs\UiSettings.cs" />
-    <Compile Include="Structs\Level.cs" />
-    <Compile Include="Structs\MonsterData.cs" />
-    <Compile Include="Structs\Path.cs" />
-    <Compile Include="Structs\Room.cs" />
-    <Compile Include="Structs\RoomEx.cs" />
-    <Compile Include="Structs\UnitAny.cs" />
-    <Compile Include="Structs\UnitHashTable.cs" />
-    <Compile Include="Types\Stats.cs" />
-    <Compile Include="Types\UiSettings.cs" />
-    <Compile Include="Types\RoomEx.cs" />
-    <Compile Include="Types\Room.cs" />
-    <Compile Include="Types\Level.cs" />
-    <Compile Include="Types\ActMisc.cs" />
-    <Compile Include="Types\Act.cs" />
-    <Compile Include="Types\Area.cs" />
-    <Compile Include="Types\Difficulty.cs" />
-    <Compile Include="Types\GameData.cs" />
-    <Compile Include="Types\GameObject.cs" />
-    <Compile Include="Types\AreaData.cs" />
-    <Compile Include="Helpers\GameMemory.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Npc.cs" />
-    <Compile Include="Types\Path.cs" />
-    <Compile Include="Types\PointOfInterest.cs" />
-    <Compile Include="Types\RawAreaData.cs" />
-    <Compile Include="Settings\MapPosition.cs" />
-    <Compile Include="Settings\PointOfInterestRendering.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\Shape.cs" />
-    <Compile Include="Settings\Utils.cs" />
-    <Compile Include="Types\UnitAny.cs" />
-    <Compile Include="Types\UnitType.cs" />
-    <EmbeddedResource Include="Overlay.resx">
-      <DependentUpon>Overlay.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Resources\Icon1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MouseKeyHook">
-      <Version>5.6.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <RandomGuid>$([System.Guid]::NewGuid())</RandomGuid>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+        <ProjectGuid>{FB3AC437-B7BB-42FF-A2A2-F10551F95F6C}</ProjectGuid>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>MapAssist</RootNamespace>
+        <CustomAssemblyName/>
+        <AssemblyName Condition=" '$(CustomAssemblyName)' != '' ">$(CustomAssemblyName)</AssemblyName>
+        <AssemblyName Condition=" '$(Configuration)' == 'Release' AND '$(CustomAssemblyName)' == '' ">$(RandomGuid)</AssemblyName>
+        <AssemblyName Condition=" '$(Configuration)' == 'Debug' AND '$(CustomAssemblyName)' == ''">MapAssist</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <Deterministic>true</Deterministic>
+        <IsWebBootstrapper>false</IsWebBootstrapper>
+        <PublishUrl>publish\</PublishUrl>
+        <Install>true</Install>
+        <InstallFrom>Disk</InstallFrom>
+        <UpdateEnabled>false</UpdateEnabled>
+        <UpdateMode>Foreground</UpdateMode>
+        <UpdateInterval>7</UpdateInterval>
+        <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+        <UpdatePeriodically>false</UpdatePeriodically>
+        <UpdateRequired>false</UpdateRequired>
+        <MapFileExtensions>true</MapFileExtensions>
+        <ApplicationRevision>1</ApplicationRevision>
+        <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+        <UseApplicationTrust>false</UseApplicationTrust>
+        <PublishWizardCompleted>true</PublishWizardCompleted>
+        <BootstrapperEnabled>true</BootstrapperEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x64\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <LangVersion>7.3</LangVersion>
+        <ErrorReport>prompt</ErrorReport>
+        <Prefer32Bit>false</Prefer32Bit>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+        <OutputPath>bin\x64\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>none</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <LangVersion>7.3</LangVersion>
+        <ErrorReport>prompt</ErrorReport>
+        <Prefer32Bit>false</Prefer32Bit>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ManifestCertificateThumbprint>3DB9B26A33D3BC5805AF01B7BC6B71FE986ABD87</ManifestCertificateThumbprint>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ManifestKeyFile>MapAssist_TemporaryKey.pfx</ManifestKeyFile>
+    </PropertyGroup>
+    <PropertyGroup>
+        <GenerateManifests>false</GenerateManifests>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <SignManifests>false</SignManifests>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <SignManifests>true</SignManifests>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Win32Resource>
+        </Win32Resource>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignManifests>false</SignManifests>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetZone>LocalIntranet</TargetZone>
+    </PropertyGroup>
+    <PropertyGroup/>
+    <PropertyGroup>
+        <ApplicationIcon>Resources\Icon1.ico</ApplicationIcon>
+    </PropertyGroup>
+    <PropertyGroup/>
+    <PropertyGroup>
+        <NoWin32Manifest>true</NoWin32Manifest>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Numerics"/>
+        <Reference Include="System.Web.Extensions"/>
+        <Reference Include="System.Xml.Linq"/>
+        <Reference Include="System.Data.DataSetExtensions"/>
+        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Deployment"/>
+        <Reference Include="System.Drawing"/>
+        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="System.Xml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Helpers\GameManager.cs"/>
+        <Compile Include="Helpers\ProcessContext.cs"/>
+        <Compile Include="Interfaces\IUpdatable.cs"/>
+        <Compile Include="Overlay.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="Overlay.Designer.cs">
+            <DependentUpon>Overlay.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Helpers\Extensions.cs"/>
+        <Compile Include="Helpers\ImageUtils.cs"/>
+        <Compile Include="Helpers\PointOfInterestHandler.cs"/>
+        <Compile Include="Helpers\MapApi.cs"/>
+        <Compile Include="Helpers\Compositor.cs"/>
+        <Compile Include="Helpers\WindowsExternal.cs"/>
+        <Compile Include="Structs\Act.cs"/>
+        <Compile Include="Structs\ActMisc.cs"/>
+        <Compile Include="Structs\Inventory.cs"/>
+        <Compile Include="Structs\UiSettings.cs"/>
+        <Compile Include="Structs\Level.cs"/>
+        <Compile Include="Structs\MonsterData.cs"/>
+        <Compile Include="Structs\Path.cs"/>
+        <Compile Include="Structs\Room.cs"/>
+        <Compile Include="Structs\RoomEx.cs"/>
+        <Compile Include="Structs\UnitAny.cs"/>
+        <Compile Include="Structs\UnitHashTable.cs"/>
+        <Compile Include="Types\Stats.cs"/>
+        <Compile Include="Types\UiSettings.cs"/>
+        <Compile Include="Types\RoomEx.cs"/>
+        <Compile Include="Types\Room.cs"/>
+        <Compile Include="Types\Level.cs"/>
+        <Compile Include="Types\ActMisc.cs"/>
+        <Compile Include="Types\Act.cs"/>
+        <Compile Include="Types\Area.cs"/>
+        <Compile Include="Types\Difficulty.cs"/>
+        <Compile Include="Types\GameData.cs"/>
+        <Compile Include="Types\GameObject.cs"/>
+        <Compile Include="Types\AreaData.cs"/>
+        <Compile Include="Helpers\GameMemory.cs"/>
+        <Compile Include="Program.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Types\Npc.cs"/>
+        <Compile Include="Types\Path.cs"/>
+        <Compile Include="Types\PointOfInterest.cs"/>
+        <Compile Include="Types\RawAreaData.cs"/>
+        <Compile Include="Settings\MapPosition.cs"/>
+        <Compile Include="Settings\PointOfInterestRendering.cs"/>
+        <Compile Include="Settings\Settings.cs"/>
+        <Compile Include="Settings\Shape.cs"/>
+        <Compile Include="Settings\Utils.cs"/>
+        <Compile Include="Types\UnitAny.cs"/>
+        <Compile Include="Types\UnitType.cs"/>
+        <EmbeddedResource Include="Overlay.resx">
+            <DependentUpon>Overlay.cs</DependentUpon>
+        </EmbeddedResource>
+        <None Include="Resources\Icon1.ico"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="App.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+            <Visible>False</Visible>
+            <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+            <Install>true</Install>
+        </BootstrapperPackage>
+        <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+            <Visible>False</Visible>
+            <ProductName>.NET Framework 3.5 SP1</ProductName>
+            <Install>false</Install>
+        </BootstrapperPackage>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MouseKeyHook">
+            <Version>5.6.0</Version>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json">
+            <Version>13.0.1</Version>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup/>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

@@ -41,7 +41,7 @@ namespace MapAssist.Helpers
             GameObject.HellForge,
             GameObject.NihlathakWildernessStartPosition
         };
-        
+
         private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
         {
             GameObject.GoodChest,
@@ -164,7 +164,8 @@ namespace MapAssist.Helpers
                             Label = realTomb.Name(),
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
                             RenderingSettings = Settings.Rendering.NextArea
-                        }); ;
+                        });
+                        ;
                     }
 
                     break;
@@ -235,9 +236,7 @@ namespace MapAssist.Helpers
                 {
                     pointOfInterest.Add(new PointOfInterest
                     {
-                        Label = obj.ToString(),
-                        Position = points[0],
-                        RenderingSettings = Settings.Rendering.Quest
+                        Label = obj.ToString(), Position = points[0], RenderingSettings = Settings.Rendering.Quest
                     });
                 }
                 // Shrines
@@ -247,9 +246,7 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = Settings.Rendering.Shrine
+                            Label = obj.ToString(), Position = point, RenderingSettings = Settings.Rendering.Shrine
                         });
                     }
                 }

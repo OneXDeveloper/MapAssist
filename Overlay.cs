@@ -87,6 +87,7 @@ namespace MapAssist
                     {
                         _show = !_show;
                     }
+
                     if (args.KeyChar == Map.ZoomInKey)
                     {
                         if (Map.ZoomLevel > 0.25f)
@@ -95,6 +96,7 @@ namespace MapAssist
                             Map.Size = (int)(Map.Size * 1.15f);
                         }
                     }
+
                     if (args.KeyChar == Map.ZoomOutKey)
                     {
                         if (Map.ZoomLevel < 4f)
@@ -177,12 +179,13 @@ namespace MapAssist
                     mapOverlay.Show();
                     if (Map.AlwaysOnTop) SetTopMost();
                 }
+
                 mapOverlay.Refresh();
             }
 
             _timer.Start();
         }
-        
+
         private void SetTopMost()
         {
             var initialStyle = (uint)WindowsExternal.GetWindowLongPtr(Handle, -20);
@@ -255,9 +258,11 @@ namespace MapAssist
                         break;
                 }
 
-                Point playerPosInArea = _currentGameData.PlayerPosition.OffsetFrom(_areaData.Origin).OffsetFrom(_compositor.CropOffset);
+                Point playerPosInArea = _currentGameData.PlayerPosition.OffsetFrom(_areaData.Origin)
+                    .OffsetFrom(_compositor.CropOffset);
 
                 var playerPos = new Vector2(playerPosInArea.X, playerPosInArea.Y);
+
                 Vector2 Transform(Vector2 p) =>
                     center +
                     DeltaInWorldToMinimapDelta(
@@ -270,11 +275,7 @@ namespace MapAssist
                 var p2 = Transform(new Vector2(gameMap.Width, 0));
                 var p4 = Transform(new Vector2(0, gameMap.Height));
 
-                PointF[] destinationPoints = {
-                    new PointF(p1.X, p1.Y),
-                    new PointF(p2.X, p2.Y),
-                    new PointF(p4.X, p4.Y)
-                };
+                PointF[] destinationPoints = {new PointF(p1.X, p1.Y), new PointF(p2.X, p2.Y), new PointF(p4.X, p4.Y)};
 
                 e.Graphics.DrawImage(gameMap, destinationPoints);
             }
@@ -304,7 +305,7 @@ namespace MapAssist
 
             var cos = (float)(diag * Math.Cos(CAMERA_ANGLE) / scale);
             var sin = (float)(diag * Math.Sin(CAMERA_ANGLE) /
-                               scale);
+                              scale);
 
             return new Vector2((delta.X - delta.Y) * cos, deltaZ - (delta.X + delta.Y) * sin);
         }

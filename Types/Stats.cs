@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
+
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -25,15 +26,15 @@ namespace MapAssist.Types
     {
         public static Dictionary<Resist, Color> ResistColor = new Dictionary<Resist, Color>
         {
-            { Resist.PHYSICAL, Color.Peru },
-            { Resist.MAGIC, Color.OrangeRed },
-            { Resist.FIRE, Color.Red },
-            { Resist.LIGHTNING, Color.Yellow },
-            { Resist.COLD, Color.CornflowerBlue },
-            { Resist.POISON, Color.LimeGreen },
-
+            {Resist.PHYSICAL, Color.Peru},
+            {Resist.MAGIC, Color.OrangeRed},
+            {Resist.FIRE, Color.Red},
+            {Resist.LIGHTNING, Color.Yellow},
+            {Resist.COLD, Color.CornflowerBlue},
+            {Resist.POISON, Color.LimeGreen},
         };
     }
+
     public enum Resist
     {
         PHYSICAL = 0,
@@ -43,28 +44,29 @@ namespace MapAssist.Types
         COLD = 4,
         POISON = 5
     }
+
     public enum Stat : short
     {
         STAT_INVALID = -1,
-        STAT_STRENGTH = 0,                  // 000
-        STAT_ENERGY,                        // 001
-        STAT_DEXTERITY,                         // 002
-        STAT_VITALITY,                      // 003
-        STAT_STATPTS,                       // 004
-        STAT_SKILLPTS,                      // 005
-        STAT_HITPOINTS,                         // 006
-        STAT_MAXHP,                             // 007
-        STAT_MANA,                          // 008
-        STAT_MAXMANA,                       // 009
-        STAT_STAMINA,                       // 00A
-        STAT_MAXSTAMINA,                    // 00B
-        STAT_LEVEL,                             // 00C
-        STAT_EXPERIENCE,                    // 00D
-        STAT_GOLD,                          // 00E
-        STAT_GOLDBANK,                      // 00F
-        STAT_ITEM_ARMOR_PERCENT,            // 010
-        STAT_ITEM_MAXDAMAGE_PERCENT,        // 011
-        STAT_ITEM_MINDAMAGE_PERCENT,        // 012
+        STAT_STRENGTH = 0, // 000
+        STAT_ENERGY, // 001
+        STAT_DEXTERITY, // 002
+        STAT_VITALITY, // 003
+        STAT_STATPTS, // 004
+        STAT_SKILLPTS, // 005
+        STAT_HITPOINTS, // 006
+        STAT_MAXHP, // 007
+        STAT_MANA, // 008
+        STAT_MAXMANA, // 009
+        STAT_STAMINA, // 00A
+        STAT_MAXSTAMINA, // 00B
+        STAT_LEVEL, // 00C
+        STAT_EXPERIENCE, // 00D
+        STAT_GOLD, // 00E
+        STAT_GOLDBANK, // 00F
+        STAT_ITEM_ARMOR_PERCENT, // 010
+        STAT_ITEM_MAXDAMAGE_PERCENT, // 011
+        STAT_ITEM_MINDAMAGE_PERCENT, // 012
         STAT_TOHIT,
         STAT_TOBLOCK,
         STAT_MINDAMAGE,

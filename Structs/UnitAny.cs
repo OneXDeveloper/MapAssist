@@ -51,6 +51,7 @@ namespace MapAssist.Structs
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
     }
+
     [StructLayout(LayoutKind.Explicit)]
     public readonly struct StatValue
     {

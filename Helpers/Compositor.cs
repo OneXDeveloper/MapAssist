@@ -258,11 +258,10 @@ namespace MapAssist.Helpers
                         case Shape.Polygon:
                             var halfSize = poiSettings.IconSize / 2;
                             var cutSize = poiSettings.IconSize / 10;
-                            PointF[] curvePoints = {
-                                new PointF(0, halfSize),
-                                new PointF(halfSize - cutSize, halfSize - cutSize),
-                                new PointF(halfSize, 0),
-                                new PointF(halfSize + cutSize, halfSize - cutSize),
+                            PointF[] curvePoints =
+                            {
+                                new PointF(0, halfSize), new PointF(halfSize - cutSize, halfSize - cutSize),
+                                new PointF(halfSize, 0), new PointF(halfSize + cutSize, halfSize - cutSize),
                                 new PointF(poiSettings.IconSize, halfSize),
                                 new PointF(halfSize + cutSize, halfSize + cutSize),
                                 new PointF(halfSize, poiSettings.IconSize),
@@ -275,17 +274,18 @@ namespace MapAssist.Helpers
                             var b = poiSettings.IconSize * 0.3333333f;
                             var c = poiSettings.IconSize * 0.6666666f;
                             var d = poiSettings.IconSize * 0.9166666f;
-                            PointF[] crossLinePoints = {
-                                new PointF(c, a), new PointF(c, b), new PointF(d, b),
-                                new PointF(d, c), new PointF(c, c), new PointF(c, d),
-                                new PointF(b, d), new PointF(b, c), new PointF(a, c),
-                                new PointF(a, b), new PointF(b, b), new PointF(b, a),
+                            PointF[] crossLinePoints =
+                            {
+                                new PointF(c, a), new PointF(c, b), new PointF(d, b), new PointF(d, c),
+                                new PointF(c, c), new PointF(c, d), new PointF(b, d), new PointF(b, c),
+                                new PointF(a, c), new PointF(a, b), new PointF(b, b), new PointF(b, a),
                                 new PointF(c, a)
                             };
                             for (var p = 0; p < crossLinePoints.Length - 1; p++)
                             {
                                 g.DrawLine(pen, crossLinePoints[p], crossLinePoints[p + 1]);
                             }
+
                             break;
                     }
                 }

@@ -40,6 +40,7 @@ namespace MapAssist.Types
             {
                 _uiSettings = processContext.Read<Structs.UiSettings>(_pUiSettings);
             }
+
             return this;
         }
 
