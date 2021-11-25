@@ -106,8 +106,12 @@ MapConfiguration:
     LabelFont: 'Helvetica'
     LabelFontSize: 8
 MapColorConfiguration:
+  MapCustomColors:
+    # remove or comment out any of the following colors if you want to disable
+    'borders': '255, 255, 255'
+    #'doors': '255, 69, 0' # WIP
   MapColors:
-    '0': '50, 50, 50'
+    #'0': '50, 50, 50' # remove or comment if you want transparent floors (turn on borders)
     '2': '10, 51, 23'
     '3': '255, 255, 255'
     '4': '0, 255, 255'

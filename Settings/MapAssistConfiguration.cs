@@ -89,8 +89,20 @@ namespace MapAssist.Settings
             return MapColors[type];
         }
 
+        [YamlMember(Alias = "MapCustomColors", ApplyNamingConventions = false)]
+        public Dictionary<string, Color?> MapCustomColors { get; set; }
+
+        public Color? LookupMapCustomColor(string type)
+        {
+            if (!MapCustomColors.ContainsKey(type))
+            {
+                MapCustomColors[type] = null;
+            }
+            return MapCustomColors[type];
+        }
         public MapColorConfiguration()
         {
+            MapCustomColors = new Dictionary<string, Color?>();
             MapColors = new Dictionary<int, Color?>();
         }
     }

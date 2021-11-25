@@ -189,6 +189,9 @@ namespace MapAssist.Helpers
                 backgroundGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
+                // draw map tiles directly from areaData
+                Color? borderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapCustomColor("borders");
+
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
@@ -198,6 +201,55 @@ namespace MapAssist.Helpers
                         if (typeColor != null)
                         {
                             background.SetPixel(x, y, (Color)typeColor);
+                        }
+                    }
+                }
+
+                // if borderColor is set, draw additional borders around walkable tiles (type=0)
+                if (borderColor != null)
+                {
+                    for (var y = 0; y < areaData.CollisionGrid.Length; y++)
+                    {
+                        for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
+                        {
+                            var type = areaData.CollisionGrid[y][x];
+                            if (type == 0)
+                            {
+                                try
+                                {
+                                    var maxYValue = areaData.CollisionGrid.Length;
+                                    var maxXValue = areaData.CollisionGrid[y].Length;
+                                    // 0 is walkable terrain, if surrounding pixel is not zero, draw a border pixel
+                                    if (y + 1 < maxYValue && areaData.CollisionGrid[y + 1][x] != 0)
+                                        background.SetPixel(x, y + 1, (Color)borderColor);
+                                    if (y - 1 >= 0 && areaData.CollisionGrid[y - 1][x] != 0)
+                                        background.SetPixel(x, y - 1, (Color)borderColor);
+                                    if (y + 1 < maxYValue && x + 1 < maxXValue && areaData.CollisionGrid[y + 1][x + 1] != 0)
+                                        background.SetPixel(x + 1, y + 1, (Color)borderColor);
+                                    if (y - 1 >= 0 && x + 1 < maxXValue && areaData.CollisionGrid[y - 1][x + 1] != 0)
+                                        background.SetPixel(x + 1, y - 1, (Color)borderColor);
+                                    if (y + 1 < maxYValue && x - 1 >= 0 && areaData.CollisionGrid[y + 1][x - 1] != 0)
+                                        background.SetPixel(x - 1, y + 1, (Color)borderColor);
+                                    if (y - 1 >= 0 && x - 1 >= 0 && areaData.CollisionGrid[y - 1][x - 1] != 0)
+                                        background.SetPixel(x - 1, y - 1, (Color)borderColor);
+                                    if (x + 1 < maxXValue && areaData.CollisionGrid[y][x + 1] != 0)
+                                        background.SetPixel(x + 1, y, (Color)borderColor);
+                                    if (x - 1 >= 0 && areaData.CollisionGrid[y][x - 1] != 0)
+                                        background.SetPixel(x - 1, y, (Color)borderColor);
+
+                                    Color? walkableColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(0);
+                                    if (walkableColor != null)
+                                    {
+                                        // Only draw if MapColor 0 is defined in App.config
+                                        background.SetPixel(x, y, (Color)walkableColor);
+                                    }
+                                }
+                                catch (IndexOutOfRangeException)
+                                {
+                                    // TODO: Add logic to avoid this exception, harmless to catch and continue here
+                                    continue;
+                                }
+                            }
                         }
                     }
                 }
