@@ -162,7 +162,7 @@ namespace MapAssist
                 return;
             }
 
-            if (Rendering.GameInfoAlwaysShow == false && !_show)
+            if (MapAssistConfiguration.Loaded.GameInfo.AlwaysShow == false && !_show)
             {
                 return;
             }
@@ -172,11 +172,12 @@ namespace MapAssist
             {
                 blackBarWidth = (screenW - 2880) / 4;
             }
+            
             var overlayWidthDiff = screenW - Width;
             var textXOffset = blackBarWidth + (int)(screenW * .06f) - overlayWidthDiff;
-            var fontSize = Rendering.ItemLog.LabelFontSize;
+            var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
-            var font = new Font(Rendering.ItemLog.LabelFont, fontSize);
+            var font = new Font(MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
             var stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Near;
             stringFormat.LineAlignment = StringAlignment.Near;
@@ -200,7 +201,7 @@ namespace MapAssist
                 stateCount++;
             }*/
 
-            if (Rendering.ItemLogAlwaysShow == false && !_show)
+            if (MapAssistConfiguration.Loaded.ItemLog.AlwaysShow == false && !_show)
             {
                 return;
             }
@@ -250,7 +251,7 @@ namespace MapAssist
                 new Point(textXOffset, (fontHeight * 2) + (i * (fontSize + fontSize / 2))), stringFormat);
             }
 
-            if (!_show || Array.Exists(Map.HiddenAreas, element => element == _currentGameData.Area) || (Map.ToggleViaInGameMap && !_currentGameData.MapShown) || (_currentGameData.Area == Area.None))
+            if (!_show || Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, element => element == _currentGameData.Area) || (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MapShown) || (_currentGameData.Area == Area.None))
             {
                 return;
             }

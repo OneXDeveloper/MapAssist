@@ -140,14 +140,14 @@ namespace MapAssist.Helpers
                                 itemList.Add(unitAny);
                                 if ((!Items.ItemUnitHashesSeen[_currentProcessId].Contains(unitAny.ItemHash()) && !Items.ItemUnitIdsSeen[_currentProcessId].Contains(unitAny.UnitId)) && LootFilter.Filter(unitAny))
                                 {
-                                    if (Rendering.ItemLogPlaySoundOnDrop)
+                                    if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
                                     {
                                         var player = new SoundPlayer(Properties.Resources.ching);
                                         player.Play();
                                     }
                                     Items.ItemUnitHashesSeen[_currentProcessId].Add(unitAny.ItemHash());
                                     Items.ItemUnitIdsSeen[_currentProcessId].Add(unitAny.UnitId);
-                                    if (Items.ItemLog.Count == Rendering.ItemLogMaxSize)
+                                    if (Items.ItemLog.Count == MapAssistConfiguration.Loaded.ItemLog.MaxSize)
                                     {
                                         Items.ItemLog[_currentProcessId].RemoveAt(0);
                                         Items.ItemLog[_currentProcessId].Add(unitAny);

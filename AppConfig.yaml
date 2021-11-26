@@ -70,6 +70,12 @@ MapConfiguration:
     IconColor: '132, 132, 132'
     IconShape: Square
     IconSize: 4
+  Item: 
+    IconColor: 'DarkOrange'
+    IconShape: Ellipse
+    IconSize: 6
+    LabelFont: 'Helvetica'
+    LabelFontSize: 8
 MapColorConfiguration:
   MapColors:
     '0': '50, 50, 50'
@@ -95,3 +101,12 @@ HotkeyConfiguration:
 ApiConfiguration:
   Endpoint: 'http://localhost:8080/'
   Token: ''
+GameInfo:
+  AlwaysShow: true
+ItemLog:
+  FilterFileName: "ItemFilter.yaml"
+  PlaySoundOnDrop: true
+  MaxSize: 10
+  AlwaysShow: false
+  LabelFont: "Helvetica"
+  LabelFontSize: 14

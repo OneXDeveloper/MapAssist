@@ -46,7 +46,7 @@ namespace MapAssist.Helpers
             if (yaml == null)
             {
                 var deserializer = new DeserializerBuilder().WithNamingConvention(PascalCaseNamingConvention.Instance).Build();
-                var yamlFileLocation = System.AppContext.BaseDirectory + @"\" + Rendering.ItemFilterFileName;
+                var yamlFileLocation = System.AppContext.BaseDirectory + @"\" + MapAssistConfiguration.Loaded.ItemLog.FilterFileName;
                 var rawYaml = "";
                 try
                 {

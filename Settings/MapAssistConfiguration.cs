@@ -66,6 +66,12 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "ApiConfiguration", ApplyNamingConventions = false)]
         public ApiConfiguration ApiConfiguration { get; set; }
+
+        [YamlMember(Alias = "GameInfo", ApplyNamingConventions = false)]
+        public GameInfoConfiguration GameInfo { get; set; }
+
+        [YamlMember(Alias = "ItemLog", ApplyNamingConventions = false)]
+        public ItemLogConfiguration ItemLog { get; set; }
     }
 
     public class MapColorConfiguration
@@ -123,6 +129,9 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "ArmorWeapRack", ApplyNamingConventions = false)]
         public PointOfInterestRendering ArmorWeapRack { get; set; }
+
+        [YamlMember(Alias = "Item", ApplyNamingConventions = false)]
+        public PointOfInterestRendering Item { get; set; }
     }
 }
 
@@ -172,4 +181,31 @@ public class ApiConfiguration
 
     [YamlMember(Alias = "Token", ApplyNamingConventions = false)]
     public string Token { get; set; }
+}
+
+public class GameInfoConfiguration
+{
+    [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
+    public bool AlwaysShow { get; set; }
+}
+
+public class ItemLogConfiguration
+{
+    [YamlMember(Alias = "FilterFileName", ApplyNamingConventions = false)]
+    public string FilterFileName { get; set; }
+
+    [YamlMember(Alias = "PlaySoundOnDrop", ApplyNamingConventions = false)]
+    public bool PlaySoundOnDrop { get; set; }
+
+    [YamlMember(Alias = "MaxSize", ApplyNamingConventions = false)]
+    public int MaxSize { get; set; }
+
+    [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
+    public bool AlwaysShow { get; set; }
+
+    [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
+    public string LabelFont { get; set; }
+
+    [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
+    public int LabelFontSize { get; set; }
 }

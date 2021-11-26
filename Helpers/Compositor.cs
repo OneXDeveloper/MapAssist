@@ -133,7 +133,7 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                var font = new Font(Rendering.Item.LabelFont, Rendering.Item.LabelFontSize);
+                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
                 foreach (var item in gameData.Items)
                 {
                     if (!LootFilter.Filter(item))
@@ -141,11 +141,11 @@ namespace MapAssist.Helpers
                         continue;
                     }
                     var color = Items.ItemColors[item.ItemData.ItemQuality];
-                    Bitmap icon = GetIcon(Rendering.Item);
+                    Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
                     Point origin = item.Position
                         .OffsetFrom(_areaData.Origin)
                         .OffsetFrom(CropOffset)
-                        .OffsetFrom(GetIconOffset(Rendering.Item.IconSize));
+                        .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item.IconSize));
                     imageGraphics.DrawImage(icon, origin);
                     var itemBaseName = Items.ItemNames[item.TxtFileNo];
                     imageGraphics.DrawString(itemBaseName, font,
