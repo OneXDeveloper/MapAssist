@@ -130,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\LootLogConfiguration.cs" />
     <Compile Include="Settings\MapAssistConfiguration.cs" />
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
@@ -176,8 +177,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="AppConfig.yaml" />
-    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -203,13 +202,15 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Icon1.ico" />
     <None Include="ItemFilter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AppConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>$(TargetName)$(TargetExt).yaml</TargetPath>
     </None>
     <None Include="Resources\ching.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)AppConfig.yaml $(ProjectDir)$(OutDir)$(TargetName)$(TargetExt).yaml</PostBuildEvent>
-  </PropertyGroup>
 </Project>

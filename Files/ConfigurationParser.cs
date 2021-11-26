@@ -11,10 +11,8 @@ namespace MapAssist.Files
 {
     public class ConfigurationParser<T>
     {
-        public static T ParseConfiguration()
+        public static T ParseConfiguration(string fileName)
         {
-            var fileName = $"./{System.AppDomain.CurrentDomain.FriendlyName}.yaml";
-            
             var fileManager = new FileManager(fileName);
 
             if(!fileManager.FileExists())
@@ -26,6 +24,7 @@ namespace MapAssist.Files
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .WithTypeConverter(new AreaArrayYamlTypeConverter())
+                .WithTypeConverter(new ItemQualityYamlTypeConverter())
                 .Build();
             var configuration = deserializer.Deserialize<T>(YamlString);
             return configuration;

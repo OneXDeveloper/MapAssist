@@ -2,63 +2,69 @@
 #"Any" can be used if you would like to see ALL uniques, all set items, all items with x sockets, etc
 #Most of the time we don't want to filter that broadly, so this is commented out with #
 #Any:
-# - Quality: unique/magic
+# - Qualities: unique/magic
 
 #The first line or "Key" is the item base name, in the next case, "Harlequin Crest" is a unique "Shako"
 #Alert to any unique shako, regardless of any other modifiers (sockets)
 Shako:
- - Quality: unique
+ - Qualities: unique
 #This thresher rule will look for only ethereal threshers with 4 sockets that are either normal/superior quality
 Thresher:
  - Ethereal: true
-   Quality: normal/superior
-   Sockets: 4
+   Qualities: [normal, superior]
+   Sockets: [4]
 #This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
 Mage Plate:
- - Quality: normal/superior
-   Sockets: 3/4
+ - Qualities: [normal, superior]
+   Sockets: [3, 4]
 #This monarch rule is really 2 separate rules.  Notice the "-" on each line
 #This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
 Monarch:
- - Quality: magic
- - Sockets: 4
+ - Qualities: magic
+ - Sockets: [4]
 #This ring rule will show all magic, rare, and unique rings
 Ring:
- - Quality: magic/rare/unique
+ - Qualities: [magic, rare, unique]
 
 ###Merc weapons
 Giant Thresher:
  - Ethereal: true
-   Quality: normal/superior
-   Sockets: 4
+   Qualities: 
+    - normal
+    - superior
+   Sockets: [4]
 Cryptic Axe:
  - Ethereal: true
-   Quality: normal/superior
-   Sockets: 4
+   Qualities: 
+    - normal
+    - superior
+   Sockets: [4]
 Colossus Voulge:
  - Ethereal: true
-   Quality: normal/superior
-   Sockets: 4
+   Qualities: 
+    - normal
+    - superior
+   Sockets: [4]
 
 ###Bases
 Archon Plate:
- - Quality: normal/superior
-   Sockets: 3/4
+ - Qualities: [normal, superior]
+   Sockets: [3, 4]
 
 ###Misc
 Amulet:
- - Quality: magic
- - Quality: rare
- - Quality: unique
+ - Qualities: magic
+ - Qualities: rare
+ - Qualities: unique
 Jewel:
- - Quality: magic
- - Quality: unique
+ - Qualities: magic
+ - Qualities: unique
 Small Charm:
- - Quality: magic
- - Quality: unique
+ - Qualities: magic
+ - Qualities: unique
 Grand Charm:
- - Quality: magic
- - Quality: unique
+ - Qualities: magic
+ - Qualities: unique
 Key of Terror:
 Key of Hate:
 Key of Destruction:
@@ -81,69 +87,69 @@ Zod Rune:
 ###Uniques
 #Ribcracker
 Quarterstaff:
- - Quality: unique
+ - Qualities: unique
 #Vmagi
 Serpentskin Armor:
- - Quality: unique
+ - Qualities: unique
 #Skullders
 Russet Armor:
- - Quality: unique
+ - Qualities: unique
 #War Travs
 Battle Boots:
- - Quality: unique
+ - Qualities: unique
 #Jalals
 Totemic Mask:
- - Quality: unique
+ - Qualities: unique
 #Occy
 Swirling Crystal:
- - Quality: unique
+ - Qualities: unique
 #Homunculus
 Heirophant Trophy:
- - Quality: unique
+ - Qualities: unique
 #Misspelled Homunculus
 Hierophant Trophy:
- - Quality: unique
+ - Qualities: unique
 #HoZ
 Gilded Shield:
- - Quality: unique
+ - Qualities: unique
 #VGaze
 Grim Helm:
- - Quality: unique
+ - Qualities: unique
 #Titans
 Ceremonial Javelin:
- - Quality: unique
+ - Qualities: unique
 #Tstroke
 Matriarchal Javelin:
- - Quality: unique
+ - Qualities: unique
 #Shaftstop
 Mesh Armor:
- - Quality: unique
+ - Qualities: unique
 #Arach mesh
 Spiderweb Sash:
- - Quality: unique
+ - Qualities: unique
 #Dracs
 Vampirebone Gloves:
- - Quality: unique
+ - Qualities: unique
 #Eschutas
 Eldritch Orb:
- - Quality: unique
+ - Qualities: unique
 #Arreat face
 Slayer Guard:
- - Quality: unique
+ - Qualities: unique
 #Andys visage
 Demonhead:
- - Quality: unique
+ - Qualities: unique
 #Sandstorm trek
 Scarabshell Boots:
- - Quality: unique
+ - Qualities: unique
 #Death web
 Unearthed Wand:
- - Quality: unique
+ - Qualities: unique
 #Chancies
 Chain Gloves:
- - Quality: unique
+ - Qualities: unique
 
 ###Sets
 #Tal armor
 Lacquered Plate:
- - Quality: set
+ - Qualities: set

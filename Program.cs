@@ -35,21 +35,7 @@ namespace MapAssist
         [STAThread]
         static void Main()
         {
-            var configurationOk = false;
-            try
-            {
-                MapAssistConfiguration.Load();
-                configurationOk = true;
-            }
-            catch(YamlDotNet.Core.YamlException e)
-            {
-                MessageBox.Show(e.Message, "Yaml parsing error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+            var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration();
             if (configurationOk)
             {
                 using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
@@ -59,6 +45,48 @@ namespace MapAssist
                     Application.Run(new Overlay(globalHook));
                 }
             }
+        }
+
+        private static bool LoadMainConfiguration()
+        {
+            var configurationOk = false;
+            try
+            {
+                MapAssistConfiguration.Load();
+                configurationOk = true;
+            }
+            catch (YamlDotNet.Core.YamlException e)
+            {
+                MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid MapAssist configuration.",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return configurationOk;
+        }
+
+        private static bool LoadLootLogConfiguration()
+        {
+            var configurationOk = false;
+            try
+            {
+                LootLogConfiguration.Load();
+                configurationOk = true;
+            }
+            catch (YamlDotNet.Core.YamlException e)
+            {
+                MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid loot filter configuration.",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return configurationOk;
         }
     }
 }

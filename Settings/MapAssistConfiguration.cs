@@ -32,7 +32,8 @@ namespace MapAssist.Settings
         public static MapAssistConfiguration Loaded { get; set; }
         public static void Load()
         {
-            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration();
+            var fileName = $"./{System.AppDomain.CurrentDomain.FriendlyName}.yaml";
+            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration(fileName);
         }
 
         public void Save()
