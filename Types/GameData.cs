@@ -35,6 +35,7 @@ namespace MapAssist.Types
         public IntPtr MainWindowHandle;
         public string PlayerName;
         public List<UnitAny> Monsters;
+        public string GameIP;
         
 
         public bool HasGameChanged(GameData other)

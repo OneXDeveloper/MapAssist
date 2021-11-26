@@ -32,8 +32,8 @@ namespace MapAssist.Helpers
         private IntPtr _baseAddr;
         private int _moduleSize;
         private bool _disposedValue;
-        private IntPtr IPOffset;
-        public static string gameIP;
+        //private IntPtr IPOffset;
+        //public static string gameIP;
 
         public ProcessContext(Process process)
         {
@@ -41,14 +41,14 @@ namespace MapAssist.Helpers
             _handle = WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, process.Id);
             _baseAddr = process.MainModule.BaseAddress;
             _moduleSize = _process.MainModule.ModuleMemorySize;
-            IPOffset = GetGameIPOffset();
+            //IPOffset = GetGameIPOffset();
             // Debug.WriteLine(IPOffset);
-            gameIP = Encoding.ASCII.GetString(Read<byte>(IPOffset, 15)).TrimEnd((char)0);
+            //gameIP = Encoding.ASCII.GetString(Read<byte>(IPOffset, 15)).TrimEnd((char)0);
             //Debug.WriteLine(gameIP);
         }
 
         public IntPtr Handle { get => _handle; }
-        public string GameIP { get => gameIP; set => gameIP = value; }
+        //public string GameIP { get => gameIP; set => gameIP = value; }
 
         public IntPtr FromOffset(int offset)
         {

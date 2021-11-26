@@ -174,15 +174,6 @@ namespace MapAssist.Helpers
             }
         }
 
-        public static void ResetPlayerUnit()
-        {
-            _PlayerUnit = default;
-            _UiSettingOffset = IntPtr.Zero;
-            _UnitHashTableOffset = IntPtr.Zero;
-            _ExpansionCheckOffset = IntPtr.Zero;
-            _CheckGameIPOffset = IntPtr.Zero;
-        }
-
         public static IntPtr GameIPCheckOffset
         {
             get
@@ -196,9 +187,16 @@ namespace MapAssist.Helpers
                 {
                     _CheckGameIPOffset = processContext.GetGameIPOffset();
                 }
-                //Debug.WriteLine(_CheckGameIPOffset);
                 return _CheckGameIPOffset;
             }
+        }
+        public static void ResetPlayerUnit()
+        {
+            _PlayerUnit = default;
+            _UiSettingOffset = IntPtr.Zero;
+            _UnitHashTableOffset = IntPtr.Zero;
+            _ExpansionCheckOffset = IntPtr.Zero;
+            _CheckGameIPOffset = IntPtr.Zero;
         }
     }
 }

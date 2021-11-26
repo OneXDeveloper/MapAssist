@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using MapAssist.Types;
 
 namespace MapAssist.Helpers
@@ -41,6 +42,8 @@ namespace MapAssist.Helpers
                     {
                         throw new Exception("Map seed is out of bounds.");
                     }
+
+                    var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPCheckOffset, 15)).TrimEnd((char)0);
 
                     var actId = playerUnit.Act.ActId;
 
@@ -79,6 +82,7 @@ namespace MapAssist.Helpers
                         MainWindowHandle = GameManager.MainWindowHandle,
                         PlayerName = playerUnit.Name,
                         Monsters = monsterList,
+                        GameIP = gameIP,
                     };
                 }
             }

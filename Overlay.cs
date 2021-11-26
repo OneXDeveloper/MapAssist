@@ -115,6 +115,7 @@ namespace MapAssist
                     Console.WriteLine($"Game changed: {gameData}");
                     _mapApi?.Dispose();
                     _mapApi = new MapApi(MapApi.Client, gameData.Difficulty, gameData.MapSeed);
+                    
                 }
 
                 if (gameData.HasMapChanged(_currentGameData))
@@ -189,15 +190,15 @@ namespace MapAssist
             // IP Overlay
             // To Do: Relative Position, Position relativ to window not to screen (for windowed mode and ppl who want it on the top of their screen)
             // To Do: Split Overlays so IP is shown in Hidden Areas
-            var fontSize = 12;
+            var fontSize = 14;
             var font = new Font("Diablo", fontSize);
             var stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Near;
             stringFormat.LineAlignment = StringAlignment.Near;
             var color = Color.Goldenrod;
-            e.Graphics.DrawString("Game IP: " + ProcessContext.gameIP, font,
+            e.Graphics.DrawString("Game IP: " + _currentGameData.GameIP, font,
             new SolidBrush(color),
-            new Point(50, 950), stringFormat);
+            new Point(30, 950), stringFormat);
 
             if (Map.OverlayMode)
             {
