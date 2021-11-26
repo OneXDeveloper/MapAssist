@@ -57,6 +57,10 @@ namespace MapAssist.Types
                     WindowsExternal.ReadProcessMemory(processContext.Handle, IntPtr.Add(_pRoom, 0x40), uintBuf,
                         uintBuf.Length, out _);
                     var numRoomsNear = BitConverter.ToUInt32(uintBuf, 0);
+                    if (numRoomsNear > 9)
+                    {
+                        numRoomsNear = 9;
+                    }
 
                     var roomList = new Room[numRoomsNear];
                     for (var p = 0; p < numRoomsNear; p++)

@@ -136,20 +136,8 @@ namespace MapAssist
 
             _currentGameData = gameData;
 
-            if (ShouldHideMap())
-            {
-                mapOverlay.Hide();
-            }
-            else
-            {
-                if (!mapOverlay.Visible)
-                {
-                    mapOverlay.Show();
                     if (MapAssistConfiguration.Loaded.RenderingConfiguration.AlwaysOnTop) SetTopMost();
-                }
-
-                mapOverlay.Refresh();
-            }
+            mapOverlay.Refresh();
 
             _timer.Start();
         }
@@ -161,16 +149,6 @@ namespace MapAssist
             WindowsExternal.SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
         }
 
-        private bool ShouldHideMap()
-        {
-            if (!_show) return true;
-            if (!InGame()) return true;
-            if (_currentGameData.Area == Area.None) return true;
-            if (Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, element => element == _currentGameData.Area)) return true;
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MapShown) return true;
-            return false;
-        }
-
         private bool InGame()
         {
             return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero &&
@@ -179,7 +157,100 @@ namespace MapAssist
 
         private void MapOverlay_Paint(object sender, PaintEventArgs e)
         {
-            if (_compositor == null)
+            if (_compositor == null || !InGame())
+            {
+                return;
+            }
+
+            if (Rendering.GameInfoAlwaysShow == false && !_show)
+            {
+                return;
+            }
+            var screenW = Screen.PrimaryScreen.WorkingArea.Width;
+            var blackBarWidth = 0;
+            if (screenW > 2880)
+            {
+                blackBarWidth = (screenW - 2880) / 4;
+            }
+            var overlayWidthDiff = screenW - Width;
+            var textXOffset = blackBarWidth + (int)(screenW * .06f) - overlayWidthDiff;
+            var fontSize = Rendering.ItemLog.LabelFontSize;
+            var fontHeight = (fontSize + fontSize / 2);
+            var font = new Font(Rendering.ItemLog.LabelFont, fontSize);
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Near;
+            stringFormat.LineAlignment = StringAlignment.Near;
+
+            var color = Color.Red;
+            e.Graphics.DrawString("Game IP: " + _currentGameData.GameIP, font,
+            new SolidBrush(color),
+            new Point(textXOffset, fontHeight), stringFormat);
+
+            /*stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Near;
+            var stateList = _currentGameData.PlayerUnit.StateList;
+            color = Color.DarkOrange;
+            var stateCount = 0;
+            foreach (var state in stateList)
+            {
+                var stateStr = Enum.GetName(typeof(State), state).Substring(6);
+                e.Graphics.DrawString(stateStr, font,
+                new SolidBrush(color),
+                new Point(screenW / 2, (stateCount * fontHeight)), stringFormat);
+                stateCount++;
+            }*/
+
+            if (Rendering.ItemLogAlwaysShow == false && !_show)
+            {
+                return;
+            }
+
+
+            stringFormat.Alignment = StringAlignment.Near;
+            stringFormat.LineAlignment = StringAlignment.Near;
+            for (var i = 0; i < Items.CurrentItemLog.Count; i++)
+            {
+                color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                var isEth = (Items.CurrentItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
+                var itemBaseName = Items.ItemNames[Items.CurrentItemLog[i].TxtFileNo];
+                var itemSpecialName = "";
+                var itemLabelExtra = "";
+                if (isEth)
+                {
+                    itemLabelExtra += "[Eth] ";
+                    color = Items.ItemColors[ItemQuality.SUPERIOR];
+                }
+                if(Items.CurrentItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
+                {
+                    itemLabelExtra += "[" + numSockets + " S] ";
+                    color = Items.ItemColors[ItemQuality.SUPERIOR];
+                }
+                switch (Items.CurrentItemLog[i].ItemData.ItemQuality)
+                {
+                    case ItemQuality.UNIQUE:
+                        color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
+                        break;
+                    case ItemQuality.SET:
+                        color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
+                        break;
+                    case ItemQuality.CRAFT:
+                        color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                        break;
+                    case ItemQuality.RARE:
+                        color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                        break;
+                    case ItemQuality.MAGIC:
+                        color = Items.ItemColors[Items.CurrentItemLog[i].ItemData.ItemQuality];
+                        break;
+                }
+                e.Graphics.DrawString(itemLabelExtra + itemSpecialName + itemBaseName, font,
+                new SolidBrush(color),
+                new Point(textXOffset, (fontHeight * 2) + (i * (fontSize + fontSize / 2))), stringFormat);
+            }
+
+            if (!_show || Array.Exists(Map.HiddenAreas, element => element == _currentGameData.Area) || (Map.ToggleViaInGameMap && !_currentGameData.MapShown) || (_currentGameData.Area == Area.None))
             {
                 return;
             }
@@ -241,7 +312,11 @@ namespace MapAssist
                 var p2 = Transform(new Vector2(gameMap.Width, 0));
                 var p4 = Transform(new Vector2(0, gameMap.Height));
 
-                PointF[] destinationPoints = {new PointF(p1.X, p1.Y), new PointF(p2.X, p2.Y), new PointF(p4.X, p4.Y)};
+                PointF[] destinationPoints = {
+                    new PointF(p1.X, p1.Y),
+                    new PointF(p2.X, p2.Y),
+                    new PointF(p4.X, p4.Y)
+                };
 
                 e.Graphics.DrawImage(gameMap, destinationPoints);
             }
