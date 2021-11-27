@@ -292,6 +292,46 @@ namespace MapAssist.Helpers
                         });
                     }
                 }
+                // Other Areas with special Pathfinding
+                switch (areaData.Area)
+                {
+                    // Nilathak
+                    case Area.HallsOfVaught:
+                        if (obj == GameObject.NihlathakWildernessStartPosition)
+                        {
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = "Nilathak",
+                                Position = points[0],
+                                RenderingSettings = Settings.Rendering.Quest
+                            });
+                        }
+                        break;
+                    // Lilith
+                    case Area.MatronsDen:
+                        if (obj == GameObject.SparklyChest)
+                        {
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = "Lilith",
+                                Position = points[0],
+                                RenderingSettings = Settings.Rendering.Quest
+                            });
+                        }
+                        break;
+                    // Uber Izual
+                    case Area.FurnaceOfPain:
+                        if (obj == GameObject.SparklyChest)
+                        {
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = "Uber Izual",
+                                Position = points[0],
+                                RenderingSettings = Settings.Rendering.Quest
+                            });
+                        }
+                        break;
+                }
             }
 
             return pointOfInterest;
