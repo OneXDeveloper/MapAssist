@@ -59,7 +59,6 @@ namespace MapAssist
             _window = new GraphicsWindow(0, 0, 1, 1, gfx)
             {
                 FPS = 60,
-                IsTopmost = true,
                 IsVisible = true
             };
 
@@ -325,6 +324,7 @@ namespace MapAssist
                     }
                 }
 
+                _window.PlaceAbove(_currentGameData.MainWindowHandle);
                 using (var image = new Image(gfx, ImageToByte(gamemap)))
                 {
                     gfx.DrawImage(image, anchor, (float) MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
@@ -378,11 +378,6 @@ namespace MapAssist
             }
 
             _currentGameData = gameData;
-
-            if (_show && !_window.IsVisible)
-            {
-                if (MapAssistConfiguration.Loaded.RenderingConfiguration.AlwaysOnTop) _window.PlaceAbove(_currentGameData.MainWindowHandle);
-            }
         }
 
         private bool InGame()
