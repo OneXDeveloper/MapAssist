@@ -46,7 +46,8 @@ namespace MapAssist
         private MapApi _mapApi;
         private bool _show = true;
         private Screen _screen;
-        private NotifyIcon _trayIcon;
+        private NotifyIcon _notifyIcon;
+        private ContextMenuStrip _contextMenuStrip;
 
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
@@ -54,27 +55,37 @@ namespace MapAssist
             
             ShowInTaskbar = false;  // Removes the application from the taskbar
 
-            _trayIcon = new NotifyIcon()
+            _notifyIcon = new NotifyIcon
             {
                 Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
                 Visible = true
             };
 
-            _trayIcon.MouseClick += TrayClick;
+            _contextMenuStrip = new ContextMenuStrip();
 
-            void TrayClick(object sender, MouseEventArgs e)
+            ToolStripItem _config = new ToolStripMenuItem("Config");
+            _config.Click += new EventHandler(Config);
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_config});
+
+            ToolStripItem line = new ToolStripSeparator();
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] { line });
+
+            ToolStripItem _exit = new ToolStripMenuItem("Exit");
+            _exit.Click += new EventHandler(Exit);
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_exit});
+
+            _notifyIcon.ContextMenuStrip = _contextMenuStrip;
+            _notifyIcon.ContextMenuStrip.Opened += new EventHandler(StopTimer);
+            _notifyIcon.ContextMenuStrip.Closed += new ToolStripDropDownClosedEventHandler(StartTimer);
+
+            void StopTimer(object sender, EventArgs e)
             {
-                if (e.Button == MouseButtons.Right)
-                { 
                 _timer.Stop();
-                _trayIcon.ContextMenu = new ContextMenu(new MenuItem[]
-                {
-                    new MenuItem("Config", Config),
-                    new MenuItem("Exit", Exit)
-                });
-                _trayIcon.ContextMenu.Show(this, MousePosition);
+            }
+
+            void StartTimer (object sender, EventArgs e)
+            {
                 _timer.Start();
-                }
             }
 
             void Config(object sender, EventArgs e)
@@ -85,7 +96,7 @@ namespace MapAssist
 
             void Exit(object sender, EventArgs e)
             {
-                _trayIcon.Visible = false; // Hides the tray icon, otherwise it will remain shown until user mouses over it
+                _notifyIcon.Visible = false; // Hides the tray icon, otherwise it will remain shown until user mouses over it
                 Application.Exit();
             }
             
