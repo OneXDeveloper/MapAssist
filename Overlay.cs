@@ -27,6 +27,8 @@ using MapAssist.Settings;
 using Gma.System.MouseKeyHook;
 using System.Numerics;
 using System.Configuration;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace MapAssist
 {
@@ -44,10 +46,49 @@ namespace MapAssist
         private MapApi _mapApi;
         private bool _show = true;
         private Screen _screen;
+        private NotifyIcon _trayIcon;
 
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
             InitializeComponent();
+            
+            ShowInTaskbar = false;  // Removes the application from the taskbar
+
+            _trayIcon = new NotifyIcon()
+            {
+                Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
+                Visible = true
+            };
+
+            _trayIcon.MouseClick += TrayClick;
+
+            void TrayClick(object sender, MouseEventArgs e)
+            {
+                if (e.Button == MouseButtons.Right)
+                { 
+                _timer.Stop();
+                _trayIcon.ContextMenu = new ContextMenu(new MenuItem[]
+                {
+                    new MenuItem("Config", Config),
+                    new MenuItem("Exit", Exit)
+                });
+                _trayIcon.ContextMenu.Show(this, MousePosition);
+                _timer.Start();
+                }
+            }
+
+            void Config(object sender, EventArgs e)
+            {
+                var _path = System.IO.Path.GetDirectoryName(Name);
+                Process.Start(_path + "Config.yaml");
+            }
+
+            void Exit(object sender, EventArgs e)
+            {
+                _trayIcon.Visible = false; // Hides the tray icon, otherwise it will remain shown until user mouses over it
+                Application.Exit();
+            }
+            
             keyboardMouseEvents.KeyPress += (_, args) =>
             {
                 if (InGame())
