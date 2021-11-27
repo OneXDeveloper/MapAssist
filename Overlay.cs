@@ -71,8 +71,8 @@ namespace MapAssist
             _config.Click += new EventHandler(LootFilter);
             _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_lootFilter});
 
-            ToolStripItem line = new ToolStripSeparator();
-            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {line});
+            ToolStripItem _line = new ToolStripSeparator();
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_line});
 
             ToolStripItem _exit = new ToolStripMenuItem("Exit");
             _exit.Click += new EventHandler(Exit);
