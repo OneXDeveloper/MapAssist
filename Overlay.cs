@@ -66,9 +66,13 @@ namespace MapAssist
             ToolStripItem _config = new ToolStripMenuItem("Config");
             _config.Click += new EventHandler(Config);
             _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_config});
+            
+            ToolStripItem _lootFilter = new ToolStripMenuItem("Loot Filter");
+            _config.Click += new EventHandler(LootFilter);
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {_lootFilter});
 
             ToolStripItem line = new ToolStripSeparator();
-            _contextMenuStrip.Items.AddRange(new ToolStripItem[] { line });
+            _contextMenuStrip.Items.AddRange(new ToolStripItem[] {line});
 
             ToolStripItem _exit = new ToolStripMenuItem("Exit");
             _exit.Click += new EventHandler(Exit);
@@ -92,6 +96,12 @@ namespace MapAssist
             {
                 var _path = System.IO.Path.GetDirectoryName(Name);
                 Process.Start(_path + "Config.yaml");
+            }
+            
+            void LootFilter(object sender, EventArgs e)
+            {
+                var _path = System.IO.Path.GetDirectoryName(Name);
+                Process.Start(_path + "ItemFilter.yaml");
             }
 
             void Exit(object sender, EventArgs e)
