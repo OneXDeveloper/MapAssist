@@ -51,7 +51,10 @@ namespace MapAssist.Helpers
             //populate a list of filter rules by combining rules from "Any" and the item base name
             //use only one list or the other depending on if "Any" exists
             var filterList =
-                LootLogConfiguration.Filters.Where(f => f.BaseName == "Any" || f.BaseName == baseName).ToList();
+                LootLogConfiguration.Filters
+                    .Where(f => f.Key == "Any" || f.Key == baseName)
+                    .SelectMany(kv => kv.Value)
+                    .ToList();
 
             //scan the list of rules
             foreach (var item in filterList)

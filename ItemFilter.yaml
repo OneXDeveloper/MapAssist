@@ -4,72 +4,214 @@
 #Any:
 # - Qualities: unique/magic
 
-#The first line or "Key" is the item base name, in the next case, "Harlequin Crest" is a unique "Shako"
-#Alert to any unique shako, regardless of any other modifiers (sockets)
+# The first line or "Key" is the item base name, in the next case, "Harlequin Crest" is a unique "Shako"
+# Alert to any unique Shako, regardless of any other modifiers (sockets, eth)
 Shako:
  - Qualities: unique
+ 
 #This thresher rule will look for only ethereal threshers with 4 sockets that are either normal/superior quality
 Thresher:
  - Ethereal: true
-   Qualities: [normal, superior]
+   Qualities: normal/superior
    Sockets: [4]
+ - Qualities: unique # The Reaper's Toll
+
 #This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
 Mage Plate:
- - Qualities: [normal, superior]
-   Sockets: [3, 4]
+ - Qualities: 
+    - normal
+    - superior
+   Sockets: [3,4]
+
 #This monarch rule is really 2 separate rules.  Notice the "-" on each line
 #This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
 Monarch:
  - Qualities: magic
  - Sockets: [4]
+
+
+# This is just an object that holds all our commonly used aliases
+# aliases are labeled by the `&` and then the name
+# they are then used by referencing `*` then the name
+x-bases:
+ - &merc-arm-base
+  Ethereal: true
+  Qualities: [normal, superior]
+  Sockets: [0, 3, 4]
+ - &player-arm-base
+  Qualities: [normal, superior]
+  Sockets: [3, 4]
+  Ethereal: false
+ - &merc-wep-base
+  Ethereal: true
+  Qualities: [normal, superior]
+  Sockets: [4]
+ - &pally-shield-base
+   Qualities: normal/superior
+   Sockets: [0, 4]
 #This ring rule will show all magic, rare, and unique rings
 Ring:
  - Qualities: [magic, rare, unique]
 
-###Merc weapons
-Giant Thresher:
- - Ethereal: true
-   Qualities: 
-    - normal
-    - superior
-   Sockets: [4]
+###Mercenary Weapon Bases
+Giant Thresher: 
+  - *merc-wep-base
 Cryptic Axe:
- - Ethereal: true
-   Qualities: 
-    - normal
-    - superior
-   Sockets: [4]
+  - *merc-wep-base
 Colossus Voulge:
- - Ethereal: true
-   Qualities: 
-    - normal
-    - superior
-   Sockets: [4]
+  - *merc-wep-base
+
+###Mercenary Armor Bases
+
+Dusk Shroud:
+ - *merc-arm-base
+ - *player-arm-base
+ - Qualities: unique #Ormus' Robes
+Wyrmhide:
+ - *merc-arm-base
+ - *player-arm-base
+Scarab Husk:
+ - *merc-arm-base
+Wire Fleece:
+ - *merc-arm-base
+Diamond Mail:
+ - *merc-arm-base
+Loricated Mail:
+ - *merc-arm-base
+Great Hauberk:
+ - *merc-arm-base
+Boneweave:
+ - *merc-arm-base
+Balrog Skin:
+ - *merc-arm-base
+Kraken Shell:
+ - *merc-arm-base
+Hellforge Plate:
+ - *merc-arm-base
+Lacquered Plate:
+ - *merc-arm-base
+ - Qualities: Set #Tal Rasha's Guardianship
+Shadow Plate:
+ - *merc-arm-base
+Sacred Armor:
+ - *merc-arm-base
+ - Qualities: unique #Tyrael's Might
+ - Qualities: set #Immortal King's Soul Cage
 
 ###Bases
 Archon Plate:
+ - *player-arm-base
+Flail:
  - Qualities: [normal, superior]
-   Sockets: [3, 4]
+   Sockets: [4, 5]
+Crystal Sword:
+ - Qualities: [normal, superior]
+   Sockets: [4, 5]
+Phase Blade:
+ - Qualities: [normal, superior]
+   Sockets: [5]
+Greater Talons:
+ - Qualities: [normal,superior]
+   Sockets: [3]
+Runic Talons:
+ - Qualities: [normal, superior]
+   Sockets: [3]
+Feral Claws:
+ - Qualities: [normal, superior]
+   Sockets: [3]
+Matriarchal Javelin:
+ - Qualities: [magic, rare]
+ - Qualities: unique #Thunderstroke
 
 ###Misc
 Amulet:
- - Qualities: magic
- - Qualities: rare
- - Qualities: unique
+ - Qualities: 
+   - magic
+   - rare
+   - unique
+   - set
 Jewel:
- - Qualities: magic
- - Qualities: unique
+ - Qualities: 
+   - magic
+   - rare
+   - unique
 Small Charm:
- - Qualities: magic
+ - Qualities: [magic, unique]
+Large Charm:
  - Qualities: unique
 Grand Charm:
- - Qualities: magic
- - Qualities: unique
+ - Qualities: [magic, unique]
 Key of Terror:
 Key of Hate:
 Key of Destruction:
+Full Rejuvenation Potion:
+
+###Rare Gloves and Boots
+Boneweave Boots:
+ - Qualities: rare
+Mirrored Boots:
+ - Qualities: rare
+Myrmidon Greaves:
+ - Qualities: rare
+Vampirebone Gloves:
+ - Qualities: rare
+ #Dracul's Grasp
+ - Qualities: unique
+Vambraces:
+ - Qualities: rare
+Crusader Gauntlets:
+ - Qualities: rare
+Ogre Gauntlets:
+ - Qualities: rare
+
+###Circlets
+Circlet:
+ - Qualities: [magic, rare]
+Tiara:
+ - Qualities: [magic, rare]
+ - Qualities: unique #Kira's Guardian
+Coronet:
+ - Qualities: [magic, rare]
+Diadem:
+ - Qualities: [magic, rare]
+ - Qualities: unique #Griffon's Eye
+
+###Druid Pelts
+Blood Spirit:
+ - Qualities: [magic, rare]
+Sun Spirit:
+ - Qualities: [magic, rare]
+Earth Spirit:
+ - Qualities: [magic, rare]
+Sky Spirit:
+ - Qualities: [magic, rare]
+Dream Spirit:
+ - Qualities: [magic, rare]
+
+ ###Barbarian Helms
+Carnage Helm:
+ - Qualities: [magic, rare]
+Fury Visor:
+ - Qualities: [magic, rare]
+Destroyer Helm:
+ - Qualities: [magic, rare]
+Conquieror Crown:
+ - Qualities: [magic, rare]
+Guardian Crown:
+ - Qualities: [magic, rare]
+
+ ###Paladin Shields
+Akaran Targe:
+ - *pally-shield-base
+Akaran Rondache:
+ - *pally-shield-base
+Sacred Targe:
+ - *pally-shield-base
+Sacred Rondache:
+ - *pally-shield-base
 
 ###Runes
+Hel Rune:
 Pul Rune:
 Um Rune:
 Mal Rune:
@@ -84,72 +226,137 @@ Jah Rune:
 Cham Rune:
 Zod Rune:
 
+###Gems
+Flawless Ruby:
+Flawless Emerald:
+Flawless Sapphire:
+Flawless Amethyst:
+Flawless Diamond:
+Flawless Topaz:
+Flawless Skull:
+Perfect Ruby:
+Perfect Emerald:
+Perfect Sapphire:
+Perfect Amethyst:
+Perfect Diamond:
+Perfect Topaz:
+Perfect Skull:
+
 ###Uniques
 #Ribcracker
 Quarterstaff:
  - Qualities: unique
-#Vmagi
+#Skin of the Vipermagi
 Serpentskin Armor:
  - Qualities: unique
-#Skullders
+#Skullder's Ire
 Russet Armor:
  - Qualities: unique
-#War Travs
+#War Traveler
 Battle Boots:
  - Qualities: unique
-#Jalals
+ #Aldur's Advance
+ - Qualities: set
+#Jalal's Mane
 Totemic Mask:
  - Qualities: unique
-#Occy
+#Oculus
 Swirling Crystal:
  - Qualities: unique
+ #Tal Rasha's Lidless Eye
+ - Qualities: set
 #Homunculus
 Heirophant Trophy:
  - Qualities: unique
 #Misspelled Homunculus
 Hierophant Trophy:
  - Qualities: unique
-#HoZ
+#Herald of Zakarum
 Gilded Shield:
  - Qualities: unique
-#VGaze
+#Vampire Gaze
 Grim Helm:
  - Qualities: unique
-#Titans
+#Titan's Revenge
 Ceremonial Javelin:
- - Qualities: unique
-#Tstroke
-Matriarchal Javelin:
  - Qualities: unique
 #Shaftstop
 Mesh Armor:
  - Qualities: unique
-#Arach mesh
+#Arachnid Mesh
 Spiderweb Sash:
  - Qualities: unique
-#Dracs
-Vampirebone Gloves:
- - Qualities: unique
-#Eschutas
+#Eschuta's Temper
 Eldritch Orb:
  - Qualities: unique
-#Arreat face
+#Arreat's Face
 Slayer Guard:
  - Qualities: unique
-#Andys visage
+#Andariel's Visage
 Demonhead:
  - Qualities: unique
-#Sandstorm trek
+#Sandstorm Trek
 Scarabshell Boots:
  - Qualities: unique
-#Death web
+#Death's Web
 Unearthed Wand:
  - Qualities: unique
-#Chancies
+#Chance Guards
 Chain Gloves:
+ - Qualities: unique
+#Death's Fathom
+Dimensional Shard:
+ - Qualities: unique
+#Nightwing's Veil
+Spired Helm:
+ - Qualities: unique
+#Crown of Ages
+Corona:
+ - Qualities: unique
+#Verdungo's Hearty Cord
+Mithril Coil:
+ - Qualities: unique
+#String of Ears
+Demonhide Sash:
+ - Qualities: unique
+#Duriel's Shell
+Cuirass:
+ - Qualities: unique
+#Razortail
+Sharkskin Belt:
+ - Qualities: unique
+#Goldwrap
+Heavy Belt:
+ - Qualities: unique
+#Nosferatu's Coil
+Vampirefang Belt:
+ - Qualities: unique
+#Ondal's Wisdom
+Elder Staff:
+ - Qualities: unique
+#Goblin Toe
+Light Plated Boots:
+ - Qualities: unique
+#Magefist
+Light Gauntlets:
+ - Qualities: unique
+#Gull
+Dagger:
+ - Qualities: unique
+#Wizardspike
+Bone Knife:
+ - Qualities: unique
+#Fleshripper
+Fanged Knife:
  - Qualities: unique
 
 ###Sets
-#Tal armor
-Lacquered Plate:
+#Tal Rasha's Horadric Crest
+Death Mask:
+ - Qualities: set
+#Tal Rasha's Fine Spun Cloth
+Mesh Belt:
+ - Qualities: set
+#Trang-Oul's Claws
+Heavy Bracers:
  - Qualities: set
