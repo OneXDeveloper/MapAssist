@@ -50,18 +50,25 @@ namespace MapAssist.Helpers
 
             //populate a list of filter rules by combining rules from "Any" and the item base name
             //use only one list or the other depending on if "Any" exists
-            var filterList =
+            var matches =
                 LootLogConfiguration.Filters
-                    .Where(f => f.Key == "Any" || f.Key == baseName)
-                    .SelectMany(kv => kv.Value)
-                    .ToList();
+                    .Where(f => f.Key == "Any" || f.Key == baseName).ToList();
+
+            // Early breakout
+            // We know that there is an item in here without any actual filters
+            // So we know that simply having the name match means we can return true
+            if (matches.Any(kv => kv.Value == null))
+            {
+                return true;
+            }
 
             //scan the list of rules
-            foreach (var item in filterList)
+            foreach (var item in matches.SelectMany(kv => kv.Value))
             {
                 var qualityReqMet = item.Qualities == null || item.Qualities.Length == 0 ||
                                     item.Qualities.Contains(itemQuality);
-                var socketReqMet = item.Sockets == null || item.Sockets.Length == 0 || item.Sockets.Contains(numSockets);
+                var socketReqMet = item.Sockets == null || item.Sockets.Length == 0 ||
+                                   item.Sockets.Contains(numSockets);
 
                 var ethReqMet = (item.Ethereal == null || item.Ethereal == isEth);
                 if (qualityReqMet && socketReqMet && ethReqMet) { return true; }
