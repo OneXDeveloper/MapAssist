@@ -37,12 +37,16 @@ MapConfiguration:
     LineThickness: 2
     ArrowHeadSize: 10
     LabelColor: Chartreuse
+    LabelFontSize: 8
+    LabelFont: 'Helvetica'
   PreviousArea:
     IconColor: '255, 0, 149'
     IconShape: Square
     IconSize: 10
     LineColor: ''
     LabelColor: Chartreuse
+    LabelFontSize: 8
+    LabelFont: 'Helvetica'
   Waypoint:
     IconColor: '16, 140, 235'
     IconShape: Square
