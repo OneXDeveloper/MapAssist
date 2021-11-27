@@ -206,9 +206,8 @@
     <None Include="ItemFilter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="AppConfig.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>$(TargetName)$(TargetExt).yaml</TargetPath>
+    <None Include="Config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\ching.wav" />
   </ItemGroup>
