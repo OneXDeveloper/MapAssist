@@ -53,6 +53,7 @@ MapConfiguration:
     IconSize: 10
   Quest:
     LineColor: Chartreuse
+    LineThickness: 2
     ArrowHeadSize: 5
   Player:
     IconColor: '255, 255, 0'
