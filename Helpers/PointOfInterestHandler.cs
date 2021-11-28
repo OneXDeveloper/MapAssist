@@ -28,6 +28,18 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
+        private static readonly Dictionary<Area, HashSet<GameObject>> AreaSpecificQuestObjects = new Dictionary<Area, HashSet<GameObject>>
+        {
+            [Area.MatronsDen] = new HashSet<GameObject>
+            {
+                GameObject.SparklyChest, // Lilith
+            },
+            [Area.FurnaceOfPain] = new HashSet<GameObject>
+            {
+                GameObject.SparklyChest, // Über Izual
+            },
+        };
+
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
         {
             GameObject.HoradricCubeChest,
@@ -166,7 +178,6 @@ namespace MapAssist.Helpers
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                         });
-                        ;
                     }
 
                     break;
@@ -242,6 +253,19 @@ namespace MapAssist.Helpers
                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
                     });
                 }
+                // Area-specific quest objects
+                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificQuestObjects[areaData.Area].Contains(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
+                }
                 // Shrines
                 else if (Shrines.Contains(obj))
                 {
@@ -293,46 +317,6 @@ namespace MapAssist.Helpers
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack
                         });
                     }
-                }
-                // Other Areas with special Pathfinding
-                switch (areaData.Area)
-                {
-                    // Nilathak
-                    case Area.HallsOfVaught:
-                        if (obj == GameObject.NihlathakWildernessStartPosition)
-                        {
-                            pointOfInterest.Add(new PointOfInterest
-                            {
-                                Label = "Nilathak",
-                                Position = points[0],
-                                RenderingSettings = Settings.Rendering.Quest
-                            });
-                        }
-                        break;
-                    // Lilith
-                    case Area.MatronsDen:
-                        if (obj == GameObject.SparklyChest)
-                        {
-                            pointOfInterest.Add(new PointOfInterest
-                            {
-                                Label = "Lilith",
-                                Position = points[0],
-                                RenderingSettings = Settings.Rendering.Quest
-                            });
-                        }
-                        break;
-                    // Uber Izual
-                    case Area.FurnaceOfPain:
-                        if (obj == GameObject.SparklyChest)
-                        {
-                            pointOfInterest.Add(new PointOfInterest
-                            {
-                                Label = "Uber Izual",
-                                Position = points[0],
-                                RenderingSettings = Settings.Rendering.Quest
-                            });
-                        }
-                        break;
                 }
             }
 
