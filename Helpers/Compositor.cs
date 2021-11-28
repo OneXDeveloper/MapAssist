@@ -45,13 +45,25 @@ namespace MapAssist.Helpers
             (_background, CropOffset) = DrawBackground(areaData, pointOfInterest);
         }
 
-        public Bitmap Compose(GameData gameData, bool scale = true)
+        public (Bitmap, Point) Compose(GameData gameData)
         {
             if (gameData.Area != _areaData.Area)
             {
                 throw new ApplicationException("Asked to compose an image for a different area." +
                                                $"Compositor area: {_areaData.Area}, Game data: {gameData.Area}");
             }
+
+            Point localPlayerPosition = gameData.PlayerPosition
+                .OffsetFrom(_areaData.Origin)
+                .OffsetFrom(CropOffset)
+                .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize));
+
+            var playerIconRadius = GetIconRadius(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize);
+
+            var localPlayerCenterPosition = new Point(
+                localPlayerPosition.X + playerIconRadius,
+                localPlayerPosition.Y + playerIconRadius
+            );
 
             var image = (Bitmap)_background.Clone();
 
@@ -61,13 +73,6 @@ namespace MapAssist.Helpers
                 imageGraphics.InterpolationMode = InterpolationMode.Bicubic;
                 imageGraphics.SmoothingMode = SmoothingMode.HighSpeed;
                 imageGraphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-
-                Point localPlayerPosition = gameData.PlayerPosition
-                    .OffsetFrom(_areaData.Origin)
-                    .OffsetFrom(CropOffset)
-                    .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize));
-
-                var playerIconRadius = GetIconRadius(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize);
 
                 if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
                 {
@@ -88,10 +93,6 @@ namespace MapAssist.Helpers
                                 poi.RenderingSettings.ArrowHeadSize);
                         }
 
-                        var localPlayerCenterPosition = new Point(
-                            localPlayerPosition.X + playerIconRadius,
-                            localPlayerPosition.Y + playerIconRadius
-                        );
                         var poiPosition = poi.Position.OffsetFrom(_areaData.Origin).OffsetFrom(CropOffset);
 
                         imageGraphics.DrawLine(pen, localPlayerCenterPosition, poiPosition);
@@ -156,18 +157,12 @@ namespace MapAssist.Helpers
                 }
             }
 
-            double multiplier = 1;
+            double biggestDimension = Math.Max(image.Width, image.Height);
+            var multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
 
-            if (scale)
+            if (multiplier == 0)
             {
-                double biggestDimension = Math.Max(image.Width, image.Height);
-
-                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
-
-                if (multiplier == 0)
-                {
-                    multiplier = 1;
-                }
+                multiplier = 1;
             }
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -175,15 +170,29 @@ namespace MapAssist.Helpers
             {
                 image = ImageUtils.ResizeImage(image, (int)(image.Width * multiplier),
                     (int)(image.Height * multiplier));
+
+                localPlayerCenterPosition = new Point(
+                    (int)(localPlayerPosition.X * multiplier),
+                    (int)(localPlayerPosition.Y * multiplier)
+                );
             }
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (scale && MapAssistConfiguration.Loaded.RenderingConfiguration.Rotate)
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.Rotate)
             {
-                image = ImageUtils.RotateImage(image, 53, true, false, Color.Transparent);
+                var angleDegrees = 53;
+
+                var preRotateCenter = new Point(image.Width / 2, image.Height / 2);
+
+                image = ImageUtils.RotateImage(image, angleDegrees, true, false, Color.Transparent);
+
+                var postRotateCenter = new Point(image.Width / 2, image.Height / 2);
+
+                localPlayerCenterPosition = ImageUtils.RotatePoint(localPlayerCenterPosition, preRotateCenter, angleDegrees);
+                localPlayerCenterPosition.Offset(postRotateCenter.OffsetFrom(preRotateCenter));
             }
 
-            return image;
+            return (image, localPlayerCenterPosition);
         }
 
         private (Bitmap, Point) DrawBackground(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)

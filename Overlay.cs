@@ -173,30 +173,31 @@ namespace MapAssist
                     return;
                 }
 
-                Bitmap gamemap = _compositor.Compose(_currentGameData,
-                    !MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode);
+                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData);
 
                 Point anchor;
-                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                 {
-                    DrawMapOverlayMode(gfx, gamemap, out gamemap, out anchor);
-                }
-                else
-                {
-                    switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
-                    {
-                        case MapPosition.Center:
+                    case MapPosition.Center:
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        {
+                            anchor = new Point(_window.Width / 2 - playerCenter.X,
+                                _window.Height / 2 - playerCenter.Y);
+                        }
+                        else
+                        {
                             anchor = new Point(_window.Width / 2 - gamemap.Width / 2,
                                 _window.Height / 2 - gamemap.Height / 2);
-                            break;
-                        case MapPosition.TopRight:
-                            anchor = new Point(_window.Width - gamemap.Width, 0);
-                            break;
-                        default:
-                            anchor = new Point(0, 0);
-                            break;
-                    }
+                        }
+                        break;
+                    case MapPosition.TopRight:
+                        anchor = new Point(_window.Width - gamemap.Width, 0);
+                        break;
+                    default:
+                        anchor = new Point(0, 0);
+                        break;
                 }
+              
 
                 using (var image = new Image(gfx, ImageToByte(gamemap)))
                 {
