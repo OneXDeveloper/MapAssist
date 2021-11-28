@@ -42,6 +42,7 @@ namespace MapAssist.Types
             {
                 _room = processContext.Read<Structs.Room>(_pRoom);
             }
+
             return this;
         }
 
@@ -53,20 +54,28 @@ namespace MapAssist.Types
                 {
                     var addrBuf = new byte[8];
                     var uintBuf = new byte[4];
-                    WindowsExternal.ReadProcessMemory(processContext.Handle, IntPtr.Add(_pRoom, 0x40), uintBuf, uintBuf.Length, out _);
+                    WindowsExternal.ReadProcessMemory(processContext.Handle, IntPtr.Add(_pRoom, 0x40), uintBuf,
+                        uintBuf.Length, out _);
                     var numRoomsNear = BitConverter.ToUInt32(uintBuf, 0);
+                    if (numRoomsNear > 9)
+                    {
+                        numRoomsNear = 9;
+                    }
 
                     var roomList = new Room[numRoomsNear];
                     for (var p = 0; p < numRoomsNear; p++)
                     {
-                        WindowsExternal.ReadProcessMemory(processContext.Handle, IntPtr.Add(_room.pRoomsNear, p * 8), addrBuf, addrBuf.Length, out _);
+                        WindowsExternal.ReadProcessMemory(processContext.Handle, IntPtr.Add(_room.pRoomsNear, p * 8),
+                            addrBuf, addrBuf.Length, out _);
                         var pRoom = (IntPtr)BitConverter.ToInt64(addrBuf, 0);
                         roomList[p] = new Room(pRoom, false);
                     }
+
                     return roomList;
                 }
             }
         }
+
         public override bool Equals(object obj) => obj is Room other && Equals(other);
         public bool Equals(Room room) => _pRoom == room._pRoom;
         public override int GetHashCode() => _pRoom.GetHashCode();

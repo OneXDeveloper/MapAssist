@@ -40,6 +40,7 @@ namespace MapAssist.Types
             {
                 _actMisc = processContext.Read<Structs.ActMisc>(_pActMisc);
             }
+
             return this;
         }
 
