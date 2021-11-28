@@ -157,7 +157,7 @@ namespace MapAssist.Helpers
                 }
             }
 
-            double multiplier = 1 / zoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            double multiplier = 4.25 - zoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!overlayMode)
             {
@@ -171,22 +171,10 @@ namespace MapAssist.Helpers
                 }
             }
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (multiplier != 1)
-            {
-                image = ImageUtils.ResizeImage(image, (int)(image.Width * multiplier),
-                    (int)(image.Height * multiplier));
-
-                localPlayerCenterPosition = new Point(
-                    (int)(localPlayerPosition.X * multiplier),
-                    (int)(localPlayerPosition.Y * multiplier)
-                );
-            }
-
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (MapAssistConfiguration.Loaded.RenderingConfiguration.Rotate)
             {
-                var angleDegrees = 53;
+                var angleDegrees = 45;
 
                 var preRotateCenter = new Point(image.Width / 2, image.Height / 2);
 
@@ -196,6 +184,20 @@ namespace MapAssist.Helpers
 
                 localPlayerCenterPosition = ImageUtils.RotatePoint(localPlayerCenterPosition, preRotateCenter, angleDegrees);
                 localPlayerCenterPosition.Offset(postRotateCenter.OffsetFrom(preRotateCenter));
+            }
+
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (multiplier != 1 || overlayMode)
+            {
+                var heightShrink = overlayMode ? 0.5 : 1;
+
+                image = ImageUtils.ResizeImage(image, (int)(image.Width * multiplier),
+                    (int)(image.Height * multiplier * heightShrink));
+
+                localPlayerCenterPosition = new Point(
+                    (int)(localPlayerCenterPosition.X * multiplier),
+                    (int)(localPlayerCenterPosition.Y * multiplier * heightShrink)
+                );
             }
 
             return (image, localPlayerCenterPosition);
