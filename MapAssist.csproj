@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Files\ConfigurationParser.cs" />
     <Compile Include="Files\FileManager.cs" />
+    <Compile Include="Helpers\GameDataCache.cs" />
     <Compile Include="Helpers\GameManager.cs" />
     <Compile Include="Helpers\LootFilter.cs" />
     <Compile Include="Helpers\ProcessContext.cs" />

@@ -45,9 +45,9 @@ namespace MapAssist
         private System.Windows.Forms.NotifyIcon _trayIcon;
 
         private GameData _currentGameData;
+        private GameDataCache _gameDataCache;
         private Compositor _compositor;
         private AreaData _areaData;
-        private MapApi _mapApi;
         private bool _show = true;
 
         private readonly Dictionary<string, SolidBrush> _brushes;
@@ -55,12 +55,15 @@ namespace MapAssist
 
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
+            _gameDataCache = new GameDataCache();
+            
             var gfx = new Graphics() {MeasureFPS = true};
 
             _brushes = new Dictionary<string, SolidBrush>();
             _fonts = new Dictionary<string, Font>();
 
-            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = 60, IsVisible = true};
+            int desiredFps = Math.Min(1000 / MapAssistConfiguration.Loaded.UpdateTime, 30);
+            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = desiredFps, IsVisible = true};
 
             _window.DrawGraphics += _window_DrawGraphics;
             _window.SetupGraphics += _window_SetupGraphics;
@@ -379,32 +382,10 @@ namespace MapAssist
 
         private void UpdateGameData()
         {
-            GameData gameData = GameMemory.GetGameData();
-
-            if (gameData != null)
-            {
-                if (gameData.HasGameChanged(_currentGameData))
-                {
-                    _mapApi?.Dispose();
-                    _mapApi = new MapApi(MapApi.Client, gameData.Difficulty, gameData.MapSeed);
-                }
-
-                if (gameData.HasMapChanged(_currentGameData))
-                {
-                    Compositor compositor = null;
-
-                    if (gameData.Area != Area.None)
-                    {
-                        _areaData = _mapApi.GetMapData(gameData.Area);
-                        var pointsOfInterest = PointOfInterestHandler.Get(_mapApi, _areaData);
-                        compositor = new Compositor(_areaData, pointsOfInterest);
-                    }
-
-                    _compositor = compositor;
-                }
-            }
-
-            _currentGameData = gameData;
+            var gameData = _gameDataCache.Get();
+            _currentGameData = gameData.Item1;
+            _compositor = gameData.Item2;
+            _areaData = gameData.Item3;
         }
 
         private bool InGame()
@@ -440,7 +421,7 @@ namespace MapAssist
 
         private void _window_DestroyGraphics(object sender, DestroyGraphicsEventArgs e)
         {
-            _mapApi?.Dispose();
+            _gameDataCache?.Dispose();
 
             foreach (var pair in _brushes) pair.Value.Dispose();
             foreach (var pair in _fonts) pair.Value.Dispose();
