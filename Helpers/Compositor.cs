@@ -45,7 +45,7 @@ namespace MapAssist.Helpers
             (_background, CropOffset) = DrawBackground(areaData, pointOfInterest);
         }
 
-        public (Bitmap, Point) Compose(GameData gameData)
+        public (Bitmap, Point) Compose(GameData gameData, bool overlayMode, float zoomLevel)
         {
             if (gameData.Area != _areaData.Area)
             {
@@ -157,12 +157,18 @@ namespace MapAssist.Helpers
                 }
             }
 
-            double biggestDimension = Math.Max(image.Width, image.Height);
-            var multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
+            double multiplier = 1 / zoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
-            if (multiplier == 0)
+            if (!overlayMode)
             {
-                multiplier = 1;
+                double biggestDimension = Math.Max(image.Width, image.Height);
+
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
+
+                if (multiplier == 0)
+                {
+                    multiplier = 1;
+                }
             }
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
