@@ -76,6 +76,7 @@ namespace MapAssist.Types
             { 414, Npc.InvisiblePet },
             { 415, Npc.InfernoSentry },
             { 416, Npc.DeathSentry },
+            { 543, Npc.BaalThrone },
             { 711, Npc.DemonHole },
         };
     }
