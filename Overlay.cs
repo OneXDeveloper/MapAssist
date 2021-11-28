@@ -173,11 +173,11 @@ namespace MapAssist
                     return;
                 }
 
-                var zoomLevel = MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                
+                var smallCornerSize = new Size(640, 360);
+
                 var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
                     MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode,
-                    zoomLevel);
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
 
                 Point anchor;
                 switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
@@ -195,17 +195,42 @@ namespace MapAssist
                         }
                         break;
                     case MapPosition.TopRight:
-                        anchor = new Point(_window.Width - gamemap.Width, 0);
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        {
+                            anchor = new Point(_window.Width - smallCornerSize.Width, 0);
+                        }
+                        else
+                        {
+                            anchor = new Point(_window.Width - gamemap.Width, 0);
+                        }                        
                         break;
                     default:
                         anchor = new Point(0, 0);
                         break;
                 }
-              
 
-                using (var image = new Image(gfx, ImageToByte(gamemap)))
+
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
                 {
-                    gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    var newBitmap = new Bitmap(smallCornerSize.Width, smallCornerSize.Height);
+                    using (var g = System.Drawing.Graphics.FromImage(newBitmap))
+                    {
+                        g.DrawImage(gamemap, 0, 0,
+                            new Rectangle((int)(playerCenter.X - smallCornerSize.Width / 2), (int)(playerCenter.Y - smallCornerSize.Height / 2), smallCornerSize.Width, smallCornerSize.Height),
+                            GraphicsUnit.Pixel);
+                    }
+
+                    using (var image = new Image(gfx, ImageToByte(newBitmap)))
+                    {
+                        gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    }
+                }
+                else
+                {
+                    using (var image = new Image(gfx, ImageToByte(gamemap)))
+                    {
+                        gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    }
                 }
             }
         }
