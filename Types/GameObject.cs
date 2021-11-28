@@ -593,6 +593,7 @@ namespace MapAssist.Types
         FirePlaceGuy = 570,
         DoorBlocker1 = 571,
         DoorBlocker2 = 572,
+
         // Added manually
         GoodChest = 580,
         NotSoGoodChest = 581

@@ -37,7 +37,8 @@ namespace MapAssist.Helpers
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _UiSettingOffset;
         private static IntPtr _ExpansionCheckOffset;
-        
+        private static IntPtr _GameIPOffset;
+
         public static ProcessContext GetProcessContext()
         {
             var windowInFocus = IntPtr.Zero;
@@ -65,6 +66,7 @@ namespace MapAssist.Helpers
                 {
                     windowInFocus = WindowsExternal.GetForegroundWindow();
                 }
+
                 gameProcess = processes.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
 
                 if (gameProcess == null)
@@ -149,6 +151,7 @@ namespace MapAssist.Helpers
                     {
                         _UiSettingOffset = processContext.GetUiSettingsOffset();
                     }
+
                     return new Types.UiSettings(_UiSettingOffset);
                 }
             }
@@ -171,6 +174,23 @@ namespace MapAssist.Helpers
                 return _ExpansionCheckOffset;
             }
         }
+        public static IntPtr GameIPOffset
+        {
+            get
+            {
+                if (_GameIPOffset != IntPtr.Zero)
+                {
+                    return _GameIPOffset;
+                }
+
+                using (var processContext = GetProcessContext())
+                {
+                    _GameIPOffset = processContext.GetGameIPOffset();
+                }
+
+                return _GameIPOffset;
+            }
+        }
 
         public static void ResetPlayerUnit()
         {
@@ -178,6 +198,7 @@ namespace MapAssist.Helpers
             _UiSettingOffset = IntPtr.Zero;
             _UnitHashTableOffset = IntPtr.Zero;
             _ExpansionCheckOffset = IntPtr.Zero;
+            _GameIPOffset = IntPtr.Zero;
         }
     }
 }

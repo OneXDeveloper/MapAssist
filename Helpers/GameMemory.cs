@@ -20,18 +20,24 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Media;
+using System.Text;
+using MapAssist.Settings;
 using MapAssist.Types;
 
 namespace MapAssist.Helpers
 {
     public static class GameMemory
     {
+        private static uint _lastMapSeed;
+        private static int _currentProcessId;
         public static GameData GetGameData()
         {
             try
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
+                    _currentProcessId = processContext.ProcessId;
                     var playerUnit = GameManager.PlayerUnit;
                     playerUnit.Update();
 
@@ -41,6 +47,23 @@ namespace MapAssist.Helpers
                     {
                         throw new Exception("Map seed is out of bounds.");
                     }
+                    if (mapSeed != _lastMapSeed)
+                    {
+                        _lastMapSeed = mapSeed;
+                        if(!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
+                        {
+                            Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
+                            Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
+                            Items.ItemLog.Add(_currentProcessId, new List<UnitAny>());
+                        } else
+                        {
+                            Items.ItemUnitHashesSeen[_currentProcessId].Clear();
+                            Items.ItemUnitIdsSeen[_currentProcessId].Clear();
+                            Items.ItemLog[_currentProcessId].Clear();
+                        }
+                    }
+
+                    var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, 15)).TrimEnd((char)0);
 
                     var actId = playerUnit.Act.ActId;
 
@@ -60,14 +83,17 @@ namespace MapAssist.Helpers
 
                     var mapShown = GameManager.UiSettings.MapShown;
 
-                    var rooms = new HashSet<Room>() { playerUnit.Path.Room };
+                    var rooms = new HashSet<Room>() {playerUnit.Path.Room};
                     rooms = GetRooms(playerUnit.Path.Room, ref rooms);
                     foreach (var room in rooms)
                     {
                         room.Update();
                     }
+
                     var monsterList = new List<UnitAny>();
-                    GetUnits(rooms, ref monsterList);
+                    var itemList = new List<UnitAny>();
+                    GetUnits(rooms, ref monsterList, ref itemList);
+                    Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
 
                     return new GameData
                     {
@@ -79,6 +105,9 @@ namespace MapAssist.Helpers
                         MainWindowHandle = GameManager.MainWindowHandle,
                         PlayerName = playerUnit.Name,
                         Monsters = monsterList,
+                        Items = itemList,
+                        GameIP = gameIP,
+                        PlayerUnit = playerUnit
                     };
                 }
             }
@@ -89,7 +118,7 @@ namespace MapAssist.Helpers
                 return null;
             }
         }
-        private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList)
+        private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
         {
             foreach (var room in rooms)
             {
@@ -99,15 +128,43 @@ namespace MapAssist.Helpers
                     switch (unitAny.UnitType)
                     {
                         case UnitType.Monster:
-                            if (!monsterList.Contains(unitAny) && unitAny.IsMonster()){ 
-                                monsterList.Add(unitAny); 
+                            if (!monsterList.Contains(unitAny) && unitAny.IsMonster())
+                            {
+                                monsterList.Add(unitAny);
+                            }
+
+                            break;
+                        case UnitType.Item:
+                            if (!itemList.Contains(unitAny) && unitAny.IsDropped())
+                            {
+                                itemList.Add(unitAny);
+                                if ((!Items.ItemUnitHashesSeen[_currentProcessId].Contains(unitAny.ItemHash()) && !Items.ItemUnitIdsSeen[_currentProcessId].Contains(unitAny.UnitId)) && LootFilter.Filter(unitAny))
+                                {
+                                    if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
+                                    {
+                                        AudioPlayer.PlayItemAlert();
+                                    }
+                                    Items.ItemUnitHashesSeen[_currentProcessId].Add(unitAny.ItemHash());
+                                    Items.ItemUnitIdsSeen[_currentProcessId].Add(unitAny.UnitId);
+                                    if (Items.ItemLog[_currentProcessId].Count == MapAssistConfiguration.Loaded.ItemLog.MaxSize)
+                                    {
+                                        Items.ItemLog[_currentProcessId].RemoveAt(0);
+                                        Items.ItemLog[_currentProcessId].Add(unitAny);
+                                    }
+                                    else
+                                    {
+                                        Items.ItemLog[_currentProcessId].Add(unitAny);
+                                    }
+                                }
                             }
                             break;
                     }
+
                     unitAny = unitAny.RoomNext;
                 }
             }
         }
+
         private static HashSet<Room> GetRooms(Room startingRoom, ref HashSet<Room> roomsList)
         {
             var roomsNear = startingRoom.RoomsNear;
@@ -119,11 +176,13 @@ namespace MapAssist.Helpers
                     GetRooms(roomNear, ref roomsList);
                 }
             }
+
             if (!roomsList.Contains(startingRoom.RoomNextFast))
             {
                 roomsList.Add(startingRoom.RoomNextFast);
                 GetRooms(startingRoom.RoomNextFast, ref roomsList);
             }
+
             return roomsList;
         }
     }

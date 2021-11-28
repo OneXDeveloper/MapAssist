@@ -57,21 +57,21 @@ namespace MapAssist.Helpers
 
             using (var imageGraphics = Graphics.FromImage(image))
             {
-                imageGraphics.CompositingQuality = CompositingQuality.HighQuality;
-                imageGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                imageGraphics.SmoothingMode = SmoothingMode.HighQuality;
-                imageGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                imageGraphics.CompositingQuality = CompositingQuality.HighSpeed;
+                imageGraphics.InterpolationMode = InterpolationMode.Bicubic;
+                imageGraphics.SmoothingMode = SmoothingMode.HighSpeed;
+                imageGraphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
 
                 Point localPlayerPosition = gameData.PlayerPosition
                     .OffsetFrom(_areaData.Origin)
                     .OffsetFrom(CropOffset)
-                    .OffsetFrom(GetIconOffset(Settings.Rendering.Player.IconSize));
+                    .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize));
 
-                var playerIconRadius = GetIconRadius(Settings.Rendering.Player.IconSize);
+                var playerIconRadius = GetIconRadius(MapAssistConfiguration.Loaded.MapConfiguration.Player.IconSize);
 
-                if (Rendering.Player.CanDrawIcon())
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
                 {
-                    Bitmap playerIcon = GetIcon(Settings.Rendering.Player);
+                    Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
                     imageGraphics.DrawImage(playerIcon, localPlayerPosition);
                 }
 
@@ -100,7 +100,7 @@ namespace MapAssist.Helpers
 
                 foreach (var unitAny in gameData.Monsters)
                 {
-                    var mobRender = unitAny.IsElite() ? Rendering.EliteMonster : Rendering.NormalMonster;
+                    var mobRender = unitAny.IsElite() ? MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster : MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
 
                     if (mobRender.CanDrawIcon())
                     {
@@ -132,6 +132,28 @@ namespace MapAssist.Helpers
                         }
                     }
                 }
+
+                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
+                foreach (var item in gameData.Items)
+                {
+                    if (!LootFilter.Filter(item))
+                    {
+                        continue;
+                    }
+                    var color = Items.ItemColors[item.ItemData.ItemQuality];
+                    Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+                    Point origin = item.Position
+                        .OffsetFrom(_areaData.Origin)
+                        .OffsetFrom(CropOffset)
+                        .OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item.IconSize));
+                    imageGraphics.DrawImage(icon, origin);
+                    var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                    imageGraphics.DrawString(itemBaseName, font,
+                        new SolidBrush(color), 
+                        item.Position
+                        .OffsetFrom(_areaData.Origin)
+                        .OffsetFrom(CropOffset).OffsetFrom(new Point((int)(itemBaseName.Length * 2.5f), 0)));
+                }
             }
 
             double multiplier = 1;
@@ -140,7 +162,7 @@ namespace MapAssist.Helpers
             {
                 double biggestDimension = Math.Max(image.Width, image.Height);
 
-                multiplier = Settings.Map.Size / biggestDimension;
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
 
                 if (multiplier == 0)
                 {
@@ -156,7 +178,7 @@ namespace MapAssist.Helpers
             }
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (scale && Settings.Map.Rotate)
+            if (scale && MapAssistConfiguration.Loaded.RenderingConfiguration.Rotate)
             {
                 image = ImageUtils.RotateImage(image, 53, true, false, Color.Transparent);
             }
@@ -173,17 +195,17 @@ namespace MapAssist.Helpers
                 backgroundGraphics.FillRectangle(new SolidBrush(Color.Transparent), 0, 0,
                     areaData.CollisionGrid[0].Length,
                     areaData.CollisionGrid.Length);
-                backgroundGraphics.CompositingQuality = CompositingQuality.HighQuality;
-                backgroundGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                backgroundGraphics.SmoothingMode = SmoothingMode.HighQuality;
-                backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                backgroundGraphics.CompositingQuality = CompositingQuality.HighSpeed;
+                backgroundGraphics.InterpolationMode = InterpolationMode.Bicubic;
+                backgroundGraphics.SmoothingMode = SmoothingMode.HighSpeed;
+                backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
 
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                     {
                         var type = areaData.CollisionGrid[y][x];
-                        Color? typeColor = Settings.Map.MapColors[type];
+                        Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
                         if (typeColor != null)
                         {
                             background.SetPixel(x, y, (Color)typeColor);
@@ -258,11 +280,10 @@ namespace MapAssist.Helpers
                         case Shape.Polygon:
                             var halfSize = poiSettings.IconSize / 2;
                             var cutSize = poiSettings.IconSize / 10;
-                            PointF[] curvePoints = {
-                                new PointF(0, halfSize),
-                                new PointF(halfSize - cutSize, halfSize - cutSize),
-                                new PointF(halfSize, 0),
-                                new PointF(halfSize + cutSize, halfSize - cutSize),
+                            PointF[] curvePoints =
+                            {
+                                new PointF(0, halfSize), new PointF(halfSize - cutSize, halfSize - cutSize),
+                                new PointF(halfSize, 0), new PointF(halfSize + cutSize, halfSize - cutSize),
                                 new PointF(poiSettings.IconSize, halfSize),
                                 new PointF(halfSize + cutSize, halfSize + cutSize),
                                 new PointF(halfSize, poiSettings.IconSize),
@@ -275,17 +296,18 @@ namespace MapAssist.Helpers
                             var b = poiSettings.IconSize * 0.3333333f;
                             var c = poiSettings.IconSize * 0.6666666f;
                             var d = poiSettings.IconSize * 0.9166666f;
-                            PointF[] crossLinePoints = {
-                                new PointF(c, a), new PointF(c, b), new PointF(d, b),
-                                new PointF(d, c), new PointF(c, c), new PointF(c, d),
-                                new PointF(b, d), new PointF(b, c), new PointF(a, c),
-                                new PointF(a, b), new PointF(b, b), new PointF(b, a),
+                            PointF[] crossLinePoints =
+                            {
+                                new PointF(c, a), new PointF(c, b), new PointF(d, b), new PointF(d, c),
+                                new PointF(c, c), new PointF(c, d), new PointF(b, d), new PointF(b, c),
+                                new PointF(a, c), new PointF(a, b), new PointF(b, b), new PointF(b, a),
                                 new PointF(c, a)
                             };
                             for (var p = 0; p < crossLinePoints.Length - 1; p++)
                             {
                                 g.DrawLine(pen, crossLinePoints[p], crossLinePoints[p + 1]);
                             }
+
                             break;
                     }
                 }

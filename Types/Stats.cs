@@ -16,24 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace MapAssist.Types
 {
+    public static class States
+    {
+        public static readonly int StateCount = (int)Enum.GetValues(typeof(State)).Cast<State>().Max();
+    }
+    public static class StateMasks
+    {
+        public static readonly uint[] gdwBitMasks = new uint[]
+        {
+        0x00000001, 0x00000002, 0x00000004, 0x00000008, 0x00000010, 0x00000020, 0x00000040, 0x00000080,
+        0x00000100, 0x00000200, 0x00000400, 0x00000800, 0x00001000, 0x00002000, 0x00004000, 0x00008000,
+        0x00010000, 0x00020000, 0x00040000, 0x00080000, 0x00100000, 0x00200000, 0x00400000, 0x00800000,
+        0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000,
+        };
+    }
     public static class ResistColors
     {
         public static Dictionary<Resist, Color> ResistColor = new Dictionary<Resist, Color>
         {
-            { Resist.PHYSICAL, Color.Peru },
-            { Resist.MAGIC, Color.OrangeRed },
-            { Resist.FIRE, Color.Red },
-            { Resist.LIGHTNING, Color.Yellow },
-            { Resist.COLD, Color.CornflowerBlue },
-            { Resist.POISON, Color.LimeGreen },
-
+            {Resist.PHYSICAL, Color.Peru},
+            {Resist.MAGIC, Color.OrangeRed},
+            {Resist.FIRE, Color.Red},
+            {Resist.LIGHTNING, Color.Yellow},
+            {Resist.COLD, Color.CornflowerBlue},
+            {Resist.POISON, Color.LimeGreen},
         };
     }
+
     public enum Resist
     {
         PHYSICAL = 0,
@@ -43,28 +60,217 @@ namespace MapAssist.Types
         COLD = 4,
         POISON = 5
     }
+    public enum State
+    {
+        STATE_NONE = 0,
+        STATE_FREEZE,
+        STATE_POISON,
+        STATE_RESISTFIRE,
+        STATE_RESISTCOLD,
+        STATE_RESISTLIGHT,
+        STATE_RESISTMAGIC,
+        STATE_PLAYERBODY,
+        STATE_RESISTALL,
+        STATE_AMPLIFYDAMAGE,
+        STATE_FROZENARMOR,
+        STATE_COLD,
+        STATE_INFERNO,
+        STATE_BLAZE,
+        STATE_BONEARMOR,
+        STATE_CONCENTRATE,
+        STATE_ENCHANT,
+        STATE_INNERSIGHT,
+        STATE_SKILL_MOVE,
+        STATE_WEAKEN,
+        STATE_CHILLINGARMOR,
+        STATE_STUNNED,
+        STATE_SPIDERLAY,
+        STATE_DIMVISION,
+        STATE_SLOWED,
+        STATE_FETISHAURA,
+        STATE_SHOUT,
+        STATE_TAUNT,
+        STATE_CONVICTION,
+        STATE_CONVICTED,
+        STATE_ENERGYSHIELD,
+        STATE_VENOMCLAWS,
+        STATE_BATTLEORDERS,
+        STATE_MIGHT,
+        STATE_PRAYER,
+        STATE_HOLYFIRE,
+        STATE_THORNS,
+        STATE_DEFIANCE,
+        STATE_THUNDERSTORM,
+        STATE_LIGHTNINGBOLT,
+        STATE_BLESSEDAIM,
+        STATE_STAMINA,
+        STATE_CONCENTRATION,
+        STATE_HOLYWIND,
+        STATE_HOLYWINDCOLD,
+        STATE_CLEANSING,
+        STATE_HOLYSHOCK,
+        STATE_SANCTUARY,
+        STATE_MEDITATION,
+        STATE_FANATICISM,
+        STATE_REDEMPTION,
+        STATE_BATTLECOMMAND,
+        STATE_PREVENTHEAL,
+        STATE_CONVERSION,
+        STATE_UNINTERRUPTABLE,
+        STATE_IRONMAIDEN,
+        STATE_TERROR,
+        STATE_ATTRACT,
+        STATE_LIFETAP,
+        STATE_CONFUSE,
+        STATE_DECREPIFY,
+        STATE_LOWERRESIST,
+        STATE_OPENWOUNDS,
+        STATE_DOPPLEZON,
+        STATE_CRITICALSTRIKE,
+        STATE_DODGE,
+        STATE_AVOID,
+        STATE_PENETRATE,
+        STATE_EVADE,
+        STATE_PIERCE,
+        STATE_WARMTH,
+        STATE_FIREMASTERY,
+        STATE_LIGHTNINGMASTERY,
+        STATE_COLDMASTERY,
+        STATE_SWORDMASTERY,
+        STATE_AXEMASTERY,
+        STATE_MACEMASTERY,
+        STATE_POLEARMMASTERY,
+        STATE_THROWINGMASTERY,
+        STATE_SPEARMASTERY,
+        STATE_INCREASEDSTAMINA,
+        STATE_IRONSKIN,
+        STATE_INCREASEDSPEED,
+        STATE_NATURALRESISTANCE,
+        STATE_FINGERMAGECURSE,
+        STATE_NOMANAREGEN,
+        STATE_JUSTHIT,
+        STATE_SLOWMISSILES,
+        STATE_SHIVERARMOR,
+        STATE_BATTLECRY,
+        STATE_BLUE,
+        STATE_RED,
+        STATE_DEATH_DELAY,
+        STATE_VALKYRIE,
+        STATE_FRENZY,
+        STATE_BERSERK,
+        STATE_REVIVE,
+        STATE_ITEMFULLSET,
+        STATE_SOURCEUNIT,
+        STATE_REDEEMED,
+        STATE_HEALTHPOT,
+        STATE_HOLYSHIELD,
+        STATE_JUST_PORTALED,
+        STATE_MONFRENZY,
+        STATE_CORPSE_NODRAW,
+        STATE_ALIGNMENT,
+        STATE_MANAPOT,
+        STATE_SHATTER,
+        STATE_SYNC_WARPED,
+        STATE_CONVERSION_SAVE,
+        STATE_PREGNANT,
+        STATE_111,
+        STATE_RABIES,
+        STATE_DEFENSE_CURSE,
+        STATE_BLOOD_MANA,
+        STATE_BURNING,
+        STATE_DRAGONFLIGHT,
+        STATE_MAUL,
+        STATE_CORPSE_NOSELECT,
+        STATE_SHADOWWARRIOR,
+        STATE_FERALRAGE,
+        STATE_SKILLDELAY,
+        STATE_PROGRESSIVE_DAMAGE,
+        STATE_PROGRESSIVE_STEAL,
+        STATE_PROGRESSIVE_OTHER,
+        STATE_PROGRESSIVE_FIRE,
+        STATE_PROGRESSIVE_COLD,
+        STATE_PROGRESSIVE_LIGHTNING,
+        STATE_SHRINE_ARMOR,
+        STATE_SHRINE_COMBAT,
+        STATE_SHRINE_RESIST_LIGHTNING,
+        STATE_SHRINE_RESIST_FIRE,
+        STATE_SHRINE_RESIST_COLD,
+        STATE_SHRINE_RESIST_POISON,
+        STATE_SHRINE_SKILL,
+        STATE_SHRINE_MANA_REGEN,
+        STATE_SHRINE_STAMINA,
+        STATE_SHRINE_EXPERIENCE,
+        STATE_FENRIS_RAGE,
+        STATE_WOLF,
+        STATE_BEAR,
+        STATE_BLOODLUST,
+        STATE_CHANGECLASS,
+        STATE_ATTACHED,
+        STATE_HURRICANE,
+        STATE_ARMAGEDDON,
+        STATE_INVIS,
+        STATE_BARBS,
+        STATE_WOLVERINE,
+        STATE_OAKSAGE,
+        STATE_VINE_BEAST,
+        STATE_CYCLONEARMOR,
+        STATE_CLAWMASTERY,
+        STATE_CLOAK_OF_SHADOWS,
+        STATE_RECYCLED,
+        STATE_WEAPONBLOCK,
+        STATE_CLOAKED,
+        STATE_QUICKNESS,
+        STATE_BLADESHIELD,
+        STATE_FADE,
+        STATE_SUMMONRESIST,
+        STATE_OAKSAGECONTROL,
+        STATE_WOLVERINECONTROL,
+        STATE_BARBSCONTROL,
+        STATE_DEBUGCONTROL,
+        STATE_ITEMSET1,
+        STATE_ITEMSET2,
+        STATE_ITEMSET3,
+        STATE_ITEMSET4,
+        STATE_ITEMSET5,
+        STATE_ITEMSET6,
+        STATE_RUNEWORD,
+        STATE_RESTINPEACE,
+        STATE_CORPSEEXP,
+        STATE_WHIRLWIND,
+        STATE_FULLSETGENERIC,
+        STATE_MONSTERSET,
+        STATE_DELERIUM,
+        STATE_ANTIDOTE,
+        STATE_THAWING,
+        STATE_STAMINAPOT,
+        STATE_PASSIVE_RESISTFIRE,
+        STATE_PASSIVE_RESISTCOLD,
+        STATE_PASSIVE_RESISTLTNG,
+        STATE_UBERMINION,
+    };
+
     public enum Stat : short
     {
         STAT_INVALID = -1,
-        STAT_STRENGTH = 0,                  // 000
-        STAT_ENERGY,                        // 001
-        STAT_DEXTERITY,                         // 002
-        STAT_VITALITY,                      // 003
-        STAT_STATPTS,                       // 004
-        STAT_SKILLPTS,                      // 005
-        STAT_HITPOINTS,                         // 006
-        STAT_MAXHP,                             // 007
-        STAT_MANA,                          // 008
-        STAT_MAXMANA,                       // 009
-        STAT_STAMINA,                       // 00A
-        STAT_MAXSTAMINA,                    // 00B
-        STAT_LEVEL,                             // 00C
-        STAT_EXPERIENCE,                    // 00D
-        STAT_GOLD,                          // 00E
-        STAT_GOLDBANK,                      // 00F
-        STAT_ITEM_ARMOR_PERCENT,            // 010
-        STAT_ITEM_MAXDAMAGE_PERCENT,        // 011
-        STAT_ITEM_MINDAMAGE_PERCENT,        // 012
+        STAT_STRENGTH = 0, // 000
+        STAT_ENERGY, // 001
+        STAT_DEXTERITY, // 002
+        STAT_VITALITY, // 003
+        STAT_STATPTS, // 004
+        STAT_SKILLPTS, // 005
+        STAT_HITPOINTS, // 006
+        STAT_MAXHP, // 007
+        STAT_MANA, // 008
+        STAT_MAXMANA, // 009
+        STAT_STAMINA, // 00A
+        STAT_MAXSTAMINA, // 00B
+        STAT_LEVEL, // 00C
+        STAT_EXPERIENCE, // 00D
+        STAT_GOLD, // 00E
+        STAT_GOLDBANK, // 00F
+        STAT_ITEM_ARMOR_PERCENT, // 010
+        STAT_ITEM_MAXDAMAGE_PERCENT, // 011
+        STAT_ITEM_MINDAMAGE_PERCENT, // 012
         STAT_TOHIT,
         STAT_TOBLOCK,
         STAT_MINDAMAGE,

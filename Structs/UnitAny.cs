@@ -51,6 +51,7 @@ namespace MapAssist.Structs
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
     }
+
     [StructLayout(LayoutKind.Explicit)]
     public readonly struct StatValue
     {
@@ -75,5 +76,7 @@ namespace MapAssist.Structs
         [FieldOffset(0x1C)] public readonly uint Flags;
         [FieldOffset(0x30)] public readonly StatArrayStruct BaseStats;
         [FieldOffset(0x80)] public readonly StatArrayStruct Stats;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        [FieldOffset(0xAC8)] public readonly uint[] StateFlags;
     }
 }

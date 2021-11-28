@@ -34,9 +34,11 @@ namespace MapAssist.Structs
     public struct MonStats
     {
         private ushort Id;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
         public string Name;
     }
+
     [Flags]
     public enum MonsterTypeFlags : byte
     {
