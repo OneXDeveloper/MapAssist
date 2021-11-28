@@ -173,7 +173,11 @@ namespace MapAssist
                     return;
                 }
 
-                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData);
+                var zoomLevel = MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
+                
+                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode,
+                    zoomLevel);
 
                 Point anchor;
                 switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
@@ -203,88 +207,6 @@ namespace MapAssist
                 {
                     gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
-            }
-        }
-
-        private void DrawMapOverlayMode(Graphics gfx, Bitmap inMap, out Bitmap outMap, out Point anchor)
-        {
-            float w = 0;
-            float h = 0;
-            var scale = 0.0F;
-            var center = new Vector2();
-
-            if (ConfigurationManager.AppSettings["ZoomLevelDefault"] == null)
-            {
-                MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel = 1;
-            }
-
-            switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
-            {
-                case MapPosition.Center:
-                    w = _window.Width;
-                    h = _window.Height;
-                    scale = (1024.0F / h * w * 3f / 4f / 2.3F) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2 + 20);
-                    break;
-                case MapPosition.TopLeft:
-                    w = 640;
-                    h = 360;
-                    scale = (1024.0F / h * w * 3f / 4f / 3.35F + 48) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2);
-                    break;
-                case MapPosition.TopRight:
-                    w = 640;
-                    h = 360;
-                    scale = (1024.0F / h * w * 3f / 4f / 3.35F + 40) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2);
-                    break;
-            }
-
-            var cropOffset = new System.Drawing.Point();
-
-            if (_compositor != null)
-            {
-                cropOffset = _compositor.CropOffset;
-            }
-
-            System.Drawing.Point playerPosInArea = _currentGameData.PlayerPosition.OffsetFrom(_areaData.Origin)
-                .OffsetFrom(cropOffset);
-
-            var playerPos = new Vector2(playerPosInArea.X, playerPosInArea.Y);
-
-            Vector2 Transform(Vector2 p) =>
-                center +
-                DeltaInWorldToMinimapDelta(
-                    p - playerPos,
-                    (float)Math.Sqrt(w * w + h * h),
-                    scale,
-                    0);
-
-            var p1 = Transform(new Vector2(0, 0));
-            var p2 = Transform(new Vector2(inMap.Width, 0));
-            var p4 = Transform(new Vector2(0, inMap.Height));
-
-            PointF[] destinationPoints = {new PointF(p1.X, p1.Y), new PointF(p2.X, p2.Y), new PointF(p4.X, p4.Y)};
-
-            var b = new Bitmap((int)w, (int)h);
-
-            using (var g = System.Drawing.Graphics.FromImage(b))
-            {
-                g.DrawImage(inMap, destinationPoints);
-            }
-
-            outMap = b;
-
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.TopRight)
-            {
-                anchor = new Point(_window.Width - outMap.Width, 0);
-            }
-            else
-            {
-                anchor = new Point(0, 0);
             }
         }
 
