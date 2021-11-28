@@ -92,6 +92,15 @@ namespace MapAssist.Helpers
 
             return newBitmap;
         }
+        public static Point RotatePoint(Point inputPoint, Point centerPoint, float angleDegrees)
+        {
+            var angleRadians = angleDegrees * Math.PI / 180d; 
+            
+            return new Point(
+                centerPoint.X + (int)(Math.Cos(angleRadians) * (inputPoint.X - centerPoint.X) - Math.Sin(angleRadians) * (inputPoint.Y - centerPoint.Y)),
+                centerPoint.Y + (int)(Math.Sin(angleRadians) * (inputPoint.X - centerPoint.X) + Math.Cos(angleRadians) * (inputPoint.Y - centerPoint.Y))
+            );
+        }
 
         public static (Bitmap, Point) CropBitmap(Bitmap originalBitmap)
         {
