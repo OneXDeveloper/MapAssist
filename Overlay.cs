@@ -304,7 +304,7 @@ namespace MapAssist
             fontOffset += fontHeight + 5;
 
             // Overlay FPS
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowOverlayFPS)
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
             {
                 var padding = 16;
                 var infoText = new System.Text.StringBuilder()

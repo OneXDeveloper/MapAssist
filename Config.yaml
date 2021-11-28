@@ -1,7 +1,15 @@
-UpdateTime: 50
+# How often to read the game memory
+# You likely shouldn't change this
+UpdateTime: 30
+
+# Areas to preload so that they're hot and ready as soon as you go to them
 PrefetchAreas:
  - 'Catacombs Level 2'
  - 'Durance Of Hate Level 2'
+
+# Areas where the map should not show
+# This includes all the towns and various crappy areas
+# where you really don't need it.
 HiddenAreas:
  - 'Rogue Encampment'
  - 'Lut Gholein'
@@ -15,9 +23,10 @@ RenderingConfiguration:
   Opacity: 0.7
   OverlayMode: false
   AlwaysOnTop: true
+  # If set to false it will always show unless you use the hotkeys to disable it
   ToggleViaInGameMap: true
-  ShowOverlayFPS: true
   Size: 450
+  # Possible positions: Center, TopLeft, TopRight
   Position: TopRight
   Rotate: true
   ZoomLevel: 1
@@ -108,10 +117,13 @@ ApiConfiguration:
   Endpoint: 'http://localhost:8080/'
   Token: ''
 GameInfo:
+  # Developer setting, probably not useful
+  ShowOverlayFPS: false
   AlwaysShow: true
 ItemLog:
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true
+  # Number of items to show in the loot log
   MaxSize: 10
   AlwaysShow: false
   LabelFont: "Helvetica"

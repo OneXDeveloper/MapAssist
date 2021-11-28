@@ -150,9 +150,6 @@ public class RenderingConfiguration
     [YamlMember(Alias = "ToggleViaInGameMap", ApplyNamingConventions = false)]
     public bool ToggleViaInGameMap { get; set; }
 
-    [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
-    public bool ShowOverlayFPS { get; set; }
-
     [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
     public int Size { get; set; }
 
@@ -191,6 +188,9 @@ public class GameInfoConfiguration
 {
     [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
     public bool AlwaysShow { get; set; }
+    
+    [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
+    public bool ShowOverlayFPS { get; set; }
 }
 
 public class ItemLogConfiguration
