@@ -157,7 +157,7 @@ namespace MapAssist.Helpers
                 }
             }
 
-            double multiplier = 4.25 - zoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            var multiplier = 4.25 - zoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!overlayMode)
             {
