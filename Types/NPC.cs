@@ -64,6 +64,7 @@ namespace MapAssist.Types
             { 359, Npc.IronWolf },
             { 363, Npc.NecroSkeleton },
             { 364, Npc.NecroMage },
+            { 366, Npc.CompellingOrbNpc },
             { 370, Npc.SpiritMummy },
             { 377, Npc.Act2Guard4 },
             { 378, Npc.Act2Guard5 },
