@@ -62,7 +62,7 @@ namespace MapAssist
             _brushes = new Dictionary<string, SolidBrush>();
             _fonts = new Dictionary<string, Font>();
 
-            int desiredFps = Math.Min(1000 / MapAssistConfiguration.Loaded.UpdateTime, 30);
+            var desiredFps = Math.Min(1000 / MapAssistConfiguration.Loaded.UpdateTime, 30);
             _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = desiredFps, IsVisible = true};
 
             _window.DrawGraphics += _window_DrawGraphics;

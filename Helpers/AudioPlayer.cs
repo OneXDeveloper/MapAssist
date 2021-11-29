@@ -5,7 +5,7 @@ namespace MapAssist.Helpers
 {
     public class AudioPlayer
     {
-        private static DateTime? _itemAlertLastPlayed = DateTime.MinValue;
+        private static DateTime _itemAlertLastPlayed = DateTime.MinValue;
         private static readonly SoundPlayer _itemAlertPlayer = new SoundPlayer(Properties.Resources.ching);
         public static void PlayItemAlert()
         {
