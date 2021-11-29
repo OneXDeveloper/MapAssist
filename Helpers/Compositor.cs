@@ -192,57 +192,55 @@ namespace MapAssist.Helpers
                 Color? borderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapCustomColor("borders");
 
                 // draw map tiles directly from areaData
+                var drawWalkableTiles = MapAssistConfiguration.Loaded.RenderingConfiguration.DrawWalkableTiles;
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                     {
                         var type = areaData.CollisionGrid[y][x];
-                        Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
-                        if (typeColor != null)
+                        if ((type % 2 != 0) || (type % 2 == 0 && drawWalkableTiles == true)) // Draw unwalkable tiles and walkable tiles if setting is on
                         {
-                            background.SetPixel(x, y, (Color)typeColor);
+                            Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
+                            if (typeColor != null)
+                            {
+                                background.SetPixel(x, y, (Color)typeColor);
+                            }
                         }
                     }
                 }
 
-                // if borderColor is set, draw additional borders around walkable tiles (type=0)
-                if (borderColor != null)
+                var drawBorders = MapAssistConfiguration.Loaded.RenderingConfiguration.DrawBorders;
+                if (drawBorders == true)
                 {
+                    // draw additional borders around walkable tiles (type % 2 == 0)
                     for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                     {
                         for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                         {
                             var type = areaData.CollisionGrid[y][x];
-                            if (type == 0)
+                            if (type % 2 == 0)
                             {
                                 try
                                 {
                                     var maxYValue = areaData.CollisionGrid.Length;
                                     var maxXValue = areaData.CollisionGrid[y].Length;
-                                    // 0 is walkable terrain, if surrounding pixel is not zero, draw a border pixel
-                                    if (y + 1 < maxYValue && areaData.CollisionGrid[y + 1][x] != 0)
+                                    // if surrounding pixel is not walkable, draw a border pixel
+                                    if (y + 1 < maxYValue && areaData.CollisionGrid[y + 1][x] % 2 != 0)
                                         background.SetPixel(x, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && areaData.CollisionGrid[y - 1][x] != 0)
+                                    if (y - 1 >= 0 && areaData.CollisionGrid[y - 1][x] % 2 != 0)
                                         background.SetPixel(x, y - 1, (Color)borderColor);
-                                    if (y + 1 < maxYValue && x + 1 < maxXValue && areaData.CollisionGrid[y + 1][x + 1] != 0)
+                                    if (y + 1 < maxYValue && x + 1 < maxXValue && areaData.CollisionGrid[y + 1][x + 1] % 2 != 0)
                                         background.SetPixel(x + 1, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && x + 1 < maxXValue && areaData.CollisionGrid[y - 1][x + 1] != 0)
+                                    if (y - 1 >= 0 && x + 1 < maxXValue && areaData.CollisionGrid[y - 1][x + 1] % 2 != 0)
                                         background.SetPixel(x + 1, y - 1, (Color)borderColor);
-                                    if (y + 1 < maxYValue && x - 1 >= 0 && areaData.CollisionGrid[y + 1][x - 1] != 0)
+                                    if (y + 1 < maxYValue && x - 1 >= 0 && areaData.CollisionGrid[y + 1][x - 1] % 2 != 0)
                                         background.SetPixel(x - 1, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && x - 1 >= 0 && areaData.CollisionGrid[y - 1][x - 1] != 0)
+                                    if (y - 1 >= 0 && x - 1 >= 0 && areaData.CollisionGrid[y - 1][x - 1] % 2 != 0)
                                         background.SetPixel(x - 1, y - 1, (Color)borderColor);
-                                    if (x + 1 < maxXValue && areaData.CollisionGrid[y][x + 1] != 0)
+                                    if (x + 1 < maxXValue && areaData.CollisionGrid[y][x + 1] % 2 != 0)
                                         background.SetPixel(x + 1, y, (Color)borderColor);
-                                    if (x - 1 >= 0 && areaData.CollisionGrid[y][x - 1] != 0)
+                                    if (x - 1 >= 0 && areaData.CollisionGrid[y][x - 1] % 2 != 0)
                                         background.SetPixel(x - 1, y, (Color)borderColor);
-
-                                    Color? walkableColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(0);
-                                    if (walkableColor != null)
-                                    {
-                                        // Only draw if Color for tile type 0 is defined in config
-                                        background.SetPixel(x, y, (Color)walkableColor);
-                                    }
                                 }
                                 catch (IndexOutOfRangeException)
                                 {

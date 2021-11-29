@@ -156,6 +156,12 @@ public class RenderingConfiguration
     [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
     public bool OverlayMode { get; set; }
 
+    [YamlMember(Alias = "DrawBorders", ApplyNamingConventions = false)]
+    public bool DrawBorders { get; set; }
+
+    [YamlMember(Alias = "DrawWalkableTiles", ApplyNamingConventions = false)]
+    public bool DrawWalkableTiles { get; set; }
+
     [YamlMember(Alias = "AlwaysOnTop", ApplyNamingConventions = false)]
     public bool AlwaysOnTop { get; set; }
 
