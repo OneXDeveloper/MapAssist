@@ -212,7 +212,6 @@ namespace MapAssist
                         break;
                 }
 
-
                 if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
                 {
                     var newBitmap = new Bitmap(smallCornerSize.Width, smallCornerSize.Height);
