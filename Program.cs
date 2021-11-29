@@ -28,6 +28,9 @@ namespace MapAssist
 {
     static class Program
     {
+        private static string appName = "MapAssist";
+        private static Mutex mutex = null; 
+        
         private static NotifyIcon trayIcon;
         private static Overlay overlay;
         private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
@@ -40,6 +43,15 @@ namespace MapAssist
         {
             try
             {
+                bool createdNew;
+                mutex = new Mutex(true, appName, out createdNew);
+
+                if (!createdNew)
+                {
+                    //app is already running! Exiting the application  
+                    return;
+                }
+
                 var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
@@ -59,7 +71,7 @@ namespace MapAssist
                     {
                         Icon = Properties.Resources.Icon1,
                         ContextMenuStrip = contextMenu,
-                        Text = "MapAssist",
+                        Text = appName,
                         Visible = true
                     };
 
@@ -157,6 +169,8 @@ namespace MapAssist
             {
                 backWorkOverlay.CancelAsync();
             }
+
+            mutex.Dispose();
 
             Application.Exit();
         }
