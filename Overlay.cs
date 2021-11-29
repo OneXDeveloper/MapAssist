@@ -267,15 +267,18 @@ namespace MapAssist
 
         private int LeftSideOffsetStart()
         {
-            var blackBarWidth = _window.Width > 2880 ? (_window.Width - 2880) / 4 : 0;
-            return blackBarWidth;
+            return (int)Math.Max(Math.Round((_window.Width - _window.Height * 2.1) / 2), 0);
+        }
+
+        private int PlayerIconWidth()
+        {
+            return (int)Math.Round(_window.Height / 20f);
         }
 
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-
-            var textXOffset = LeftSideOffsetStart() + (int)(_window.Width * .06f);
+            var textXOffset = LeftSideOffsetStart() + PlayerIconWidth() + 40;
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
