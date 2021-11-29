@@ -1,7 +1,9 @@
-﻿#Item filter rules
-#"Any" can be used if you would like to see ALL uniques, all set items, all items with x sockets, etc
-#Most of the time we don't want to filter that broadly, so this is commented out with #
-#Any:
+# IMPORTANT: After changing anything in this file, ensure validity using https://jsonformatter.org/yaml-validator
+
+# Item filter rules
+# "Any" can be used if you would like to see ALL uniques, all set items, all items with x sockets, etc
+# Most of the time we don't want to filter that broadly, so this is commented out with #
+# Any:
 # - Qualities: unique/magic
 
 # The first line or "Key" is the item base name, in the next case, "Harlequin Crest" is a unique "Shako"
@@ -9,30 +11,30 @@
 Shako:
  - Qualities: unique
  
-#This thresher rule will look for only ethereal threshers with 4 sockets that are either normal/superior quality
+# This thresher rule will look for only ethereal threshers with 4 sockets that are either normal/superior quality
 Thresher:
  - Ethereal: true
    Qualities: [normal, superior]
    Sockets: [0, 4]
  - Qualities: unique # The Reaper's Toll
 
-#This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
+# This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
 Mage Plate:
  - Qualities: 
     - normal
     - superior
    Sockets: [3,4]
 
-#This monarch rule is really 2 separate rules.  Notice the "-" on each line
-#This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
+# This monarch rule is really 2 separate rules.  Notice the "-" on each line
+# This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
 Monarch:
  - Qualities: magic
  - Sockets: [4]
 
 
 # This is just an object that holds all our commonly used aliases
-# aliases are labeled by the `&` and then the name
-# they are then used by referencing `*` then the name
+# Aliases are labeled by the `&` and then the name
+# They are then used by referencing `*` then the name
 x-bases:
  - &merc-arm-base
   Ethereal: true
@@ -49,11 +51,17 @@ x-bases:
  - &pally-shield-base
    Qualities: [normal, superior]
    Sockets: [0, 4]
-#This ring rule will show all magic, rare, and unique rings
+# This ring rule will show all magic, rare, and unique rings
 Ring:
  - Qualities: [magic, rare, unique]
 
-###Mercenary Weapon Bases
+### Some items are inactive. 
+### To activate them for the loot log, remove the ## in front of them. 
+### To inactivate items, include a ## in front of them or delete it completely, then save this file.
+### You can test this with Full Rejuvination Potion below.
+##Full Rejuvenation Potion:
+
+### Mercenary Weapon Bases
 Giant Thresher: 
   - *merc-wep-base
 Cryptic Axe:
@@ -61,7 +69,7 @@ Cryptic Axe:
 Colossus Voulge:
   - *merc-wep-base
 
-###Mercenary Armor Bases
+### Mercenary Armor Bases
 
 Dusk Shroud:
  - *merc-arm-base
@@ -98,7 +106,7 @@ Sacred Armor:
  - Qualities: unique #Tyrael's Might
  - Qualities: set #Immortal King's Soul Cage
 
-###Bases
+### Bases
 Archon Plate:
  - *player-arm-base
 Flail:
@@ -123,7 +131,7 @@ Matriarchal Javelin:
  - Qualities: [magic, rare]
  - Qualities: unique #Thunderstroke
 
-###Misc
+### Misc
 Amulet:
  - Qualities: 
    - magic
@@ -144,14 +152,51 @@ Grand Charm:
 Key of Terror:
 Key of Hate:
 Key of Destruction:
-Full Rejuvenation Potion:
 
-###Rare Gloves and Boots
+### Exceptional Boots
+Demonhide Boots:
+ - Qualities: rare
+Sharkskin Boots:
+ - Qualities: rare
+Mesh Boots:
+ - Qualities: rare
+Battle Boots:
+ - Qualities: rare
+ #War Traveler
+ - Qualities: unique
+War Boots:
+ - Qualities: rare
+
+### Elite Boots
+Wyrmhide Boots:
+ - Qualities: rare
+Scarabshell Boots:
+ - Qualities: rare
+#Sandstorm Trek
+ - Qualities: unique
 Boneweave Boots:
  - Qualities: rare
 Mirrored Boots:
  - Qualities: rare
 Myrmidon Greaves:
+ - Qualities: rare
+ 
+### Exceptional Gloves
+Demonhide Gloves:
+ - Qualities: rare
+Sharkskin Gloves:
+ - Qualities: rare
+Heavy Bracers:
+ - Qualities: rare
+#Trang-Oul's Claws
+ - Qualities: set
+Battle Gauntlets:
+ - Qualities: rare
+War Gauntlets:
+ - Qualities: rare
+ 
+### Elite Gloves
+Bramble Mitts:
  - Qualities: rare
 Vampirebone Gloves:
  - Qualities: rare
@@ -164,7 +209,7 @@ Crusader Gauntlets:
 Ogre Gauntlets:
  - Qualities: rare
 
-###Circlets
+### Circlets
 Circlet:
  - Qualities: [magic, rare]
 Tiara:
@@ -176,7 +221,7 @@ Diadem:
  - Qualities: [magic, rare]
  - Qualities: unique #Griffon's Eye
 
-###Druid Pelts
+### Druid Pelts
 Blood Spirit:
  - Qualities: [magic, rare]
 Sun Spirit:
@@ -188,7 +233,7 @@ Sky Spirit:
 Dream Spirit:
  - Qualities: [magic, rare]
 
- ###Barbarian Helms
+ ### Barbarian Helms
 Carnage Helm:
  - Qualities: [magic, rare]
 Fury Visor:
@@ -200,7 +245,7 @@ Conquieror Crown:
 Guardian Crown:
  - Qualities: [magic, rare]
 
- ###Paladin Shields
+ ### Paladin Shields
 Akaran Targe:
  - *pally-shield-base
 Akaran Rondache:
@@ -210,7 +255,7 @@ Sacred Targe:
 Sacred Rondache:
  - *pally-shield-base
 
-###Runes
+### Runes
 Hel Rune:
 Pul Rune:
 Um Rune:
@@ -226,10 +271,9 @@ Jah Rune:
 Cham Rune:
 Zod Rune:
 
-###Gems
+### Gems
 Flawless Ruby:
 Flawless Emerald:
-Flawless Sapphire:
 Flawless Amethyst:
 Flawless Diamond:
 Flawless Topaz:
@@ -242,7 +286,7 @@ Perfect Diamond:
 Perfect Topaz:
 Perfect Skull:
 
-###Uniques
+### Uniques
 #Ribcracker
 Quarterstaff:
  - Qualities: unique
@@ -251,9 +295,6 @@ Serpentskin Armor:
  - Qualities: unique
 #Skullder's Ire
 Russet Armor:
- - Qualities: unique
-#War Traveler
-Battle Boots:
  - Qualities: unique
  #Aldur's Advance
  - Qualities: set
@@ -294,9 +335,6 @@ Slayer Guard:
  - Qualities: unique
 #Andariel's Visage
 Demonhead:
- - Qualities: unique
-#Sandstorm Trek
-Scarabshell Boots:
  - Qualities: unique
 #Death's Web
 Unearthed Wand:
@@ -350,13 +388,10 @@ Bone Knife:
 Fanged Knife:
  - Qualities: unique
 
-###Sets
+### Sets
 #Tal Rasha's Horadric Crest
 Death Mask:
  - Qualities: set
 #Tal Rasha's Fine Spun Cloth
 Mesh Belt:
- - Qualities: set
-#Trang-Oul's Claws
-Heavy Bracers:
  - Qualities: set
