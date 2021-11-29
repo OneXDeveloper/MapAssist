@@ -48,7 +48,11 @@ namespace MapAssist
 
                 if (!createdNew)
                 {
-                    //app is already running! Exiting the application  
+                    var rand = new Random();
+                    var isGemActive = rand.NextDouble() < 0.05;
+
+                    MessageBox.Show("An instance of " + appName + " is already running." + (isGemActive ? " Better go catch it!" : ""), appName, MessageBoxButtons.OK);
+
                     return;
                 }
 
