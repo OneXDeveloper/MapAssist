@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using MapAssist.Settings;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace MapAssist
 {
@@ -68,8 +69,19 @@ namespace MapAssist
 
                     var contextMenu = new ContextMenuStrip();
 
+                    var configMenuItem = new ToolStripMenuItem("Config", null, Config);
+                    var lootFilterMenuItem = new ToolStripMenuItem("Loot Filter", null, LootFilter);
+                    var restartMenuItem = new ToolStripMenuItem("Restart", null, Restart);
                     var exitMenuItem = new ToolStripMenuItem("Exit", null, Exit);
                     contextMenu.Items.Add(exitMenuItem);
+
+                    contextMenu.Items.AddRange(new ToolStripItem[] {
+                        configMenuItem,
+                        lootFilterMenuItem,
+                        new ToolStripSeparator(),
+                        restartMenuItem,
+                        exitMenuItem
+                    });
 
                     trayIcon = new NotifyIcon()
                     {
@@ -163,7 +175,19 @@ namespace MapAssist
             return configurationOk;
         }
 
-        private static void Exit(object sender, EventArgs e)
+        private static void Config(object sender, EventArgs e)
+        {
+            var _path = AppDomain.CurrentDomain.BaseDirectory;
+            Process.Start(_path + "\\Config.yaml");
+        }
+
+        private static void LootFilter(object sender, EventArgs e)
+        {
+            var _path = AppDomain.CurrentDomain.BaseDirectory;
+            Process.Start(_path + "\\ItemFilter.yaml");
+        }
+
+        private static void Dispose()
         {
             trayIcon.Visible = false;
 
@@ -175,6 +199,18 @@ namespace MapAssist
             }
 
             mutex.Dispose();
+        }
+
+        private static void Restart(object sender, EventArgs e)
+        {
+            Dispose();
+
+            Application.Restart();
+        }
+
+        private static void Exit(object sender, EventArgs e)
+        {
+            Dispose();
 
             Application.Exit();
         }
