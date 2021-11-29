@@ -120,12 +120,13 @@ namespace MapAssist.Helpers
             for (var i = 0; i <= 5; i++)
             {
                 var unitHashTable = GameManager.UnitHashTable(128 * 8 * i);
+                var unitType = (UnitType)i;
                 foreach (var pUnitAny in unitHashTable.UnitTable)
                 {
                     var unitAny = new Types.UnitAny(pUnitAny);
                     while (unitAny.IsValid())
                     {
-                        switch ((UnitType)i)
+                        switch (unitType)
                         {
                             case UnitType.Monster:
                                 if (!monsterList.Contains(unitAny) && unitAny.IsMonster())
