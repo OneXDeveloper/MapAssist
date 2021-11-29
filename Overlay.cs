@@ -176,7 +176,6 @@ namespace MapAssist
                 var smallCornerSize = new Size(640, 360);
 
                 var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
-                    MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode,
                     MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
 
                 Point anchor;

@@ -35,10 +35,12 @@ MapConfiguration:
     IconColor: DarkOrange
     IconShape: SquareOutline
     IconSize: 6
+    IconThickness: 2
   NormalMonster:
     IconColor: DarkRed
     IconShape: SquareOutline
     IconSize: 6
+    IconThickness: 2
   NextArea:
     IconColor: '237, 107, 0'
     IconShape: Square
@@ -69,6 +71,7 @@ MapConfiguration:
     IconColor: '255, 255, 0'
     IconShape: Square
     IconSize: 5
+    IconThickness: 2
   SuperChest:
     IconColor: '17, 255, 0'
     IconShape: Ellipse
