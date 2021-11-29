@@ -189,9 +189,9 @@ namespace MapAssist.Helpers
                 backgroundGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                // draw map tiles directly from areaData
                 Color? borderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapCustomColor("borders");
 
+                // draw map tiles directly from areaData
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
@@ -240,7 +240,7 @@ namespace MapAssist.Helpers
                                     Color? walkableColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(0);
                                     if (walkableColor != null)
                                     {
-                                        // Only draw if MapColor 0 is defined in App.config
+                                        // Only draw if Color for tile type 0 is defined in config
                                         background.SetPixel(x, y, (Color)walkableColor);
                                     }
                                 }
