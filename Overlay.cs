@@ -208,7 +208,7 @@ namespace MapAssist
                         }                        
                         break;
                     default:
-                        anchor = new Point(0, 0);
+                        anchor = new Point(LeftSideOffsetStart() + 100, 100);
                         break;
                 }
 
@@ -243,8 +243,8 @@ namespace MapAssist
             {
                 bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                     bmp.PixelFormat);
-                int numBytes = bmpData.Stride * bmp.Height;
-                byte[] byteData = new byte[numBytes];
+                var numBytes = bmpData.Stride * bmp.Height;
+                var byteData = new byte[numBytes];
                 IntPtr ptr = bmpData.Scan0;
                 Marshal.Copy(ptr, byteData, 0, numBytes);
 
@@ -265,12 +265,17 @@ namespace MapAssist
             }
         }
 
+        private int LeftSideOffsetStart()
+        {
+            var blackBarWidth = _window.Width > 2880 ? (_window.Width - 2880) / 4 : 0;
+            return blackBarWidth;
+        }
+
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-            var screenW = _window.Width;
-            var blackBarWidth = screenW > 2880 ? (screenW - 2880) / 4 : 0;
-            var textXOffset = blackBarWidth + (int)(screenW * .06f);
+
+            var textXOffset = LeftSideOffsetStart() + (int)(_window.Width * .06f);
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
