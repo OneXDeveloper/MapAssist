@@ -27,7 +27,6 @@ using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -37,7 +36,6 @@ using Bitmap = System.Drawing.Bitmap;
 using Color = GameOverlay.Drawing.Color;
 using Font = GameOverlay.Drawing.Font;
 using Graphics = GameOverlay.Drawing.Graphics;
-using Image = GameOverlay.Drawing.Image;
 using Point = GameOverlay.Drawing.Point;
 using SolidBrush = GameOverlay.Drawing.SolidBrush;
 
@@ -46,8 +44,6 @@ namespace MapAssist
     public class Overlay : IDisposable
     {
         private readonly GraphicsWindow _window;
-
-        private System.Windows.Forms.NotifyIcon _trayIcon;
 
         private GameData _currentGameData;
         private GameDataCache _gameDataCache;
@@ -61,7 +57,7 @@ namespace MapAssist
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
             _gameDataCache = new GameDataCache();
-            
+
             var gfx = new Graphics() {MeasureFPS = true};
 
             _brushes = new Dictionary<string, SolidBrush>();
@@ -103,23 +99,6 @@ namespace MapAssist
                     }
                 }
             };
-
-            _trayIcon = new System.Windows.Forms.NotifyIcon()
-            {
-                Icon = Properties.Resources.Icon1,
-                ContextMenu =
-                    new System.Windows.Forms.ContextMenu(
-                        new System.Windows.Forms.MenuItem[] {new System.Windows.Forms.MenuItem("Exit", Exit)}),
-                Text = "MapAssist",
-                Visible = true
-            };
-        }
-
-        void Exit(object sender, EventArgs e)
-        {
-            _trayIcon.Visible = false;
-
-            Dispose();
         }
 
         private void _window_SetupGraphics(object sender, SetupGraphicsEventArgs e)

@@ -19,17 +19,19 @@
 
 using System;
 using System.Threading;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using MapAssist.Files;
 using MapAssist.Settings;
-using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace MapAssist
 {
     static class Program
     {
+        private static NotifyIcon trayIcon;
+        private static Overlay overlay;
+        private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -41,25 +43,46 @@ namespace MapAssist
                 var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
-                    using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                    Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                    AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+
+                    var contextMenu = new ContextMenuStrip();
+
+                    var exitMenuItem = new ToolStripMenuItem("Exit", null, Exit);
+                    contextMenu.Items.Add(exitMenuItem);
+
+                    trayIcon = new NotifyIcon()
                     {
-                        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                        Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+                        Icon = Properties.Resources.Icon1,
+                        ContextMenuStrip = contextMenu,
+                        Text = "MapAssist",
+                        Visible = true
+                    };
 
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
+                    backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
+                    backWorkOverlay.WorkerSupportsCancellation = true;
+                    backWorkOverlay.RunWorkerAsync();
 
-                        using (var overlay = new Overlay(globalHook))
-                        {
-                            overlay.Run();
-                        }
-                    }
+                    Application.Run();
                 }
             }
             catch (Exception e)
             {
                 ProcessException(e);
+            }
+        }
+        public static void RunOverlay(object sender, DoWorkEventArgs e)
+        {
+            using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+            {
+                using (overlay = new Overlay(globalHook))
+                {
+                    overlay.Run();
+                }
             }
         }
 
@@ -122,6 +145,20 @@ namespace MapAssist
             }
 
             return configurationOk;
+        }
+
+        private static void Exit(object sender, EventArgs e)
+        {
+            trayIcon.Visible = false;
+
+            overlay.Dispose();
+
+            if (backWorkOverlay.IsBusy)
+            {
+                backWorkOverlay.CancelAsync();
+            }
+
+            Application.Exit();
         }
     }
 }
