@@ -301,6 +301,9 @@ namespace MapAssist.Helpers
                         case Shape.Ellipse:
                             g.FillEllipse(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
                             break;
+                        case Shape.EllipseOutline:
+                            g.DrawEllipse(pen, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
+                            break;
                         case Shape.Square:
                             g.FillRectangle(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
                             break;
