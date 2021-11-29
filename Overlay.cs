@@ -200,15 +200,15 @@ namespace MapAssist
                     case MapPosition.TopRight:
                         if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
                         {
-                            anchor = new Point(_window.Width - smallCornerSize.Width, 0);
+                            anchor = new Point(_window.Width - UltraWideMargin() - smallCornerSize.Width, 100);
                         }
                         else
                         {
-                            anchor = new Point(_window.Width - gamemap.Width, 0);
+                            anchor = new Point(_window.Width - UltraWideMargin() - gamemap.Width, 100);
                         }                        
                         break;
                     default:
-                        anchor = new Point(LeftSideOffsetStart() + 100, 100);
+                        anchor = new Point(UltraWideMargin() + 100, 100);
                         break;
                 }
 
@@ -265,7 +265,7 @@ namespace MapAssist
             }
         }
 
-        private int LeftSideOffsetStart()
+        private int UltraWideMargin()
         {
             return (int)Math.Max(Math.Round((_window.Width - _window.Height * 2.1) / 2), 0);
         }
@@ -278,7 +278,7 @@ namespace MapAssist
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-            var textXOffset = LeftSideOffsetStart() + PlayerIconWidth() + 40;
+            var textXOffset = UltraWideMargin() + PlayerIconWidth() + 40;
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
