@@ -157,9 +157,7 @@ namespace MapAssist.Helpers
                     var itemBaseName = Items.ItemNames[item.TxtFileNo];
                     imageGraphics.DrawString(itemBaseName, font,
                         new SolidBrush(color),
-                        item.Position
-                        .OffsetFrom(_areaData.Origin)
-                        .OffsetFrom(_cropOffset).OffsetFrom(new Point((int)(itemBaseName.Length * 2.5f), 0)));
+                        itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                 }
             }
 
@@ -288,7 +286,11 @@ namespace MapAssist.Helpers
             );
             if (!_iconCache.ContainsKey(cacheKey))
             {
-                var bitmap = new Bitmap((int)(poiSettings.IconSize * scaleWidth + poiSettings.IconThickness), (int)(poiSettings.IconSize * scaleHeight + poiSettings.IconThickness), PixelFormat.Format32bppArgb);
+                var distort = poiSettings.IconShape == Shape.Cross ? true : false;
+                var width = poiSettings.IconSize * scaleWidth + poiSettings.IconThickness;
+                var height = poiSettings.IconSize * (distort ? scaleHeight : scaleWidth) + poiSettings.IconThickness;
+
+                var bitmap = new Bitmap((int)width, (int)height, PixelFormat.Format32bppArgb);
                 var pen = new Pen(poiSettings.IconColor, poiSettings.IconThickness);
                 var brush = new SolidBrush(poiSettings.IconColor);
                 using (var g = Graphics.FromImage(bitmap))
@@ -297,13 +299,13 @@ namespace MapAssist.Helpers
                     switch (poiSettings.IconShape)
                     {
                         case Shape.Ellipse:
-                            g.FillEllipse(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleHeight);
+                            g.FillEllipse(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
                             break;
                         case Shape.Square:
-                            g.FillRectangle(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleHeight);
+                            g.FillRectangle(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
                             break;
                         case Shape.SquareOutline:
-                            g.DrawRectangle(pen, 0, 0, poiSettings.IconSize * scaleWidth - 1, poiSettings.IconSize * scaleHeight - 1);
+                            g.DrawRectangle(pen, 0, 0, poiSettings.IconSize * scaleWidth - 1, poiSettings.IconSize * scaleWidth - 1);
                             break;
                         case Shape.Polygon:
                             var halfSize = poiSettings.IconSize / 2;
@@ -320,7 +322,7 @@ namespace MapAssist.Helpers
 
                             for (var i = 0; i < curvePoints.Length; i++)
                             {
-                                curvePoints[i] = new PointF(curvePoints[i].X * scaleWidth, curvePoints[i].Y * scaleHeight);
+                                curvePoints[i] = new PointF(curvePoints[i].X * scaleWidth, curvePoints[i].Y * scaleWidth);
                             }
 
                             g.FillPolygon(brush, curvePoints);
