@@ -20,14 +20,25 @@ HiddenAreas:
  - 'Nihlathaks Temple'
 ClearPrefetchedOnAreaChange: true
 RenderingConfiguration:
-  Opacity: 0.7
-  OverlayMode: false
-  AlwaysOnTop: true
-  # If set to false it will always show unless you use the hotkeys to disable it
-  ToggleViaInGameMap: true
-  Size: 450
+  # Overlay mode defaults
+  # Comment these out and uncomment block below to go to oldschool mode
+  Opacity: 0.5
+  OverlayMode: true
   # Possible positions: Center, TopLeft, TopRight
-  Position: TopRight
+  Position: Center
+  # If set to false it will always show unless you use the hotkeys to disable it
+  ToggleViaInGameMap: false
+ 
+  # Non-overlay mode defaults
+  # Uncomment these out to go to oldschool mode
+  # Opacity: 0.5
+  # OverlayMode: false
+  # Position: TopRight
+  # If set to false it will always show unless you use the hotkeys to disable it
+  # ToggleViaInGameMap: true
+  
+  AlwaysOnTop: true
+  Size: 450
   Rotate: true
   ZoomLevel: 1
 MapConfiguration:

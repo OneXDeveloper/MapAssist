@@ -22,6 +22,9 @@ using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
+using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,6 +32,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using Bitmap = System.Drawing.Bitmap;
 using Color = GameOverlay.Drawing.Color;
 using Font = GameOverlay.Drawing.Font;
 using Graphics = GameOverlay.Drawing.Graphics;
@@ -62,8 +67,7 @@ namespace MapAssist
             _brushes = new Dictionary<string, SolidBrush>();
             _fonts = new Dictionary<string, Font>();
 
-            var desiredFps = Math.Min(1000 / MapAssistConfiguration.Loaded.UpdateTime, 30);
-            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = desiredFps, IsVisible = true};
+            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = 60, IsVisible = true};
 
             _window.DrawGraphics += _window_DrawGraphics;
             _window.SetupGraphics += _window_SetupGraphics;
@@ -219,18 +223,45 @@ namespace MapAssist
                             GraphicsUnit.Pixel);
                     }
 
-                    using (var image = new Image(gfx, ImageToByte(newBitmap)))
-                    {
-                        gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
-                    }
+                    DrawBitmap(gfx, newBitmap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
                 else
                 {
-                    using (var image = new Image(gfx, ImageToByte(gamemap)))
-                    {
-                        gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
-                    }
+                    DrawBitmap(gfx, gamemap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
+            }
+        }
+
+        private void DrawBitmap(Graphics gfx, Bitmap bmp, Point anchor, float opacity)
+        {
+            RenderTarget renderTarget = gfx.GetRenderTarget();
+            var destRight = anchor.X + bmp.Width;
+            var destBottom = anchor.Y + bmp.Height;
+            BitmapData bmpData = null;
+            SharpDX.Direct2D1.Bitmap newBmp = null;
+            try
+            {
+                bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+                    bmp.PixelFormat);
+                int numBytes = bmpData.Stride * bmp.Height;
+                byte[] byteData = new byte[numBytes];
+                IntPtr ptr = bmpData.Scan0;
+                Marshal.Copy(ptr, byteData, 0, numBytes);
+
+                newBmp = new SharpDX.Direct2D1.Bitmap(renderTarget, new Size2(bmp.Width, bmp.Height), new BitmapProperties(renderTarget.PixelFormat));
+                newBmp.CopyFromMemory(byteData, bmpData.Stride);
+                
+                renderTarget.DrawBitmap(
+                    newBmp,
+                    new RawRectangleF(anchor.X, anchor.Y, destRight, destBottom),
+                    opacity,
+                    BitmapInterpolationMode.Linear);
+                
+            }
+            finally
+            {
+                newBmp?.Dispose();
+                if (bmpData != null) bmp.UnlockBits(bmpData);
             }
         }
 
