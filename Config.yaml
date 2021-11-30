@@ -42,23 +42,13 @@ RenderingConfiguration:
   Rotate: true
   ZoomLevel: 1
 MapConfiguration:
-  SuperUniqueMonster:
-    IconColor: Yellow
-    IconShape: SquareOutline
-    IconSize: 6
-    IconThickness: 2
-  UniqueMonster:
+  EliteMonster:
     IconColor: DarkOrange
     IconShape: SquareOutline
     IconSize: 6
     IconThickness: 2
-  EliteMonster:
-    IconColor: DarkRed
-    IconShape: SquareOutline
-    IconSize: 6
-    IconThickness: 2
   NormalMonster:
-    IconColor: Gray
+    IconColor: DarkRed
     IconShape: SquareOutline
     IconSize: 6
     IconThickness: 2

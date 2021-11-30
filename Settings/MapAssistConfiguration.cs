@@ -97,12 +97,7 @@ namespace MapAssist.Settings
 
     public class MapConfiguration
     {
-        [YamlMember(Alias = "SuperUniqueMonster", ApplyNamingConventions = false)]
-        public IconRendering SuperUniqueMonster { get; set; }
 
-        [YamlMember(Alias = "UniqueMonster", ApplyNamingConventions = false)]
-        public IconRendering UniqueMonster { get; set; }
-        
         [YamlMember(Alias = "EliteMonster", ApplyNamingConventions = false)]
         public IconRendering EliteMonster { get; set; }
 

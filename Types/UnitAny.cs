@@ -191,6 +191,10 @@ namespace MapAssist.Types
             }
         }
 
+        public bool IsElite()
+        {
+            return _monsterData.MonsterType > 0;
+        }
         public bool IsDropped()
         {
             var itemMode = (ItemMode)_unitAny.Mode;
