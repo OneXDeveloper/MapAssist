@@ -24,6 +24,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using MapAssist.Types;
 using MapAssist.Settings;
+using MapAssist.Structs;
 
 namespace MapAssist.Helpers
 {
@@ -115,7 +116,7 @@ namespace MapAssist.Helpers
 
                 foreach (var unitAny in gameData.Monsters)
                 {
-                    var mobRender = unitAny.IsElite() ? MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster : MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
+                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
 
                     if (mobRender.CanDrawIcon())
                     {
@@ -128,7 +129,7 @@ namespace MapAssist.Helpers
 
                 foreach (var unitAny in gameData.Monsters)
                 {
-                    var mobRender = unitAny.IsElite() ? MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster : MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
+                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
 
                     if (mobRender.CanDrawIcon())
                     {
@@ -177,6 +178,26 @@ namespace MapAssist.Helpers
             }
 
             return (image, localPlayerPosition);
+        }
+
+        private static IconRendering GetMonsterIconRendering(MonsterData monsterData)
+        {
+            if ((monsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique)
+            {
+                return MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster;
+            }
+
+            if ((monsterData.MonsterType & MonsterTypeFlags.Unique) == MonsterTypeFlags.Unique)
+            {
+                return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
+            }
+
+            if (monsterData.MonsterType > 0)
+            {
+                return MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster;
+            }
+
+            return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 
         private (Bitmap, Point, Point, Point) DrawBackground(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)
