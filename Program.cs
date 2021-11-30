@@ -19,17 +19,23 @@
 
 using System;
 using System.Threading;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using MapAssist.Files;
 using MapAssist.Settings;
-using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace MapAssist
 {
     static class Program
     {
+        private static string appName = "MapAssist";
+        private static Mutex mutex = null; 
+        
+        private static NotifyIcon trayIcon;
+        private static Overlay overlay;
+        private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -38,28 +44,73 @@ namespace MapAssist
         {
             try
             {
+                bool createdNew;
+                mutex = new Mutex(true, appName, out createdNew);
+
+                if (!createdNew)
+                {
+                    var rand = new Random();
+                    var isGemActive = rand.NextDouble() < 0.05;
+
+                    MessageBox.Show("An instance of " + appName + " is already running." + (isGemActive ? " Better go catch it!" : ""), appName, MessageBoxButtons.OK);
+
+                    return;
+                }
+
                 var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
-                    using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                    Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                    AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+
+                    var contextMenu = new ContextMenuStrip();
+
+                    var configMenuItem = new ToolStripMenuItem("Config", null, Config);
+                    var lootFilterMenuItem = new ToolStripMenuItem("Loot Filter", null, LootFilter);
+                    var restartMenuItem = new ToolStripMenuItem("Restart", null, Restart);
+                    var exitMenuItem = new ToolStripMenuItem("Exit", null, Exit);
+                    contextMenu.Items.Add(exitMenuItem);
+
+                    contextMenu.Items.AddRange(new ToolStripItem[] {
+                        configMenuItem,
+                        lootFilterMenuItem,
+                        new ToolStripSeparator(),
+                        restartMenuItem,
+                        exitMenuItem
+                    });
+
+                    trayIcon = new NotifyIcon()
                     {
-                        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                        Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+                        Icon = Properties.Resources.Icon1,
+                        ContextMenuStrip = contextMenu,
+                        Text = appName,
+                        Visible = true
+                    };
 
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
+                    backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
+                    backWorkOverlay.WorkerSupportsCancellation = true;
+                    backWorkOverlay.RunWorkerAsync();
 
-                        using (var overlay = new Overlay(globalHook))
-                        {
-                            overlay.Run();
-                        }
-                    }
+                    Application.Run();
                 }
             }
             catch (Exception e)
             {
                 ProcessException(e);
+            }
+        }
+        public static void RunOverlay(object sender, DoWorkEventArgs e)
+        {
+            using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+            {
+                using (overlay = new Overlay(globalHook))
+                {
+                    overlay.Run();
+                }
             }
         }
 
@@ -122,6 +173,46 @@ namespace MapAssist
             }
 
             return configurationOk;
+        }
+
+        private static void Config(object sender, EventArgs e)
+        {
+            var _path = AppDomain.CurrentDomain.BaseDirectory;
+            Process.Start(_path + "\\Config.yaml");
+        }
+
+        private static void LootFilter(object sender, EventArgs e)
+        {
+            var _path = AppDomain.CurrentDomain.BaseDirectory;
+            Process.Start(_path + "\\ItemFilter.yaml");
+        }
+
+        private static void Dispose()
+        {
+            trayIcon.Visible = false;
+
+            overlay.Dispose();
+
+            if (backWorkOverlay.IsBusy)
+            {
+                backWorkOverlay.CancelAsync();
+            }
+
+            mutex.Dispose();
+        }
+
+        private static void Restart(object sender, EventArgs e)
+        {
+            Dispose();
+
+            Application.Restart();
+        }
+
+        private static void Exit(object sender, EventArgs e)
+        {
+            Dispose();
+
+            Application.Exit();
         }
     }
 }

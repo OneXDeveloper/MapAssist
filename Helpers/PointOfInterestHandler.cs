@@ -28,6 +28,12 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
+        private static readonly Dictionary<Area, GameObject> AreaSpecificQuestObjects = new Dictionary<Area, GameObject>
+        {
+            [Area.MatronsDen] = GameObject.SparklyChest, // Lilith
+            [Area.FurnaceOfPain] = GameObject.SparklyChest, // Über Izual
+        };
+
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
         {
             GameObject.HoradricCubeChest,
@@ -166,7 +172,6 @@ namespace MapAssist.Helpers
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                         });
-                        ;
                     }
 
                     break;
@@ -241,6 +246,19 @@ namespace MapAssist.Helpers
                         Position = points[0], 
                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
                     });
+                }
+                // Area-specific quest objects
+                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificQuestObjects[areaData.Area] == obj)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
                 }
                 // Shrines
                 else if (Shrines.Contains(obj))
