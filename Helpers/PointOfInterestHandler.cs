@@ -28,16 +28,10 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
-        private static readonly Dictionary<Area, HashSet<GameObject>> AreaSpecificQuestObjects = new Dictionary<Area, HashSet<GameObject>>
+        private static readonly Dictionary<Area, GameObject> AreaSpecificQuestObjects = new Dictionary<Area, GameObject>
         {
-            [Area.MatronsDen] = new HashSet<GameObject>
-            {
-                GameObject.SparklyChest, // Lilith
-            },
-            [Area.FurnaceOfPain] = new HashSet<GameObject>
-            {
-                GameObject.SparklyChest, // Über Izual
-            },
+            [Area.MatronsDen] = GameObject.SparklyChest, // Lilith
+            [Area.FurnaceOfPain] = GameObject.SparklyChest, // Über Izual
         };
 
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
@@ -256,7 +250,7 @@ namespace MapAssist.Helpers
                 // Area-specific quest objects
                 else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
                 {
-                    if (AreaSpecificQuestObjects[areaData.Area].Contains(obj))
+                    if (AreaSpecificQuestObjects[areaData.Area] == obj)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
