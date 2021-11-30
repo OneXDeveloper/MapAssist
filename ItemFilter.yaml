@@ -42,7 +42,7 @@ x-bases:
   Sockets: [0, 3, 4]
  - &player-arm-base
   Qualities: [normal, superior]
-  Sockets: [3, 4]
+  Sockets: [0, 3, 4]
   Ethereal: false
  - &merc-wep-base
   Ethereal: true
