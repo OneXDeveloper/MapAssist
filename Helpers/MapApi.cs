@@ -38,6 +38,7 @@ namespace MapAssist.Helpers
     public class MapApi : IDisposable
     {
         public static readonly HttpClient Client = HttpClient(MapAssistConfiguration.Loaded.ApiConfiguration.Endpoint, MapAssistConfiguration.Loaded.ApiConfiguration.Token);
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private readonly string _sessionId;
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
         private readonly BlockingCollection<Area[]> _prefetchRequests;
@@ -86,7 +87,7 @@ namespace MapAssist.Helpers
             if (!_cache.TryGetValue(area, out AreaData areaData))
             {
                 // Not in the cache, block.
-                Console.WriteLine($"Cache miss on {area}");
+                _log.Info($"Cache miss on {area}");
                 areaData = GetMapDataInternal(area);
             }
 
@@ -112,7 +113,7 @@ namespace MapAssist.Helpers
                 // Special value telling us to exit.
                 if (areas.Length == 0)
                 {
-                    Console.WriteLine("Prefetch thread terminating");
+                    _log.Info("Prefetch thread terminating");
                     return;
                 }
 
@@ -121,7 +122,7 @@ namespace MapAssist.Helpers
                     if (_cache.ContainsKey(area)) continue;
 
                     _cache[area] = GetMapDataInternal(area);
-                    Console.WriteLine($"Prefetched {area}");
+                    _log.Info($"Prefetched {area}");
                 }
             }
         }
@@ -166,7 +167,7 @@ namespace MapAssist.Helpers
             }
             catch (HttpRequestException) // Prevent HttpRequestException if D2MapAPI is closed before this program.
             {
-                Console.WriteLine("D2MapAPI server was closed, session was already destroyed.");
+                _log.Info("D2MapAPI server was closed, session was already destroyed.");
             }
         }
 

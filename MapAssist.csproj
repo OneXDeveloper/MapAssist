@@ -191,6 +191,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.7.12</Version>
+    </PackageReference>
     <PackageReference Include="YamlDotNet">
       <Version>11.2.1</Version>
     </PackageReference>

@@ -24,6 +24,7 @@ using Gma.System.MouseKeyHook;
 using MapAssist.Settings;
 using System.ComponentModel;
 using System.Diagnostics;
+using NLog;
 
 namespace MapAssist
 {
@@ -58,7 +59,7 @@ namespace MapAssist
                     return;
                 }
 
-                var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration();
+                var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration() && LoadLoggingConfiguration();
                 if (configurationOk)
                 {
                     Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -173,6 +174,40 @@ namespace MapAssist
             {
                 MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid loot filter configuration.",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return configurationOk;
+        }
+
+        private static bool LoadLoggingConfiguration()
+        {
+            var configurationOk = false;
+
+            try
+            {
+                var config = new NLog.Config.LoggingConfiguration();
+
+                var logfile = new NLog.Targets.FileTarget("logfile")
+                {
+                    FileName = "logs\\log.txt",
+                    ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.DateAndSequence,
+                    ArchiveOldFileOnStartup = true,
+                    MaxArchiveFiles = 20
+                };
+                var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+                // Rules for mapping loggers to targets
+                config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
+                config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
+
+                // Apply config
+                LogManager.Configuration = config;
+
+                configurationOk = true;
             }
             catch (Exception e)
             {

@@ -19,8 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Media;
 using System.Text;
 using MapAssist.Settings;
 using MapAssist.Types;
@@ -29,6 +27,7 @@ namespace MapAssist.Helpers
 {
     public static class GameMemory
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private static Dictionary<int, uint> _lastMapSeed = new Dictionary<int, uint>();
         private static int _currentProcessId;
         public static GameData GetGameData()
@@ -110,7 +109,14 @@ namespace MapAssist.Helpers
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                if (exception.Message == "Game process not found.")
+                {
+                    _log.Debug(exception);
+                }
+                else
+                {
+                    _log.Error(exception);
+                }
                 GameManager.ResetPlayerUnit();
                 return null;
             }

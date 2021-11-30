@@ -26,6 +26,7 @@ namespace MapAssist.Helpers
     public class ProcessContext : IDisposable
     {
         public int OpenContextCount = 1;
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private Process _process;
         private IntPtr _handle;
         private IntPtr _baseAddr;
@@ -123,7 +124,7 @@ namespace MapAssist.Helpers
             var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
-                Console.WriteLine("We failed to read the process memory");
+                _log.Info("We failed to read the process memory");
                 return IntPtr.Zero;
             }
 
@@ -141,7 +142,7 @@ namespace MapAssist.Helpers
             var resultRelativeAddress = IntPtr.Add(patternAddress, 6);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
-                Console.WriteLine("We failed to read the process memory");
+                _log.Info("We failed to read the process memory");
                 return IntPtr.Zero;
             }
 
@@ -160,7 +161,7 @@ namespace MapAssist.Helpers
             var resultRelativeAddress = IntPtr.Add(patternAddress, -4);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
-                Console.WriteLine("We failed to read the process memory");
+                _log.Info("We failed to read the process memory");
                 return IntPtr.Zero;
             }
 
@@ -178,7 +179,7 @@ namespace MapAssist.Helpers
             var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
-                Console.WriteLine("We failed to read the process memory");
+                _log.Info("We failed to read the process memory");
                 return IntPtr.Zero;
             }
 
@@ -216,7 +217,7 @@ namespace MapAssist.Helpers
             var memoryBuffer = new byte[_moduleSize];
             if (WindowsExternal.ReadProcessMemory(_handle, _baseAddr, memoryBuffer, _moduleSize, out _) == false)
             {
-                Console.WriteLine("We failed to read the process memory");
+                _log.Info("We failed to read the process memory");
                 return null;
             }
 

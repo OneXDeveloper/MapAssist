@@ -1,13 +1,13 @@
 ﻿using System.Text;
 using System;
 using System.IO;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace MapAssist.Files
 {
     public class FileManager
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private string _filePathRelative;
         private string _fullPath;
 
@@ -48,16 +48,16 @@ namespace MapAssist.Files
                 if (FileExists())
                 {
                     System.IO.File.Delete(_fullPath);
-                    Debug.WriteLine($"Removed {_fullPath}");
+                    _log.Debug($"Removed {_fullPath}");
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"Tried to remove {_fullPath} but got error:\n{e.Message}");
+                _log.Debug(e, $"Tried to remove {_fullPath} but got error.");
             }
         }
 
-        public String ReadFile()
+        public string ReadFile()
         {
             var sb = new StringBuilder();
             try
@@ -75,12 +75,11 @@ namespace MapAssist.Files
             catch (Exception e)
             {
                 // Let the user know what went wrong.
-                Debug.WriteLine($"The file {_filePathRelative} could not be read:");
-                Debug.WriteLine(e.Message);
+                _log.Debug(e, $"The file {_filePathRelative} could not be read.");
             }
             if (sb.ToString().Length == 0)
             {
-                Debug.WriteLine($"The file {_filePathRelative} Was empty ...");
+                _log.Debug($"The file {_filePathRelative} was empty...");
             }
 
             return sb.ToString();
@@ -99,8 +98,7 @@ namespace MapAssist.Files
             catch (Exception e)
             {
                 // Let the user know what went wrong.
-                Debug.WriteLine($"The file {_filePathRelative} could not be written:");
-                Debug.WriteLine(e.Message);
+                _log.Debug(e, $"The file {_filePathRelative} could not be written.");
                 return false;
             }
             return true;
