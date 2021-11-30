@@ -35,6 +35,7 @@ namespace MapAssist
         private static NotifyIcon trayIcon;
         private static Overlay overlay;
         private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
+        private static IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
 
         /// <summary>
         /// The main entry point for the application.
@@ -91,6 +92,14 @@ namespace MapAssist
                         Visible = true
                     };
 
+                    globalHook.KeyPress += (sender, args) =>
+                    {
+                        if (overlay != null)
+                        {
+                            overlay.KeyPressHandler(sender, args);
+                        }
+                    };
+
                     backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
                     backWorkOverlay.WorkerSupportsCancellation = true;
                     backWorkOverlay.RunWorkerAsync();
@@ -103,14 +112,12 @@ namespace MapAssist
                 ProcessException(e);
             }
         }
+
         public static void RunOverlay(object sender, DoWorkEventArgs e)
         {
-            using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
+            using (overlay = new Overlay(globalHook))
             {
-                using (overlay = new Overlay(globalHook))
-                {
-                    overlay.Run();
-                }
+                overlay.Run();
             }
         }
 
@@ -191,6 +198,7 @@ namespace MapAssist
         {
             trayIcon.Visible = false;
 
+            globalHook.Dispose();
             overlay.Dispose();
 
             if (backWorkOverlay.IsBusy)

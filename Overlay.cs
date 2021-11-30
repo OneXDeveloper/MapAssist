@@ -32,6 +32,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Bitmap = System.Drawing.Bitmap;
 using Color = GameOverlay.Drawing.Color;
 using Font = GameOverlay.Drawing.Font;
@@ -68,37 +69,6 @@ namespace MapAssist
             _window.DrawGraphics += _window_DrawGraphics;
             _window.SetupGraphics += _window_SetupGraphics;
             _window.DestroyGraphics += _window_DestroyGraphics;
-
-            keyboardMouseEvents.KeyPress += (_, args) =>
-            {
-                if (InGame())
-                {
-                    if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey)
-                    {
-                        _show = !_show;
-                    }
-
-                    if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomInKey)
-                    {
-                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel > 0.25f)
-                        {
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel -= 0.25f;
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
-                                (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * 1.15f);
-                        }
-                    }
-
-                    if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomOutKey)
-                    {
-                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel < 4f)
-                        {
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel += 0.25f;
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
-                                (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * .85f);
-                        }
-                    }
-                }
-            };
         }
 
         private void _window_SetupGraphics(object sender, SetupGraphicsEventArgs e)
@@ -346,6 +316,37 @@ namespace MapAssist
         {
             return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero &&
                    WindowsExternal.GetForegroundWindow() == _currentGameData.MainWindowHandle;
+        }
+
+        public void KeyPressHandler(object sender, KeyPressEventArgs args)
+        {
+            if (InGame())
+            {
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey)
+                {
+                    _show = !_show;
+                }
+
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomInKey)
+                {
+                    if (MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel > 0.25f)
+                    {
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel -= 0.25f;
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
+                            (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * 1.15f);
+                    }
+                }
+
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomOutKey)
+                {
+                    if (MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel < 4f)
+                    {
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel += 0.25f;
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
+                            (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * .85f);
+                    }
+                }
+            }
         }
 
         public Vector2 DeltaInWorldToMinimapDelta(Vector2 delta, double diag, float scale, float deltaZ = 0)
