@@ -60,10 +60,14 @@ namespace MapAssist.Types
             { 338, Npc.Guard },
             { 339, Npc.MiniSpider },
             { 344, Npc.BoneWall },
+            { 351, Npc.Hydra },
+            { 352, Npc.Hydra2 },
+            { 353, Npc.Hydra3 },
             { 355, Npc.SevenTombs },
             { 359, Npc.IronWolf },
             { 363, Npc.NecroSkeleton },
             { 364, Npc.NecroMage },
+            { 366, Npc.CompellingOrbNpc },
             { 370, Npc.SpiritMummy },
             { 377, Npc.Act2Guard4 },
             { 378, Npc.Act2Guard5 },
@@ -75,6 +79,7 @@ namespace MapAssist.Types
             { 414, Npc.InvisiblePet },
             { 415, Npc.InfernoSentry },
             { 416, Npc.DeathSentry },
+            { 543, Npc.BaalThrone },
             { 711, Npc.DemonHole },
         };
     }

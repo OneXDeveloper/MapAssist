@@ -22,6 +22,9 @@ using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
+using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,6 +32,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using Bitmap = System.Drawing.Bitmap;
 using Color = GameOverlay.Drawing.Color;
 using Font = GameOverlay.Drawing.Font;
 using Graphics = GameOverlay.Drawing.Graphics;
@@ -62,8 +67,7 @@ namespace MapAssist
             _brushes = new Dictionary<string, SolidBrush>();
             _fonts = new Dictionary<string, Font>();
 
-            int desiredFps = Math.Min(1000 / MapAssistConfiguration.Loaded.UpdateTime, 30);
-            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = desiredFps, IsVisible = true};
+            _window = new GraphicsWindow(0, 0, 1, 1, gfx) {FPS = 60, IsVisible = true};
 
             _window.DrawGraphics += _window_DrawGraphics;
             _window.SetupGraphics += _window_SetupGraphics;
@@ -173,126 +177,105 @@ namespace MapAssist
                     return;
                 }
 
-                Bitmap gamemap = _compositor.Compose(_currentGameData,
-                    !MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode);
+                var smallCornerSize = new Size(640, 360);
+
+                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
 
                 Point anchor;
-                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                 {
-                    DrawMapOverlayMode(gfx, gamemap, out gamemap, out anchor);
+                    case MapPosition.Center:
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        {
+                            anchor = new Point(_window.Width / 2 - playerCenter.X,
+                                _window.Height / 2 - playerCenter.Y);
+                        }
+                        else
+                        {
+                            anchor = new Point(_window.Width / 2 - gamemap.Width / 2,
+                                _window.Height / 2 - gamemap.Height / 2);
+                        }
+                        break;
+                    case MapPosition.TopRight:
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        {
+                            anchor = new Point(_window.Width - smallCornerSize.Width, 0);
+                        }
+                        else
+                        {
+                            anchor = new Point(_window.Width - gamemap.Width, 0);
+                        }                        
+                        break;
+                    default:
+                        anchor = new Point(LeftSideOffsetStart() + 100, 100);
+                        break;
+                }
+
+
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
+                {
+                    var newBitmap = new Bitmap(smallCornerSize.Width, smallCornerSize.Height);
+                    using (var g = System.Drawing.Graphics.FromImage(newBitmap))
+                    {
+                        g.DrawImage(gamemap, 0, 0,
+                            new Rectangle((int)(playerCenter.X - smallCornerSize.Width / 2), (int)(playerCenter.Y - smallCornerSize.Height / 2), smallCornerSize.Width, smallCornerSize.Height),
+                            GraphicsUnit.Pixel);
+                    }
+
+                    DrawBitmap(gfx, newBitmap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
                 else
                 {
-                    switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
-                    {
-                        case MapPosition.Center:
-                            anchor = new Point(_window.Width / 2 - gamemap.Width / 2,
-                                _window.Height / 2 - gamemap.Height / 2);
-                            break;
-                        case MapPosition.TopRight:
-                            anchor = new Point(_window.Width - gamemap.Width, 0);
-                            break;
-                        default:
-                            anchor = new Point(0, 0);
-                            break;
-                    }
-                }
-
-                using (var image = new Image(gfx, ImageToByte(gamemap)))
-                {
-                    gfx.DrawImage(image, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    DrawBitmap(gfx, gamemap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
             }
         }
 
-        private void DrawMapOverlayMode(Graphics gfx, Bitmap inMap, out Bitmap outMap, out Point anchor)
+        private void DrawBitmap(Graphics gfx, Bitmap bmp, Point anchor, float opacity)
         {
-            float w = 0;
-            float h = 0;
-            var scale = 0.0F;
-            var center = new Vector2();
-
-            if (ConfigurationManager.AppSettings["ZoomLevelDefault"] == null)
+            RenderTarget renderTarget = gfx.GetRenderTarget();
+            var destRight = anchor.X + bmp.Width;
+            var destBottom = anchor.Y + bmp.Height;
+            BitmapData bmpData = null;
+            SharpDX.Direct2D1.Bitmap newBmp = null;
+            try
             {
-                MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel = 1;
-            }
+                bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+                    bmp.PixelFormat);
+                var numBytes = bmpData.Stride * bmp.Height;
+                var byteData = new byte[numBytes];
+                IntPtr ptr = bmpData.Scan0;
+                Marshal.Copy(ptr, byteData, 0, numBytes);
 
-            switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
+                newBmp = new SharpDX.Direct2D1.Bitmap(renderTarget, new Size2(bmp.Width, bmp.Height), new BitmapProperties(renderTarget.PixelFormat));
+                newBmp.CopyFromMemory(byteData, bmpData.Stride);
+                
+                renderTarget.DrawBitmap(
+                    newBmp,
+                    new RawRectangleF(anchor.X, anchor.Y, destRight, destBottom),
+                    opacity,
+                    BitmapInterpolationMode.Linear);
+                
+            }
+            finally
             {
-                case MapPosition.Center:
-                    w = _window.Width;
-                    h = _window.Height;
-                    scale = (1024.0F / h * w * 3f / 4f / 2.3F) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2 + 20);
-                    break;
-                case MapPosition.TopLeft:
-                    w = 640;
-                    h = 360;
-                    scale = (1024.0F / h * w * 3f / 4f / 3.35F + 48) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2);
-                    break;
-                case MapPosition.TopRight:
-                    w = 640;
-                    h = 360;
-                    scale = (1024.0F / h * w * 3f / 4f / 3.35F + 40) *
-                            MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
-                    center = new Vector2(w / 2, h / 2);
-                    break;
+                newBmp?.Dispose();
+                if (bmpData != null) bmp.UnlockBits(bmpData);
             }
+        }
 
-            var cropOffset = new System.Drawing.Point();
-
-            if (_compositor != null)
-            {
-                cropOffset = _compositor.CropOffset;
-            }
-
-            System.Drawing.Point playerPosInArea = _currentGameData.PlayerPosition.OffsetFrom(_areaData.Origin)
-                .OffsetFrom(cropOffset);
-
-            var playerPos = new Vector2(playerPosInArea.X, playerPosInArea.Y);
-
-            Vector2 Transform(Vector2 p) =>
-                center +
-                DeltaInWorldToMinimapDelta(
-                    p - playerPos,
-                    (float)Math.Sqrt(w * w + h * h),
-                    scale,
-                    0);
-
-            var p1 = Transform(new Vector2(0, 0));
-            var p2 = Transform(new Vector2(inMap.Width, 0));
-            var p4 = Transform(new Vector2(0, inMap.Height));
-
-            PointF[] destinationPoints = {new PointF(p1.X, p1.Y), new PointF(p2.X, p2.Y), new PointF(p4.X, p4.Y)};
-
-            var b = new Bitmap((int)w, (int)h);
-
-            using (var g = System.Drawing.Graphics.FromImage(b))
-            {
-                g.DrawImage(inMap, destinationPoints);
-            }
-
-            outMap = b;
-
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.TopRight)
-            {
-                anchor = new Point(_window.Width - outMap.Width, 0);
-            }
-            else
-            {
-                anchor = new Point(0, 0);
-            }
+        private int LeftSideOffsetStart()
+        {
+            var blackBarWidth = _window.Width > 2880 ? (_window.Width - 2880) / 4 : 0;
+            return blackBarWidth;
         }
 
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-            var screenW = _window.Width;
-            var blackBarWidth = screenW > 2880 ? (screenW - 2880) / 4 : 0;
-            var textXOffset = blackBarWidth + (int)(screenW * .06f);
+
+            var textXOffset = LeftSideOffsetStart() + (int)(_window.Width * .06f);
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);

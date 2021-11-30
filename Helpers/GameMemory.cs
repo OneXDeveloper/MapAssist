@@ -29,7 +29,7 @@ namespace MapAssist.Helpers
 {
     public static class GameMemory
     {
-        private static uint _lastMapSeed;
+        private static Dictionary<int, uint> _lastMapSeed = new Dictionary<int, uint>();
         private static int _currentProcessId;
         public static GameData GetGameData()
         {
@@ -47,10 +47,14 @@ namespace MapAssist.Helpers
                     {
                         throw new Exception("Map seed is out of bounds.");
                     }
-                    if (mapSeed != _lastMapSeed)
+                    if (!_lastMapSeed.TryGetValue(_currentProcessId, out var _))
                     {
-                        _lastMapSeed = mapSeed;
-                        if(!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
+                        _lastMapSeed.Add(_currentProcessId, 0);
+                    }
+                    if (mapSeed != _lastMapSeed[_currentProcessId])
+                    {
+                        _lastMapSeed[_currentProcessId] = mapSeed;
+                        if (!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
                         {
                             Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
                             Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
@@ -83,16 +87,9 @@ namespace MapAssist.Helpers
 
                     var mapShown = GameManager.UiSettings.MapShown;
 
-                    var rooms = new HashSet<Room>() {playerUnit.Path.Room};
-                    rooms = GetRooms(playerUnit.Path.Room, ref rooms);
-                    foreach (var room in rooms)
-                    {
-                        room.Update();
-                    }
-
                     var monsterList = new List<UnitAny>();
                     var itemList = new List<UnitAny>();
-                    GetUnits(rooms, ref monsterList, ref itemList);
+                    GetUnits(ref monsterList, ref itemList);
                     Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
 
                     return new GameData
@@ -116,6 +113,55 @@ namespace MapAssist.Helpers
                 Console.WriteLine(exception.Message);
                 GameManager.ResetPlayerUnit();
                 return null;
+            }
+        }
+        private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
+        {
+            for (var i = 0; i <= 5; i++)
+            {
+                var unitHashTable = GameManager.UnitHashTable(128 * 8 * i);
+                var unitType = (UnitType)i;
+                foreach (var pUnitAny in unitHashTable.UnitTable)
+                {
+                    var unitAny = new Types.UnitAny(pUnitAny);
+                    while (unitAny.IsValid())
+                    {
+                        switch (unitType)
+                        {
+                            case UnitType.Monster:
+                                if (!monsterList.Contains(unitAny) && unitAny.IsMonster())
+                                {
+                                    monsterList.Add(unitAny);
+                                }
+                                break;
+                            case UnitType.Item:
+                                if (!itemList.Contains(unitAny) && unitAny.IsDropped())
+                                {
+                                    itemList.Add(unitAny);
+                                    if ((!Items.ItemUnitHashesSeen[_currentProcessId].Contains(unitAny.ItemHash()) && !Items.ItemUnitIdsSeen[_currentProcessId].Contains(unitAny.UnitId)) && LootFilter.Filter(unitAny))
+                                    {
+                                        if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
+                                        {
+                                            AudioPlayer.PlayItemAlert();
+                                        }
+                                        Items.ItemUnitHashesSeen[_currentProcessId].Add(unitAny.ItemHash());
+                                        Items.ItemUnitIdsSeen[_currentProcessId].Add(unitAny.UnitId);
+                                        if (Items.ItemLog[_currentProcessId].Count == MapAssistConfiguration.Loaded.ItemLog.MaxSize)
+                                        {
+                                            Items.ItemLog[_currentProcessId].RemoveAt(0);
+                                            Items.ItemLog[_currentProcessId].Add(unitAny);
+                                        }
+                                        else
+                                        {
+                                            Items.ItemLog[_currentProcessId].Add(unitAny);
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                        unitAny = unitAny.ListNext;
+                    }
+                }
             }
         }
         private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList)

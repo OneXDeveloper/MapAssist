@@ -99,7 +99,7 @@ namespace MapAssist.Helpers
                 {
                     if (Equals(_PlayerUnit, default(Types.UnitAny)))
                     {
-                        foreach (var pUnitAny in UnitHashTable.UnitTable)
+                        foreach (var pUnitAny in UnitHashTable().UnitTable)
                         {
                             var unitAny = new Types.UnitAny(pUnitAny);
 
@@ -125,19 +125,16 @@ namespace MapAssist.Helpers
             }
         }
 
-        public static UnitHashTable UnitHashTable
+        public static UnitHashTable UnitHashTable(int offset = 0)
         {
-            get
+            using (var processContext = GetProcessContext())
             {
-                using (var processContext = GetProcessContext())
+                if (_UnitHashTableOffset == IntPtr.Zero)
                 {
-                    if (_UnitHashTableOffset == IntPtr.Zero)
-                    {
-                        _UnitHashTableOffset = processContext.GetUnitHashtableOffset();
-                    }
-
-                    return processContext.Read<UnitHashTable>(_UnitHashTableOffset);
+                    _UnitHashTableOffset = processContext.GetUnitHashtableOffset();
                 }
+
+                return processContext.Read<UnitHashTable>(IntPtr.Add(_UnitHashTableOffset, offset));
             }
         }
 

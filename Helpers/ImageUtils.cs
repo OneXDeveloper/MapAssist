@@ -93,6 +93,16 @@ namespace MapAssist.Helpers
             return newBitmap;
         }
 
+        public static Point RotatePoint(Point inputPoint, Point centerPoint, float angleDegrees)
+        {
+            var angleRadians = angleDegrees * Math.PI / 180d;
+
+            return new Point(
+                (int)(centerPoint.X + Math.Cos(angleRadians) * (inputPoint.X - centerPoint.X) - Math.Sin(angleRadians) * (inputPoint.Y - centerPoint.Y)),
+                (int)(centerPoint.Y + Math.Sin(angleRadians) * (inputPoint.X - centerPoint.X) + Math.Cos(angleRadians) * (inputPoint.Y - centerPoint.Y))
+            );
+        }
+
         public static (Bitmap, Point) CropBitmap(Bitmap originalBitmap)
         {
             // Find the min/max non-white/transparent pixels
