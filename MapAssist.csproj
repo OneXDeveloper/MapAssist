@@ -211,5 +211,284 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SALVATION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SANCTUARY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHADOWMASTER.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHADOWWARRIOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHIVERARMOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHOUT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SLOWMISSILES.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SPEARMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\STAMINA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SWORDMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TELEPORT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TERROR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\THORNS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\THROWINGMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\THUNDERSTORM.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VALKYRIE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VENOMCLAWS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VIGOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WARMTH.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEAKEN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEAPONBLOCK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WHIRLWIND.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WOLF.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WOLVERINE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AMPLIFYDAMAGE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ARMAGEDDON.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATTRACT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AVOID.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AXEMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BARBS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BATTLECOMMAND.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BATTLEORDERS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BEAR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BERSERK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BLADESHIELD.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BLAZE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BLESSEDAIM.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BONEARMOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CHILLINGARMOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CLAWMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CLEANSING.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CLOAK_OF_SHADOWS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CLOAKED.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\COLDMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CONCENTRATION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CONFUSE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CONVERSION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CONVICTION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CRITICALSTRIKE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CYCLONEARMOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECOY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECREPIFY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DEFIANCE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DIMVISION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DODGE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ENCHANT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ENERGYSHIELD.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EVADE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FANATICISM.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FENRIS_RAGE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FERALRAGE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FIREMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FRENZY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FROZENARMOR.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HOLYFIRE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HOLYSHIELD.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HOLYSHOCK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HOLYWIND.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HURRICANE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IMPALE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INCREASEDSPEED.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INCREASEDSTAMINA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INFERNO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INNERSIGHT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IRONMAIDEN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IRONSKIN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LIFETAP.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LIGHTNINGMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOWERRESIST.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MACEMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MEDITATION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MIGHT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NATURALRESISTANCE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OAKSAGE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PENETRATE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIERCE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\POLEARMMASTERY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PRAYER.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QUICKNESS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REDEMPTION.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RESISTCOLD.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RESISTFIRE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RESISTLIGHTNING.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -124,4 +124,283 @@
   <data name="ching" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ching.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="AMPLIFYDAMAGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AMPLIFYDAMAGE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARMAGEDDON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ARMAGEDDON.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ATTRACT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ATTRACT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AVOID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AVOID.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AXEMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AXEMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BARBS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BARBS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BATTLECOMMAND" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BATTLECOMMAND.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BATTLEORDERS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BATTLEORDERS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BEAR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BEAR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BERSERK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BERSERK.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BLADESHIELD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BLADESHIELD.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BLAZE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BLAZE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BLESSEDAIM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BLESSEDAIM.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BONEARMOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BONEARMOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CHILLINGARMOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CHILLINGARMOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CLAWMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLAWMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CLEANSING" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLEANSING.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CLOAKED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLOAKED.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CLOAK_OF_SHADOWS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLOAK_OF_SHADOWS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="COLDMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COLDMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONCENTRATION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CONCENTRATION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONFUSE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CONFUSE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONVERSION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CONVERSION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONVICTION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CONVICTION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CRITICALSTRIKE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CRITICALSTRIKE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CYCLONEARMOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CYCLONEARMOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DECOY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DECOY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DECREPIFY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DECREPIFY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DEFIANCE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DEFIANCE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DIMVISION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DIMVISION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DODGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DODGE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ENCHANT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ENCHANT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ENERGYSHIELD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ENERGYSHIELD.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EVADE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EVADE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FANATICISM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FANATICISM.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FENRIS_RAGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FENRIS_RAGE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FERALRAGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FERALRAGE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FIREMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FIREMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FRENZY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FRENZY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FROZENARMOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FROZENARMOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HOLYFIRE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOLYFIRE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HOLYSHIELD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOLYSHIELD.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HOLYSHOCK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOLYSHOCK.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HOLYWIND" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HOLYWIND.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HURRICANE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HURRICANE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IMPALE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IMPALE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="INCREASEDSPEED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INCREASEDSPEED.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="INCREASEDSTAMINA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INCREASEDSTAMINA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="INFERNO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INFERNO.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="INNERSIGHT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INNERSIGHT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IRONMAIDEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IRONMAIDEN.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IRONSKIN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IRONSKIN.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LIFETAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LIFETAP.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LIGHTNINGMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LIGHTNINGMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LOWERRESIST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LOWERRESIST.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MACEMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MACEMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MEDITATION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MEDITATION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MIGHT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MIGHT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NATURALRESISTANCE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NATURALRESISTANCE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OAKSAGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OAKSAGE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PENETRATE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PENETRATE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PIERCE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PIERCE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="POLEARMMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\POLEARMMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PRAYER" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PRAYER.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QUICKNESS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QUICKNESS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="REDEMPTION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\REDEMPTION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RESISTCOLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RESISTCOLD.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RESISTFIRE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RESISTFIRE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RESISTLIGHTNING" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RESISTLIGHTNING.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SALVATION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SALVATION.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SANCTUARY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SANCTUARY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SHADOWMASTER" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SHADOWMASTER.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SHADOWWARRIOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SHADOWWARRIOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SHIVERARMOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SHIVERARMOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SHOUT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SHOUT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SLOWMISSILES" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SLOWMISSILES.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPEARMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPEARMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="STAMINA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\STAMINA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SWORDMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SWORDMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TELEPORT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TELEPORT.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TERROR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TERROR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="THORNS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\THORNS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="THROWINGMASTERY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\THROWINGMASTERY.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="THUNDERSTORM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\THUNDERSTORM.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VALKYRIE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VALKYRIE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VENOMCLAWS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VENOMCLAWS.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VIGOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VIGOR.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WARMTH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WARMTH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WEAKEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WEAKEN.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WEAPONBLOCK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WEAPONBLOCK.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WHIRLWIND" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WHIRLWIND.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WOLF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WOLF.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WOLVERINE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WOLVERINE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

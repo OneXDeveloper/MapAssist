@@ -116,8 +116,6 @@ namespace MapAssist
             _brushes[ItemQuality.UNIQUE.ToString()] = fromDrawingColor(gfx, Items.ItemColors[ItemQuality.UNIQUE]);
             _brushes[ItemQuality.CRAFT.ToString()] = fromDrawingColor(gfx, Items.ItemColors[ItemQuality.CRAFT]);
 
-            if (e.RecreateResources) return;
-
             _fonts["consolas"] = gfx.CreateFont("Consolas", 14);
             _fonts["itemlog"] = gfx.CreateFont(MapAssistConfiguration.Loaded.ItemLog.LabelFont,
                 MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
@@ -211,11 +209,11 @@ namespace MapAssist
             }
         }
 
-        private void DrawBitmap(Graphics gfx, Bitmap bmp, Point anchor, float opacity)
+        private void DrawBitmap(Graphics gfx, Bitmap bmp, Point anchor, float opacity, float size = 1)
         {
             RenderTarget renderTarget = gfx.GetRenderTarget();
-            var destRight = anchor.X + bmp.Width;
-            var destBottom = anchor.Y + bmp.Height;
+            var destRight = anchor.X + (int)(bmp.Width * size);
+            var destBottom = anchor.Y + (int)(bmp.Height * size);
             BitmapData bmpData = null;
             SharpDX.Direct2D1.Bitmap newBmp = null;
             try
@@ -270,6 +268,94 @@ namespace MapAssist
                 gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, fontOffset, infoText);
 
                 fontOffset += fontHeight;
+            }
+
+            //Buffs
+            var screenW = gfx.Width;
+            var screenH = gfx.Height;
+            var stateList = _currentGameData.PlayerUnit.StateList;
+            var buffImages = new List<Bitmap>();
+            var buffColors = new List<System.Drawing.Color>();
+            var buffImageScale = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize;
+            var imgDimensions = (int)(48f * buffImageScale);
+
+            var buffAlignment = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition;
+            var buffYPos = 0;
+            switch (buffAlignment)
+            {
+                case BuffPosition.Player:
+                    buffYPos = (screenH / 2) - imgDimensions - (int)(screenH * .12f);
+                    break;
+                case BuffPosition.Top:
+                    buffYPos = (int)(screenH * .12f);
+                    break;
+                case BuffPosition.Bottom:
+                    buffYPos = (int)((screenH) * .9f) - imgDimensions;
+                    break;
+
+            }
+            var buffsByColor = new Dictionary<System.Drawing.Color, List<Bitmap>>();
+            var totalBuffs = 0;
+            buffsByColor.Add(States.DebuffColor, new List<Bitmap>());
+            buffsByColor.Add(States.PassiveColor, new List<Bitmap>());
+            buffsByColor.Add(States.AuraColor, new List<Bitmap>());
+            buffsByColor.Add(States.BuffColor, new List<Bitmap>());
+            foreach (var state in stateList)
+            {
+                var stateStr = Enum.GetName(typeof(State), state).Substring(6);
+                Console.WriteLine(stateStr);
+                var resImg = Properties.Resources.ResourceManager.GetObject(stateStr);
+                if (resImg != null)
+                {
+                    var buffImg = new Bitmap((Bitmap)resImg);
+                    buffImages.Add(buffImg);
+                    System.Drawing.Color buffColor = States.StateColor(state);
+                    buffColors.Add(buffColor);
+                    if (buffsByColor.TryGetValue(buffColor, out var _))
+                    {
+                        buffsByColor[buffColor].Add(buffImg);
+                    }
+                    else
+                    {
+                        buffsByColor.Add(buffColor, new List<Bitmap> { buffImg });
+                    }
+                    totalBuffs++;
+                }
+            }
+            var buffIndex = 1;
+            foreach (var buff in buffsByColor)
+            {
+                for (var i = 0; i < buff.Value.Count; i++)
+                {
+                    var buffImg = buff.Value[i];
+                    var buffColor = buff.Key;
+                    var drawPoint = new System.Drawing.Point((screenW / 2) - (buffIndex * imgDimensions) - (int)(buffIndex * buffImageScale) - (int)(totalBuffs * buffImageScale / 2) + (totalBuffs * imgDimensions / 2) + (int)(totalBuffs * buffImageScale), buffYPos);
+                    DrawBitmap(gfx, buffImg, new Point(drawPoint.X, drawPoint.Y), 1, buffImageScale);
+
+                    var pen = new Pen(buffColor, buffImageScale);
+                    if (buffColor == States.DebuffColor)
+                    {
+                        var size = new Size((int)(imgDimensions - buffImageScale + buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale + buffImageScale));
+                        var rect = new Rectangle(drawPoint, size);
+                        var rect2 = new GameOverlay.Drawing.Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
+                        var debuffColor = States.DebuffColor;
+                        debuffColor = System.Drawing.Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
+                        var brush = fromDrawingColor(gfx, debuffColor);
+                        gfx.FillRectangle(brush, rect2);
+                        size = new Size((int)(imgDimensions - buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale));
+                        rect = new Rectangle(drawPoint, size);
+                        gfx.DrawRectangle(brush, rect2, 1);
+                    }
+                    else
+                    {
+                        var size = new Size((int)(imgDimensions - buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale));
+                        var rect = new Rectangle(drawPoint, size);
+                        var rect2 = new GameOverlay.Drawing.Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
+                        var brush = fromDrawingColor(gfx, buffColor);
+                        gfx.DrawRectangle(brush, rect2, 1);
+                    }
+                    buffIndex++;
+                }
             }
 
             // Item log

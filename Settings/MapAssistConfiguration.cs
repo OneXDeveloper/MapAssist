@@ -156,6 +156,12 @@ public class RenderingConfiguration
     [YamlMember(Alias = "Position", ApplyNamingConventions = false)]
     public MapPosition Position { get; set; }
 
+    [YamlMember(Alias = "BuffPosition", ApplyNamingConventions = false)]
+    public BuffPosition BuffPosition { get; set; }
+
+    [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
+    public float BuffSize { get; set; }
+
     [YamlMember(Alias = "Rotate", ApplyNamingConventions = false)]
     public bool Rotate { get; set; }
 

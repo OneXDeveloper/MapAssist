@@ -41,6 +41,8 @@ RenderingConfiguration:
   Size: 450
   Rotate: true
   ZoomLevel: 1
+  BuffPosition: Bottom
+  BuffSize: 1
 MapConfiguration:
   EliteMonster:
     IconColor: DarkOrange

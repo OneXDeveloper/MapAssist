@@ -116,17 +116,17 @@ namespace MapAssist.Types
         public readonly static Dictionary<string, string> SetFromCode = new Dictionary<string, string>()
         {
             { "lrg", "Civerb's Ward" },
-            { "amu", "Set Amulet" },
+            { "amu", "Set" }, //Amulet
             { "gsc", "Civerb's Cudgel" },
             { "mbt", "Hsarus' Iron Heel" },
             { "buc", "Hsarus' Iron Fist" },
-            { "mbl", "Set Belt" },
+            { "mbl", "Set" }, //Belt
             { "lsd", "Cleglaw's Tooth" },
             { "sml", "Cleglaw's Claw" },
             { "mgl", "Cleglaw's Pincers" },
-            { "tgl", "Set Light Gauntlets" },
-            { "crn", "Set Crown" },
-            { "tbl", "Set Heavy Belt" },
+            { "tgl", "Set" }, //Light Gauntlets
+            { "crn", "Set" }, //Crown
+            { "tbl", "Set" }, //Heavy Belt
             { "bsd", "Isenhart's Lightbrand" },
             { "gts", "Isenhart's Parry" },
             { "brs", "Isenhart's Case" },
@@ -140,7 +140,7 @@ namespace MapAssist.Types
             { "bst", "Cathan's Rule" },
             { "chn", "Cathan's Mesh" },
             { "msk", "Cathan's Visage" },
-            { "rin", "Set Ring" },
+            { "rin", "Set" }, //Ring
             { "mpi", "Tancred's Crowbill" },
             { "ful", "Tancred's Spine" },
             { "lbt", "Tancred's Hobnails" },
@@ -151,7 +151,7 @@ namespace MapAssist.Types
             { "hbt", "Sigon's Sabot" },
             { "hbl", "Sigon's Wrap" },
             { "tow", "Sigon's Guard" },
-            { "cap", "Set Cap" },
+            { "cap", "Set" }, //Cap
             { "gwn", "Infernal Torch" },
             { "hlm", "Berserker's Headgear" },
             { "spl", "Berserker's Hauberk" },
@@ -221,7 +221,7 @@ namespace MapAssist.Types
             { "7wd", "Bul-Kathos' Tribal Guardian" },
             { "xap", "Cow King's Horns" },
             { "stu", "Cow King's Hide" },
-            { "vbt", "Set Heavy Boots" },
+            { "vbt", "Set" }, //Heavy Boots
             { "6cs", "Naj's Puzzler" },
             { "ult", "Naj's Light Plate" },
             { "ci0", "Naj's Circlet" },
@@ -347,8 +347,8 @@ namespace MapAssist.Types
             { "mbl", "Nightsmoke" },
             { "tbl", "Goldwrap" },
             { "hbl", "Bladebuckle" },
-            { "amu", "Unique Amulet" },
-            { "rin", "Unique Ring" },
+            { "amu", "Unique" }, //Amulet
+            { "rin", "Unique" }, //Ring
             { "vip", "Amulet of the Viper" },
             { "msf", "Staff of Kings" },
             { "hst", "Horadric Staff" },
@@ -473,7 +473,7 @@ namespace MapAssist.Types
             { "ztb", "Snowclash" },
             { "zhb", "Thudergod's Vigor" },
             { "uap", "Harlequin Crest" },
-            { "uhm", "Unique Spired Helm" },
+            { "uhm", "Unique" }, //Spired Helm
             { "utu", "The Gladiator's Bane" },
             { "upl", "Arkaine's Valor" },
             { "uml", "Blackoak Shield" },
@@ -504,17 +504,17 @@ namespace MapAssist.Types
             { "6rx", "Gutsiphon" },
             { "7ha", "Razoredge" },
             { "7sp", "Demonlimb" },
-            { "ulm", "Unique Armet" },
+            { "ulm", "Unique" }, //Armet
             { "7pa", "Tomb Reaver" },
             { "7gw", "Deaths's Web" },
-            { "7cr", "Unique Phase Blade" },
+            { "7cr", "Unique" }, //Phase Blade
             { "7kr", "Fleshripper" },
-            { "7fl", "Unique Scourge" },
-            { "7wh", "Unique Legendary Mallet" },
+            { "7fl", "Unique" }, //Scourge
+            { "7wh", "Unique" }, //Legendary Mallet
             { "7wb", "Jadetalon" },
             { "uhb", "Shadowdancer" },
             { "drb", "Cerebus" },
-            { "uar", "Unique Sacred Armor" },
+            { "uar", "Unique" }, //Sacred Armor
             { "umg", "Souldrain" },
             { "72a", "Runemaster" },
             { "7wa", "Deathcleaver" },
@@ -574,11 +574,11 @@ namespace MapAssist.Types
             { "7sr", "Arioc's Needle" },
             { "7mp", "Cranebeak" },
             { "7cl", "Nord's Tenderizer" },
-            { "7gm", "Unique Thunder Maul" },
+            { "7gm", "Unique" }, //Thunder Maul
             { "7gl", "Wraithflight" },
             { "7o7", "Bonehew" },
             { "6cs", "Ondal's Wisdom" },
-            { "7sc", "Unique Mighty Scepter" },
+            { "7sc", "Unique" }, //Mighty Scepter
             { "ush", "Headhunter's Glory" },
             { "uhg", "Steelrend" },
             { "jew", "Rainbow Facet" },
