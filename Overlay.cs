@@ -216,55 +216,17 @@ namespace MapAssist
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-            var screenW = _window.Width;
-            var screenH = _window.Height;
+            var textXOffset = PlayerIconWidth() + 40;
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
             var fontOffset = fontHeight;
-            
-            switch (MapAssistConfiguration.Loaded.GameInfo.Position)
-            {
-                case GameInfoPosition.TopLeft:
-                    var textXOffset = PlayerIconWidth() + 40;
-                    DrawGameIP(textXOffset, fontOffset, gfx);
-                    fontOffset += fontHeight + 5;
-                    if (DrawOverlayFPS(renderDeltaText, textXOffset, fontOffset, gfx))
-                    {
-                        fontOffset += fontHeight + 5;
-                    }
-                    for (var i = 0; i < Items.CurrentItemLog.Count; i++)
-                    {
-                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, fontOffset + (i * fontHeight), gfx);
-                    }
 
-                    break;
-                case GameInfoPosition.BottomRight:
-                    textXOffset = screenW - (int)(screenW * 0.18f);
-                    fontOffset = screenH - (int)(screenH * 0.02f);
-                    DrawGameIP(textXOffset, fontOffset, gfx);
-                    fontOffset -= fontHeight + 5;
-                    if (DrawOverlayFPS(renderDeltaText, textXOffset, fontOffset, gfx))
-                    {
-                        fontOffset -= fontHeight + 5;
-                    }
-                    for (var i = Items.CurrentItemLog.Count - 1; i >= 0; i--)
-                    {
-                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, fontOffset - (i * fontHeight), gfx);
-                    }
-                    
-                    break;
-            }
-        }
-
-        private void DrawGameIP(int xOffset, int yOffset, Graphics gfx)
-        {
-            gfx.DrawText(_fonts["consolas"], _brushes["red"], xOffset, yOffset,
+            // Game IP
+            gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, fontOffset,
                 "Game IP: " + _currentGameData.GameIP);
-        }
+            fontOffset += fontHeight + 5;
 
-        private bool DrawOverlayFPS(string renderDeltaText, int xOffset, int yOffset, Graphics gfx)
-        {
             // Overlay FPS
             if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
             {
@@ -274,59 +236,57 @@ namespace MapAssist
                     .Append("DeltaTime: ").Append(renderDeltaText.PadRight(padding))
                     .ToString();
 
-                gfx.DrawText(_fonts["consolas"], _brushes["green"], xOffset, yOffset, infoText);
-                return true;
+                gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, fontOffset, infoText);
+
+                fontOffset += fontHeight;
             }
 
-            return false;
-        }
-
-        private void DrawItemLogUnit(MapAssist.Types.UnitAny unit, int xOffset, int yOffset, Graphics gfx)
-        {
-            // Default color
-            var color = _brushes[unit.ItemData.ItemQuality.ToString()];
-            var labels = new List<string>();
-            
-            var isEth = (unit.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
-            if (isEth)
+            // Item log
+            for (var i = 0; i < Items.CurrentItemLog.Count; i++)
             {
-                labels.Add("[Eth]");
-                color = _brushes[ItemQuality.SUPERIOR.ToString()];
+                var color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                var isEth = (Items.CurrentItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
+                            ItemFlags.IFLAG_ETHEREAL;
+                var itemBaseName = Items.ItemNames[Items.CurrentItemLog[i].TxtFileNo];
+                var itemSpecialName = "";
+                var itemLabelExtra = "";
+                if (isEth)
+                {
+                    itemLabelExtra += "[Eth] ";
+                    color = _brushes[ItemQuality.SUPERIOR.ToString()];
+                }
+
+                if (Items.CurrentItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
+                {
+                    itemLabelExtra += "[" + numSockets + " S] ";
+                    color = _brushes[ItemQuality.SUPERIOR.ToString()];
+                }
+
+                switch (Items.CurrentItemLog[i].ItemData.ItemQuality)
+                {
+                    case ItemQuality.UNIQUE:
+                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] +
+                                          " ";
+                        break;
+                    case ItemQuality.SET:
+                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
+                        break;
+                    case ItemQuality.CRAFT:
+                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        break;
+                    case ItemQuality.RARE:
+                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        break;
+                    case ItemQuality.MAGIC:
+                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        break;
+                }
+
+                gfx.DrawText(_fonts["itemlog"], color, textXOffset, fontOffset + (i * fontHeight),
+                    itemLabelExtra + itemSpecialName + itemBaseName);
             }
-
-            if (unit.Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
-            {
-                labels.Add($"[${numSockets}S]");
-                color = _brushes[ItemQuality.SUPERIOR.ToString()];
-            }
-
-            var itemCode = Items.ItemCodes[unit.TxtFileNo];
-            switch (unit.ItemData.ItemQuality)
-            {
-                case ItemQuality.UNIQUE:
-                    if (Items.UniqueFromCode.TryGetValue(itemCode, out var uniqName))
-                    {
-                        labels.Add(uniqName);
-                    }
-                    break;
-                case ItemQuality.SET:
-                    if (Items.SetFromCode.TryGetValue(itemCode, out var setName))
-                    {
-                        labels.Add(setName);
-                    }
-                    break;
-                case ItemQuality.NORMAL:
-                    // Override runes to be a brighter color
-                    if (Items.ItemNames[unit.TxtFileNo].EndsWith(" Rune"))
-                    {
-                        color = _brushes[ItemQuality.CRAFT.ToString()];
-                    }
-
-                    break;
-            }
-
-            labels.Add(Items.ItemNames[unit.TxtFileNo]);
-            gfx.DrawText(_fonts["itemlog"], color, xOffset, yOffset, String.Join(" ", labels));
         }
 
         private static byte[] ImageToByte(System.Drawing.Image img)

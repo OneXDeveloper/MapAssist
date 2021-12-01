@@ -25,10 +25,4 @@ namespace MapAssist.Settings
         TopRight,
         Center
     }
-
-    public enum GameInfoPosition
-    {
-        TopLeft,
-        BottomRight
-    }
 }

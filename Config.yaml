@@ -144,8 +144,6 @@ GameInfo:
   # Developer setting, probably not useful
   ShowOverlayFPS: false
   AlwaysShow: true
-  # Allowed positions TopLeft, BottomRight
-  Position: TopLeft
 ItemLog:
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true

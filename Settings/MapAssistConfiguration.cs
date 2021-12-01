@@ -196,9 +196,6 @@ public class GameInfoConfiguration
     
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
-    
-    [YamlMember(Alias = "Position", ApplyNamingConventions = false)]
-    public GameInfoPosition Position { get; set; } 
 }
 
 public class ItemLogConfiguration
