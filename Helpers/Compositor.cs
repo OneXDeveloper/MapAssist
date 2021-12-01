@@ -114,6 +114,22 @@ namespace MapAssist.Helpers
                     }
                 }
 
+                foreach (var obj in gameData.Objects)
+                {
+                    if (obj.ObjectData.Shrine.ShrineType == ShrineType.SHRINE_EXP)
+                    {
+                        var rendering = MapAssistConfiguration.Loaded.MapConfiguration.ExpShrine;
+
+                        if (rendering.CanDrawIcon())
+                        {
+                            Bitmap icon = GetIcon(rendering);
+                            var shrinePosition = adjustedPoint(obj.Position).OffsetFrom(GetIconOffset(rendering));
+
+                            imageGraphics.DrawImage(icon, shrinePosition);
+                        }
+                    }
+                }
+
                 var monsterRenderingOrder = new IconRendering[]
                 {
                     MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster,

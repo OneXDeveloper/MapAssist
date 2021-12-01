@@ -134,6 +134,7 @@
     <Compile Include="Structs\Inventory.cs" />
     <Compile Include="Structs\Items.cs" />
     <Compile Include="Structs\Menus.cs" />
+    <Compile Include="Structs\ObjectData.cs" />
     <Compile Include="Structs\Level.cs" />
     <Compile Include="Structs\MonsterData.cs" />
     <Compile Include="Structs\Path.cs" />

@@ -39,6 +39,7 @@ namespace MapAssist.Types
         private Inventory _inventory;
         private MonsterData _monsterData;
         private ItemData _itemData;
+        private ObjectData _objectData;
         private Dictionary<Stat, int> _statList;
         private List<Resist> _immunities;
         private uint[] _stateFlags;
@@ -107,6 +108,9 @@ namespace MapAssist.Types
                                     Items.LogItem(this, processId);
                                 }
                                 break;
+                            case UnitType.Object:
+                                _objectData = processContext.Read<ObjectData>(_unitAny.pUnitData);
+                                break;
                         }
                         _updated = true;
                     }
@@ -125,6 +129,7 @@ namespace MapAssist.Types
         public Dictionary<Stat, int> Stats => _statList;
         public MonsterData MonsterData => _monsterData;
         public ItemData ItemData => _itemData;
+        public ObjectData ObjectData => _objectData;
         public Act Act => _act;
         public Path Path => _path;
         public IntPtr StatsListExPtr => _unitAny.pStatsListEx;
@@ -150,7 +155,7 @@ namespace MapAssist.Types
         }
         public bool IsValidUnit()
         {
-            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.pStatsListEx != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
+            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
         }
 
         public bool IsPlayer()
@@ -182,6 +187,11 @@ namespace MapAssist.Types
             }
 
             return false;
+        }
+
+        public bool IsObjectOfInterest()
+        {
+            return ObjectData.Shrine.ShrineType == ShrineType.SHRINE_EXP;
         }
 
         public bool IsMonster()

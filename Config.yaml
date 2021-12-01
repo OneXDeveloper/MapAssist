@@ -107,6 +107,10 @@ MapConfiguration:
     IconColor: '255, 218, 100'
     IconShape: Polygon
     IconSize: 10
+  ExpShrine:
+    IconColor: 'LightBlue'
+    IconShape: Polygon
+    IconSize: 10
   ArmorWeapRack:
     IconColor: '132, 132, 132'
     IconShape: Square

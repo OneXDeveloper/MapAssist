@@ -95,7 +95,8 @@ namespace MapAssist.Helpers
 
                     var monsterList = new List<UnitAny>();
                     var itemList = new List<UnitAny>();
-                    GetUnits(ref monsterList, ref itemList);
+                    var objectList = new List<UnitAny>();
+                    GetUnits(ref monsterList, ref itemList, ref objectList);
                     Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
 
                     return new GameData
@@ -108,6 +109,7 @@ namespace MapAssist.Helpers
                         PlayerName = playerUnit.Name,
                         Monsters = monsterList,
                         Items = itemList,
+                        Objects = objectList,
                         GameIP = gameIP,
                         PlayerUnit = playerUnit,
                         MenuOpen = menuData,
@@ -129,7 +131,7 @@ namespace MapAssist.Helpers
                 return null;
             }
         }
-        private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
+        private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList, ref List<UnitAny> objectList)
         {
             for (var i = 0; i <= 5; i++)
             {
@@ -154,13 +156,19 @@ namespace MapAssist.Helpers
                                     itemList.Add(unitAny);
                                 }
                                 break;
+                            case UnitType.Object:
+                                if (!objectList.Contains(unitAny) && unitAny.IsObjectOfInterest())
+                                {
+                                    objectList.Add(unitAny);
+                                }
+                                break;
                         }
                         unitAny = unitAny.ListNext;
                     }
                 }
             }
         }
-        private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
+        private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList, ref List<UnitAny> objectList)
         {
             foreach (var room in rooms)
             {
@@ -180,6 +188,12 @@ namespace MapAssist.Helpers
                             if (!itemList.Contains(unitAny))
                             {
                                 itemList.Add(unitAny);
+                            }
+                            break;
+                        case UnitType.Object:
+                            if (!objectList.Contains(unitAny) && unitAny.IsObjectOfInterest())
+                            {
+                                objectList.Add(unitAny);
                             }
                             break;
                     }
