@@ -323,10 +323,10 @@ namespace MapAssist.Helpers
             if (!_iconCache.ContainsKey(cacheKey))
             {
                 var distort = poiSettings.IconShape == Shape.Cross ? true : false;
-                var width = poiSettings.IconSize * scaleWidth + poiSettings.IconThickness;
-                var height = poiSettings.IconSize * (distort ? scaleHeight : scaleWidth) + poiSettings.IconThickness;
-
-                var bitmap = new Bitmap((int)width, (int)height, PixelFormat.Format32bppArgb);
+                var width = (int)Math.Ceiling(poiSettings.IconSize * scaleWidth + poiSettings.IconThickness);
+                var height = (int)Math.Ceiling(poiSettings.IconSize * (distort ? scaleHeight : scaleWidth) + poiSettings.IconThickness);
+                
+                var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
                 var pen = new Pen(poiSettings.IconColor, poiSettings.IconThickness);
                 var brush = new SolidBrush(poiSettings.IconColor);
                 using (var g = Graphics.FromImage(bitmap))
@@ -367,18 +367,17 @@ namespace MapAssist.Helpers
                             g.FillPolygon(brush, curvePoints);
                             break;
                         case Shape.Cross:
-                            var a = poiSettings.IconSize * 0.00f;
-                            var b = poiSettings.IconSize * 0.25f;
-                            var c = poiSettings.IconSize * 0.50f;
-                            var d = poiSettings.IconSize * 0.75f;
-                            var e = poiSettings.IconSize * 1.00f;
+                            var a = poiSettings.IconSize * 0.25f;
+                            var b = poiSettings.IconSize * 0.50f;
+                            var c = poiSettings.IconSize * 0.75f;
+                            var d = poiSettings.IconSize;
+
                             PointF[] crossLinePoints =
                             {
-                                new PointF(0, b), new PointF(b, a), new PointF(c, b), new PointF(d, a),
-                                new PointF(e, b), new PointF(d, c), new PointF(e, d), new PointF(d, e),
-                                new PointF(c, d), new PointF(b, e), new PointF(a, d), new PointF(b, c),
-                                new PointF(a, b),
-
+                                new PointF(0, a), new PointF(a, 0), new PointF(b, a), new PointF(c, 0),
+                                new PointF(d, a), new PointF(c, b), new PointF(d, c), new PointF(c, d),
+                                new PointF(b, c), new PointF(a, d), new PointF(0, c), new PointF(a, b),
+                                new PointF(0, a),
                             };
 
                             for (var i = 0; i < crossLinePoints.Length; i++)
