@@ -88,11 +88,13 @@ namespace MapAssist.Helpers
                 imageGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 imageGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
-                {
-                    Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
-                    var playerPosition = localPlayerPosition.OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player));
-                    imageGraphics.DrawImage(playerIcon, playerPosition);
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Player != null) { 
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
+                    {
+                        Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
+                        var playerPosition = localPlayerPosition.OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player));
+                        imageGraphics.DrawImage(playerIcon, playerPosition);
+                    }
                 }
 
                 // The lines are dynamic, and follow the player, so have to be drawn here.
@@ -118,6 +120,8 @@ namespace MapAssist.Helpers
                 {
                     var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
 
+                    if (mobRender == null) continue;
+
                     if (mobRender.CanDrawIcon())
                     {
                         Bitmap icon = GetIcon(mobRender);
@@ -130,6 +134,8 @@ namespace MapAssist.Helpers
                 foreach (var unitAny in gameData.Monsters)
                 {
                     var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
+
+                    if (mobRender == null) continue;
 
                     if (mobRender.CanDrawIcon())
                     {
@@ -159,21 +165,24 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
-                foreach (var item in gameData.Items)
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Item != null)
                 {
-                    if (!LootFilter.Filter(item))
+                    var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
+                    foreach (var item in gameData.Items)
                     {
-                        continue;
+                        if (!LootFilter.Filter(item))
+                        {
+                            continue;
+                        }
+                        var color = Items.ItemColors[item.ItemData.ItemQuality];
+                        Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+                        var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
+                        imageGraphics.DrawImage(icon, itemPosition);
+                        var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                        imageGraphics.DrawString(itemBaseName, font,
+                            new SolidBrush(color),
+                            itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                     }
-                    var color = Items.ItemColors[item.ItemData.ItemQuality];
-                    Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
-                    var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
-                    imageGraphics.DrawImage(icon, itemPosition);
-                    var itemBaseName = Items.ItemNames[item.TxtFileNo];
-                    imageGraphics.DrawString(itemBaseName, font,
-                        new SolidBrush(color),
-                        itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                 }
             }
 
@@ -274,7 +283,7 @@ namespace MapAssist.Helpers
 
         private (float, float) CalcResizeRatios(Bitmap image)
         {
-            var multiplier = 4.25f - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            var multiplier = 0.25f + Math.Max(4 - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel, 0); // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {

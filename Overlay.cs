@@ -117,11 +117,12 @@ namespace MapAssist
                 UpdateLocation();
                 DrawGameInfo(gfx, e.DeltaTime.ToString());
 
-                if (!_show ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
-                        element => element == _currentGameData.Area) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&
-                     !_currentGameData.MapShown) || (_currentGameData.Area == Area.None))
+                if (!_show
+                    || MapAssistConfiguration.Loaded.MapConfiguration == null
+                    || MapAssistConfiguration.Loaded.MapColorConfiguration == null
+                    || Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, element => element == _currentGameData.Area)
+                    || (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MapShown)
+                    || (_currentGameData.Area == Area.None))
                 {
                     return;
                 }
