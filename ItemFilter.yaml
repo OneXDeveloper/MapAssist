@@ -213,6 +213,10 @@ Ogre Gauntlets:
 Bone Visage:
  - Qualities: [normal, superior]
    Sockets: [0, 3]
+Demonhead:
+ - Qualities: [normal, superior]
+   Sockets: [0, 3]
+ - Quality: unique #Andariel's Visage
 
 ### Circlets
 Circlet:
@@ -278,6 +282,7 @@ Zod Rune:
 
 ### Gems
 Flawless Ruby:
+Flawless Sapphire:
 Flawless Emerald:
 Flawless Amethyst:
 Flawless Diamond:
@@ -337,9 +342,6 @@ Eldritch Orb:
  - Qualities: unique
 #Arreat's Face
 Slayer Guard:
- - Qualities: unique
-#Andariel's Visage
-Demonhead:
  - Qualities: unique
 #Death's Web
 Unearthed Wand:
