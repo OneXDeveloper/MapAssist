@@ -1,5 +1,6 @@
-# Commented items are defaulted values
-# You can leave them commented or uncomment to modify
+# Default values are commented out
+# You can uncomment to modify
+# Ensure your config file is formatted properly: https://yamlchecker.com/
 
 # Areas to preload so that they're hot and ready as soon as you need them
 PrefetchAreas:
@@ -8,8 +9,7 @@ PrefetchAreas:
 ClearPrefetchedOnAreaChange: true
 
 # Areas where the map should not show
-# This includes all the towns and various crappy areas
-# where you really don't need it
+# This includes all the towns and various crappy areas where you really don't need it
 HiddenAreas:
   - 'Rogue Encampment'
   - 'Lut Gholein'
@@ -42,8 +42,6 @@ ItemLog:
 #   Rotate: true
 #   ZoomLevel: 1
 
-# These are the preconfigured defaults
-# Uncomment the below block to modify
 # MapConfiguration:
 #   SuperUniqueMonster:
 #     IconColor: Yellow
@@ -119,8 +117,6 @@ ItemLog:
 #     LabelFont: 'Helvetica'
 #     LabelFontSize: 8
 
-# These are the preconfigured defaults
-# Uncomment the below block to modify
 # MapColorConfiguration:
 #   MapColors:
 #     '0': '50, 50, 50'
@@ -144,13 +140,13 @@ ItemLog:
 # You likely shouldn't change this
 # UpdateTime: 30
 
-# These are the preconfigured defaults
-# Uncomment the below block to modify
 # ApiConfiguration:
 #   Endpoint: 'http://localhost:8080/'
 #   Token: ''
 
-# Developer setting, probably not useful
+# Developer settings
+# Probably not useful
+# These all are turned OFF by default
 # GameInfo:
 #   ShowOverlayFPS: false
 #   AlwaysShow: true
