@@ -42,7 +42,7 @@ x-bases:
   Sockets: [0, 3, 4]
  - &player-arm-base
   Qualities: [normal, superior]
-  Sockets: [3, 4]
+  Sockets: [0, 3, 4]
   Ethereal: false
  - &merc-wep-base
   Ethereal: true
@@ -130,13 +130,6 @@ Feral Claws:
 Matriarchal Javelin:
  - Qualities: [magic, rare]
  - Qualities: unique #Thunderstroke
-Bone Visage:
- - Qualities: [normal, superior]
-   Sockets: [3]
-Demonhead:
- - Qualities: [normal, superior]
-   Sockets: [3]
- - Quality: unique #Andariel's Visage
 
 ### Misc
 Amulet:
@@ -215,6 +208,15 @@ Crusader Gauntlets:
  - Qualities: rare
 Ogre Gauntlets:
  - Qualities: rare
+ 
+### Helmets
+Bone Visage:
+ - Qualities: [normal, superior]
+   Sockets: [0, 3]
+Demonhead:
+ - Qualities: [normal, superior]
+   Sockets: [0, 3]
+ - Quality: unique #Andariel's Visage
 
 ### Circlets
 Circlet:
@@ -280,8 +282,8 @@ Zod Rune:
 
 ### Gems
 Flawless Ruby:
-Flawless Emerald:
 Flawless Sapphire:
+Flawless Emerald:
 Flawless Amethyst:
 Flawless Diamond:
 Flawless Topaz:
