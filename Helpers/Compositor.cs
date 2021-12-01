@@ -114,46 +114,56 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                foreach (var unitAny in gameData.Monsters)
+                var monsterRenderingOrder = new IconRendering[]
                 {
-                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
+                    MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster,
+                    MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster,
+                    MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster,
+                    MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster,
+                };
 
-                    if (mobRender.CanDrawIcon())
+                foreach (var mobRender in monsterRenderingOrder)
+                {
+                    foreach (var unitAny in gameData.Monsters)
                     {
-                        Bitmap icon = GetIcon(mobRender);
-                        var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
+                        if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
+                        {
+                            Bitmap icon = GetIcon(mobRender);
+                            var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
 
-                        imageGraphics.DrawImage(icon, monsterPosition);
+                            imageGraphics.DrawImage(icon, monsterPosition);
+                        }
                     }
                 }
 
-                foreach (var unitAny in gameData.Monsters)
+                foreach (var mobRender in monsterRenderingOrder)
                 {
-                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
-
-                    if (mobRender.CanDrawIcon())
+                    foreach (var unitAny in gameData.Monsters)
                     {
-                        Bitmap icon = GetIcon(mobRender);
-                        var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
-
-                        // Draw Monster Immunities on top of monster icon
-                        var iCount = unitAny.Immunities.Count;
-                        if (iCount > 0)
+                        if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
                         {
-                            var rectSize = mobRender.IconSize / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
-                            var dx = rectSize * scaleWidth * 1.5; // Amount of space each indicator will take up, including spacing (which is the 1.5)
+                            Bitmap icon = GetIcon(mobRender);
+                            var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
 
-                            var iX = -icon.Width / 2f // Start at the center of the mob icon
-                                + (rectSize * scaleWidth) / 2 // Make sure the center of the indicator lines up with the center of the mob icon
-                                - dx * (iCount - 1) / 2; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
-
-                            foreach (var immunity in unitAny.Immunities)
+                            // Draw Monster Immunities on top of monster icon
+                            var iCount = unitAny.Immunities.Count;
+                            if (iCount > 0)
                             {
-                                var iPoint = new Point((int)Math.Round(iX), icon.Height / 2 + icon.Height / 12); // 1/12th of the height just helps move the icon a bit up to make it look nicer. Purely arbitrary.
-                                var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
-                                var rect = new Rectangle(monsterPosition.OffsetFrom(iPoint), new Size((int)(rectSize * scaleWidth), (int)(rectSize * scaleWidth))); // Scale both by the width since width isn't impacted by depth in overlay mode
-                                imageGraphics.FillEllipse(brush, rect);
-                                iX += dx;
+                                var rectSize = mobRender.IconSize / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
+                                var dx = rectSize * scaleWidth * 1.5; // Amount of space each indicator will take up, including spacing (which is the 1.5)
+
+                                var iX = -icon.Width / 2f // Start at the center of the mob icon
+                                    + (rectSize * scaleWidth) / 2 // Make sure the center of the indicator lines up with the center of the mob icon
+                                    - dx * (iCount - 1) / 2; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
+
+                                foreach (var immunity in unitAny.Immunities)
+                                {
+                                    var iPoint = new Point((int)Math.Round(iX), icon.Height / 2 + icon.Height / 12); // 1/12th of the height just helps move the icon a bit up to make it look nicer. Purely arbitrary.
+                                    var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
+                                    var rect = new Rectangle(monsterPosition.OffsetFrom(iPoint), new Size((int)(rectSize * scaleWidth), (int)(rectSize * scaleWidth))); // Scale both by the width since width isn't impacted by depth in overlay mode
+                                    imageGraphics.FillEllipse(brush, rect);
+                                    iX += dx;
+                                }
                             }
                         }
                     }
