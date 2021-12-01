@@ -211,41 +211,36 @@ namespace MapAssist.Helpers
 
                 var drawBorders = MapAssistConfiguration.Loaded.RenderingConfiguration.DrawBorders;
                 if (drawBorders == true)
+                // draw additional borders around walkable tiles (type % 2 == 0)
                 {
-                    // draw additional borders around walkable tiles (type % 2 == 0)
                     for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                     {
+                        var maxYValue = areaData.CollisionGrid.Length;
                         for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                         {
-                            var type = areaData.CollisionGrid[y][x];
-                            if (type % 2 == 0)
+                            var maxXValue = areaData.CollisionGrid[y].Length;
+                            if (areaData.CollisionGrid[y][x] % 2 != 0)
                             {
-                                try
+                                var lookOffsets = new int[][] {
+                                    new int[] { -1, -1 },
+                                    new int[] { -1, 0 },
+                                    new int[] { -1, 1 },
+                                    new int[] { 0, -1 },
+                                    new int[] { 0, 1 },
+                                    new int[] { 1, -1 },
+                                    new int[] { 1, 0 },
+                                    new int[] { 1, 1 }
+                                };
+
+                                foreach (var offset in lookOffsets)
                                 {
-                                    var maxYValue = areaData.CollisionGrid.Length;
-                                    var maxXValue = areaData.CollisionGrid[y].Length;
-                                    // if surrounding pixel is not walkable, draw a border pixel
-                                    if (y + 1 < maxYValue && areaData.CollisionGrid[y + 1][x] % 2 != 0)
-                                        background.SetPixel(x, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && areaData.CollisionGrid[y - 1][x] % 2 != 0)
-                                        background.SetPixel(x, y - 1, (Color)borderColor);
-                                    if (y + 1 < maxYValue && x + 1 < maxXValue && areaData.CollisionGrid[y + 1][x + 1] % 2 != 0)
-                                        background.SetPixel(x + 1, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && x + 1 < maxXValue && areaData.CollisionGrid[y - 1][x + 1] % 2 != 0)
-                                        background.SetPixel(x + 1, y - 1, (Color)borderColor);
-                                    if (y + 1 < maxYValue && x - 1 >= 0 && areaData.CollisionGrid[y + 1][x - 1] % 2 != 0)
-                                        background.SetPixel(x - 1, y + 1, (Color)borderColor);
-                                    if (y - 1 >= 0 && x - 1 >= 0 && areaData.CollisionGrid[y - 1][x - 1] % 2 != 0)
-                                        background.SetPixel(x - 1, y - 1, (Color)borderColor);
-                                    if (x + 1 < maxXValue && areaData.CollisionGrid[y][x + 1] % 2 != 0)
-                                        background.SetPixel(x + 1, y, (Color)borderColor);
-                                    if (x - 1 >= 0 && areaData.CollisionGrid[y][x - 1] % 2 != 0)
-                                        background.SetPixel(x - 1, y, (Color)borderColor);
-                                }
-                                catch (IndexOutOfRangeException)
-                                {
-                                    // TODO: Add logic to avoid this exception, harmless to catch and continue here
-                                    continue;
+                                    if (y + offset[0] >= 0 && y + offset[0] < maxYValue &&
+                                        x + offset[1] >= 0 && x + offset[1] < maxXValue
+                                        && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0)
+                                    {
+                                        background.SetPixel(x, y, (Color)borderColor);
+                                        break;
+                                    }
                                 }
                             }
                         }
