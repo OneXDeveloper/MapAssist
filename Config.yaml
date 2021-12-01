@@ -33,14 +33,14 @@ ItemLog:
   # LabelFontSize: 14
 
 # RenderingConfiguration:
-#   Opacity: 0.5
 #   OverlayMode: true # True will move the map to keep the player icon centered. False will keep the map static
 #   Position: Center # Possible positions: Center, TopLeft, TopRight
-#   ToggleViaInGameMap: false # If set to false it will always show unless you use the hotkeys to disable it
-#   AlwaysOnTop: true
+#   Opacity: 0.5
 #   # Size: 450 # Only applicable when OverlayMode = false
 #   Rotate: true
 #   ZoomLevel: 1
+#   AlwaysOnTop: true
+#   ToggleViaInGameMap: false # If set to false it will always show unless you use the hotkeys to disable it
 
 # MapConfiguration:
 #   SuperUniqueMonster:
