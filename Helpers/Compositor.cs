@@ -325,7 +325,7 @@ namespace MapAssist.Helpers
                 var distort = poiSettings.IconShape == Shape.Cross ? true : false;
                 var width = (int)Math.Ceiling(poiSettings.IconSize * scaleWidth + poiSettings.IconThickness);
                 var height = (int)Math.Ceiling(poiSettings.IconSize * (distort ? scaleHeight : scaleWidth) + poiSettings.IconThickness);
-                
+
                 var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
                 var pen = new Pen(poiSettings.IconColor, poiSettings.IconThickness);
                 var brush = new SolidBrush(poiSettings.IconColor);
