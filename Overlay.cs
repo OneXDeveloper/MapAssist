@@ -222,8 +222,17 @@ namespace MapAssist
             var fontHeight = (fontSize + fontSize / 2);
             var fontOffset = fontHeight;
 
-            // Game IP
-            gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, fontOffset,
+            // Game IP with Check
+            var ColorIP = "red";
+            if (string.Equals(_currentGameData.GameIP, MapAssistConfiguration.Loaded.HuntedIP))
+            {
+                ColorIP = "green";
+            }
+            else
+            {
+                ColorIP = "red";
+            }
+            gfx.DrawText(_fonts["consolas"], _brushes[ColorIP], textXOffset, fontOffset,
                 "Game IP: " + _currentGameData.GameIP);
             fontOffset += fontHeight + 5;
 

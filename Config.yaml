@@ -1,7 +1,8 @@
 # How often to read the game memory
 # You likely shouldn't change this
 UpdateTime: 30
-
+#Set an IP you want to hunt
+HuntedIP: '158.115.222.104'
 # Areas to preload so that they're hot and ready as soon as you go to them
 PrefetchAreas:
  - 'Catacombs Level 2'
