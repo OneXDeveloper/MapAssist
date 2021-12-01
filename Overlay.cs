@@ -252,68 +252,98 @@ namespace MapAssist
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
-            var fontOffset = fontHeight;
-            
+
+            var textXOffset = PlayerIconWidth() + 40;
+            var textYOffset = 20;
+
             switch (MapAssistConfiguration.Loaded.GameInfo.Position)
             {
                 case GameInfoPosition.TopLeft:
-                    var textXOffset = PlayerIconWidth() + 40;
-                    DrawGameIP(textXOffset, fontOffset, gfx);
-                    fontOffset += fontHeight + 5;
-                    if (DrawOverlayFPS(renderDeltaText, textXOffset, fontOffset, gfx))
+                    DrawGameIP(textXOffset, textYOffset, false, gfx);
+                    textYOffset += fontHeight + 5;
+                    if (DrawOverlayFPS(renderDeltaText, textXOffset, textYOffset, false, gfx))
                     {
-                        fontOffset += fontHeight + 5;
+                        textYOffset += fontHeight + 5;
                     }
                     for (var i = 0; i < Items.CurrentItemLog.Count; i++)
                     {
-                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, fontOffset + (i * fontHeight), gfx);
+                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, textYOffset, false, gfx);
+                        textYOffset += fontHeight + 5;
                     }
 
                     break;
                 case GameInfoPosition.BottomRight:
-                    textXOffset = screenW - (int)(screenW * 0.18f);
-                    fontOffset = screenH - (int)(screenH * 0.02f);
-                    DrawGameIP(textXOffset, fontOffset, gfx);
-                    fontOffset -= fontHeight + 5;
-                    if (DrawOverlayFPS(renderDeltaText, textXOffset, fontOffset, gfx))
+                    textXOffset = screenW - 20;
+                    textYOffset = screenH - 20;
+                    DrawGameIP(textXOffset, textYOffset, true, gfx);
+                    textYOffset -= fontHeight + 5;
+                    if (DrawOverlayFPS(renderDeltaText, textXOffset, textYOffset, true, gfx))
                     {
-                        fontOffset -= fontHeight + 5;
+                        textYOffset -= fontHeight + 5;
                     }
                     for (var i = Items.CurrentItemLog.Count - 1; i >= 0; i--)
                     {
-                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, fontOffset - (i * fontHeight), gfx);
+                        DrawItemLogUnit(Items.CurrentItemLog[i], textXOffset, textYOffset, true, gfx);
+                        textYOffset -= fontHeight + 5;
                     }
-                    
+
                     break;
             }
         }
 
-        private void DrawGameIP(int xOffset, int yOffset, Graphics gfx)
+        private void DrawGameIP(int xOffset, int yOffset, bool alignRight, Graphics gfx)
         {
-            gfx.DrawText(_fonts["consolas"], _brushes["red"], xOffset, yOffset,
-                "Game IP: " + _currentGameData.GameIP);
+            var font = _fonts["consolas"];
+            var brush = _brushes["red"];
+
+            var ipText = "Game IP: " + _currentGameData.GameIP;
+            var dimensions = gfx.MeasureString(font, font.FontSize, ipText);
+
+            if (!alignRight)
+            {
+                gfx.DrawText(font, brush, xOffset, yOffset, ipText);
+            }
+            else
+            {
+                gfx.DrawText(font, brush, xOffset - dimensions.X, yOffset - dimensions.Y, ipText);
+            }
         }
 
-        private bool DrawOverlayFPS(string renderDeltaText, int xOffset, int yOffset, Graphics gfx)
+        private bool DrawOverlayFPS(string renderDeltaText, int xOffset, int yOffset, bool alignRight, Graphics gfx)
         {
             // Overlay FPS
             if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
             {
-                var padding = 16;
-                var infoText = new System.Text.StringBuilder()
-                    .Append("FPS: ").Append(gfx.FPS.ToString().PadRight(padding))
-                    .Append("DeltaTime: ").Append(renderDeltaText.PadRight(padding))
-                    .ToString();
+                var font = _fonts["consolas"];
+                var brush = _brushes["green"];
 
-                gfx.DrawText(_fonts["consolas"], _brushes["green"], xOffset, yOffset, infoText);
+                var fpsText = "FPS: " + gfx.FPS.ToString();
+                var renderText = "DeltaTime: " + renderDeltaText.ToString();
+                var spaceBetween = 20;
+
+                var fpsDimensions = gfx.MeasureString(font, font.FontSize, fpsText);
+                var renderDimensions = gfx.MeasureString(font, font.FontSize, renderText);
+
+                if (!alignRight)
+                {
+                    gfx.DrawText(font, brush, xOffset, yOffset, fpsText);
+                    gfx.DrawText(font, brush, xOffset + fpsDimensions.X + spaceBetween, yOffset, renderText);
+                }
+                else
+                {
+                    gfx.DrawText(font, brush, xOffset - renderDimensions.X - fpsDimensions.X - spaceBetween, yOffset - fpsDimensions.Y, fpsText);
+                    gfx.DrawText(font, brush, xOffset - renderDimensions.X, yOffset - renderDimensions.Y, renderText);
+                }
+
                 return true;
             }
 
             return false;
         }
 
-        private void DrawItemLogUnit(MapAssist.Types.UnitAny unit, int xOffset, int yOffset, Graphics gfx)
+        private void DrawItemLogUnit(UnitAny unit, int xOffset, int yOffset, bool alignRight, Graphics gfx)
         {
+            var font = _fonts["itemlog"];
             // Default color
             var color = _brushes[unit.ItemData.ItemQuality.ToString()];
             var labels = new List<string>();
@@ -357,7 +387,18 @@ namespace MapAssist
             }
 
             labels.Add(Items.ItemNames[unit.TxtFileNo]);
-            gfx.DrawText(_fonts["itemlog"], color, xOffset, yOffset, String.Join(" ", labels));
+            
+            var itemText = string.Join(" ", labels);
+            var dimensions = gfx.MeasureString(font, font.FontSize, itemText);
+
+            if (!alignRight)
+            {
+                gfx.DrawText(font, color, xOffset, yOffset, itemText);
+            }
+            else
+            {
+                gfx.DrawText(font, color, xOffset - dimensions.X, yOffset - dimensions.Y, itemText);
+            }
         }
 
         private static byte[] ImageToByte(System.Drawing.Image img)
