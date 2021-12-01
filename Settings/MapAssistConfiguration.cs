@@ -70,7 +70,7 @@ namespace MapAssist.Settings
         public ApiConfiguration ApiConfiguration { get; set; } = new ApiConfiguration() { Endpoint = "http://localhost:8080/", Token = "" };
 
         [YamlMember(Alias = "GameInfo", ApplyNamingConventions = false)]
-        public GameInfoConfiguration GameInfo { get; set; } = new GameInfoConfiguration() { ShowOverlayFPS = false };
+        public GameInfoConfiguration GameInfo { get; set; } = new GameInfoConfiguration();
 
         [YamlMember(Alias = "ItemLog", ApplyNamingConventions = false)]
         public ItemLogConfiguration ItemLog { get; set; } = new ItemLogConfiguration();
@@ -233,10 +233,10 @@ public class ApiConfiguration
 public class GameInfoConfiguration
 {
     [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
-    public bool AlwaysShow { get; set; }
+    public bool AlwaysShow { get; set; } = false;
 
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
-    public bool ShowOverlayFPS { get; set; }
+    public bool ShowOverlayFPS { get; set; } = false;
 }
 
 public class ItemLogConfiguration
