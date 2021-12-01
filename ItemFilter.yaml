@@ -130,6 +130,13 @@ Feral Claws:
 Matriarchal Javelin:
  - Qualities: [magic, rare]
  - Qualities: unique #Thunderstroke
+Bone Visage:
+ - Qualities: [normal, superior]
+   Sockets: [3]
+Demonhead:
+ - Qualities: [normal, superior]
+   Sockets: [3]
+ - Quality: unique #Andariel's Visage
 
 ### Misc
 Amulet:
@@ -274,6 +281,7 @@ Zod Rune:
 ### Gems
 Flawless Ruby:
 Flawless Emerald:
+Perfect Sapphire:
 Flawless Amethyst:
 Flawless Diamond:
 Flawless Topaz:
