@@ -122,7 +122,7 @@ namespace MapAssist.Helpers
                     {
                         var data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
                         // data[0 = blue, 1 = green, 2 = red, 3 = alpha]
-                        if (data[3] == byte.MaxValue)
+                        if (data[3] < byte.MaxValue)
                         {
                             if (x < min.X) min.X = x;
                             if (y < min.Y) min.Y = y;
