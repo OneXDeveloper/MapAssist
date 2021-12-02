@@ -117,7 +117,7 @@ namespace MapAssist
                 UpdateLocation();
                 DrawGameInfo(gfx, e.DeltaTime.ToString());
 
-                if (!_show ||
+                if (!_show || _currentGameData.MenuOpen > 0 ||
                     Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
                         element => element == _currentGameData.Area) ||
                     (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&

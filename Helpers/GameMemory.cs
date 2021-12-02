@@ -69,7 +69,7 @@ namespace MapAssist.Helpers
                     var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, 15)).TrimEnd((char)0);
 
                     var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
-                    Console.WriteLine(menuOpen);
+                    //no menu open = 0, left menu open = 1, right menu open = 2, both menus open = 3
 
                     var actId = playerUnit.Act.ActId;
 
@@ -106,7 +106,8 @@ namespace MapAssist.Helpers
                         Monsters = monsterList,
                         Items = itemList,
                         GameIP = gameIP,
-                        PlayerUnit = playerUnit
+                        PlayerUnit = playerUnit,
+                        MenuOpen = menuOpen
                     };
                 }
             }
