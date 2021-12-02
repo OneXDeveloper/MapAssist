@@ -216,16 +216,16 @@ namespace MapAssist
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             // Setup
-            var textXOffset = PlayerIconWidth() + 40;
+            var textXOffset = PlayerIconWidth() + 50;
+            var textYOffset = PlayerIconWidth() + 50;
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
-            var fontOffset = fontHeight;
 
             // Game IP
-            gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, fontOffset,
+            gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, textYOffset,
                 "Game IP: " + _currentGameData.GameIP);
-            fontOffset += fontHeight + 5;
+            textYOffset += fontHeight + 5;
 
             // Overlay FPS
             if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
@@ -236,9 +236,9 @@ namespace MapAssist
                     .Append("DeltaTime: ").Append(renderDeltaText.PadRight(padding))
                     .ToString();
 
-                gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, fontOffset, infoText);
+                gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, textYOffset, infoText);
 
-                fontOffset += fontHeight;
+                textYOffset += fontHeight;
             }
 
             // Item log
@@ -284,7 +284,7 @@ namespace MapAssist
                         break;
                 }
 
-                gfx.DrawText(_fonts["itemlog"], color, textXOffset, fontOffset + (i * fontHeight),
+                gfx.DrawText(_fonts["itemlog"], color, textXOffset, textYOffset + (i * fontHeight),
                     itemLabelExtra + itemSpecialName + itemBaseName);
             }
         }
