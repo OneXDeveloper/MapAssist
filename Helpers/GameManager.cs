@@ -214,6 +214,7 @@ namespace MapAssist.Helpers
             _UnitHashTableOffset = IntPtr.Zero;
             _ExpansionCheckOffset = IntPtr.Zero;
             _GameIPOffset = IntPtr.Zero;
+            _MenuOpenOffset = IntPtr.Zero;
         }
     }
 }
