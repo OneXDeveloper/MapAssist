@@ -89,8 +89,20 @@ namespace MapAssist.Settings
             return MapColors[type];
         }
 
+        [YamlMember(Alias = "MapCustomColors", ApplyNamingConventions = false)]
+        public Dictionary<string, Color?> MapCustomColors { get; set; }
+
+        public Color? LookupMapCustomColor(string type)
+        {
+            if (!MapCustomColors.ContainsKey(type))
+            {
+                MapCustomColors[type] = null;
+            }
+            return MapCustomColors[type];
+        }
         public MapColorConfiguration()
         {
+            MapCustomColors = new Dictionary<string, Color?>();
             MapColors = new Dictionary<int, Color?>();
         }
     }
@@ -148,6 +160,12 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
     public bool OverlayMode { get; set; }
+
+    [YamlMember(Alias = "DrawBorders", ApplyNamingConventions = false)]
+    public bool DrawBorders { get; set; }
+
+    [YamlMember(Alias = "DrawWalkableTiles", ApplyNamingConventions = false)]
+    public bool DrawWalkableTiles { get; set; }
 
     [YamlMember(Alias = "AlwaysOnTop", ApplyNamingConventions = false)]
     public bool AlwaysOnTop { get; set; }

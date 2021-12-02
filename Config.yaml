@@ -37,6 +37,8 @@ RenderingConfiguration:
   # If set to false it will always show unless you use the hotkeys to disable it
   # ToggleViaInGameMap: true
   
+  DrawBorders: true
+  DrawWalkableTiles: false
   AlwaysOnTop: true
   Size: 450
   Rotate: true
@@ -116,7 +118,11 @@ MapConfiguration:
     LabelFont: 'Helvetica'
     LabelFontSize: 8
 MapColorConfiguration:
+  MapCustomColors:
+    # remove or comment out any of the following colors if you want to disable
+    'borders': '255, 255, 255'
   MapColors:
+    # Set DrawWalkableTiles to true to draw even numbered tiles
     '0': '50, 50, 50'
     '2': '10, 51, 23'
     '3': '255, 255, 255'

@@ -214,15 +214,60 @@ namespace MapAssist.Helpers
                 backgroundGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
+                Color? borderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapCustomColor("borders");
+
+                // draw map tiles directly from areaData
+                var drawWalkableTiles = MapAssistConfiguration.Loaded.RenderingConfiguration.DrawWalkableTiles;
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                     {
                         var type = areaData.CollisionGrid[y][x];
-                        Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
-                        if (typeColor != null)
+                        if ((type % 2 != 0) || (type % 2 == 0 && drawWalkableTiles == true)) // Draw unwalkable tiles and walkable tiles if setting is on
                         {
-                            background.SetPixel(x, y, (Color)typeColor);
+                            Color? typeColor = MapAssistConfiguration.Loaded.MapColorConfiguration.LookupMapColor(type);
+                            if (typeColor != null)
+                            {
+                                background.SetPixel(x, y, (Color)typeColor);
+                            }
+                        }
+                    }
+                }
+
+                var drawBorders = MapAssistConfiguration.Loaded.RenderingConfiguration.DrawBorders;
+                if (drawBorders == true)
+                // draw additional borders around walkable tiles (type % 2 == 0)
+                {
+                    for (var y = 0; y < areaData.CollisionGrid.Length; y++)
+                    {
+                        var maxYValue = areaData.CollisionGrid.Length;
+                        for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
+                        {
+                            var maxXValue = areaData.CollisionGrid[y].Length;
+                            if (areaData.CollisionGrid[y][x] % 2 != 0)
+                            {
+                                var lookOffsets = new int[][] {
+                                    new int[] { -1, -1 },
+                                    new int[] { -1, 0 },
+                                    new int[] { -1, 1 },
+                                    new int[] { 0, -1 },
+                                    new int[] { 0, 1 },
+                                    new int[] { 1, -1 },
+                                    new int[] { 1, 0 },
+                                    new int[] { 1, 1 }
+                                };
+
+                                foreach (var offset in lookOffsets)
+                                {
+                                    if (y + offset[0] >= 0 && y + offset[0] < maxYValue &&
+                                        x + offset[1] >= 0 && x + offset[1] < maxXValue
+                                        && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0)
+                                    {
+                                        background.SetPixel(x, y, (Color)borderColor);
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
