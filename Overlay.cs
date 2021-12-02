@@ -223,22 +223,25 @@ namespace MapAssist
             var fontHeight = (fontSize + fontSize / 2);
 
             // Game IP
-            gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, textYOffset,
-                "Game IP: " + _currentGameData.GameIP);
-            textYOffset += fontHeight + 5;
-
-            // Overlay FPS
-            if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
+            if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
             {
-                var padding = 16;
-                var infoText = new System.Text.StringBuilder()
-                    .Append("FPS: ").Append(gfx.FPS.ToString().PadRight(padding))
-                    .Append("DeltaTime: ").Append(renderDeltaText.PadRight(padding))
-                    .ToString();
+                gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, textYOffset,
+                    "Game IP: " + _currentGameData.GameIP);
+                textYOffset += fontHeight + 5;
 
-                gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, textYOffset, infoText);
+                // Overlay FPS
+                if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
+                {
+                    var padding = 16;
+                    var infoText = new System.Text.StringBuilder()
+                        .Append("FPS: ").Append(gfx.FPS.ToString().PadRight(padding))
+                        .Append("DeltaTime: ").Append(renderDeltaText.PadRight(padding))
+                        .ToString();
 
-                textYOffset += fontHeight;
+                    gfx.DrawText(_fonts["consolas"], _brushes["green"], textXOffset, textYOffset, infoText);
+
+                    textYOffset += fontHeight;
+                }
             }
 
             // Item log
@@ -345,6 +348,11 @@ namespace MapAssist
                         MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
                             (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * .85f);
                     }
+                }
+
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)
+                {
+                    MapAssistConfiguration.Loaded.GameInfo.Enabled = !MapAssistConfiguration.Loaded.GameInfo.Enabled;
                 }
             }
         }

@@ -178,6 +178,9 @@ public class HotkeyConfiguration
 
     [YamlMember(Alias = "ZoomOutKey", ApplyNamingConventions = false)]
     public char ZoomOutKey { get; set; }
+
+    [YamlMember(Alias = "GameInfoKey", ApplyNamingConventions = false)]
+    public char GameInfoKey { get; set; }
 }
 
 public class ApiConfiguration
@@ -191,8 +194,8 @@ public class ApiConfiguration
 
 public class GameInfoConfiguration
 {
-    [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
-    public bool AlwaysShow { get; set; }
+    [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
+    public bool Enabled { get; set; }
     
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }

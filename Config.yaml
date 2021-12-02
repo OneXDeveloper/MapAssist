@@ -137,13 +137,14 @@ HotkeyConfiguration:
   ToggleKey: '\'
   ZoomInKey: '+'
   ZoomOutKey: '-'
+  GameInfoKey: '['
 ApiConfiguration:
   Endpoint: 'http://localhost:8080/'
   Token: ''
 GameInfo:
+  Enabled: true
   # Developer setting, probably not useful
   ShowOverlayFPS: false
-  AlwaysShow: true
 ItemLog:
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true
