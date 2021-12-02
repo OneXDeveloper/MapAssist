@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -88,11 +88,13 @@ namespace MapAssist.Helpers
                 imageGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 imageGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
-                {
-                    Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
-                    var playerPosition = localPlayerPosition.OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player));
-                    imageGraphics.DrawImage(playerIcon, playerPosition);
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Player != null) { 
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon())
+                    {
+                        Bitmap playerIcon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Player);
+                        var playerPosition = localPlayerPosition.OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Player));
+                        imageGraphics.DrawImage(playerIcon, playerPosition);
+                    }
                 }
 
                 // The lines are dynamic, and follow the player, so have to be drawn here.
@@ -114,76 +116,73 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                var monsterRenderingOrder = new IconRendering[]
+                foreach (var unitAny in gameData.Monsters)
                 {
-                    MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster,
-                    MapAssistConfiguration.Loaded.MapConfiguration.EliteMonster,
-                    MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster,
-                    MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster,
-                };
+                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
 
-                foreach (var mobRender in monsterRenderingOrder)
-                {
-                    foreach (var unitAny in gameData.Monsters)
+                    if (mobRender == null) continue;
+
+                    if (mobRender.CanDrawIcon())
                     {
-                        if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
-                        {
-                            Bitmap icon = GetIcon(mobRender);
-                            var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
+                        Bitmap icon = GetIcon(mobRender);
+                        var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
 
-                            imageGraphics.DrawImage(icon, monsterPosition);
-                        }
+                        imageGraphics.DrawImage(icon, monsterPosition);
                     }
                 }
 
-                foreach (var mobRender in monsterRenderingOrder)
+                foreach (var unitAny in gameData.Monsters)
                 {
-                    foreach (var unitAny in gameData.Monsters)
+                    var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
+
+                    if (mobRender == null) continue;
+
+                    if (mobRender.CanDrawIcon())
                     {
-                        if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
+                        Bitmap icon = GetIcon(mobRender);
+                        var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
+
+                        // Draw Monster Immunities on top of monster icon
+                        var iCount = unitAny.Immunities.Count;
+                        if (iCount > 0)
                         {
-                            Bitmap icon = GetIcon(mobRender);
-                            var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
+                            var rectSize = mobRender.IconSize / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
+                            var dx = rectSize * scaleWidth * 1.5; // Amount of space each indicator will take up, including spacing (which is the 1.5)
 
-                            // Draw Monster Immunities on top of monster icon
-                            var iCount = unitAny.Immunities.Count;
-                            if (iCount > 0)
+                            var iX = -icon.Width / 2f // Start at the center of the mob icon
+                                + (rectSize * scaleWidth) / 2 // Make sure the center of the indicator lines up with the center of the mob icon
+                                - dx * (iCount - 1) / 2; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
+
+                            foreach (var immunity in unitAny.Immunities)
                             {
-                                var rectSize = mobRender.IconSize / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
-                                var dx = rectSize * scaleWidth * 1.5; // Amount of space each indicator will take up, including spacing (which is the 1.5)
-
-                                var iX = -icon.Width / 2f // Start at the center of the mob icon
-                                    + (rectSize * scaleWidth) / 2 // Make sure the center of the indicator lines up with the center of the mob icon
-                                    - dx * (iCount - 1) / 2; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
-
-                                foreach (var immunity in unitAny.Immunities)
-                                {
-                                    var iPoint = new Point((int)Math.Round(iX), icon.Height / 2 + icon.Height / 12); // 1/12th of the height just helps move the icon a bit up to make it look nicer. Purely arbitrary.
-                                    var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
-                                    var rect = new Rectangle(monsterPosition.OffsetFrom(iPoint), new Size((int)(rectSize * scaleWidth), (int)(rectSize * scaleWidth))); // Scale both by the width since width isn't impacted by depth in overlay mode
-                                    imageGraphics.FillEllipse(brush, rect);
-                                    iX += dx;
-                                }
+                                var iPoint = new Point((int)Math.Round(iX), icon.Height / 2 + icon.Height / 12); // 1/12th of the height just helps move the icon a bit up to make it look nicer. Purely arbitrary.
+                                var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
+                                var rect = new Rectangle(monsterPosition.OffsetFrom(iPoint), new Size((int)(rectSize * scaleWidth), (int)(rectSize * scaleWidth))); // Scale both by the width since width isn't impacted by depth in overlay mode
+                                imageGraphics.FillEllipse(brush, rect);
+                                iX += dx;
                             }
                         }
                     }
                 }
 
-                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
-                foreach (var item in gameData.Items)
+                if (MapAssistConfiguration.Loaded.MapConfiguration.Item != null)
                 {
-                    if (!LootFilter.Filter(item))
+                    var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
+                    foreach (var item in gameData.Items)
                     {
-                        continue;
+                        if (!LootFilter.Filter(item))
+                        {
+                            continue;
+                        }
+                        var color = Items.ItemColors[item.ItemData.ItemQuality];
+                        Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+                        var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
+                        imageGraphics.DrawImage(icon, itemPosition);
+                        var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                        imageGraphics.DrawString(itemBaseName, font,
+                            new SolidBrush(color),
+                            itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                     }
-                    var color = Items.ItemColors[item.ItemData.ItemQuality];
-                    Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
-                    var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
-                    imageGraphics.DrawImage(icon, itemPosition);
-                    var itemBaseName = Items.ItemNames[item.TxtFileNo];
-                    imageGraphics.DrawString(itemBaseName, font,
-                        new SolidBrush(color),
-                        itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                 }
             }
 
@@ -284,7 +283,7 @@ namespace MapAssist.Helpers
 
         private (float, float) CalcResizeRatios(Bitmap image)
         {
-            var multiplier = 4.25f - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            var multiplier = 0.25f + Math.Max(4 - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel, 0); // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {

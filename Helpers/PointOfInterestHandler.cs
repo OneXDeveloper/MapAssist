@@ -141,7 +141,12 @@ namespace MapAssist.Helpers
 
         public static List<PointOfInterest> Get(MapApi mapApi, AreaData areaData)
         {
-            var pointOfInterest = new List<PointOfInterest>();
+            var pointsOfInterest = new List<PointOfInterest>();
+
+            if (MapAssistConfiguration.Loaded.MapConfiguration == null)
+            {
+                return pointsOfInterest;
+            }
 
             switch (areaData.Area)
             {
@@ -166,7 +171,7 @@ namespace MapAssist.Helpers
 
                     if (realTomb != Area.None && areaData.AdjacentLevels[realTomb].Exits.Any())
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = realTomb.Name(),
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
@@ -185,7 +190,7 @@ namespace MapAssist.Helpers
                         {
                             if (areaData.AdjacentLevels[highestArea].Exits.Any())
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                pointsOfInterest.Add(new PointOfInterest
                                 {
                                     Label = highestArea.Name(),
                                     Position = areaData.AdjacentLevels[highestArea].Exits[0],
@@ -204,7 +209,7 @@ namespace MapAssist.Helpers
 
                             foreach (Point position in level.Exits)
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                pointsOfInterest.Add(new PointOfInterest
                                 {
                                     Label = level.Area.Name(),
                                     Position = position,
@@ -230,7 +235,7 @@ namespace MapAssist.Helpers
                 // Waypoints
                 if (obj.IsWaypoint())
                 {
-                    pointOfInterest.Add(new PointOfInterest
+                    pointsOfInterest.Add(new PointOfInterest
                     {
                         Label = obj.ToString(),
                         Position = points[0],
@@ -240,7 +245,7 @@ namespace MapAssist.Helpers
                 // Quest objects
                 else if (QuestObjects.Contains(obj))
                 {
-                    pointOfInterest.Add(new PointOfInterest
+                    pointsOfInterest.Add(new PointOfInterest
                     {
                         Label = obj.ToString(), 
                         Position = points[0], 
@@ -252,7 +257,7 @@ namespace MapAssist.Helpers
                 {
                     if (AreaSpecificQuestObjects[areaData.Area] == obj)
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = obj.ToString(),
                             Position = points[0],
@@ -265,7 +270,7 @@ namespace MapAssist.Helpers
                 {
                     foreach (Point point in points)
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = obj.ToString(), 
                             Position = point, 
@@ -278,7 +283,7 @@ namespace MapAssist.Helpers
                 {
                     foreach (Point point in points)
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = obj.ToString(),
                             Position = point,
@@ -291,7 +296,7 @@ namespace MapAssist.Helpers
                 {
                     foreach (Point point in points)
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = obj.ToString(),
                             Position = point,
@@ -304,7 +309,7 @@ namespace MapAssist.Helpers
                 {
                     foreach (Point point in points)
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        pointsOfInterest.Add(new PointOfInterest
                         {
                             Label = obj.ToString(),
                             Position = point,
@@ -314,7 +319,7 @@ namespace MapAssist.Helpers
                 }
             }
 
-            return pointOfInterest;
+            return pointsOfInterest;
         }
     }
 }
