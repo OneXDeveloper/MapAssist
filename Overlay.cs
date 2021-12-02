@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -286,15 +285,6 @@ namespace MapAssist
 
                 gfx.DrawText(_fonts["itemlog"], color, textXOffset, textYOffset + (i * fontHeight),
                     itemLabelExtra + itemSpecialName + itemBaseName);
-            }
-        }
-
-        private static byte[] ImageToByte(System.Drawing.Image img)
-        {
-            using (var stream = new MemoryStream())
-            {
-                img.Save(stream, ImageFormat.Png);
-                return stream.ToArray();
             }
         }
 

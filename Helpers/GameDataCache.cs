@@ -1,24 +1,21 @@
 ﻿using MapAssist.Settings;
 using MapAssist.Types;
 using System;
-using System.Threading;
 
 namespace MapAssist.Helpers
 {
     public class GameDataCache : IDisposable
     {
         private object _lock = new object();
-        private volatile bool _stopRequested;
-        private readonly Thread _thread;
         private volatile GameData _gameData;
         private MapApi _mapApi;
         private AreaData _areaData;
         private Compositor _compositor;
+        private System.Timers.Timer _updateTimer;
 
         public GameDataCache()
         {
-            _thread = new Thread(Update) {IsBackground = true};
-            _thread.Start();
+            RunUpdateTimer();
         }
 
         public Tuple<GameData, Compositor, AreaData> Get()
@@ -29,14 +26,15 @@ namespace MapAssist.Helpers
             }
         }
 
-        private void Update()
+        private void RunUpdateTimer()
         {
-            while (!_stopRequested)
+            _updateTimer = new System.Timers.Timer(MapAssistConfiguration.Loaded.UpdateTime);
+            _updateTimer.Elapsed += (sender, args) =>
             {
                 lock (_lock)
                 {
-                    var gameData = GameMemory.GetGameData(); 
-                    
+                    var gameData = GameMemory.GetGameData();
+
                     if (gameData != null)
                     {
                         if (gameData.HasGameChanged(_gameData))
@@ -62,16 +60,16 @@ namespace MapAssist.Helpers
 
                     _gameData = gameData;
                 }
-                
-                // Sleep until next time to update
-                Thread.Sleep(MapAssistConfiguration.Loaded.UpdateTime);
-            }
+                _updateTimer.Start();
+            };
+            _updateTimer.AutoReset = false;
+            _updateTimer.Start();
         }
 
         public void Dispose()
         {
-            _stopRequested = true;
-            _thread.Join();
+            _updateTimer.Stop();
+            _updateTimer.Dispose();
             _mapApi?.Dispose();
         }
     }

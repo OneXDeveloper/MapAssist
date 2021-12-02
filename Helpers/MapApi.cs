@@ -23,13 +23,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 
 #pragma warning disable 649
 
@@ -41,8 +41,6 @@ namespace MapAssist.Helpers
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private readonly string _sessionId;
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
-        private readonly BlockingCollection<Area[]> _prefetchRequests;
-        private readonly Thread _thread;
         private readonly HttpClient _client;
 
         private string CreateSession(Difficulty difficulty, uint mapSeed)
@@ -72,14 +70,8 @@ namespace MapAssist.Helpers
             _sessionId = CreateSession(difficulty, mapSeed);
             // Cache for pre-fetching maps for the surrounding areas.
             _cache = new ConcurrentDictionary<Area, AreaData>();
-            _prefetchRequests = new BlockingCollection<Area[]>();
-            _thread = new Thread(Prefetch) {IsBackground = true};
-            _thread.Start();
 
-            if (MapAssistConfiguration.Loaded.PrefetchAreas.Any())
-            {
-                _prefetchRequests.Add(MapAssistConfiguration.Loaded.PrefetchAreas);
-            }
+            Prefetch(MapAssistConfiguration.Loaded.PrefetchAreas);
         }
 
         public AreaData GetMapData(Area area)
@@ -94,17 +86,17 @@ namespace MapAssist.Helpers
             Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
             if (adjacentAreas.Any())
             {
-                _prefetchRequests.Add(adjacentAreas);
+                Prefetch(adjacentAreas);
             }
 
             return areaData;
         }
 
-        private void Prefetch()
+        private void Prefetch(params Area[] areas)
         {
-            while (true)
+            var prefetchBackgroundWorker = new BackgroundWorker();
+            prefetchBackgroundWorker.DoWork += (sender, args) =>
             {
-                Area[] areas = _prefetchRequests.Take();
                 if (MapAssistConfiguration.Loaded.ClearPrefetchedOnAreaChange)
                 {
                     _cache.Clear();
@@ -113,7 +105,7 @@ namespace MapAssist.Helpers
                 // Special value telling us to exit.
                 if (areas.Length == 0)
                 {
-                    _log.Info("Prefetch thread terminating");
+                    _log.Info("Prefetch worker terminating");
                     return;
                 }
 
@@ -124,7 +116,9 @@ namespace MapAssist.Helpers
                     _cache[area] = GetMapDataInternal(area);
                     _log.Info($"Prefetched {area}");
                 }
-            }
+            };
+            prefetchBackgroundWorker.RunWorkerAsync();
+            prefetchBackgroundWorker.Dispose();
         }
 
         private AreaData GetMapDataInternal(Area area)
@@ -159,8 +153,6 @@ namespace MapAssist.Helpers
 
         public void Dispose()
         {
-            _prefetchRequests.Add(new Area[] { });
-            _thread.Join();
             try
             {
                 DestroySession(_sessionId);
