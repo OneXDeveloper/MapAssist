@@ -219,9 +219,7 @@ namespace MapAssist.Helpers
                         for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                         {
                             var maxXValue = areaData.CollisionGrid[y].Length;
-                            if (areaData.CollisionGrid[y][x] % 2 != 0)
-                            {
-                                var lookOffsets = new int[][] {
+                            var lookOffsets = new int[][] {
                                     new int[] { -1, -1 },
                                     new int[] { -1, 0 },
                                     new int[] { -1, 1 },
@@ -232,15 +230,19 @@ namespace MapAssist.Helpers
                                     new int[] { 1, 1 }
                                 };
 
-                                foreach (var offset in lookOffsets)
+                            foreach (var offset in lookOffsets)
+                            {
+                                var offsetsInBounds =
+                                    y + offset[0] >= 0 && y + offset[0] < maxYValue &&
+                                    x + offset[1] >= 0 && x + offset[1] < maxXValue;
+
+                                var checkInterior = offsetsInBounds && areaData.CollisionGrid[y][x] % 2 != 0 && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0;
+                                var checkEdge = !offsetsInBounds && areaData.CollisionGrid[y][x] % 2 == 0;
+
+                                if (checkInterior || checkEdge)
                                 {
-                                    if (y + offset[0] >= 0 && y + offset[0] < maxYValue &&
-                                        x + offset[1] >= 0 && x + offset[1] < maxXValue
-                                        && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0)
-                                    {
-                                        background.SetPixel(x, y, (Color)borderColor);
-                                        break;
-                                    }
+                                    background.SetPixel(x, y, Color.White);
+                                    break;
                                 }
                             }
                         }
