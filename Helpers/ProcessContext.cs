@@ -187,6 +187,25 @@ namespace MapAssist.Helpers
             var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
             return IntPtr.Add(_baseAddr, (int)(delta + 7 + 208 + offsetAddressToInt));
         }
+        public IntPtr GetMenuOpenOffset()
+        {
+            var buffer = GetProcessMemory();
+            IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
+                "\x8B\x05\x00\x00\x00\x00\x89\x44\x24\x20\x74\x07",
+                "xx????xxxxxx");
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 2);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                _log.Info("We failed to read the process memory");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + 6 + offsetAddressToInt));
+        }
+        //\x8B\x05\x00\x00\x00\x00\x89\x44\x24\x20\x74\x07, xx????xxxxxx
 
         private static int FindPattern(ref byte[] buffer, ref int size, ref string pattern, ref string mask)
         {

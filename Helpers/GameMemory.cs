@@ -68,6 +68,9 @@ namespace MapAssist.Helpers
 
                     var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, 15)).TrimEnd((char)0);
 
+                    var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
+                    Console.WriteLine(menuOpen);
+
                     var actId = playerUnit.Act.ActId;
 
                     var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;

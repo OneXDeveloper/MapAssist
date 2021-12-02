@@ -38,6 +38,7 @@ namespace MapAssist.Helpers
         private static IntPtr _UiSettingOffset;
         private static IntPtr _ExpansionCheckOffset;
         private static IntPtr _GameIPOffset;
+        private static IntPtr _MenuOpenOffset;
 
         public static ProcessContext GetProcessContext()
         {
@@ -186,6 +187,23 @@ namespace MapAssist.Helpers
                 }
 
                 return _GameIPOffset;
+            }
+        }
+        public static IntPtr MenuOpenOffset
+        {
+            get
+            {
+                if (_MenuOpenOffset != IntPtr.Zero)
+                {
+                    return _MenuOpenOffset;
+                }
+
+                using (var processContext = GetProcessContext())
+                {
+                    _MenuOpenOffset = processContext.GetMenuOpenOffset();
+                }
+
+                return _MenuOpenOffset;
             }
         }
 
