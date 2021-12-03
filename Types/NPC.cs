@@ -1,4 +1,4 @@
-﻿/**
+/**
 *   Copyright (C) 2021 okaygo
 *
 *   https://github.com/misterokaygo/MapAssist/
@@ -37,10 +37,12 @@ namespace MapAssist.Types
             { 203, Npc.Act2Guard },
             { 204, Npc.Act2Vendor },
             { 205, Npc.Act2Vendor2 },
+            { 227, Npc.Maggot },
             { 268, Npc.Bug },
             { 269, Npc.Scorpion },
             { 271, Npc.Rogue2 },
             { 272, Npc.Rogue3 },
+            { 283, Npc.Larva },
             { 293, Npc.Familiar },
             { 294, Npc.Act3Male },
             { 289, Npc.ClayGolem },
@@ -56,6 +58,11 @@ namespace MapAssist.Types
             { 323, Npc.EvilHole3 },
             { 324, Npc.EvilHole4 },
             { 325, Npc.EvilHole5 },
+            { 326, Npc.FireboltTrap },
+            { 327, Npc.HorzMissileTrap },
+            { 328, Npc.VertMissileTrap },
+            { 329, Npc.PoisonCloudTrap },
+            { 330, Npc.LightningTrap },
             { 332, Npc.InvisoSpawner },
             { 338, Npc.Guard },
             { 339, Npc.MiniSpider },
