@@ -40,6 +40,11 @@ namespace MapAssist.Helpers
                     var playerUnit = GameManager.PlayerUnit;
                     playerUnit.Update();
 
+                    if (!playerUnit.IsValidUnit())
+                    {
+                        throw new Exception("Player unit not found");
+                    }
+
                     var mapSeed = playerUnit.Act.MapSeed;
 
                     if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
