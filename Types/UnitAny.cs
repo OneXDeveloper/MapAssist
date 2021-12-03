@@ -61,7 +61,7 @@ namespace MapAssist.Types
                 using (var processContext = GameManager.GetProcessContext())
                 {
                     _unitAny = processContext.Read<Structs.UnitAny>(_pUnit);
-                    if (IsValidUnit())
+                    if (IsValidUnit() || IsValidObject())
                     {
                         _path = new Path(_unitAny.pPath);
                         var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
@@ -110,6 +110,9 @@ namespace MapAssist.Types
                                 break;
                             case UnitType.Object:
                                 _objectData = processContext.Read<ObjectData>(_unitAny.pUnitData);
+                                // This is only necessary until there's a better way to distinguish shrines from wells/chests...
+                                _name = Encoding.ASCII.GetString(processContext.Read<byte>(_objectData.pObjectTxt.Name, 64))
+                                    .Trim((char)0, '\u0002');
                                 break;
                         }
                         _updated = true;
@@ -153,9 +156,13 @@ namespace MapAssist.Types
         {
             return _pUnit != IntPtr.Zero;
         }
+        public bool IsValidObject()
+        {
+            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.UnitType == UnitType.Object;
+        }
         public bool IsValidUnit()
         {
-            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
+            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.pStatsListEx != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
         }
 
         public bool IsPlayer()
@@ -189,9 +196,17 @@ namespace MapAssist.Types
             return false;
         }
 
-        public bool IsObjectOfInterest()
+        public bool IsShrine()
         {
-            return ObjectData.Shrine.ShrineType == ShrineType.SHRINE_EXP;
+            if (_unitAny.UnitType != UnitType.Object) return false;
+            if (Enum.IsDefined(typeof(ShrineType), ObjectData.Shrine.ShrineType) == false) return false;
+            if(ObjectData.Shrine.ShrineType == ShrineType.SHRINE_NONE) return false;
+
+            // Chests and Wells are still not filtered this far...
+            // ObjectData.pObjectTxt.nSubClass maybe?
+            if (_name == null || !_name.Contains("Shrine") && !_name.Contains("ForestAltar")) return false;
+
+            return true;
         }
 
         public bool IsMonster()

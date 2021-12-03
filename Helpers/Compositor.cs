@@ -114,19 +114,19 @@ namespace MapAssist.Helpers
                     }
                 }
 
+                // Move to Config.yaml?
+                var shrineFont = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, 14, FontStyle.Bold);
+                var shrineTextBrush = new SolidBrush(Color.Blue);
+
                 foreach (var obj in gameData.Objects)
                 {
-                    if (obj.ObjectData.Shrine.ShrineType == ShrineType.SHRINE_EXP)
+                    if (obj.IsShrine())
                     {
-                        var rendering = MapAssistConfiguration.Loaded.MapConfiguration.ExpShrine;
+                        var shrineText = obj.ObjectData.Shrine.ShrineType.ToString().Replace("SHRINE_", "");
+                        var shrineTextSize = imageGraphics.MeasureString(shrineText, shrineFont).ToSize();
+                        var shrineTextPosition = adjustedPoint(obj.Position).OffsetFrom(new Point(shrineTextSize.Width / 2, shrineTextSize.Height / 2));
 
-                        if (rendering.CanDrawIcon())
-                        {
-                            Bitmap icon = GetIcon(rendering);
-                            var shrinePosition = adjustedPoint(obj.Position).OffsetFrom(GetIconOffset(rendering));
-
-                            imageGraphics.DrawImage(icon, shrinePosition);
-                        }
+                        imageGraphics.DrawString(shrineText, shrineFont, shrineTextBrush, shrineTextPosition);
                     }
                 }
 

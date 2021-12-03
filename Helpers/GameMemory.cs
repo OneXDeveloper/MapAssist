@@ -140,7 +140,7 @@ namespace MapAssist.Helpers
                 foreach (var pUnitAny in unitHashTable.UnitTable)
                 {
                     var unitAny = new UnitAny(pUnitAny);
-                    while (unitAny.IsValidUnit())
+                    while (unitAny.IsValidUnit() || unitAny.IsValidObject())
                     {
                         switch (unitType)
                         {
@@ -157,7 +157,7 @@ namespace MapAssist.Helpers
                                 }
                                 break;
                             case UnitType.Object:
-                                if (!objectList.Contains(unitAny) && unitAny.IsObjectOfInterest())
+                                if (!objectList.Contains(unitAny) && unitAny.IsShrine())
                                 {
                                     objectList.Add(unitAny);
                                 }
@@ -173,7 +173,7 @@ namespace MapAssist.Helpers
             foreach (var room in rooms)
             {
                 var unitAny = room.UnitFirst;
-                while (unitAny.IsValidUnit())
+                while (unitAny.IsValidUnit() || unitAny.IsValidObject())
                 {
                     switch (unitAny.UnitType)
                     {
@@ -191,7 +191,7 @@ namespace MapAssist.Helpers
                             }
                             break;
                         case UnitType.Object:
-                            if (!objectList.Contains(unitAny) && unitAny.IsObjectOfInterest())
+                            if (!objectList.Contains(unitAny) && unitAny.IsShrine())
                             {
                                 objectList.Add(unitAny);
                             }

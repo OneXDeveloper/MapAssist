@@ -133,9 +133,6 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "Shrine", ApplyNamingConventions = false)]
         public PointOfInterestRendering Shrine { get; set; }
 
-        [YamlMember(Alias = "ExpShrine", ApplyNamingConventions = false)]
-        public PointOfInterestRendering ExpShrine { get; set; }
-
         [YamlMember(Alias = "ArmorWeapRack", ApplyNamingConventions = false)]
         public PointOfInterestRendering ArmorWeapRack { get; set; }
 

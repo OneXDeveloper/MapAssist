@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
 {
@@ -8,7 +9,7 @@ namespace MapAssist.Structs
     [StructLayout(LayoutKind.Explicit)]
     public struct ObjectData
     {
-//        [FieldOffset(0x00)] public IntPtr pObjectTxt;
+        [FieldOffset(0x00)] public ObjectTxt pObjectTxt;
 //        [FieldOffset(0x04)] public sbyte InteractType;
 //        [FieldOffset(0x05)] public sbyte nPortalFlags;
 //        [FieldOffset(0x06)] public short unk0x06;
@@ -38,6 +39,26 @@ namespace MapAssist.Structs
 //        [FieldOffset(0xB4)] public uint dwLevelMin;                    //0xB4
     };
 
+    [StructLayout(LayoutKind.Explicit)]
+    public struct ObjectTxt
+    {
+        [FieldOffset(0x00)] public IntPtr Name;						//0x00
+//        [FieldOffset(0x167)] public byte nSubClass;						//0x167
+//        [FieldOffset(0x16F)] public byte nShrineFunction;				//0x16F
+    }
+
+    public enum ObjectSubClass
+    {
+        OBJSUBCLASS_SHRINE = 0x01,
+        OBJSUBCLASS_OBELISK = 0x02,
+        OBJSUBCLASS_TOWNPORTAL = 0x04,
+        OBJSUBCLASS_CHEST = 0x08,
+        OBJSUBCLASS_PORTAL = 0x10,
+        OBJSUBCLASS_WELL = 0x20,
+        OBJSUBCLASS_WAYPOINT = 0x40,
+        OBJSUBCLASS_DOOR = 0x80,
+    };
+
     public enum ShrineType
     {
         SHRINE_NONE,
@@ -63,5 +84,5 @@ namespace MapAssist.Structs
         SHRINE_WARP,
         SHRINE_EXPLOSION,
         SHRINE_POISON
-    };
+    }
 }
