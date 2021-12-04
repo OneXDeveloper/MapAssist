@@ -212,6 +212,11 @@ namespace MapAssist
 
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
+            if (_currentGameData.MenuPanelOpen >= 2)
+            {
+                return;
+            }
+
             // Setup
             var textXOffset = PlayerIconWidth() + 50;
             var textYOffset = PlayerIconWidth() + 50;
