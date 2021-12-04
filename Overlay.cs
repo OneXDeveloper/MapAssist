@@ -119,16 +119,19 @@ namespace MapAssist
                 var time = DateTime.Now;
                 if (time - GameManager.StartTime > TimeSpan.FromMinutes(10) && MapAssistConfiguration.Loaded.ApiConfiguration.Endpoint != Encoding.ASCII.GetString(GameManager.DefaultEndpoint) && !GameManager._valid)
                 {
-                    if(time.Second % 2 == 0)
+                    if (time.Second % 2 == 0)
                     {
                         return;
                     }
                 }
-                if (!_show || _currentGameData.MenuPanelOpen > 0 ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
-                        element => element == _currentGameData.Area) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&
-                     !_currentGameData.MenuOpen.Map) || (_currentGameData.Area == Area.None))
+
+                if (!_show
+                    || _currentGameData.MenuPanelOpen > 0
+                    || MapAssistConfiguration.Loaded.MapConfiguration == null
+                    || MapAssistConfiguration.Loaded.MapColorConfiguration == null
+                    || Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, element => element == _currentGameData.Area)
+                    || (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map)
+                    || (_currentGameData.Area == Area.None))
                 {
                     return;
                 }

@@ -1,48 +1,50 @@
-# How often to read the game memory
-# You likely shouldn't change this
-UpdateTime: 30
+# Ensure your config file is formatted properly: https://yamlchecker.com/
 
-# Areas to preload so that they're hot and ready as soon as you go to them
+# Areas to preload so that they're hot and ready as soon as you need them
 PrefetchAreas:
- - 'Catacombs Level 2'
- - 'Durance Of Hate Level 2'
+  - 'Catacombs Level 2'
+  - 'Durance Of Hate Level 2'
+ClearPrefetchedOnAreaChange: true
 
 # Areas where the map should not show
-# This includes all the towns and various crappy areas
-# where you really don't need it.
+# This includes all the towns and various crappy areas where you really don't need it
 HiddenAreas:
- - 'Rogue Encampment'
- - 'Lut Gholein'
- - 'Kurast Docktown'
- - 'The Pandemonium Fortress'
- - 'Harrogath'
- - 'Forgotten Tower'
- - 'Nihlathaks Temple'
-ClearPrefetchedOnAreaChange: true
+  - 'Rogue Encampment'
+  - 'Lut Gholein'
+  - 'Kurast Docktown'
+  - 'The Pandemonium Fortress'
+  - 'Harrogath'
+  - 'Forgotten Tower'
+  - 'Nihlathaks Temple'
+
+HotkeyConfiguration:
+  ToggleKey: '\'
+  ZoomInKey: '+'
+  ZoomOutKey: '-'
+  GameInfoKey: '['
+
+ItemLog:
+  Enabled: true
+  FilterFileName: "ItemFilter.yaml"
+  PlaySoundOnDrop: true
+  DisplayForSeconds: 45 # After how long to remove the item from the log
+  SoundFile: "" # Must be a .wav file, path relative to MapAssist location
+  AlwaysShow: false
+  LabelFont: "Helvetica"
+  LabelFontSize: 14
+
 RenderingConfiguration:
-  # Overlay mode defaults
-  # Comment these out and uncomment block below to go to oldschool mode
+  OverlayMode: true # True will move the map to keep the player icon centered. False will keep the map static
+  Position: Center # Possible positions: Center, TopLeft, TopRight
   Opacity: 0.5
-  OverlayMode: true
-  # Possible positions: Center, TopLeft, TopRight
-  Position: Center
-  # If set to false it will always show unless you use the hotkeys to disable it
-  ToggleViaInGameMap: false
- 
-  # Non-overlay mode defaults
-  # Uncomment these out to go to oldschool mode
-  # Opacity: 0.5
-  # OverlayMode: false
-  # Position: TopRight
-  # If set to false it will always show unless you use the hotkeys to disable it
-  # ToggleViaInGameMap: true
-  
-  AlwaysOnTop: true
-  Size: 450
+  # Size: 450 # Only applicable when OverlayMode = false
   Rotate: true
   ZoomLevel: 1
+  AlwaysOnTop: true
+  ToggleViaInGameMap: false # If set to false it will always show unless you use the hotkeys to disable it
   BuffPosition: Bottom
   BuffSize: 1
+
 MapConfiguration:
   SuperUniqueMonster:
     IconColor: Yellow
@@ -91,7 +93,7 @@ MapConfiguration:
     LineThickness: 2
     ArrowHeadSize: 5
   Player:
-    IconColor: '255, 255, 0'
+    IconColor: Yellow
     IconShape: Square
     IconSize: 5
     IconThickness: 2
@@ -117,6 +119,7 @@ MapConfiguration:
     IconSize: 6
     LabelFont: 'Helvetica'
     LabelFontSize: 8
+
 MapColorConfiguration:
   MapColors:
     '0': '50, 50, 50'
@@ -135,26 +138,18 @@ MapColorConfiguration:
     '37': '0, 0, 0'
     '39': '0, 0, 0'
     '53': '0, 0, 0'
-HotkeyConfiguration:
-  ToggleKey: '\'
-  ZoomInKey: '+'
-  ZoomOutKey: '-'
-  GameInfoKey: '['
+
+# How often to read the game memory
+# You likely shouldn't change this
+UpdateTime: 30
+
+# Set an IP you want to hunt
+HuntingIP: 'x.x.x.x'
+
 ApiConfiguration:
   Endpoint: 'http://localhost:8080/'
   Token: ''
+
 GameInfo:
   Enabled: true
-  # Developer setting, probably not useful
   ShowOverlayFPS: false
-# Set an IP you want to hunt
-HuntingIP: 'x.x.x.x'
-ItemLog:
-  Enabled: true
-  FilterFileName: "ItemFilter.yaml"
-  PlaySoundOnDrop: true
-  # Must be a .wav file, path relative to MapAssist location
-  SoundFile: ""
-  DisplayForSeconds: 45
-  LabelFont: "Helvetica"
-  LabelFontSize: 14
