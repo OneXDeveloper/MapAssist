@@ -169,26 +169,23 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                if (MapAssistConfiguration.Loaded.ItemLog.Enabled)
+                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
+                foreach (var item in gameData.Items)
                 {
-                    var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
-                    foreach (var item in gameData.Items)
+                    if (item.IsDropped())
                     {
-                        if (item.IsDropped())
+                        if (!LootFilter.Filter(item))
                         {
-                            if (!LootFilter.Filter(item))
-                            {
-                                continue;
-                            }
-                            var color = Items.ItemColors[item.ItemData.ItemQuality];
-                            Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
-                            var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
-                            imageGraphics.DrawImage(icon, itemPosition);
-                            var itemBaseName = Items.ItemNames[item.TxtFileNo];
-                            imageGraphics.DrawString(itemBaseName, font,
-                                new SolidBrush(color),
-                                itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
+                            continue;
                         }
+                        var color = Items.ItemColors[item.ItemData.ItemQuality];
+                        Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+                        var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
+                        imageGraphics.DrawImage(icon, itemPosition);
+                        var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                        imageGraphics.DrawString(itemBaseName, font,
+                            new SolidBrush(color),
+                            itemPosition.OffsetFrom(new Point(-icon.Width - 5, 0)));
                     }
                 }
             }
