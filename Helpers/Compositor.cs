@@ -213,23 +213,23 @@ namespace MapAssist.Helpers
                 if (drawBorders == true)
                 // draw additional borders around walkable tiles (type % 2 == 0)
                 {
+                    var lookOffsets = new int[][] {
+                            new int[] { -1, -1 },
+                            new int[] { -1, 0 },
+                            new int[] { -1, 1 },
+                            new int[] { 0, -1 },
+                            new int[] { 0, 1 },
+                            new int[] { 1, -1 },
+                            new int[] { 1, 0 },
+                            new int[] { 1, 1 }
+                        };
+
                     for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                     {
                         var maxYValue = areaData.CollisionGrid.Length;
                         for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
                         {
                             var maxXValue = areaData.CollisionGrid[y].Length;
-                            var lookOffsets = new int[][] {
-                                    new int[] { -1, -1 },
-                                    new int[] { -1, 0 },
-                                    new int[] { -1, 1 },
-                                    new int[] { 0, -1 },
-                                    new int[] { 0, 1 },
-                                    new int[] { 1, -1 },
-                                    new int[] { 1, 0 },
-                                    new int[] { 1, 1 }
-                                };
-
                             foreach (var offset in lookOffsets)
                             {
                                 var offsetsInBounds =
