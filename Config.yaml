@@ -148,9 +148,9 @@ GameInfo:
   # Developer setting, probably not useful
   ShowOverlayFPS: false
 ItemLog:
+  Enabled: true
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true
   DisplayForSeconds: 45
-  AlwaysShow: false
   LabelFont: "Helvetica"
   LabelFontSize: 14

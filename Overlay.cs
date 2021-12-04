@@ -330,50 +330,53 @@ namespace MapAssist
             }
 
             // Item log
-            for (var i = 0; i < Items.CurrentItemLog.Count; i++)
+            if (MapAssistConfiguration.Loaded.ItemLog.Enabled)
             {
-                var color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                var isEth = (Items.CurrentItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
-                            ItemFlags.IFLAG_ETHEREAL;
-                var itemBaseName = Items.ItemNames[Items.CurrentItemLog[i].TxtFileNo];
-                var itemSpecialName = "";
-                var itemLabelExtra = "";
-                if (isEth)
+                for (var i = 0; i < Items.CurrentItemLog.Count; i++)
                 {
-                    itemLabelExtra += "[Eth] ";
-                    color = _brushes[ItemQuality.SUPERIOR.ToString()];
-                }
+                    var color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                    var isEth = (Items.CurrentItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
+                                ItemFlags.IFLAG_ETHEREAL;
+                    var itemBaseName = Items.ItemNames[Items.CurrentItemLog[i].TxtFileNo];
+                    var itemSpecialName = "";
+                    var itemLabelExtra = "";
+                    if (isEth)
+                    {
+                        itemLabelExtra += "[Eth] ";
+                        color = _brushes[ItemQuality.SUPERIOR.ToString()];
+                    }
 
-                if (Items.CurrentItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
-                {
-                    itemLabelExtra += "[" + numSockets + " S] ";
-                    color = _brushes[ItemQuality.SUPERIOR.ToString()];
-                }
+                    if (Items.CurrentItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
+                    {
+                        itemLabelExtra += "[" + numSockets + " S] ";
+                        color = _brushes[ItemQuality.SUPERIOR.ToString()];
+                    }
 
-                switch (Items.CurrentItemLog[i].ItemData.ItemQuality)
-                {
-                    case ItemQuality.UNIQUE:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] +
-                                          " ";
-                        break;
-                    case ItemQuality.SET:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
-                        break;
-                    case ItemQuality.CRAFT:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        break;
-                    case ItemQuality.RARE:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        break;
-                    case ItemQuality.MAGIC:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        break;
-                }
+                    switch (Items.CurrentItemLog[i].ItemData.ItemQuality)
+                    {
+                        case ItemQuality.UNIQUE:
+                            color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                            itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] +
+                                              " ";
+                            break;
+                        case ItemQuality.SET:
+                            color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                            itemSpecialName = Items.SetFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
+                            break;
+                        case ItemQuality.CRAFT:
+                            color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                            break;
+                        case ItemQuality.RARE:
+                            color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                            break;
+                        case ItemQuality.MAGIC:
+                            color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                            break;
+                    }
 
-                gfx.DrawText(_fonts["itemlog"], color, textXOffset, textYOffset + (i * fontHeight),
-                    itemLabelExtra + itemSpecialName + itemBaseName);
+                    gfx.DrawText(_fonts["itemlog"], color, textXOffset, textYOffset + (i * fontHeight),
+                        itemLabelExtra + itemSpecialName + itemBaseName);
+                }
             }
         }
 
@@ -424,6 +427,11 @@ namespace MapAssist
                         MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
                             (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * .85f);
                     }
+                }
+
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)
+                {
+                    MapAssistConfiguration.Loaded.GameInfo.Enabled = !MapAssistConfiguration.Loaded.GameInfo.Enabled;
                 }
 
                 if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)

@@ -209,6 +209,9 @@ public class GameInfoConfiguration
 
 public class ItemLogConfiguration
 {
+    [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
+    public bool Enabled { get; set; }
+
     [YamlMember(Alias = "FilterFileName", ApplyNamingConventions = false)]
     public string FilterFileName { get; set; }
 
@@ -217,9 +220,6 @@ public class ItemLogConfiguration
 
     [YamlMember(Alias = "DisplayForSeconds", ApplyNamingConventions = false)]
     public double DisplayForSeconds { get; set; }
-
-    [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
-    public bool AlwaysShow { get; set; }
 
     [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
     public string LabelFont { get; set; }
