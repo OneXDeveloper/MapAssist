@@ -235,9 +235,10 @@ namespace MapAssist.Helpers
                                 var offsetsInBounds =
                                     y + offset[0] >= 0 && y + offset[0] < maxYValue &&
                                     x + offset[1] >= 0 && x + offset[1] < maxXValue;
+                                var isCurrentPixelWalkable = areaData.CollisionGrid[y][x] % 2 == 0;
 
-                                var checkInterior = offsetsInBounds && areaData.CollisionGrid[y][x] % 2 != 0 && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0;
-                                var checkEdge = !offsetsInBounds && areaData.CollisionGrid[y][x] % 2 == 0;
+                                var checkInterior = offsetsInBounds && !isCurrentPixelWalkable && areaData.CollisionGrid[y + offset[0]][x + offset[1]] % 2 == 0;
+                                var checkEdge = !offsetsInBounds && isCurrentPixelWalkable;
 
                                 if (checkInterior || checkEdge)
                                 {
