@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MapAssist.Structs;
 
 namespace MapAssist.Types
 {
@@ -29,10 +30,14 @@ namespace MapAssist.Types
         public uint MapSeed;
         public Difficulty Difficulty;
         public Area Area;
-        public bool MapShown;
         public IntPtr MainWindowHandle;
         public string PlayerName;
         public List<UnitAny> Monsters;
+        public List<UnitAny> Items;
+        public string GameIP;
+        public UnitAny PlayerUnit;
+        public byte MenuPanelOpen;
+        public MenuData MenuOpen;
 
         public bool HasGameChanged(GameData other)
         {
@@ -51,7 +56,7 @@ namespace MapAssist.Types
         public override string ToString()
         {
             return
-                $"{nameof(PlayerPosition)}: {PlayerPosition}, {nameof(MapSeed)}: {MapSeed}, {nameof(Difficulty)}: {Difficulty}, {nameof(Area)}: {Area}, {nameof(MapShown)}: {MapShown}";
+                $"{nameof(PlayerPosition)}: {PlayerPosition}, {nameof(MapSeed)}: {MapSeed}, {nameof(Difficulty)}: {Difficulty}, {nameof(Area)}: {Area}, {nameof(MenuOpen.Map)}: {MenuOpen.Map}";
         }
     }
 }

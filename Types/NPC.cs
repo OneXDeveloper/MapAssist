@@ -1,4 +1,4 @@
-﻿/**
+/**
 *   Copyright (C) 2021 okaygo
 *
 *   https://github.com/misterokaygo/MapAssist/
@@ -37,10 +37,12 @@ namespace MapAssist.Types
             { 203, Npc.Act2Guard },
             { 204, Npc.Act2Vendor },
             { 205, Npc.Act2Vendor2 },
+            { 227, Npc.Maggot },
             { 268, Npc.Bug },
             { 269, Npc.Scorpion },
             { 271, Npc.Rogue2 },
             { 272, Npc.Rogue3 },
+            { 283, Npc.Larva },
             { 293, Npc.Familiar },
             { 294, Npc.Act3Male },
             { 289, Npc.ClayGolem },
@@ -56,14 +58,23 @@ namespace MapAssist.Types
             { 323, Npc.EvilHole3 },
             { 324, Npc.EvilHole4 },
             { 325, Npc.EvilHole5 },
+            { 326, Npc.FireboltTrap },
+            { 327, Npc.HorzMissileTrap },
+            { 328, Npc.VertMissileTrap },
+            { 329, Npc.PoisonCloudTrap },
+            { 330, Npc.LightningTrap },
             { 332, Npc.InvisoSpawner },
             { 338, Npc.Guard },
             { 339, Npc.MiniSpider },
             { 344, Npc.BoneWall },
+            { 351, Npc.Hydra },
+            { 352, Npc.Hydra2 },
+            { 353, Npc.Hydra3 },
             { 355, Npc.SevenTombs },
             { 359, Npc.IronWolf },
             { 363, Npc.NecroSkeleton },
             { 364, Npc.NecroMage },
+            { 366, Npc.CompellingOrbNpc },
             { 370, Npc.SpiritMummy },
             { 377, Npc.Act2Guard4 },
             { 378, Npc.Act2Guard5 },
@@ -75,6 +86,7 @@ namespace MapAssist.Types
             { 414, Npc.InvisiblePet },
             { 415, Npc.InfernoSentry },
             { 416, Npc.DeathSentry },
+            { 543, Npc.BaalThrone },
             { 711, Npc.DemonHole },
         };
     }

@@ -40,6 +40,7 @@ namespace MapAssist.Types
             {
                 _path = processContext.Read<Structs.Path>(_pPath);
             }
+
             return this;
         }
 

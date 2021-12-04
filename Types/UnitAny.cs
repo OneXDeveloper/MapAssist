@@ -22,8 +22,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using MapAssist.Helpers;
 using MapAssist.Interfaces;
+using MapAssist.Settings;
 using MapAssist.Structs;
 
 namespace MapAssist.Types
@@ -36,8 +38,11 @@ namespace MapAssist.Types
         private Path _path;
         private Inventory _inventory;
         private MonsterData _monsterData;
+        private ItemData _itemData;
         private Dictionary<Stat, int> _statList;
         private List<Resist> _immunities;
+        private uint[] _stateFlags;
+        private List<State> _stateList;
         private string _name;
         private bool _isMonster;
         private bool _updated;
@@ -50,45 +55,64 @@ namespace MapAssist.Types
 
         public UnitAny Update()
         {
-            if (IsValid())
+            if (IsValidPointer())
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
                     _unitAny = processContext.Read<Structs.UnitAny>(_pUnit);
-                    _path = new Path(_unitAny.pPath);
-                    var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
-                    var statList = new Dictionary<Stat, int>();
-                    var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size));
-                    foreach (var stat in statValues)
+                    if (IsValidUnit())
                     {
-                        //ensure we dont add duplicates
-                        if (!statList.TryGetValue(stat.Stat, out var _))
+                        _path = new Path(_unitAny.pPath);
+                        var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
+                        var statList = new Dictionary<Stat, int>();
+                        var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr,
+                            Convert.ToInt32(statListStruct.Stats.Size));
+                        foreach (var stat in statValues)
                         {
-                            statList.Add(stat.Stat, stat.Value);
+                            //ensure we dont add duplicates
+                            if (!statList.TryGetValue(stat.Stat, out var _))
+                            {
+                                statList.Add(stat.Stat, stat.Value);
+                            }
                         }
-                    }
-                    _statList = statList;
-                    _immunities = GetImmunities();
-                    switch (_unitAny.UnitType)
-                    {
-                        case UnitType.Player:
-                            if (IsPlayer())
-                            {
-                                _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16)).TrimEnd((char)0);
-                                _inventory = processContext.Read<Inventory>(_unitAny.pInventory);
-                                _act = new Act(_unitAny.pAct);
-                            }
-                            break;
-                        case UnitType.Monster:
-                            if (IsMonster())
-                            {
-                                _monsterData = processContext.Read<MonsterData>(_unitAny.pUnitData);
-                            }
-                            break;
+
+                        _statList = statList;
+                        _immunities = GetImmunities();
+                        switch (_unitAny.UnitType)
+                        {
+                            case UnitType.Player:
+                                if (IsPlayer())
+                                {
+                                    _stateFlags = statListStruct.StateFlags;
+                                    _stateList = GetStateList();
+                                    _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16))
+                                        .TrimEnd((char)0);
+                                    _inventory = processContext.Read<Inventory>(_unitAny.pInventory);
+                                    _act = new Act(_unitAny.pAct);
+                                }
+
+                                break;
+                            case UnitType.Monster:
+                                if (IsMonster())
+                                {
+                                    _monsterData = processContext.Read<MonsterData>(_unitAny.pUnitData);
+                                }
+
+                                break;
+                            case UnitType.Item:
+                                _itemData = processContext.Read<ItemData>(_unitAny.pUnitData);
+                                if (IsDropped())
+                                {
+                                    var processId = processContext.ProcessId;
+                                    Items.LogItem(this, processId);
+                                }
+                                break;
+                        }
+                        _updated = true;
                     }
                 }
-                _updated = true;
             }
+
             return this;
         }
 
@@ -98,7 +122,9 @@ namespace MapAssist.Types
         public uint UnitId => _unitAny.UnitId;
         public uint Mode => _unitAny.Mode;
         public IntPtr UnitDataPtr => _unitAny.pUnitData;
+        public Dictionary<Stat, int> Stats => _statList;
         public MonsterData MonsterData => _monsterData;
+        public ItemData ItemData => _itemData;
         public Act Act => _act;
         public Path Path => _path;
         public IntPtr StatsListExPtr => _unitAny.pStatsListEx;
@@ -110,15 +136,21 @@ namespace MapAssist.Types
         public UnitAny ListNext => new UnitAny(_unitAny.pListNext);
         public UnitAny RoomNext => new UnitAny(_unitAny.pRoomNext);
         public List<Resist> Immunities => _immunities;
+        public uint[] StateFlags => _stateFlags;
+        public List<State> StateList => _stateList;
 
         public bool IsMovable()
         {
             return !(UnitType == UnitType.Object || UnitType == UnitType.Item);
         }
 
-        public bool IsValid()
+        public bool IsValidPointer()
         {
             return _pUnit != IntPtr.Zero;
+        }
+        public bool IsValidUnit()
+        {
+            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.pStatsListEx != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
         }
 
         public bool IsPlayer()
@@ -140,6 +172,7 @@ namespace MapAssist.Types
                         userBaseOffset = 0x70;
                         checkUser1 = 0;
                     }
+
                     var userBaseCheck = processContext.Read<int>(IntPtr.Add(_unitAny.pInventory, userBaseOffset));
                     if (userBaseCheck != checkUser1)
                     {
@@ -147,6 +180,7 @@ namespace MapAssist.Types
                     }
                 }
             }
+
             return false;
         }
 
@@ -155,19 +189,26 @@ namespace MapAssist.Types
             if (_updated)
             {
                 return _isMonster;
-            } else
+            }
+            else
             {
                 if (_unitAny.UnitType != UnitType.Monster) return false;
                 if (_unitAny.Mode == 0 || _unitAny.Mode == 12) return false;
                 if (NPC.Dummies.TryGetValue(_unitAny.TxtFileNo, out var _)) { return false; }
+
                 _isMonster = true;
                 return true;
             }
         }
 
-        public bool IsElite()
+        public bool IsDropped()
         {
-            return _monsterData.MonsterType > 0;
+            var itemMode = (ItemMode)_unitAny.Mode;
+            return itemMode == ItemMode.DROPPING || itemMode == ItemMode.ONGROUND;
+        }
+        public string ItemHash()
+        {
+            return Items.ItemNames[TxtFileNo] + "/" + Position.X + "/" + Position.Y;
         }
 
         private List<Resist> GetImmunities()
@@ -179,7 +220,15 @@ namespace MapAssist.Types
             _statList.TryGetValue(Stat.STAT_COLDRESIST, out var resistanceCold);
             _statList.TryGetValue(Stat.STAT_POISONRESIST, out var resistancePoison);
 
-            var resists = new List<int> { resistanceDamage, resistanceMagic, resistanceFire, resistanceLightning, resistanceCold, resistancePoison };
+            var resists = new List<int>
+            {
+                resistanceDamage,
+                resistanceMagic,
+                resistanceFire,
+                resistanceLightning,
+                resistanceCold,
+                resistancePoison
+            };
             var immunities = new List<Resist>();
 
             for (var i = 0; i < 6; i++)
@@ -191,6 +240,23 @@ namespace MapAssist.Types
             }
 
             return immunities;
+        }
+        
+        public bool GetState(State state)
+        {
+            return (StateFlags[(int)state >> 5] & StateMasks.gdwBitMasks[(int)state & 31]) > 0;
+        }
+        private List<State> GetStateList()
+        {
+            var stateList = new List<State>();
+            for (var i = 0; i <= States.StateCount; i++)
+            {
+                if (GetState((State)i))
+                {
+                    stateList.Add((State)i);
+                }
+            }
+            return stateList;
         }
 
         public override bool Equals(object obj) => obj is UnitAny other && Equals(other);

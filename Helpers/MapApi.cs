@@ -17,38 +17,35 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Settings;
 using MapAssist.Types;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
+
 #pragma warning disable 649
 
 namespace MapAssist.Helpers
 {
     public class MapApi : IDisposable
     {
-        public static readonly HttpClient Client = HttpClient(Settings.Api.Endpoint, Settings.Api.Token);
+        public static readonly HttpClient Client = HttpClient(MapAssistConfiguration.Loaded.ApiConfiguration.Endpoint, MapAssistConfiguration.Loaded.ApiConfiguration.Token);
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private readonly string _sessionId;
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
-        private readonly BlockingCollection<Area[]> _prefetchRequests;
-        private readonly Thread _thread;
         private readonly HttpClient _client;
 
         private string CreateSession(Difficulty difficulty, uint mapSeed)
         {
-            var values = new Dictionary<string, uint>
-            {
-                { "difficulty", (uint)difficulty },
-                { "mapid", mapSeed }
-            };
+            var values = new Dictionary<string, uint> {{"difficulty", (uint)difficulty}, {"mapid", mapSeed}};
 
             var json = JsonConvert.SerializeObject(values);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -73,17 +70,8 @@ namespace MapAssist.Helpers
             _sessionId = CreateSession(difficulty, mapSeed);
             // Cache for pre-fetching maps for the surrounding areas.
             _cache = new ConcurrentDictionary<Area, AreaData>();
-            _prefetchRequests = new BlockingCollection<Area[]>();
-            _thread = new Thread(Prefetch)
-            {
-                IsBackground = true
-            };
-            _thread.Start();
 
-            if (Settings.Map.PrefetchAreas.Any())
-            {
-                _prefetchRequests.Add(Settings.Map.PrefetchAreas);
-            }
+            Prefetch(MapAssistConfiguration.Loaded.PrefetchAreas);
         }
 
         public AreaData GetMapData(Area area)
@@ -91,25 +79,25 @@ namespace MapAssist.Helpers
             if (!_cache.TryGetValue(area, out AreaData areaData))
             {
                 // Not in the cache, block.
-                Console.WriteLine($"Cache miss on {area}");
+                _log.Info($"Cache miss on {area}");
                 areaData = GetMapDataInternal(area);
             }
 
             Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
             if (adjacentAreas.Any())
             {
-                _prefetchRequests.Add(adjacentAreas);
+                Prefetch(adjacentAreas);
             }
 
             return areaData;
         }
 
-        private void Prefetch()
+        private void Prefetch(params Area[] areas)
         {
-            while (true)
+            var prefetchBackgroundWorker = new BackgroundWorker();
+            prefetchBackgroundWorker.DoWork += (sender, args) =>
             {
-                Area[] areas = _prefetchRequests.Take();
-                if (Settings.Map.ClearPrefetchedOnAreaChange)
+                if (MapAssistConfiguration.Loaded.ClearPrefetchedOnAreaChange)
                 {
                     _cache.Clear();
                 }
@@ -117,7 +105,7 @@ namespace MapAssist.Helpers
                 // Special value telling us to exit.
                 if (areas.Length == 0)
                 {
-                    Console.WriteLine("Prefetch thread terminating");
+                    _log.Info("Prefetch worker terminating");
                     return;
                 }
 
@@ -126,9 +114,11 @@ namespace MapAssist.Helpers
                     if (_cache.ContainsKey(area)) continue;
 
                     _cache[area] = GetMapDataInternal(area);
-                    Console.WriteLine($"Prefetched {area}");
+                    _log.Info($"Prefetched {area}");
                 }
-            }
+            };
+            prefetchBackgroundWorker.RunWorkerAsync();
+            prefetchBackgroundWorker.Dispose();
         }
 
         private AreaData GetMapDataInternal(Area area)
@@ -146,10 +136,7 @@ namespace MapAssist.Helpers
             var client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            })
-            {
-                BaseAddress = new Uri(endpoint)
-            };
+            }) {BaseAddress = new Uri(endpoint)};
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
             client.DefaultRequestHeaders.AcceptEncoding.Add(
                 new StringWithQualityHeaderValue("gzip"));
@@ -158,22 +145,21 @@ namespace MapAssist.Helpers
             if (!string.IsNullOrEmpty(token))
             {
                 client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
+                    new AuthenticationHeaderValue("Bearer", token);
             }
+
             return client;
         }
 
         public void Dispose()
         {
-            _prefetchRequests.Add(new Area[] { });
-            _thread.Join();
             try
             {
                 DestroySession(_sessionId);
             }
             catch (HttpRequestException) // Prevent HttpRequestException if D2MapAPI is closed before this program.
             {
-                Console.WriteLine("D2MapAPI server was closed, session was already destroyed.");
+                _log.Info("D2MapAPI server was closed, session was already destroyed.");
             }
         }
 

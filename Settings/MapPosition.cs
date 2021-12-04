@@ -25,4 +25,10 @@ namespace MapAssist.Settings
         TopRight,
         Center
     }
+    public enum BuffPosition
+    {
+        Top,
+        Player,
+        Bottom
+    }
 }

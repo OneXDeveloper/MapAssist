@@ -21,12 +21,41 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using MapAssist.Settings;
 using MapAssist.Types;
 
 namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
+        private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
+        {
+            [Area.MatronsDen] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.SparklyChest] = "Lilith",
+            },
+            [Area.FurnaceOfPain] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.SparklyChest] = "Uber Izual",
+            },
+        };
+
+        private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, string>>()
+        {
+            [Area.FrigidHighlands] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Abaddon",
+            },
+            [Area.ArreatPlateau] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Pit of Acheron",
+            },
+            [Area.FrozenTundra] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Infernal Pit",
+            },
+        };
+
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
         {
             GameObject.HoradricCubeChest,
@@ -41,7 +70,7 @@ namespace MapAssist.Helpers
             GameObject.HellForge,
             GameObject.NihlathakWildernessStartPosition
         };
-        
+
         private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
         {
             GameObject.GoodChest,
@@ -163,8 +192,8 @@ namespace MapAssist.Helpers
                         {
                             Label = realTomb.Name(),
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
-                            RenderingSettings = Settings.Rendering.NextArea
-                        }); ;
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                        });
                     }
 
                     break;
@@ -182,7 +211,7 @@ namespace MapAssist.Helpers
                                 {
                                     Label = highestArea.Name(),
                                     Position = areaData.AdjacentLevels[highestArea].Exits[0],
-                                    RenderingSettings = Settings.Rendering.NextArea
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                                 });
                             }
                         }
@@ -201,7 +230,7 @@ namespace MapAssist.Helpers
                                 {
                                     Label = level.Area.Name(),
                                     Position = position,
-                                    RenderingSettings = Settings.Rendering.PreviousArea
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
                                 });
                             }
                         }
@@ -227,7 +256,7 @@ namespace MapAssist.Helpers
                     {
                         Label = obj.ToString(),
                         Position = points[0],
-                        RenderingSettings = Settings.Rendering.Waypoint
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint
                     });
                 }
                 // Quest objects
@@ -235,10 +264,36 @@ namespace MapAssist.Helpers
                 {
                     pointOfInterest.Add(new PointOfInterest
                     {
-                        Label = obj.ToString(),
-                        Position = points[0],
-                        RenderingSettings = Settings.Rendering.Quest
+                        Label = obj.ToString(), 
+                        Position = points[0], 
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
                     });
+                }
+                // Area-specific quest objects
+                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
+                }
+                // Area-specific landmarks
+                else if (AreaSpecificLandmarks.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificLandmarks[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificLandmarks[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
+                        });
+                    }
                 }
                 // Shrines
                 else if (Shrines.Contains(obj))
@@ -247,9 +302,9 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = Settings.Rendering.Shrine
+                            Label = obj.ToString(), 
+                            Position = point, 
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Shrine
                         });
                     }
                 }
@@ -262,7 +317,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.SuperChest
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.SuperChest
                         });
                     }
                 }
@@ -275,7 +330,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.NormalChest
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NormalChest
                         });
                     }
                 }
@@ -288,7 +343,7 @@ namespace MapAssist.Helpers
                         {
                             Label = obj.ToString(),
                             Position = point,
-                            RenderingSettings = Settings.Rendering.ArmorWeapRack
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack
                         });
                     }
                 }

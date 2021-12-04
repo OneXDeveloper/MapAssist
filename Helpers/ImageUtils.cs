@@ -69,9 +69,9 @@ namespace MapAssist.Helpers
             // Create the Graphics object that does the work
             using (var graphicsObject = Graphics.FromImage(newBitmap))
             {
-                graphicsObject.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphicsObject.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                graphicsObject.SmoothingMode = SmoothingMode.HighQuality;
+                graphicsObject.InterpolationMode = InterpolationMode.Bicubic;
+                graphicsObject.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphicsObject.SmoothingMode = SmoothingMode.HighSpeed;
 
                 // Fill in the specified background color if necessary
                 if (backgroundColor != Color.Transparent)
@@ -93,6 +93,16 @@ namespace MapAssist.Helpers
             return newBitmap;
         }
 
+        public static Point RotatePoint(Point inputPoint, Point centerPoint, float angleDegrees)
+        {
+            var angleRadians = angleDegrees * Math.PI / 180d;
+
+            return new Point(
+                (int)(centerPoint.X + Math.Cos(angleRadians) * (inputPoint.X - centerPoint.X) - Math.Sin(angleRadians) * (inputPoint.Y - centerPoint.Y)),
+                (int)(centerPoint.Y + Math.Sin(angleRadians) * (inputPoint.X - centerPoint.X) + Math.Cos(angleRadians) * (inputPoint.Y - centerPoint.Y))
+            );
+        }
+
         public static (Bitmap, Point) CropBitmap(Bitmap originalBitmap)
         {
             // Find the min/max non-white/transparent pixels
@@ -101,7 +111,8 @@ namespace MapAssist.Helpers
 
             unsafe
             {
-                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
                 byte bitsPerPixel = 32;
                 var scan0 = (byte*)bData.Scan0.ToPointer();
 
@@ -121,6 +132,7 @@ namespace MapAssist.Helpers
                         }
                     }
                 }
+
                 originalBitmap.UnlockBits(bData);
             }
 
@@ -152,10 +164,10 @@ namespace MapAssist.Helpers
             using (var graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.InterpolationMode = InterpolationMode.Bicubic;
+                graphics.SmoothingMode = SmoothingMode.HighSpeed;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
 
                 using (var wrapMode = new ImageAttributes())
                 {

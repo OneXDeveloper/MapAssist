@@ -40,6 +40,7 @@ namespace MapAssist.Types
             {
                 _roomEx = processContext.Read<Structs.RoomEx>(_pRoomEx);
             }
+
             return this;
         }
 
