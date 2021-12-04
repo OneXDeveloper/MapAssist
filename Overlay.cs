@@ -354,8 +354,7 @@ namespace MapAssist
                 {
                     case ItemQuality.UNIQUE:
                         color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] +
-                                            " ";
+                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
                         break;
                     case ItemQuality.SET:
                         color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
@@ -424,11 +423,6 @@ namespace MapAssist
                         MapAssistConfiguration.Loaded.RenderingConfiguration.Size =
                             (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.Size * .85f);
                     }
-                }
-
-                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)
-                {
-                    MapAssistConfiguration.Loaded.GameInfo.Enabled = !MapAssistConfiguration.Loaded.GameInfo.Enabled;
                 }
 
                 if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)
