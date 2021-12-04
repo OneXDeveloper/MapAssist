@@ -28,10 +28,32 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
-        private static readonly Dictionary<Area, GameObject> AreaSpecificQuestObjects = new Dictionary<Area, GameObject>
+        private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
         {
-            [Area.MatronsDen] = GameObject.SparklyChest, // Lilith
-            [Area.FurnaceOfPain] = GameObject.SparklyChest, // Über Izual
+            [Area.MatronsDen] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.SparklyChest] = "Lilith",
+            },
+            [Area.FurnaceOfPain] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.SparklyChest] = "Uber Izual",
+            },
+        };
+
+        private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, string>>()
+        {
+            [Area.FrigidHighlands] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Abaddon",
+            },
+            [Area.ArreatPlateau] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Pit of Acheron",
+            },
+            [Area.FrozenTundra] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.PermanentTownPortal] = "Infernal Pit",
+            },
         };
 
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
@@ -250,13 +272,26 @@ namespace MapAssist.Helpers
                 // Area-specific quest objects
                 else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
                 {
-                    if (AreaSpecificQuestObjects[areaData.Area] == obj)
+                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = obj.ToString(),
+                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
                             Position = points[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
+                }
+                // Area-specific landmarks
+                else if (AreaSpecificLandmarks.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificLandmarks[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificLandmarks[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
                         });
                     }
                 }
