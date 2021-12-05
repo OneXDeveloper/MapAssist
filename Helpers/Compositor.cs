@@ -213,6 +213,56 @@ namespace MapAssist.Helpers
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 
+        private static bool IsEdge(int x, int y, int maxX, int maxY, bool[,] bits)
+        {
+            if (!bits[x, y])
+            {
+                return false;
+            }
+            // Left
+            if (x == 0 || !bits[x - 1, y])
+            {
+                return true;
+            }
+
+            // Right
+            if (x == maxX - 1 || !bits[x + 1, y])
+            {
+                return true;
+            }
+
+            // Top
+            if (y == 0 || !bits[x, y - 1])
+            {
+                return true;
+            }
+
+            // Bottom
+            if (y == maxY - 1 || !bits[x, y + 1])
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static void DrawEdge(Bitmap b, bool[,] bits)
+        {
+            var maxX = bits.GetLength(0);
+            var maxY = bits.GetLength(1);
+
+            var color = Color.FromArgb(80, 80, 80, 80);
+            for (var x = 0; x < maxX; x += 1)
+            {
+                for (var y = 0; y < maxY; y += 1)
+                {
+                    if (IsEdge(x, y, maxX, maxY, bits))
+                    {
+                        b.SetPixel(x, y, color);
+                    }
+                }
+            }
+        }
+
         private (Bitmap, Point, Point, Point) DrawBackground(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)
         {
             var background = new Bitmap(areaData.CollisionGrid[0].Length, areaData.CollisionGrid.Length,
@@ -227,6 +277,7 @@ namespace MapAssist.Helpers
                 backgroundGraphics.SmoothingMode = SmoothingMode.HighQuality;
                 backgroundGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
+                var bits = new bool[areaData.CollisionGrid[0].Length,areaData.CollisionGrid.Length];
                 for (var y = 0; y < areaData.CollisionGrid.Length; y++)
                 {
                     for (var x = 0; x < areaData.CollisionGrid[y].Length; x++)
@@ -236,9 +287,11 @@ namespace MapAssist.Helpers
                         if (typeColor != null)
                         {
                             background.SetPixel(x, y, (Color)typeColor);
+                            bits[x, y] = true;
                         }
                     }
                 }
+                DrawEdge(background, bits);
 
                 foreach (PointOfInterest poi in pointOfInterest)
                 {
