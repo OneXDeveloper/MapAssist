@@ -1,3 +1,4 @@
+#---
 # How often to read the game memory
 # You likely shouldn't change this
 UpdateTime: 30
@@ -158,3 +159,4 @@ ItemLog:
   DisplayForSeconds: 45
   LabelFont: "Helvetica"
   LabelFontSize: 14
+#...

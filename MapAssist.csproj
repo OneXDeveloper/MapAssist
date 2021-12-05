@@ -166,6 +166,9 @@
     <Compile Include="Settings\Utils.cs" />
     <Compile Include="Types\UnitAny.cs" />
     <Compile Include="Types\UnitType.cs" />
+    <None Include="Config_Custom.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
