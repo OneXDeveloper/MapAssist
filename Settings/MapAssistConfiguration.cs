@@ -158,6 +158,9 @@ public class RenderingConfiguration
     [YamlMember(Alias = "ToggleViaInGameMap", ApplyNamingConventions = false)]
     public bool ToggleViaInGameMap { get; set; }
 
+    [YamlMember(Alias = "ToggleViaInGamePanels", ApplyNamingConventions = false)]
+    public bool ToggleViaInGamePanels { get; set; }
+
     [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
     public int Size { get; set; }
 

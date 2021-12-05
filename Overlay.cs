@@ -124,11 +124,11 @@ namespace MapAssist
                         return;
                     }
                 }
-                if (!_show || _currentGameData.MenuPanelOpen > 0 ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
-                        element => element == _currentGameData.Area) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&
-                     !_currentGameData.MenuOpen.Map) || (_currentGameData.Area == Area.None))
+                if (!_show || 
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
+                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
+                    (_currentGameData.Area == Area.None))
                 {
                     return;
                 }
