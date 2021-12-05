@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -166,9 +167,6 @@
     <Compile Include="Settings\Utils.cs" />
     <Compile Include="Types\UnitAny.cs" />
     <Compile Include="Types\UnitType.cs" />
-    <None Include="Config_Custom.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +203,7 @@
     <None Include="ItemFilter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Config.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Config.yaml" />
     <None Include="Resources\ching.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -496,4 +492,7 @@
     <None Include="Resources\RESISTLIGHTNING.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Config.yaml" "$(TargetDir)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
