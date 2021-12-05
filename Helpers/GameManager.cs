@@ -1,4 +1,4 @@
-﻿/**
+/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -19,7 +19,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using MapAssist.Settings;
 using MapAssist.Structs;
@@ -30,14 +29,18 @@ using SolidBrush = GameOverlay.Drawing.SolidBrush;
 
 namespace MapAssist.Helpers
 {
-    public static class GameManager
+    public class GameManager
     {
-        private static readonly string ProcessName = Encoding.UTF8.GetString(new byte[] {68, 50, 82});
+        private static readonly string ProcessName = Encoding.UTF8.GetString(new byte[] { 68, 50, 82 });
+        private static IntPtr _winHook;
+        private static int _foregroundProcessId = 0;
+
+        private static IntPtr _lastGameHwnd = IntPtr.Zero;
+        private static Process _lastGameProcess;
+        private static int _lastGameProcessId = 0;
+        private static ProcessContext _processContext;
+
         private static Types.UnitAny _PlayerUnit = default;
-        private static int LastProcessId = 0;
-        private static IntPtr _MainWindowHandle = IntPtr.Zero;
-        private static ProcessContext _ProcessContext;
-        private static Process GameProcess;
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _ExpansionCheckOffset;
         private static IntPtr _GameIPOffset;
@@ -49,88 +52,134 @@ namespace MapAssist.Helpers
         public static DateTime StartTime = DateTime.Now;
         public static bool _valid = false;
 
-        public static ProcessContext GetProcessContext()
+        private static WindowsExternal.WinEventDelegate _eventDelegate = null;
+
+        private static bool _playerNotFoundErrorThrown = false;
+
+        public static void MonitorForegroundWindow()
         {
-            var windowInFocus = IntPtr.Zero;
-            if (_ProcessContext != null && _ProcessContext.OpenContextCount > 0)
-            {
-                windowInFocus = WindowsExternal.GetForegroundWindow();
-                if (_MainWindowHandle == windowInFocus)
-                {
-                    _ProcessContext.OpenContextCount++;
-                    return _ProcessContext;
-                }
-                else
-                {
-                    GameProcess = null;
-                }
-            }
+            _eventDelegate = new WindowsExternal.WinEventDelegate(WinEventProc);
+            _winHook = WindowsExternal.SetWinEventHook(WindowsExternal.EVENT_SYSTEM_FOREGROUND, WindowsExternal.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, WindowsExternal.WINEVENT_OUTOFCONTEXT);
 
-            if (GameProcess == null)
-            {
-                Process[] processes = Process.GetProcessesByName(ProcessName);
-
-                Process gameProcess = null;
-
-                if (windowInFocus == IntPtr.Zero)
-                {
-                    windowInFocus = WindowsExternal.GetForegroundWindow();
-                }
-
-                gameProcess = processes.FirstOrDefault(p => p.MainWindowHandle == windowInFocus);
-
-                if (gameProcess == null)
-                {
-                    throw new Exception("Game process not found.");
-                }
-
-                // If changing processes we need to re-find the player
-                if (gameProcess.Id != LastProcessId)
-                {
-                    ResetPlayerUnit();
-                }
-
-                GameProcess = gameProcess;
-            }
-
-            LastProcessId = GameProcess.Id;
-            _MainWindowHandle = GameProcess.MainWindowHandle;
-            _ProcessContext = new ProcessContext(GameProcess);
-            return _ProcessContext;
+            SetActiveWindow(WindowsExternal.GetForegroundWindow()); // Needed once to start, afterwards the hook will provide updates
         }
 
-        public static IntPtr MainWindowHandle { get => _MainWindowHandle; }
+        private static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            SetActiveWindow(hwnd);
+        }
+
+        private static void SetActiveWindow(IntPtr hwnd)
+        {
+            if (!WindowsExternal.ProcessExists(hwnd)) // process doesn't exist
+            {
+                ClearLastGameProcess();
+                return;
+            }
+
+            uint processId;
+            WindowsExternal.GetWindowThreadProcessId(hwnd, out processId);
+
+            _foregroundProcessId = (int)processId;
+
+            if (_lastGameProcessId == _foregroundProcessId) // is the last found valid game process
+            {
+                return;
+            }
+
+            Process process;
+            try
+            {
+                process = Process.GetProcessById(_foregroundProcessId);
+            }
+            catch
+            {
+                ClearLastGameProcess();
+                return; // If closing another non-foreground window, Process.GetProcessById can fail
+            }
+
+            if (process.ProcessName != ProcessName) // is not a valid game process
+            {
+                ClearLastGameProcess();
+                return;
+            }
+
+            // is a new game process
+            ResetPlayerUnit();
+
+            _lastGameHwnd = hwnd;
+            _lastGameProcess = process;
+            _lastGameProcessId = _foregroundProcessId;
+        }
+
+        public static ProcessContext GetProcessContext()
+        {
+            if (_processContext != null && _processContext.OpenContextCount > 0)
+            {
+                _processContext.OpenContextCount += 1;
+                return _processContext;
+            }
+            else if (_lastGameProcess != null && WindowsExternal.ProcessExists(_lastGameHwnd))
+            {
+                _processContext = new ProcessContext(_lastGameProcess);
+                return _processContext;
+            }
+
+            return null;
+        }
+
+        private static void ClearLastGameProcess()
+        {
+            if (_processContext != null && _processContext.OpenContextCount == 0 && _lastGameProcess != null) // Prevent disposing the process when the context is open
+            {
+                _lastGameProcess.Dispose();
+            }
+
+            _lastGameHwnd = IntPtr.Zero;
+            _lastGameProcess = null;
+            _lastGameProcessId = 0;
+        }
+
+        public static IntPtr MainWindowHandle { get => _lastGameHwnd; }
+        public static bool IsGameInForeground { get => _lastGameProcessId == _foregroundProcessId; }
 
         public static Types.UnitAny PlayerUnit
         {
             get
             {
-                using (var processContext = GetProcessContext())
+                if (Equals(_PlayerUnit, default(Types.UnitAny)))
                 {
-                    if (Equals(_PlayerUnit, default(Types.UnitAny)))
+                    foreach (var pUnitAny in UnitHashTable().UnitTable)
                     {
-                        foreach (var pUnitAny in UnitHashTable().UnitTable)
+                        var unitAny = new Types.UnitAny(pUnitAny);
+
+                        while (unitAny.IsValidUnit())
                         {
-                            var unitAny = new Types.UnitAny(pUnitAny);
-
-                            while (unitAny.IsValidUnit())
+                            if (unitAny.IsPlayerUnit())
                             {
-                                if (unitAny.IsPlayerUnit())
-                                {
-                                    _PlayerUnit = unitAny;
-                                    return _PlayerUnit;
-                                }
-
-                                unitAny = unitAny.ListNext;
+                                _playerNotFoundErrorThrown = false;
+                                _PlayerUnit = unitAny;
+                                return _PlayerUnit;
                             }
+
+                            unitAny = unitAny.ListNext;
                         }
                     }
-                    else
-                    {
-                        return _PlayerUnit;
-                    }
+                }
+                else
+                {
+                    _playerNotFoundErrorThrown = false;
+                    return _PlayerUnit;
+                }
 
+                if (!_playerNotFoundErrorThrown)
+                {
+                    _playerNotFoundErrorThrown = true;
                     throw new Exception("Player unit not found.");
+                }
+                else
+                {
+                    return default(Types.UnitAny);
                 }
             }
         }
@@ -141,6 +190,7 @@ namespace MapAssist.Helpers
             {
                 if (_UnitHashTableOffset == IntPtr.Zero)
                 {
+
                     _UnitHashTableOffset = processContext.GetUnitHashtableOffset();
                 }
 
@@ -230,6 +280,7 @@ namespace MapAssist.Helpers
             _MenuPanelOpenOffset = IntPtr.Zero;
             _MenuDataOffset = IntPtr.Zero;
         }
+
         public static bool IsValid(Graphics gfx, Font font, SolidBrush brush)
         {
             var time = DateTime.Now;
@@ -255,5 +306,11 @@ namespace MapAssist.Helpers
         public static byte[] ExtraMenuData => _ExtraMenuDataOffset;
         public static byte[] DefaultEndpoint => _EndpointOffset;
         public static byte[] SpecialOffset => _SpecialOffset;
+        
+        public static void Dispose()
+        {
+            _lastGameProcess.Dispose();
+            WindowsExternal.UnhookWinEvent(_winHook);
+        }
     }
 }

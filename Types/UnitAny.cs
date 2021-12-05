@@ -20,7 +20,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Timers;
 using MapAssist.Helpers;
@@ -65,8 +64,7 @@ namespace MapAssist.Types
                         _path = new Path(_unitAny.pPath);
                         var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
                         var statList = new Dictionary<Stat, int>();
-                        var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr,
-                            Convert.ToInt32(statListStruct.Stats.Size));
+                        var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size));
                         foreach (var stat in statValues)
                         {
                             //ensure we dont add duplicates
@@ -85,8 +83,7 @@ namespace MapAssist.Types
                                 {
                                     _stateFlags = statListStruct.StateFlags;
                                     _stateList = GetStateList();
-                                    _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16))
-                                        .TrimEnd((char)0);
+                                    _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16)).TrimEnd((char)0);
                                     _inventory = processContext.Read<Inventory>(_unitAny.pInventory);
                                     _act = new Act(_unitAny.pAct);
                                 }
@@ -112,6 +109,10 @@ namespace MapAssist.Types
                                 break;
                         }
                         _updated = true;
+                    }
+                    else
+                    {
+                        return default(UnitAny);
                     }
                 }
             }
@@ -163,9 +164,9 @@ namespace MapAssist.Types
 
         public bool IsPlayerUnit()
         {
-            using (var processContext = GameManager.GetProcessContext())
+            if (IsPlayer() && _unitAny.pInventory != IntPtr.Zero)
             {
-                if (IsPlayer() && _unitAny.pInventory != IntPtr.Zero)
+                using (var processContext = GameManager.GetProcessContext())
                 {
                     var expansionCharacter = processContext.Read<byte>(GameManager.ExpansionCheckOffset) == 1;
                     var userBaseOffset = 0x30;
@@ -183,7 +184,6 @@ namespace MapAssist.Types
                     }
                 }
             }
-
             return false;
         }
 

@@ -411,8 +411,7 @@ namespace MapAssist
 
         private bool InGame()
         {
-            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero &&
-                   WindowsExternal.GetForegroundWindow() == _currentGameData.MainWindowHandle;
+            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero;
         }
 
         public void KeyPressHandler(object sender, KeyPressEventArgs args)

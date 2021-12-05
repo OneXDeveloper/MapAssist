@@ -29,89 +29,105 @@ namespace MapAssist.Helpers
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private static Dictionary<int, uint> _lastMapSeed = new Dictionary<int, uint>();
         private static int _currentProcessId;
+
         public static GameData GetGameData()
         {
             try
             {
-                using (var processContext = GameManager.GetProcessContext())
+                if (!GameManager.IsGameInForeground)
+                {
+                    return null;
+                }
+
+                var processContext = GameManager.GetProcessContext();
+
+                if (processContext == null)
+                {
+                    return null;
+                }
+
+                using (processContext)
                 {
                     _currentProcessId = processContext.ProcessId;
                     var playerUnit = GameManager.PlayerUnit;
-                    playerUnit.Update();
 
-                    if (!playerUnit.IsValidUnit())
+                    if (!Equals(playerUnit, default(UnitAny)))
                     {
-                        throw new Exception("Player unit not found");
+                        playerUnit = playerUnit.Update();
                     }
+                        
+                    if (!Equals(playerUnit, default(UnitAny)))
+                    {
+                        var mapSeed = playerUnit.Act.MapSeed;
 
-                    var mapSeed = playerUnit.Act.MapSeed;
-
-                    if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
-                    {
-                        throw new Exception("Map seed is out of bounds.");
-                    }
-                    if (!_lastMapSeed.TryGetValue(_currentProcessId, out var _))
-                    {
-                        _lastMapSeed.Add(_currentProcessId, 0);
-                    }
-                    if (mapSeed != _lastMapSeed[_currentProcessId])
-                    {
-                        _lastMapSeed[_currentProcessId] = mapSeed;
-                        if (!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
+                        if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
                         {
-                            Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
-                            Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
-                            Items.ItemLog.Add(_currentProcessId, new List<UnitAny>());
-                        } else
-                        {
-                            Items.ItemUnitHashesSeen[_currentProcessId].Clear();
-                            Items.ItemUnitIdsSeen[_currentProcessId].Clear();
-                            Items.ItemLog[_currentProcessId].Clear();
+                            throw new Exception("Map seed is out of bounds.");
                         }
+                        if (!_lastMapSeed.TryGetValue(_currentProcessId, out var _))
+                        {
+                            _lastMapSeed.Add(_currentProcessId, 0);
+                        }
+                        if (mapSeed != _lastMapSeed[_currentProcessId])
+                        {
+                            _lastMapSeed[_currentProcessId] = mapSeed;
+                            if (!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
+                            {
+                                Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
+                                Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
+                                Items.ItemLog.Add(_currentProcessId, new List<UnitAny>());
+                            }
+                            else
+                            {
+                                Items.ItemUnitHashesSeen[_currentProcessId].Clear();
+                                Items.ItemUnitIdsSeen[_currentProcessId].Clear();
+                                Items.ItemLog[_currentProcessId].Clear();
+                            }
+                        }
+
+                        var gameIPLength = processContext.Read<byte>(GameManager.GameIPOffset - 16);
+                        var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, gameIPLength));
+
+                        var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
+                        var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
+
+                        var actId = playerUnit.Act.ActId;
+
+                        var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;
+
+                        if (!gameDifficulty.IsValid())
+                        {
+                            throw new Exception("Game difficulty out of bounds.");
+                        }
+
+                        var levelId = playerUnit.Path.Room.RoomEx.Level.LevelId;
+
+                        if (!levelId.IsValid())
+                        {
+                            throw new Exception("Level id out of bounds.");
+                        }
+
+                        var monsterList = new List<UnitAny>();
+                        var itemList = new List<UnitAny>();
+                        GetUnits(ref monsterList, ref itemList);
+                        Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
+
+                        return new GameData
+                        {
+                            PlayerPosition = playerUnit.Position,
+                            MapSeed = mapSeed,
+                            Area = levelId,
+                            Difficulty = gameDifficulty,
+                            MainWindowHandle = GameManager.MainWindowHandle,
+                            PlayerName = playerUnit.Name,
+                            Monsters = monsterList,
+                            Items = itemList,
+                            GameIP = gameIP,
+                            PlayerUnit = playerUnit,
+                            MenuOpen = menuData,
+                            MenuPanelOpen = menuOpen
+                        };
                     }
-
-                    var gameIPLength = processContext.Read<byte>(GameManager.GameIPOffset - 16);
-                    var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, gameIPLength));
-
-                    var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
-                    var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
-
-                    var actId = playerUnit.Act.ActId;
-
-                    var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;
-
-                    if (!gameDifficulty.IsValid())
-                    {
-                        throw new Exception("Game difficulty out of bounds.");
-                    }
-
-                    var levelId = playerUnit.Path.Room.RoomEx.Level.LevelId;
-
-                    if (!levelId.IsValid())
-                    {
-                        throw new Exception("Level id out of bounds.");
-                    }
-
-                    var monsterList = new List<UnitAny>();
-                    var itemList = new List<UnitAny>();
-                    GetUnits(ref monsterList, ref itemList);
-                    Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
-
-                    return new GameData
-                    {
-                        PlayerPosition = playerUnit.Position,
-                        MapSeed = mapSeed,
-                        Area = levelId,
-                        Difficulty = gameDifficulty,
-                        MainWindowHandle = GameManager.MainWindowHandle,
-                        PlayerName = playerUnit.Name,
-                        Monsters = monsterList,
-                        Items = itemList,
-                        GameIP = gameIP,
-                        PlayerUnit = playerUnit,
-                        MenuOpen = menuData,
-                        MenuPanelOpen = menuOpen
-                    };
                 }
             }
             catch (Exception exception)
@@ -124,10 +140,12 @@ namespace MapAssist.Helpers
                 {
                     _log.Error(exception);
                 }
-                GameManager.ResetPlayerUnit();
-                return null;
             }
+
+            GameManager.ResetPlayerUnit();
+            return null;
         }
+
         private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
         {
             for (var i = 0; i <= 5; i++)
@@ -159,6 +177,7 @@ namespace MapAssist.Helpers
                 }
             }
         }
+
         private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
         {
             foreach (var room in rooms)
