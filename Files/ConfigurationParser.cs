@@ -15,7 +15,7 @@ namespace MapAssist.Files
 {
     public class ConfigurationParser<T>
     {
-        public static T ParseConfiguration(string fileName)
+        public static T ParseConfigurationFile(string fileName)
         {
             var fileManager = new FileManager(fileName);
 
@@ -34,30 +34,23 @@ namespace MapAssist.Files
             return configuration;
         }
 
-        public static MapAssistConfiguration ParseConfigurationMain(string fileNamePrimary, string fileNameOverride)
+        public static MapAssistConfiguration ParseConfigurationMain(byte[] resourcePrimary, string fileNameOverride)
         {
-            var fileManagerPrimary = new FileManager(fileNamePrimary);
-
-            if (!fileManagerPrimary.FileExists())
-            {
-                throw new Exception($"{fileNamePrimary} needs to be present on the same level as the executable");
-            }
-
-            var fileManagerOverride = new FileManager(fileNameOverride);
-
-            if (!fileManagerOverride.FileExists())
-            {
-                throw new Exception($"{fileNameOverride} needs to be present on the same level as the executable");
-            }
-
-            var yamlPrimary = fileManagerPrimary.ReadFile();
-            var yamlOverride = fileManagerOverride.ReadFile();
+            var yamlPrimary = Encoding.Default.GetString(resourcePrimary);
 
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .WithTypeConverter(new AreaArrayYamlTypeConverter())
                 .WithTypeConverter(new ItemQualityYamlTypeConverter())
                 .Build();
+
+            var fileManagerOverride = new FileManager(fileNameOverride);
+            if (!fileManagerOverride.FileExists())
+            {
+                return deserializer.Deserialize<MapAssistConfiguration>(yamlPrimary);
+            }
+
+            var yamlOverride = fileManagerOverride.ReadFile();
 
             var testPrimary = deserializer.Deserialize<Dictionary<object, object>>(yamlPrimary);
             var testOverride = deserializer.Deserialize<Dictionary<object, object>>(yamlOverride);
