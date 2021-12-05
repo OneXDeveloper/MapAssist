@@ -147,6 +147,8 @@ GameInfo:
   Enabled: true
   # Developer setting, probably not useful
   ShowOverlayFPS: false
+# Set an IP you want to hunt
+HuntingIP: 'x.x.x.x'
 ItemLog:
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true

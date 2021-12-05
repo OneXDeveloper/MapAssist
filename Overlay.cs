@@ -222,8 +222,8 @@ namespace MapAssist
             // Game IP
             if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
             {
-                gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, textYOffset,
-                    "Game IP: " + _currentGameData.GameIP);
+                var ColorIP = _currentGameData.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? "green" : "red";
+                gfx.DrawText(_fonts["consolas"], _brushes[ColorIP], textXOffset, textYOffset, "Game IP: " + _currentGameData.GameIP);
                 textYOffset += fontHeight + 5;
 
                 // Overlay FPS

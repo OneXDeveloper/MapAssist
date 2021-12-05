@@ -44,6 +44,9 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "UpdateTime", ApplyNamingConventions = false)]
         public int UpdateTime { get; set; }
 
+        [YamlMember(Alias = "HuntingIP", ApplyNamingConventions = false)]
+        public string HuntingIP { get; set; }
+
         [YamlMember(Alias = "PrefetchAreas", ApplyNamingConventions = false)]
         public Area[] PrefetchAreas { get; set; }
 
