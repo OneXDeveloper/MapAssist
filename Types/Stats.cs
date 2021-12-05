@@ -123,7 +123,6 @@ namespace MapAssist.Types
             State.STATE_THUNDERSTORM,
             State.STATE_VALKYRIE,
             State.STATE_VENOMCLAWS,
-            State.STATE_WHIRLWIND,
             State.STATE_WOLF
         };
         public static readonly List<State> DebuffStates = new List<State> {

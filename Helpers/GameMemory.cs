@@ -74,7 +74,6 @@ namespace MapAssist.Helpers
                     var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, gameIPLength));
 
                     var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
-
                     var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
 
                     var actId = playerUnit.Act.ActId;
