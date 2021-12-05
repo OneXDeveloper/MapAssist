@@ -72,7 +72,7 @@ namespace MapAssist.Settings
                         macProp.SetValue(configPrimary, valueOverride);
                     }
                 }
-                if (macProp.PropertyType == typeof(RenderingConfiguration) && configOverride.RenderingConfiguration != null)
+                if (macProp.PropertyType == typeof(RenderingConfiguration))
                 {
                     SetProperties<RenderingConfiguration>(configPrimary.RenderingConfiguration, configOverride.RenderingConfiguration);
                 }
@@ -81,50 +81,15 @@ namespace MapAssist.Settings
                     var mcProps = typeof(MapConfiguration).GetProperties();
                     foreach (var mcProp in mcProps)
                     {
-                        switch (mcProp.Name)
+                        var overrideValue = typeof(MapConfiguration).GetProperty(mcProp.Name).GetValue(configOverride.MapConfiguration);
+                        var primaryValue = typeof(MapConfiguration).GetProperty(mcProp.Name).GetValue(configPrimary.MapConfiguration);
+                        if(mcProp.PropertyType == typeof(IconRendering))
                         {
-                            case "SuperUniqueMonster":
-                                SetProperties<IconRendering>(configPrimary.MapConfiguration.SuperUniqueMonster, configOverride.MapConfiguration.SuperUniqueMonster);
-                                break;
-                            case "UniqueMonster":
-                                SetProperties<IconRendering>(configPrimary.MapConfiguration.UniqueMonster, configOverride.MapConfiguration.UniqueMonster);
-                                break;
-                            case "EliteMonster":
-                                SetProperties<IconRendering>(configPrimary.MapConfiguration.EliteMonster, configOverride.MapConfiguration.EliteMonster);
-                                break;
-                            case "NormalMonster":
-                                SetProperties<IconRendering>(configPrimary.MapConfiguration.NormalMonster, configOverride.MapConfiguration.NormalMonster);
-                                break;
-                            case "NextArea":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.NextArea, configOverride.MapConfiguration.NextArea);
-                                break;
-                            case "PreviousArea":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.PreviousArea, configOverride.MapConfiguration.PreviousArea);
-                                break;
-                            case "Waypoint":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Waypoint, configOverride.MapConfiguration.Waypoint);
-                                break;
-                            case "Quest":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Quest, configOverride.MapConfiguration.Quest);
-                                break;
-                            case "Player":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Player, configOverride.MapConfiguration.Player);
-                                break;
-                            case "SuperChest":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.SuperChest, configOverride.MapConfiguration.SuperChest);
-                                break;
-                            case "NormalChest":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.NormalChest, configOverride.MapConfiguration.NormalChest);
-                                break;
-                            case "Shrine":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Shrine, configOverride.MapConfiguration.Shrine);
-                                break;
-                            case "ArmorWeapRack":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.ArmorWeapRack, configOverride.MapConfiguration.ArmorWeapRack);
-                                break;
-                            case "Item":
-                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Item, configOverride.MapConfiguration.Item);
-                                break;
+                            SetProperties<IconRendering>((IconRendering)primaryValue, (IconRendering)overrideValue);
+                        }
+                        if (mcProp.PropertyType == typeof(PointOfInterestRendering))
+                        {
+                            SetProperties<PointOfInterestRendering>((PointOfInterestRendering)primaryValue, (PointOfInterestRendering)overrideValue);
                         }
                     }
                 }
@@ -136,19 +101,19 @@ namespace MapAssist.Settings
                         configPrimary.MapColorConfiguration = configOverride.MapColorConfiguration;
                     }
                 }
-                if (macProp.PropertyType == typeof(HotkeyConfiguration) && configOverride.HotkeyConfiguration != null)
+                if (macProp.PropertyType == typeof(HotkeyConfiguration))
                 {
                     SetProperties<HotkeyConfiguration>(configPrimary.HotkeyConfiguration, configOverride.HotkeyConfiguration);
                 }
-                if (macProp.PropertyType == typeof(ApiConfiguration) && configOverride.ApiConfiguration != null)
+                if (macProp.PropertyType == typeof(ApiConfiguration))
                 {
                     SetProperties<ApiConfiguration>(configPrimary.ApiConfiguration, configOverride.ApiConfiguration);
                 }
-                if (macProp.PropertyType == typeof(GameInfoConfiguration) && configOverride.ApiConfiguration != null)
+                if (macProp.PropertyType == typeof(GameInfoConfiguration))
                 {
                     SetProperties<GameInfoConfiguration>(configPrimary.GameInfo, configOverride.GameInfo);
                 }
-                if (macProp.PropertyType == typeof(ItemLogConfiguration) && configOverride.ItemLog != null)
+                if (macProp.PropertyType == typeof(ItemLogConfiguration))
                 {
                     SetProperties<ItemLogConfiguration>(configPrimary.ItemLog, configOverride.ItemLog);
                 }
@@ -165,7 +130,7 @@ namespace MapAssist.Settings
             var props = typeof(T).GetProperties();
             foreach (var prop in props)
             {
-                var valueOverride = prop.GetValue(custom, null);
+                var valueOverride = prop.GetValue(custom);
                 if (valueOverride != null)
                 {
                     prop.SetValue(primary, valueOverride);
