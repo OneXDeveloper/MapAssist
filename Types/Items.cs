@@ -1903,7 +1903,7 @@ namespace MapAssist.Types
             { 652, "Mephisto's Brain" },
             { 653, "Token of Absolution" },
             { 654, "Twisted Essence of Suffering" },
-            { 655, "Charged Essense of Hatred" },
+            { 655, "Charged Essence of Hatred" },
             { 656, "Burning Essence of Terror" },
             { 657, "Festering Essence of Destruction" },
             { 658, "Standard of Heroes" }
