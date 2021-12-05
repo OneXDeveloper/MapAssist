@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Constants;
 using System.Drawing;
 using YamlDotNet.Serialization;
 
@@ -25,16 +26,16 @@ namespace MapAssist.Settings
     public class IconRendering
     {
         [YamlMember(Alias = "IconColor", ApplyNamingConventions = false)]
-        public Color IconColor { get; set; }
+        public Color? IconColor { get; set; }
 
         [YamlMember(Alias = "IconShape", ApplyNamingConventions = false)]
-        public Shape IconShape { get; set; }
+        public Shape? IconShape { get; set; }
 
         [YamlMember(Alias = "IconSize", ApplyNamingConventions = false)]
-        public int IconSize { get; set; }
+        public int? IconSize { get; set; }
 
         [YamlMember(Alias = "IconThickness", ApplyNamingConventions = false)]
-        public float IconThickness;
+        public float? IconThickness;
 
         public bool CanDrawIcon()
         {
@@ -45,22 +46,22 @@ namespace MapAssist.Settings
     public class PointOfInterestRendering : IconRendering
     {
         [YamlMember(Alias = "LineColor", ApplyNamingConventions = false)]
-        public Color LineColor { get; set; }
+        public Color? LineColor { get; set; }
 
         [YamlMember(Alias = "LineThickness", ApplyNamingConventions = false)]
-        public float LineThickness { get; set; }
+        public float? LineThickness { get; set; }
 
         [YamlMember(Alias = "ArrowHeadSize", ApplyNamingConventions = false)]
-        public int ArrowHeadSize { get; set; }
+        public int? ArrowHeadSize { get; set; }
 
         [YamlMember(Alias = "LabelColor", ApplyNamingConventions = false)]
-        public Color LabelColor { get; set; }
+        public Color? LabelColor { get; set; }
 
         [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
         public string LabelFont { get; set; }
 
         [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
-        public int LabelFontSize { get; set; }
+        public int? LabelFontSize { get; set; }
 
         public bool CanDrawLine()
         {

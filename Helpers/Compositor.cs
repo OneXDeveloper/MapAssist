@@ -25,6 +25,7 @@ using System.Drawing.Imaging;
 using MapAssist.Types;
 using MapAssist.Settings;
 using MapAssist.Structs;
+using MapAssist.Constants;
 
 namespace MapAssist.Helpers
 {
@@ -72,7 +73,7 @@ namespace MapAssist.Helpers
 
                 scaledBackground = (Bitmap)image.Clone();
 
-                lastZoom = MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
+                lastZoom = MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel.GetValueOrDefault(Config.ZoomLevel);
             }
             else
             {
@@ -101,11 +102,11 @@ namespace MapAssist.Helpers
                 {
                     if (poi.RenderingSettings.CanDrawLine())
                     {
-                        var pen = new Pen(poi.RenderingSettings.LineColor, poi.RenderingSettings.LineThickness);
+                        var pen = new Pen(poi.RenderingSettings.LineColor.GetValueOrDefault(Config.LineColor), poi.RenderingSettings.LineThickness.GetValueOrDefault(Config.LineThickness));
                         if (poi.RenderingSettings.CanDrawArrowHead())
                         {
-                            pen.CustomEndCap = new AdjustableArrowCap(poi.RenderingSettings.ArrowHeadSize,
-                                poi.RenderingSettings.ArrowHeadSize);
+                            pen.CustomEndCap = new AdjustableArrowCap(poi.RenderingSettings.ArrowHeadSize.GetValueOrDefault(Config.ArrowHeadSize),
+                                poi.RenderingSettings.ArrowHeadSize.GetValueOrDefault(Config.ArrowHeadSize));
                         }
 
                         var poiPosition = adjustedPoint(poi.Position);
@@ -149,7 +150,7 @@ namespace MapAssist.Helpers
                             var iCount = unitAny.Immunities.Count;
                             if (iCount > 0)
                             {
-                                var rectSize = mobRender.IconSize / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
+                                var rectSize = mobRender.IconSize.GetValueOrDefault(Config.IconSize) / 3; // Arbirarily made the size set to 1/3rd of the mob icon size. The import point is that it scales with the mob icon consistently.
                                 var dx = rectSize * scaleWidth * 1.5; // Amount of space each indicator will take up, including spacing (which is the 1.5)
 
                                 var iX = -icon.Width / 2f // Start at the center of the mob icon
@@ -169,7 +170,7 @@ namespace MapAssist.Helpers
                     }
                 }
 
-                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize);
+                var font = new Font(MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFont, MapAssistConfiguration.Loaded.MapConfiguration.Item.LabelFontSize.GetValueOrDefault(Config.LabelFontSize));
                 foreach (var item in gameData.Items)
                 {
                     if (item.IsDropped())
@@ -255,7 +256,7 @@ namespace MapAssist.Helpers
                     {
                         Font font = GetFont(poi.RenderingSettings);
                         backgroundGraphics.DrawString(poi.Label, font,
-                            new SolidBrush(poi.RenderingSettings.LabelColor),
+                            new SolidBrush(poi.RenderingSettings.LabelColor.GetValueOrDefault(Config.LabelColor)),
                             poi.Position.OffsetFrom(areaData.Origin));
                     }
                 }
@@ -287,13 +288,13 @@ namespace MapAssist.Helpers
 
         private (float, float) CalcResizeRatios(Bitmap image)
         {
-            var multiplier = 4.25f - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            var multiplier = 4.25f - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel.GetValueOrDefault(Config.ZoomLevel); // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
-            if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+            if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode))
             {
                 float biggestDimension = Math.Max(image.Width, image.Height);
 
-                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / biggestDimension;
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size.GetValueOrDefault(Config.RenderingSize) / biggestDimension;
 
                 if (multiplier == 0)
                 {
@@ -301,9 +302,9 @@ namespace MapAssist.Helpers
                 }
             }
 
-            if (multiplier != 1 || MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+            if (multiplier != 1 || MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode))
             {
-                var heightShrink = MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode ? 0.5f : 1f;
+                var heightShrink = MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode) ? 0.5f : 1f;
 
                 return (multiplier, multiplier * heightShrink);
             }
@@ -313,11 +314,11 @@ namespace MapAssist.Helpers
 
         private Font GetFont(PointOfInterestRendering poiSettings)
         {
-            (string LabelFont, int LabelFontSize) cacheKey = (poiSettings.LabelFont, poiSettings.LabelFontSize);
+            (string LabelFont, int LabelFontSize) cacheKey = (poiSettings.LabelFont, poiSettings.LabelFontSize.GetValueOrDefault(Config.LabelFontSize));
             if (!_fontCache.ContainsKey(cacheKey))
             {
                 var font = new Font(poiSettings.LabelFont,
-                    poiSettings.LabelFontSize);
+                    poiSettings.LabelFontSize.GetValueOrDefault(Config.LabelFontSize));
                 _fontCache[cacheKey] = font;
             }
 
@@ -327,48 +328,52 @@ namespace MapAssist.Helpers
         private Bitmap GetIcon(IconRendering poiSettings)
         {
             (Shape IconShape, int IconSize, Color Color, float LineThickness, float ZoomLevel) cacheKey = (
-                poiSettings.IconShape,
-                poiSettings.IconSize,
-                poiSettings.IconColor,
-                poiSettings.IconThickness,
-                MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel
+                poiSettings.IconShape.GetValueOrDefault(Config.IconShape),
+                poiSettings.IconSize.GetValueOrDefault(Config.IconSize),
+                poiSettings.IconColor.GetValueOrDefault(Config.IconColor),
+                poiSettings.IconThickness.GetValueOrDefault(Config.IconThickness),
+                MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel.GetValueOrDefault(Config.ZoomLevel)
             );
             if (!_iconCache.ContainsKey(cacheKey))
             {
+                var iconSize = poiSettings.IconSize.GetValueOrDefault(Config.IconSize);
+                var iconThickness = poiSettings.IconThickness.GetValueOrDefault(Config.IconThickness);
+                var iconColor = poiSettings.IconColor.GetValueOrDefault(Config.IconColor);
+
                 var distort = poiSettings.IconShape == Shape.Cross ? true : false;
-                var width = (int)Math.Ceiling(poiSettings.IconSize * scaleWidth + poiSettings.IconThickness);
-                var height = (int)Math.Ceiling(poiSettings.IconSize * (distort ? scaleHeight : scaleWidth) + poiSettings.IconThickness);
+                var width = (int)Math.Ceiling(iconSize * scaleWidth + iconThickness);
+                var height = (int)Math.Ceiling(iconSize * (distort ? scaleHeight : scaleWidth) + iconThickness);
 
                 var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-                var pen = new Pen(poiSettings.IconColor, poiSettings.IconThickness);
-                var brush = new SolidBrush(poiSettings.IconColor);
+                var pen = new Pen(iconColor, iconThickness);
+                var brush = new SolidBrush(iconColor);
                 using (var g = Graphics.FromImage(bitmap))
                 {
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     switch (poiSettings.IconShape)
                     {
                         case Shape.Ellipse:
-                            g.FillEllipse(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
+                            g.FillEllipse(brush, 0, 0, iconSize * scaleWidth, iconSize * scaleWidth);
                             break;
                         case Shape.EllipseOutline:
-                            g.DrawEllipse(pen, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
+                            g.DrawEllipse(pen, 0, 0, iconSize * scaleWidth, iconSize * scaleWidth);
                             break;
                         case Shape.Square:
-                            g.FillRectangle(brush, 0, 0, poiSettings.IconSize * scaleWidth, poiSettings.IconSize * scaleWidth);
+                            g.FillRectangle(brush, 0, 0, iconSize * scaleWidth, iconSize * scaleWidth);
                             break;
                         case Shape.SquareOutline:
-                            g.DrawRectangle(pen, 0, 0, poiSettings.IconSize * scaleWidth - 1, poiSettings.IconSize * scaleWidth - 1);
+                            g.DrawRectangle(pen, 0, 0, iconSize * scaleWidth - 1, iconSize * scaleWidth - 1);
                             break;
                         case Shape.Polygon:
-                            var halfSize = poiSettings.IconSize / 2;
-                            var cutSize = poiSettings.IconSize / 10;
+                            var halfSize = iconSize / 2;
+                            var cutSize = iconSize / 10;
                             PointF[] curvePoints =
                             {
                                 new PointF(0, halfSize), new PointF(halfSize - cutSize, halfSize - cutSize),
                                 new PointF(halfSize, 0), new PointF(halfSize + cutSize, halfSize - cutSize),
-                                new PointF(poiSettings.IconSize, halfSize),
+                                new PointF(iconSize, halfSize),
                                 new PointF(halfSize + cutSize, halfSize + cutSize),
-                                new PointF(halfSize, poiSettings.IconSize),
+                                new PointF(halfSize, iconSize),
                                 new PointF(halfSize - cutSize, halfSize + cutSize)
                             };
 
@@ -380,10 +385,10 @@ namespace MapAssist.Helpers
                             g.FillPolygon(brush, curvePoints);
                             break;
                         case Shape.Cross:
-                            var a = poiSettings.IconSize * 0.25f;
-                            var b = poiSettings.IconSize * 0.50f;
-                            var c = poiSettings.IconSize * 0.75f;
-                            var d = poiSettings.IconSize;
+                            var a = iconSize * 0.25f;
+                            var b = iconSize * 0.50f;
+                            var c = iconSize * 0.75f;
+                            var d = iconSize;
 
                             PointF[] crossLinePoints =
                             {

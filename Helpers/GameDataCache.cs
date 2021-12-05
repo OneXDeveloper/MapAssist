@@ -1,4 +1,5 @@
-﻿using MapAssist.Settings;
+﻿using MapAssist.Constants;
+using MapAssist.Settings;
 using MapAssist.Types;
 using System;
 
@@ -28,7 +29,7 @@ namespace MapAssist.Helpers
 
         private void RunUpdateTimer()
         {
-            _updateTimer = new System.Timers.Timer(MapAssistConfiguration.Loaded.UpdateTime);
+            _updateTimer = new System.Timers.Timer(MapAssistConfiguration.Loaded.UpdateTime.GetValueOrDefault(Config.UpdateTime));
             _updateTimer.Elapsed += (sender, args) =>
             {
                 lock (_lock)

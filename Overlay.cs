@@ -19,6 +19,7 @@
 
 using GameOverlay.Windows;
 using Gma.System.MouseKeyHook;
+using MapAssist.Constants;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
@@ -89,7 +90,7 @@ namespace MapAssist
             _fonts["consolas"] = gfx.CreateFont("Consolas", 14);
             _fonts["consolas2"] = gfx.CreateFont("Consolas", 11);
             _fonts["itemlog"] = gfx.CreateFont(MapAssistConfiguration.Loaded.ItemLog.LabelFont,
-                MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
+                MapAssistConfiguration.Loaded.ItemLog.LabelFontSize.GetValueOrDefault(Config.ItemLogLabelFontSize));
         }
 
         private SolidBrush fromDrawingColor(Graphics g, System.Drawing.Color c) =>
@@ -127,7 +128,7 @@ namespace MapAssist
                 if (!_show || _currentGameData.MenuPanelOpen > 0 ||
                     Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
                         element => element == _currentGameData.Area) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap.GetValueOrDefault(Config.ToggleViaIngameMap) &&
                      !_currentGameData.MenuOpen.Map) || (_currentGameData.Area == Area.None))
                 {
                     return;
@@ -136,13 +137,13 @@ namespace MapAssist
                 var smallCornerSize = new Size(640, 360);
 
                 var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
-                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel.GetValueOrDefault(Config.ZoomLevel));
 
                 Point anchor;
                 switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                 {
                     case MapPosition.Center:
-                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode))
                         {
                             anchor = new Point(_window.Width / 2 - playerCenter.X,
                                 _window.Height / 2 - playerCenter.Y);
@@ -154,7 +155,7 @@ namespace MapAssist
                         }
                         break;
                     case MapPosition.TopRight:
-                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+                        if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode))
                         {
                             anchor = new Point(_window.Width - smallCornerSize.Width, 100);
                         }
@@ -168,7 +169,7 @@ namespace MapAssist
                         break;
                 }
 
-                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode.GetValueOrDefault(Config.OverlayMode) && MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
                 {
                     var newBitmap = new Bitmap(smallCornerSize.Width, smallCornerSize.Height);
                     using (var g = System.Drawing.Graphics.FromImage(newBitmap))
@@ -232,7 +233,7 @@ namespace MapAssist
             var textXOffset = PlayerIconWidth() + 50;
             var textYOffset = PlayerIconWidth() + 50;
 
-            var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
+            var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize.GetValueOrDefault(Config.ItemLogLabelFontSize);
             var fontHeight = (fontSize + fontSize / 2);
 
             if(!GameManager.IsValid(gfx, _fonts["consolas2"], _brushes["red"])){
@@ -240,14 +241,14 @@ namespace MapAssist
             }
 
             // Game IP
-            if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
+            if (MapAssistConfiguration.Loaded.GameInfo.Enabled.GetValueOrDefault(Config.GameInfoEnabled))
             {
                 var ColorIP = _currentGameData.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? "green" : "red";
                 gfx.DrawText(_fonts["consolas"], _brushes[ColorIP], textXOffset, textYOffset, "Game IP: " + _currentGameData.GameIP);
                 textYOffset += fontHeight + 5;
 
                 // Overlay FPS
-                if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
+                if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS.GetValueOrDefault(Config.GameInfoShowFps))
                 {
                     var padding = 16;
                     var infoText = new System.Text.StringBuilder()
@@ -317,7 +318,7 @@ namespace MapAssist
             var stateList = _currentGameData.PlayerUnit.StateList;
             var buffImages = new List<Bitmap>();
             var buffColors = new List<System.Drawing.Color>();
-            var buffImageScale = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize;
+            var buffImageScale = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.GetValueOrDefault(Config.RenderingBuffSize);
             var imgDimensions = (int)(48f * buffImageScale);
 
             var buffAlignment = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition;

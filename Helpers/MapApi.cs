@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Constants;
 using MapAssist.Settings;
 using MapAssist.Types;
 using Newtonsoft.Json;
@@ -97,7 +98,7 @@ namespace MapAssist.Helpers
             var prefetchBackgroundWorker = new BackgroundWorker();
             prefetchBackgroundWorker.DoWork += (sender, args) =>
             {
-                if (MapAssistConfiguration.Loaded.ClearPrefetchedOnAreaChange)
+                if (MapAssistConfiguration.Loaded.ClearPrefetchedOnAreaChange.GetValueOrDefault(Config.ClearPrefetchedOnAreaChange))
                 {
                     _cache.Clear();
                 }

@@ -23,6 +23,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using MapAssist.Constants;
 using MapAssist.Helpers;
 using MapAssist.Interfaces;
 using MapAssist.Settings;
@@ -100,7 +101,7 @@ namespace MapAssist.Types
 
                                 break;
                             case UnitType.Item:
-                                if (MapAssistConfiguration.Loaded.ItemLog.Enabled)
+                                if (MapAssistConfiguration.Loaded.ItemLog.Enabled.GetValueOrDefault(Config.ItemLogEnabled))
                                 {
                                     _itemData = processContext.Read<ItemData>(_unitAny.pUnitData);
                                     if (IsDropped())

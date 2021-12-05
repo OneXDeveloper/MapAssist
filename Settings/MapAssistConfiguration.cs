@@ -34,7 +34,145 @@ namespace MapAssist.Settings
         {
             var fileName = $"./Config.yaml";
             Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration(fileName);
+
+            var fileNameCustom = $"./Config_Custom.yaml";
+            var Custom = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration(fileNameCustom);
+            Merge(Loaded, Custom);
+            Console.WriteLine("merged configs");
         }
+
+        public static void Merge(MapAssistConfiguration configPrimary, MapAssistConfiguration configOverride)
+        {
+            if (configPrimary == null || configOverride == null)
+            {
+                return;
+            }
+            var macProps = typeof(MapAssistConfiguration).GetProperties();
+            foreach (var macProp in macProps)
+            {
+                // Ignore this prop, we don't want to set it.
+                if (macProp.Name == "Loaded")
+                {
+                    continue;
+                }
+                // Deal with types that don't have additional properties.
+                // We don't want to just overwrite a complex datatype if one prop
+                // exists on the override config but nothing else.
+                if (macProp.PropertyType != typeof(RenderingConfiguration)
+                    && macProp.PropertyType != typeof(MapConfiguration)
+                    && macProp.PropertyType != typeof(MapColorConfiguration)
+                    && macProp.PropertyType != typeof(HotkeyConfiguration)
+                    && macProp.PropertyType != typeof(ApiConfiguration)
+                    && macProp.PropertyType != typeof(GameInfoConfiguration)
+                    && macProp.PropertyType != typeof(ItemLogConfiguration))
+                {
+                    var valueOverride = macProp.GetValue(configOverride, null);
+                    if (valueOverride != null)
+                    {
+                        macProp.SetValue(configPrimary, valueOverride);
+                    }
+                }
+                if (macProp.PropertyType == typeof(RenderingConfiguration) && configOverride.RenderingConfiguration != null)
+                {
+                    SetProperties<RenderingConfiguration>(configPrimary.RenderingConfiguration, configOverride.RenderingConfiguration);
+                }
+                if (macProp.PropertyType == typeof(MapConfiguration) && configOverride.MapConfiguration != null)
+                {
+                    var mcProps = typeof(MapConfiguration).GetProperties();
+                    foreach (var mcProp in mcProps)
+                    {
+                        switch (mcProp.Name)
+                        {
+                            case "SuperUniqueMonster":
+                                SetProperties<IconRendering>(configPrimary.MapConfiguration.SuperUniqueMonster, configOverride.MapConfiguration.SuperUniqueMonster);
+                                break;
+                            case "UniqueMonster":
+                                SetProperties<IconRendering>(configPrimary.MapConfiguration.UniqueMonster, configOverride.MapConfiguration.UniqueMonster);
+                                break;
+                            case "EliteMonster":
+                                SetProperties<IconRendering>(configPrimary.MapConfiguration.EliteMonster, configOverride.MapConfiguration.EliteMonster);
+                                break;
+                            case "NormalMonster":
+                                SetProperties<IconRendering>(configPrimary.MapConfiguration.NormalMonster, configOverride.MapConfiguration.NormalMonster);
+                                break;
+                            case "NextArea":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.NextArea, configOverride.MapConfiguration.NextArea);
+                                break;
+                            case "PreviousArea":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.PreviousArea, configOverride.MapConfiguration.PreviousArea);
+                                break;
+                            case "Waypoint":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Waypoint, configOverride.MapConfiguration.Waypoint);
+                                break;
+                            case "Quest":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Quest, configOverride.MapConfiguration.Quest);
+                                break;
+                            case "Player":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Player, configOverride.MapConfiguration.Player);
+                                break;
+                            case "SuperChest":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.SuperChest, configOverride.MapConfiguration.SuperChest);
+                                break;
+                            case "NormalChest":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.NormalChest, configOverride.MapConfiguration.NormalChest);
+                                break;
+                            case "Shrine":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Shrine, configOverride.MapConfiguration.Shrine);
+                                break;
+                            case "ArmorWeapRack":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.ArmorWeapRack, configOverride.MapConfiguration.ArmorWeapRack);
+                                break;
+                            case "Item":
+                                SetProperties<PointOfInterestRendering>(configPrimary.MapConfiguration.Item, configOverride.MapConfiguration.Item);
+                                break;
+                        }
+                    }
+                }
+                // For now just replacing the entire struct if its defined in override.
+                if (macProp.PropertyType == typeof(MapColorConfiguration) && configOverride.MapColorConfiguration != null)
+                {
+                    if (configOverride.MapColorConfiguration.MapColors != null)
+                    {
+                        configPrimary.MapColorConfiguration = configOverride.MapColorConfiguration;
+                    }
+                }
+                if (macProp.PropertyType == typeof(HotkeyConfiguration) && configOverride.HotkeyConfiguration != null)
+                {
+                    SetProperties<HotkeyConfiguration>(configPrimary.HotkeyConfiguration, configOverride.HotkeyConfiguration);
+                }
+                if (macProp.PropertyType == typeof(ApiConfiguration) && configOverride.ApiConfiguration != null)
+                {
+                    SetProperties<ApiConfiguration>(configPrimary.ApiConfiguration, configOverride.ApiConfiguration);
+                }
+                if (macProp.PropertyType == typeof(GameInfoConfiguration) && configOverride.ApiConfiguration != null)
+                {
+                    SetProperties<GameInfoConfiguration>(configPrimary.GameInfo, configOverride.GameInfo);
+                }
+                if (macProp.PropertyType == typeof(ItemLogConfiguration) && configOverride.ItemLog != null)
+                {
+                    SetProperties<ItemLogConfiguration>(configPrimary.ItemLog, configOverride.ItemLog);
+                }
+            }
+            return;
+        }
+
+        public static void SetProperties<T>(T primary, T custom)
+        {
+            if (custom == null)
+            {
+                return;
+            }
+            var props = typeof(T).GetProperties();
+            foreach (var prop in props)
+            {
+                var valueOverride = prop.GetValue(custom, null);
+                if (valueOverride != null)
+                {
+                    prop.SetValue(primary, valueOverride);
+                }
+            }
+        }
+
 
         public void Save()
         {
@@ -42,7 +180,7 @@ namespace MapAssist.Settings
         }
 
         [YamlMember(Alias = "UpdateTime", ApplyNamingConventions = false)]
-        public int UpdateTime { get; set; }
+        public int? UpdateTime { get; set; }
 
         [YamlMember(Alias = "HuntingIP", ApplyNamingConventions = false)]
         public string HuntingIP { get; set; }
@@ -54,7 +192,7 @@ namespace MapAssist.Settings
         public Area[] HiddenAreas { get; set; }
 
         [YamlMember(Alias = "ClearPrefetchedOnAreaChange", ApplyNamingConventions = false)]
-        public bool ClearPrefetchedOnAreaChange { get; set; }
+        public bool? ClearPrefetchedOnAreaChange { get; set; }
 
         [YamlMember(Alias = "RenderingConfiguration", ApplyNamingConventions = false)]
         public RenderingConfiguration RenderingConfiguration { get; set; }
@@ -105,7 +243,7 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "UniqueMonster", ApplyNamingConventions = false)]
         public IconRendering UniqueMonster { get; set; }
-        
+
         [YamlMember(Alias = "EliteMonster", ApplyNamingConventions = false)]
         public IconRendering EliteMonster { get; set; }
 
@@ -147,49 +285,49 @@ namespace MapAssist.Settings
 public class RenderingConfiguration
 {
     [YamlMember(Alias = "Opacity", ApplyNamingConventions = false)]
-    public double Opacity { get; set; }
+    public double? Opacity { get; set; }
 
     [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
-    public bool OverlayMode { get; set; }
+    public bool? OverlayMode { get; set; }
 
     [YamlMember(Alias = "AlwaysOnTop", ApplyNamingConventions = false)]
-    public bool AlwaysOnTop { get; set; }
+    public bool? AlwaysOnTop { get; set; }
 
     [YamlMember(Alias = "ToggleViaInGameMap", ApplyNamingConventions = false)]
-    public bool ToggleViaInGameMap { get; set; }
+    public bool? ToggleViaInGameMap { get; set; }
 
     [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
-    public int Size { get; set; }
+    public int? Size { get; set; }
 
     [YamlMember(Alias = "Position", ApplyNamingConventions = false)]
-    public MapPosition Position { get; set; }
+    public MapPosition? Position { get; set; }
 
     [YamlMember(Alias = "BuffPosition", ApplyNamingConventions = false)]
-    public BuffPosition BuffPosition { get; set; }
+    public BuffPosition? BuffPosition { get; set; }
 
     [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
-    public float BuffSize { get; set; }
+    public float? BuffSize { get; set; }
 
     [YamlMember(Alias = "Rotate", ApplyNamingConventions = false)]
-    public bool Rotate { get; set; }
+    public bool? Rotate { get; set; }
 
     [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
-    public float ZoomLevel { get; set; }
+    public float? ZoomLevel { get; set; }
 }
 
 public class HotkeyConfiguration
 {
     [YamlMember(Alias = "ToggleKey", ApplyNamingConventions = false)]
-    public char ToggleKey { get; set; }
+    public char? ToggleKey { get; set; }
 
     [YamlMember(Alias = "ZoomInKey", ApplyNamingConventions = false)]
-    public char ZoomInKey { get; set; }
+    public char? ZoomInKey { get; set; }
 
     [YamlMember(Alias = "ZoomOutKey", ApplyNamingConventions = false)]
-    public char ZoomOutKey { get; set; }
+    public char? ZoomOutKey { get; set; }
 
     [YamlMember(Alias = "GameInfoKey", ApplyNamingConventions = false)]
-    public char GameInfoKey { get; set; }
+    public char? GameInfoKey { get; set; }
 }
 
 public class ApiConfiguration
@@ -204,25 +342,25 @@ public class ApiConfiguration
 public class GameInfoConfiguration
 {
     [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
-    public bool Enabled { get; set; }
-    
+    public bool? Enabled { get; set; }
+
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
-    public bool ShowOverlayFPS { get; set; }
+    public bool? ShowOverlayFPS { get; set; }
 }
 
 public class ItemLogConfiguration
 {
     [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
-    public bool Enabled { get; set; }
+    public bool? Enabled { get; set; }
 
     [YamlMember(Alias = "FilterFileName", ApplyNamingConventions = false)]
     public string FilterFileName { get; set; }
 
     [YamlMember(Alias = "PlaySoundOnDrop", ApplyNamingConventions = false)]
-    public bool PlaySoundOnDrop { get; set; }
+    public bool? PlaySoundOnDrop { get; set; }
 
     [YamlMember(Alias = "DisplayForSeconds", ApplyNamingConventions = false)]
-    public double DisplayForSeconds { get; set; }
+    public double? DisplayForSeconds { get; set; }
     [YamlMember(Alias = "SoundFile", ApplyNamingConventions = false)]
     public string SoundFile { get; set; }
 
@@ -230,5 +368,5 @@ public class ItemLogConfiguration
     public string LabelFont { get; set; }
 
     [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
-    public int LabelFontSize { get; set; }
+    public int? LabelFontSize { get; set; }
 }

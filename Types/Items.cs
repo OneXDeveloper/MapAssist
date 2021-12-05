@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Timers;
+using MapAssist.Constants;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 
@@ -107,14 +108,14 @@ namespace MapAssist.Types
         {
             if ((!ItemUnitHashesSeen[processId].Contains(unit.ItemHash()) && !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit))
             {
-                if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
+                if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop.GetValueOrDefault(Config.PlaySoundOnDrop))
                 {
                     AudioPlayer.PlayItemAlert();
                 }
                 ItemUnitHashesSeen[processId].Add(unit.ItemHash());
                 ItemUnitIdsSeen[processId].Add(unit.UnitId);
                 ItemLog[processId].Add(unit);
-                var timer = new Timer(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds * 1000);
+                var timer = new Timer(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds.GetValueOrDefault(Config.DisplayForSeconds) * 1000);
                 timer.Elapsed += (sender, args) => ItemLogTimerElapsed(sender, args, timer, processId);
                 timer.Start();
             }
