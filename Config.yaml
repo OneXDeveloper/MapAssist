@@ -28,9 +28,9 @@ RenderingConfiguration:
   OverlayMode: true
   ## Positions - Options are: Center, TopLeft, TopRight
   Position: Center
-  ## ToggleViaInGameMap - Auto-hide overlay when in-game map closes
+  ## ToggleViaInGameMap - Auto-hide map overlay when the in-game map is hidden
   ToggleViaInGameMap: false
-  ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus open
+  ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus are opened
   ToggleViaInGamePanels: false
   ## Size - Overlay map maximum size
   Size: 450
