@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using MapAssist.Files;
@@ -32,8 +31,7 @@ namespace MapAssist.Settings
         public static MapAssistConfiguration Loaded { get; set; }
         public static void Load()
         {
-            var fileName = $"./Config.yaml";
-            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfiguration(fileName);
+            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfigurationMain(Properties.Resources.Config, $"./Config.yaml");
         }
 
         public void Save()
@@ -105,7 +103,7 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "UniqueMonster", ApplyNamingConventions = false)]
         public IconRendering UniqueMonster { get; set; }
-        
+
         [YamlMember(Alias = "EliteMonster", ApplyNamingConventions = false)]
         public IconRendering EliteMonster { get; set; }
 
@@ -208,7 +206,7 @@ public class GameInfoConfiguration
 {
     [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
     public bool Enabled { get; set; }
-    
+
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
 }

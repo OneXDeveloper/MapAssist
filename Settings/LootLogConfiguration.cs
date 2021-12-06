@@ -1,10 +1,7 @@
 ﻿using MapAssist.Files;
 using MapAssist.Types;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using YamlDotNet.Serialization;
 
 namespace MapAssist.Settings
 {
@@ -14,8 +11,7 @@ namespace MapAssist.Settings
 
         public static void Load()
         {
-            Filters = ConfigurationParser<Dictionary<string, List<ItemFilter>>>.ParseConfiguration(
-                $"./{MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
+            Filters = ConfigurationParser<Dictionary<string, List<ItemFilter>>>.ParseConfigurationFile($"./{MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
             
         }
     }
