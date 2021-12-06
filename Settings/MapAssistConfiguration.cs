@@ -172,6 +172,15 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
     public float ZoomLevel { get; set; }
+
+    [YamlMember(Alias = "LineStyle", ApplyNamingConventions = false)]
+    public LineStyle LineStyle { get; set; }
+
+    [YamlMember(Alias = "TpRange", ApplyNamingConventions = false)]
+    public short TpRange { get; set; }
+
+    [YamlMember(Alias = "PathUpdateTime", ApplyNamingConventions = false)]
+    public float PathUpdateTime { get; set; }
 }
 
 public class HotkeyConfiguration

@@ -101,32 +101,32 @@ namespace MapAssist.Helpers
                 // The rest can be done in DrawBackground.
                 foreach (PointOfInterest poi in _pointsOfInterest)
                 {
-                    var pen = new Pen(poi.RenderingSettings.PathColor, poi.RenderingSettings.PathLineThickness);
+                    var pen = new Pen(poi.RenderingSettings.LineColor, poi.RenderingSettings.LineThickness);
 
-                    if (poi.RenderingSettings.CanDrawPath())
+                    if (poi.RenderingSettings.CanDrawLine())
                     {
-                        switch(Settings.Map.PathLineStyle)
+                        switch(MapAssistConfiguration.Loaded.RenderingConfiguration.LineStyle)
                         {
-                            case PathLineStyle.Simple:
+                            case LineStyle.Simple:
                                 if (poi.RenderingSettings.CanDrawArrowHead())
                                 {
                                     pen.CustomEndCap = new AdjustableArrowCap(poi.RenderingSettings.ArrowHeadSize, poi.RenderingSettings.ArrowHeadSize);
                                 }
 
-                        var poiPosition = adjustedPoint(poi.Position);
+                                var poiPosition = adjustedPoint(poi.Position);
 
-                        imageGraphics.DrawLine(pen, localPlayerPosition, poiPosition);
+                                imageGraphics.DrawLine(pen, localPlayerPosition, poiPosition);
                                 break;
 
-                            case PathLineStyle.Teleport:
-                            case PathLineStyle.Walking:
-                                List<Point> path = Pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, Settings.Map.PathLineStyle, gameData.PlayerPosition, poi.Position);
+                            case LineStyle.Teleport:
+                            case LineStyle.Walking:
+                                List<Point> path = Pathing.GetPathToLocation(gameData.MapSeed, gameData.Difficulty, MapAssistConfiguration.Loaded.RenderingConfiguration.LineStyle, gameData.PlayerPosition, poi.Position);
                                 Point startPoint = localPlayerPosition;
                                 foreach (Point p in path)
                                 {
-                                    Point tmp = p.OffsetFrom(_areaData.Origin)
+                                    Point tmp = adjustedPoint(p);/*p.OffsetFrom(_areaData.Origin);/*
                                                  .OffsetFrom(CropOffset)
-                                                 .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));
+                                                 .OffsetFrom(new Point(Settings.Rendering.Player.IconSize, Settings.Rendering.Player.IconSize));*/
                                     imageGraphics.DrawLine(pen, startPoint, tmp);
                                     startPoint = tmp;
                                 }
@@ -170,7 +170,7 @@ namespace MapAssist.Helpers
                         Bitmap icon = GetIcon(mobRender);
                             var monsterPosition = adjustedPoint(unitAny.Position).OffsetFrom(GetIconOffset(mobRender));
 
-                            // Draw Monster Immunities on top of monster icon
+                        // Draw Monster Immunities on top of monster icon
                         var iCount = unitAny.Immunities.Count;
                         if (iCount > 0)
                         {
@@ -184,7 +184,7 @@ namespace MapAssist.Helpers
                             foreach (var immunity in unitAny.Immunities)
                             {
                                     var iPoint = new Point((int)Math.Round(iX), icon.Height / 2 + icon.Height / 12); // 1/12th of the height just helps move the icon a bit up to make it look nicer. Purely arbitrary.
-                                var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
+                                    var brush = new SolidBrush(ResistColors.ResistColor[immunity]);
                                     var rect = new Rectangle(monsterPosition.OffsetFrom(iPoint), new Size((int)(rectSize * scaleWidth), (int)(rectSize * scaleWidth))); // Scale both by the width since width isn't impacted by depth in overlay mode
                                     imageGraphics.FillEllipse(brush, rect);
                                     iX += dx;

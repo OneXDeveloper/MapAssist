@@ -41,7 +41,7 @@ namespace MapAssist.Helpers
 
         // Stuff for teleport pathing
         private static readonly short RangeInvalid = 10000;
-        private static readonly short TpRange = Settings.Map.TpRange;
+        private static readonly short TpRange = MapAssistConfiguration.Loaded.RenderingConfiguration.TpRange;
         private static readonly short BlockRange = 2;
         private short[,] m_distanceMatrix;
         private int m_rows;
@@ -53,12 +53,12 @@ namespace MapAssist.Helpers
             Grid = _areaData.MapToGrid();
         }
 
-        public List<Point> GetPathToLocation(uint mapId, Difficulty difficulty, PathLineStyle movementMode, Point fromLocation, Point toLocation)
+        public List<Point> GetPathToLocation(uint mapId, Difficulty difficulty, LineStyle movementMode, Point fromLocation, Point toLocation)
         {
             // check if we have a valid cache entry for this path. if thats the case we are done and can return the cache entry
             (uint mapId, Difficulty difficulty, Area area, Point toLocation) pathCacheKey = (mapId, difficulty, _areaData.Area, toLocation);
 
-            if (PathCache.ContainsKey(pathCacheKey) && ((DateTimeOffset.Now.ToUnixTimeMilliseconds() - PathCache[pathCacheKey].Item2) < Settings.Map.PathUpdateTime))
+            if (PathCache.ContainsKey(pathCacheKey) && ((DateTimeOffset.Now.ToUnixTimeMilliseconds() - PathCache[pathCacheKey].Item2) < MapAssistConfiguration.Loaded.RenderingConfiguration.PathUpdateTime))
             {
                 return PathCache[pathCacheKey].Item1;
             }
@@ -71,7 +71,7 @@ namespace MapAssist.Helpers
                 return result;
             }
 
-            if (movementMode == PathLineStyle.Teleport)
+            if (movementMode == LineStyle.Teleport)
             {
                 var pathFound = false;
                 var teleportPath = GetTeleportPath(fromPosition, toPosition, out pathFound);

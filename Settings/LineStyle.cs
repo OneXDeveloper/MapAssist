@@ -19,7 +19,7 @@
 
 namespace MapAssist.Settings
 {
-    public enum PathLineStyle
+    public enum LineStyle
     {
         Simple,
         Teleport,

@@ -69,7 +69,7 @@ namespace MapAssist.Settings
 
         public bool CanDrawArrowHead()
         {
-            return CanDrawPath() && ArrowHeadSize > 0;
+            return CanDrawLine() && ArrowHeadSize > 0;
         }
 
         public bool CanDrawLabel()
