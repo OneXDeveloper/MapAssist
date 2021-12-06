@@ -1,15 +1,16 @@
-# How often to read the game memory
-# You likely shouldn't change this
-UpdateTime: 30
+## HotkeyConfiguration - Keyboard shortcuts for the overlay
+HotkeyConfiguration:
+  ToggleKey: '\'
+  ZoomInKey: '+'
+  ZoomOutKey: '-'
+  GameInfoKey: '['
 
-# Areas to preload so that they're hot and ready as soon as you go to them
+## PrefetchAreas - Areas to preload so that they're hot and ready as soon as you go to them
 PrefetchAreas:
  - 'Catacombs Level 2'
  - 'Durance Of Hate Level 2'
 
-# Areas where the map should not show
-# This includes all the towns and various crappy areas
-# where you really don't need it.
+## HiddenAreas - Areas where the overlay is not needed and will be hidden
 HiddenAreas:
  - 'Rogue Encampment'
  - 'Lut Gholein'
@@ -18,31 +19,31 @@ HiddenAreas:
  - 'Harrogath'
  - 'Forgotten Tower'
  - 'Nihlathaks Temple'
-ClearPrefetchedOnAreaChange: true
+
+## RenderingConfiguration - Visual settings for the overlay
 RenderingConfiguration:
-  # Overlay mode defaults
-  # Comment these out and uncomment block below to go to oldschool mode
+  ## Opacity - Overlay trapsparency %
   Opacity: 0.5
+  ## OverlayMode - Overlay map over in-game map / can be hidden with hotkey (ToggleKey)
   OverlayMode: true
-  # Possible positions: Center, TopLeft, TopRight
+  ## Positions - Options are: Center, TopLeft, TopRight
   Position: Center
-  # If set to false it will always show unless you use the hotkeys to disable it
+  ## ToggleViaInGameMap - Auto-hide overlay when in-game map closes
   ToggleViaInGameMap: false
- 
-  # Non-overlay mode defaults
-  # Uncomment these out to go to oldschool mode
-  # Opacity: 0.5
-  # OverlayMode: false
-  # Position: TopRight
-  # If set to false it will always show unless you use the hotkeys to disable it
-  # ToggleViaInGameMap: true
-  
-  AlwaysOnTop: true
+  ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus open
+  ToggleViaInGamePanels: false
+  ## Size - Overlay map maximum size
   Size: 450
+  ## Rotate - Transform map image with 45° rotation
   Rotate: true
+  ## ZoomLevel - Zoom level / can zoom in/out with hotkeys (ZoomInKey, ZoomOutKey)
   ZoomLevel: 1
+  ## BuffPosition - Options are: Center, Bottom
   BuffPosition: Bottom
+  ## BuffSize - Size of the buff icons (0.8 = 80%, 1 = 100%, 1.2 = 120%)
   BuffSize: 1
+
+## MapConfiguration -- Visual settings for icons, lines and labels
 MapConfiguration:
   SuperUniqueMonster:
     IconColor: Yellow
@@ -117,6 +118,8 @@ MapConfiguration:
     IconSize: 6
     LabelFont: 'Helvetica'
     LabelFontSize: 8
+
+## MapColorConfiguration - Color schema for drawing overlay map
 MapColorConfiguration:
   MapColors:
     '0': '50, 50, 50'
@@ -135,26 +138,35 @@ MapColorConfiguration:
     '37': '0, 0, 0'
     '39': '0, 0, 0'
     '53': '0, 0, 0'
-HotkeyConfiguration:
-  ToggleKey: '\'
-  ZoomInKey: '+'
-  ZoomOutKey: '-'
-  GameInfoKey: '['
-ApiConfiguration:
-  Endpoint: 'http://localhost:8080/'
-  Token: ''
-GameInfo:
-  Enabled: true
-  # Developer setting, probably not useful
-  ShowOverlayFPS: false
-# Set an IP you want to hunt
-HuntingIP: 'x.x.x.x'
+
+## ItemLog - Alerts for in-game dropped items nearby
 ItemLog:
   Enabled: true
   FilterFileName: "ItemFilter.yaml"
+  ## PlaySoundOnDrop - Play drop sound
   PlaySoundOnDrop: true
-  # Must be a .wav file, path relative to MapAssist location
+  ## SoundFile - Name of .wav file for drop sound (put .wav file in the MapAssist folder)
   SoundFile: ""
   DisplayForSeconds: 45
   LabelFont: "Helvetica"
   LabelFontSize: 14
+
+## GameInfo - Displaying game server IP address
+GameInfo:
+  Enabled: true
+  ## ShowOverlayFPS - Developer setting, probably not useful
+  ShowOverlayFPS: false
+
+## HuntingIP - Set an IP address to display in green instead of red
+HuntingIP: 'x.x.x.x'
+
+## ApiConfiguration - Connection to d2mapapi service
+ApiConfiguration:
+  Endpoint: 'http://localhost:8080/'
+  Token: ''
+
+## UpdateTime - Advanced setting for how often to read the game memory in ms
+UpdateTime: 30
+
+## ClearPrefetchedOnAreaChange - Advanced setting for clearing prefetched cache
+ClearPrefetchedOnAreaChange: true

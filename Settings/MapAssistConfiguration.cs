@@ -152,9 +152,6 @@ public class RenderingConfiguration
     [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
     public bool OverlayMode { get; set; }
 
-    [YamlMember(Alias = "AlwaysOnTop", ApplyNamingConventions = false)]
-    public bool AlwaysOnTop { get; set; }
-
     [YamlMember(Alias = "ToggleViaInGameMap", ApplyNamingConventions = false)]
     public bool ToggleViaInGameMap { get; set; }
 
