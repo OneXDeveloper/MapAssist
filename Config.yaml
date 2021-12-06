@@ -119,6 +119,18 @@ MapConfiguration:
     LabelFont: 'Helvetica'
     LabelFontSize: 8
 
+## ItemLog - Alerts for in-game dropped items nearby
+ItemLog:
+  Enabled: true
+  FilterFileName: "ItemFilter.yaml"
+  ## PlaySoundOnDrop - Play drop sound
+  PlaySoundOnDrop: true
+  ## SoundFile - Name of .wav file for drop sound (put .wav file in the MapAssist folder)
+  SoundFile: ""
+  DisplayForSeconds: 45
+  LabelFont: "Helvetica"
+  LabelFontSize: 14
+
 ## MapColorConfiguration - Color schema for drawing overlay map
 MapColorConfiguration:
   MapColors:
@@ -138,18 +150,6 @@ MapColorConfiguration:
     '37': '0, 0, 0'
     '39': '0, 0, 0'
     '53': '0, 0, 0'
-
-## ItemLog - Alerts for in-game dropped items nearby
-ItemLog:
-  Enabled: true
-  FilterFileName: "ItemFilter.yaml"
-  ## PlaySoundOnDrop - Play drop sound
-  PlaySoundOnDrop: true
-  ## SoundFile - Name of .wav file for drop sound (put .wav file in the MapAssist folder)
-  SoundFile: ""
-  DisplayForSeconds: 45
-  LabelFont: "Helvetica"
-  LabelFontSize: 14
 
 ## GameInfo - Displaying game server IP address
 GameInfo:
