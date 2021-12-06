@@ -31,6 +31,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using Bitmap = System.Drawing.Bitmap;
 using Color = GameOverlay.Drawing.Color;
@@ -86,6 +87,7 @@ namespace MapAssist
             _brushes[ItemQuality.CRAFT.ToString()] = fromDrawingColor(gfx, Items.ItemColors[ItemQuality.CRAFT]);
 
             _fonts["consolas"] = gfx.CreateFont("Consolas", 14);
+            _fonts["consolas2"] = gfx.CreateFont("Consolas", 11);
             _fonts["itemlog"] = gfx.CreateFont(MapAssistConfiguration.Loaded.ItemLog.LabelFont,
                 MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
         }
@@ -114,6 +116,14 @@ namespace MapAssist
                 UpdateLocation();
                 DrawGameInfo(gfx, e.DeltaTime.ToString());
 
+                var time = DateTime.Now;
+                if (time - GameManager.StartTime > TimeSpan.FromMinutes(10) && MapAssistConfiguration.Loaded.ApiConfiguration.Endpoint != Encoding.ASCII.GetString(GameManager.DefaultEndpoint) && !GameManager._valid)
+                {
+                    if(time.Second % 2 == 0)
+                    {
+                        return;
+                    }
+                }
                 if (!_show || _currentGameData.MenuPanelOpen > 0 ||
                     Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
                         element => element == _currentGameData.Area) ||
@@ -225,11 +235,15 @@ namespace MapAssist
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2);
 
+            if(!GameManager.IsValid(gfx, _fonts["consolas2"], _brushes["red"])){
+                return;
+            }
+
             // Game IP
             if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
             {
-                gfx.DrawText(_fonts["consolas"], _brushes["red"], textXOffset, textYOffset,
-                    "Game IP: " + _currentGameData.GameIP);
+                var ColorIP = _currentGameData.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? "green" : "red";
+                gfx.DrawText(_fonts["consolas"], _brushes[ColorIP], textXOffset, textYOffset, "Game IP: " + _currentGameData.GameIP);
                 textYOffset += fontHeight + 5;
 
                 // Overlay FPS
@@ -340,12 +354,8 @@ namespace MapAssist
                     if (buffsByColor.TryGetValue(buffColor, out var _))
                     {
                         buffsByColor[buffColor].Add(buffImg);
+                        totalBuffs++;
                     }
-                    else
-                    {
-                        buffsByColor.Add(buffColor, new List<Bitmap> { buffImg });
-                    }
-                    totalBuffs++;
                 }
             }
             var buffIndex = 1;

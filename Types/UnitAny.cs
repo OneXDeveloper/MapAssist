@@ -100,11 +100,14 @@ namespace MapAssist.Types
 
                                 break;
                             case UnitType.Item:
-                                _itemData = processContext.Read<ItemData>(_unitAny.pUnitData);
-                                if (IsDropped())
+                                if (MapAssistConfiguration.Loaded.ItemLog.Enabled)
                                 {
-                                    var processId = processContext.ProcessId;
-                                    Items.LogItem(this, processId);
+                                    _itemData = processContext.Read<ItemData>(_unitAny.pUnitData);
+                                    if (IsDropped())
+                                    {
+                                        var processId = processContext.ProcessId;
+                                        Items.LogItem(this, processId);
+                                    }
                                 }
                                 break;
                         }
@@ -206,6 +209,7 @@ namespace MapAssist.Types
             var itemMode = (ItemMode)_unitAny.Mode;
             return itemMode == ItemMode.DROPPING || itemMode == ItemMode.ONGROUND;
         }
+
         public string ItemHash()
         {
             return Items.ItemNames[TxtFileNo] + "/" + Position.X + "/" + Position.Y;

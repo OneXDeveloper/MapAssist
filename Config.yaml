@@ -147,10 +147,14 @@ GameInfo:
   Enabled: true
   # Developer setting, probably not useful
   ShowOverlayFPS: false
+# Set an IP you want to hunt
+HuntingIP: 'x.x.x.x'
 ItemLog:
+  Enabled: true
   FilterFileName: "ItemFilter.yaml"
   PlaySoundOnDrop: true
+  # Must be a .wav file, path relative to MapAssist location
+  SoundFile: ""
   DisplayForSeconds: 45
-  AlwaysShow: false
   LabelFont: "Helvetica"
   LabelFontSize: 14

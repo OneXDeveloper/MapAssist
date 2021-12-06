@@ -44,6 +44,9 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "UpdateTime", ApplyNamingConventions = false)]
         public int UpdateTime { get; set; }
 
+        [YamlMember(Alias = "HuntingIP", ApplyNamingConventions = false)]
+        public string HuntingIP { get; set; }
+
         [YamlMember(Alias = "PrefetchAreas", ApplyNamingConventions = false)]
         public Area[] PrefetchAreas { get; set; }
 
@@ -209,6 +212,9 @@ public class GameInfoConfiguration
 
 public class ItemLogConfiguration
 {
+    [YamlMember(Alias = "Enabled", ApplyNamingConventions = false)]
+    public bool Enabled { get; set; }
+
     [YamlMember(Alias = "FilterFileName", ApplyNamingConventions = false)]
     public string FilterFileName { get; set; }
 
@@ -217,9 +223,8 @@ public class ItemLogConfiguration
 
     [YamlMember(Alias = "DisplayForSeconds", ApplyNamingConventions = false)]
     public double DisplayForSeconds { get; set; }
-
-    [YamlMember(Alias = "AlwaysShow", ApplyNamingConventions = false)]
-    public bool AlwaysShow { get; set; }
+    [YamlMember(Alias = "SoundFile", ApplyNamingConventions = false)]
+    public string SoundFile { get; set; }
 
     [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
     public string LabelFont { get; set; }
