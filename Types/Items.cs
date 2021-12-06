@@ -105,7 +105,8 @@ namespace MapAssist.Types
 
         public static void LogItem(UnitAny unit, int processId)
         {
-            if ((!ItemUnitHashesSeen[processId].Contains(unit.ItemHash()) && !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit))
+            var (matched, _) = LootFilter.Filter(unit);
+            if ((!ItemUnitHashesSeen[processId].Contains(unit.ItemHash()) && !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && matched)
             {
                 if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
                 {

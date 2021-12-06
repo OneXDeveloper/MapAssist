@@ -22,6 +22,7 @@ namespace MapAssist.Settings
 
     public class ItemFilter
     {
+        public string Icon { get; set; }
         public ItemQuality[] Qualities { get; set; }
         public bool? Ethereal { get; set; }
         public int[] Sockets { get; set; }

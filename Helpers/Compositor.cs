@@ -40,6 +40,8 @@ namespace MapAssist.Helpers
 
         private readonly Dictionary<(Shape, int, Color, float, float), Bitmap> _iconCache =
             new Dictionary<(Shape, int, Color, float, float), Bitmap>();
+        private readonly Dictionary<(string, float), Bitmap> _itemIconCache =
+            new Dictionary<(string, float), Bitmap>();
 
         private Bitmap background;
         private Bitmap scaledBackground;
@@ -174,13 +176,14 @@ namespace MapAssist.Helpers
                 {
                     if (item.IsDropped())
                     {
-                        if (!LootFilter.Filter(item))
+                        var (ok, itemFilter) = LootFilter.Filter(item);
+                        if (!ok)
                         {
                             continue;
                         }
                         var color = Items.ItemColors[item.ItemData.ItemQuality];
-                        Bitmap icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
-                        var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(MapAssistConfiguration.Loaded.MapConfiguration.Item));
+                        Bitmap icon = GetItemIcon(itemFilter);
+                        var itemPosition = adjustedPoint(item.Position).OffsetFrom(GetIconOffset(icon));
                         imageGraphics.DrawImage(icon, itemPosition);
                         var itemBaseName = Items.ItemNames[item.TxtFileNo];
                         imageGraphics.DrawString(itemBaseName, font,
@@ -191,6 +194,74 @@ namespace MapAssist.Helpers
             }
 
             return (image, localPlayerPosition);
+        }
+
+        private string GetItemIconPath(ItemFilter itemFilter)
+        {
+            if (itemFilter == null || string.IsNullOrEmpty(itemFilter.Icon))
+            {
+                return MapAssistConfiguration.Loaded.ItemLog.DefaultIcon;
+            }
+            return itemFilter.Icon;
+        }
+
+        private Bitmap MakeItemImage(Bitmap origBitmap)
+        {
+            var maxSize = MapAssistConfiguration.Loaded.ItemLog.MaxIconSize;
+            var origWidth = origBitmap.Width;
+            var origHeight = origBitmap.Height;
+            int newWidth;
+            int newHeight;
+
+            // Use scaleWidth only to avoid distortion
+            var scaledSize = maxSize * scaleWidth;
+            var size = Math.Max(origWidth, origHeight);
+
+            if (maxSize == 0 || size <= scaledSize)
+            {
+                newWidth = origWidth;
+                newHeight = origHeight;
+            }
+            else
+            {
+                var ratio = scaledSize / size;
+                newWidth = (int)(origWidth * ratio);
+                newHeight = (int)(origHeight * ratio);
+            }
+            var bitmap = new Bitmap(newWidth, newHeight, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.DrawImage(origBitmap, new Rectangle(0, 0, newWidth, newHeight),
+                    new Rectangle(0, 0, origWidth, origHeight), GraphicsUnit.Pixel);
+            }
+            return bitmap;
+        }
+
+        private Bitmap GetItemIcon(ItemFilter itemFilter)
+        {
+            var iconPath = GetItemIconPath(itemFilter);
+            if (string.IsNullOrEmpty(iconPath))
+            {
+                return GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+            }
+            var key = (iconPath, MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+            if (_itemIconCache.ContainsKey(key))
+            {
+                return _itemIconCache[key];
+            }
+
+            Bitmap icon;
+            try
+            {
+                var origBitmap = new Bitmap($"./icons/{iconPath}");
+                icon = MakeItemImage(origBitmap);
+            }
+            catch (Exception)
+            {
+                icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
+            }
+            _itemIconCache[key] = icon;
+            return icon;
         }
 
         private static IconRendering GetMonsterIconRendering(MonsterData monsterData)
@@ -469,6 +540,10 @@ namespace MapAssist.Helpers
         private Point GetIconOffset(IconRendering poiSettings)
         {
             var bitmap = GetIcon(poiSettings);
+            return GetIconOffset(bitmap);
+        }
+        private Point GetIconOffset(Bitmap bitmap)
+        {
             return new Point(bitmap.Width / 2, bitmap.Height / 2);
         }
     }

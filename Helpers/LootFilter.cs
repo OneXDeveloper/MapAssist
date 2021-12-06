@@ -25,7 +25,7 @@ namespace MapAssist.Helpers
 {
     public static class LootFilter
     {
-        public static bool Filter(UnitAny unitAny)
+        public static (bool, ItemFilter) Filter(UnitAny unitAny)
         {
             var baseName = Items.ItemNames[unitAny.TxtFileNo];
             var itemQuality = unitAny.ItemData.ItemQuality;
@@ -40,12 +40,12 @@ namespace MapAssist.Helpers
             return Filter(baseName, itemQuality, isEth, numSockets, lowQuality);
         }
 
-        private static bool Filter(string baseName, ItemQuality itemQuality, bool isEth, int numSockets,
+        private static (bool, ItemFilter) Filter(string baseName, ItemQuality itemQuality, bool isEth, int numSockets,
             bool lowQuality)
         {
             if (lowQuality)
             {
-                return false;
+                return (false, null);
             }
 
             //populate a list of filter rules by combining rules from "Any" and the item base name
@@ -59,7 +59,7 @@ namespace MapAssist.Helpers
             // So we know that simply having the name match means we can return true
             if (matches.Any(kv => kv.Value == null))
             {
-                return true;
+                return (true, null);
             }
 
             //scan the list of rules
@@ -71,10 +71,10 @@ namespace MapAssist.Helpers
                                    item.Sockets.Contains(numSockets);
 
                 var ethReqMet = (item.Ethereal == null || item.Ethereal == isEth);
-                if (qualityReqMet && socketReqMet && ethReqMet) { return true; }
+                if (qualityReqMet && socketReqMet && ethReqMet) { return (true, item); }
             }
 
-            return false;
+            return (false, null);
         }
     }
 }

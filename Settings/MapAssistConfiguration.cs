@@ -231,4 +231,9 @@ public class ItemLogConfiguration
 
     [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
     public int LabelFontSize { get; set; }
+
+    [YamlMember(Alias = "DefaultIcon", ApplyNamingConventions = false)]
+    public string DefaultIcon { get; set; }
+    [YamlMember(Alias = "MaxIconSize", ApplyNamingConventions = false)]
+    public int MaxIconSize { get; set; }
 }
