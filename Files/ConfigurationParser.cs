@@ -1,14 +1,10 @@
 ﻿using System.Text;
 using System;
-using System.IO;
-using Newtonsoft.Json;
-using System.Diagnostics;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections;
 
 namespace MapAssist.Files
@@ -34,6 +30,15 @@ namespace MapAssist.Files
             return configuration;
         }
 
+        /**
+         * Parses the dual configuration setup so that the custom configuration can override individual values in the
+         * default configuration. Note that for fields like PrefetchAreas and the MapConfiguration.Mapcolors, 
+         * the entire value will be overwritten.
+         * 
+         * The approach here is to first deserialize the yaml configs into Dictionary<object, object>, then perform
+         * a recursive merge on a field by field basis. The result of this merging is then serialized back to yaml, 
+         * then deserialized again into our MapAssistConfiguration POCO.
+         */
         public static MapAssistConfiguration ParseConfigurationMain(byte[] resourcePrimary, string fileNameOverride)
         {
             var yamlPrimary = Encoding.Default.GetString(resourcePrimary);
@@ -52,12 +57,18 @@ namespace MapAssist.Files
 
             var yamlOverride = fileManagerOverride.ReadFile();
 
-            var testPrimary = deserializer.Deserialize<Dictionary<object, object>>(yamlPrimary);
-            var testOverride = deserializer.Deserialize<Dictionary<object, object>>(yamlOverride);
-            //var configuration = deserializer.Deserialize<T>(YamlString);
-            Merge(testPrimary, testOverride);
+            var primaryConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlPrimary);
+            var overrideConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlOverride);
+
+            // Have to check here for a null customized config - either a blank or fully commented out yaml file will result in a null dict
+            // from the deserializer.
+            if (overrideConfig != null)
+            {
+                Merge(primaryConfig, overrideConfig);
+            }
+
             var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(testPrimary);
+            var yaml = serializer.Serialize(primaryConfig);
             var configuration = deserializer.Deserialize<MapAssistConfiguration>(yaml);
             return configuration;
         }
@@ -80,7 +91,19 @@ namespace MapAssist.Files
                 }
                 else
                 {
-                    Merge((Dictionary<object, object>)primaryValue, (Dictionary<object, object>)secondary[tuple.Key]);
+                    /**
+                     * Don't allow an override to try and use a null dict
+                     * This allows things like below to exist in overrides without breaking anything
+                     * MapColorConfiguration:
+                        MapColors:
+                        # '0': '50, 50, 50'
+                        # '2': '10, 51, 23'
+                        ...
+                    */
+                    if (secondary[tuple.Key] != null)
+                    {
+                        Merge((Dictionary<object, object>)primaryValue, (Dictionary<object, object>)secondary[tuple.Key]);
+                    }
                 }
             }
         }

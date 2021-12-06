@@ -1,10 +1,7 @@
 ﻿using MapAssist.Files;
 using MapAssist.Types;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using YamlDotNet.Serialization;
 
 namespace MapAssist.Settings
 {
