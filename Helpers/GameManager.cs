@@ -1,4 +1,4 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -309,7 +309,10 @@ namespace MapAssist.Helpers
         
         public static void Dispose()
         {
-            _lastGameProcess.Dispose();
+            if (_lastGameProcess != null)
+            {
+                _lastGameProcess.Dispose();
+            }
             WindowsExternal.UnhookWinEvent(_winHook);
         }
     }
