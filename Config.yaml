@@ -31,7 +31,7 @@ RenderingConfiguration:
   ## ToggleViaInGameMap - Auto-hide map overlay when the in-game map is hidden
   ToggleViaInGameMap: false
   ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus are opened
-  ToggleViaInGamePanels: false
+  ToggleViaInGamePanels: true
   ## Size - Overlay map maximum size
   Size: 450
   ## Rotate - Transform map image with 45 degree rotation

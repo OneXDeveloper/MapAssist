@@ -203,12 +203,13 @@ namespace MapAssist.Helpers
             var ItemLog = Items.CurrentItemLog.ToArray();
             for (var i = 0; i < ItemLog.Length; i++)
             {
-                var fontColor = Items.ItemColors[ItemLog[i].ItemData.ItemQuality];
+                var item = ItemLog[i];
+                var fontColor = Items.ItemColors[item.ItemData.ItemQuality];
 
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
                 
-                var isEth = (ItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
-                var itemBaseName = Items.ItemNames[ItemLog[i].TxtFileNo];
+                var isEth = (item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
+                var itemBaseName = Items.ItemName(item.TxtFileNo);
                 var itemSpecialName = "";
                 var itemLabelExtra = "";
                 
@@ -229,11 +230,10 @@ namespace MapAssist.Helpers
                 switch (ItemLog[i].ItemData.ItemQuality)
                 {
                     case ItemQuality.UNIQUE:
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] +
-                                          " ";
+                        itemSpecialName = Items.UniqueName(item.TxtFileNo) + " ";
                         break;
                     case ItemQuality.SET:
-                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] + " ";
+                        itemSpecialName = Items.SetName(item.TxtFileNo) + " ";
                         break;
                 }
 
@@ -348,7 +348,7 @@ namespace MapAssist.Helpers
 
                         var color = Items.ItemColors[item.ItemData.ItemQuality];
                         var brush = CreateSolidBrush(gfx, color);
-                        var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                        var itemBaseName = Items.ItemName(item.TxtFileNo);
                         var iconShape = GetIconShape(render).ToSizeF();
 
                         var stringSize = gfx.MeasureString(font, itemBaseName);

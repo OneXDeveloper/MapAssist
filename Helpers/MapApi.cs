@@ -49,10 +49,17 @@ namespace MapAssist.Helpers
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
         private Difficulty _difficulty;
         private uint _mapSeed;
+        private const string _proc_name = "MAServer.exe";
 
         public static bool StartPipedChild()
+        
         {
-            var tempFile = Path.GetTempPath() + "piped.exe"; 
+            // We have an exclusive lock on the MA process.
+            // So we can kill off any previously lingering pipe servers
+            // in case we had a weird shutdown that didn't clean up appropriately.
+            StopPipeServers();
+            
+            var tempFile = Path.GetTempPath() + _proc_name; 
             File.WriteAllBytes(tempFile, Resources.piped);
 
             var path = FindD2();
@@ -283,6 +290,16 @@ namespace MapAssist.Helpers
             try { _pipeClient.Dispose(); } catch (Exception) { }
             
             _pipeReaderThread.Abort();
+        }
+
+        private static void StopPipeServers()
+        {
+            // Shutdown old running versions of the pipe server
+            var procs = Process.GetProcessesByName(_proc_name);
+            foreach (var proc in procs)
+            {
+                proc.Kill();
+            }
         }
     }
 }
