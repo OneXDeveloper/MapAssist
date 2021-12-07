@@ -124,11 +124,11 @@ namespace MapAssist
                         return;
                     }
                 }
-                if (!_show || _currentGameData.MenuPanelOpen > 0 ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas,
-                        element => element == _currentGameData.Area) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap &&
-                     !_currentGameData.MenuOpen.Map) || (_currentGameData.Area == Area.None))
+                if (!_show || 
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
+                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
+                    (_currentGameData.Area == Area.None))
                 {
                     return;
                 }
@@ -262,12 +262,13 @@ namespace MapAssist
             }
 
             // Item log
-            for (var i = 0; i < Items.CurrentItemLog.Count; i++)
+            var ItemLog = Items.CurrentItemLog.ToArray();
+            for (var i = 0; i < ItemLog.Length; i++)
             {
-                var color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                var isEth = (Items.CurrentItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
+                var color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
+                var isEth = (ItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
                             ItemFlags.IFLAG_ETHEREAL;
-                var itemBaseName = Items.ItemNames[Items.CurrentItemLog[i].TxtFileNo];
+                var itemBaseName = Items.ItemNames[ItemLog[i].TxtFileNo];
                 var itemSpecialName = "";
                 var itemLabelExtra = "";
                 if (isEth)
@@ -276,31 +277,31 @@ namespace MapAssist
                     color = _brushes[ItemQuality.SUPERIOR.ToString()];
                 }
 
-                if (Items.CurrentItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
+                if (ItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
                 {
                     itemLabelExtra += "[" + numSockets + " S] ";
                     color = _brushes[ItemQuality.SUPERIOR.ToString()];
                 }
 
-                switch (Items.CurrentItemLog[i].ItemData.ItemQuality)
+                switch (ItemLog[i].ItemData.ItemQuality)
                 {
                     case ItemQuality.UNIQUE:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] +
+                        color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
+                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] +
                                           " ";
                         break;
                     case ItemQuality.SET:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[Items.CurrentItemLog[i].TxtFileNo]] + " ";
+                        color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
+                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] + " ";
                         break;
                     case ItemQuality.CRAFT:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
                         break;
                     case ItemQuality.RARE:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
                         break;
                     case ItemQuality.MAGIC:
-                        color = _brushes[Items.CurrentItemLog[i].ItemData.ItemQuality.ToString()];
+                        color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
                         break;
                 }
 
@@ -411,8 +412,7 @@ namespace MapAssist
 
         private bool InGame()
         {
-            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero &&
-                   WindowsExternal.GetForegroundWindow() == _currentGameData.MainWindowHandle;
+            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero;
         }
 
         public void KeyPressHandler(object sender, KeyPressEventArgs args)

@@ -37,9 +37,8 @@ namespace MapAssist.Helpers
         public ProcessContext(Process process)
         {
             _process = process;
-            _handle = WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false,
-                process.Id);
-            _baseAddr = process.MainModule.BaseAddress;
+            _handle = WindowsExternal.OpenProcess((uint)WindowsExternal.ProcessAccessFlags.VirtualMemoryRead, false, _process.Id);
+            _baseAddr = _process.MainModule.BaseAddress;
             _moduleSize = _process.MainModule.ModuleMemorySize;
         }
 
@@ -81,6 +80,8 @@ namespace MapAssist.Helpers
         {
             if (!_disposedValue)
             {
+                _disposedValue = true;
+
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
@@ -91,9 +92,8 @@ namespace MapAssist.Helpers
                     WindowsExternal.CloseHandle(_handle);
                 }
 
-                _process = null;
+                //_process = null;
                 _handle = IntPtr.Zero;
-                _disposedValue = true;
             }
         }
 
@@ -113,7 +113,6 @@ namespace MapAssist.Helpers
 
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
 
         public IntPtr GetUnitHashtableOffset()

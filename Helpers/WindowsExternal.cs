@@ -91,7 +91,30 @@ namespace MapAssist.Helpers
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
             uint uFlags);
 
+        public static bool ProcessExists(IntPtr hWnd)
+        {
+            var length = GetWindowTextLength(hWnd);
+            return length > 0;
+        }
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
+
+        public const uint WINEVENT_OUTOFCONTEXT = 0;
+        public const uint EVENT_SYSTEM_FOREGROUND = 3;
+
+        public delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnhookWinEvent(IntPtr hWinEventHook);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
     }
 }

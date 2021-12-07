@@ -25,6 +25,7 @@ using MapAssist.Settings;
 using System.ComponentModel;
 using System.Diagnostics;
 using NLog;
+using MapAssist.Helpers;
 
 namespace MapAssist
 {
@@ -104,6 +105,8 @@ namespace MapAssist
                     backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
                     backWorkOverlay.WorkerSupportsCancellation = true;
                     backWorkOverlay.RunWorkerAsync();
+
+                    GameManager.MonitorForegroundWindow();
 
                     Application.Run();
                 }
@@ -233,6 +236,7 @@ namespace MapAssist
         {
             trayIcon.Visible = false;
 
+            GameManager.Dispose();
             globalHook.Dispose();
             overlay.Dispose();
 
