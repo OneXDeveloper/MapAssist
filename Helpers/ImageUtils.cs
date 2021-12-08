@@ -147,6 +147,23 @@ namespace MapAssist.Helpers
             return (newBitmap, min);
         }
 
+        public static Bitmap SliceBitmap(Bitmap image, Rectangle rect)
+        {
+            var newBitmap = new Bitmap(rect.Width, rect.Height);
+
+            using (var graphics = Graphics.FromImage(newBitmap))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.InterpolationMode = InterpolationMode.Bicubic;
+                graphics.SmoothingMode = SmoothingMode.HighSpeed;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphics.DrawImage(image, 0, 0, rect, GraphicsUnit.Pixel);
+            }
+
+            return newBitmap;
+        }
+
         /// <summary>
         /// Resize the image to the specified width and height.
         /// </summary>

@@ -135,8 +135,7 @@ namespace MapAssist
 
                 var smallCornerSize = new Size(640, 360);
 
-                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
-                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData, MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
 
                 Point anchor;
                 switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
@@ -182,7 +181,10 @@ namespace MapAssist
                 }
                 else
                 {
-                    DrawBitmap(gfx, gamemap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    var slicedGamemap = ImageUtils.SliceBitmap(gamemap, new Rectangle(0, 0, _window.Width, (int)(_window.Height * 0.8f - anchor.Y))); // Don't overlap the game bar
+                    gamemap.Dispose();
+
+                    DrawBitmap(gfx, slicedGamemap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
 
                 DrawBuffs(gfx);
