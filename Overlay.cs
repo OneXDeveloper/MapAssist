@@ -135,36 +135,33 @@ namespace MapAssist
 
                 var smallCornerSize = new Size(640, 360);
 
-                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData,
-                    MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+                var (gamemap, playerCenter) = _compositor.Compose(_currentGameData);
 
-                Point anchor;
+                PointF anchor;
                 switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                 {
                     case MapPosition.Center:
                         if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
                         {
-                            anchor = new Point(_window.Width / 2 - playerCenter.X,
-                                _window.Height / 2 - playerCenter.Y);
+                            anchor = _window.Center().OffsetFrom(playerCenter).OffsetFrom(0, 8); // Brute forced to perfectly line up with the in game map
                         }
                         else
                         {
-                            anchor = new Point(_window.Width / 2 - gamemap.Width / 2,
-                                _window.Height / 2 - gamemap.Height / 2);
+                            anchor = _window.Center().OffsetFrom(gamemap.Center());
                         }
                         break;
                     case MapPosition.TopRight:
                         if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
                         {
-                            anchor = new Point(_window.Width - smallCornerSize.Width, 100);
+                            anchor = new PointF(_window.Width - smallCornerSize.Width, 100);
                         }
                         else
                         {
-                            anchor = new Point(_window.Width - gamemap.Width, 100);
+                            anchor = new PointF(_window.Width - gamemap.Width, 100);
                         }                        
                         break;
                     default:
-                        anchor = new Point(PlayerIconWidth() + 40, 100);
+                        anchor = new PointF(PlayerIconWidth() + 40, 100);
                         break;
                 }
 
@@ -174,15 +171,15 @@ namespace MapAssist
                     using (var g = System.Drawing.Graphics.FromImage(newBitmap))
                     {
                         g.DrawImage(gamemap, 0, 0,
-                            new Rectangle((int)(playerCenter.X - smallCornerSize.Width / 2), (int)(playerCenter.Y - smallCornerSize.Height / 2), smallCornerSize.Width, smallCornerSize.Height),
+                            new Rectangle((int)(playerCenter.X - smallCornerSize.Width / 2f), (int)(playerCenter.Y - smallCornerSize.Height / 2f), smallCornerSize.Width, smallCornerSize.Height),
                             GraphicsUnit.Pixel);
                     }
 
-                    DrawBitmap(gfx, newBitmap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    DrawBitmap(gfx, newBitmap, anchor.ToGameOverlayPoint(), (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
                 else
                 {
-                    DrawBitmap(gfx, gamemap, anchor, (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+                    DrawBitmap(gfx, gamemap, anchor.ToGameOverlayPoint(), (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
                 }
 
                 DrawBuffs(gfx);
@@ -221,6 +218,7 @@ namespace MapAssist
                 if (bmpData != null) bmp.UnlockBits(bmpData);
             }
         }
+
         private void DrawGameInfo(Graphics gfx, string renderDeltaText)
         {
             if (_currentGameData.MenuPanelOpen >= 2)
@@ -229,11 +227,11 @@ namespace MapAssist
             }
 
             // Setup
-            var textXOffset = PlayerIconWidth() + 50;
-            var textYOffset = PlayerIconWidth() + 50;
+            var textXOffset = PlayerIconWidth() + 50f;
+            var textYOffset = PlayerIconWidth() + 50f;
 
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
-            var fontHeight = (fontSize + fontSize / 2);
+            var fontHeight = (fontSize + fontSize / 2f);
 
             if(!GameManager.IsValid(gfx, _fonts["consolas2"], _brushes["red"])){
                 return;
@@ -322,11 +320,11 @@ namespace MapAssist
             var imgDimensions = (int)(48f * buffImageScale);
 
             var buffAlignment = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition;
-            var buffYPos = 0;
+            var buffYPos = 0f;
             switch (buffAlignment)
             {
                 case BuffPosition.Player:
-                    buffYPos = (screenH / 2) - imgDimensions - (int)(screenH * .12f);
+                    buffYPos = (screenH / 2f) - imgDimensions - (screenH * .12f);
                     break;
                 case BuffPosition.Top:
                     buffYPos = (int)(screenH * .12f);
@@ -366,27 +364,27 @@ namespace MapAssist
                 {
                     var buffImg = buff.Value[i];
                     var buffColor = buff.Key;
-                    var drawPoint = new System.Drawing.Point((screenW / 2) - (buffIndex * imgDimensions) - (int)(buffIndex * buffImageScale) - (int)(totalBuffs * buffImageScale / 2) + (totalBuffs * imgDimensions / 2) + (int)(totalBuffs * buffImageScale), buffYPos);
-                    DrawBitmap(gfx, buffImg, new Point(drawPoint.X, drawPoint.Y), 1, buffImageScale);
+                    var drawPoint = new PointF((screenW / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
+                    DrawBitmap(gfx, buffImg, drawPoint.ToGameOverlayPoint(), 1, buffImageScale);
 
                     var pen = new Pen(buffColor, buffImageScale);
                     if (buffColor == States.DebuffColor)
                     {
                         var size = new Size((int)(imgDimensions - buffImageScale + buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale + buffImageScale));
-                        var rect = new Rectangle(drawPoint, size);
+                        var rect = new Rectangle(drawPoint.ToPoint(), size);
                         var rect2 = new GameOverlay.Drawing.Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
                         var debuffColor = States.DebuffColor;
                         debuffColor = System.Drawing.Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
                         var brush = fromDrawingColor(gfx, debuffColor);
                         gfx.FillRectangle(brush, rect2);
                         size = new Size((int)(imgDimensions - buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale));
-                        rect = new Rectangle(drawPoint, size);
+                        rect = new Rectangle(drawPoint.ToPoint(), size);
                         gfx.DrawRectangle(brush, rect2, 1);
                     }
                     else
                     {
                         var size = new Size((int)(imgDimensions - buffImageScale + buffImageScale), (int)(imgDimensions - buffImageScale + buffImageScale));
-                        var rect = new Rectangle(drawPoint, size);
+                        var rect = new Rectangle(drawPoint.ToPoint(), size);
                         var rect2 = new GameOverlay.Drawing.Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
                         var brush = fromDrawingColor(gfx, buffColor);
                         gfx.DrawRectangle(brush, rect2, 1);
@@ -491,7 +489,7 @@ namespace MapAssist
         private int UltraWideMargin()
         {
             var size = WindowSize();
-            return (int)Math.Max(Math.Round((size.Width - size.Height * 2.1) / 2), 0);
+            return (int)Math.Max(Math.Round(((size.Width + 2) - (size.Height + 4) * 2.1f) / 2f), 0);
         }
 
         private int PlayerIconWidth()

@@ -34,7 +34,7 @@ RenderingConfiguration:
   ToggleViaInGamePanels: false
   ## Size - Overlay map maximum size
   Size: 450
-  ## Rotate - Transform map image with 45° rotation
+  ## Rotate - Transform map image with 45 degree rotation
   Rotate: true
   ## ZoomLevel - Zoom level / can zoom in/out with hotkeys (ZoomInKey, ZoomOutKey)
   ZoomLevel: 1
@@ -47,67 +47,67 @@ RenderingConfiguration:
 MapConfiguration:
   SuperUniqueMonster:
     IconColor: Yellow
-    IconShape: SquareOutline
+    IconShape: Cross
     IconSize: 6
     IconThickness: 2
   UniqueMonster:
     IconColor: DarkOrange
-    IconShape: SquareOutline
+    IconShape: Cross
     IconSize: 6
     IconThickness: 2
   EliteMonster:
     IconColor: DarkRed
-    IconShape: SquareOutline
+    IconShape: Cross
     IconSize: 6
     IconThickness: 2
   NormalMonster:
     IconColor: Gray
-    IconShape: SquareOutline
+    IconShape: Cross
     IconSize: 6
     IconThickness: 2
   NextArea:
     IconColor: '237, 107, 0'
     IconShape: Square
-    IconSize: 10
+    IconSize: 4
     LineColor: Chartreuse
     LineThickness: 2
-    ArrowHeadSize: 10
+    ArrowHeadSize: 5
     LabelColor: Chartreuse
-    LabelFontSize: 8
+    LabelFontSize: 12
     LabelFont: 'Helvetica'
   PreviousArea:
     IconColor: '255, 0, 149'
     IconShape: Square
-    IconSize: 10
+    IconSize: 4
     LineColor: ''
     LabelColor: Chartreuse
-    LabelFontSize: 8
+    LabelFontSize: 12
     LabelFont: 'Helvetica'
   Waypoint:
     IconColor: '16, 140, 235'
     IconShape: Square
-    IconSize: 10
+    IconSize: 6
   Quest:
     LineColor: Chartreuse
     LineThickness: 2
     ArrowHeadSize: 5
   Player:
     IconColor: '255, 255, 0'
-    IconShape: Square
-    IconSize: 5
+    IconShape: Cross
+    IconSize: 6
     IconThickness: 2
   SuperChest:
     IconColor: '17, 255, 0'
-    IconShape: Ellipse
-    IconSize: 10
+    IconShape: Square
+    IconSize: 4
   NormalChest:
     IconColor: '96, 96, 96'
     IconShape: Square
-    IconSize: 5
+    IconSize: 3
   Shrine:
     IconColor: '255, 218, 100'
     IconShape: Polygon
-    IconSize: 10
+    IconSize: 5
   ArmorWeapRack:
     IconColor: '132, 132, 132'
     IconShape: Square
@@ -115,9 +115,9 @@ MapConfiguration:
   Item: 
     IconColor: 'DarkOrange'
     IconShape: Ellipse
-    IconSize: 6
+    IconSize: 4
     LabelFont: 'Helvetica'
-    LabelFontSize: 8
+    LabelFontSize: 12
 
 ## ItemLog - Alerts for in-game dropped items nearby
 ItemLog:

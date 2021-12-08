@@ -93,17 +93,7 @@ namespace MapAssist.Helpers
             return newBitmap;
         }
 
-        public static Point RotatePoint(Point inputPoint, Point centerPoint, float angleDegrees)
-        {
-            var angleRadians = angleDegrees * Math.PI / 180d;
-
-            return new Point(
-                (int)(centerPoint.X + Math.Cos(angleRadians) * (inputPoint.X - centerPoint.X) - Math.Sin(angleRadians) * (inputPoint.Y - centerPoint.Y)),
-                (int)(centerPoint.Y + Math.Sin(angleRadians) * (inputPoint.X - centerPoint.X) + Math.Cos(angleRadians) * (inputPoint.Y - centerPoint.Y))
-            );
-        }
-
-        public static (Bitmap, Point) CropBitmap(Bitmap originalBitmap)
+        public static (Bitmap, Point) CropBitmap(Bitmap originalBitmap, int padding = 0)
         {
             // Find the min/max non-white/transparent pixels
             var min = new Point(int.MaxValue, int.MaxValue);
@@ -122,7 +112,7 @@ namespace MapAssist.Helpers
                     {
                         var data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
                         // data[0 = blue, 1 = green, 2 = red, 3 = alpha]
-                        if (data[3] == byte.MaxValue)
+                        if (data[3] > 0)
                         {
                             if (x < min.X) min.X = x;
                             if (y < min.Y) min.Y = y;
@@ -138,12 +128,13 @@ namespace MapAssist.Helpers
 
             // Create a new bitmap from the crop rectangle
             var cropRectangle = new Rectangle(min.X, min.Y, max.X - min.X, max.Y - min.Y);
-            var newBitmap = new Bitmap(cropRectangle.Width, cropRectangle.Height);
+            var newBitmap = new Bitmap(cropRectangle.Width + padding * 2, cropRectangle.Height + padding * 2);
             using (var g = Graphics.FromImage(newBitmap))
             {
-                g.DrawImage(originalBitmap, 0, 0, cropRectangle, GraphicsUnit.Pixel);
+                g.DrawImage(originalBitmap, padding, padding, cropRectangle, GraphicsUnit.Pixel);
             }
 
+            min.Offset(-padding, -padding);
             return (newBitmap, min);
         }
 
