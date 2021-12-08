@@ -91,7 +91,7 @@ namespace MapAssist.Helpers
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
             uint uFlags);
 
-        public static bool ProcessExists(IntPtr hWnd)
+        public static bool HandleExists(IntPtr hWnd)
         {
             var length = GetWindowTextLength(hWnd);
             return length > 0;

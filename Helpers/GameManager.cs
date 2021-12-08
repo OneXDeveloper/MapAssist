@@ -71,9 +71,8 @@ namespace MapAssist.Helpers
 
         private static void SetActiveWindow(IntPtr hwnd)
         {
-            if (!WindowsExternal.ProcessExists(hwnd)) // process doesn't exist
+            if (!WindowsExternal.HandleExists(hwnd)) // Process doesn't exist
             {
-                ClearLastGameProcess();
                 return;
             }
 
@@ -82,23 +81,23 @@ namespace MapAssist.Helpers
 
             _foregroundProcessId = (int)processId;
 
-            if (_lastGameProcessId == _foregroundProcessId) // is the last found valid game process
+            if (_lastGameProcessId == _foregroundProcessId) // Process is the last found valid game process
             {
                 return;
             }
 
             Process process;
-            try
+            try // The process can end before this block is done, hence wrap it in a try catch
             {
-                process = Process.GetProcessById(_foregroundProcessId);
+                process = Process.GetProcessById(_foregroundProcessId); // If closing another non-foreground window, Process.GetProcessById can fail
+
+                if (process.ProcessName != ProcessName) // Not a valid game process
+                {
+                    ClearLastGameProcess();
+                    return;
+                }
             }
             catch
-            {
-                ClearLastGameProcess();
-                return; // If closing another non-foreground window, Process.GetProcessById can fail
-            }
-
-            if (process.ProcessName != ProcessName) // is not a valid game process
             {
                 ClearLastGameProcess();
                 return;
@@ -119,7 +118,7 @@ namespace MapAssist.Helpers
                 _processContext.OpenContextCount += 1;
                 return _processContext;
             }
-            else if (_lastGameProcess != null && WindowsExternal.ProcessExists(_lastGameHwnd))
+            else if (_lastGameProcess != null && WindowsExternal.HandleExists(_lastGameHwnd))
             {
                 _processContext = new ProcessContext(_lastGameProcess);
                 return _processContext;
