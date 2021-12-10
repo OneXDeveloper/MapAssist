@@ -28,20 +28,20 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
-        private static readonly Dictionary<Area, Area> AreaLineToQuest = new Dictionary<Area, Area>()
-        {
-            [Area.BloodMoor] = Area.DenOfEvil,
-            [Area.ColdPlains] = Area.BurialGrounds,
-            [Area.BlackMarsh] = Area.ForgottenTower,
-        };
-
-        private static readonly Dictionary<Area, Area> AreaLineToNextArea = new Dictionary<Area, Area>()
+        private static readonly Dictionary<Area, Area> AreaPreferredNextArea = new Dictionary<Area, Area>()
         {
             [Area.BloodMoor] = Area.ColdPlains,
             [Area.ColdPlains] = Area.StonyField,
             [Area.UndergroundPassageLevel1] = Area.DarkWood,
             [Area.DarkWood] = Area.BlackMarsh,
             [Area.BlackMarsh] = Area.TamoeHighland,
+        };
+
+        private static readonly Dictionary<Area, Area> AreaPreferredQuestArea = new Dictionary<Area, Area>()
+        {
+            [Area.BloodMoor] = Area.DenOfEvil,
+            [Area.ColdPlains] = Area.BurialGrounds,
+            [Area.BlackMarsh] = Area.ForgottenTower,
         };
 
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
@@ -344,9 +344,9 @@ namespace MapAssist.Helpers
                     {
                         // Next Area Point of Interest
                         var nextArea = areaData.Area;
-                        if (AreaLineToNextArea.ContainsKey(areaData.Area))
+                        if (AreaPreferredNextArea.ContainsKey(areaData.Area))
                         {
-                            nextArea = AreaLineToNextArea[areaData.Area];
+                            nextArea = AreaPreferredNextArea[areaData.Area];
                             var nextLevel = areaData.AdjacentLevels[nextArea];
                             if (nextLevel.Exits.Any())
                             {
@@ -378,9 +378,9 @@ namespace MapAssist.Helpers
 
                         // Quest Area Point of Interest
                         var questArea = areaData.Area;
-                        if (AreaLineToQuest.ContainsKey(areaData.Area))
+                        if (AreaPreferredQuestArea.ContainsKey(areaData.Area))
                         {
-                            questArea = AreaLineToQuest[areaData.Area];
+                            questArea = AreaPreferredQuestArea[areaData.Area];
                             var questLevel = areaData.AdjacentLevels[questArea];
                             if (questLevel.Exits.Any())
                             {
