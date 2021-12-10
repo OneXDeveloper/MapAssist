@@ -30,12 +30,14 @@ namespace MapAssist.Helpers
     {
         private static readonly Dictionary<Area, Area> AreaLineToQuest = new Dictionary<Area, Area>()
         {
+            [Area.BloodMoor] = Area.DenOfEvil,
             [Area.ColdPlains] = Area.BurialGrounds,
             [Area.BlackMarsh] = Area.ForgottenTower,
         };
 
         private static readonly Dictionary<Area, Area> AreaLineToNextArea = new Dictionary<Area, Area>()
         {
+            [Area.BloodMoor] = Area.ColdPlains,
             [Area.ColdPlains] = Area.StonyField,
             [Area.UndergroundPassageLevel1] = Area.DarkWood,
             [Area.DarkWood] = Area.BlackMarsh,
@@ -181,12 +183,6 @@ namespace MapAssist.Helpers
         {
             var pointOfInterest = new List<PointOfInterest>();
 
-            var poiQuestArea = GetQuestAreaPointOfInterest(areaData);
-            if (poiQuestArea != null)
-            {
-                pointOfInterest.Add(poiQuestArea);
-            }
-
             var poiAreas = GetAreaPointsOfInterest(mapApi, areaData);
             if (poiAreas.Count > 0)
             {
@@ -306,45 +302,9 @@ namespace MapAssist.Helpers
             return pointOfInterest;
         }
 
-        private static PointOfInterest GetQuestAreaPointOfInterest(AreaData areaData)
-        {
-            if (AreaLineToQuest.ContainsKey(areaData.Area))
-            {
-                var area = AreaLineToQuest[areaData.Area];
-                var level = areaData.AdjacentLevels[area];
-                if (level.Exits.Any())
-                {
-                    return new PointOfInterest
-                    {
-                        Label = area.Name(),
-                        Position = level.Exits[0],
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                    };
-                }
-            }
-
-            return null;
-        }
-
         private static List<PointOfInterest> GetAreaPointsOfInterest(MapApi mapApi, AreaData areaData)
         {
-            var pointOfInterest = new List<PointOfInterest>();
-
-            if (AreaLineToNextArea.ContainsKey(areaData.Area))
-            {
-                var area = AreaLineToNextArea[areaData.Area];
-                var level = areaData.AdjacentLevels[area];
-                if (level.Exits.Any())
-                {
-                    pointOfInterest.Add(new PointOfInterest
-                    {
-                        Label = area.Name(),
-                        Position = level.Exits[0],
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
-                    });
-                    return pointOfInterest;
-                }
-            }
+            var poiList = new List<PointOfInterest>();
 
             switch (areaData.Area)
             {
@@ -369,7 +329,7 @@ namespace MapAssist.Helpers
 
                     if (realTomb != Area.None && areaData.AdjacentLevels[realTomb].Exits.Any())
                     {
-                        pointOfInterest.Add(new PointOfInterest
+                        poiList.Add(new PointOfInterest
                         {
                             Label = realTomb.Name(),
                             Position = areaData.AdjacentLevels[realTomb].Exits[0],
@@ -378,36 +338,73 @@ namespace MapAssist.Helpers
                     }
 
                     break;
+
                 default:
-                    // By default, draw a line to the next highest neighbouring area.
-                    // Also draw labels and previous doors for all other areas.
                     if (areaData.AdjacentLevels.Any())
                     {
-                        Area highestArea = areaData.AdjacentLevels.Keys.Max();
-                        if (highestArea > areaData.Area)
+                        // Next Area Point of Interest
+                        var nextArea = areaData.Area;
+                        if (AreaLineToNextArea.ContainsKey(areaData.Area))
                         {
-                            if (areaData.AdjacentLevels[highestArea].Exits.Any())
+                            nextArea = AreaLineToNextArea[areaData.Area];
+                            var nextLevel = areaData.AdjacentLevels[nextArea];
+                            if (nextLevel.Exits.Any())
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                poiList.Add(new PointOfInterest
                                 {
-                                    Label = highestArea.Name(),
-                                    Position = areaData.AdjacentLevels[highestArea].Exits[0],
+                                    Label = nextArea.Name(),
+                                    Position = nextLevel.Exits[0],
                                     RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
                                 });
                             }
                         }
+                        else
+                        {
+                            nextArea = areaData.AdjacentLevels.Keys.Max();
+                            if (nextArea > areaData.Area)
+                            {
+                                var nextLevel = areaData.AdjacentLevels[nextArea];
+                                if (nextLevel.Exits.Any())
+                                {
+                                    poiList.Add(new PointOfInterest
+                                    {
+                                        Label = nextArea.Name(),
+                                        Position = nextLevel.Exits[0],
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                                    });
+                                }
+                            }
+                        }
 
+                        // Quest Area Point of Interest
+                        var questArea = areaData.Area;
+                        if (AreaLineToQuest.ContainsKey(areaData.Area))
+                        {
+                            questArea = AreaLineToQuest[areaData.Area];
+                            var questLevel = areaData.AdjacentLevels[questArea];
+                            if (questLevel.Exits.Any())
+                            {
+                                poiList.Add(new PointOfInterest
+                                {
+                                    Label = questArea.Name(),
+                                    Position = questLevel.Exits[0],
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                                });
+                            }
+                        }
+
+                        // Previous Area Point of Interest
                         foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
                         {
-                            // Already have something drawn for this.
-                            if (level.Area == highestArea)
+                            // Skip Next Area and Quest Area Points of Interest
+                            if (level.Area == nextArea || level.Area == questArea)
                             {
                                 continue;
                             }
 
                             foreach (Point position in level.Exits)
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                poiList.Add(new PointOfInterest
                                 {
                                     Label = level.Area.Name(),
                                     Position = position,
@@ -420,7 +417,7 @@ namespace MapAssist.Helpers
                     break;
             }
 
-            return pointOfInterest;
+            return poiList;
         }
     }
 }
