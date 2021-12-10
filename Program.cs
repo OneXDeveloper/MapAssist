@@ -172,13 +172,16 @@ namespace MapAssist
             }
             catch (YamlDotNet.Core.YamlException e)
             {
+                _log.Fatal(e.InnerException.Message);
                 _log.Fatal(e, "Invalid yaml for configuration file");
+
                 MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid MapAssist configuration.",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
                 _log.Fatal(e, "Unknown error loading main configuration");
+
                 MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

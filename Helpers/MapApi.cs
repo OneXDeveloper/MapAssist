@@ -63,7 +63,7 @@ namespace MapAssist.Helpers
             File.WriteAllBytes(tempFile, Resources.piped);
             if (!File.Exists(tempFile))
             {
-                throw new Exception("Unable to start map server. Check AV settings.");
+                throw new Exception("Unable to start map server. Check Anti Virus settings.");
             }
 
             var path = FindD2();

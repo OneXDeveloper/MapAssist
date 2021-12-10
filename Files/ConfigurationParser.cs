@@ -6,11 +6,22 @@ using MapAssist.Helpers;
 using MapAssist.Settings;
 using System.Collections.Generic;
 using System.Collections;
+using YamlDotNet.Core;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MapAssist.Files
 {
     public class ConfigurationParser<T>
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
+        private static IDeserializer deserializer = new DeserializerBuilder()
+                .WithNamingConvention(PascalCaseNamingConvention.Instance)
+                .WithTypeConverter(new AreaArrayYamlTypeConverter())
+                .WithTypeConverter(new ItemQualityYamlTypeConverter())
+                .Build();
+
         public static T ParseConfigurationFile(string fileName)
         {
             var fileManager = new FileManager(fileName);
@@ -21,12 +32,8 @@ namespace MapAssist.Files
             }
 
             var YamlString = fileManager.ReadFile();
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance)
-                .WithTypeConverter(new AreaArrayYamlTypeConverter())
-                .WithTypeConverter(new ItemQualityYamlTypeConverter())
-                .Build();
-            var configuration = deserializer.Deserialize<T>(YamlString);
+
+            var configuration = TryDeserialize<T>(YamlString);
             return configuration;
         }
 
@@ -43,22 +50,16 @@ namespace MapAssist.Files
         {
             var yamlPrimary = Encoding.Default.GetString(resourcePrimary);
 
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance)
-                .WithTypeConverter(new AreaArrayYamlTypeConverter())
-                .WithTypeConverter(new ItemQualityYamlTypeConverter())
-                .Build();
-
             var fileManagerOverride = new FileManager(fileNameOverride);
             if (!fileManagerOverride.FileExists())
             {
-                return deserializer.Deserialize<MapAssistConfiguration>(yamlPrimary);
+                return TryDeserialize<MapAssistConfiguration>(yamlPrimary);
             }
 
             var yamlOverride = fileManagerOverride.ReadFile();
 
-            var primaryConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlPrimary);
-            var overrideConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlOverride);
+            var primaryConfig = TryDeserialize<Dictionary<object, object>>(yamlPrimary);
+            var overrideConfig = TryDeserialize<Dictionary<object, object>>(yamlOverride);
 
             // Have to check here for a null customized config - either a blank or fully commented out yaml file will result in a null dict
             // from the deserializer.
@@ -69,7 +70,7 @@ namespace MapAssist.Files
 
             var serializer = new SerializerBuilder().Build();
             var yaml = serializer.Serialize(primaryConfig);
-            var configuration = deserializer.Deserialize<MapAssistConfiguration>(yaml);
+            var configuration = TryDeserialize<MapAssistConfiguration>(yaml);
             return configuration;
         }
 
@@ -105,6 +106,28 @@ namespace MapAssist.Files
                         Merge((Dictionary<object, object>)primaryValue, (Dictionary<object, object>)secondary[tuple.Key]);
                     }
                 }
+            }
+        }
+        
+        public static U TryDeserialize<U>(string data)
+        {
+            try
+            {
+                return deserializer.Deserialize<U>(data);
+            }
+            catch (YamlException ex)
+            {
+                if (ex.Start.Line > 1 || ex.Start.Column > 1 || ex.Start.Index > 0)
+                {
+                    var lines = data.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+                    var numLinesToLog = 5;
+                    var linesToLog = lines.Skip(Math.Max(ex.Start.Line - numLinesToLog + 1, 0)).Take(5).ToArray();
+
+                    _log.Info("Invalid yaml block" + Environment.NewLine + string.Join(Environment.NewLine, linesToLog));
+                }
+
+                throw ex;
             }
         }
 

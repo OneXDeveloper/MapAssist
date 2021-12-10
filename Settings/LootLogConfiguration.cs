@@ -12,7 +12,6 @@ namespace MapAssist.Settings
         public static void Load()
         {
             Filters = ConfigurationParser<Dictionary<string, List<ItemFilter>>>.ParseConfigurationFile($"./{MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
-            
         }
     }
 
