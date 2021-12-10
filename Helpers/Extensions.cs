@@ -86,15 +86,12 @@ namespace MapAssist.Helpers
 
         public static SizeF ToSizeF(this PointF[] points)
         {
-            if (points != null && points.Any())
-            {
-                var minX = points.Min(point => point.X);
-                var maxX = points.Max(point => point.X);
-                var minY = points.Min(point => point.Y);
-                var maxY = points.Max(point => point.Y);
-                return new SizeF(maxX - minX, maxY - minY);
-            }
-            return new SizeF(0, 0);
+            var minX = points.Min(point => point.X);
+            var maxX = points.Max(point => point.X);
+            var minY = points.Min(point => point.Y);
+            var maxY = points.Max(point => point.Y);
+
+            return new SizeF(maxX - minX, maxY - minY);
         }
 
         public static PointF Center(this Bitmap bitmap)
