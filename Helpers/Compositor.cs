@@ -197,7 +197,7 @@ namespace MapAssist.Helpers
                             var color = Items.ItemColors[item.ItemData.ItemQuality];
                             var icon = GetIcon(MapAssistConfiguration.Loaded.MapConfiguration.Item);
                             var itemPosition = AdjustedPoint(item.Position);
-                            var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                            var itemBaseName = Items.ItemName(item.TxtFileNo);
 
                             var stringSize = gfx.MeasureString(itemBaseName, font);
 

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Timers;
 using MapAssist.Helpers;
+using MapAssist.Properties;
 using MapAssist.Settings;
+using Newtonsoft.Json;
 
 namespace MapAssist.Types
 {
@@ -96,12 +101,74 @@ namespace MapAssist.Types
         DROPPING,     //Item is Being Dropped
         SOCKETED      //Item is Socketed in another Item
     };
+    class LocalizedItemList
+    {
+        public List<LocalizedItemObj> Items = new List<LocalizedItemObj>();
+    }
+    class LocalizedItemObj
+    {
+        public int ID { get; set; }
+        public string Key { get; set; }
+        public string enUS { get; set; }
+    }
     class Items
     {
         public static Dictionary<int, HashSet<string>> ItemUnitHashesSeen = new Dictionary<int, HashSet<string>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsSeen = new Dictionary<int, HashSet<uint>>();
         public static Dictionary<int, List<UnitAny>> ItemLog = new Dictionary<int, List<UnitAny>>();
         public static List<UnitAny> CurrentItemLog = new List<UnitAny>();
+        public static LocalizedItemList _localizedItemList;
+        public static Dictionary<string, LocalizedItemObj> LocalizedItems = new Dictionary<string, LocalizedItemObj>();
+        public static Dictionary<int, List<Timer>> ItemLogTimers = new Dictionary<int, List<Timer>>();
+
+        public static void LoadLocalization()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resName = "MapAssist.Resources.items-localization.json";
+            using (Stream stream = assembly.GetManifestResourceStream(resName))
+            using (var reader = new StreamReader(stream))
+            {
+                var jsonString = reader.ReadToEnd();
+                _localizedItemList = JsonConvert.DeserializeObject<LocalizedItemList>(jsonString);
+            }
+            foreach(var item in _localizedItemList.Items)
+            {
+                LocalizedItems.Add(item.Key, item);
+            }
+        }
+        public static string ItemName(uint txtFileNo)
+        {
+            try
+            {
+                return LocalizedItems[_ItemCodes[txtFileNo]].enUS;
+            }
+            catch
+            {
+                return "ItemNotFound";
+            }
+        }
+        public static string UniqueName(uint txtFileNo)
+        {
+            try
+            {
+                return LocalizedItems[_UniqueFromCode[_ItemCodes[txtFileNo]]].enUS;
+            }
+            catch
+            {
+                return "Unique";
+            }
+        }
+        public static string SetName(uint txtFileNo)
+        {
+            try
+            {
+                return LocalizedItems[_SetFromCode[_ItemCodes[txtFileNo]]].enUS;
+            }
+            catch
+            {
+                return "Set";
+            }
+        }
 
         public static void LogItem(UnitAny unit, int processId)
         {
@@ -117,6 +184,15 @@ namespace MapAssist.Types
                 var timer = new Timer(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds * 1000);
                 timer.Elapsed += (sender, args) => ItemLogTimerElapsed(sender, args, timer, processId);
                 timer.Start();
+                //keep track of timers in each d2r process
+                if(ItemLogTimers.TryGetValue(processId, out var _))
+                {
+                    ItemLogTimers[processId].Add(timer);
+                } else
+                {
+                    ItemLogTimers.Add(processId, new List<Timer>());
+                    ItemLogTimers[processId].Add(timer);
+                }
             }
         }
 
@@ -125,6 +201,10 @@ namespace MapAssist.Types
             if (ItemLog[procId].Count > 0)
             {
                 ItemLog[procId].RemoveAt(0);
+            }
+            if(ItemLogTimers.TryGetValue(procId, out var _))
+            {
+                ItemLogTimers[procId].Remove(self);
             }
             self.Dispose();
         }
@@ -140,7 +220,7 @@ namespace MapAssist.Types
             { ItemQuality.UNIQUE, ColorTranslator.FromHtml("#A59263") },
             { ItemQuality.CRAFT, ColorTranslator.FromHtml("#FFA500") },
         };
-        public readonly static Dictionary<string, string> SetFromCode = new Dictionary<string, string>()
+        public readonly static Dictionary<string, string> _SetFromCode = new Dictionary<string, string>()
         {
             { "lrg", "Civerb's Ward" },
             { "amu", "Set" }, //Amulet
@@ -255,7 +335,7 @@ namespace MapAssist.Types
             { "vgl", "McAuley's Taboo" },
             { "bwn", "McAuley's Superstition" }
         };
-        public readonly static Dictionary<string, string> UniqueFromCode = new Dictionary<string, string>()
+        public readonly static Dictionary<string, string> _UniqueFromCode = new Dictionary<string, string>()
         {
             { "hax", "The Gnasher" },
             { "axe", "Deathspade" },
@@ -611,7 +691,7 @@ namespace MapAssist.Types
             { "jew", "Rainbow Facet" },
             { "cm2", "Hellfire Torch" }
         };
-        public readonly static Dictionary<uint, string> ItemCodes = new Dictionary<uint, string>()
+        public readonly static Dictionary<uint, string> _ItemCodes = new Dictionary<uint, string>()
         {
             { 0, "hax" },
             { 1, "axe" },
@@ -1273,7 +1353,7 @@ namespace MapAssist.Types
             { 657, "fed" },
             { 658, "std" }
         };
-        public readonly static Dictionary<uint, string> ItemNames = new Dictionary<uint, string>()
+        public readonly static Dictionary<uint, string> _ItemNames = new Dictionary<uint, string>()
         {
             { 0, "Hand Axe" },
             { 1, "Axe" },

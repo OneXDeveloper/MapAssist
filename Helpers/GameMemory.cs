@@ -71,6 +71,14 @@ namespace MapAssist.Helpers
                         if (mapSeed != _lastMapSeed[_currentProcessId])
                         {
                             _lastMapSeed[_currentProcessId] = mapSeed;
+                            //dispose leftover timers in this process if we started a new game
+                            if(Items.ItemLogTimers.TryGetValue(_currentProcessId, out var _))
+                            {
+                                foreach (var timer in Items.ItemLogTimers[_currentProcessId])
+                                {
+                                    timer.Dispose();
+                                }
+                            }
                             if (!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
                             {
                                 Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());

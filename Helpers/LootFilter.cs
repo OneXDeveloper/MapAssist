@@ -27,7 +27,7 @@ namespace MapAssist.Helpers
     {
         public static bool Filter(UnitAny unitAny)
         {
-            var baseName = Items.ItemNames[unitAny.TxtFileNo];
+            var baseName = Items.ItemName(unitAny.TxtFileNo);
             var itemQuality = unitAny.ItemData.ItemQuality;
             var isEth = (unitAny.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
             var lowQuality = (unitAny.ItemData.ItemFlags & ItemFlags.IFLAG_LOWQUALITY) == ItemFlags.IFLAG_LOWQUALITY;

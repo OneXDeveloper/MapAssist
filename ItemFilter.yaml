@@ -217,6 +217,8 @@ Demonhead:
  - Qualities: [normal, superior]
    Sockets: [0, 3]
  - Qualities: unique #Andariel's Visage
+Winged Helm:
+ - Qualities: set #Guillaume's Face
 
 ### Circlets
 Circlet:
@@ -297,6 +299,9 @@ Perfect Topaz:
 Perfect Skull:
 
 ### Uniques
+#HoZ
+Zakarum Shield:
+ - Qualities: unique
 #Ribcracker
 Quarterstaff:
  - Qualities: unique
@@ -317,9 +322,6 @@ Swirling Crystal:
  #Tal Rasha's Lidless Eye
  - Qualities: set
 #Homunculus
-Heirophant Trophy:
- - Qualities: unique
-#Misspelled Homunculus
 Hierophant Trophy:
  - Qualities: unique
 #Herald of Zakarum

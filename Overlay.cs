@@ -266,7 +266,7 @@ namespace MapAssist
                 var color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
                 var isEth = (ItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) ==
                             ItemFlags.IFLAG_ETHEREAL;
-                var itemBaseName = Items.ItemNames[ItemLog[i].TxtFileNo];
+                var itemBaseName = Items.ItemName(ItemLog[i].TxtFileNo);
                 var itemSpecialName = "";
                 var itemLabelExtra = "";
                 if (isEth)
@@ -285,12 +285,12 @@ namespace MapAssist
                 {
                     case ItemQuality.UNIQUE:
                         color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] +
+                        itemSpecialName = Items.UniqueName(ItemLog[i].TxtFileNo) +
                                           " ";
                         break;
                     case ItemQuality.SET:
                         color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
-                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] + " ";
+                        itemSpecialName = Items.SetName(ItemLog[i].TxtFileNo) + " ";
                         break;
                     case ItemQuality.CRAFT:
                         color = _brushes[ItemLog[i].ItemData.ItemQuality.ToString()];
