@@ -104,6 +104,11 @@ namespace MapAssist.Helpers
             return new Bitmap((int)Math.Ceiling(size.Width + padding * 2), (int)Math.Ceiling(size.Height + padding * 2), PixelFormat.Format32bppArgb);
         }
 
+        public static Color SetOpacity(this Color color, float opacity)
+        {
+            return Color.FromArgb((int)(color.A * opacity), color.R, color.G, color.B);
+        }
+
         // System.Drawing to GameOverlay type conversions
         public static GameOverlay.Drawing.Point ToGameOverlayPoint(this PointF point)
         {

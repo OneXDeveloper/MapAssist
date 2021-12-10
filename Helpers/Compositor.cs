@@ -44,7 +44,6 @@ namespace MapAssist.Helpers
         private const int WALKABLE = 0;
         private const int UNWALKABLE = 1;
 
-
         public Compositor(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
@@ -161,17 +160,17 @@ namespace MapAssist.Helpers
                 var fontColor = gameData.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? Color.Green : Color.Red;
 
                 var font = CreateFont(gfx, "Consolas", 14);
-                var brush = CreateSolidBrush(gfx, fontColor);
+                var brush = CreateSolidBrush(gfx, fontColor, 1);
 
                 var ipText = "Game IP: " + gameData.GameIP;
                 gfx.DrawText(font, brush, anchor.ToGameOverlayPoint(), ipText);
-              
+                
                 anchor.Y += fontHeight + 5;
 
                 // Overlay FPS
                 if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
                 {
-                    brush = CreateSolidBrush(gfx, Color.FromArgb(0, 255, 0));
+                    brush = CreateSolidBrush(gfx, Color.FromArgb(0, 255, 0), 1);
                     
                     var fpsText = "FPS: " + gfx.FPS.ToString();
                     var renderText = "DeltaTime: " + e.DeltaTime.ToString();
@@ -225,7 +224,7 @@ namespace MapAssist.Helpers
                     fontColor = Items.ItemColors[ItemQuality.SUPERIOR];
                 }
 
-                var brush = CreateSolidBrush(gfx, fontColor);
+                var brush = CreateSolidBrush(gfx, fontColor, 1);
                 
                 switch (ItemLog[i].ItemData.ItemQuality)
                 {
@@ -430,7 +429,7 @@ namespace MapAssist.Helpers
 
                         var debuffColor = States.DebuffColor;
                         debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
-                        var brush = CreateSolidBrush(gfx, debuffColor);
+                        var brush = CreateSolidBrush(gfx, debuffColor, 1);
 
                         gfx.FillRectangle(brush, rect);
                         gfx.DrawRectangle(brush, rect, 1);
@@ -440,7 +439,7 @@ namespace MapAssist.Helpers
                         var size = new SizeF(imgDimensions - buffImageScale + buffImageScale, imgDimensions - buffImageScale + buffImageScale);
                         var rect = new GameOverlay.Drawing.Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.Width, drawPoint.Y + size.Height);
 
-                        var brush = CreateSolidBrush(gfx, buffColor);
+                        var brush = CreateSolidBrush(gfx, buffColor, 1);
                         gfx.DrawRectangle(brush, rect, 1);
                     }
 
@@ -700,11 +699,14 @@ namespace MapAssist.Helpers
             return cacheFonts[key];
         }
 
-        private Dictionary<Color, GameOverlay.Drawing.SolidBrush> cacheBrushes = new Dictionary<Color, GameOverlay.Drawing.SolidBrush>();
-        private GameOverlay.Drawing.SolidBrush CreateSolidBrush(GameOverlay.Drawing.Graphics gfx, Color color)
+        private Dictionary<(Color, float?), GameOverlay.Drawing.SolidBrush> cacheBrushes = new Dictionary<(Color, float?), GameOverlay.Drawing.SolidBrush>();
+        private GameOverlay.Drawing.SolidBrush CreateSolidBrush(GameOverlay.Drawing.Graphics gfx, Color color,
+            float? opacity = null)
         {
-            var key = color;
-            if (!cacheBrushes.ContainsKey(key)) cacheBrushes[key] = gfx.CreateSolidBrush(color.ToGameOverlayColor());
+            if (opacity == null) opacity = MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity;
+
+            var key = (color, opacity);
+            if (!cacheBrushes.ContainsKey(key)) cacheBrushes[key] = gfx.CreateSolidBrush(color.SetOpacity((float)opacity).ToGameOverlayColor());
             return cacheBrushes[key];
         }
 
