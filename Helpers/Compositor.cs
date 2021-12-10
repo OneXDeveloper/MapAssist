@@ -262,7 +262,7 @@ namespace MapAssist.Helpers
                 if (!string.IsNullOrWhiteSpace(poi.Label) && poi.RenderingSettings.CanDrawLabel())
                 {
                     var font = CreateFont(gfx, poi.RenderingSettings.LabelFont, poi.RenderingSettings.LabelFontSize);
-                    var brush = CreateSolidBrush(gfx, poi.RenderingSettings.LabelColor);
+                    var brush = CreateSolidBrush(gfx, poi.RenderingSettings.LabelColor, 1);
                     var iconShape = GetIconShape(poi.RenderingSettings).ToSizeF();
 
                     var stringSize = gfx.MeasureString(font, poi.Label);
