@@ -28,6 +28,20 @@ namespace MapAssist.Helpers
 {
     public static class PointOfInterestHandler
     {
+        private static readonly Dictionary<Area, Area> AreaLineToQuest = new Dictionary<Area, Area>()
+        {
+            [Area.ColdPlains] = Area.BurialGrounds,
+            [Area.BlackMarsh] = Area.ForgottenTower,
+        };
+
+        private static readonly Dictionary<Area, Area> AreaLineToNextArea = new Dictionary<Area, Area>()
+        {
+            [Area.ColdPlains] = Area.StonyField,
+            [Area.UndergroundPassageLevel1] = Area.DarkWood,
+            [Area.DarkWood] = Area.BlackMarsh,
+            [Area.BlackMarsh] = Area.TamoeHighland,
+        };
+
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
         {
             [Area.MatronsDen] = new Dictionary<GameObject, string>()
@@ -58,6 +72,7 @@ namespace MapAssist.Helpers
 
         private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
         {
+            GameObject.Malus,
             GameObject.HoradricCubeChest,
             GameObject.HoradricScrollChest,
             GameObject.StaffOfKingsChest,
@@ -166,6 +181,171 @@ namespace MapAssist.Helpers
         {
             var pointOfInterest = new List<PointOfInterest>();
 
+            var poiQuestArea = GetQuestAreaPointOfInterest(areaData);
+            if (poiQuestArea != null)
+            {
+                pointOfInterest.Add(poiQuestArea);
+            }
+
+            var poiAreas = GetAreaPointsOfInterest(mapApi, areaData);
+            if (poiAreas.Count > 0)
+            {
+                pointOfInterest.AddRange(poiAreas);
+            }
+
+            foreach (KeyValuePair<GameObject, Point[]> objAndPoints in areaData.Objects)
+            {
+                GameObject obj = objAndPoints.Key;
+                Point[] points = objAndPoints.Value;
+
+                if (!points.Any())
+                {
+                    continue;
+                }
+
+                // Waypoints
+                if (obj.IsWaypoint())
+                {
+                    pointOfInterest.Add(new PointOfInterest
+                    {
+                        Label = obj.ToString(),
+                        Position = points[0],
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint
+                    });
+                }
+                // Quest objects
+                else if (QuestObjects.Contains(obj))
+                {
+                    pointOfInterest.Add(new PointOfInterest
+                    {
+                        Label = obj.ToString(),
+                        Position = points[0],
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                    });
+                }
+                // Area-specific quest objects
+                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
+                }
+                // Area-specific landmarks
+                else if (AreaSpecificLandmarks.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificLandmarks[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificLandmarks[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
+                        });
+                    }
+                }
+                // Shrines
+                else if (Shrines.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Shrine
+                        });
+                    }
+                }
+                // Super Chest
+                else if (SuperChests.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.SuperChest
+                        });
+                    }
+                }
+                // Normal Chest
+                else if (NormalChests.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NormalChest
+                        });
+                    }
+                }
+                // Armor Stands & Weapon Racks
+                else if (ArmorWeapRacks.Contains(obj))
+                {
+                    foreach (Point point in points)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = obj.ToString(),
+                            Position = point,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack
+                        });
+                    }
+                }
+            }
+
+            return pointOfInterest;
+        }
+
+        private static PointOfInterest GetQuestAreaPointOfInterest(AreaData areaData)
+        {
+            if (AreaLineToQuest.ContainsKey(areaData.Area))
+            {
+                var area = AreaLineToQuest[areaData.Area];
+                var level = areaData.AdjacentLevels[area];
+                if (level.Exits.Any())
+                {
+                    return new PointOfInterest
+                    {
+                        Label = area.Name(),
+                        Position = level.Exits[0],
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        private static List<PointOfInterest> GetAreaPointsOfInterest(MapApi mapApi, AreaData areaData)
+        {
+            var pointOfInterest = new List<PointOfInterest>();
+
+            if (AreaLineToNextArea.ContainsKey(areaData.Area))
+            {
+                var area = AreaLineToNextArea[areaData.Area];
+                var level = areaData.AdjacentLevels[area];
+                if (level.Exits.Any())
+                {
+                    pointOfInterest.Add(new PointOfInterest
+                    {
+                        Label = area.Name(),
+                        Position = level.Exits[0],
+                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                    });
+                    return pointOfInterest;
+                }
+            }
+
             switch (areaData.Area)
             {
                 case Area.CanyonOfTheMagi:
@@ -238,116 +418,6 @@ namespace MapAssist.Helpers
                     }
 
                     break;
-            }
-
-            foreach (KeyValuePair<GameObject, Point[]> objAndPoints in areaData.Objects)
-            {
-                GameObject obj = objAndPoints.Key;
-                Point[] points = objAndPoints.Value;
-
-                if (!points.Any())
-                {
-                    continue;
-                }
-
-                // Waypoints
-                if (obj.IsWaypoint())
-                {
-                    pointOfInterest.Add(new PointOfInterest
-                    {
-                        Label = obj.ToString(),
-                        Position = points[0],
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint
-                    });
-                }
-                // Quest objects
-                else if (QuestObjects.Contains(obj))
-                {
-                    pointOfInterest.Add(new PointOfInterest
-                    {
-                        Label = obj.ToString(), 
-                        Position = points[0], 
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                    });
-                }
-                // Area-specific quest objects
-                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
-                {
-                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
-                            Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                        });
-                    }
-                }
-                // Area-specific landmarks
-                else if (AreaSpecificLandmarks.ContainsKey(areaData.Area))
-                {
-                    if (AreaSpecificLandmarks[areaData.Area].ContainsKey(obj))
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = AreaSpecificLandmarks[areaData.Area][obj],
-                            Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
-                        });
-                    }
-                }
-                // Shrines
-                else if (Shrines.Contains(obj))
-                {
-                    foreach (Point point in points)
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = obj.ToString(), 
-                            Position = point, 
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Shrine
-                        });
-                    }
-                }
-                // Super Chest
-                else if (SuperChests.Contains(obj))
-                {
-                    foreach (Point point in points)
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.SuperChest
-                        });
-                    }
-                }
-                // Normal Chest
-                else if (NormalChests.Contains(obj))
-                {
-                    foreach (Point point in points)
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NormalChest
-                        });
-                    }
-                }
-                // Armor Stands & Weapon Racks
-                else if (ArmorWeapRacks.Contains(obj))
-                {
-                    foreach (Point point in points)
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack
-                        });
-                    }
-                }
             }
 
             return pointOfInterest;
