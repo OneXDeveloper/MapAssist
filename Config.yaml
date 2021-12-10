@@ -7,8 +7,7 @@ HotkeyConfiguration:
 
 ## PrefetchAreas - Areas to preload so that they're hot and ready as soon as you go to them
 PrefetchAreas:
- - 'Catacombs Level 2'
- - 'Durance Of Hate Level 2'
+ - 'Lower Kurast'
 
 ## HiddenAreas - Areas where the overlay is not needed and will be hidden
 HiddenAreas:
@@ -23,21 +22,21 @@ HiddenAreas:
 ## RenderingConfiguration - Visual settings for the overlay
 RenderingConfiguration:
   ## Opacity - Overlay trapsparency %
-  Opacity: 0.5
+  Opacity: 0.6
   ## OverlayMode - Overlay map over in-game map / can be hidden with hotkey (ToggleKey)
-  OverlayMode: true
+  OverlayMode: false
   ## Positions - Options are: Center, TopLeft, TopRight
-  Position: Center
+  Position: TopRight
   ## ToggleViaInGameMap - Auto-hide map overlay when the in-game map is hidden
   ToggleViaInGameMap: false
   ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus are opened
-  ToggleViaInGamePanels: false
+  ToggleViaInGamePanels: true
   ## Size - Overlay map maximum size
-  Size: 450
+  Size: 600
   ## Rotate - Transform map image with 45 degree rotation
   Rotate: true
   ## ZoomLevel - Zoom level / can zoom in/out with hotkeys (ZoomInKey, ZoomOutKey)
-  ZoomLevel: 1
+  ZoomLevel: 1.5
   ## BuffPosition - Options are: Player, Top, Bottom
   BuffPosition: Bottom
   ## BuffSize - Size of the buff icons (0.8 = 80%, 1 = 100%, 1.2 = 120%)
@@ -46,34 +45,34 @@ RenderingConfiguration:
 ## MapConfiguration -- Visual settings for icons, lines and labels
 MapConfiguration:
   SuperUniqueMonster:
-    IconColor: Yellow
+    IconColor: '168, 75, 255' # Purple
     IconShape: Cross
-    IconSize: 6
+    IconSize: 8
     IconThickness: 2
   UniqueMonster:
-    IconColor: DarkOrange
+    IconColor: '255, 75, 75' # Red
     IconShape: Cross
-    IconSize: 6
+    IconSize: 8
     IconThickness: 2
   EliteMonster:
-    IconColor: DarkRed
+    IconColor: '255, 157, 0' # Orange
     IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
+    IconSize: 8
+    IconThickness: 1
   NormalMonster:
     IconColor: Gray
     IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
+    IconSize: 8
+    IconThickness: 1
   NextArea:
     IconColor: '237, 107, 0'
     IconShape: Square
     IconSize: 5
     LineColor: Chartreuse
-    LineThickness: 2
-    ArrowHeadSize: 5
+    LineThickness: 1
+    ArrowHeadSize: 3
     LabelColor: Chartreuse
-    LabelFontSize: 16
+    LabelFontSize: 10
     LabelFont: 'Helvetica'
   PreviousArea:
     IconColor: '255, 0, 149'
@@ -81,20 +80,23 @@ MapConfiguration:
     IconSize: 5
     LineColor: ''
     LabelColor: Chartreuse
-    LabelFontSize: 16
+    LabelFontSize: 10
     LabelFont: 'Helvetica'
   Waypoint:
     IconColor: '16, 140, 235'
     IconShape: Square
     IconSize: 5
   Quest:
-    LineColor: Chartreuse
-    LineThickness: 2
-    ArrowHeadSize: 5
+    LineColor: Orange
+    LineThickness: 1
+    ArrowHeadSize: 3
+    LabelColor: Chartreuse
+    LabelFontSize: 10
+    LabelFont: 'Helvetica'
   Player:
     IconColor: '255, 255, 0'
     IconShape: Cross
-    IconSize: 6
+    IconSize: 8
     IconThickness: 2
   SuperChest:
     IconColor: '17, 255, 0'
@@ -117,14 +119,14 @@ MapConfiguration:
     IconShape: Ellipse
     IconSize: 4
     LabelFont: 'Helvetica'
-    LabelFontSize: 16
+    LabelFontSize: 10
 
 ## ItemLog - Alerts for in-game dropped items nearby
 ItemLog:
-  Enabled: true
+  Enabled: false
   FilterFileName: "ItemFilter.yaml"
   ## PlaySoundOnDrop - Play drop sound
-  PlaySoundOnDrop: true
+  PlaySoundOnDrop: false
   ## SoundFile - Name of .wav file for drop sound (put .wav file in the MapAssist folder)
   SoundFile: ""
   DisplayForSeconds: 45
@@ -133,12 +135,12 @@ ItemLog:
 
 ## MapColorConfiguration - Color schema for drawing overlay map
 MapColorConfiguration:
-  Walkable:
-  Border: '255, 255, 255'
+  Walkable: '40, 40, 40'
+  Border: '90, 90, 90'
 
 ## GameInfo - Displaying game server IP address
 GameInfo:
-  Enabled: true
+  Enabled: false
   ## ShowOverlayFPS - Developer setting, probably not useful
   ShowOverlayFPS: false
 
