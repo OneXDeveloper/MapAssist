@@ -263,7 +263,7 @@ namespace MapAssist.Helpers
                 {
                     var font = CreateFont(gfx, poi.RenderingSettings.LabelFont, poi.RenderingSettings.LabelFontSize);
                     var brush = CreateSolidBrush(gfx, poi.RenderingSettings.LabelColor);
-                    var iconShape = GetIconShape(poi.RenderingSettings).ToSizeF();
+                    var iconShape = poi.RenderingSettings.CanDrawIcon() ? GetIconShape(poi.RenderingSettings).ToSizeF() : new SizeF(0, 0);
 
                     var stringSize = gfx.MeasureString(font, poi.Label);
                     gfx.DrawText(font, brush, poiPosition.Subtract(stringSize.Center()).Subtract(new PointF(0, stringSize.Y / 2 + iconShape.Height)).ToGameOverlayPoint(), poi.Label);
