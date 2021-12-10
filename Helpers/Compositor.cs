@@ -32,6 +32,7 @@ namespace MapAssist.Helpers
     public class Compositor : IDisposable
     {
         private readonly AreaData _areaData;
+        private readonly PointF _cropOffset;
         private readonly PointF _origCenter;
         private readonly PointF _rotatedCenter;
         private readonly IReadOnlyList<PointOfInterest> _pointsOfInterest;
@@ -48,12 +49,12 @@ namespace MapAssist.Helpers
         {
             _areaData = areaData;
             _pointsOfInterest = pointsOfInterest;
-            (gamemap, _origCenter, _rotatedCenter) = ComposeGamemap(areaData, pointsOfInterest);
+            (gamemap, _cropOffset, _origCenter, _rotatedCenter) = ComposeGamemap(areaData, pointsOfInterest);
         }
 
-        private (Bitmap, PointF, PointF) ComposeGamemap(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)
+        private (Bitmap, PointF, PointF, PointF) ComposeGamemap(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)
         {
-            if (areaData == null) return (null, new PointF(0, 0), new PointF(0, 0));
+            if (areaData == null) return (null, new PointF(0, 0), new PointF(0, 0), new PointF(0, 0));
 
             var gamemap = new Bitmap(areaData.CollisionGrid[0].Length, areaData.CollisionGrid.Length, PixelFormat.Format32bppArgb);
             
@@ -119,12 +120,13 @@ namespace MapAssist.Helpers
             }
 
             var center = gamemap.Center();
-            var newBackground = ImageUtils.RotateImage(gamemap, _rotateRadians, true, false, Color.Transparent);
-            var rotatedCenter = newBackground.Center();
+            gamemap = ImageUtils.RotateImage(gamemap, _rotateRadians, true, false, Color.Transparent);
+            var rotatedCenter = gamemap.Center();
+            var (croppedBackground, cropOffset) = ImageUtils.CropBitmap(gamemap);
 
             gamemap.Dispose();
 
-            return (newBackground, center, rotatedCenter);
+            return (croppedBackground, cropOffset, center, rotatedCenter);
         }
 
         // Drawing each frame
@@ -476,19 +478,19 @@ namespace MapAssist.Helpers
         }
 
         // Utility Functions
-        private void DrawBitmap(GameOverlay.Drawing.Graphics gfx, SharpDX.Direct2D1.Bitmap bitmapDx, PointF anchor, float opacity,
+        private void DrawBitmap(GameOverlay.Drawing.Graphics gfx, SharpDX.Direct2D1.Bitmap bitmapDX, PointF anchor, float opacity,
             float size = 1, bool zoomScaling = true, bool preventGameBarOverlap = false)
         {
             var scaling = new PointF((zoomScaling ? scaleWidth : 1) * size, (zoomScaling ? scaleHeight : 1) * size);
 
             SharpDX.Direct2D1.RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            var sourceRect = new SharpDX.Mathematics.Interop.RawRectangleF(0, 0, bitmapDx.Size.Width, bitmapDx.Size.Height);
+            var sourceRect = new SharpDX.Mathematics.Interop.RawRectangleF(0, 0, bitmapDX.Size.Width, bitmapDX.Size.Height);
             var destRect = new SharpDX.Mathematics.Interop.RawRectangleF(
                 anchor.X,
                 anchor.Y,
-                anchor.X + bitmapDx.Size.Width * scaling.X,
-                anchor.Y + bitmapDx.Size.Height * scaling.Y);
+                anchor.X + bitmapDX.Size.Width * scaling.X,
+                anchor.Y + bitmapDX.Size.Height * scaling.Y);
 
             if (preventGameBarOverlap)
             {
@@ -501,7 +503,7 @@ namespace MapAssist.Helpers
                 }
             }
 
-            renderTarget.DrawBitmap(bitmapDx, destRect, opacity, SharpDX.Direct2D1.BitmapInterpolationMode.Linear, sourceRect);
+            renderTarget.DrawBitmap(bitmapDX, destRect, opacity, SharpDX.Direct2D1.BitmapInterpolationMode.Linear, sourceRect);
         }
 
         private void DrawIcon(GameOverlay.Drawing.Graphics gfx, IconRendering rendering, PointF position)
@@ -698,6 +700,7 @@ namespace MapAssist.Helpers
         {
             var newP = p.Subtract(_areaData.Origin).Rotate(_rotateRadians, _origCenter)
                 .Subtract(_origCenter.Subtract(_rotatedCenter))
+                .Subtract(_cropOffset)
                 .Multiply(scaleWidth, scaleHeight);
 
             return newP;

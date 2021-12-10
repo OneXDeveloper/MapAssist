@@ -91,6 +91,50 @@ namespace MapAssist.Helpers
             return newBitmap;
         }
 
+        public static (Bitmap, PointF) CropBitmap(Bitmap originalBitmap)
+        {
+            // Find the min/max non-white/transparent pixels
+            var min = new PointF(int.MaxValue, int.MaxValue);
+            var max = new PointF(int.MinValue, int.MinValue);
+
+            unsafe
+            {
+                var bData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                byte bitsPerPixel = 32;
+                var scan0 = (byte*)bData.Scan0.ToPointer();
+
+                for (var y = 0; y < bData.Height; ++y)
+                {
+                    for (var x = 0; x < bData.Width; ++x)
+                    {
+                        var data = scan0 + y * bData.Stride + x * bitsPerPixel / 8;
+                        // data[0 = blue, 1 = green, 2 = red, 3 = alpha]
+                        if (data[3] > 0)
+                        {
+                            if (x < min.X) min.X = x;
+                            if (y < min.Y) min.Y = y;
+
+                            if (x > max.X) max.X = x;
+                            if (y > max.Y) max.Y = y;
+                        }
+                    }
+                }
+
+                originalBitmap.UnlockBits(bData);
+            }
+
+            // Create a new bitmap from the crop rectangle
+            var cropRectangle = new RectangleF(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+            var newBitmap =  new Bitmap((int)cropRectangle.Width, (int)cropRectangle.Height);
+            using (var g = Graphics.FromImage(newBitmap))
+            {
+                g.DrawImage(originalBitmap, 0, 0, cropRectangle, GraphicsUnit.Pixel);
+            }
+
+            return (newBitmap, min);
+        }
+
         /// <summary>
         /// Resize the image to the specified width and height.
         /// </summary>
