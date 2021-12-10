@@ -85,7 +85,6 @@ namespace MapAssist.Types
             var unwalkableRow = new int[][] { new int[crop.x1 - crop.x0 + 2].Select(_ => 1).ToArray() };
 
             var y = 0;
-            var x = 0;
             var val = 1;
 
             foreach (var v in mapData)

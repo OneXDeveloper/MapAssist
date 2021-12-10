@@ -53,6 +53,8 @@ namespace MapAssist.Helpers
 
         private (Bitmap, PointF, PointF) ComposeGamemap(AreaData areaData, IReadOnlyList<PointOfInterest> pointOfInterest)
         {
+            if (areaData == null) return (null, new PointF(0, 0), new PointF(0, 0));
+
             var gamemap = new Bitmap(areaData.CollisionGrid[0].Length, areaData.CollisionGrid.Length, PixelFormat.Format32bppArgb);
             
             using (var gfx = Graphics.FromImage(gamemap))
@@ -143,7 +145,8 @@ namespace MapAssist.Helpers
             DrawBitmap(gfx, gamemapDx, anchor, MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity, preventGameBarOverlap: true);
         }
 
-        public void DrawGameInfo(GameOverlay.Drawing.Graphics gfx, GameData gameData, PointF anchor, GameOverlay.Windows.DrawGraphicsEventArgs e)
+        public void DrawGameInfo(GameOverlay.Drawing.Graphics gfx, GameData gameData, PointF anchor,
+            GameOverlay.Windows.DrawGraphicsEventArgs e, bool errorLoadingAreaData)
         {
             if (gameData.MenuPanelOpen >= 2)
             {
@@ -181,6 +184,16 @@ namespace MapAssist.Helpers
 
                     gfx.DrawText(font, brush, anchor.Add(stringSize.X + spaceBetween, 0).ToGameOverlayPoint(), renderText.ToString());
                 }
+            }
+
+            if (errorLoadingAreaData)
+            {
+                anchor.Y += fontHeight + 5;
+                
+                var font = CreateFont(gfx, "Consolas", 20);
+                var brush = CreateSolidBrush(gfx, Color.Orange, 1);
+
+                gfx.DrawText(font, brush, anchor.ToGameOverlayPoint(), "ERROR LOADING GAME MAP!");
             }
 
             anchor.Y += fontHeight + 5;

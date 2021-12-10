@@ -82,10 +82,12 @@ namespace MapAssist
                     }
                     catch (Exception e)
                     {
-                       _log.Fatal(e, "Unable to start d2mapapi pipe.");
-                       var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
-                       MessageBox.Show(message, "Unable to start d2mapapi pipe.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                       return;
+                        _log.Fatal(e);
+                        _log.Fatal(e, "Unable to start d2mapapi pipe.");
+
+                        var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
+                        MessageBox.Show(message, "Unable to start d2mapapi pipe.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     var contextMenu = new ContextMenuStrip();
@@ -172,7 +174,7 @@ namespace MapAssist
             }
             catch (YamlDotNet.Core.YamlException e)
             {
-                _log.Fatal(e.InnerException.Message);
+                _log.Fatal(e);
                 _log.Fatal(e, "Invalid yaml for configuration file");
 
                 MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid MapAssist configuration.",

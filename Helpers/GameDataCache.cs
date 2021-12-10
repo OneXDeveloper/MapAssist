@@ -1,6 +1,7 @@
 ﻿using MapAssist.Settings;
 using MapAssist.Types;
 using System;
+using System.Collections.Generic;
 
 namespace MapAssist.Helpers
 {
@@ -49,7 +50,14 @@ namespace MapAssist.Helpers
                             if (gameData.Area != Area.None)
                             {
                                 _areaData = _mapApi.GetMapData(gameData.Area);
-                                var pointsOfInterest = PointOfInterestHandler.Get(_mapApi, _areaData);
+
+                                var pointsOfInterest = new List<PointOfInterest>();
+
+                                if (_areaData != null)
+                                {
+                                    pointsOfInterest = PointOfInterestHandler.Get(_mapApi, _areaData);
+                                }
+
                                 compositor = new Compositor(_areaData, pointsOfInterest);
                             }
 

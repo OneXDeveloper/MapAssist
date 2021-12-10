@@ -73,11 +73,14 @@ namespace MapAssist
             {
                 UpdateLocation();
 
+                var errorLoadingAreaData = _areaData == null;
+
                 var overlayHidden = !_show ||
-                  (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
-                  (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
-                  Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
-                  (_currentGameData.Area == Area.None);
+                    errorLoadingAreaData ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
+                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
+                    (_currentGameData.Area == Area.None);
 
                 if (!overlayHidden)
                 {
@@ -112,7 +115,7 @@ namespace MapAssist
                     _compositor.DrawBuffs(gfx, _currentGameData);
                 }
 
-                _compositor.DrawGameInfo(gfx, _currentGameData, new PointF(PlayerIconWidth() + 50f, PlayerIconWidth() + 50f), e);
+                _compositor.DrawGameInfo(gfx, _currentGameData, new PointF(PlayerIconWidth() + 50f, PlayerIconWidth() + 50f), e, errorLoadingAreaData);
             }
         }
 

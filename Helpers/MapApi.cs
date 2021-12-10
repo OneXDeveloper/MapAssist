@@ -49,7 +49,7 @@ namespace MapAssist.Helpers
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
         private Difficulty _difficulty;
         private uint _mapSeed;
-        private const string _proc_name = "MAServer.exe";
+        private const string _procName = "MAServer.exe";
 
         public static bool StartPipedChild()
         
@@ -59,7 +59,7 @@ namespace MapAssist.Helpers
             // in case we had a weird shutdown that didn't clean up appropriately.
             StopPipeServers();
             
-            var tempFile = Path.GetTempPath() + _proc_name; 
+            var tempFile = Path.GetTempPath() + _procName;
             File.WriteAllBytes(tempFile, Resources.piped);
             if (!File.Exists(tempFile))
             {
@@ -75,15 +75,7 @@ namespace MapAssist.Helpers
             _pipeClient.StartInfo.RedirectStandardOutput = true;
             _pipeClient.StartInfo.RedirectStandardInput = true;
             _pipeClient.StartInfo.RedirectStandardError = true;
-
-            try
-            {
-                _pipeClient.Start();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _pipeClient.Start();
 
             var streamReader = _pipeClient.StandardOutput;
 
@@ -121,27 +113,28 @@ namespace MapAssist.Helpers
                         json = Encoding.UTF8.GetString(ReadBytes((int)length));
                         if (string.IsNullOrWhiteSpace(json))
                         {
+                            collection.Add((length, null));
                             continue;
                         }
                         jsonObj = JObject.Parse(json);
                     }
                     catch (Exception e)
                     {
-                       _log.Error(e, "Unable to parse JSON data from pipe server.");
-                       if (!string.IsNullOrWhiteSpace(json))
-                       {
-                           _log.Error(json);
-                       }
-                    }
+                        _log.Error(e);
+                        _log.Error(e, "Unable to parse JSON data from pipe server.");
+                        if (!string.IsNullOrWhiteSpace(json))
+                        {
+                            _log.Error(json);
+                        }
 
-                    if (jsonObj == null)
-                    {
+                        collection.Add((length, null));
                         continue;
                     }
                     
                     if (jsonObj.ContainsKey("error"))
                     {
                         _log.Error(jsonObj["error"].ToString());
+                        collection.Add((length, null)); // Error occurred, do null check in the outer function
                         continue;
                     }
 
@@ -153,6 +146,7 @@ namespace MapAssist.Helpers
             _pipeReaderThread.Start();
 
             var (startupLength, _) = collection.Take();
+
             return startupLength == 0;
         }
         
@@ -180,11 +174,11 @@ namespace MapAssist.Helpers
             var installPath = retrieved as string;
             if (installPath == "INVALID" || !IsValidD2Path(installPath))
             {
-                _log.Info("Registry provided D2 path not found or invalid");
+                _log.Info("Registry-provided D2 path not found or invalid");
                 throw new Exception("Unable to automatically locate D2 installation. Please provide path manually in the config at `D2Path`.");
             }
             
-            _log.Info("Registry provided D2 path is valid");
+            _log.Info("Registry-provided D2 path is valid");
             return installPath;
         }
 
@@ -223,10 +217,12 @@ namespace MapAssist.Helpers
                 areaData = GetMapDataInternal(area);
             }
 
-            Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
-            if (adjacentAreas.Any())
-            {
-                Prefetch(adjacentAreas);
+            if (areaData != null) { 
+                Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
+                if (adjacentAreas.Any())
+                {
+                    Prefetch(adjacentAreas);
+                }
             }
 
             return areaData;
@@ -277,8 +273,14 @@ namespace MapAssist.Helpers
                 writer.BaseStream.Flush();
 
                 var (length, json) = collection.Take();
-                var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
 
+                if (json == null)
+                {
+                    _log.Error("Unable to load data for " + area + " from " + _procName);
+                    return null;
+                }
+
+                var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
                 return rawAreaData.ToInternal(area);
             }
         }
@@ -323,7 +325,7 @@ namespace MapAssist.Helpers
         private static void StopPipeServers()
         {
             // Shutdown old running versions of the pipe server
-            var procs = Process.GetProcessesByName(_proc_name);
+            var procs = Process.GetProcessesByName(_procName);
             foreach (var proc in procs)
             {
                 proc.Kill();
