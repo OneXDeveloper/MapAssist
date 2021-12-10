@@ -598,8 +598,10 @@ namespace MapAssist.Helpers
                         new PointF(b, c), new PointF(a, d), new PointF(0, c), new PointF(a, b)
                     }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleHeight)).ToArray();
             }
-
-            return null;
+            return new PointF[]
+            {
+                        new PointF(0, 0)
+            };
         }
 
         private IconRendering GetMonsterIconRendering(MonsterData monsterData)

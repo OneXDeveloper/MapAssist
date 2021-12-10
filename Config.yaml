@@ -91,6 +91,9 @@ MapConfiguration:
     LineColor: Chartreuse
     LineThickness: 2
     ArrowHeadSize: 5
+    LabelColor: Chartreuse
+    LabelFontSize: 16
+    LabelFont: 'Helvetica'
   Player:
     IconColor: '255, 255, 0'
     IconShape: Cross
