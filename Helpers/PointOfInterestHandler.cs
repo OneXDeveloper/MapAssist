@@ -68,7 +68,8 @@ namespace MapAssist.Helpers
             GameObject.CairnStoneAlpha,
             GameObject.WirtCorpse,
             GameObject.HellForge,
-            GameObject.NihlathakWildernessStartPosition
+            GameObject.NihlathakWildernessStartPosition,
+            GameObject.DrehyaWildernessStartPosition
         };
 
         private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
