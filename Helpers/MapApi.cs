@@ -61,6 +61,10 @@ namespace MapAssist.Helpers
             
             var tempFile = Path.GetTempPath() + _proc_name; 
             File.WriteAllBytes(tempFile, Resources.piped);
+            if (!File.Exists(tempFile))
+            {
+                throw new Exception("Unable to start map server. Check AV settings.");
+            }
 
             var path = FindD2();
             
@@ -83,7 +87,7 @@ namespace MapAssist.Helpers
 
             var streamReader = _pipeClient.StandardOutput;
 
-            _pipeReaderThread = new Thread(() =>
+            void Start()
             {
                 Func<int, byte[]> ReadBytes = (length) =>
                 {
@@ -110,9 +114,31 @@ namespace MapAssist.Helpers
                         continue;
                     }
 
-                    var json = Encoding.UTF8.GetString(ReadBytes((int)length));
-                    var jsonObj = JObject.Parse(json);
+                    string json = null;
+                    JObject jsonObj = null;
+                    try
+                    {
+                        json = Encoding.UTF8.GetString(ReadBytes((int)length));
+                        if (string.IsNullOrWhiteSpace(json))
+                        {
+                            continue;
+                        }
+                        jsonObj = JObject.Parse(json);
+                    }
+                    catch (Exception e)
+                    {
+                       _log.Error(e, "Unable to parse JSON data from pipe server.");
+                       if (!string.IsNullOrWhiteSpace(json))
+                       {
+                           _log.Error(json);
+                       }
+                    }
 
+                    if (jsonObj == null)
+                    {
+                        continue;
+                    }
+                    
                     if (jsonObj.ContainsKey("error"))
                     {
                         _log.Error(jsonObj["error"].ToString());
@@ -121,7 +147,9 @@ namespace MapAssist.Helpers
 
                     collection.Add((length, json));
                 }
-            });
+            }
+
+            _pipeReaderThread = new Thread(Start);
             _pipeReaderThread.Start();
 
             var (startupLength, _) = collection.Take();

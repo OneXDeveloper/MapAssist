@@ -39,6 +39,7 @@ namespace MapAssist
         private static Overlay overlay;
         private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
         private static IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger(); 
 
         /// <summary>
         /// The main entry point for the application.
@@ -60,7 +61,8 @@ namespace MapAssist
                     return;
                 }
 
-                var configurationOk = LoadMainConfiguration() && LoadLootLogConfiguration() && LoadLoggingConfiguration();
+
+                var configurationOk = LoadLoggingConfiguration() && LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
                     Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -70,10 +72,20 @@ namespace MapAssist
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
 
-                    if (!MapApi.StartPipedChild())
+                    try
                     {
-                        MessageBox.Show("Unable to start d2mapapi pipe.", appName, MessageBoxButtons.OK);
-                        return;
+                        if (!MapApi.StartPipedChild())
+                        {
+                            MessageBox.Show("Unable to start d2mapapi pipe.", appName, MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                       _log.Fatal(e, "Unable to start d2mapapi pipe.");
+                       var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
+                       MessageBox.Show(message, "Unable to start d2mapapi pipe.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                       return;
                     }
 
                     var contextMenu = new ContextMenuStrip();
@@ -160,11 +172,13 @@ namespace MapAssist
             }
             catch (YamlDotNet.Core.YamlException e)
             {
+                _log.Fatal(e, "Invalid yaml for configuration file");
                 MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid MapAssist configuration.",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
+                _log.Fatal(e, "Unknown error loading main configuration");
                 MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -182,11 +196,13 @@ namespace MapAssist
             }
             catch (YamlDotNet.Core.YamlException e)
             {
+                _log.Fatal("Invalid loot log yaml file");
                 MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid loot filter configuration.",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
+                _log.Fatal(e, $"Unable to initialize Loot Log configuration");
                 MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -221,6 +237,7 @@ namespace MapAssist
             }
             catch (Exception e)
             {
+                
                 MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
