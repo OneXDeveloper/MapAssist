@@ -94,7 +94,7 @@ namespace MapAssist.Helpers
                 var maxY = points.Max(point => point.Y);
                 return new SizeF(maxX - minX, maxY - minY);
             }
-            return new SizeF();
+            return new SizeF(0, 0);
         }
 
         public static PointF Center(this Bitmap bitmap)
