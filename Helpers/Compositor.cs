@@ -345,9 +345,23 @@ namespace MapAssist.Helpers
                         var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         DrawIcon(gfx, render, itemPosition);
+                    }
+                }
+
+                foreach (var item in gameData.Items)
+                {
+                    if (item.IsDropped())
+                    {
+                        if (!LootFilter.Filter(item))
+                        {
+                            continue;
+                        }
+
+                        var itemPosition = AdjustedPoint(item.Position).Add(anchor);
+                        var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         var color = Items.ItemColors[item.ItemData.ItemQuality];
-                        var brush = CreateSolidBrush(gfx, color);
+                        var brush = CreateSolidBrush(gfx, color, 1);
                         var itemBaseName = Items.ItemName(item.TxtFileNo);
                         var iconShape = GetIconShape(render).ToSizeF();
 
