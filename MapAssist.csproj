@@ -217,6 +217,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\items-localization.json" />  
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\SALVATION.bmp" />
   </ItemGroup>
   <ItemGroup>
