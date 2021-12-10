@@ -328,7 +328,7 @@
   <data name="RESISTFIRE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RESISTFIRE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RESISTLIGHTNING" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="RESISTLIGHT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RESISTLIGHTNING.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SALVATION" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -403,10 +403,34 @@
   <data name="WOLVERINE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WOLVERINE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BLOOD_MANA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BLOOD_MANA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="COLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COLD.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONVICTED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CONVICTED.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DEFENSE_CURSE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DEFENSE_CURSE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FADE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FADE.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="POISON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\POISON.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SLOWED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SLOWED.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Config" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Config.yaml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="piped" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\piped;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="items_localization" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\items-localization.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

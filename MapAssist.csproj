@@ -139,9 +139,13 @@
     <Compile Include="Structs\Path.cs" />
     <Compile Include="Structs\Room.cs" />
     <Compile Include="Structs\RoomEx.cs" />
+    <Compile Include="Structs\Session.cs" />
+    <Compile Include="Structs\Skills.cs" />
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Items.cs" />
+    <Compile Include="Types\Session.cs" />
+    <Compile Include="Types\Skills.cs" />
     <Compile Include="Types\Stats.cs" />
     <Compile Include="Types\RoomEx.cs" />
     <Compile Include="Types\Room.cs" />
@@ -211,6 +215,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\items-localization.json" />  
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SALVATION.bmp" />
@@ -490,6 +497,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\RESISTLIGHTNING.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CONVICTED.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FADE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\POISON.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SLOWED.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BLOOD_MANA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DEFENSE_CURSE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\COLD.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\piped" />

@@ -71,6 +71,14 @@ namespace MapAssist.Helpers
                         if (mapSeed != _lastMapSeed[_currentProcessId])
                         {
                             _lastMapSeed[_currentProcessId] = mapSeed;
+                            //dispose leftover timers in this process if we started a new game
+                            if(Items.ItemLogTimers.TryGetValue(_currentProcessId, out var _))
+                            {
+                                foreach (var timer in Items.ItemLogTimers[_currentProcessId])
+                                {
+                                    timer.Dispose();
+                                }
+                            }
                             if (!Items.ItemUnitHashesSeen.TryGetValue(_currentProcessId, out var _))
                             {
                                 Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
@@ -85,8 +93,7 @@ namespace MapAssist.Helpers
                             }
                         }
 
-                        var gameIPLength = processContext.Read<byte>(GameManager.GameIPOffset - 16);
-                        var gameIP = Encoding.ASCII.GetString(processContext.Read<byte>(GameManager.GameIPOffset, gameIPLength));
+                        var session = new Session(GameManager.GameIPOffset);
 
                         var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
                         var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
@@ -122,7 +129,7 @@ namespace MapAssist.Helpers
                             PlayerName = playerUnit.Name,
                             Monsters = monsterList,
                             Items = itemList,
-                            GameIP = gameIP,
+                            Session = session,
                             PlayerUnit = playerUnit,
                             MenuOpen = menuData,
                             MenuPanelOpen = menuOpen
@@ -148,10 +155,18 @@ namespace MapAssist.Helpers
 
         private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
         {
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i <= 4; i++)
             {
-                var unitHashTable = GameManager.UnitHashTable(128 * 8 * i);
                 var unitType = (UnitType)i;
+                var unitHashTable = new Structs.UnitHashTable();
+                if(unitType == UnitType.Missile)
+                {
+                    //missiles are contained in a different table
+                    unitHashTable = GameManager.UnitHashTable(128 * 8 * (i + 6));
+                } else
+                {
+                    unitHashTable = GameManager.UnitHashTable(128 * 8 * i);
+                }
                 foreach (var pUnitAny in unitHashTable.UnitTable)
                 {
                     var unitAny = new UnitAny(pUnitAny);

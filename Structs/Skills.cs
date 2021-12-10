@@ -17,15 +17,29 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-namespace MapAssist.Types
+using System;
+using System.Runtime.InteropServices;
+
+namespace MapAssist.Structs
 {
-    public enum UnitType : uint
+    [StructLayout(LayoutKind.Explicit)]
+    public struct SkillList
     {
-        Player = 0,
-        Monster,
-        Object,
-        Missile,
-        Item,
-        Tile,
+        [FieldOffset(0x0)] public IntPtr pFirstSkill; //pointer to a Skill
+        [FieldOffset(0x08)] public IntPtr pLeftSkill;
+        [FieldOffset(0x10)] public IntPtr pRightSkill;
+        [FieldOffset(0x18)] public IntPtr pUsedSkill;
+    }
+    [StructLayout(LayoutKind.Explicit)]
+    public struct SkillStrc
+    {
+        [FieldOffset(0x0)] public IntPtr SkillTxt;
+        [FieldOffset(0x08)] public IntPtr pNextSkill;
+        [FieldOffset(0x34)] public uint HardPoints;
+    }
+    [StructLayout(LayoutKind.Explicit)]
+    public struct SkillTxt
+    {
+        [FieldOffset(0x0)] public ushort Id;
     }
 }

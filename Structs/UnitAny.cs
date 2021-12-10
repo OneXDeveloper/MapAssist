@@ -38,6 +38,7 @@ namespace MapAssist.Structs
         [FieldOffset(0xB8)] public uint OwnerType; // ?
         [FieldOffset(0xC4)] public ushort X;
         [FieldOffset(0xC6)] public ushort Y;
+        [FieldOffset(0x100)] public IntPtr pSkills;
         [FieldOffset(0x150)] public IntPtr pListNext;
         [FieldOffset(0x158)] public IntPtr pRoomNext;
 

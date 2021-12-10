@@ -123,7 +123,8 @@ namespace MapAssist.Types
             State.STATE_THUNDERSTORM,
             State.STATE_VALKYRIE,
             State.STATE_VENOMCLAWS,
-            State.STATE_WOLF
+            State.STATE_WOLF,
+            State.STATE_FADE
         };
         public static readonly List<State> DebuffStates = new List<State> {
             State.STATE_AMPLIFYDAMAGE,
@@ -136,7 +137,14 @@ namespace MapAssist.Types
             State.STATE_LIFETAP,
             State.STATE_LOWERRESIST,
             State.STATE_TERROR,
-            State.STATE_WEAKEN
+            State.STATE_WEAKEN,
+            State.STATE_CONVICTED,
+            State.STATE_CONVICTION,
+            State.STATE_POISON,
+            State.STATE_COLD,
+            State.STATE_SLOWED,
+            State.STATE_BLOOD_MANA,
+            State.STATE_DEFENSE_CURSE
         };
     }
     public static class StateMasks
@@ -147,6 +155,49 @@ namespace MapAssist.Types
         0x00000100, 0x00000200, 0x00000400, 0x00000800, 0x00001000, 0x00002000, 0x00004000, 0x00008000,
         0x00010000, 0x00020000, 0x00040000, 0x00080000, 0x00100000, 0x00200000, 0x00400000, 0x00800000,
         0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000,
+        };
+        enum StateMask
+        {
+            STATEMASK_NOSEND,
+            STATEMASK_AURA,
+            STATEMASK_HIDE,
+            STATEMASK_TRANSFORM,
+            STATEMASK_PGSV,
+            STATEMASK_ACTIVE,
+            STATEMASK_REMHIT,
+            STATEMASK_DAMBLUE,
+            STATEMASK_DAMRED,
+            STATEMASK_ATTBLUE,
+            STATEMASK_ATTRED,
+            STATEMASK_CURSE,
+            STATEMASK_CURABLE,
+            STATEMASK_PLRSTAYDEATH,
+            STATEMASK_MONSTAYDEATH,
+            STATEMASK_BOSSSTAYDEATH,
+            STATEMASK_DISGUISE,
+            STATEMASK_RESTRICT,
+            STATEMASK_BLUE,
+            STATEMASK_ARMBLUE,
+            STATEMASK_RFBLUE,
+            STATEMASK_RCBLUE,
+            STATEMASK_RLBLUE,
+            STATEMASK_RPBLUE,
+            STATEMASK_STAMBARBLUE,
+            STATEMASK_ARMRED,
+            STATEMASK_RFRED,
+            STATEMASK_RCRED,
+            STATEMASK_RLRED,
+            STATEMASK_RPRED,
+            STATEMASK_EXP,
+            STATEMASK_SHATTER,
+            STATEMASK_LIFE,
+            STATEMASK_UDEAD,
+            STATEMASK_GREEN,
+            STATEMASK_NOOVERLAYS,
+            STATEMASK_NOCLEAR,
+            STATEMASK_BOSSINV,
+            STATEMASK_MELEEONLY,
+            STATEMASK_NOTONDEAD,
         };
     }
     public static class ResistColors

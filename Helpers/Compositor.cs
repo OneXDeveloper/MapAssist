@@ -44,7 +44,6 @@ namespace MapAssist.Helpers
         private const int WALKABLE = 0;
         private const int UNWALKABLE = 1;
 
-
         public Compositor(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
@@ -158,20 +157,20 @@ namespace MapAssist.Helpers
             // Game IP
             if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
             {
-                var fontColor = gameData.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? Color.Green : Color.Red;
+                var fontColor = gameData.Session.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? Color.Green : Color.Red;
 
                 var font = CreateFont(gfx, "Consolas", 14);
-                var brush = CreateSolidBrush(gfx, fontColor);
+                var brush = CreateSolidBrush(gfx, fontColor, 1);
 
-                var ipText = "Game IP: " + gameData.GameIP;
+                var ipText = "Game IP: " + gameData.Session.GameIP;
                 gfx.DrawText(font, brush, anchor.ToGameOverlayPoint(), ipText);
-              
+                
                 anchor.Y += fontHeight + 5;
 
                 // Overlay FPS
                 if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
                 {
-                    brush = CreateSolidBrush(gfx, Color.FromArgb(0, 255, 0));
+                    brush = CreateSolidBrush(gfx, Color.FromArgb(0, 255, 0), 1);
                     
                     var fpsText = "FPS: " + gfx.FPS.ToString();
                     var renderText = "DeltaTime: " + e.DeltaTime.ToString();
@@ -204,12 +203,13 @@ namespace MapAssist.Helpers
             var ItemLog = Items.CurrentItemLog.ToArray();
             for (var i = 0; i < ItemLog.Length; i++)
             {
-                var fontColor = Items.ItemColors[ItemLog[i].ItemData.ItemQuality];
+                var item = ItemLog[i];
+                var fontColor = Items.ItemColors[item.ItemData.ItemQuality];
 
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
                 
-                var isEth = (ItemLog[i].ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
-                var itemBaseName = Items.ItemNames[ItemLog[i].TxtFileNo];
+                var isEth = (item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
+                var itemBaseName = Items.ItemName(item.TxtFileNo);
                 var itemSpecialName = "";
                 var itemLabelExtra = "";
                 
@@ -225,16 +225,15 @@ namespace MapAssist.Helpers
                     fontColor = Items.ItemColors[ItemQuality.SUPERIOR];
                 }
 
-                var brush = CreateSolidBrush(gfx, fontColor);
+                var brush = CreateSolidBrush(gfx, fontColor, 1);
                 
                 switch (ItemLog[i].ItemData.ItemQuality)
                 {
                     case ItemQuality.UNIQUE:
-                        itemSpecialName = Items.UniqueFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] +
-                                          " ";
+                        itemSpecialName = Items.UniqueName(item.TxtFileNo) + " ";
                         break;
                     case ItemQuality.SET:
-                        itemSpecialName = Items.SetFromCode[Items.ItemCodes[ItemLog[i].TxtFileNo]] + " ";
+                        itemSpecialName = Items.SetName(item.TxtFileNo) + " ";
                         break;
                 }
 
@@ -346,10 +345,24 @@ namespace MapAssist.Helpers
                         var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         DrawIcon(gfx, render, itemPosition);
+                    }
+                }
+
+                foreach (var item in gameData.Items)
+                {
+                    if (item.IsDropped())
+                    {
+                        if (!LootFilter.Filter(item))
+                        {
+                            continue;
+                        }
+
+                        var itemPosition = AdjustedPoint(item.Position).Add(anchor);
+                        var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         var color = Items.ItemColors[item.ItemData.ItemQuality];
-                        var brush = CreateSolidBrush(gfx, color);
-                        var itemBaseName = Items.ItemNames[item.TxtFileNo];
+                        var brush = CreateSolidBrush(gfx, color, 1);
+                        var itemBaseName = Items.ItemName(item.TxtFileNo);
                         var iconShape = GetIconShape(render).ToSizeF();
 
                         var stringSize = gfx.MeasureString(font, itemBaseName);
@@ -430,7 +443,7 @@ namespace MapAssist.Helpers
 
                         var debuffColor = States.DebuffColor;
                         debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
-                        var brush = CreateSolidBrush(gfx, debuffColor);
+                        var brush = CreateSolidBrush(gfx, debuffColor, 1);
 
                         gfx.FillRectangle(brush, rect);
                         gfx.DrawRectangle(brush, rect, 1);
@@ -440,7 +453,7 @@ namespace MapAssist.Helpers
                         var size = new SizeF(imgDimensions - buffImageScale + buffImageScale, imgDimensions - buffImageScale + buffImageScale);
                         var rect = new GameOverlay.Drawing.Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.Width, drawPoint.Y + size.Height);
 
-                        var brush = CreateSolidBrush(gfx, buffColor);
+                        var brush = CreateSolidBrush(gfx, buffColor, 1);
                         gfx.DrawRectangle(brush, rect, 1);
                     }
 
@@ -599,8 +612,10 @@ namespace MapAssist.Helpers
                         new PointF(b, c), new PointF(a, d), new PointF(0, c), new PointF(a, b)
                     }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleHeight)).ToArray();
             }
-
-            return null;
+            return new PointF[]
+            {
+                        new PointF(0, 0)
+            };
         }
 
         private IconRendering GetMonsterIconRendering(MonsterData monsterData)
@@ -700,11 +715,14 @@ namespace MapAssist.Helpers
             return cacheFonts[key];
         }
 
-        private Dictionary<Color, GameOverlay.Drawing.SolidBrush> cacheBrushes = new Dictionary<Color, GameOverlay.Drawing.SolidBrush>();
-        private GameOverlay.Drawing.SolidBrush CreateSolidBrush(GameOverlay.Drawing.Graphics gfx, Color color)
+        private Dictionary<(Color, float?), GameOverlay.Drawing.SolidBrush> cacheBrushes = new Dictionary<(Color, float?), GameOverlay.Drawing.SolidBrush>();
+        private GameOverlay.Drawing.SolidBrush CreateSolidBrush(GameOverlay.Drawing.Graphics gfx, Color color,
+            float? opacity = null)
         {
-            var key = color;
-            if (!cacheBrushes.ContainsKey(key)) cacheBrushes[key] = gfx.CreateSolidBrush(color.ToGameOverlayColor());
+            if (opacity == null) opacity = MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity;
+
+            var key = (color, opacity);
+            if (!cacheBrushes.ContainsKey(key)) cacheBrushes[key] = gfx.CreateSolidBrush(color.SetOpacity((float)opacity).ToGameOverlayColor());
             return cacheBrushes[key];
         }
 

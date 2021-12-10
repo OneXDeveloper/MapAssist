@@ -45,6 +45,7 @@ namespace MapAssist.Types
         private string _name;
         private bool _isMonster;
         private bool _updated;
+        private Skill _skill;
 
         public UnitAny(IntPtr pUnit)
         {
@@ -76,14 +77,19 @@ namespace MapAssist.Types
 
                         _statList = statList;
                         _immunities = GetImmunities();
+                        _stateFlags = statListStruct.StateFlags;
+                        _stateList = GetStateList();
                         switch (_unitAny.UnitType)
                         {
                             case UnitType.Player:
                                 if (IsPlayer())
                                 {
-                                    _stateFlags = statListStruct.StateFlags;
-                                    _stateList = GetStateList();
-                                    _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16)).TrimEnd((char)0);
+                                    if (IsPlayerUnit())
+                                    {
+                                        _skill = new Skill(_unitAny.pSkills);
+                                    }
+                                    _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16))
+                                        .TrimEnd((char)0);
                                     _inventory = processContext.Read<Inventory>(_unitAny.pInventory);
                                     _act = new Act(_unitAny.pAct);
                                 }
@@ -142,6 +148,7 @@ namespace MapAssist.Types
         public List<Resist> Immunities => _immunities;
         public uint[] StateFlags => _stateFlags;
         public List<State> StateList => _stateList;
+        public Skill Skill => _skill;
 
         public bool IsMovable()
         {
@@ -212,7 +219,7 @@ namespace MapAssist.Types
 
         public string ItemHash()
         {
-            return Items.ItemNames[TxtFileNo] + "/" + Position.X + "/" + Position.Y;
+            return Items.ItemName(TxtFileNo) + "/" + Position.X + "/" + Position.Y;
         }
 
         private List<Resist> GetImmunities()

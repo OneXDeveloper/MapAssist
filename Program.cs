@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using NLog;
 using MapAssist.Helpers;
+using MapAssist.Types;
 
 namespace MapAssist
 {
@@ -176,6 +177,7 @@ namespace MapAssist
             try
             {
                 LootLogConfiguration.Load();
+                Items.LoadLocalization();
                 configurationOk = true;
             }
             catch (YamlDotNet.Core.YamlException e)
