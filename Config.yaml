@@ -1,3 +1,5 @@
+# IMPORTANT: After changing anything in this file, ensure validity using https://jsonformatter.org/yaml-validator
+
 ## HotkeyConfiguration - Keyboard shortcuts for the overlay
 HotkeyConfiguration:
   ToggleKey: '\'
