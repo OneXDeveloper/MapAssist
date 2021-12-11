@@ -38,6 +38,8 @@ namespace MapAssist.Helpers
             [Area.RockyWaste] = Area.DryHills,
             [Area.DryHills] = Area.FarOasis,
             [Area.FarOasis] = Area.LostCity,
+            [Area.SpiderForest] = Area.GreatMarsh,
+            [Area.FlayerJungle] = Area.LowerKurast,
         };
 
         private static readonly Dictionary<Area, Area> AreaPreferredQuestArea = new Dictionary<Area, Area>()
@@ -48,6 +50,8 @@ namespace MapAssist.Helpers
             [Area.DryHills] = Area.HallsOfTheDeadLevel1,
             [Area.FarOasis] = Area.MaggotLairLevel1,
             [Area.LostCity] = Area.ValleyOfSnakes,
+            [Area.SpiderForest] = Area.SpiderCavern,
+            [Area.FlayerJungle] = Area.FlayerDungeonLevel1,
         };
 
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
@@ -96,7 +100,8 @@ namespace MapAssist.Helpers
             GameObject.WirtCorpse,
             GameObject.HellForge,
             GameObject.NihlathakWildernessStartPosition,
-            GameObject.DrehyaWildernessStartPosition
+            GameObject.DrehyaWildernessStartPosition,
+            GameObject.GidbinnAltar,
         };
 
         private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
