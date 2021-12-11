@@ -163,7 +163,7 @@ namespace MapAssist.Helpers
                 if (IsValidD2Path(providedPath))
                 {
                     _log.Info("User provided D2 path is valid");
-                    return providedPath;
+                    return "'" + providedPath + "'";
                 }
 
                 _log.Info("User provided D2 path is invalid");
