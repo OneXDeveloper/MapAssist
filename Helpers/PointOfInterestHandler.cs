@@ -35,6 +35,9 @@ namespace MapAssist.Helpers
             [Area.UndergroundPassageLevel1] = Area.DarkWood,
             [Area.DarkWood] = Area.BlackMarsh,
             [Area.BlackMarsh] = Area.TamoeHighland,
+            [Area.RockyWaste] = Area.DryHills,
+            [Area.DryHills] = Area.FarOasis,
+            [Area.FarOasis] = Area.LostCity,
         };
 
         private static readonly Dictionary<Area, Area> AreaPreferredQuestArea = new Dictionary<Area, Area>()
@@ -42,6 +45,9 @@ namespace MapAssist.Helpers
             [Area.BloodMoor] = Area.DenOfEvil,
             [Area.ColdPlains] = Area.BurialGrounds,
             [Area.BlackMarsh] = Area.ForgottenTower,
+            [Area.DryHills] = Area.HallsOfTheDeadLevel1,
+            [Area.FarOasis] = Area.MaggotLairLevel1,
+            [Area.LostCity] = Area.ValleyOfSnakes,
         };
 
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
@@ -273,7 +279,7 @@ namespace MapAssist.Helpers
                         foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
                         {
                             // Skip Next Area and Quest Area Points of Interest
-                            if (level.Area == nextArea || level.Area == questArea)
+                            if (level.Area > nextArea || level.Area == questArea)
                             {
                                 continue;
                             }
