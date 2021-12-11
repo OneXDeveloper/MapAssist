@@ -183,10 +183,114 @@ namespace MapAssist.Helpers
         {
             var pointOfInterest = new List<PointOfInterest>();
 
-            var poiAreas = GetAreaPointsOfInterest(mapApi, areaData);
-            if (poiAreas.Count > 0)
+            switch (areaData.Area)
             {
-                pointOfInterest.AddRange(poiAreas);
+                case Area.CanyonOfTheMagi:
+                    // Work out which tomb is the right once. 
+                    // Load the maps for all of the tombs, and check which one has the Orifice.
+                    // Declare that tomb as point of interest.
+                    Area[] tombs = new[]
+                    {
+                        Area.TalRashasTomb1, Area.TalRashasTomb2, Area.TalRashasTomb3, Area.TalRashasTomb4,
+                        Area.TalRashasTomb5, Area.TalRashasTomb6, Area.TalRashasTomb7
+                    };
+                    var realTomb = Area.None;
+                    Parallel.ForEach(tombs, tombArea =>
+                    {
+                        AreaData tombData = mapApi.GetMapData(tombArea);
+                        if (tombData.Objects.ContainsKey(GameObject.HoradricOrifice))
+                        {
+                            realTomb = tombArea;
+                        }
+                    });
+
+                    if (realTomb != Area.None && areaData.AdjacentLevels[realTomb].Exits.Any())
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = realTomb.Name(),
+                            Position = areaData.AdjacentLevels[realTomb].Exits[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                        });
+                    }
+
+                    break;
+                default:
+                    if (areaData.AdjacentLevels.Any())
+                    {
+                        // Next Area Point of Interest
+                        var nextArea = areaData.Area;
+                        if (AreaPreferredNextArea.ContainsKey(areaData.Area))
+                        {
+                            nextArea = AreaPreferredNextArea[areaData.Area];
+                            var nextLevel = areaData.AdjacentLevels[nextArea];
+                            if (nextLevel.Exits.Any())
+                            {
+                                pointOfInterest.Add(new PointOfInterest
+                                {
+                                    Label = nextArea.Name(),
+                                    Position = nextLevel.Exits[0],
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                                });
+                            }
+                        }
+                        else
+                        {
+                            nextArea = areaData.AdjacentLevels.Keys.Max();
+                            if (nextArea > areaData.Area)
+                            {
+                                var nextLevel = areaData.AdjacentLevels[nextArea];
+                                if (nextLevel.Exits.Any())
+                                {
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = nextArea.Name(),
+                                        Position = nextLevel.Exits[0],
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
+                                    });
+                                }
+                            }
+                        }
+
+                        // Quest Area Point of Interest
+                        var questArea = areaData.Area;
+                        if (AreaPreferredQuestArea.ContainsKey(areaData.Area))
+                        {
+                            questArea = AreaPreferredQuestArea[areaData.Area];
+                            var questLevel = areaData.AdjacentLevels[questArea];
+                            if (questLevel.Exits.Any())
+                            {
+                                pointOfInterest.Add(new PointOfInterest
+                                {
+                                    Label = questArea.Name(),
+                                    Position = questLevel.Exits[0],
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                                });
+                            }
+                        }
+
+                        // Previous Area Point of Interest
+                        foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                        {
+                            // Skip Next Area and Quest Area Points of Interest
+                            if (level.Area == nextArea || level.Area == questArea)
+                            {
+                                continue;
+                            }
+
+                            foreach (Point position in level.Exits)
+                            {
+                                pointOfInterest.Add(new PointOfInterest
+                                {
+                                    Label = level.Area.Name(),
+                                    Position = position,
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
+                                });
+                            }
+                        }
+                    }
+
+                    break;
             }
 
             foreach (KeyValuePair<GameObject, Point[]> objAndPoints in areaData.Objects)
@@ -300,124 +404,6 @@ namespace MapAssist.Helpers
             }
 
             return pointOfInterest;
-        }
-
-        private static List<PointOfInterest> GetAreaPointsOfInterest(MapApi mapApi, AreaData areaData)
-        {
-            var poiList = new List<PointOfInterest>();
-
-            switch (areaData.Area)
-            {
-                case Area.CanyonOfTheMagi:
-                    // Work out which tomb is the right once. 
-                    // Load the maps for all of the tombs, and check which one has the Orifice.
-                    // Declare that tomb as point of interest.
-                    Area[] tombs = new[]
-                    {
-                        Area.TalRashasTomb1, Area.TalRashasTomb2, Area.TalRashasTomb3, Area.TalRashasTomb4,
-                        Area.TalRashasTomb5, Area.TalRashasTomb6, Area.TalRashasTomb7
-                    };
-                    var realTomb = Area.None;
-                    Parallel.ForEach(tombs, tombArea =>
-                    {
-                        AreaData tombData = mapApi.GetMapData(tombArea);
-                        if (tombData.Objects.ContainsKey(GameObject.HoradricOrifice))
-                        {
-                            realTomb = tombArea;
-                        }
-                    });
-
-                    if (realTomb != Area.None && areaData.AdjacentLevels[realTomb].Exits.Any())
-                    {
-                        poiList.Add(new PointOfInterest
-                        {
-                            Label = realTomb.Name(),
-                            Position = areaData.AdjacentLevels[realTomb].Exits[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
-                        });
-                    }
-
-                    break;
-
-                default:
-                    if (areaData.AdjacentLevels.Any())
-                    {
-                        // Next Area Point of Interest
-                        var nextArea = areaData.Area;
-                        if (AreaPreferredNextArea.ContainsKey(areaData.Area))
-                        {
-                            nextArea = AreaPreferredNextArea[areaData.Area];
-                            var nextLevel = areaData.AdjacentLevels[nextArea];
-                            if (nextLevel.Exits.Any())
-                            {
-                                poiList.Add(new PointOfInterest
-                                {
-                                    Label = nextArea.Name(),
-                                    Position = nextLevel.Exits[0],
-                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
-                                });
-                            }
-                        }
-                        else
-                        {
-                            nextArea = areaData.AdjacentLevels.Keys.Max();
-                            if (nextArea > areaData.Area)
-                            {
-                                var nextLevel = areaData.AdjacentLevels[nextArea];
-                                if (nextLevel.Exits.Any())
-                                {
-                                    poiList.Add(new PointOfInterest
-                                    {
-                                        Label = nextArea.Name(),
-                                        Position = nextLevel.Exits[0],
-                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea
-                                    });
-                                }
-                            }
-                        }
-
-                        // Quest Area Point of Interest
-                        var questArea = areaData.Area;
-                        if (AreaPreferredQuestArea.ContainsKey(areaData.Area))
-                        {
-                            questArea = AreaPreferredQuestArea[areaData.Area];
-                            var questLevel = areaData.AdjacentLevels[questArea];
-                            if (questLevel.Exits.Any())
-                            {
-                                poiList.Add(new PointOfInterest
-                                {
-                                    Label = questArea.Name(),
-                                    Position = questLevel.Exits[0],
-                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                                });
-                            }
-                        }
-
-                        // Previous Area Point of Interest
-                        foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
-                        {
-                            // Skip Next Area and Quest Area Points of Interest
-                            if (level.Area == nextArea || level.Area == questArea)
-                            {
-                                continue;
-                            }
-
-                            foreach (Point position in level.Exits)
-                            {
-                                poiList.Add(new PointOfInterest
-                                {
-                                    Label = level.Area.Name(),
-                                    Position = position,
-                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea
-                                });
-                            }
-                        }
-                    }
-
-                    break;
-            }
-
-            return poiList;
         }
     }
 }
