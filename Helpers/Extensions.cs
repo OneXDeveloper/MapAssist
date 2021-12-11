@@ -18,12 +18,23 @@
  **/
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
-using GameOverlay.Windows;
 using MapAssist.Types;
+using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.Mathematics.Interop;
+using Geometry = GameOverlay.Drawing.Geometry;
+using Graphics = GameOverlay.Drawing.Graphics;
+using Point = GameOverlay.Drawing.Point;
+using Rectangle = GameOverlay.Drawing.Rectangle;
+using Color = GameOverlay.Drawing.Color;
+using GraphicsWindow = GameOverlay.Windows.GraphicsWindow;
+using SystemBitmap = System.Drawing.Bitmap;
+using SystemColor = System.Drawing.Color;
+using SystemImaging = System.Drawing.Imaging;
+using SystemRectangle = System.Drawing.Rectangle;
 
 namespace MapAssist.Helpers
 {
@@ -32,98 +43,73 @@ namespace MapAssist.Helpers
         public static bool IsWaypoint(this GameObject obj) => obj.ToString().Contains("Waypoint");
 
         // Math
-        public static PointF Subtract(this PointF point, float offset) => point.Subtract(offset, offset);
-        public static PointF Subtract(this PointF point, PointF offset) => point.Subtract(offset.X, offset.Y);
+        public static Point Subtract(this Point point, float offset) => point.Subtract(offset, offset);
+        public static Point Subtract(this Point point, Point offset) => point.Subtract(offset.X, offset.Y);
         
-        public static PointF Subtract(this PointF point, float x, float y)
+        public static Point Subtract(this Point point, float x, float y)
         {
-            return new PointF(point.X - x, point.Y - y);
+            return new Point(point.X - x, point.Y - y);
         }
 
-        public static PointF Add(this PointF point, PointF offset) => point.Add(offset.X, offset.Y);
-        public static PointF Add(this PointF point, float x, float y)
+        public static Point Add(this Point point, Point offset) => point.Add(offset.X, offset.Y);
+        public static Point Add(this Point point, float x, float y)
         {
-            return new PointF(point.X + x, point.Y + y);
+            return new Point(point.X + x, point.Y + y);
         }
 
-        public static PointF Multiply(this PointF point, float factor) => point.Multiply(factor, factor);
+        public static Point Multiply(this Point point, float factor) => point.Multiply(factor, factor);
 
-        public static PointF Multiply(this PointF point, float x, float y)
+        public static Point Multiply(this Point point, float x, float y)
         {
-            return new PointF(point.X * x, point.Y * y);
+            return new Point(point.X * x, point.Y * y);
         }
 
-        public static PointF Rotate(this PointF point, float angleRadians) => point.Rotate(angleRadians, new Point(0, 0));
+        public static Point Rotate(this Point point, float angleRadians) => point.Rotate(angleRadians, new Point(0, 0));
 
-        public static PointF Rotate(this PointF point, float angleRadians, PointF centerPoint)
+        public static Point Rotate(this Point point, float angleRadians, Point centerPoint)
         {
-            return new PointF(
+            return new Point(
               (float)(centerPoint.X + Math.Cos(angleRadians) * (point.X - centerPoint.X) - Math.Sin(angleRadians) * (point.Y - centerPoint.Y)),
               (float)(centerPoint.Y + Math.Sin(angleRadians) * (point.X - centerPoint.X) + Math.Cos(angleRadians) * (point.Y - centerPoint.Y))
             );
         }
 
-        public static float Angle(this PointF point)
+        public static float Angle(this Point point)
         {
             return (float)Math.Atan2(point.Y, point.X);
         }
 
-        // System.Drawing type conversions
-        public static Point ToPoint(this PointF point)
+        // System type conversions
+        public static Vector2 ToVector(this Point point)
         {
-            return new Point((int)Math.Round(point.X), (int)Math.Round(point.Y));
+            return new Vector2(point.X, point.Y);
         }
 
-        public static Rectangle ToRectangle(this RectangleF rect)
-        {
-            return new Rectangle((int)Math.Round(rect.X), (int)Math.Round(rect.Y), (int)Math.Round(rect.Width), (int)Math.Round(rect.Height));
-        }
-
-        public static PointF Center(this SizeF size)
-        {
-            return new PointF(size.Width / 2f, size.Height / 2f);
-        }
-
-        public static SizeF ToSizeF(this PointF[] points)
+        public static Rectangle ToRectangle(this Point[] points)
         {
             var minX = points.Min(point => point.X);
             var maxX = points.Max(point => point.X);
             var minY = points.Min(point => point.Y);
             var maxY = points.Max(point => point.Y);
 
-            return new SizeF(maxX - minX, maxY - minY);
+            return new Rectangle(minX, minY, maxX, maxY);
         }
 
-        public static PointF Center(this Bitmap bitmap)
+        public static SystemColor SetOpacity(this SystemColor color, float opacity)
         {
-            return new PointF(bitmap.Width / 2f, bitmap.Height / 2f);
+            return SystemColor.FromArgb((int)(color.A * opacity), color.R, color.G, color.B);
         }
 
-        public static Bitmap ToBitmap(this SizeF size, float padding = 0)
-        {
-            return new Bitmap((int)Math.Ceiling(size.Width + padding * 2), (int)Math.Ceiling(size.Height + padding * 2), PixelFormat.Format32bppArgb);
-        }
-
-        public static Color SetOpacity(this Color color, float opacity)
-        {
-            return Color.FromArgb((int)(color.A * opacity), color.R, color.G, color.B);
-        }
-
-        // System.Drawing to GameOverlay type conversions
-        public static GameOverlay.Drawing.Point ToGameOverlayPoint(this PointF point)
-        {
-            return new GameOverlay.Drawing.Point((int)Math.Round(point.X), (int)Math.Round(point.Y));
-        }
-
-        public static GameOverlay.Drawing.Geometry ToGeometry(this PointF[] points, GameOverlay.Drawing.Graphics gfx, bool fill)
+        // System to GameOverlay type conversions
+        public static Geometry ToGeometry(this Point[] points, Graphics gfx, bool fill)
         {
             var geo = gfx.CreateGeometry();
 
-            geo.BeginFigure(points[points.Length - 1].ToGameOverlayPoint(), fill);
+            geo.BeginFigure(points[points.Length - 1], fill);
 
             for (var i = 0; i < points.Length; i++)
             {
-                geo.AddPoint(points[i].ToGameOverlayPoint());
+                geo.AddPoint(points[i]);
             }
 
             geo.EndFigure(true);
@@ -132,37 +118,31 @@ namespace MapAssist.Helpers
             return geo;
         }
 
-        public static GameOverlay.Drawing.Color ToGameOverlayColor(this Color color)
+        public static Color ToGameOverlayColor(this SystemColor color)
         {
-            return new GameOverlay.Drawing.Color(color.R, color.G, color.B, color.A);
+            return new Color(color.R, color.G, color.B, color.A);
         }
 
-        // GameOverlay to System.Drawing type conversions
-        public static PointF Center(this GraphicsWindow window)
+        // System to SharpDX type conversions
+        public static Bitmap ToDXBitmap(this SystemBitmap bitmap, RenderTarget renderTarget)
         {
-            return new PointF(window.Width / 2f, window.Height / 2f);
-        }
-
-        public static PointF Center(this GameOverlay.Drawing.Point point)
-        {
-            return new PointF(point.X / 2f, point.Y / 2f);
-        }
-
-        // System.Drawing to SharpDX type conversions
-        public static SharpDX.Direct2D1.Bitmap ToDXBitmap(this Bitmap bitmap, SharpDX.Direct2D1.RenderTarget renderTarget)
-        {
-            var bmpData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            var bmpData = bitmap.LockBits(new SystemRectangle(0, 0, bitmap.Width, bitmap.Height), SystemImaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
             var numBytes = bmpData.Stride * bitmap.Height;
             var byteData = new byte[numBytes];
             IntPtr ptr = bmpData.Scan0;
             Marshal.Copy(ptr, byteData, 0, numBytes);
 
-            var newBmp = new SharpDX.Direct2D1.Bitmap(renderTarget, new SharpDX.Size2(bitmap.Width, bitmap.Height), new SharpDX.Direct2D1.BitmapProperties(renderTarget.PixelFormat));
+            var newBmp = new Bitmap(renderTarget, new Size2(bitmap.Width, bitmap.Height), new BitmapProperties(renderTarget.PixelFormat));
             newBmp.CopyFromMemory(byteData, bmpData.Stride);
 
             bitmap.UnlockBits(bmpData);
 
             return newBmp;
+        }
+
+        public static RawMatrix3x2 ToDXMatrix(this Matrix3x2 matrix)
+        {
+            return new RawMatrix3x2(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.M31, matrix.M32);
         }
     }
 }

@@ -24,8 +24,10 @@ HiddenAreas:
 
 ## RenderingConfiguration - Visual settings for the overlay
 RenderingConfiguration:
-  ## Opacity - Overlay trapsparency %
-  Opacity: 0.5
+  ## Opacity - Map transparency %
+  MapOpacity: 0.5
+  ## Opacity - Icon transparency %
+  IconOpacity: 0.9
   ## OverlayMode - Overlay map over in-game map / can be hidden with hotkey (ToggleKey)
   OverlayMode: true
   ## Positions - Options are: Center, TopLeft, TopRight
@@ -35,9 +37,7 @@ RenderingConfiguration:
   ## ToggleViaInGamePanels - Auto-hide overlay when in-game panels/menus are opened
   ToggleViaInGamePanels: true
   ## Size - Overlay map maximum size
-  Size: 450
-  ## Rotate - Transform map image with 45 degree rotation
-  Rotate: true
+  Size: 800
   ## ZoomLevel - Zoom level / can zoom in/out with hotkeys (ZoomInKey, ZoomOutKey)
   ZoomLevel: 1
   ## BuffPosition - Options are: Player, Top, Bottom

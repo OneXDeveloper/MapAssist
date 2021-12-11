@@ -17,13 +17,14 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using GameOverlay.Drawing;
 using GameOverlay.Windows;
 using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
+using SharpDX.Mathematics.Interop;
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using Graphics = GameOverlay.Drawing.Graphics;
 
@@ -32,11 +33,9 @@ namespace MapAssist
     public class Overlay : IDisposable
     {
         private readonly GraphicsWindow _window;
-
-        private GameData _currentGameData;
         private GameDataCache _gameDataCache;
+        private GameData _gameData;
         private Compositor _compositor;
-        private AreaData _areaData;
         private bool _show = true;
 
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
@@ -69,54 +68,45 @@ namespace MapAssist
 
             gfx.ClearScene();
 
-            if (_compositor != null && InGame() && _currentGameData != null)
+            if (_compositor != null && InGame() && _compositor != null && _gameData != null)
             {
                 UpdateLocation();
 
-                var errorLoadingAreaData = _areaData == null;
+                var errorLoadingAreaData = _compositor._areaData == null;
 
                 var overlayHidden = !_show ||
                     errorLoadingAreaData ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuOpen.EscMenu) ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
-                    (_currentGameData.Area == Area.None);
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
+                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
+                    _gameData.Area == Area.None ||
+                    gfx.Width == 1 ||
+                    gfx.Height == 1;
 
-                if (!overlayHidden)
+                var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
+
+                var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
+                switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                 {
-                    _compositor.CalcResizeRatios();
-
-                    var playerCenter = _compositor.PlayerPosition(_currentGameData);
-                    var size = _compositor.GetMapSize();
-
-                    PointF anchor;
-                    switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
-                    {
-                        case MapPosition.Center:
-                            if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
-                            {
-                                anchor = _window.Center().Subtract(playerCenter).Add(2, -8); // Brute forced to perfectly line up with the in game map
-                            }
-                            else
-                            {
-                                anchor = _window.Center().Subtract(size.Center());
-                            }
-                            break;
-                        case MapPosition.TopRight:
-                            anchor = new PointF(_window.Width - size.Width, 100);
-                            break;
-                        default:
-                            anchor = new PointF(PlayerIconWidth() + 40, 100);
-                            break;
-                    }
-
-                    _compositor.DrawGamemap(gfx, _currentGameData, anchor);
-                    _compositor.DrawOverlay(gfx, _currentGameData, anchor);
-                    _compositor.DrawBuffs(gfx, _currentGameData);
+                    case MapPosition.TopLeft:
+                        drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + size);
+                        break;
+                    case MapPosition.TopRight:
+                        drawBounds = new Rectangle(0, 100, gfx.Width, 100 + size);
+                        break;
                 }
 
-                _compositor.DrawGameInfo(gfx, _currentGameData, new PointF(PlayerIconWidth() + 50f, PlayerIconWidth() + 50f), e, errorLoadingAreaData);
+                _compositor.Init(gfx, _gameData, drawBounds);
+                
+                if (!overlayHidden)
+                {
+                    _compositor.DrawGamemap(gfx);
+                    _compositor.DrawOverlay(gfx);
+                    _compositor.DrawBuffs(gfx);
+                }
+
+                _compositor.DrawGameInfo(gfx, new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50), e, errorLoadingAreaData);
             }
         }
 
@@ -129,14 +119,14 @@ namespace MapAssist
         private void UpdateGameData()
         {
             var gameData = _gameDataCache.Get();
-            _currentGameData = gameData.Item1;
+            _gameData = gameData.Item1;
             _compositor = gameData.Item2;
-            _areaData = gameData.Item3;
+            //_areaData = gameData.Item3;
         }
 
         private bool InGame()
         {
-            return _currentGameData != null && _currentGameData.MainWindowHandle != IntPtr.Zero;
+            return _gameData != null && _gameData.MainWindowHandle != IntPtr.Zero;
         }
 
         public void KeyPressHandler(object sender, KeyPressEventArgs args)
@@ -183,34 +173,28 @@ namespace MapAssist
             var rect = WindowRect();
             var ultraWideMargin = UltraWideMargin();
 
-            _window.Resize(rect.Left + ultraWideMargin, rect.Top, rect.Right - rect.Left - ultraWideMargin * 2, rect.Bottom - rect.Top);
-            _window.PlaceAbove(_currentGameData.MainWindowHandle);
+            _window.Resize((int)(rect.Left + ultraWideMargin), (int)rect.Top, (int)(rect.Right - rect.Left - ultraWideMargin * 2), (int)(rect.Bottom - rect.Top));
+            _window.PlaceAbove(_gameData.MainWindowHandle);
         }
 
-        private WindowBounds WindowRect()
+        private Rectangle WindowRect()
         {
             WindowBounds rect;
-            WindowHelper.GetWindowClientBounds(_currentGameData.MainWindowHandle, out rect);
+            WindowHelper.GetWindowClientBounds(_gameData.MainWindowHandle, out rect);
 
-            return rect;
+            return new Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 
-        private Size WindowSize()
+        private float UltraWideMargin()
         {
             var rect = WindowRect();
-            return new Size(rect.Right - rect.Left, rect.Bottom - rect.Top);
+            return (float)Math.Max(Math.Round(((rect.Width + 2) - (rect.Height + 4) * 2.1f) / 2f), 0);
         }
 
-        private int UltraWideMargin()
+        private float PlayerIconWidth()
         {
-            var size = WindowSize();
-            return (int)Math.Max(Math.Round(((size.Width + 2) - (size.Height + 4) * 2.1f) / 2f), 0);
-        }
-
-        private int PlayerIconWidth()
-        {
-            var size = WindowSize();
-            return (int)Math.Round(size.Height / 20f);
+            var rect = WindowRect();
+            return rect.Height / 20f;
         }
 
         ~Overlay()

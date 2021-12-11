@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
+using GameOverlay.Drawing;
 using MapAssist.Types;
 
 namespace MapAssist.Structs

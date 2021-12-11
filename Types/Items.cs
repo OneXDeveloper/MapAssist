@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Timers;
 using MapAssist.Helpers;
-using MapAssist.Properties;
 using MapAssist.Settings;
 using Newtonsoft.Json;
 

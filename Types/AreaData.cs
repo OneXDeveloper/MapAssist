@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using GameOverlay.Drawing;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace MapAssist.Types
 {
@@ -35,6 +35,7 @@ namespace MapAssist.Types
         public Point Origin;
         public Dictionary<Area, AdjacentLevel> AdjacentLevels;
         public int[][] CollisionGrid;
+        public Rectangle ViewRectangle;
         public Dictionary<Npc, Point[]> NPCs;
         public Dictionary<GameObject, Point[]> Objects;
     }

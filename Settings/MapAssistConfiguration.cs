@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System.Collections.Generic;
 using System.Drawing;
 using MapAssist.Files;
 using MapAssist.Settings;
@@ -137,8 +136,11 @@ namespace MapAssist.Settings
 
 public class RenderingConfiguration
 {
-    [YamlMember(Alias = "Opacity", ApplyNamingConventions = false)]
-    public float Opacity { get; set; }
+    [YamlMember(Alias = "MapOpacity", ApplyNamingConventions = false)]
+    public float MapOpacity { get; set; }
+
+    [YamlMember(Alias = "IconOpacity", ApplyNamingConventions = false)]
+    public float IconOpacity { get; set; }
 
     [YamlMember(Alias = "OverlayMode", ApplyNamingConventions = false)]
     public bool OverlayMode { get; set; }
@@ -160,9 +162,6 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
     public float BuffSize { get; set; }
-
-    [YamlMember(Alias = "Rotate", ApplyNamingConventions = false)]
-    public bool Rotate { get; set; }
 
     [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
     public float ZoomLevel { get; set; }

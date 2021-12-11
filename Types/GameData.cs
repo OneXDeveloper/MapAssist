@@ -19,7 +19,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using GameOverlay.Drawing;
 using MapAssist.Structs;
 
 namespace MapAssist.Types

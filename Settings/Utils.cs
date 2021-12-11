@@ -18,9 +18,6 @@
  **/
 
 using System;
-using System.Configuration;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using MapAssist.Types;
 
