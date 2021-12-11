@@ -148,44 +148,69 @@ namespace MapAssist.Types
 
         public static string ItemName(uint txtFileNo)
         {
-            try
-            {
-                return LocalizedItems[_ItemCodes[txtFileNo]].enUS;
-            }
-            catch
+            string itemCode;
+            if (!_ItemCodes.TryGetValue(txtFileNo, out itemCode))
             {
                 return "ItemNotFound";
             }
+
+            LocalizedItemObj localItem;
+            if (!LocalizedItems.TryGetValue(itemCode, out localItem))
+            {
+                return "ItemNotFound";
+            }
+
+            return localItem.enUS;
         }
 
         public static string UniqueName(uint txtFileNo)
         {
-            try
-            {
-                return LocalizedItems[_UniqueFromCode[_ItemCodes[txtFileNo]]].enUS;
-            }
-            catch
+            string itemCode;
+            if (!_ItemCodes.TryGetValue(txtFileNo, out itemCode))
             {
                 return "Unique";
             }
+
+            if (!_UniqueFromCode.TryGetValue(itemCode, out itemCode))
+            {
+                return "Unique";
+            }
+
+            LocalizedItemObj localItem;
+            if (!LocalizedItems.TryGetValue(itemCode, out localItem))
+            {
+                return "Unique";
+            }
+
+            return localItem.enUS;
         }
 
         public static string SetName(uint txtFileNo)
         {
-            try
-            {
-                return LocalizedItems[_SetFromCode[_ItemCodes[txtFileNo]]].enUS;
-            }
-            catch
+            string itemCode;
+            if (!_ItemCodes.TryGetValue(txtFileNo, out itemCode))
             {
                 return "Set";
             }
+
+            if (!_UniqueFromCode.TryGetValue(itemCode, out itemCode))
+            {
+                return "Set";
+            }
+
+            LocalizedItemObj localItem;
+            if (!LocalizedItems.TryGetValue(itemCode, out localItem))
+            {
+                return "Set";
+            }
+
+            return localItem.enUS;
         }
 
         public static void LogItem(UnitAny unit, int processId)
         {
             if ((!ItemUnitHashesSeen[processId].Contains(unit.ItemHash()) &&
-                 !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit))
+                !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit))
             {
                 if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
                 {
