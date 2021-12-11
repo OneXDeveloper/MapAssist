@@ -67,6 +67,7 @@ namespace MapAssist.Helpers
             }
 
             var path = FindD2();
+            path = path.Contains(" ") ? "\"" + path + "\"" : path;
             
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = tempFile;

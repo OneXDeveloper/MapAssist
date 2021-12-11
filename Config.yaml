@@ -113,6 +113,9 @@ MapConfiguration:
     IconColor: '255, 218, 100'
     IconShape: Polygon
     IconSize: 5
+    LabelColor: '255, 218, 100'
+    LabelFontSize: 16
+    LabelFont: 'Helvetica'
   ArmorWeapRack:
     IconColor: '132, 132, 132'
     IconShape: Square

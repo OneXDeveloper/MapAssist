@@ -79,6 +79,7 @@ namespace MapAssist
                     errorLoadingAreaData ||
                     (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_currentGameData.MenuOpen.Map) ||
                     (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuPanelOpen > 0) ||
+                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _currentGameData.MenuOpen.EscMenu) ||
                     Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _currentGameData.Area) ||
                     (_currentGameData.Area == Area.None);
 

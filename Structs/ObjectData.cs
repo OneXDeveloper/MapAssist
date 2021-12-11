@@ -17,29 +17,42 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System.Drawing;
-using MapAssist.Settings;
+using System;
+using System.Runtime.InteropServices;
 
-namespace MapAssist.Types
+namespace MapAssist.Structs
 {
-    public class PointOfInterest
+    [StructLayout(LayoutKind.Explicit)]
+    public struct ObjectData
     {
-        public string Label;
-        public Point Position;
-        public PointOfInterestRendering RenderingSettings;
-        public PoiType Type;
+        [FieldOffset(0x0)] public IntPtr pObjectTxt;
+        [FieldOffset(0x08)] public byte InteractType;
+        [FieldOffset(0x0C)] public IntPtr pShrineTxt;
     }
-    public enum PoiType
+    public enum ShrineType : byte
     {
-        NextArea,
-        PreviousArea,
-        Waypoint,
-        Quest,
-        AreaSpecificQuest,
-        AreaSpecificLandmark,
+        None,
+        Refill,
+        Health,
+        Mana,
+        HPXChange,
+        ManaXChange,
+        Armor,
+        Combat,
+        ResistFire,
+        ResistCold,
+        ResistLight,
+        ResistPoison,
+        Skill,
+        ManaRegen,
+        Stamina,
+        Experience,
         Shrine,
-        SuperChest,
-        NormalChest,
-        ArmorWeapRack
-    }
+        Portal,
+        Gem,
+        Fire,
+        Monster,
+        Explosive,
+        Poison
+    };
 }

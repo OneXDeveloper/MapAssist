@@ -34,6 +34,7 @@ namespace MapAssist.Types
         public string PlayerName;
         public List<UnitAny> Monsters;
         public List<UnitAny> Items;
+        public List<UnitAny> Objects;
         public Session Session;
         public UnitAny PlayerUnit;
         public byte MenuPanelOpen;

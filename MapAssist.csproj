@@ -136,6 +136,7 @@
     <Compile Include="Structs\Menus.cs" />
     <Compile Include="Structs\Level.cs" />
     <Compile Include="Structs\MonsterData.cs" />
+    <Compile Include="Structs\ObjectData.cs" />
     <Compile Include="Structs\Path.cs" />
     <Compile Include="Structs\Room.cs" />
     <Compile Include="Structs\RoomEx.cs" />
@@ -217,7 +218,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\items-localization.json" />  
+    <EmbeddedResource Include="Resources\items-localization.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SALVATION.bmp" />
