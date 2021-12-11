@@ -45,6 +45,10 @@ namespace MapAssist.Helpers
         private const int WALKABLE = 0;
         private const int UNWALKABLE = 1;
 
+        private HashSet<string> cacheInvalidItemPath = new HashSet<string>();
+        private Dictionary<(string, float), SharpDX.Direct2D1.Bitmap> cacheItemBitmaps =
+            new Dictionary<(string, float), SharpDX.Direct2D1.Bitmap>();
+
         public Compositor(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
@@ -351,7 +355,8 @@ namespace MapAssist.Helpers
                 {
                     if (item.IsDropped())
                     {
-                        if (!LootFilter.Filter(item))
+                        var itemFilter = LootFilter.Filter(item);
+                        if (itemFilter == null)
                         {
                             continue;
                         }
@@ -359,7 +364,7 @@ namespace MapAssist.Helpers
                         var itemPosition = AdjustedPoint(item.Position).Add(anchor);
                         var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
-                        DrawIcon(gfx, render, itemPosition);
+                        DrawItemIcon(gfx, render, itemFilter, itemPosition);
                     }
                 }
 
@@ -367,7 +372,8 @@ namespace MapAssist.Helpers
                 {
                     if (item.IsDropped())
                     {
-                        if (!LootFilter.Filter(item))
+                        var itemFilter = LootFilter.Filter(item);
+                        if (itemFilter == null)
                         {
                             continue;
                         }
@@ -378,10 +384,12 @@ namespace MapAssist.Helpers
                         var color = Items.ItemColors[item.ItemData.ItemQuality];
                         var brush = CreateSolidBrush(gfx, color, 1);
                         var itemBaseName = Items.ItemName(item.TxtFileNo);
-                        var iconShape = GetIconShape(render).ToSizeF();
+                        var iconShape = GetItemIconShape(render, itemFilter).ToSizeF();
 
                         var stringSize = gfx.MeasureString(font, itemBaseName);
-                        gfx.DrawText(font, brush, itemPosition.Subtract(stringSize.Center()).Subtract(new PointF(0, stringSize.Y / 2 + iconShape.Height)).ToGameOverlayPoint(), itemBaseName);
+                        var position = itemPosition.Subtract(new PointF(0, iconShape.Height / 2)); // Top of the icon
+                        position = position.Subtract(stringSize.X / 2, stringSize.Y);
+                        gfx.DrawText(font, brush, position.ToGameOverlayPoint(), itemBaseName);
                     }
                 }
             }
@@ -633,6 +641,115 @@ namespace MapAssist.Helpers
             };
         }
 
+        private string GetItemIconPath(ItemFilter itemFilter)
+        {
+            string path;
+
+            if (itemFilter == null || string.IsNullOrEmpty(itemFilter.Icon))
+            {
+                path = MapAssistConfiguration.Loaded.ItemLog.DefaultIcon;
+            }
+            else
+            {
+                path = itemFilter.Icon;
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                return "";
+            }
+            if (cacheInvalidItemPath.Contains(path))
+            {
+                return "";
+            }
+            return path;
+        }
+
+        private Bitmap MakeItemImage(Bitmap origBitmap)
+        {
+            var maxSize = MapAssistConfiguration.Loaded.ItemLog.MaxIconSize;
+            var origWidth = origBitmap.Width;
+            var origHeight = origBitmap.Height;
+            int newWidth;
+            int newHeight;
+
+            // Use scaleWidth only to avoid distortion
+            var scaledSize = maxSize * scaleWidth;
+            var size = Math.Max(origWidth, origHeight);
+
+            if (maxSize == 0 || size <= scaledSize)
+            {
+                newWidth = origWidth;
+                newHeight = origHeight;
+            }
+            else
+            {
+                var ratio = scaledSize / size;
+                newWidth = (int)(origWidth * ratio);
+                newHeight = (int)(origHeight * ratio);
+            }
+            var bitmap = new Bitmap(newWidth, newHeight, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.DrawImage(origBitmap, new Rectangle(0, 0, newWidth, newHeight),
+                    new Rectangle(0, 0, origWidth, origHeight), GraphicsUnit.Pixel);
+            }
+            return bitmap;
+        }
+
+        private void DrawItemIcon(GameOverlay.Drawing.Graphics gfx, IconRendering rendering, ItemFilter itemFilter, PointF position)
+        {
+            var iconPath = GetItemIconPath(itemFilter);
+
+            if (string.IsNullOrEmpty(iconPath))
+            {
+                DrawIcon(gfx, rendering, position);
+                return;
+            }
+            var key = (iconPath, MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+            if (!cacheItemBitmaps.ContainsKey(key))
+            {
+                var renderTarget = gfx.GetRenderTarget();
+                try
+                {
+                    var bitmap = MakeItemImage(new Bitmap($"./icons/{iconPath}"));
+                    cacheItemBitmaps[key] = bitmap.ToDXBitmap(renderTarget);
+                }
+                catch (Exception)
+                {
+                    DrawIcon(gfx, rendering, position);
+                    cacheInvalidItemPath.Add(iconPath);
+                    return;
+                }
+            }
+            var dxBitmap = cacheItemBitmaps[key];
+            var size = dxBitmap.Size;
+            position = position.Subtract(dxBitmap.Size.Width / 2, dxBitmap.Size.Height / 2);
+            DrawBitmap(gfx, cacheItemBitmaps[key], position, MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity,
+                preventGameBarOverlap: true, zoomScaling: false);
+        }
+
+        private PointF[] GetItemIconShape(IconRendering render, ItemFilter itemFilter)
+        {
+            var iconPath = GetItemIconPath(itemFilter);
+            if (string.IsNullOrEmpty(iconPath))
+            {
+                return GetIconShape(render);
+            }
+            var key = (iconPath, MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel);
+            if (!cacheItemBitmaps.ContainsKey(key))
+            {
+                return GetIconShape(render);
+            }
+            var dxBitmap = cacheItemBitmaps[key];
+            var size = dxBitmap.Size;
+            return new PointF[]
+            {
+                new PointF(0, 0),
+                new PointF(size.Width, 0),
+                new PointF(size.Width, size.Height),
+                new PointF(0, size.Height)
+            }.Select(point => point.Subtract(size.Width / 2f, size.Height / 2f)).ToArray();
+        }
         private IconRendering GetMonsterIconRendering(MonsterData monsterData)
         {
             if ((monsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique)
@@ -749,6 +866,7 @@ namespace MapAssist.Helpers
             foreach (var item in cacheBitmaps.Values) item.Dispose();
             foreach (var item in cacheFonts.Values) item.Dispose();
             foreach (var item in cacheBrushes.Values) item.Dispose();
+            foreach (var item in cacheItemBitmaps.Values) item.Dispose();
         }
     }
 }

@@ -187,7 +187,7 @@ namespace MapAssist.Types
         public static void LogItem(UnitAny unit, int processId)
         {
             if ((!ItemUnitHashesSeen[processId].Contains(unit.ItemHash()) &&
-                 !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit))
+                 !ItemUnitIdsSeen[processId].Contains(unit.UnitId)) && LootFilter.Filter(unit) != null)
             {
                 if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop)
                 {

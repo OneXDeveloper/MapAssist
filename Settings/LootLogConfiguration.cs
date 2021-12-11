@@ -20,5 +20,6 @@ namespace MapAssist.Settings
         public ItemQuality[] Qualities { get; set; }
         public bool? Ethereal { get; set; }
         public int[] Sockets { get; set; }
+        public string Icon { get; set; }
     }
 }
