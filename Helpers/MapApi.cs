@@ -71,7 +71,7 @@ namespace MapAssist.Helpers
             
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = tempFile;
-            _pipeClient.StartInfo.Arguments = "'" + path + "'";
+            _pipeClient.StartInfo.Arguments = path;
             _pipeClient.StartInfo.UseShellExecute = false;
             _pipeClient.StartInfo.RedirectStandardOutput = true;
             _pipeClient.StartInfo.RedirectStandardInput = true;
