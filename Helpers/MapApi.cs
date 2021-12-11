@@ -67,10 +67,11 @@ namespace MapAssist.Helpers
             }
 
             var path = FindD2();
+            path = path.Contains(" ") ? "\"" + path + "\"" : path;
             
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = tempFile;
-            _pipeClient.StartInfo.Arguments = path;
+            _pipeClient.StartInfo.Arguments = "'" + path + "'";
             _pipeClient.StartInfo.UseShellExecute = false;
             _pipeClient.StartInfo.RedirectStandardOutput = true;
             _pipeClient.StartInfo.RedirectStandardInput = true;
@@ -163,7 +164,7 @@ namespace MapAssist.Helpers
                 if (IsValidD2Path(providedPath))
                 {
                     _log.Info("User provided D2 path is valid");
-                    return "'" + providedPath + "'";
+                    return providedPath;
                 }
 
                 _log.Info("User provided D2 path is invalid");
