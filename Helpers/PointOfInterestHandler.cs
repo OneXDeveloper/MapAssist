@@ -60,6 +60,10 @@ namespace MapAssist.Helpers
             {
                 [GameObject.SparklyChest] = "Uber Izual",
             },
+            [Area.PalaceCellarLevel3] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.ArcaneSanctuaryPortal] = "Arcane Sanctuary",
+            },
         };
 
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, string>>()
