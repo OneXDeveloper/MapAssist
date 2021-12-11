@@ -23,7 +23,6 @@ using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
-using SharpDX.Mathematics.Interop;
 using System;
 using System.Windows.Forms;
 using Graphics = GameOverlay.Drawing.Graphics;
@@ -32,15 +31,17 @@ namespace MapAssist
 {
     public class Overlay : IDisposable
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+      
         private readonly GraphicsWindow _window;
-        private GameDataCache _gameDataCache;
+        private GameDataReader _gameDataReader;
         private GameData _gameData;
         private Compositor _compositor;
         private bool _show = true;
 
         public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
         {
-            _gameDataCache = new GameDataCache();
+            _gameDataReader = new GameDataReader();
 
             GameOverlay.TimerService.EnableHighPrecisionTimers();
 
@@ -48,65 +49,66 @@ namespace MapAssist
             gfx.PerPrimitiveAntiAliasing = true;
             gfx.TextAntiAliasing = true;
 
-            _window = new GraphicsWindow(0, 0, 1, 1, gfx) { FPS = 1000 / MapAssistConfiguration.Loaded.UpdateTime, IsVisible = true };
+            _window = new GraphicsWindow(0, 0, 1, 1, gfx) { FPS = 60, IsVisible = true };
 
-            _window.SetupGraphics += _window_SetupGraphics;
             _window.DrawGraphics += _window_DrawGraphics;
             _window.DestroyGraphics += _window_DestroyGraphics;
-        }
-
-        private void _window_SetupGraphics(object sender, SetupGraphicsEventArgs e)
-        {
-
         }
 
         private void _window_DrawGraphics(object sender, DrawGraphicsEventArgs e)
         {
             var gfx = e.Graphics;
 
-            UpdateGameData();
-
-            gfx.ClearScene();
-
-            if (_compositor != null && InGame() && _compositor != null && _gameData != null)
+            try
             {
-                UpdateLocation();
+                (_compositor, _gameData) = _gameDataReader.Get();
 
-                var errorLoadingAreaData = _compositor._areaData == null;
+                gfx.ClearScene();
 
-                var overlayHidden = !_show ||
-                    errorLoadingAreaData ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
-                    (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
-                    Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
-                    _gameData.Area == Area.None ||
-                    gfx.Width == 1 ||
-                    gfx.Height == 1;
-
-                var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
-
-                var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
-                switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
+                if (_compositor != null && InGame() && _compositor != null && _gameData != null)
                 {
-                    case MapPosition.TopLeft:
-                        drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + size);
-                        break;
-                    case MapPosition.TopRight:
-                        drawBounds = new Rectangle(0, 100, gfx.Width, 100 + size);
-                        break;
-                }
+                    UpdateLocation();
 
-                _compositor.Init(gfx, _gameData, drawBounds);
-                
-                if (!overlayHidden)
-                {
-                    _compositor.DrawGamemap(gfx);
-                    _compositor.DrawOverlay(gfx);
-                    _compositor.DrawBuffs(gfx);
-                }
+                    var errorLoadingAreaData = _compositor._areaData == null;
 
-                _compositor.DrawGameInfo(gfx, new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50), e, errorLoadingAreaData);
+                    var overlayHidden = !_show ||
+                        errorLoadingAreaData ||
+                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
+                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
+                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
+                        Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
+                        _gameData.Area == Area.None ||
+                        gfx.Width == 1 ||
+                        gfx.Height == 1;
+
+                    var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
+
+                    var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
+                    switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
+                    {
+                        case MapPosition.TopLeft:
+                            drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + size);
+                            break;
+                        case MapPosition.TopRight:
+                            drawBounds = new Rectangle(0, 100, gfx.Width, 100 + size);
+                            break;
+                    }
+
+                    _compositor.Init(gfx, _gameData, drawBounds);
+
+                    if (!overlayHidden)
+                    {
+                        _compositor.DrawGamemap(gfx);
+                        _compositor.DrawOverlay(gfx);
+                        _compositor.DrawBuffs(gfx);
+                    }
+
+                    _compositor.DrawGameInfo(gfx, new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50), e, errorLoadingAreaData);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
             }
         }
 
@@ -114,14 +116,6 @@ namespace MapAssist
         {
             _window.Create();
             _window.Join();
-        }
-
-        private void UpdateGameData()
-        {
-            var gameData = _gameDataCache.Get();
-            _gameData = gameData.Item1;
-            _compositor = gameData.Item2;
-            //_areaData = gameData.Item3;
         }
 
         private bool InGame()
@@ -204,8 +198,7 @@ namespace MapAssist
 
         private void _window_DestroyGraphics(object sender, DestroyGraphicsEventArgs e)
         {
-            _gameDataCache?.Dispose();
-
+            _compositor.Dispose();
             _compositor = null;
         }
 
