@@ -547,6 +547,12 @@ namespace MapAssist.Helpers
 
                 anchor.Y += fontHeight + 5;
 
+                // Area Label
+                var areaText = "Area: " + Utils.GetAreaLabel(_areaData.Area, _gameData.Difficulty, true);
+                DrawText(gfx, anchor, areaText, "Consolas", 14, Color.FromArgb(255, 218, 100));
+
+                anchor.Y += fontHeight + 5;
+
                 // Overlay FPS
                 if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
                 {

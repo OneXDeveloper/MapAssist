@@ -25,19 +25,20 @@ namespace MapAssist.Settings
 {
     public static class Utils
     {
-        public static Area[] ParseCommaSeparatedAreasByName(string areas)
+        public static string GetAreaLabel(Area area, Difficulty difficulty, bool prefix = false)
         {
-            return areas
-                .Split(',')
-                .Select(o => LookupAreaByName(o.Trim()))
-                .Where(o => o != Area.None)
-                .ToArray();
+            var label = area.Name();
+            var level = area.Level(difficulty);
+            if (level > 0)
+            {
+                label += " (";
+                if (prefix)
+                {
+                    label += "Level: ";
+                }
+                label += level + ")";
+            }
+            return label;
         }
-
-        private static Area LookupAreaByName(string name)
-        {
-            return Enum.GetValues(typeof(Area)).Cast<Area>().FirstOrDefault(area => area.Name() == name);
-        }
-
     }
 }
