@@ -665,10 +665,18 @@ namespace MapAssist.Helpers
         {
             var brush = CreateSolidBrush(gfx, rendering.LineColor);
 
+            var angle = endPosition.Subtract(startPosition).Angle();
+            var length = endPosition.Rotate(-angle, startPosition).X - startPosition.X;
+
+            if (length < 20) // Don't render when line is too short
+            {
+                return;
+            }
+
+            startPosition = startPosition.Rotate(-angle, startPosition).Add(7, 0).Rotate(angle, startPosition); // Add 7 for a little extra spacing
+
             if (rendering.CanDrawArrowHead())
             {
-                var angle = endPosition.Subtract(startPosition).Angle();
-
                 endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f + 2, 0).Rotate(angle, startPosition); // Add 2 for a little extra spacing
 
                 var points = new Point[]
