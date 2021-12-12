@@ -169,561 +169,561 @@ namespace MapAssist.Types
 
     public static class AreaExtensions
     {
-        private readonly static Dictionary<Area, AreaLabel> _areaLabels = new Dictionary<Area, AreaLabel>()
+        private static readonly Dictionary<Area, AreaLabel> _areaLabels = new Dictionary<Area, AreaLabel>()
         {
-            [Area.None] = {
-                Name = "None",
+            [Area.None] = new AreaLabel() {
+                Text = "None",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.RogueEncampment] = {
-                Name = "Rogue Encampment",
+            [Area.RogueEncampment] = new AreaLabel() {
+                Text = "Rogue Encampment",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.BloodMoor] = {
-                Name = "Blood Moor",
+            [Area.BloodMoor] = new AreaLabel() {
+                Text = "Blood Moor",
                 Level = new int[] { 1, 36, 67 }
             },
-            [Area.ColdPlains] = {
-                Name = "Cold Plains",
+            [Area.ColdPlains] = new AreaLabel() {
+                Text = "Cold Plains",
                 Level = new int[] { 2, 36, 68 }
             },
-            [Area.StonyField] = {
-                Name = "Stony Field",
+            [Area.StonyField] = new AreaLabel() {
+                Text = "Stony Field",
                 Level = new int[] { 4, 37, 68 }
             },
-            [Area.DarkWood] = {
-                Name = "Dark Wood",
+            [Area.DarkWood] = new AreaLabel() {
+                Text = "Dark Wood",
                 Level = new int[] { 5, 38, 68 }
             },
-            [Area.BlackMarsh] = {
-                Name = "Black Marsh",
+            [Area.BlackMarsh] = new AreaLabel() {
+                Text = "Black Marsh",
                 Level = new int[] { 6, 38, 69 }
             },
-            [Area.TamoeHighland] = {
-                Name = "Tamoe Highland",
+            [Area.TamoeHighland] = new AreaLabel() {
+                Text = "Tamoe Highland",
                 Level = new int[] { 8, 39, 69 }
             },
-            [Area.DenOfEvil] = {
-                Name = "Den of Evil",
+            [Area.DenOfEvil] = new AreaLabel() {
+                Text = "Den of Evil",
                 Level = new int[] { 1, 36, 79 }
             },
-            [Area.CaveLevel1] = {
-                Name = "Cave Level 1",
+            [Area.CaveLevel1] = new AreaLabel() {
+                Text = "Cave Level 1",
                 Level = new int[] { 2, 36, 77 }
             },
-            [Area.UndergroundPassageLevel1] = {
-                Name = "Underground Passage Level 1",
+            [Area.UndergroundPassageLevel1] = new AreaLabel() {
+                Text = "Underground Passage Level 1",
                 Level = new int[] { 4, 37, 69 }
             },
-            [Area.HoleLevel1] = {
-                Name = "Hole Level 1",
+            [Area.HoleLevel1] = new AreaLabel() {
+                Text = "Hole Level 1",
                 Level = new int[] { 5, 38, 80 }
             },
-            [Area.PitLevel1] = {
-                Name = "Pit Level 1",
+            [Area.PitLevel1] = new AreaLabel() {
+                Text = "Pit Level 1",
                 Level = new int[] { 7, 39, 85 }
             },
-            [Area.CaveLevel2] = {
-                Name = "Cave Level 2",
+            [Area.CaveLevel2] = new AreaLabel() {
+                Text = "Cave Level 2",
                 Level = new int[] { 2, 37, 78 }
             },
-            [Area.UndergroundPassageLevel2] = {
-                Name = "Underground Passage Level 2",
+            [Area.UndergroundPassageLevel2] = new AreaLabel() {
+                Text = "Underground Passage Level 2",
                 Level = new int[] { 4, 38, 83 }
             },
-            [Area.HoleLevel2] = {
-                Name = "Hole Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HoleLevel2] = new AreaLabel() {
+                Text = "Hole Level 2",
+                Level = new int[] { 5, 39, 81 }
             },
-            [Area.PitLevel2] = {
-                Name = "Pit Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PitLevel2] = new AreaLabel() {
+                Text = "Pit Level 2",
+                Level = new int[] { 7, 40, 85 }
             },
-            [Area.BurialGrounds] = {
-                Name = "Burial Grounds",
-                Level = new int[] { 0, 0, 0 }
+            [Area.BurialGrounds] = new AreaLabel() {
+                Text = "Burial Grounds",
+                Level = new int[] { 3, 36, 80 }
             },
-            [Area.Crypt] = {
-                Name = "Crypt",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Crypt] = new AreaLabel() {
+                Text = "Crypt",
+                Level = new int[] { 3, 37, 83 }
             },
-            [Area.Mausoleum] = {
-                Name = "Mausoleum",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Mausoleum] = new AreaLabel() {
+                Text = "Mausoleum",
+                Level = new int[] { 3, 37, 85 }
             },
-            [Area.ForgottenTower] = {
-                Name = "Forgotten Tower",
+            [Area.ForgottenTower] = new AreaLabel() {
+                Text = "Forgotten Tower",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.TowerCellarLevel1] = {
-                Name = "Tower Cellar Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TowerCellarLevel1] = new AreaLabel() {
+                Text = "Tower Cellar Level 1",
+                Level = new int[] { 7, 38, 75 }
             },
-            [Area.TowerCellarLevel2] = {
-                Name = "Tower Cellar Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TowerCellarLevel2] = new AreaLabel() {
+                Text = "Tower Cellar Level 2",
+                Level = new int[] { 7, 39, 76 }
             },
-            [Area.TowerCellarLevel3] = {
-                Name = "Tower Cellar Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TowerCellarLevel3] = new AreaLabel() {
+                Text = "Tower Cellar Level 3",
+                Level = new int[] { 7, 40, 77 }
             },
-            [Area.TowerCellarLevel4] = {
-                Name = "Tower Cellar Level 4",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TowerCellarLevel4] = new AreaLabel() {
+                Text = "Tower Cellar Level 4",
+                Level = new int[] { 7, 41, 78 }
             },
-            [Area.TowerCellarLevel5] = {
-                Name = "Tower Cellar Level 5",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TowerCellarLevel5] = new AreaLabel() {
+                Text = "Tower Cellar Level 5",
+                Level = new int[] { 7, 42, 79 }
             },
-            [Area.MonasteryGate] = {
-                Name = "Monastery Gate",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MonasteryGate] = new AreaLabel() {
+                Text = "Monastery Gate",
+                Level = new int[] { 8, 40, 70 }
             },
-            [Area.OuterCloister] = {
-                Name = "Outer Cloister",
-                Level = new int[] { 0, 0, 0 }
+            [Area.OuterCloister] = new AreaLabel() {
+                Text = "Outer Cloister",
+                Level = new int[] { 9, 40, 70 }
             },
-            [Area.Barracks] = {
-                Name = "Barracks",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Barracks] = new AreaLabel() {
+                Text = "Barracks",
+                Level = new int[] { 9, 40, 70 }
             },
-            [Area.JailLevel1] = {
-                Name = "Jail Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.JailLevel1] = new AreaLabel() {
+                Text = "Jail Level 1",
+                Level = new int[] { 10, 41, 71 }
             },
-            [Area.JailLevel2] = {
-                Name = "Jail Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.JailLevel2] = new AreaLabel() {
+                Text = "Jail Level 2",
+                Level = new int[] { 10, 41, 71 }
             },
-            [Area.JailLevel3] = {
-                Name = "Jail Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.JailLevel3] = new AreaLabel() {
+                Text = "Jail Level 3",
+                Level = new int[] { 10, 41, 71 }
             },
-            [Area.InnerCloister] = {
-                Name = "Inner Cloister",
-                Level = new int[] { 0, 0, 0 }
+            [Area.InnerCloister] = new AreaLabel() {
+                Text = "Inner Cloister",
+                Level = new int[] { 10, 41, 72 }
             },
-            [Area.Cathedral] = {
-                Name = "Cathedral",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Cathedral] = new AreaLabel() {
+                Text = "Cathedral",
+                Level = new int[] { 11, 42, 72 }
             },
-            [Area.CatacombsLevel1] = {
-                Name = "Catacombs Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CatacombsLevel1] = new AreaLabel() {
+                Text = "Catacombs Level 1",
+                Level = new int[] { 11, 42, 72 }
             },
-            [Area.CatacombsLevel2] = {
-                Name = "Catacombs Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CatacombsLevel2] = new AreaLabel() {
+                Text = "Catacombs Level 2",
+                Level = new int[] { 11, 42, 73 }
             },
-            [Area.CatacombsLevel3] = {
-                Name = "Catacombs Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CatacombsLevel3] = new AreaLabel() {
+                Text = "Catacombs Level 3",
+                Level = new int[] { 12, 43, 73 }
             },
-            [Area.CatacombsLevel4] = {
-                Name = "Catacombs Level 4",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CatacombsLevel4] = new AreaLabel() {
+                Text = "Catacombs Level 4",
+                Level = new int[] { 12, 43, 73 }
             },
-            [Area.Tristram] = {
-                Name = "Tristram",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Tristram] = new AreaLabel() {
+                Text = "Tristram",
+                Level = new int[] { 6, 39, 76 }
             },
-            [Area.MooMooFarm] = {
-                Name = "Cow Level",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MooMooFarm] = new AreaLabel() {
+                Text = "Cow Level",
+                Level = new int[] { 28, 64, 81 }
             },
-            [Area.LutGholein] = {
-                Name = "Lut Gholein",
+            [Area.LutGholein] = new AreaLabel() {
+                Text = "Lut Gholein",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.RockyWaste] = {
-                Name = "Rocky Waste",
-                Level = new int[] { 0, 0, 0 }
+            [Area.RockyWaste] = new AreaLabel() {
+                Text = "Rocky Waste",
+                Level = new int[] { 14, 43, 75 }
             },
-            [Area.DryHills] = {
-                Name = "Dry Hills",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DryHills] = new AreaLabel() {
+                Text = "Dry Hills",
+                Level = new int[] { 15, 44, 76 }
             },
-            [Area.FarOasis] = {
-                Name = "Far Oasis",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FarOasis] = new AreaLabel() {
+                Text = "Far Oasis",
+                Level = new int[] { 16, 45, 76 }
             },
-            [Area.LostCity] = {
-                Name = "Lost City",
-                Level = new int[] { 0, 0, 0 }
+            [Area.LostCity] = new AreaLabel() {
+                Text = "Lost City",
+                Level = new int[] { 17, 46, 77 }
             },
-            [Area.ValleyOfSnakes] = {
-                Name = "Valley of Snakes",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ValleyOfSnakes] = new AreaLabel() {
+                Text = "Valley of Snakes",
+                Level = new int[] { 18, 46, 77 }
             },
-            [Area.CanyonOfTheMagi] = {
-                Name = "Canyon of the Magi",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CanyonOfTheMagi] = new AreaLabel() {
+                Text = "Canyon of the Magi",
+                Level = new int[] { 16, 48, 79 }
             },
-            [Area.SewersLevel1Act2] = {
-                Name = "Sewers Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SewersLevel1Act2] = new AreaLabel() {
+                Text = "Sewers Level 1",
+                Level = new int[] { 13, 43, 74 }
             },
-            [Area.SewersLevel2Act2] = {
-                Name = "Sewers Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SewersLevel2Act2] = new AreaLabel() {
+                Text = "Sewers Level 2",
+                Level = new int[] { 13, 43, 74 }
             },
-            [Area.SewersLevel3Act2] = {
-                Name = "Sewers Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SewersLevel3Act2] = new AreaLabel() {
+                Text = "Sewers Level 3",
+                Level = new int[] { 13, 44, 75 }
             },
-            [Area.HaremLevel1] = {
-                Name = "Harem Level 1",
+            [Area.HaremLevel1] = new AreaLabel() {
+                Text = "Harem Level 1",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.HaremLevel2] = {
-                Name = "Harem Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HaremLevel2] = new AreaLabel() {
+                Text = "Harem Level 2",
+                Level = new int[] { 14, 47, 78 }
             },
-            [Area.PalaceCellarLevel1] = {
-                Name = "Palace Cellar Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PalaceCellarLevel1] = new AreaLabel() {
+                Text = "Palace Cellar Level 1",
+                Level = new int[] { 13, 47, 78 }
             },
-            [Area.PalaceCellarLevel2] = {
-                Name = "Palace Cellar Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PalaceCellarLevel2] = new AreaLabel() {
+                Text = "Palace Cellar Level 2",
+                Level = new int[] { 13, 47, 78 }
             },
-            [Area.PalaceCellarLevel3] = {
-                Name = "Palace Cellar Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PalaceCellarLevel3] = new AreaLabel() {
+                Text = "Palace Cellar Level 3",
+                Level = new int[] { 13, 48, 78 }
             },
-            [Area.StonyTombLevel1] = {
-                Name = "Stony Tomb Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.StonyTombLevel1] = new AreaLabel() {
+                Text = "Stony Tomb Level 1",
+                Level = new int[] { 12, 44, 78 }
             },
-            [Area.HallsOfTheDeadLevel1] = {
-                Name = "Halls of the Dead Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfTheDeadLevel1] = new AreaLabel() {
+                Text = "Halls of the Dead Level 1",
+                Level = new int[] { 12, 44, 79 }
             },
-            [Area.HallsOfTheDeadLevel2] = {
-                Name = "Halls of the Dead Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfTheDeadLevel2] = new AreaLabel() {
+                Text = "Halls of the Dead Level 2",
+                Level = new int[] { 13, 45, 81 }
             },
-            [Area.ClawViperTempleLevel1] = {
-                Name = "Claw Viper Temple Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ClawViperTempleLevel1] = new AreaLabel() {
+                Text = "Claw Viper Temple Level 1",
+                Level = new int[] { 14, 47, 82 }
             },
-            [Area.StonyTombLevel2] = {
-                Name = "Stony Tomb Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.StonyTombLevel2] = new AreaLabel() {
+                Text = "Stony Tomb Level 2",
+                Level = new int[] { 12, 44, 79 }
             },
-            [Area.HallsOfTheDeadLevel3] = {
-                Name = "Halls of the Dead Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfTheDeadLevel3] = new AreaLabel() {
+                Text = "Halls of the Dead Level 3",
+                Level = new int[] { 13, 45, 82 }
             },
-            [Area.ClawViperTempleLevel2] = {
-                Name = "Claw Viper Temple Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ClawViperTempleLevel2] = new AreaLabel() {
+                Text = "Claw Viper Temple Level 2",
+                Level = new int[] { 14, 47, 83 }
             },
-            [Area.MaggotLairLevel1] = {
-                Name = "Maggot Lair Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MaggotLairLevel1] = new AreaLabel() {
+                Text = "Maggot Lair Level 1",
+                Level = new int[] { 17, 45, 84 }
             },
-            [Area.MaggotLairLevel2] = {
-                Name = "Maggot Lair Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MaggotLairLevel2] = new AreaLabel() {
+                Text = "Maggot Lair Level 2",
+                Level = new int[] { 17, 45, 84 }
             },
-            [Area.MaggotLairLevel3] = {
-                Name = "Maggot Lair Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MaggotLairLevel3] = new AreaLabel() {
+                Text = "Maggot Lair Level 3",
+                Level = new int[] { 17, 46, 85 }
             },
-            [Area.AncientTunnels] = {
-                Name = "Ancient Tunnels",
-                Level = new int[] { 0, 0, 0 }
+            [Area.AncientTunnels] = new AreaLabel() {
+                Text = "Ancient Tunnels",
+                Level = new int[] { 17, 46, 85 }
             },
-            [Area.TalRashasTomb1] = {
-                Name = "Tal Rashas Tomb #1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb1] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #1",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb2] = {
-                Name = "Tal Rashas Tomb #2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb2] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #2",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb3] = {
-                Name = "Tal Rashas Tomb #3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb3] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #3",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb4] = {
-                Name = "Tal Rashas Tomb #4",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb4] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #4",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb5] = {
-                Name = "Tal Rashas Tomb #5",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb5] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #5",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb6] = {
-                Name = "Tal Rashas Tomb #6",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb6] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #6",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.TalRashasTomb7] = {
-                Name = "Tal Rashas Tomb #7",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TalRashasTomb7] = new AreaLabel() {
+                Text = "Tal Rasha's Tomb #7",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.DurielsLair] = {
-                Name = "Duriels Lair",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DurielsLair] = new AreaLabel() {
+                Text = "Tal Rasha's Chamber",
+                Level = new int[] { 17, 49, 80 }
             },
-            [Area.ArcaneSanctuary] = {
-                Name = "Arcane Sanctuary",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ArcaneSanctuary] = new AreaLabel() {
+                Text = "Arcane Sanctuary",
+                Level = new int[] { 14, 84, 79 }
             },
-            [Area.KurastDocks] = {
-                Name = "Kurast Docks",
+            [Area.KurastDocks] = new AreaLabel() {
+                Text = "Kurast Docks",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.SpiderForest] = {
-                Name = "Spider Forest",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SpiderForest] = new AreaLabel() {
+                Text = "Spider Forest",
+                Level = new int[] { 21, 49, 79 }
             },
-            [Area.GreatMarsh] = {
-                Name = "Great Marsh",
-                Level = new int[] { 0, 0, 0 }
+            [Area.GreatMarsh] = new AreaLabel() {
+                Text = "Great Marsh",
+                Level = new int[] { 21, 50, 80 }
             },
-            [Area.FlayerJungle] = {
-                Name = "Flayer Jungle",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FlayerJungle] = new AreaLabel() {
+                Text = "Flayer Jungle",
+                Level = new int[] { 22, 50, 80 }
             },
-            [Area.LowerKurast] = {
-                Name = "Lower Kurast",
-                Level = new int[] { 0, 0, 0 }
+            [Area.LowerKurast] = new AreaLabel() {
+                Text = "Lower Kurast",
+                Level = new int[] { 22, 52, 80 }
             },
-            [Area.KurastBazaar] = {
-                Name = "Kurast Bazaar",
-                Level = new int[] { 0, 0, 0 }
+            [Area.KurastBazaar] = new AreaLabel() {
+                Text = "Kurast Bazaar",
+                Level = new int[] { 22, 52, 81 }
             },
-            [Area.UpperKurast] = {
-                Name = "Upper Kurast",
-                Level = new int[] { 0, 0, 0 }
+            [Area.UpperKurast] = new AreaLabel() {
+                Text = "Upper Kurast",
+                Level = new int[] { 23, 52, 81 }
             },
-            [Area.KurastCauseway] = {
-                Name = "Kurast Causeway",
-                Level = new int[] { 0, 0, 0 }
+            [Area.KurastCauseway] = new AreaLabel() {
+                Text = "Kurast Causeway",
+                Level = new int[] { 24, 53, 81 }
             },
-            [Area.Travincal] = {
-                Name = "Travincal",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Travincal] = new AreaLabel() {
+                Text = "Travincal",
+                Level = new int[] { 24, 54, 82 }
             },
-            [Area.SpiderCave] = {
-                Name = "Spider Cave",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SpiderCave] = new AreaLabel() {
+                Text = "Spider Cave",
+                Level = new int[] { 21, 50, 79 }
             },
-            [Area.SpiderCavern] = {
-                Name = "Spider Cavern",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SpiderCavern] = new AreaLabel() {
+                Text = "Spider Cavern",
+                Level = new int[] { 21, 50, 79 }
             },
-            [Area.SwampyPitLevel1] = {
-                Name = "Swampy Pit Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SwampyPitLevel1] = new AreaLabel() {
+                Text = "Swampy Pit Level 1",
+                Level = new int[] { 21, 51, 80 }
             },
-            [Area.SwampyPitLevel2] = {
-                Name = "Swampy Pit Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SwampyPitLevel2] = new AreaLabel() {
+                Text = "Swampy Pit Level 2",
+                Level = new int[] { 21, 51, 81 }
             },
-            [Area.FlayerDungeonLevel1] = {
-                Name = "Flayer Dungeon Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FlayerDungeonLevel1] = new AreaLabel() {
+                Text = "Flayer Dungeon Level 1",
+                Level = new int[] { 22, 51, 81 }
             },
-            [Area.FlayerDungeonLevel2] = {
-                Name = "Flayer Dungeon Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FlayerDungeonLevel2] = new AreaLabel() {
+                Text = "Flayer Dungeon Level 2",
+                Level = new int[] { 22, 51, 82 }
             },
-            [Area.SwampyPitLevel3] = {
-                Name = "Swampy Pit Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SwampyPitLevel3] = new AreaLabel() {
+                Text = "Swampy Pit Level 3",
+                Level = new int[] { 21, 51, 82 }
             },
-            [Area.FlayerDungeonLevel3] = {
-                Name = "Flayer Dungeon Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FlayerDungeonLevel3] = new AreaLabel() {
+                Text = "Flayer Dungeon Level 3",
+                Level = new int[] { 22, 51, 83 }
             },
-            [Area.SewersLevel1Act3] = {
-                Name = "Sewers Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SewersLevel1Act3] = new AreaLabel() {
+                Text = "Sewers Level 1",
+                Level = new int[] { 23, 52, 84 }
             },
-            [Area.SewersLevel2Act3] = {
-                Name = "Sewers Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.SewersLevel2Act3] = new AreaLabel() {
+                Text = "Sewers Level 2",
+                Level = new int[] { 24, 53, 85 }
             },
-            [Area.RuinedTemple] = {
-                Name = "Ruined Temple",
-                Level = new int[] { 0, 0, 0 }
+            [Area.RuinedTemple] = new AreaLabel() {
+                Text = "Ruined Temple",
+                Level = new int[] { 23, 53, 84 }
             },
-            [Area.DisusedFane] = {
-                Name = "Disused Fane",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DisusedFane] = new AreaLabel() {
+                Text = "Disused Fane",
+                Level = new int[] { 23, 53, 84 }
             },
-            [Area.ForgottenReliquary] = {
-                Name = "Forgotten Reliquary",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ForgottenReliquary] = new AreaLabel() {
+                Text = "Forgotten Reliquary",
+                Level = new int[] { 23, 53, 84 }
             },
-            [Area.ForgottenTemple] = {
-                Name = "Forgotten Temple",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ForgottenTemple] = new AreaLabel() {
+                Text = "Forgotten Temple",
+                Level = new int[] { 24, 54, 85 }
             },
-            [Area.RuinedFane] = {
-                Name = "Ruined Fane",
-                Level = new int[] { 0, 0, 0 }
+            [Area.RuinedFane] = new AreaLabel() {
+                Text = "Ruined Fane",
+                Level = new int[] { 24, 54, 85 }
             },
-            [Area.DisusedReliquary] = {
-                Name = "Disused Reliquary",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DisusedReliquary] = new AreaLabel() {
+                Text = "Disused Reliquary",
+                Level = new int[] { 24, 54, 85 }
             },
-            [Area.DuranceOfHateLevel1] = {
-                Name = "Durance of Hate Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DuranceOfHateLevel1] = new AreaLabel() {
+                Text = "Durance of Hate Level 1",
+                Level = new int[] { 25, 55, 83 }
             },
-            [Area.DuranceOfHateLevel2] = {
-                Name = "Durance of Hate Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DuranceOfHateLevel2] = new AreaLabel() {
+                Text = "Durance of Hate Level 2",
+                Level = new int[] { 25, 55, 83 }
             },
-            [Area.DuranceOfHateLevel3] = {
-                Name = "Durance of Hate Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DuranceOfHateLevel3] = new AreaLabel() {
+                Text = "Durance of Hate Level 3",
+                Level = new int[] { 25, 55, 83 }
             },
-            [Area.ThePandemoniumFortress] = {
-                Name = "Pandemonium Fortress",
+            [Area.ThePandemoniumFortress] = new AreaLabel() {
+                Text = "Pandemonium Fortress",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.OuterSteppes] = {
-                Name = "Outer Steppes",
-                Level = new int[] { 0, 0, 0 }
+            [Area.OuterSteppes] = new AreaLabel() {
+                Text = "Outer Steppes",
+                Level = new int[] { 26, 56, 82 }
             },
-            [Area.PlainsOfDespair] = {
-                Name = "Plains of Despair",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PlainsOfDespair] = new AreaLabel() {
+                Text = "Plains of Despair",
+                Level = new int[] { 26, 56, 83 }
             },
-            [Area.CityOfTheDamned] = {
-                Name = "City of the Damned",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CityOfTheDamned] = new AreaLabel() {
+                Text = "City of the Damned",
+                Level = new int[] { 27, 57, 84 }
             },
-            [Area.RiverOfFlame] = {
-                Name = "River of Flame",
-                Level = new int[] { 0, 0, 0 }
+            [Area.RiverOfFlame] = new AreaLabel() {
+                Text = "River of Flame",
+                Level = new int[] { 27, 57, 85 }
             },
-            [Area.ChaosSanctuary] = {
-                Name = "Chaos Sanctuary",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ChaosSanctuary] = new AreaLabel() {
+                Text = "Chaos Sanctuary",
+                Level = new int[] { 28, 58, 85 }
             },
-            [Area.Harrogath] = {
-                Name = "Harrogath",
+            [Area.Harrogath] = new AreaLabel() {
+                Text = "Harrogath",
                 Level = new int[] { 0, 0, 0 }
             },
-            [Area.BloodyFoothills] = {
-                Name = "Bloody Foothills",
-                Level = new int[] { 0, 0, 0 }
+            [Area.BloodyFoothills] = new AreaLabel() {
+                Text = "Bloody Foothills",
+                Level = new int[] { 24, 58, 80 }
             },
-            [Area.FrigidHighlands] = {
-                Name = "Frigid Highlands",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FrigidHighlands] = new AreaLabel() {
+                Text = "Frigid Highlands",
+                Level = new int[] { 25, 59, 81 }
             },
-            [Area.ArreatPlateau] = {
-                Name = "Arreat Plateau",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ArreatPlateau] = new AreaLabel() {
+                Text = "Arreat Plateau",
+                Level = new int[] { 26, 60, 81 }
             },
-            [Area.CrystallinePassage] = {
-                Name = "Crystalline Passage",
-                Level = new int[] { 0, 0, 0 }
+            [Area.CrystallinePassage] = new AreaLabel() {
+                Text = "Crystalline Passage",
+                Level = new int[] { 29, 61, 82 }
             },
-            [Area.FrozenRiver] = {
-                Name = "Frozen River",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FrozenRiver] = new AreaLabel() {
+                Text = "Frozen River",
+                Level = new int[] { 29, 61, 83 }
             },
-            [Area.GlacialTrail] = {
-                Name = "Glacial Trail",
-                Level = new int[] { 0, 0, 0 }
+            [Area.GlacialTrail] = new AreaLabel() {
+                Text = "Glacial Trail",
+                Level = new int[] { 29, 61, 83 }
             },
-            [Area.DrifterCavern] = {
-                Name = "Drifter Cavern",
-                Level = new int[] { 0, 0, 0 }
+            [Area.DrifterCavern] = new AreaLabel() {
+                Text = "Drifter Cavern",
+                Level = new int[] { 29, 61, 84 }
             },
-            [Area.FrozenTundra] = {
-                Name = "Frozen Tundra",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FrozenTundra] = new AreaLabel() {
+                Text = "Frozen Tundra",
+                Level = new int[] { 27, 60, 81 }
             },
-            [Area.TheAncientsWay] = {
-                Name = "Ancients' Way",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TheAncientsWay] = new AreaLabel() {
+                Text = "Ancients' Way",
+                Level = new int[] { 29, 62, 82 }
             },
-            [Area.IcyCellar] = {
-                Name = "Icy Cellar",
-                Level = new int[] { 0, 0, 0 }
+            [Area.IcyCellar] = new AreaLabel() {
+                Text = "Icy Cellar",
+                Level = new int[] { 29, 62, 83 }
             },
-            [Area.ArreatSummit] = {
-                Name = "Arreat Summit",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ArreatSummit] = new AreaLabel() {
+                Text = "Arreat Summit",
+                Level = new int[] { 37, 68, 87 }
             },
-            [Area.NihlathaksTemple] = {
-                Name = "Nihlathaks Temple",
-                Level = new int[] { 0, 0, 0 }
+            [Area.NihlathaksTemple] = new AreaLabel() {
+                Text = "Nihlathak's Temple",
+                Level = new int[] { 32, 63, 83 }
             },
-            [Area.HallsOfAnguish] = {
-                Name = "Halls of Anguish",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfAnguish] = new AreaLabel() {
+                Text = "Halls of Anguish",
+                Level = new int[] { 33, 63, 83 }
             },
-            [Area.HallsOfPain] = {
-                Name = "Halls of Pain",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfPain] = new AreaLabel() {
+                Text = "Halls of Pain",
+                Level = new int[] { 34, 64, 84 }
             },
-            [Area.HallsOfVaught] = {
-                Name = "Halls of Vaught",
-                Level = new int[] { 0, 0, 0 }
+            [Area.HallsOfVaught] = new AreaLabel() {
+                Text = "Halls of Vaught",
+                Level = new int[] { 36, 64, 84 }
             },
-            [Area.Abaddon] = {
-                Name = "Abaddon",
-                Level = new int[] { 0, 0, 0 }
+            [Area.Abaddon] = new AreaLabel() {
+                Text = "Abaddon",
+                Level = new int[] { 39, 60, 81 }
             },
-            [Area.PitOfAcheron] = {
-                Name = "Pit of Acheron",
-                Level = new int[] { 0, 0, 0 }
+            [Area.PitOfAcheron] = new AreaLabel() {
+                Text = "Pit of Acheron",
+                Level = new int[] { 39, 61, 82 }
             },
-            [Area.InfernalPit] = {
-                Name = "Infernal Pit",
-                Level = new int[] { 0, 0, 0 }
+            [Area.InfernalPit] = new AreaLabel() {
+                Text = "Infernal Pit",
+                Level = new int[] { 39, 62, 83 }
             },
-            [Area.TheWorldStoneKeepLevel1] = {
-                Name = "Worldstone Keep Level 1",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TheWorldStoneKeepLevel1] = new AreaLabel() {
+                Text = "Worldstone Keep Level 1",
+                Level = new int[] { 39, 65, 85 }
             },
-            [Area.TheWorldStoneKeepLevel2] = {
-                Name = "Worldstone Keep Level 2",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TheWorldStoneKeepLevel2] = new AreaLabel() {
+                Text = "Worldstone Keep Level 2",
+                Level = new int[] { 39, 65, 85 }
             },
-            [Area.TheWorldStoneKeepLevel3] = {
-                Name = "Worldstone Keep Level 3",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TheWorldStoneKeepLevel3] = new AreaLabel() {
+                Text = "Worldstone Keep Level 3",
+                Level = new int[] { 42, 66, 85 }
             },
-            [Area.ThroneOfDestruction] = {
-                Name = "Throne of Destruction",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ThroneOfDestruction] = new AreaLabel() {
+                Text = "Throne of Destruction",
+                Level = new int[] { 43, 66, 85 }
             },
-            [Area.TheWorldstoneChamber] = {
-                Name = "Worldstone Chamber",
-                Level = new int[] { 0, 0, 0 }
+            [Area.TheWorldstoneChamber] = new AreaLabel() {
+                Text = "Worldstone Chamber",
+                Level = new int[] { 43, 66, 85 }
             },
-            [Area.MatronsDen] = {
-                Name = "Matron's Den",
-                Level = new int[] { 0, 0, 0 }
+            [Area.MatronsDen] = new AreaLabel() {
+                Text = "Matron's Den",
+                Level = new int[] { 0, 0, 83 }
             },
-            [Area.ForgottenSands] = {
-                Name = "Forgotten Sands",
-                Level = new int[] { 0, 0, 0 }
+            [Area.ForgottenSands] = new AreaLabel() {
+                Text = "Forgotten Sands",
+                Level = new int[] { 0, 0, 83 }
             },
-            [Area.FurnaceOfPain] = {
-                Name = "Furnace of Pain",
-                Level = new int[] { 0, 0, 0 }
+            [Area.FurnaceOfPain] = new AreaLabel() {
+                Text = "Furnace of Pain",
+                Level = new int[] { 0, 0, 83 }
             },
-            [Area.UberTristram] = {
-                Name = "Uber Tristram",
-                Level = new int[] { 0, 0, 0 }
+            [Area.UberTristram] = new AreaLabel() {
+                Text = "Uber Tristram",
+                Level = new int[] { 0, 0, 83 }
             },
         };
 
         public static string Name(this Area area)
         {
-            return _areaLabels.TryGetValue(area, out var label) ? label.Name : area.ToString();
+            return _areaLabels.TryGetValue(area, out var label) ? label.Text : area.ToString();
         }
 
         public static bool IsValid(this Area area)

@@ -42,7 +42,7 @@ namespace MapAssist.Types
 
     class AreaLabel
     {
-        public string Name;
+        public string Text;
         public int[] Level;
     }
 }
