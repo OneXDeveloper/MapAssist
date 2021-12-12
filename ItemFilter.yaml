@@ -20,9 +20,7 @@ Thresher:
 
 # This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
 Mage Plate:
- - Qualities: 
-    - normal
-    - superior
+ - Qualities: [normal, superior]
    Sockets: [0, 3]
 
 # This monarch rule is really 2 separate rules.  Notice the "-" on each line
@@ -133,20 +131,13 @@ Matriarchal Javelin:
 
 ### Misc
 Amulet:
- - Qualities: 
-   - magic
-   - rare
-   - unique
-   - set
+ - Qualities: [magic, rare, unique, set]
 Jewel:
- - Qualities: 
-   - magic
-   - rare
-   - unique
+ - Qualities: [magic, rare, unique]
 Small Charm:
  - Qualities: [magic, unique]
 Large Charm:
- - Qualities: unique
+ - Qualities: [unique]
 Grand Charm:
  - Qualities: [magic, unique]
 Key of Terror:
