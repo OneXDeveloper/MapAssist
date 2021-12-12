@@ -34,7 +34,7 @@ namespace MapAssist.Settings
                 label += " (";
                 if (prefix)
                 {
-                    label += "Level: ";
+                    label += "alvl: ";
                 }
                 label += level + ")";
             }
