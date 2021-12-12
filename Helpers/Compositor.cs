@@ -176,7 +176,9 @@ namespace MapAssist.Helpers
 
                 if (poi.RenderingSettings.CanDrawLine())
                 {
-                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, MovePointInBounds(poi.Position, _gameData.PlayerPosition));
+                    var padding = poi.RenderingSettings.CanDrawLabel() ? poi.RenderingSettings.LabelFontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                    var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
+                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
                 }
             }
 
@@ -186,7 +188,8 @@ namespace MapAssist.Helpers
                 {
                     if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
                     {
-                        DrawText(gfx, poi.RenderingSettings, MovePointInBounds(poi.Position, _gameData.PlayerPosition), poi.Label);
+                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
+                        DrawText(gfx, poi.RenderingSettings, poiPosition, poi.Label);
                     }
                     else if (poi.RenderingSettings.CanDrawLabel())
                     {
@@ -666,6 +669,8 @@ namespace MapAssist.Helpers
             {
                 var angle = endPosition.Subtract(startPosition).Angle();
 
+                endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f + 2, 0).Rotate(angle, startPosition); // Add 2 for a little extra spacing
+
                 var points = new Point[]
                 {
                     new Point((float)(Math.Sqrt(3) / -2), 0.5f),
@@ -673,22 +678,21 @@ namespace MapAssist.Helpers
                     new Point(0, 0),
                 }.Select(point => point.Multiply(rendering.ArrowHeadSize).Rotate(angle).Add(endPosition)).ToArray();
 
-                endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f, 0).Rotate(angle, startPosition);
-                var line = new Line(startPosition, endPosition);
-
-                gfx.DrawLine(brush, line, rendering.LineThickness / scaleHeight);
+                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
                 gfx.FillTriangle(brush, points[0], points[1], points[2]);
             }
             else
             {
-                var line = new Line(startPosition, endPosition);
-                gfx.DrawLine(brush, line, rendering.LineThickness);
+                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
             }
         }
 
         private void DrawText(Graphics gfx, PointOfInterestRendering rendering, Point position, string text,
             Color? color = null)
         {
+            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), transforms.Last());
+            var textCoord = Vector2.Transform(position.ToVector(), transforms.Last());
+
             ApplyTransformAreaDataText(gfx, position);
 
             var useColor = color == null ? rendering.LabelColor : (Color)color;
@@ -696,13 +700,14 @@ namespace MapAssist.Helpers
             var font = CreateFont(gfx, rendering.LabelFont, rendering.LabelFontSize);
             var iconShape = GetIconShape(rendering).ToRectangle();
             var textSize = gfx.MeasureString(font, text);
-
-            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), transforms.Last());
-            var textCoord = Vector2.Transform(position.ToVector(), transforms.Last());
-
+            
             var multiplier = playerCoord.Y < textCoord.Y ? 1 : -1;
+            if (rendering.CanDrawIcon())
+            {
+                position = position.Add(new Point(0, iconShape.Height / 2 * (!rendering.CanDrawArrowHead() ? 1 : multiplier)));
+            }
 
-            position = position.Add(new Point(0, textSize.Y / 2 + (iconShape.Height + 10) * multiplier));
+            position = position.Add(new Point(0, (textSize.Y / 2 + 10) * (!rendering.CanDrawArrowHead() ? 1 : multiplier)));
             position = MoveTextInBounds(position, text, textSize);
 
             DrawText(gfx, position, text, rendering.LabelFont, rendering.LabelFontSize, useColor,
@@ -720,7 +725,7 @@ namespace MapAssist.Helpers
             if (centerText)
             {
                 var stringSize = gfx.MeasureString(font, text);
-                position = position.Subtract(stringSize.X / 2, stringSize.Y);
+                position = position.Subtract(stringSize.X / 2, stringSize.Y / 2);
             }
 
             gfx.DrawText(font, brush, position, text);
@@ -801,17 +806,19 @@ namespace MapAssist.Helpers
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 
-        private Point MovePointInBounds(Point point, Point origin)
+        private Point MovePointInBounds(Point point, Point origin,
+            float padding = 0)
         {
             var resizeScale = 1f;
-            
+
+            var bounds = new Rectangle(_drawBounds.Left + padding, _drawBounds.Top + padding, _drawBounds.Right - padding, _drawBounds.Bottom - padding);
             var startScreenCoord = Vector2.Transform(origin.ToVector(), transforms.Last());
             var endScreenCoord = Vector2.Transform(point.ToVector(), transforms.Last());
 
-            if (endScreenCoord.X < _drawBounds.Left) resizeScale = Math.Min(resizeScale, (_drawBounds.Left - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
-            if (endScreenCoord.X > _drawBounds.Right) resizeScale = Math.Min(resizeScale, (_drawBounds.Right - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
-            if (endScreenCoord.Y < _drawBounds.Top) resizeScale = Math.Min(resizeScale, (_drawBounds.Top - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
-            if (endScreenCoord.Y > _drawBounds.Bottom) resizeScale = Math.Min(resizeScale, (_drawBounds.Bottom - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
+            if (endScreenCoord.X < bounds.Left) resizeScale = Math.Min(resizeScale, (bounds.Left - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
+            if (endScreenCoord.X > bounds.Right) resizeScale = Math.Min(resizeScale, (bounds.Right - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
+            if (endScreenCoord.Y < bounds.Top) resizeScale = Math.Min(resizeScale, (bounds.Top - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
+            if (endScreenCoord.Y > bounds.Bottom) resizeScale = Math.Min(resizeScale, (bounds.Bottom - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
 
             if (resizeScale < 1)
             {
@@ -830,8 +837,8 @@ namespace MapAssist.Helpers
 
             if (screenCoord.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - screenCoord.X + halfSize.X;
             if (screenCoord.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - screenCoord.X - halfSize.X;
-            if (screenCoord.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - screenCoord.Y + size.Y;
-            if (screenCoord.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - screenCoord.Y;
+            if (screenCoord.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - screenCoord.Y + halfSize.Y;
+            if (screenCoord.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - screenCoord.Y - halfSize.Y;
 
             return point;
         }
