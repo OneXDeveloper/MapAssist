@@ -39,7 +39,7 @@ namespace MapAssist
         private Compositor _compositor;
         private bool _show = true;
 
-        public Overlay(IKeyboardMouseEvents keyboardMouseEvents)
+        public Overlay()
         {
             _gameDataReader = new GameDataReader();
 
@@ -198,7 +198,7 @@ namespace MapAssist
 
         private void _window_DestroyGraphics(object sender, DestroyGraphicsEventArgs e)
         {
-            _compositor.Dispose();
+            if (_compositor != null) _compositor.Dispose();
             _compositor = null;
         }
 

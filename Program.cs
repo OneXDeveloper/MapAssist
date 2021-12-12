@@ -139,7 +139,7 @@ namespace MapAssist
 
         public static void RunOverlay(object sender, DoWorkEventArgs e)
         {
-            using (overlay = new Overlay(globalHook))
+            using (overlay = new Overlay())
             {
                 overlay.Run();
             }
