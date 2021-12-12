@@ -204,11 +204,9 @@ namespace MapAssist.Types
         public bool IsPortal()
         {
             var castedType = (GameObject)TxtFileNo;
-            if ((Enum.GetName(typeof(GameObject), TxtFileNo).Contains("Portal") && castedType != GameObject.WaypointPortal) || castedType == GameObject.HellGate)
-            {
-                return true;
-            }
-            return false;
+            var name = Enum.GetName(typeof(GameObject), TxtFileNo);
+            return ((!string.IsNullOrWhiteSpace(name) && name.Contains("Portal") &&
+                     castedType != GameObject.WaypointPortal) || castedType == GameObject.HellGate);
         }
         public bool IsShrine()
         {
