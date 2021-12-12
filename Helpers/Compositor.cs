@@ -232,6 +232,7 @@ namespace MapAssist.Helpers
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
                     {
                         var label = Enum.GetName(typeof(Area), gameObject.ObjectData.InteractType);
+                        if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
                         if (gameObject.ObjectOwner.Length > 0)
                         {
                             label += "(" + gameObject.ObjectOwner + ")";
