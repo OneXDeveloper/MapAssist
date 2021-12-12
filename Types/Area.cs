@@ -726,6 +726,11 @@ namespace MapAssist.Types
             return _areaLabels.TryGetValue(area, out var label) ? label.Text : area.ToString();
         }
 
+        public static int Level(this Area area, Difficulty difficulty)
+        {
+            return _areaLabels.TryGetValue(area, out var label) ? label.Level[(int)difficulty] : 0;
+        }
+
         public static bool IsValid(this Area area)
         {
             return (uint)area >= 1 && (uint)area <= 136;

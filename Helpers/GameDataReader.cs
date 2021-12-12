@@ -34,7 +34,7 @@ namespace MapAssist.Helpers
 
                         if (areaData != null)
                         {
-                            pointsOfInterest = PointOfInterestHandler.Get(_mapApi, areaData);
+                            pointsOfInterest = PointOfInterestHandler.Get(_mapApi, areaData, gameData);
                         }
 
                         compositor = new Compositor(areaData, pointsOfInterest);
