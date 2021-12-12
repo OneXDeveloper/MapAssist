@@ -68,32 +68,32 @@ MapConfiguration:
     IconSize: 6
     IconThickness: 2
   NextArea:
-    IconColor: '237, 107, 0'
+    IconColor: SpringGreen
     IconShape: Square
     IconSize: 5
-    LineColor: Chartreuse
+    LineColor: SpringGreen
     LineThickness: 2
     ArrowHeadSize: 5
-    LabelColor: Chartreuse
+    LabelColor: SpringGreen
     LabelFontSize: 16
     LabelFont: 'Helvetica'
   PreviousArea:
-    IconColor: '255, 0, 149'
+    IconColor: Violet
     IconShape: Square
     IconSize: 5
     LineColor: ''
-    LabelColor: Chartreuse
+    LabelColor: Violet
     LabelFontSize: 16
     LabelFont: 'Helvetica'
   Waypoint:
-    IconColor: '16, 140, 235'
+    IconColor: SteelBlue
     IconShape: Square
     IconSize: 5
   Quest:
-    LineColor: Orange
+    LineColor: Tomato
     LineThickness: 2
     ArrowHeadSize: 5
-    LabelColor: Orange
+    LabelColor: Tomato
     LabelFontSize: 16
     LabelFont: 'Helvetica'
   Player:
@@ -132,7 +132,7 @@ MapConfiguration:
     IconShape: Square
     IconSize: 4
   Item: 
-    IconColor: 'DarkOrange'
+    IconColor: DarkOrange
     IconShape: Ellipse
     IconSize: 4
     LabelFont: 'Helvetica'
