@@ -248,7 +248,23 @@ namespace MapAssist.Helpers
                     if (areaData.AdjacentLevels.Any())
                     {
                         // Next Area Point of Interest
-                        if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
+                        if (areaData.Area == Area.TamoeHighland)
+                        {
+                            var monastery = areaData.AdjacentLevels.First(level => level.Key == Area.MonasteryGate).Value;
+
+                            var monasteryArea = mapApi.GetMapData(Area.MonasteryGate);
+                            var outerCloister = monasteryArea.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
+
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = monastery.Area.Name(),
+                                Position = new Point(outerCloister.Exits[0].X, monastery.Exits[0].Y),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                Type = PoiType.NextArea
+                            });
+                            areaRenderDecided.Add(Area.MonasteryGate);
+                        }
+                        else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
                         {
                             var nextLevel = areaData.AdjacentLevels[nextArea];
                             if (nextLevel.Exits.Any())
@@ -301,23 +317,39 @@ namespace MapAssist.Helpers
                         }
 
                         // Previous Area Point of Interest
-                        foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                        if (areaData.Area == Area.MonasteryGate)
                         {
-                            // Already made render decision for this.
-                            if (areaRenderDecided.Contains(level.Area))
-                            {
-                                continue;
-                            }
+                            var outerCloister = areaData.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
+                            var tamoe = areaData.AdjacentLevels.First(level => level.Key == Area.TamoeHighland).Value;
 
-                            foreach (Point position in level.Exits)
+                            pointOfInterest.Add(new PointOfInterest
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                Label = tamoe.Area.Name(),
+                                Position = new Point(outerCloister.Exits[0].X, tamoe.Exits[0].Y),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                Type = PoiType.PreviousArea
+                            });
+                        }
+                        else
+                        {
+                            foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                            {
+                                // Already made render decision for this.
+                                if (areaRenderDecided.Contains(level.Area))
                                 {
-                                    Label = level.Area.Name(),
-                                    Position = position,
-                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                                    Type = PoiType.PreviousArea
-                                });
+                                    continue;
+                                }
+
+                                foreach (Point position in level.Exits)
+                                {
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = level.Area.Name(),
+                                        Position = position,
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                        Type = PoiType.PreviousArea
+                                    });
+                                }
                             }
                         }
                     }
