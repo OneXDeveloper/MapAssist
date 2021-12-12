@@ -28,7 +28,7 @@ Mage Plate:
 # This monarch rule is really 2 separate rules.  Notice the "-" on each line
 # This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
 Monarch:
- - Qualities: magic
+ - Qualities: [magic]
  - Sockets: [4]
 
 
@@ -45,12 +45,12 @@ x-bases:
   Sockets: [0, 3, 4]
   Ethereal: false
  - &merc-wep-base
-  Ethereal: true
+  Ethereal: false
   Qualities: [normal, superior]
   Sockets: [4]
  - &pally-shield-base
-   Qualities: [normal, superior]
-   Sockets: [0, 4]
+  Qualities: [normal, superior]
+  Sockets: [0, 4]
 # This ring rule will show all magic, rare, and unique rings
 Ring:
  - Qualities: [magic, rare, unique]
@@ -152,6 +152,11 @@ Grand Charm:
 Key of Terror:
 Key of Hate:
 Key of Destruction:
+#Charged Essence of Hatred:
+#Twisted Essence of Suffering:
+Burning Essence of Terror:
+Festering Essence of Destruction:
+Token of Absolution:
 
 ### Exceptional Boots
 Demonhide Boots:
@@ -232,7 +237,7 @@ Diadem:
  - Qualities: [magic, rare]
  - Qualities: unique #Griffon's Eye
 
-### Druid Pelts
+### Elite Druid Pelts
 Blood Spirit:
  - Qualities: [magic, rare]
 Sun Spirit:
@@ -244,19 +249,38 @@ Sky Spirit:
 Dream Spirit:
  - Qualities: [magic, rare]
 
- ### Barbarian Helms
-Carnage Helm:
- - Qualities: [magic, rare]
-Fury Visor:
- - Qualities: [magic, rare]
-Destroyer Helm:
- - Qualities: [magic, rare]
-Conquieror Crown:
- - Qualities: [magic, rare]
-Guardian Crown:
- - Qualities: [magic, rare]
+##Exceptional and Normal pelts
+Alpha Helm:
+ - Qualities: [rare]
+Griffon Headdress:
+ - Qualities: [rare]
+Hunter's Guise:
+ - Qualities: [rare]
+Sacred Feathers:
+ - Qualities: [rare]
+Totemic Mask:
+ - Qualities: [rare]
+ - Qualities: unique #Jalal's Mane
+Antlers:
+ - Qualities: [rare]
+Falcon Mask:
+ - Qualities: [rare]
+Hawk Helm:
+ - Qualities: [rare]
 
- ### Paladin Shields
+### Barbarian Helms
+#Carnage Helm:
+# - Qualities: [magic, rare]
+#Fury Visor:
+# - Qualities: [magic, rare]
+#Destroyer Helm:
+#- Qualities: [magic, rare]
+#Conquieror Crown:
+# - Qualities: [magic, rare]
+#Guardian Crown:
+# - Qualities: [magic, rare]
+
+### Paladin Shields
 Akaran Targe:
  - *pally-shield-base
 Akaran Rondache:
@@ -264,6 +288,13 @@ Akaran Rondache:
 Sacred Targe:
  - *pally-shield-base
 Sacred Rondache:
+ - *pally-shield-base
+Vortex Shield:
+ - *pally-shield-base
+Zakarum Shield:
+ - *pally-shield-base
+ - Qualities: unique #Upped Herald of Zakarum
+Crown Shield:
  - *pally-shield-base
 
 ### Runes
@@ -299,8 +330,8 @@ Perfect Topaz:
 Perfect Skull:
 
 ### Uniques
-#HoZ
-Zakarum Shield:
+#Herald of Zakarum
+Gilded Shield:
  - Qualities: unique
 #Ribcracker
 Quarterstaff:
@@ -311,21 +342,15 @@ Serpentskin Armor:
 #Skullder's Ire
 Russet Armor:
  - Qualities: unique
- #Aldur's Advance
+#Aldur's Advance
  - Qualities: set
-#Jalal's Mane
-Totemic Mask:
- - Qualities: unique
 #Oculus
 Swirling Crystal:
  - Qualities: unique
- #Tal Rasha's Lidless Eye
+#Tal Rasha's Lidless Eye
  - Qualities: set
 #Homunculus
 Hierophant Trophy:
- - Qualities: unique
-#Herald of Zakarum
-Gilded Shield:
  - Qualities: unique
 #Vampire Gaze
 Grim Helm:
@@ -377,6 +402,9 @@ Heavy Belt:
  - Qualities: unique
 #Nosferatu's Coil
 Vampirefang Belt:
+ - Qualities: unique
+#Thundergod's Vigor
+War Belt:
  - Qualities: unique
 #Ondal's Wisdom
 Elder Staff:
