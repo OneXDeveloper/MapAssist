@@ -46,11 +46,13 @@ namespace MapAssist.Helpers
         private float scaleWidth = 1;
         private float scaleHeight = 1;
         private const int WALKABLE = 0;
-        private const int UNWALKABLE = 1;
+        private const int BORDER = 1;
 
         public Compositor(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
+            _areaData.CalcViewAreas(_rotateRadians);
+
             _pointsOfInterest = pointsOfInterest;
         }
 
@@ -60,8 +62,7 @@ namespace MapAssist.Helpers
             _drawBounds = drawBounds;
             (scaleWidth, scaleHeight) = GetScaleRatios();
 
-            var mapSize = GetMapSize();
-            var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * mapSize.Width / mapSize.Height;
+            var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * _areaData.ViewOutputRect.Width / _areaData.ViewOutputRect.Height;
             switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
             {
                 case MapPosition.TopLeft:
@@ -76,7 +77,7 @@ namespace MapAssist.Helpers
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            var imageSize = new Size2((int)_areaData.ViewRectangle.Width, (int)_areaData.ViewRectangle.Height);
+            var imageSize = new Size2((int)_areaData.ViewInputRect.Width, (int)_areaData.ViewInputRect.Height);
             gamemapDX = new Bitmap(renderTarget, imageSize, new BitmapProperties(renderTarget.PixelFormat));
             var bytes = new byte[imageSize.Width * imageSize.Height * 4];
 
@@ -87,27 +88,16 @@ namespace MapAssist.Helpers
             {
                 var walkableColor = maybeWalkableColor != null ? (Color)maybeWalkableColor : Color.Transparent;
                 var borderColor = maybeBorderColor != null ? (Color)maybeBorderColor : Color.Transparent;
-                var lookOffsets = new int[][] {
-                            new int[] { -1, -1 },
-                            new int[] { -1, 0 },
-                            new int[] { -1, 1 },
-                            new int[] { 0, -1 },
-                            new int[] { 0, 1 },
-                            new int[] { 1, -1 },
-                            new int[] { 1, 0 },
-                            new int[] { 1, 1 }
-                        };
 
                 for (var y = 0; y < imageSize.Height; y++)
                 {
-                    var _y = y + (int)_areaData.ViewRectangle.Top;
+                    var _y = y + (int)_areaData.ViewInputRect.Top;
                     for (var x = 0; x < imageSize.Width; x++)
                     {
-                        var _x = x + (int)_areaData.ViewRectangle.Left;
+                        var _x = x + (int)_areaData.ViewInputRect.Left;
                         
                         var i = imageSize.Width * 4 * y + x * 4;
                         var type = _areaData.CollisionGrid[_y][_x];
-                        var isCurrentPixelWalkable = type == WALKABLE;
 
                         // // Uncomment this to show a red border for debugging
                         // if (x == 0 || y == 0 || y == imageSize.Height - 1 || x == imageSize.Width - 1)
@@ -119,33 +109,16 @@ namespace MapAssist.Helpers
                         //     continue;
                         // }
 
-                        if (type == WALKABLE && maybeWalkableColor != null)
+                        var pixelColor = type == WALKABLE && maybeWalkableColor != null ? walkableColor :
+                            type == BORDER && maybeBorderColor != null ? borderColor :
+                            Color.Transparent;
+
+                        if (pixelColor != Color.Transparent)
                         {
-                            bytes[i] = walkableColor.B;
-                            bytes[i + 1] = walkableColor.G;
-                            bytes[i + 2] = walkableColor.R;
-                            bytes[i + 3] = walkableColor.A;
-                        }
-
-                        foreach (var offset in lookOffsets)
-                        {
-                            var dy = _y + offset[0];
-                            var dx = _x + offset[1];
-
-                            var offsetsInBounds =
-                                dy >= 0 && dy < imageSize.Height &&
-                                dx >= 0 && dx < imageSize.Width;
-
-                            var nextToWalkable = offsetsInBounds && !isCurrentPixelWalkable && _areaData.CollisionGrid[dy][dx] == WALKABLE;
-
-                            if (maybeBorderColor != null && nextToWalkable)
-                            {
-                                bytes[i] = borderColor.B;
-                                bytes[i + 1] = borderColor.G;
-                                bytes[i + 2] = borderColor.R;
-                                bytes[i + 3] = borderColor.A;
-                                break;
-                            }
+                            bytes[i] = pixelColor.B;
+                            bytes[i + 1] = pixelColor.G;
+                            bytes[i + 2] = pixelColor.R;
+                            bytes[i + 3] = pixelColor.A;
                         }
                     }
                 }
@@ -196,6 +169,10 @@ namespace MapAssist.Helpers
         {
             foreach (var poi in _pointsOfInterest)
             {
+                if (poi.PoiMatchesPortal(_gameData.Objects))
+                {
+                    continue;
+                }
                 if (poi.RenderingSettings.CanDrawIcon())
                 {
                     DrawIcon(gfx, poi.RenderingSettings, poi.Position);
@@ -203,7 +180,9 @@ namespace MapAssist.Helpers
 
                 if (poi.RenderingSettings.CanDrawLine())
                 {
-                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, MovePointInBounds(poi.Position, _gameData.PlayerPosition));
+                    var padding = poi.RenderingSettings.CanDrawLabel() ? poi.RenderingSettings.LabelFontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                    var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
+                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
                 }
             }
 
@@ -211,9 +190,14 @@ namespace MapAssist.Helpers
             {
                 if (!string.IsNullOrWhiteSpace(poi.Label) && poi.Type != PoiType.Shrine)
                 {
+                    if (poi.PoiMatchesPortal(_gameData.Objects))
+                    {
+                        continue;
+                    }
                     if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
                     {
-                        DrawText(gfx, poi.RenderingSettings, MovePointInBounds(poi.Position, _gameData.PlayerPosition), poi.Label);
+                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
+                        DrawText(gfx, poi.RenderingSettings, poiPosition, poi.Label);
                     }
                     else if (poi.RenderingSettings.CanDrawLabel())
                     {
@@ -237,6 +221,25 @@ namespace MapAssist.Helpers
 
                         DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position, label);
                     }
+                    continue;
+                }
+                if (gameObject.IsPortal())
+                {
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawIcon())
+                    {
+                        DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position);
+                    }
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
+                    {
+                        var label = Enum.GetName(typeof(Area), gameObject.ObjectData.InteractType);
+                        if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
+                        if (gameObject.ObjectOwner.Length > 0)
+                        {
+                            label += "(" + gameObject.ObjectOwner + ")";
+                        }
+                        DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label);
+                    }
+                    continue;
                 }
             }
         }
@@ -689,9 +692,19 @@ namespace MapAssist.Helpers
         {
             var brush = CreateSolidBrush(gfx, rendering.LineColor);
 
+            var angle = endPosition.Subtract(startPosition).Angle();
+            var length = endPosition.Rotate(-angle, startPosition).X - startPosition.X;
+
+            if (length < 20) // Don't render when line is too short
+            {
+                return;
+            }
+
+            startPosition = startPosition.Rotate(-angle, startPosition).Add(7, 0).Rotate(angle, startPosition); // Add 7 for a little extra spacing
+
             if (rendering.CanDrawArrowHead())
             {
-                var angle = endPosition.Subtract(startPosition).Angle();
+                endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f + 2, 0).Rotate(angle, startPosition); // Add 2 for a little extra spacing
 
                 var points = new Point[]
                 {
@@ -700,22 +713,21 @@ namespace MapAssist.Helpers
                     new Point(0, 0),
                 }.Select(point => point.Multiply(rendering.ArrowHeadSize).Rotate(angle).Add(endPosition)).ToArray();
 
-                endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f, 0).Rotate(angle, startPosition);
-                var line = new Line(startPosition, endPosition);
-
-                gfx.DrawLine(brush, line, rendering.LineThickness / scaleHeight);
+                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
                 gfx.FillTriangle(brush, points[0], points[1], points[2]);
             }
             else
             {
-                var line = new Line(startPosition, endPosition);
-                gfx.DrawLine(brush, line, rendering.LineThickness);
+                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
             }
         }
 
         private void DrawText(Graphics gfx, PointOfInterestRendering rendering, Point position, string text,
             Color? color = null)
         {
+            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), transforms.Last());
+            var textCoord = Vector2.Transform(position.ToVector(), transforms.Last());
+
             ApplyTransformAreaDataText(gfx, position);
 
             var useColor = color == null ? rendering.LabelColor : (Color)color;
@@ -723,13 +735,14 @@ namespace MapAssist.Helpers
             var font = CreateFont(gfx, rendering.LabelFont, rendering.LabelFontSize);
             var iconShape = GetIconShape(rendering).ToRectangle();
             var textSize = gfx.MeasureString(font, text);
-
-            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), transforms.Last());
-            var textCoord = Vector2.Transform(position.ToVector(), transforms.Last());
-
+            
             var multiplier = playerCoord.Y < textCoord.Y ? 1 : -1;
+            if (rendering.CanDrawIcon())
+            {
+                position = position.Add(new Point(0, iconShape.Height / 2 * (!rendering.CanDrawArrowHead() ? 1 : multiplier)));
+            }
 
-            position = position.Add(new Point(0, textSize.Y / 2 + (iconShape.Height + 10) * multiplier));
+            position = position.Add(new Point(0, (textSize.Y / 2 + 10) * (!rendering.CanDrawArrowHead() ? 1 : multiplier)));
             position = MoveTextInBounds(position, text, textSize);
 
             DrawText(gfx, position, text, rendering.LabelFont, rendering.LabelFontSize, useColor,
@@ -747,7 +760,7 @@ namespace MapAssist.Helpers
             if (centerText)
             {
                 var stringSize = gfx.MeasureString(font, text);
-                position = position.Subtract(stringSize.X / 2, stringSize.Y);
+                position = position.Subtract(stringSize.X / 2, stringSize.Y / 2);
             }
 
             gfx.DrawText(font, brush, position, text);
@@ -828,17 +841,19 @@ namespace MapAssist.Helpers
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 
-        private Point MovePointInBounds(Point point, Point origin)
+        private Point MovePointInBounds(Point point, Point origin,
+            float padding = 0)
         {
             var resizeScale = 1f;
-            
+
+            var bounds = new Rectangle(_drawBounds.Left + padding, _drawBounds.Top + padding, _drawBounds.Right - padding, _drawBounds.Bottom - padding);
             var startScreenCoord = Vector2.Transform(origin.ToVector(), transforms.Last());
             var endScreenCoord = Vector2.Transform(point.ToVector(), transforms.Last());
 
-            if (endScreenCoord.X < _drawBounds.Left) resizeScale = Math.Min(resizeScale, (_drawBounds.Left - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
-            if (endScreenCoord.X > _drawBounds.Right) resizeScale = Math.Min(resizeScale, (_drawBounds.Right - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
-            if (endScreenCoord.Y < _drawBounds.Top) resizeScale = Math.Min(resizeScale, (_drawBounds.Top - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
-            if (endScreenCoord.Y > _drawBounds.Bottom) resizeScale = Math.Min(resizeScale, (_drawBounds.Bottom - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
+            if (endScreenCoord.X < bounds.Left) resizeScale = Math.Min(resizeScale, (bounds.Left - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
+            if (endScreenCoord.X > bounds.Right) resizeScale = Math.Min(resizeScale, (bounds.Right - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
+            if (endScreenCoord.Y < bounds.Top) resizeScale = Math.Min(resizeScale, (bounds.Top - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
+            if (endScreenCoord.Y > bounds.Bottom) resizeScale = Math.Min(resizeScale, (bounds.Bottom - startScreenCoord.Y) / (endScreenCoord.Y - startScreenCoord.Y));
 
             if (resizeScale < 1)
             {
@@ -857,21 +872,10 @@ namespace MapAssist.Helpers
 
             if (screenCoord.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - screenCoord.X + halfSize.X;
             if (screenCoord.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - screenCoord.X - halfSize.X;
-            if (screenCoord.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - screenCoord.Y + size.Y;
-            if (screenCoord.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - screenCoord.Y;
+            if (screenCoord.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - screenCoord.Y + halfSize.Y;
+            if (screenCoord.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - screenCoord.Y - halfSize.Y;
 
             return point;
-        }
-
-        private Rectangle GetMapSize()
-        {
-            return new Point[]
-                {
-                    new Point(0, 0),
-                    new Point(0, 1),
-                    new Point(1, 1),
-                    new Point(1, 0),
-                }.Select(point => point.Multiply(_areaData.ViewRectangle.Width, _areaData.ViewRectangle.Height).Rotate(_rotateRadians)).ToArray().ToRectangle();
         }
 
         private (float, float) GetScaleRatios()
@@ -880,9 +884,7 @@ namespace MapAssist.Helpers
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
-                var mapSize = GetMapSize();
-                
-                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / mapSize.Height;
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / _areaData.ViewOutputRect.Height;
 
                 if (multiplier == 0)
                 {
@@ -914,26 +916,34 @@ namespace MapAssist.Helpers
             if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
                 matrix = Matrix3x2.CreateTranslation(_areaData.Origin.ToVector())
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(_gameData.PlayerPosition.ToVector()));
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(_gameData.PlayerPosition.ToVector()))
+                    * Matrix3x2.CreateRotation(_rotateRadians)
+                    * Matrix3x2.CreateScale(scaleWidth, scaleHeight);
+
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                        * Matrix3x2.CreateTranslation(new Vector2(2, -8)); // Brute forced to perfectly line up with the in game map;
+                }
+                else
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
+                        * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2));
+                }
             }
             else
             {
-                matrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Left, _areaData.ViewRectangle.Top)))
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Width / 2, _areaData.ViewRectangle.Height / 2)));
-            }
+                matrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
+                    * Matrix3x2.CreateRotation(_rotateRadians)
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Left, _areaData.ViewOutputRect.Top)))
+                    * Matrix3x2.CreateScale(scaleWidth, scaleHeight)
+                    * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top));
 
-            matrix *= Matrix3x2.CreateRotation(_rotateRadians)
-                * Matrix3x2.CreateScale(scaleWidth, scaleHeight);
-
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
-            {
-                matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
-                    * Matrix3x2.CreateTranslation(new Vector2(2, -8)); // Brute forced to perfectly line up with the in game map;
-            }
-            else
-            {
-                matrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
-                    * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2));
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                        * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Width / 2 * scaleWidth, _areaData.ViewOutputRect.Height / 2 * scaleHeight)));
+                }
             }
 
             ApplyTransform(gfx, matrix);
@@ -948,7 +958,7 @@ namespace MapAssist.Helpers
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
                 matrix = matrix
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Left, _areaData.ViewRectangle.Top)));
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Left, _areaData.ViewInputRect.Top)));
             }
 
             ApplyTransform(gfx, matrix, multiplyAfter: false);

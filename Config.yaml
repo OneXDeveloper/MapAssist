@@ -112,6 +112,14 @@ MapConfiguration:
     LabelColor: Orange
     LabelFontSize: 16
     LabelFont: 'Helvetica'
+  Portal:
+    IconColor: Yellow
+    IconShape: EllipseOutline
+    IconSize: 6
+    IconThickness: 2
+    LabelColor: Yellow
+    LabelFontSize: 16
+    LabelFont: 'Helvetica'
   SuperChest:
     IconColor: '17, 255, 0'
     IconShape: Square

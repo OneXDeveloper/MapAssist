@@ -27,6 +27,7 @@ namespace MapAssist.Structs
     {
         [FieldOffset(0x0)] public IntPtr pObjectTxt;
         [FieldOffset(0x08)] public byte InteractType;
+        [FieldOffset(0x09)] public byte PortalFlags;
         [FieldOffset(0x0C)] public IntPtr pShrineTxt;
     }
     public enum ShrineType : byte

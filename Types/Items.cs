@@ -193,7 +193,7 @@ namespace MapAssist.Types
                 return "Set";
             }
 
-            if (!_UniqueFromCode.TryGetValue(itemCode, out itemCode))
+            if (!_SetFromCode.TryGetValue(itemCode, out itemCode))
             {
                 return "Set";
             }

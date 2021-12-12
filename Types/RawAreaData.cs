@@ -18,7 +18,6 @@
  **/
 
 using GameOverlay.Drawing;
-using MapAssist.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,63 +80,11 @@ namespace MapAssist.Types
             if (npcs == null) npcs = new Dictionary<string, XY[]>();
             if (objects == null) objects = new Dictionary<string, XY[]>();
 
-            var mapRows = new int[crop.y1 - crop.y0][];
-            var unwalkableTile = new int[] { 1 };
-            var unwalkableRow = new int[][] { new int[crop.x1 - crop.x0 + 2].Select(_ => 1).ToArray() };
-
-            var y = 0;
-            var val = 1;
-
-            var minValidX = int.MaxValue;
-            var minValidY = int.MaxValue;
-            var maxValidX = 0;
-            var maxValidY = 0;
-
-            foreach (var v in mapData)
-            {
-                if (mapRows[y] == null)
-                {
-                    mapRows[y] = new int[0];
-                }
-
-                if (v != -1)
-                {
-                    if (val == 0)
-                    {
-                        minValidX = Math.Min(minValidX, mapRows[y].Length);
-                        maxValidX = Math.Max(maxValidX, mapRows[y].Length + v);
-
-                        if (minValidY == int.MaxValue) minValidY = y;
-                        if (y > maxValidY) maxValidY = y;
-                    }
-
-                    mapRows[y] = mapRows[y].Concat(new int[v].Select(_ => val)).ToArray();
-
-                    val = 1 - val;
-                }
-                else
-                {
-                    mapRows[y] = unwalkableTile.Concat(mapRows[y]).Concat(unwalkableTile).ToArray(); // Prepend and append with one unwalkable tile for improved border drawing
-
-                    y++;
-                    val = 1;
-                }
-            }
-
-            mapRows = unwalkableRow.Concat(mapRows).Concat(unwalkableRow).ToArray(); // Prepend and append with one unwalkable row of tiles for improved border drawing
-
-            var viewRect = new Rectangle(0, 0, mapRows[0].Length, mapRows.Length);
-            if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
-            {
-                viewRect = new Rectangle(minValidX, minValidY, maxValidX + 2, maxValidY + 2); // Offset by 2 to allow for border drawing
-            }
-
             return new AreaData
             {
                 Area = area,
                 Origin = offset.ToPoint(),
-                CollisionGrid = mapRows,
-                ViewRectangle = viewRect,
+                CollisionGrid = GetCollisionGid(),
                 AdjacentLevels = exits
                     .Select(o =>
                     {
@@ -179,6 +126,42 @@ namespace MapAssist.Types
                     .Where(o => o.gameObject != GameObject.NotApplicable)
                     .ToDictionary(k => k.gameObject, v => v.positions)
             };
+        }
+    
+        private int[][] GetCollisionGid()
+        {
+            var mapRows = new int[crop.y1 - crop.y0][];
+            var unwalkableTile = new int[] { -1 };
+            var unwalkableRow = new int[][] { new int[crop.x1 - crop.x0 + 2].Select(_ => -1).ToArray() };
+
+            var iy = 0;
+            var val = -1;
+
+            foreach (var v in mapData)
+            {
+                if (mapRows[iy] == null)
+                {
+                    mapRows[iy] = new int[0];
+                }
+
+                if (v != -1)
+                {
+                    mapRows[iy] = mapRows[iy].Concat(new int[v].Select(_ => val)).ToArray();
+
+                    val = -1 - val;
+                }
+                else
+                {
+                    mapRows[iy] = unwalkableTile.Concat(mapRows[iy]).Concat(unwalkableTile).ToArray(); // Prepend and append with one unwalkable tile for improved border drawing
+
+                    iy++;
+                    val = -1;
+                }
+            }
+
+            mapRows = unwalkableRow.Concat(mapRows).Concat(unwalkableRow).ToArray(); // Prepend and append with one unwalkable row of tiles for improved border drawing
+
+            return mapRows;
         }
     }
 }

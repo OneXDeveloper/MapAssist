@@ -19,6 +19,8 @@
 
 using GameOverlay.Drawing;
 using MapAssist.Settings;
+using System;
+using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
@@ -28,6 +30,25 @@ namespace MapAssist.Types
         public Point Position;
         public PointOfInterestRendering RenderingSettings;
         public PoiType Type;
+
+        public bool PoiMatchesPortal(List<UnitAny> gameDataObjectList)
+        {
+            if (Type == PoiType.AreaSpecificLandmark)
+            {
+                foreach (var gameObject in gameDataObjectList)
+                {
+                    if (gameObject.IsPortal())
+                    {
+                        var destination = Enum.GetName(typeof(Area), gameObject.ObjectData.InteractType);
+                        if (destination == Label)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
     public enum PoiType
     {

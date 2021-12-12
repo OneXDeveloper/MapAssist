@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,19 +75,19 @@ namespace MapAssist.Helpers
             },
         };
 
-        private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, string>>()
+        private static readonly Dictionary<Area, Dictionary<GameObject, Area>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, Area>>()
         {
-            [Area.FrigidHighlands] = new Dictionary<GameObject, string>()
+            [Area.FrigidHighlands] = new Dictionary<GameObject, Area>()
             {
-                [GameObject.PermanentTownPortal] = "Abaddon",
+                [GameObject.PermanentTownPortal] = Area.Abaddon,
             },
-            [Area.ArreatPlateau] = new Dictionary<GameObject, string>()
+            [Area.ArreatPlateau] = new Dictionary<GameObject, Area>()
             {
-                [GameObject.PermanentTownPortal] = "Pit of Acheron",
+                [GameObject.PermanentTownPortal] = Area.PitOfAcheron,
             },
-            [Area.FrozenTundra] = new Dictionary<GameObject, string>()
+            [Area.FrozenTundra] = new Dictionary<GameObject, Area>()
             {
-                [GameObject.PermanentTownPortal] = "Infernal Pit",
+                [GameObject.PermanentTownPortal] = Area.InfernalPit,
             },
         };
 
@@ -208,6 +209,7 @@ namespace MapAssist.Helpers
         public static List<PointOfInterest> Get(MapApi mapApi, AreaData areaData)
         {
             var pointOfInterest = new List<PointOfInterest>();
+            var areaRenderDecided = new List<Area>();
 
             switch (areaData.Area)
             {
@@ -246,10 +248,24 @@ namespace MapAssist.Helpers
                     if (areaData.AdjacentLevels.Any())
                     {
                         // Next Area Point of Interest
-                        var nextArea = areaData.Area;
-                        if (AreaPreferredNextArea.ContainsKey(areaData.Area))
+                        if (areaData.Area == Area.TamoeHighland)
                         {
-                            nextArea = AreaPreferredNextArea[areaData.Area];
+                            var monastery = areaData.AdjacentLevels.First(level => level.Key == Area.MonasteryGate).Value;
+
+                            var monasteryArea = mapApi.GetMapData(Area.MonasteryGate);
+                            var outerCloister = monasteryArea.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
+
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = monastery.Area.Name(),
+                                Position = new Point(outerCloister.Exits[0].X, monastery.Exits[0].Y),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                Type = PoiType.NextArea
+                            });
+                            areaRenderDecided.Add(Area.MonasteryGate);
+                        }
+                        else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
+                        {
                             var nextLevel = areaData.AdjacentLevels[nextArea];
                             if (nextLevel.Exits.Any())
                             {
@@ -260,32 +276,32 @@ namespace MapAssist.Helpers
                                     RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
                                     Type = PoiType.NextArea
                                 });
+                                areaRenderDecided.Add(nextArea);
                             }
                         }
                         else
                         {
-                            nextArea = areaData.AdjacentLevels.Keys.Max();
-                            if (nextArea > areaData.Area)
+                            var maxAdjacentArea = areaData.AdjacentLevels.Keys.Max();
+                            if (maxAdjacentArea > areaData.Area)
                             {
-                                var nextLevel = areaData.AdjacentLevels[nextArea];
+                                var nextLevel = areaData.AdjacentLevels[maxAdjacentArea];
                                 if (nextLevel.Exits.Any())
                                 {
                                     pointOfInterest.Add(new PointOfInterest
                                     {
-                                        Label = nextArea.Name(),
+                                        Label = maxAdjacentArea.Name(),
                                         Position = nextLevel.Exits[0],
                                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
                                         Type = PoiType.NextArea
                                     });
+                                    areaRenderDecided.Add(maxAdjacentArea);
                                 }
                             }
                         }
 
                         // Quest Area Point of Interest
-                        var questArea = areaData.Area;
-                        if (AreaPreferredQuestArea.ContainsKey(areaData.Area))
+                        if (AreaPreferredQuestArea.TryGetValue(areaData.Area, out var questArea))
                         {
-                            questArea = AreaPreferredQuestArea[areaData.Area];
                             var questLevel = areaData.AdjacentLevels[questArea];
                             if (questLevel.Exits.Any())
                             {
@@ -296,27 +312,44 @@ namespace MapAssist.Helpers
                                     RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest,
                                     Type = PoiType.Quest
                                 });
+                                areaRenderDecided.Add(questArea);
                             }
                         }
 
                         // Previous Area Point of Interest
-                        foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                        if (areaData.Area == Area.MonasteryGate)
                         {
-                            // Skip Next Area and Quest Area Points of Interest
-                            if (level.Area > nextArea || level.Area == questArea)
-                            {
-                                continue;
-                            }
+                            var outerCloister = areaData.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
+                            var tamoe = areaData.AdjacentLevels.First(level => level.Key == Area.TamoeHighland).Value;
 
-                            foreach (Point position in level.Exits)
+                            pointOfInterest.Add(new PointOfInterest
                             {
-                                pointOfInterest.Add(new PointOfInterest
+                                Label = tamoe.Area.Name(),
+                                Position = new Point(outerCloister.Exits[0].X, tamoe.Exits[0].Y),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                Type = PoiType.PreviousArea
+                            });
+                        }
+                        else
+                        {
+                            foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                            {
+                                // Already made render decision for this.
+                                if (areaRenderDecided.Contains(level.Area))
                                 {
-                                    Label = level.Area.Name(),
-                                    Position = position,
-                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                                    Type = PoiType.PreviousArea
-                                });
+                                    continue;
+                                }
+
+                                foreach (Point position in level.Exits)
+                                {
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = level.Area.Name(),
+                                        Position = position,
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                        Type = PoiType.PreviousArea
+                                    });
+                                }
                             }
                         }
                     }
@@ -375,9 +408,9 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = AreaSpecificLandmarks[areaData.Area][obj],
+                            Label = Enum.GetName(typeof(Area), AreaSpecificLandmarks[areaData.Area][obj]),
                             Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
                             Type = PoiType.AreaSpecificLandmark
                         });
                     }
