@@ -39,4 +39,10 @@ namespace MapAssist.Types
         public Dictionary<Npc, Point[]> NPCs;
         public Dictionary<GameObject, Point[]> Objects;
     }
+
+    class AreaLabel
+    {
+        public string Name;
+        public int[] Level;
+    }
 }

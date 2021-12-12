@@ -169,150 +169,561 @@ namespace MapAssist.Types
 
     public static class AreaExtensions
     {
-        private readonly static Dictionary<int, string> _areaNames = new Dictionary<int, string>()
+        private readonly static Dictionary<Area, AreaLabel> _areaLabels = new Dictionary<Area, AreaLabel>()
         {
-            {0, "None"},
-            {1, "Rogue Encampment"},
-            {2, "Blood Moor"},
-            {3, "Cold Plains"},
-            {4, "Stony Field"},
-            {5, "Dark Wood"},
-            {6, "Black Marsh"},
-            {7, "Tamoe Highland"},
-            {8, "Den Of Evil"},
-            {9, "Cave Level 1"},
-            {10, "Underground Passage Level 1"},
-            {11, "Hole Level 1"},
-            {12, "Pit Level 1"},
-            {13, "Cave Level 2"},
-            {14, "Underground Passage Level 2"},
-            {15, "Hole Level 2"},
-            {16, "Pit Level 2"},
-            {17, "Burial Grounds"},
-            {18, "Crypt"},
-            {19, "Mausoleum"},
-            {20, "Forgotten Tower"},
-            {21, "Tower Cellar Level 1"},
-            {22, "Tower Cellar Level 2"},
-            {23, "Tower Cellar Level 3"},
-            {24, "Tower Cellar Level 4"},
-            {25, "Tower Cellar Level 5"},
-            {26, "Monastery Gate"},
-            {27, "Outer Cloister"},
-            {28, "Barracks"},
-            {29, "Jail Level 1"},
-            {30, "Jail Level 2"},
-            {31, "Jail Level 3"},
-            {32, "Inner Cloister"},
-            {33, "Cathedral"},
-            {34, "Catacombs Level 1"},
-            {35, "Catacombs Level 2"},
-            {36, "Catacombs Level 3"},
-            {37, "Catacombs Level 4"},
-            {38, "Tristram"},
-            {39, "Moo Moo Farm"},
-            {40, "Lut Gholein"},
-            {41, "Rocky Waste"},
-            {42, "Dry Hills"},
-            {43, "Far Oasis"},
-            {44, "Lost City"},
-            {45, "Valley Of Snakes"},
-            {46, "Canyon Of The Magi"},
-            {47, "A2 Sewers Level 1"},
-            {48, "A2 Sewers Level 2"},
-            {49, "A2 Sewers Level 3"},
-            {50, "Harem Level 1"},
-            {51, "Harem Level 2"},
-            {52, "Palace Cellar Level 1"},
-            {53, "Palace Cellar Level 2"},
-            {54, "Palace Cellar Level 3"},
-            {55, "Stony Tomb Level 1"},
-            {56, "Halls Of The Dead Level 1"},
-            {57, "Halls Of The Dead Level 2"},
-            {58, "Claw Viper Temple Level 1"},
-            {59, "Stony Tomb Level 2"},
-            {60, "Halls Of The Dead Level 3"},
-            {61, "Claw Viper Temple Level 2"},
-            {62, "Maggot Lair Level 1"},
-            {63, "Maggot Lair Level 2"},
-            {64, "Maggot Lair Level 3"},
-            {65, "Ancient Tunnels"},
-            {66, "Tal Rashas Tomb #1"},
-            {67, "Tal Rashas Tomb #2"},
-            {68, "Tal Rashas Tomb #3"},
-            {69, "Tal Rashas Tomb #4"},
-            {70, "Tal Rashas Tomb #5"},
-            {71, "Tal Rashas Tomb #6"},
-            {72, "Tal Rashas Tomb #7"},
-            {73, "Duriels Lair"},
-            {74, "Arcane Sanctuary"},
-            {75, "Kurast Docktown"},
-            {76, "Spider Forest"},
-            {77, "Great Marsh"},
-            {78, "Flayer Jungle"},
-            {79, "Lower Kurast"},
-            {80, "Kurast Bazaar"},
-            {81, "Upper Kurast"},
-            {82, "Kurast Causeway"},
-            {83, "Travincal"},
-            {84, "Spider Cave"},
-            {85, "Spider Cavern"},
-            {86, "Swampy Pit Level 1"},
-            {87, "Swampy Pit Level 2"},
-            {88, "Flayer Dungeon Level 1"},
-            {89, "Flayer Dungeon Level 2"},
-            {90, "Swampy Pit Level 3"},
-            {91, "Flayer Dungeon Level 3"},
-            {92, "A3 Sewers Level 1"},
-            {93, "A3 Sewers Level 2"},
-            {94, "Ruined Temple"},
-            {95, "Disused Fane"},
-            {96, "Forgotten Reliquary"},
-            {97, "Forgotten Temple"},
-            {98, "Ruined Fane"},
-            {99, "Disused Reliquary"},
-            {100, "Durance Of Hate Level 1"},
-            {101, "Durance Of Hate Level 2"},
-            {102, "Durance Of Hate Level 3"},
-            {103, "The Pandemonium Fortress"},
-            {104, "Outer Steppes"},
-            {105, "Plains Of Despair"},
-            {106, "City Of The Damned"},
-            {107, "River Of Flame"},
-            {108, "Chaos Sanctuary"},
-            {109, "Harrogath"},
-            {110, "Bloody Foothills"},
-            {111, "Frigid Highlands"},
-            {112, "Arreat Plateau"},
-            {113, "Crystalline Passage"},
-            {114, "Frozen River"},
-            {115, "Glacial Trail"},
-            {116, "Drifter Cavern"},
-            {117, "Frozen Tundra"},
-            {118, "Ancient\'s Way"},
-            {119, "Icy Cellar"},
-            {120, "Arreat Summit"},
-            {121, "Nihlathaks Temple"},
-            {122, "Halls Of Anguish"},
-            {123, "Halls Of Pain"},
-            {124, "Halls Of Vaught"},
-            {125, "Abaddon"},
-            {126, "Pit Of Acheron"},
-            {127, "Infernal Pit"},
-            {128, "The Worldstone Keep Level 1"},
-            {129, "The Worldstone Keep Level 2"},
-            {130, "The Worldstone Keep Level 3"},
-            {131, "Throne Of Destruction"},
-            {132, "The Worldstone Chamber"},
-            {133, "Matron\'s Den"},
-            {134, "Fogotten Sands"},
-            {135, "Furnace of Pain"},
-            {136, "Tristram"}
+            [Area.None] = {
+                Name = "None",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.RogueEncampment] = {
+                Name = "Rogue Encampment",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.BloodMoor] = {
+                Name = "Blood Moor",
+                Level = new int[] { 1, 36, 67 }
+            },
+            [Area.ColdPlains] = {
+                Name = "Cold Plains",
+                Level = new int[] { 2, 36, 68 }
+            },
+            [Area.StonyField] = {
+                Name = "Stony Field",
+                Level = new int[] { 4, 37, 68 }
+            },
+            [Area.DarkWood] = {
+                Name = "Dark Wood",
+                Level = new int[] { 5, 38, 68 }
+            },
+            [Area.BlackMarsh] = {
+                Name = "Black Marsh",
+                Level = new int[] { 6, 38, 69 }
+            },
+            [Area.TamoeHighland] = {
+                Name = "Tamoe Highland",
+                Level = new int[] { 8, 39, 69 }
+            },
+            [Area.DenOfEvil] = {
+                Name = "Den of Evil",
+                Level = new int[] { 1, 36, 79 }
+            },
+            [Area.CaveLevel1] = {
+                Name = "Cave Level 1",
+                Level = new int[] { 2, 36, 77 }
+            },
+            [Area.UndergroundPassageLevel1] = {
+                Name = "Underground Passage Level 1",
+                Level = new int[] { 4, 37, 69 }
+            },
+            [Area.HoleLevel1] = {
+                Name = "Hole Level 1",
+                Level = new int[] { 5, 38, 80 }
+            },
+            [Area.PitLevel1] = {
+                Name = "Pit Level 1",
+                Level = new int[] { 7, 39, 85 }
+            },
+            [Area.CaveLevel2] = {
+                Name = "Cave Level 2",
+                Level = new int[] { 2, 37, 78 }
+            },
+            [Area.UndergroundPassageLevel2] = {
+                Name = "Underground Passage Level 2",
+                Level = new int[] { 4, 38, 83 }
+            },
+            [Area.HoleLevel2] = {
+                Name = "Hole Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PitLevel2] = {
+                Name = "Pit Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.BurialGrounds] = {
+                Name = "Burial Grounds",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Crypt] = {
+                Name = "Crypt",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Mausoleum] = {
+                Name = "Mausoleum",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ForgottenTower] = {
+                Name = "Forgotten Tower",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TowerCellarLevel1] = {
+                Name = "Tower Cellar Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TowerCellarLevel2] = {
+                Name = "Tower Cellar Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TowerCellarLevel3] = {
+                Name = "Tower Cellar Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TowerCellarLevel4] = {
+                Name = "Tower Cellar Level 4",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TowerCellarLevel5] = {
+                Name = "Tower Cellar Level 5",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MonasteryGate] = {
+                Name = "Monastery Gate",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.OuterCloister] = {
+                Name = "Outer Cloister",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Barracks] = {
+                Name = "Barracks",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.JailLevel1] = {
+                Name = "Jail Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.JailLevel2] = {
+                Name = "Jail Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.JailLevel3] = {
+                Name = "Jail Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.InnerCloister] = {
+                Name = "Inner Cloister",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Cathedral] = {
+                Name = "Cathedral",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CatacombsLevel1] = {
+                Name = "Catacombs Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CatacombsLevel2] = {
+                Name = "Catacombs Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CatacombsLevel3] = {
+                Name = "Catacombs Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CatacombsLevel4] = {
+                Name = "Catacombs Level 4",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Tristram] = {
+                Name = "Tristram",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MooMooFarm] = {
+                Name = "Cow Level",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.LutGholein] = {
+                Name = "Lut Gholein",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.RockyWaste] = {
+                Name = "Rocky Waste",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DryHills] = {
+                Name = "Dry Hills",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FarOasis] = {
+                Name = "Far Oasis",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.LostCity] = {
+                Name = "Lost City",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ValleyOfSnakes] = {
+                Name = "Valley of Snakes",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CanyonOfTheMagi] = {
+                Name = "Canyon of the Magi",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SewersLevel1Act2] = {
+                Name = "Sewers Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SewersLevel2Act2] = {
+                Name = "Sewers Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SewersLevel3Act2] = {
+                Name = "Sewers Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HaremLevel1] = {
+                Name = "Harem Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HaremLevel2] = {
+                Name = "Harem Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PalaceCellarLevel1] = {
+                Name = "Palace Cellar Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PalaceCellarLevel2] = {
+                Name = "Palace Cellar Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PalaceCellarLevel3] = {
+                Name = "Palace Cellar Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.StonyTombLevel1] = {
+                Name = "Stony Tomb Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfTheDeadLevel1] = {
+                Name = "Halls of the Dead Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfTheDeadLevel2] = {
+                Name = "Halls of the Dead Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ClawViperTempleLevel1] = {
+                Name = "Claw Viper Temple Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.StonyTombLevel2] = {
+                Name = "Stony Tomb Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfTheDeadLevel3] = {
+                Name = "Halls of the Dead Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ClawViperTempleLevel2] = {
+                Name = "Claw Viper Temple Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MaggotLairLevel1] = {
+                Name = "Maggot Lair Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MaggotLairLevel2] = {
+                Name = "Maggot Lair Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MaggotLairLevel3] = {
+                Name = "Maggot Lair Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.AncientTunnels] = {
+                Name = "Ancient Tunnels",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb1] = {
+                Name = "Tal Rashas Tomb #1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb2] = {
+                Name = "Tal Rashas Tomb #2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb3] = {
+                Name = "Tal Rashas Tomb #3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb4] = {
+                Name = "Tal Rashas Tomb #4",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb5] = {
+                Name = "Tal Rashas Tomb #5",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb6] = {
+                Name = "Tal Rashas Tomb #6",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TalRashasTomb7] = {
+                Name = "Tal Rashas Tomb #7",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DurielsLair] = {
+                Name = "Duriels Lair",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ArcaneSanctuary] = {
+                Name = "Arcane Sanctuary",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.KurastDocks] = {
+                Name = "Kurast Docks",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SpiderForest] = {
+                Name = "Spider Forest",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.GreatMarsh] = {
+                Name = "Great Marsh",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FlayerJungle] = {
+                Name = "Flayer Jungle",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.LowerKurast] = {
+                Name = "Lower Kurast",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.KurastBazaar] = {
+                Name = "Kurast Bazaar",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.UpperKurast] = {
+                Name = "Upper Kurast",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.KurastCauseway] = {
+                Name = "Kurast Causeway",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Travincal] = {
+                Name = "Travincal",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SpiderCave] = {
+                Name = "Spider Cave",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SpiderCavern] = {
+                Name = "Spider Cavern",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SwampyPitLevel1] = {
+                Name = "Swampy Pit Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SwampyPitLevel2] = {
+                Name = "Swampy Pit Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FlayerDungeonLevel1] = {
+                Name = "Flayer Dungeon Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FlayerDungeonLevel2] = {
+                Name = "Flayer Dungeon Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SwampyPitLevel3] = {
+                Name = "Swampy Pit Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FlayerDungeonLevel3] = {
+                Name = "Flayer Dungeon Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SewersLevel1Act3] = {
+                Name = "Sewers Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.SewersLevel2Act3] = {
+                Name = "Sewers Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.RuinedTemple] = {
+                Name = "Ruined Temple",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DisusedFane] = {
+                Name = "Disused Fane",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ForgottenReliquary] = {
+                Name = "Forgotten Reliquary",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ForgottenTemple] = {
+                Name = "Forgotten Temple",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.RuinedFane] = {
+                Name = "Ruined Fane",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DisusedReliquary] = {
+                Name = "Disused Reliquary",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DuranceOfHateLevel1] = {
+                Name = "Durance of Hate Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DuranceOfHateLevel2] = {
+                Name = "Durance of Hate Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DuranceOfHateLevel3] = {
+                Name = "Durance of Hate Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ThePandemoniumFortress] = {
+                Name = "Pandemonium Fortress",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.OuterSteppes] = {
+                Name = "Outer Steppes",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PlainsOfDespair] = {
+                Name = "Plains of Despair",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CityOfTheDamned] = {
+                Name = "City of the Damned",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.RiverOfFlame] = {
+                Name = "River of Flame",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ChaosSanctuary] = {
+                Name = "Chaos Sanctuary",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Harrogath] = {
+                Name = "Harrogath",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.BloodyFoothills] = {
+                Name = "Bloody Foothills",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FrigidHighlands] = {
+                Name = "Frigid Highlands",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ArreatPlateau] = {
+                Name = "Arreat Plateau",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.CrystallinePassage] = {
+                Name = "Crystalline Passage",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FrozenRiver] = {
+                Name = "Frozen River",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.GlacialTrail] = {
+                Name = "Glacial Trail",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.DrifterCavern] = {
+                Name = "Drifter Cavern",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FrozenTundra] = {
+                Name = "Frozen Tundra",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TheAncientsWay] = {
+                Name = "Ancients' Way",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.IcyCellar] = {
+                Name = "Icy Cellar",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ArreatSummit] = {
+                Name = "Arreat Summit",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.NihlathaksTemple] = {
+                Name = "Nihlathaks Temple",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfAnguish] = {
+                Name = "Halls of Anguish",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfPain] = {
+                Name = "Halls of Pain",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.HallsOfVaught] = {
+                Name = "Halls of Vaught",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.Abaddon] = {
+                Name = "Abaddon",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.PitOfAcheron] = {
+                Name = "Pit of Acheron",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.InfernalPit] = {
+                Name = "Infernal Pit",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TheWorldStoneKeepLevel1] = {
+                Name = "Worldstone Keep Level 1",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TheWorldStoneKeepLevel2] = {
+                Name = "Worldstone Keep Level 2",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TheWorldStoneKeepLevel3] = {
+                Name = "Worldstone Keep Level 3",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ThroneOfDestruction] = {
+                Name = "Throne of Destruction",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.TheWorldstoneChamber] = {
+                Name = "Worldstone Chamber",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.MatronsDen] = {
+                Name = "Matron's Den",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.ForgottenSands] = {
+                Name = "Forgotten Sands",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.FurnaceOfPain] = {
+                Name = "Furnace of Pain",
+                Level = new int[] { 0, 0, 0 }
+            },
+            [Area.UberTristram] = {
+                Name = "Uber Tristram",
+                Level = new int[] { 0, 0, 0 }
+            },
         };
 
         public static string Name(this Area area)
         {
-            return _areaNames.TryGetValue((int)area, out var areaName) ? areaName : area.ToString();
+            return _areaLabels.TryGetValue(area, out var label) ? label.Name : area.ToString();
         }
 
         public static bool IsValid(this Area area)
