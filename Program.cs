@@ -147,8 +147,9 @@ namespace MapAssist
 
         private static void ProcessException(Exception e)
         {
-            var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
+            _log.Fatal(e);
 
+            var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
             MessageBox.Show(message, "MapAssist Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Application.Exit();
@@ -263,6 +264,8 @@ namespace MapAssist
 
         private static void Dispose()
         {
+            _log.Info("Disposing");
+
             trayIcon.Visible = false;
 
             GameManager.Dispose();
@@ -281,6 +284,7 @@ namespace MapAssist
         private static void Restart(object sender, EventArgs e)
         {
             Dispose();
+            _log.Info("Restarting from tray icon");
 
             Application.Restart();
         }
@@ -288,6 +292,7 @@ namespace MapAssist
         private static void Exit(object sender, EventArgs e)
         {
             Dispose();
+            _log.Info("Exiting from tray icon");
 
             Application.Exit();
         }
