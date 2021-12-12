@@ -208,6 +208,7 @@ namespace MapAssist.Helpers
         public static List<PointOfInterest> Get(MapApi mapApi, AreaData areaData)
         {
             var pointOfInterest = new List<PointOfInterest>();
+            var areaRenderDecided = new List<Area>();
 
             switch (areaData.Area)
             {
@@ -246,10 +247,8 @@ namespace MapAssist.Helpers
                     if (areaData.AdjacentLevels.Any())
                     {
                         // Next Area Point of Interest
-                        var nextArea = areaData.Area;
-                        if (AreaPreferredNextArea.ContainsKey(areaData.Area))
+                        if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
                         {
-                            nextArea = AreaPreferredNextArea[areaData.Area];
                             var nextLevel = areaData.AdjacentLevels[nextArea];
                             if (nextLevel.Exits.Any())
                             {
@@ -260,32 +259,32 @@ namespace MapAssist.Helpers
                                     RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
                                     Type = PoiType.NextArea
                                 });
+                                areaRenderDecided.Add(nextArea);
                             }
                         }
                         else
                         {
-                            nextArea = areaData.AdjacentLevels.Keys.Max();
-                            if (nextArea > areaData.Area)
+                            var maxAdjacentArea = areaData.AdjacentLevels.Keys.Max();
+                            if (maxAdjacentArea > areaData.Area)
                             {
-                                var nextLevel = areaData.AdjacentLevels[nextArea];
+                                var nextLevel = areaData.AdjacentLevels[maxAdjacentArea];
                                 if (nextLevel.Exits.Any())
                                 {
                                     pointOfInterest.Add(new PointOfInterest
                                     {
-                                        Label = nextArea.Name(),
+                                        Label = maxAdjacentArea.Name(),
                                         Position = nextLevel.Exits[0],
                                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
                                         Type = PoiType.NextArea
                                     });
+                                    areaRenderDecided.Add(maxAdjacentArea);
                                 }
                             }
                         }
 
                         // Quest Area Point of Interest
-                        var questArea = areaData.Area;
-                        if (AreaPreferredQuestArea.ContainsKey(areaData.Area))
+                        if (AreaPreferredQuestArea.TryGetValue(areaData.Area, out var questArea))
                         {
-                            questArea = AreaPreferredQuestArea[areaData.Area];
                             var questLevel = areaData.AdjacentLevels[questArea];
                             if (questLevel.Exits.Any())
                             {
@@ -296,14 +295,15 @@ namespace MapAssist.Helpers
                                     RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest,
                                     Type = PoiType.Quest
                                 });
+                                areaRenderDecided.Add(questArea);
                             }
                         }
 
                         // Previous Area Point of Interest
                         foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
                         {
-                            // Skip Next Area and Quest Area Points of Interest
-                            if (level.Area > nextArea || level.Area == questArea)
+                            // Already made render decision for this.
+                            if (areaRenderDecided.Contains(level.Area))
                             {
                                 continue;
                             }
