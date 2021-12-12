@@ -46,11 +46,13 @@ namespace MapAssist.Helpers
         private float scaleWidth = 1;
         private float scaleHeight = 1;
         private const int WALKABLE = 0;
-        private const int UNWALKABLE = 1;
+        private const int BORDER = 1;
 
         public Compositor(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
+            _areaData.CalcViewAreas(_rotateRadians);
+
             _pointsOfInterest = pointsOfInterest;
         }
 
@@ -60,8 +62,7 @@ namespace MapAssist.Helpers
             _drawBounds = drawBounds;
             (scaleWidth, scaleHeight) = GetScaleRatios();
 
-            var mapSize = GetMapSize();
-            var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * mapSize.Width / mapSize.Height;
+            var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * _areaData.ViewOutputRect.Width / _areaData.ViewOutputRect.Height;
             switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
             {
                 case MapPosition.TopLeft:
@@ -76,7 +77,7 @@ namespace MapAssist.Helpers
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            var imageSize = new Size2((int)_areaData.ViewRectangle.Width, (int)_areaData.ViewRectangle.Height);
+            var imageSize = new Size2((int)_areaData.ViewInputRect.Width, (int)_areaData.ViewInputRect.Height);
             gamemapDX = new Bitmap(renderTarget, imageSize, new BitmapProperties(renderTarget.PixelFormat));
             var bytes = new byte[imageSize.Width * imageSize.Height * 4];
 
@@ -87,27 +88,16 @@ namespace MapAssist.Helpers
             {
                 var walkableColor = maybeWalkableColor != null ? (Color)maybeWalkableColor : Color.Transparent;
                 var borderColor = maybeBorderColor != null ? (Color)maybeBorderColor : Color.Transparent;
-                var lookOffsets = new int[][] {
-                            new int[] { -1, -1 },
-                            new int[] { -1, 0 },
-                            new int[] { -1, 1 },
-                            new int[] { 0, -1 },
-                            new int[] { 0, 1 },
-                            new int[] { 1, -1 },
-                            new int[] { 1, 0 },
-                            new int[] { 1, 1 }
-                        };
 
                 for (var y = 0; y < imageSize.Height; y++)
                 {
-                    var _y = y + (int)_areaData.ViewRectangle.Top;
+                    var _y = y + (int)_areaData.ViewInputRect.Top;
                     for (var x = 0; x < imageSize.Width; x++)
                     {
-                        var _x = x + (int)_areaData.ViewRectangle.Left;
+                        var _x = x + (int)_areaData.ViewInputRect.Left;
                         
                         var i = imageSize.Width * 4 * y + x * 4;
                         var type = _areaData.CollisionGrid[_y][_x];
-                        var isCurrentPixelWalkable = type == WALKABLE;
 
                         // // Uncomment this to show a red border for debugging
                         // if (x == 0 || y == 0 || y == imageSize.Height - 1 || x == imageSize.Width - 1)
@@ -119,33 +109,16 @@ namespace MapAssist.Helpers
                         //     continue;
                         // }
 
-                        if (type == WALKABLE && maybeWalkableColor != null)
+                        var pixelColor = type == WALKABLE && maybeWalkableColor != null ? walkableColor :
+                            type == BORDER && maybeBorderColor != null ? borderColor :
+                            Color.Transparent;
+
+                        if (pixelColor != Color.Transparent)
                         {
-                            bytes[i] = walkableColor.B;
-                            bytes[i + 1] = walkableColor.G;
-                            bytes[i + 2] = walkableColor.R;
-                            bytes[i + 3] = walkableColor.A;
-                        }
-
-                        foreach (var offset in lookOffsets)
-                        {
-                            var dy = _y + offset[0];
-                            var dx = _x + offset[1];
-
-                            var offsetsInBounds =
-                                dy >= 0 && dy < imageSize.Height &&
-                                dx >= 0 && dx < imageSize.Width;
-
-                            var nextToWalkable = offsetsInBounds && !isCurrentPixelWalkable && _areaData.CollisionGrid[dy][dx] == WALKABLE;
-
-                            if (maybeBorderColor != null && nextToWalkable)
-                            {
-                                bytes[i] = borderColor.B;
-                                bytes[i + 1] = borderColor.G;
-                                bytes[i + 2] = borderColor.R;
-                                bytes[i + 3] = borderColor.A;
-                                break;
-                            }
+                            bytes[i] = pixelColor.B;
+                            bytes[i + 1] = pixelColor.G;
+                            bytes[i + 2] = pixelColor.R;
+                            bytes[i + 3] = pixelColor.A;
                         }
                     }
                 }
@@ -863,26 +836,13 @@ namespace MapAssist.Helpers
             return point;
         }
 
-        private Rectangle GetMapSize()
-        {
-            return new Point[]
-                {
-                    new Point(0, 0),
-                    new Point(0, 1),
-                    new Point(1, 1),
-                    new Point(1, 0),
-                }.Select(point => point.Multiply(_areaData.ViewRectangle.Width, _areaData.ViewRectangle.Height).Rotate(_rotateRadians)).ToArray().ToRectangle();
-        }
-
         private (float, float) GetScaleRatios()
         {
             var multiplier = 5.5f - MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
-                var mapSize = GetMapSize();
-                
-                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / mapSize.Height;
+                multiplier = MapAssistConfiguration.Loaded.RenderingConfiguration.Size / _areaData.ViewOutputRect.Height;
 
                 if (multiplier == 0)
                 {
@@ -914,26 +874,34 @@ namespace MapAssist.Helpers
             if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
                 matrix = Matrix3x2.CreateTranslation(_areaData.Origin.ToVector())
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(_gameData.PlayerPosition.ToVector()));
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(_gameData.PlayerPosition.ToVector()))
+                    * Matrix3x2.CreateRotation(_rotateRadians)
+                    * Matrix3x2.CreateScale(scaleWidth, scaleHeight);
+
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                        * Matrix3x2.CreateTranslation(new Vector2(2, -8)); // Brute forced to perfectly line up with the in game map;
+                }
+                else
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
+                        * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2));
+                }
             }
             else
             {
-                matrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Left, _areaData.ViewRectangle.Top)))
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Width / 2, _areaData.ViewRectangle.Height / 2)));
-            }
+                matrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
+                    * Matrix3x2.CreateRotation(_rotateRadians)
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Left, _areaData.ViewOutputRect.Top)))
+                    * Matrix3x2.CreateScale(scaleWidth, scaleHeight)
+                    * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top));
 
-            matrix *= Matrix3x2.CreateRotation(_rotateRadians)
-                * Matrix3x2.CreateScale(scaleWidth, scaleHeight);
-
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
-            {
-                matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
-                    * Matrix3x2.CreateTranslation(new Vector2(2, -8)); // Brute forced to perfectly line up with the in game map;
-            }
-            else
-            {
-                matrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
-                    * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2));
+                if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
+                {
+                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                        * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Width / 2 * scaleWidth, _areaData.ViewOutputRect.Height / 2 * scaleHeight)));
+                }
             }
 
             ApplyTransform(gfx, matrix);
@@ -948,7 +916,7 @@ namespace MapAssist.Helpers
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
                 matrix = matrix
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewRectangle.Left, _areaData.ViewRectangle.Top)));
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Left, _areaData.ViewInputRect.Top)));
             }
 
             ApplyTransform(gfx, matrix, multiplyAfter: false);
