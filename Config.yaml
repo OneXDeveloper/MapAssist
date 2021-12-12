@@ -25,7 +25,7 @@ HiddenAreas:
 ## RenderingConfiguration - Visual settings for the overlay
 RenderingConfiguration:
   ## Opacity - Map transparency %
-  MapOpacity: 0.5
+  Opacity: 0.5
   ## Opacity - Icon transparency %
   IconOpacity: 0.9
   ## OverlayMode - Overlay map over in-game map / can be hidden with hotkey (ToggleKey)

@@ -136,8 +136,8 @@ namespace MapAssist.Settings
 
 public class RenderingConfiguration
 {
-    [YamlMember(Alias = "MapOpacity", ApplyNamingConventions = false)]
-    public float MapOpacity { get; set; }
+    [YamlMember(Alias = "Opacity", ApplyNamingConventions = false)]
+    public float Opacity { get; set; }
 
     [YamlMember(Alias = "IconOpacity", ApplyNamingConventions = false)]
     public float IconOpacity { get; set; }

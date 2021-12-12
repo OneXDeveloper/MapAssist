@@ -168,7 +168,7 @@ namespace MapAssist.Helpers
             renderTarget.PushAxisAlignedClip(_drawBounds, AntialiasMode.Aliased); // This needs to be before the transformation
 
             ApplyTransformMapData(gfx);
-            renderTarget.DrawBitmap(gamemapDX, MapAssistConfiguration.Loaded.RenderingConfiguration.MapOpacity, BitmapInterpolationMode.Linear);
+            renderTarget.DrawBitmap(gamemapDX, MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity, BitmapInterpolationMode.Linear);
 
             renderTarget.PopAxisAlignedClip();
             ClearTransforms(gfx);
