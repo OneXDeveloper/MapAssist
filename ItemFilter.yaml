@@ -23,7 +23,7 @@ Mage Plate:
  - Qualities: 
     - normal
     - superior
-   Sockets: [3, 4]
+   Sockets: [0, 3]
 
 # This monarch rule is really 2 separate rules.  Notice the "-" on each line
 # This will show all magic monarchs, as well as monarchs with 4 sockets of any quality (since quality is not specific in this rule)
