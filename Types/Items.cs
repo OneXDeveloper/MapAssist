@@ -238,14 +238,17 @@ namespace MapAssist.Types
 
         public static void ItemLogTimerElapsed(object sender, ElapsedEventArgs args, Timer self, int procId)
         {
-            if (ItemLog[procId].Count > 0)
+            if (ItemLog.TryGetValue(procId, out var itemLog))
             {
-                ItemLog[procId].RemoveAt(0);
-            }
+                if (itemLog.Count > 0)
+                {
+                    itemLog.RemoveAt(0);
+                }
 
-            if (ItemLogTimers.TryGetValue(procId, out var _))
-            {
-                ItemLogTimers[procId].Remove(self);
+                if (ItemLogTimers.TryGetValue(procId, out var timer))
+                {
+                    timer.Remove(self);
+                }
             }
 
             self.Dispose();

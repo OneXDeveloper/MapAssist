@@ -334,11 +334,13 @@ namespace MapAssist.Helpers
                             continue;
                         }
 
-                        var color = Items.ItemColors[item.ItemData.ItemQuality];
-                        var itemBaseName = Items.ItemName(item.TxtFileNo);
+                        if (Items.ItemColors.TryGetValue(item.ItemData.ItemQuality, out var color))
+                        {
+                            var itemBaseName = Items.ItemName(item.TxtFileNo);
 
-                        DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Item, item.Position, itemBaseName,
-                            color: color);
+                            DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Item, item.Position, itemBaseName,
+                                color: color);
+                        }
                     }
                 }
             }
@@ -577,7 +579,12 @@ namespace MapAssist.Helpers
             for (var i = 0; i < ItemLog.Length; i++)
             {
                 var item = ItemLog[i];
-                var fontColor = Items.ItemColors[item.ItemData.ItemQuality];
+
+                Color fontColor;
+                if (!Items.ItemColors.TryGetValue(item.ItemData.ItemQuality, out fontColor))
+                {
+                    continue;
+                }
 
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
 
