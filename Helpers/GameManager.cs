@@ -280,12 +280,6 @@ namespace MapAssist.Helpers
         public static void ResetPlayerUnit()
         {
             _PlayerUnit = default;
-            _UnitHashTableOffset = IntPtr.Zero;
-            _ExpansionCheckOffset = IntPtr.Zero;
-            _GameIPOffset = IntPtr.Zero;
-            _MenuPanelOpenOffset = IntPtr.Zero;
-            _MenuDataOffset = IntPtr.Zero;
-            _RosterDataOffset = IntPtr.Zero;
         }
         
         public static void Dispose()
