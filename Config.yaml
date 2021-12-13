@@ -73,7 +73,7 @@ MapConfiguration:
     IconSize: 5
     LineColor: SpringGreen
     LineThickness: 2
-    ArrowHeadSize: 5
+    ArrowHeadSize: 15
     LabelColor: SpringGreen
     LabelFontSize: 16
     LabelFont: 'Helvetica'
@@ -92,7 +92,7 @@ MapConfiguration:
   Quest:
     LineColor: Tomato
     LineThickness: 2
-    ArrowHeadSize: 5
+    ArrowHeadSize: 15
     LabelColor: Tomato
     LabelFontSize: 16
     LabelFont: 'Helvetica'
@@ -114,8 +114,8 @@ MapConfiguration:
     LabelFont: 'Helvetica'
   Portal:
     IconColor: Yellow
-    IconShape: EllipseOutline
-    IconSize: 6
+    IconShape: Portal
+    IconSize: 3
     IconThickness: 2
     LabelColor: Yellow
     LabelFontSize: 16

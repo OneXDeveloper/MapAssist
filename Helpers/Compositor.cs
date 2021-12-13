@@ -40,6 +40,8 @@ namespace MapAssist.Helpers
         public readonly AreaData _areaData;
         private readonly IReadOnlyList<PointOfInterest> _pointsOfInterest;
 
+        private Matrix3x2 mapTransformMatrix;
+        private Matrix3x2 areaTransformMatrix;
         private Bitmap gamemapDX;
         private Rectangle _drawBounds;
         private readonly float _rotateRadians = (float)(45 * Math.PI / 180f);
@@ -72,6 +74,8 @@ namespace MapAssist.Helpers
                     _drawBounds.Left = _drawBounds.Right - renderWidth;
                     break;
             }
+
+            CalcTransformMatrices(gfx);
 
             if (gamemapDX != null && gamemapDX.IsDisposed == false) return;
 
@@ -137,24 +141,23 @@ namespace MapAssist.Helpers
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            ClearTransforms(gfx);
-            renderTarget.PushAxisAlignedClip(_drawBounds, AntialiasMode.Aliased); // This needs to be before the transformation
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix(); // Needed for the draw bounds to work properly
+            renderTarget.PushAxisAlignedClip(_drawBounds, AntialiasMode.Aliased);
 
-            ApplyTransformMapData(gfx);
+            renderTarget.Transform = mapTransformMatrix.ToDXMatrix();
             renderTarget.DrawBitmap(gamemapDX, MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity, BitmapInterpolationMode.Linear);
 
             renderTarget.PopAxisAlignedClip();
-            ClearTransforms(gfx);
         }
 
         public void DrawOverlay(Graphics gfx)
         {
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            ClearTransforms(gfx);
-            renderTarget.PushAxisAlignedClip(_drawBounds, AntialiasMode.Aliased); // This needs to be before the transformation
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix(); // Needed for the draw bounds to work properly
+            renderTarget.PushAxisAlignedClip(_drawBounds, AntialiasMode.Aliased);
 
-            ApplyTransformAreaData(gfx);
+            renderTarget.Transform = areaTransformMatrix.ToDXMatrix();
 
             DrawPointsOfInterest(gfx);
             DrawMonsters(gfx);
@@ -162,7 +165,6 @@ namespace MapAssist.Helpers
             DrawPlayers(gfx);
 
             renderTarget.PopAxisAlignedClip();
-            ClearTransforms(gfx);
         }
 
         private void DrawPointsOfInterest(Graphics gfx)
@@ -246,6 +248,8 @@ namespace MapAssist.Helpers
 
         private void DrawMonsters(Graphics gfx)
         {
+            RenderTarget renderTarget = gfx.GetRenderTarget();
+           
             var monsterRenderingOrder = new IconRendering[]
             {
                 MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster,
@@ -274,16 +278,20 @@ namespace MapAssist.Helpers
                     if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
                     {
                         var monsterPosition = unitAny.Position;
-                        ApplyTransformAreaDataText(gfx, unitAny.Position);
 
                         // Draw Monster Immunities on top of monster icon
                         var iCount = unitAny.Immunities.Count;
                         if (iCount > 0)
                         {
+                            monsterPosition = Vector2.Transform(monsterPosition.ToVector(), areaTransformMatrix).ToPoint();
+
+                            var currentTransform = renderTarget.Transform;
+                            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
+
                             var iconShape = GetIconShape(mobRender).ToRectangle();
 
-                            var ellipseSize = iconShape.Height * scaleWidth / 10; // Arbirarily set to be a fraction of the the mob icon size. The important point is that it scales with the mob icon consistently.
-                            var dx = ellipseSize * 3f; // Amount of space each indicator will take up, including spacing (which is the 1.5)
+                            var ellipseSize = Math.Max(iconShape.Height / 12, 3 / scaleWidth); // Arbirarily set to be a fraction of the the mob icon size. The important point is that it scales with the mob icon consistently.
+                            var dx = ellipseSize * scaleWidth * 1.5f; // Amount of space each indicator will take up, including spacing
 
                             var iX = -dx * (iCount - 1) / 2f; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
 
@@ -293,16 +301,16 @@ namespace MapAssist.Helpers
                                 {
                                     IconShape = Shape.Ellipse,
                                     IconColor = ResistColors.ResistColor[immunity],
-                                    IconSize = ellipseSize * scaleHeight
+                                    IconSize = ellipseSize
                                 };
 
                                 var iPoint = monsterPosition.Add(new Point(iX, -iconShape.Height - render.IconSize));
-                                DrawIcon(gfx, render, iPoint);
+                                DrawIcon(gfx, render, iPoint, equalScaling: true);
                                 iX += dx;
                             }
-                        }
 
-                        PopTransform(gfx);
+                            renderTarget.Transform = currentTransform;
+                        }
                     }
                 }
             }
@@ -427,13 +435,14 @@ namespace MapAssist.Helpers
 
         public void DrawBuffs(Graphics gfx)
         {
+            RenderTarget renderTarget = gfx.GetRenderTarget();
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
+            
             var buffImageScale = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize;
             if (buffImageScale <= 0)
             {
                 return;
             }
-
-            ClearTransforms(gfx);
 
             var stateList = _gameData.PlayerUnit.StateList;
             var imgDimensions = 48f * buffImageScale;
@@ -524,8 +533,6 @@ namespace MapAssist.Helpers
                     buffIndex++;
                 }
             }
-
-            ClearTransforms(gfx);
         }
 
         public void DrawGameInfo(Graphics gfx, Point anchor,
@@ -536,7 +543,8 @@ namespace MapAssist.Helpers
                 return;
             }
 
-            ClearTransforms(gfx);
+            RenderTarget renderTarget = gfx.GetRenderTarget();
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
             // Setup
             var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
@@ -645,12 +653,21 @@ namespace MapAssist.Helpers
             renderTarget.DrawBitmap(bitmapDX, destRect, opacity, BitmapInterpolationMode.Linear, sourceRect);
         }
 
-        private void DrawIcon(Graphics gfx, IconRendering rendering, Point position)
+        private void DrawIcon(Graphics gfx, IconRendering rendering, Point position,
+            bool equalScaling = false)
         {
+            var renderTarget = gfx.GetRenderTarget();
+            var currentTransform = renderTarget.Transform;
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
+
+            position = Vector2.Transform(position.ToVector(), currentTransform.ToMatrix()).ToPoint();
+
             var fill = !rendering.IconShape.ToString().ToLower().EndsWith("outline");
             var brush = CreateSolidBrush(gfx, rendering.IconColor);
 
-            var points = GetIconShape(rendering).Select(point => point.Add(position)).ToArray();
+            var points = GetIconShape(rendering, equalScaling).Select(point => point.Add(position)).ToArray();
+
+            var _scaleHeight = equalScaling ? scaleWidth : scaleHeight;
 
             using (var geo = points.ToGeometry(gfx, fill))
             {
@@ -660,12 +677,16 @@ namespace MapAssist.Helpers
                     case Shape.EllipseOutline:
                         if (rendering.IconShape == Shape.Ellipse)
                         {
-                            gfx.FillEllipse(brush, position, rendering.IconSize / scaleHeight, rendering.IconSize / scaleHeight);
+                            gfx.FillEllipse(brush, position, rendering.IconSize * scaleWidth / 2, rendering.IconSize * _scaleHeight / 2); // Divide by 2 because the parameter requires a radius
                         }
                         else
                         {
-                            gfx.DrawEllipse(brush, position, rendering.IconSize / scaleHeight, rendering.IconSize / scaleHeight, rendering.IconThickness / scaleHeight);
+                            gfx.DrawEllipse(brush, position, rendering.IconSize * scaleWidth / 2, rendering.IconSize * _scaleHeight / 2, rendering.IconThickness); // Divide by 2 because the parameter requires a radius
                         }
+
+                        break;
+                    case Shape.Portal:
+                        gfx.DrawEllipse(brush, position, rendering.IconSize * scaleWidth / 2, rendering.IconSize * 2 * scaleWidth / 2, rendering.IconThickness); // Use scaleWidth so it doesn't shrink the height in overlay mode, allows portal to look the same in both modes
 
                         break;
                     case Shape.Polygon:
@@ -673,7 +694,7 @@ namespace MapAssist.Helpers
 
                         break;
                     case Shape.Cross:
-                        gfx.DrawGeometry(geo, brush, rendering.IconThickness / scaleHeight);
+                        gfx.DrawGeometry(geo, brush, rendering.IconThickness);
 
                         break;
                     default:
@@ -685,55 +706,66 @@ namespace MapAssist.Helpers
                         }
                         else
                         {
-                            gfx.DrawGeometry(geo, brush, rendering.IconThickness / scaleHeight);
+                            gfx.DrawGeometry(geo, brush, rendering.IconThickness);
                         }
 
                         break;
                 }
             }
+
+            renderTarget.Transform = currentTransform;
         }
 
         private void DrawLine(Graphics gfx, PointOfInterestRendering rendering, Point startPosition, Point endPosition)
         {
-            var brush = CreateSolidBrush(gfx, rendering.LineColor);
+            var renderTarget = gfx.GetRenderTarget();
+            var currentTransform = renderTarget.Transform;
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
+
+            startPosition = Vector2.Transform(startPosition.ToVector(), areaTransformMatrix).ToPoint();
+            endPosition = Vector2.Transform(endPosition.ToVector(), areaTransformMatrix).ToPoint();
 
             var angle = endPosition.Subtract(startPosition).Angle();
             var length = endPosition.Rotate(-angle, startPosition).X - startPosition.X;
 
-            if (length < 20) // Don't render when line is too short
+            var brush = CreateSolidBrush(gfx, rendering.LineColor);
+
+            startPosition = startPosition.Rotate(-angle, startPosition).Add(5 * scaleWidth, 0).Rotate(angle, startPosition); // Add 5a for a little extra spacing from the start point
+
+            if (length > 60) // Don't render when line is too short
             {
-                return;
-            }
-
-            startPosition = startPosition.Rotate(-angle, startPosition).Add(7, 0).Rotate(angle, startPosition); // Add 7 for a little extra spacing
-
-            if (rendering.CanDrawArrowHead())
-            {
-                endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f + 2, 0).Rotate(angle, startPosition); // Add 2 for a little extra spacing
-
-                var points = new Point[]
+                if (rendering.CanDrawArrowHead())
                 {
-                    new Point((float)(Math.Sqrt(3) / -2), 0.5f),
-                    new Point((float)(Math.Sqrt(3) / -2), -0.5f),
-                    new Point(0, 0),
-                }.Select(point => point.Multiply(rendering.ArrowHeadSize).Rotate(angle).Add(endPosition)).ToArray();
+                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize + scaleWidth, 0).Rotate(angle, startPosition); // Add scaleWidth for a little extra spacing from the end point
 
-                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
-                gfx.FillTriangle(brush, points[0], points[1], points[2]);
+                    var points = new Point[]
+                    {
+                        new Point((float)(Math.Sqrt(3) / -2), 0.5f),
+                        new Point((float)(Math.Sqrt(3) / -2), -0.5f),
+                        new Point(0, 0),
+                    }.Select(point => point.Multiply(rendering.ArrowHeadSize).Add(rendering.ArrowHeadSize / 2f, 0).Rotate(angle).Add(endPosition)).ToArray(); // Divide by 2 to make the line end inside the triangle
+
+                    gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness);
+                    gfx.FillTriangle(brush, points[0], points[1], points[2]);
+                }
+                else
+                {
+                    gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness);
+                }
             }
-            else
-            {
-                gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness / scaleHeight);
-            }
+
+            renderTarget.Transform = currentTransform;
         }
 
         private void DrawText(Graphics gfx, PointOfInterestRendering rendering, Point position, string text,
             Color? color = null)
         {
-            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), transforms.Last());
-            var textCoord = Vector2.Transform(position.ToVector(), transforms.Last());
+            var renderTarget = gfx.GetRenderTarget();
+            var currentTransform = renderTarget.Transform;
+            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
-            ApplyTransformAreaDataText(gfx, position);
+            var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), areaTransformMatrix);
+            position = Vector2.Transform(position.ToVector(), areaTransformMatrix).ToPoint();
 
             var useColor = color == null ? rendering.LabelColor : (Color)color;
 
@@ -741,7 +773,7 @@ namespace MapAssist.Helpers
             var iconShape = GetIconShape(rendering).ToRectangle();
             var textSize = gfx.MeasureString(font, text);
             
-            var multiplier = playerCoord.Y < textCoord.Y ? 1 : -1;
+            var multiplier = playerCoord.Y < position.Y ? 1 : -1;
             if (rendering.CanDrawIcon())
             {
                 position = position.Add(new Point(0, iconShape.Height / 2 * (!rendering.CanDrawArrowHead() ? 1 : multiplier)));
@@ -753,7 +785,7 @@ namespace MapAssist.Helpers
             DrawText(gfx, position, text, rendering.LabelFont, rendering.LabelFontSize, useColor,
                 centerText: true);
 
-            PopTransform(gfx);
+            renderTarget.Transform = currentTransform;
         }
 
         private void DrawText(Graphics gfx, Point position, string text, string fontFamily, float fontSize, Color color,
@@ -771,8 +803,11 @@ namespace MapAssist.Helpers
             gfx.DrawText(font, brush, position, text);
         }
 
-        private Point[] GetIconShape(IconRendering render)
+        private Point[] GetIconShape(IconRendering render,
+            bool equalScaling = false)
         {
+            var _scaleHeight = equalScaling ? scaleWidth : scaleHeight;
+            
             switch (render.IconShape)
             {
                 case Shape.Square:
@@ -783,7 +818,7 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, 0),
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f)).ToArray();
+                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
                 case Shape.Ellipse:
                 case Shape.EllipseOutline: // Use a rectangle since that's effectively the same size and that's all this function is used for at the moment
                     return new Point[]
@@ -792,7 +827,15 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, 0),
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f)).ToArray();
+                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                case Shape.Portal: // Use a rectangle since that's effectively the same size and that's all this function is used for at the moment
+                    return new Point[]
+                    {
+                        new Point(0, 0),
+                        new Point(render.IconSize, 0),
+                        new Point(render.IconSize, render.IconSize),
+                        new Point(0, render.IconSize)
+                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, scaleWidth * 2)).ToArray(); // Use scaleWidth so it doesn't shrink the height in overlay mode, allows portal to look the same in both modes
                 case Shape.Polygon:
                     var halfSize = render.IconSize / 2f;
                     var cutSize = render.IconSize / 10f;
@@ -805,7 +848,7 @@ namespace MapAssist.Helpers
                         new Point(halfSize + cutSize, halfSize + cutSize),
                         new Point(halfSize, render.IconSize),
                         new Point(halfSize - cutSize, halfSize + cutSize)
-                    }.Select(point => point.Subtract(halfSize).Rotate(-_rotateRadians)).ToArray();
+                    }.Select(point => point.Subtract(halfSize).Multiply(scaleWidth, _scaleHeight)).ToArray();
                 case Shape.Cross:
                     var a = render.IconSize * 0.25f;
                     var b = render.IconSize * 0.50f;
@@ -817,7 +860,7 @@ namespace MapAssist.Helpers
                         new Point(0, a), new Point(a, 0), new Point(b, a), new Point(c, 0),
                         new Point(d, a), new Point(c, b), new Point(d, c), new Point(c, d),
                         new Point(b, c), new Point(a, d), new Point(0, c), new Point(a, b)
-                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(-_rotateRadians)).ToArray();
+                    }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, _scaleHeight)).ToArray();
             }
 
             return new Point[]
@@ -852,8 +895,8 @@ namespace MapAssist.Helpers
             var resizeScale = 1f;
 
             var bounds = new Rectangle(_drawBounds.Left + padding, _drawBounds.Top + padding, _drawBounds.Right - padding, _drawBounds.Bottom - padding);
-            var startScreenCoord = Vector2.Transform(origin.ToVector(), transforms.Last());
-            var endScreenCoord = Vector2.Transform(point.ToVector(), transforms.Last());
+            var startScreenCoord = Vector2.Transform(origin.ToVector(), areaTransformMatrix);
+            var endScreenCoord = Vector2.Transform(point.ToVector(), areaTransformMatrix);
 
             if (endScreenCoord.X < bounds.Left) resizeScale = Math.Min(resizeScale, (bounds.Left - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
             if (endScreenCoord.X > bounds.Right) resizeScale = Math.Min(resizeScale, (bounds.Right - startScreenCoord.X) / (endScreenCoord.X - startScreenCoord.X));
@@ -872,13 +915,12 @@ namespace MapAssist.Helpers
 
         private Point MoveTextInBounds(Point point, string text, Point size)
         {
-            var screenCoord = Vector2.Transform(point.ToVector(), transforms.Last());
             var halfSize = size.Multiply(1 / 2f);
 
-            if (screenCoord.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - screenCoord.X + halfSize.X;
-            if (screenCoord.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - screenCoord.X - halfSize.X;
-            if (screenCoord.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - screenCoord.Y + halfSize.Y;
-            if (screenCoord.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - screenCoord.Y - halfSize.Y;
+            if (point.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - point.X + halfSize.X;
+            if (point.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - point.X - halfSize.X;
+            if (point.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - point.Y + halfSize.Y;
+            if (point.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - point.Y - halfSize.Y;
 
             return point;
         }
@@ -914,31 +956,31 @@ namespace MapAssist.Helpers
             }
         }
 
-        private void ApplyTransformMapData(Graphics gfx)
+        private void CalcTransformMatrices(Graphics gfx)
         {
-            Matrix3x2 matrix;
+            mapTransformMatrix = Matrix3x2.Identity;
 
             if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
-                matrix = Matrix3x2.CreateTranslation(_areaData.Origin.ToVector())
+                mapTransformMatrix = Matrix3x2.CreateTranslation(_areaData.Origin.ToVector())
                     * Matrix3x2.CreateTranslation(Vector2.Negate(_gameData.PlayerPosition.ToVector()))
                     * Matrix3x2.CreateRotation(_rotateRadians)
                     * Matrix3x2.CreateScale(scaleWidth, scaleHeight);
 
                 if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
                 {
-                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                    mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
                         * Matrix3x2.CreateTranslation(new Vector2(2, -8)); // Brute forced to perfectly line up with the in game map;
                 }
                 else
                 {
-                    matrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
+                    mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
                         * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2));
                 }
             }
             else
             {
-                matrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
+                mapTransformMatrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
                     * Matrix3x2.CreateRotation(_rotateRadians)
                     * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Left, _areaData.ViewOutputRect.Top)))
                     * Matrix3x2.CreateScale(scaleWidth, scaleHeight)
@@ -946,67 +988,19 @@ namespace MapAssist.Helpers
 
                 if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
                 {
-                    matrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                    mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
                         * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Width / 2 * scaleWidth, _areaData.ViewOutputRect.Height / 2 * scaleHeight)));
                 }
             }
 
-            ApplyTransform(gfx, matrix);
-        }
-
-        public void ApplyTransformAreaData(Graphics gfx)
-        {
-            ApplyTransformMapData(gfx);
-
-            var matrix = Matrix3x2.CreateTranslation(Vector2.Negate(_areaData.Origin.ToVector()));
+            areaTransformMatrix = Matrix3x2.CreateTranslation(Vector2.Negate(_areaData.Origin.ToVector()));
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
-                matrix = matrix
-                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Left, _areaData.ViewInputRect.Top)));
+                areaTransformMatrix *= Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Left, _areaData.ViewInputRect.Top)));
             }
 
-            ApplyTransform(gfx, matrix, multiplyAfter: false);
-        }
-
-        private void ApplyTransformAreaDataText(Graphics gfx, Point point)
-        {
-            var matrix = transforms.Last();
-            var centerVector = Vector2.Transform(((Point)point).ToVector(), matrix);
-
-            ApplyTransform(gfx,
-                Matrix3x2.CreateTranslation(Vector2.Negate(centerVector))
-                * Matrix3x2.CreateScale(1 / scaleWidth, 1 / scaleHeight)
-                * Matrix3x2.CreateRotation(-_rotateRadians)
-                * Matrix3x2.CreateTranslation(centerVector)
-            );
-        }
-
-        // Graphics transformations
-        private List<Matrix3x2> transforms = new List<Matrix3x2>();
-        private void ApplyTransform(Graphics gfx, Matrix3x2 matrix,
-            bool multiplyAfter = true)
-        {
-            var newTransform = transforms.Count == 0 ? matrix : multiplyAfter ? transforms.Last() * matrix : matrix * transforms.Last();
-            transforms.Add(newTransform);
-
-            gfx.GetRenderTarget().Transform = newTransform.ToDXMatrix();
-        }
-        
-        private Matrix3x2 PopTransform(Graphics gfx)
-        {
-            var transform = transforms.Last();
-
-            transforms.RemoveAt(transforms.Count - 1);
-            gfx.GetRenderTarget().Transform = (transforms.Count == 0 ? Matrix3x2.Identity : transforms.Last()).ToDXMatrix();
-
-            return transform;
-        }
-
-        private void ClearTransforms(Graphics gfx)
-        {
-            transforms.Clear();
-            gfx.GetRenderTarget().Transform = Matrix3x2.Identity.ToDXMatrix();
+            areaTransformMatrix *= mapTransformMatrix;
         }
 
         // Creates and cached resources

@@ -85,6 +85,11 @@ namespace MapAssist.Helpers
             return new Vector2(point.X, point.Y);
         }
 
+        public static Point ToPoint(this Vector2 vector)
+        {
+            return new Point(vector.X, vector.Y);
+        }
+
         public static Rectangle ToRectangle(this Point[] points, float padding = 0)
         {
             var minX = points.Min(point => point.X);
@@ -143,6 +148,12 @@ namespace MapAssist.Helpers
         public static RawMatrix3x2 ToDXMatrix(this Matrix3x2 matrix)
         {
             return new RawMatrix3x2(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.M31, matrix.M32);
+        }
+
+        // SharpDX to System type conversions
+        public static Matrix3x2 ToMatrix(this RawMatrix3x2 matrix)
+        {
+            return new Matrix3x2(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.M31, matrix.M32);
         }
     }
 }

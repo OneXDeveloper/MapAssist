@@ -19,7 +19,6 @@
 
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
-using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
