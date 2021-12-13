@@ -784,6 +784,7 @@ namespace MapAssist.Helpers
                 case Shape.Ellipse:
                 case Shape.EllipseOutline:
                 case Shape.Portal:
+                    // Use rectangle to help with label placement for these shapes
                     return new Point[]
                     {
                         new Point(0, 0),
