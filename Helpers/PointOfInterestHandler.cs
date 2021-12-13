@@ -408,7 +408,7 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = Utils.GetAreaLabel(AreaSpecificLandmarks[areaData.Area][obj], gameData.Difficulty),
+                            Label = AreaSpecificLandmarks[areaData.Area][obj].Name(),
                             Position = points[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
                             Type = PoiType.AreaSpecificLandmark
