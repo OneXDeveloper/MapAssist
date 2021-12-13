@@ -779,15 +779,6 @@ namespace MapAssist.Helpers
         {
             switch (render.IconShape)
             {
-                case Shape.Portal:
-                    return new Point[]
-                    {
-                        new Point(0, 0),
-                        new Point(render.IconSize * 0.3f, 0),
-                        new Point(render.IconSize * 0.3f, render.IconSize),
-                        new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize * 0.15f).Rotate(-_rotateRadians)).ToArray();
-
                 case Shape.Square:
                 case Shape.SquareOutline:
                     return new Point[]
