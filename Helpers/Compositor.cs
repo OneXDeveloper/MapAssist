@@ -849,19 +849,19 @@ namespace MapAssist.Helpers
 
         private (float, float, float) GetPortalIconDimensions(IconRendering rendering)
         {
+            var iconHeight = rendering.IconSize / scaleHeight;
+
             if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
                 // Overlay Mode Portal Icon Shape
-                var iconHeight = rendering.IconSize / scaleHeight;
                 var counterRotate = _rotateRadians * 2f;
                 return (iconHeight, iconHeight, counterRotate);
             }
 
             // Non-Overlay Mode Portal Icon Shape
-            var width = Math.Max(0, rendering.IconSize * 0.5f) / scaleHeight;
-            var height = rendering.IconSize / scaleHeight;
+            var iconWidth = Math.Max(0, rendering.IconSize * 0.5f) / scaleHeight;
             var rotation = -_rotateRadians;
-            return (width, height, rotation);
+            return (iconWidth, iconHeight, rotation);
         }
 
         private Point MovePointInBounds(Point point, Point origin,
