@@ -655,7 +655,6 @@ namespace MapAssist.Helpers
                 switch (rendering.IconShape)
                 {
                     case Shape.Portal:
-                        //gfx.DrawGeometry(geo, brush, rendering.IconThickness / scaleHeight);
                         ApplyTransformPortal(gfx, position);
                         gfx.DrawEllipse(brush, position, rendering.IconSize / scaleHeight, rendering.IconSize / scaleHeight, rendering.IconThickness / scaleHeight);
                         PopTransform(gfx);
