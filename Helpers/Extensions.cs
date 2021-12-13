@@ -85,14 +85,14 @@ namespace MapAssist.Helpers
             return new Vector2(point.X, point.Y);
         }
 
-        public static Rectangle ToRectangle(this Point[] points)
+        public static Rectangle ToRectangle(this Point[] points, float padding = 0)
         {
             var minX = points.Min(point => point.X);
             var maxX = points.Max(point => point.X);
             var minY = points.Min(point => point.Y);
             var maxY = points.Max(point => point.Y);
 
-            return new Rectangle(minX, minY, maxX, maxY);
+            return new Rectangle(minX - padding, minY - padding, maxX + padding, maxY + padding);
         }
 
         public static SystemColor SetOpacity(this SystemColor color, float opacity)

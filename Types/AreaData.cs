@@ -98,8 +98,8 @@ namespace MapAssist.Types
             }
             else
             {
-                ViewInputRect = points.ToArray().ToRectangle();
-                ViewOutputRect = points.Select(point => point.Subtract(ViewInputRect.Left + ViewInputRect.Width / 2, ViewInputRect.Top + ViewInputRect.Height / 2).Rotate(angleRadians)).ToArray().ToRectangle();
+                ViewInputRect = points.ToArray().ToRectangle(1);
+                ViewOutputRect = points.Select(point => point.Subtract(ViewInputRect.Left + ViewInputRect.Width / 2, ViewInputRect.Top + ViewInputRect.Height / 2).Rotate(angleRadians)).ToArray().ToRectangle(1);
             }
         }
     }
