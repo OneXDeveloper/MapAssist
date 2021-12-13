@@ -651,6 +651,13 @@ namespace MapAssist.Helpers
             {
                 switch (rendering.IconShape)
                 {
+                    case Shape.Portal:
+                        //gfx.DrawGeometry(geo, brush, rendering.IconThickness / scaleHeight);
+                        ApplyTransformPortal(gfx, position);
+                        gfx.DrawEllipse(brush, position, rendering.IconSize / scaleHeight, rendering.IconSize / scaleHeight, rendering.IconThickness / scaleHeight);
+                        PopTransform(gfx);
+                        break;
+
                     case Shape.Ellipse:
                     case Shape.EllipseOutline:
                         if (rendering.IconShape == Shape.Ellipse)
@@ -770,6 +777,15 @@ namespace MapAssist.Helpers
         {
             switch (render.IconShape)
             {
+                case Shape.Portal:
+                    return new Point[]
+                    {
+                        new Point(0, 0),
+                        new Point(render.IconSize * 0.3f, 0),
+                        new Point(render.IconSize * 0.3f, render.IconSize),
+                        new Point(0, render.IconSize)
+                    }.Select(point => point.Subtract(render.IconSize * 0.15f).Rotate(-_rotateRadians)).ToArray();
+
                 case Shape.Square:
                 case Shape.SquareOutline:
                     return new Point[]
@@ -779,15 +795,7 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
                     }.Select(point => point.Subtract(render.IconSize / 2f)).ToArray();
-                case Shape.Ellipse:
-                case Shape.EllipseOutline: // Use a rectangle since that's effectively the same size and that's all this function is used for at the moment
-                    return new Point[]
-                    {
-                        new Point(0, 0),
-                        new Point(render.IconSize, 0),
-                        new Point(render.IconSize, render.IconSize),
-                        new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f)).ToArray();
+
                 case Shape.Polygon:
                     var halfSize = render.IconSize / 2f;
                     var cutSize = render.IconSize / 10f;
@@ -973,6 +981,18 @@ namespace MapAssist.Helpers
                 Matrix3x2.CreateTranslation(Vector2.Negate(centerVector))
                 * Matrix3x2.CreateScale(1 / scaleWidth, 1 / scaleHeight)
                 * Matrix3x2.CreateRotation(-_rotateRadians)
+                * Matrix3x2.CreateTranslation(centerVector)
+            );
+        }
+
+        private void ApplyTransformPortal(Graphics gfx, Point point)
+        {
+            var matrix = transforms.Last();
+            var centerVector = Vector2.Transform(((Point)point).ToVector(), matrix);
+
+            ApplyTransform(gfx,
+                Matrix3x2.CreateTranslation(Vector2.Negate(centerVector))
+                * Matrix3x2.CreateRotation(_rotateRadians * 2f)
                 * Matrix3x2.CreateTranslation(centerVector)
             );
         }
