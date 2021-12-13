@@ -40,7 +40,7 @@ namespace MapAssist.Types
                     if (gameObject.IsPortal())
                     {
                         var area = (Area) Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
-                        if (area.Name() == Label)   
+                        if (area.Name() == Label)
                         {
                             return true;
                         }
