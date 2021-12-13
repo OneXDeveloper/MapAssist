@@ -26,6 +26,7 @@ namespace MapAssist.Helpers
 {
     public class GameManager
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private static readonly string ProcessName = Encoding.UTF8.GetString(new byte[] { 68, 50, 82 });
         private static IntPtr _winHook;
         private static int _foregroundProcessId = 0;
@@ -62,8 +63,9 @@ namespace MapAssist.Helpers
 
         private static void SetActiveWindow(IntPtr hwnd)
         {
-            if (!WindowsExternal.HandleExists(hwnd)) // Process doesn't exist
+            if (!WindowsExternal.HandleExists(hwnd)) // Handle doesn't exist
             {
+                _log.Info($"Active window changed to another process (handle: {hwnd})");
                 return;
             }
 
@@ -74,6 +76,7 @@ namespace MapAssist.Helpers
 
             if (_lastGameProcessId == _foregroundProcessId) // Process is the last found valid game process
             {
+                _log.Info($"Active window changed to last game process (handle: {hwnd})");
                 return;
             }
 
@@ -84,17 +87,20 @@ namespace MapAssist.Helpers
 
                 if (process.ProcessName != ProcessName) // Not a valid game process
                 {
+                    _log.Info($"Active window changed to a non-game window (handle: {hwnd})");
                     ClearLastGameProcess();
                     return;
                 }
             }
             catch
             {
+                _log.Info($"Active window changed to a now closed window (handle: {hwnd})");
                 ClearLastGameProcess();
                 return;
             }
 
             // is a new game process
+            _log.Info($"Active window changed to a game window (handle: {hwnd})");
             ResetPlayerUnit();
 
             _lastGameHwnd = hwnd;

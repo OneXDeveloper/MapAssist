@@ -229,7 +229,7 @@ namespace MapAssist
                     FileName = "logs\\log.txt",
                     ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.DateAndSequence,
                     ArchiveOldFileOnStartup = true,
-                    MaxArchiveFiles = 20
+                    MaxArchiveFiles = 5
                 };
                 var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
 

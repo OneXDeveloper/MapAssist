@@ -7,6 +7,7 @@ namespace MapAssist.Helpers
 {
     public class GameDataReader
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private Compositor _compositor;
         private volatile GameData _gameData;
         private MapApi _mapApi;
@@ -19,6 +20,7 @@ namespace MapAssist.Helpers
             {
                 if (gameData.HasGameChanged(_gameData))
                 {
+                    _log.Info($"Game changed to {gameData.Difficulty} with {gameData.MapSeed} seed");
                     _mapApi = new MapApi(gameData.Difficulty, gameData.MapSeed);
                 }
 
@@ -28,6 +30,7 @@ namespace MapAssist.Helpers
 
                     if (gameData.Area != Area.None)
                     {
+                        _log.Info($"Area changed to {gameData.Area}");
                         var areaData = _mapApi.GetMapData(gameData.Area);
 
                         var pointsOfInterest = new List<PointOfInterest>();
@@ -35,6 +38,11 @@ namespace MapAssist.Helpers
                         if (areaData != null)
                         {
                             pointsOfInterest = PointOfInterestHandler.Get(_mapApi, areaData, gameData);
+                            _log.Info($"Found {pointsOfInterest.Count} points of interest");
+                        }
+                        else
+                        {
+                            _log.Info($"Area data not loaded");
                         }
 
                         compositor = new Compositor(areaData, pointsOfInterest);
