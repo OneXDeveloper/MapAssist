@@ -655,8 +655,9 @@ namespace MapAssist.Helpers
                 switch (rendering.IconShape)
                 {
                     case Shape.Portal:
-                        ApplyTransformPortal(gfx, position);
-                        gfx.DrawEllipse(brush, position, rendering.IconSize / scaleHeight, rendering.IconSize / scaleHeight, rendering.IconThickness / scaleHeight);
+                        var (width, height, rotation) = GetPortalIconDimensions(rendering);
+                        ApplyTransformPortal(gfx, position, rotation);
+                        gfx.DrawEllipse(brush, position, width, height, rendering.IconThickness / scaleHeight);
                         PopTransform(gfx);
                         break;
 
@@ -846,6 +847,23 @@ namespace MapAssist.Helpers
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 
+        private (float, float, float) GetPortalIconDimensions(IconRendering rendering)
+        {
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
+            {
+                // Overlay Mode Portal Icon Shape
+                var iconHeight = rendering.IconSize / scaleHeight;
+                var counterRotate = _rotateRadians * 2f;
+                return (iconHeight, iconHeight, counterRotate);
+            }
+
+            // Non-Overlay Mode Portal Icon Shape
+            var width = Math.Max(0, rendering.IconSize * 0.5f) / scaleHeight;
+            var height = rendering.IconSize / scaleHeight;
+            var rotation = -_rotateRadians;
+            return (width, height, rotation);
+        }
+
         private Point MovePointInBounds(Point point, Point origin,
             float padding = 0)
         {
@@ -982,14 +1000,14 @@ namespace MapAssist.Helpers
             );
         }
 
-        private void ApplyTransformPortal(Graphics gfx, Point point)
+        private void ApplyTransformPortal(Graphics gfx, Point point, float rotation)
         {
             var matrix = transforms.Last();
             var centerVector = Vector2.Transform(((Point)point).ToVector(), matrix);
 
             ApplyTransform(gfx,
                 Matrix3x2.CreateTranslation(Vector2.Negate(centerVector))
-                * Matrix3x2.CreateRotation(-_rotateRadians * 2f)
+                * Matrix3x2.CreateRotation(rotation)
                 * Matrix3x2.CreateTranslation(centerVector)
             );
         }
