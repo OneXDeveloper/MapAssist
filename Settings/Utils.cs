@@ -40,5 +40,29 @@ namespace MapAssist.Settings
             }
             return label;
         }
+
+        public static string GetPortalName(Area area, Difficulty difficulty, string playerName = null)
+        {
+            switch (area)
+            {
+                case Area.RogueEncampment:
+                case Area.LutGholein:
+                case Area.KurastDocks:
+                case Area.ThePandemoniumFortress:
+                case Area.Harrogath:
+                    if (playerName != null)
+                    {
+                        return playerName;
+                    }
+                    return GetAreaLabel(area, difficulty);
+
+                default:
+                    if (playerName != null)
+                    {
+                        return $"{area.Name()} ({playerName})";
+                    }
+                    return GetAreaLabel(area, difficulty);
+            }
+        }
     }
 }

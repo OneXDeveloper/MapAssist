@@ -232,14 +232,9 @@ namespace MapAssist.Helpers
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
                     {
                         var area = (Area) Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
-                        var label = area.Name();
-
-                        if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
-                        if (gameObject.ObjectOwner.Length > 0)
-                        {
-                            label += $" ({gameObject.ObjectOwner})";
-                        }
-                        DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label);
+                        var playerName = gameObject.ObjectOwner.Length > 0 ? gameObject.ObjectOwner : null;
+                        var portalLabel = Utils.GetPortalName(area, _gameData.Difficulty, playerName);
+                        DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, portalLabel);
                     }
                     continue;
                 }
