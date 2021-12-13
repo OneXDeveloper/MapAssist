@@ -781,6 +781,9 @@ namespace MapAssist.Helpers
             {
                 case Shape.Square:
                 case Shape.SquareOutline:
+                case Shape.Ellipse:
+                case Shape.EllipseOutline:
+                case Shape.Portal:
                     return new Point[]
                     {
                         new Point(0, 0),
@@ -985,7 +988,7 @@ namespace MapAssist.Helpers
 
             ApplyTransform(gfx,
                 Matrix3x2.CreateTranslation(Vector2.Negate(centerVector))
-                * Matrix3x2.CreateRotation(_rotateRadians * 2f)
+                * Matrix3x2.CreateRotation(-_rotateRadians * 2f)
                 * Matrix3x2.CreateTranslation(centerVector)
             );
         }
