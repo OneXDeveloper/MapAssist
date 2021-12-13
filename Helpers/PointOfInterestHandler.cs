@@ -75,7 +75,7 @@ namespace MapAssist.Helpers
             },
         };
 
-        private static readonly Dictionary<Area, Dictionary<GameObject, Area>> AreaSpecificLandmarks = new Dictionary<Area, Dictionary<GameObject, Area>>()
+        private static readonly Dictionary<Area, Dictionary<GameObject, Area>> AreaPortals = new Dictionary<Area, Dictionary<GameObject, Area>>()
         {
             [Area.FrigidHighlands] = new Dictionary<GameObject, Area>()
             {
@@ -402,16 +402,16 @@ namespace MapAssist.Helpers
                     }
                 }
                 // Area-specific landmarks
-                else if (AreaSpecificLandmarks.ContainsKey(areaData.Area))
+                else if (AreaPortals.ContainsKey(areaData.Area))
                 {
-                    if (AreaSpecificLandmarks[areaData.Area].ContainsKey(obj))
+                    if (AreaPortals[areaData.Area].ContainsKey(obj))
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = AreaSpecificLandmarks[areaData.Area][obj].Name(),
+                            Label = Utils.GetPortalName(AreaPortals[areaData.Area][obj], gameData.Difficulty),
                             Position = points[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
-                            Type = PoiType.AreaSpecificLandmark
+                            Type = PoiType.AreaPortal
                         });
                     }
                 }

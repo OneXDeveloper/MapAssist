@@ -169,7 +169,7 @@ namespace MapAssist.Helpers
         {
             foreach (var poi in _pointsOfInterest)
             {
-                if (poi.PoiMatchesPortal(_gameData.Objects))
+                if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                 {
                     continue;
                 }
@@ -190,7 +190,7 @@ namespace MapAssist.Helpers
             {
                 if (!string.IsNullOrWhiteSpace(poi.Label) && poi.Type != PoiType.Shrine)
                 {
-                    if (poi.PoiMatchesPortal(_gameData.Objects))
+                    if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                     {
                         continue;
                     }
@@ -231,14 +231,11 @@ namespace MapAssist.Helpers
                     }
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
                     {
-                        var area = (Area) Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
-                        var label = area.Name();
+                        var area = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
+                        var playerName = gameObject.ObjectOwner.Length > 0 ? gameObject.ObjectOwner : null;
+                        var label = Utils.GetPortalName(area, _gameData.Difficulty, playerName);
 
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
-                        if (gameObject.ObjectOwner.Length > 0)
-                        {
-                            label += $" ({gameObject.ObjectOwner})";
-                        }
                         DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label);
                     }
                     continue;

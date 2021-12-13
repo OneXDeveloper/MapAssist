@@ -28,17 +28,37 @@ namespace MapAssist.Settings
         public static string GetAreaLabel(Area area, Difficulty difficulty, bool prefix = false)
         {
             var label = area.Name();
-            var level = area.Level(difficulty);
-            if (level > 0)
+            var alvl = area.Level(difficulty);
+            if (alvl > 0)
             {
                 label += " (";
                 if (prefix)
                 {
                     label += "alvl: ";
                 }
-                label += level + ")";
+                label += alvl + ")";
             }
             return label;
+        }
+
+        public static string GetPortalName(Area area, Difficulty difficulty, string playerName = null)
+        {
+            if (playerName != null)
+            {
+                switch (area)
+                {
+                    case Area.RogueEncampment:
+                    case Area.LutGholein:
+                    case Area.KurastDocks:
+                    case Area.ThePandemoniumFortress:
+                    case Area.Harrogath:
+                        return $"TP ({playerName})";
+
+                    default:
+                        return $"{area.Name()} ({playerName})";
+                }
+            }
+            return GetAreaLabel(area, difficulty);
         }
     }
 }
