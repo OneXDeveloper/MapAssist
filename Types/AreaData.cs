@@ -103,4 +103,10 @@ namespace MapAssist.Types
             }
         }
     }
+
+    class AreaLabel
+    {
+        public string Text;
+        public int[] Level;
+    }
 }
