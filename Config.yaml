@@ -114,7 +114,7 @@ MapConfiguration:
     LabelFont: 'Helvetica'
   Portal:
     IconColor: Yellow
-    IconShape: EllipseOutline
+    IconShape: Portal
     IconSize: 6
     IconThickness: 2
     LabelColor: Yellow
