@@ -31,7 +31,7 @@ namespace MapAssist.Types
         public PointOfInterestRendering RenderingSettings;
         public PoiType Type;
 
-        public bool PoiMatchesPortal(List<UnitAny> gameDataObjectList)
+        public bool PoiMatchesPortal(List<UnitAny> gameDataObjectList, Difficulty difficulty)
         {
             if (Type == PoiType.AreaSpecificLandmark)
             {
@@ -40,7 +40,7 @@ namespace MapAssist.Types
                     if (gameObject.IsPortal())
                     {
                         var area = (Area) Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
-                        if (area.Name() == Label)
+                        if (Utils.GetPortalName(area, difficulty) == Label)
                         {
                             return true;
                         }

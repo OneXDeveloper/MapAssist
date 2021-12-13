@@ -169,7 +169,7 @@ namespace MapAssist.Helpers
         {
             foreach (var poi in _pointsOfInterest)
             {
-                if (poi.PoiMatchesPortal(_gameData.Objects))
+                if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                 {
                     continue;
                 }
@@ -190,7 +190,7 @@ namespace MapAssist.Helpers
             {
                 if (!string.IsNullOrWhiteSpace(poi.Label) && poi.Type != PoiType.Shrine)
                 {
-                    if (poi.PoiMatchesPortal(_gameData.Objects))
+                    if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                     {
                         continue;
                     }
