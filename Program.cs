@@ -171,6 +171,7 @@ namespace MapAssist
             try
             {
                 MapAssistConfiguration.Load();
+                MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
                 configurationOk = true;
             }
             catch (YamlDotNet.Core.YamlException e)

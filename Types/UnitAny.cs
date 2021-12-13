@@ -46,7 +46,7 @@ namespace MapAssist.Types
         private bool _isMonster;
         private bool _updated;
         private Skill _skill;
-        private string _objectOwner;
+        private bool _isPlayerUnit;
 
         public UnitAny(IntPtr pUnit)
         {
@@ -64,22 +64,24 @@ namespace MapAssist.Types
                     if (IsValidUnit())
                     {
                         _path = new Path(_unitAny.pPath);
-                        var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
-                        var statList = new Dictionary<Stat, int>();
-                        var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size));
-                        foreach (var stat in statValues)
+                        if(_unitAny.pStatsListEx != IntPtr.Zero)
                         {
-                            //ensure we dont add duplicates
-                            if (!statList.TryGetValue(stat.Stat, out var _))
+                            var statListStruct = processContext.Read<StatListStruct>(_unitAny.pStatsListEx);
+                            var statList = new Dictionary<Stat, int>();
+                            var statValues = processContext.Read<StatValue>(statListStruct.Stats.FirstStatPtr, Convert.ToInt32(statListStruct.Stats.Size));
+                            foreach (var stat in statValues)
                             {
-                                statList.Add(stat.Stat, stat.Value);
+                                //ensure we dont add duplicates
+                                if (!statList.TryGetValue(stat.Stat, out var _))
+                                {
+                                    statList.Add(stat.Stat, stat.Value);
+                                }
                             }
-                        }
 
-                        _statList = statList;
-                        _immunities = GetImmunities();
-                        _stateFlags = statListStruct.StateFlags;
-                        _stateList = GetStateList();
+                            _statList = statList;
+                            _immunities = GetImmunities();
+                            _stateFlags = statListStruct.StateFlags;
+                        }
                         switch (_unitAny.UnitType)
                         {
                             case UnitType.Player:
@@ -88,6 +90,7 @@ namespace MapAssist.Types
                                     if (IsPlayerUnit())
                                     {
                                         _skill = new Skill(_unitAny.pSkills);
+                                        _stateList = GetStateList();
                                     }
                                     _name = Encoding.ASCII.GetString(processContext.Read<byte>(_unitAny.pUnitData, 16))
                                         .TrimEnd((char)0);
@@ -116,8 +119,6 @@ namespace MapAssist.Types
                                 break;
                             case UnitType.Object:
                                 _objectData = processContext.Read<ObjectData>(_unitAny.pUnitData);
-                                var ownerBytes = processContext.Read<byte>(IntPtr.Add(_unitAny.pUnitData, 0x34), 16);
-                                _objectOwner = Encoding.ASCII.GetString(ownerBytes).Trim((char)0);
                                 break;
                         }
                         _updated = true;
@@ -142,7 +143,6 @@ namespace MapAssist.Types
         public MonsterData MonsterData => _monsterData;
         public ItemData ItemData => _itemData;
         public ObjectData ObjectData => _objectData;
-        public string ObjectOwner => _objectOwner;
         public Act Act => _act;
         public Path Path => _path;
         public IntPtr StatsListExPtr => _unitAny.pStatsListEx;
@@ -169,7 +169,7 @@ namespace MapAssist.Types
         }
         public bool IsValidUnit()
         {
-            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.pUnitData != IntPtr.Zero && _unitAny.pPath != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
+            return _unitAny.pUnitData != IntPtr.Zero && _unitAny.pPath != IntPtr.Zero && _unitAny.UnitType <= UnitType.Tile;
         }
 
         public bool IsPlayer()
@@ -179,23 +179,50 @@ namespace MapAssist.Types
 
         public bool IsPlayerUnit()
         {
-            if (IsPlayer() && _unitAny.pInventory != IntPtr.Zero)
+            if (_isPlayerUnit)
+            {
+                return true;
+            }
+            else
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
-                    var expansionCharacter = processContext.Read<byte>(GameManager.ExpansionCheckOffset) == 1;
-                    var userBaseOffset = 0x30;
-                    var checkUser1 = 1;
-                    if (expansionCharacter)
+                    var processId = processContext.ProcessId;
+                    if (GameMemory.PlayerUnits.TryGetValue(processId, out var playerUnit))
                     {
-                        userBaseOffset = 0x70;
-                        checkUser1 = 0;
+                        if (!Equals(playerUnit, default(UnitAny)))
+                        {
+                            if (playerUnit.UnitId != UnitId)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                if (!Equals(playerUnit, default(UnitAny)))
+                                {
+                                    _isPlayerUnit = true;
+                                    return true;
+                                }
+                            }
+                        }
                     }
-
-                    var userBaseCheck = processContext.Read<int>(IntPtr.Add(_unitAny.pInventory, userBaseOffset));
-                    if (userBaseCheck != checkUser1)
+                    if (IsPlayer() && _unitAny.pInventory != IntPtr.Zero)
                     {
-                        return true;
+                        var expansionCharacter = processContext.Read<byte>(GameManager.ExpansionCheckOffset) == 1;
+                        var userBaseOffset = 0x30;
+                        var checkUser1 = 1;
+                        if (expansionCharacter)
+                        {
+                            userBaseOffset = 0x70;
+                            checkUser1 = 0;
+                        }
+
+                        var userBaseCheck = processContext.Read<int>(IntPtr.Add(_unitAny.pInventory, userBaseOffset));
+                        if (userBaseCheck != checkUser1)
+                        {
+                            _isPlayerUnit = true;
+                            return true;
+                        }
                     }
                 }
             }

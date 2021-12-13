@@ -156,6 +156,7 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
     public int Size { get; set; }
+    public int InitialSize { get; set; }
 
     [YamlMember(Alias = "Position", ApplyNamingConventions = false)]
     public MapPosition Position { get; set; }

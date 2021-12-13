@@ -130,9 +130,10 @@ namespace MapAssist.Types
     
         private int[][] GetCollisionGid()
         {
+            var padding = 2;
             var mapRows = new int[crop.y1 - crop.y0][];
-            var unwalkableTile = new int[] { -1 };
-            var unwalkableRow = new int[][] { new int[crop.x1 - crop.x0 + 2].Select(_ => -1).ToArray() };
+            var unwalkableTile = new int[padding].Select(_ => -1).ToArray();
+            var unwalkableRow = new int[padding].Select(_ => new int[crop.x1 - crop.x0 + padding * 2].Select(__ => -1).ToArray()).ToArray();
 
             var iy = 0;
             var val = -1;

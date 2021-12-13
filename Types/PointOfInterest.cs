@@ -31,7 +31,7 @@ namespace MapAssist.Types
         public PointOfInterestRendering RenderingSettings;
         public PoiType Type;
 
-        public bool PoiMatchesPortal(List<UnitAny> gameDataObjectList, Difficulty difficulty)
+        public bool PoiMatchesPortal(HashSet<UnitAny> gameDataObjectList, Difficulty difficulty)
         {
             if (Type == PoiType.AreaPortal)
             {

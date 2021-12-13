@@ -32,9 +32,9 @@ namespace MapAssist.Types
         public Area Area;
         public IntPtr MainWindowHandle;
         public string PlayerName;
-        public List<UnitAny> Monsters;
-        public List<UnitAny> Items;
-        public List<UnitAny> Objects;
+        public HashSet<UnitAny> Monsters;
+        public HashSet<UnitAny> Items;
+        public HashSet<UnitAny> Objects;
         public Dictionary<uint, UnitAny> Players;
         public Session Session;
         public Roster Roster;

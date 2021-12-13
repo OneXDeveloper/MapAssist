@@ -22,13 +22,18 @@ using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
 {
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ObjectData
     {
-        [FieldOffset(0x0)] public IntPtr pObjectTxt;
-        [FieldOffset(0x08)] public byte InteractType;
-        [FieldOffset(0x09)] public byte PortalFlags;
-        [FieldOffset(0x0C)] public IntPtr pShrineTxt;
+        public IntPtr pObjectTxt;
+        public byte InteractType;
+        public byte PortalFlags;
+        private short unk1;
+        public IntPtr pShrineTxt;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
+        private byte[] unk2;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
+        public string Owner;
     }
     public enum ShrineType : byte
     {

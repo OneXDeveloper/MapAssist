@@ -42,8 +42,6 @@ namespace MapAssist.Helpers
         private static IntPtr _MenuPanelOpenOffset;
         private static IntPtr _MenuDataOffset;
         private static IntPtr _RosterDataOffset;
-        public static DateTime StartTime = DateTime.Now;
-        public static bool _valid = false;
 
         private static WindowsExternal.WinEventDelegate _eventDelegate = null;
 
@@ -280,6 +278,15 @@ namespace MapAssist.Helpers
         public static void ResetPlayerUnit()
         {
             _PlayerUnit = default;
+            using (var processContext = GetProcessContext())
+            {
+                if (processContext == null) { return; }
+                var processId = processContext.ProcessId;
+                if(GameMemory.PlayerUnits.TryGetValue(processId, out var playerUnit))
+                {
+                    GameMemory.PlayerUnits[processId] = default;
+                }
+            }
         }
         
         public static void Dispose()

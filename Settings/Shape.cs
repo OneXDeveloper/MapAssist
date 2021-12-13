@@ -28,5 +28,6 @@ namespace MapAssist.Settings
         Cross,
         SquareOutline,
         EllipseOutline,
+        Portal,
     }
 }

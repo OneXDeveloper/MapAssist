@@ -30,6 +30,8 @@ namespace MapAssist.Helpers
         private static Dictionary<int, uint> _lastMapSeed = new Dictionary<int, uint>();
         private static int _currentProcessId;
 
+        public static Dictionary<int, UnitAny> PlayerUnits = new Dictionary<int, UnitAny>();
+
         public static GameData GetGameData()
         {
             try
@@ -50,6 +52,14 @@ namespace MapAssist.Helpers
                 {
                     _currentProcessId = processContext.ProcessId;
                     var playerUnit = GameManager.PlayerUnit;
+
+                    if(!PlayerUnits.TryGetValue(_currentProcessId, out var _))
+                    {
+                        PlayerUnits.Add(_currentProcessId, playerUnit);
+                    } else
+                    {
+                        PlayerUnits[_currentProcessId] = playerUnit;
+                    }
 
                     if (!Equals(playerUnit, default(UnitAny)))
                     {
@@ -114,9 +124,9 @@ namespace MapAssist.Helpers
                             throw new Exception("Level id out of bounds.");
                         }
 
-                        var monsterList = new List<UnitAny>();
-                        var itemList = new List<UnitAny>();
-                        var objectList = new List<UnitAny>();
+                        var monsterList = new HashSet<UnitAny>();
+                        var itemList = new HashSet<UnitAny>();
+                        var objectList = new HashSet<UnitAny>();
                         var playerList = new Dictionary<uint, UnitAny>();
                         GetUnits(ref monsterList, ref itemList, ref playerList, ref objectList);
                         Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
@@ -160,7 +170,7 @@ namespace MapAssist.Helpers
             return null;
         }
 
-        private static void GetUnits(ref List<UnitAny> monsterList, ref List<UnitAny> itemList, ref Dictionary<uint, UnitAny> playerList, ref List<UnitAny> objectList)
+        private static void GetUnits(ref HashSet<UnitAny> monsterList, ref HashSet<UnitAny> itemList, ref Dictionary<uint, UnitAny> playerList, ref HashSet<UnitAny> objectList)
         {
             for (var i = 0; i <= 4; i++)
             {

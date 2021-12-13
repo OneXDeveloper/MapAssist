@@ -216,14 +216,27 @@ namespace MapAssist.Helpers
                 // Not in the cache, block.
                 _log.Info($"Cache miss on {area}");
                 areaData = GetMapDataInternal(area);
+                _cache[area] = areaData;
+            } else
+            {
+                _log.Info($"Cache found on {area}");
             }
 
-            if (areaData != null) { 
+            if (areaData != null)
+            {
+                _log.Info($"Prefetching areas adjacent to {area}");
                 Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
                 if (adjacentAreas.Any())
                 {
+                    _log.Info($"Adjacent areas to {area} found");
                     Prefetch(adjacentAreas);
+                } else
+                {
+                    _log.Info($"No adjacent areas to {area} found");
                 }
+            } else
+            {
+                _log.Info($"areaData was null on {area}");
             }
 
             return areaData;
