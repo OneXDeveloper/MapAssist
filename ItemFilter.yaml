@@ -9,14 +9,14 @@
 # The first line or "Key" is the item base name, in the next case, "Harlequin Crest" is a unique "Shako"
 # Alert to any unique Shako, regardless of any other modifiers (sockets, eth)
 Shako:
- - Qualities: unique
+ - Qualities: [unique] #Harlequin Crest
  
 # This thresher rule will look for only ethereal threshers with 4 sockets that are either normal/superior quality
 Thresher:
  - Ethereal: true
    Qualities: [normal, superior]
    Sockets: [0, 4]
- - Qualities: [unique] # The Reaper's Toll
+ - Qualities: [unique] #The Reaper's Toll
 
 # This mage plate rule will look for any normal/superior mage plate with 3 or 4 sockets
 Mage Plate:
