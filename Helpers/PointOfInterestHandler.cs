@@ -371,7 +371,7 @@ namespace MapAssist.Helpers
                 {
                     pointOfInterest.Add(new PointOfInterest
                     {
-                        Label = obj.ToString(),
+                        Label = areaData.Area.Name(),
                         Position = points[0],
                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint,
                         Type = PoiType.Waypoint
@@ -408,7 +408,7 @@ namespace MapAssist.Helpers
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
-                            Label = Enum.GetName(typeof(Area), AreaSpecificLandmarks[areaData.Area][obj]),
+                            Label = Utils.GetAreaLabel(AreaSpecificLandmarks[areaData.Area][obj], gameData.Difficulty),
                             Position = points[0],
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
                             Type = PoiType.AreaSpecificLandmark

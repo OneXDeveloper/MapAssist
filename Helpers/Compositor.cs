@@ -231,11 +231,13 @@ namespace MapAssist.Helpers
                     }
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
                     {
-                        var label = Enum.GetName(typeof(Area), gameObject.ObjectData.InteractType);
+                        var area = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
+                        var label = area.Name();
+
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
                         if (gameObject.ObjectOwner.Length > 0)
                         {
-                            label += "(" + gameObject.ObjectOwner + ")";
+                            label += $" ({gameObject.ObjectOwner})";
                         }
                         DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label);
                     }
