@@ -16,11 +16,11 @@ PrefetchAreas:
 HiddenAreas:
  - 'Rogue Encampment'
  - 'Lut Gholein'
- - 'Kurast Docktown'
- - 'The Pandemonium Fortress'
+ - 'Kurast Docks'
+ - 'Pandemonium Fortress'
  - 'Harrogath'
  - 'Forgotten Tower'
- - 'Nihlathaks Temple'
+ - "Nihlathak's Temple"
 
 ## RenderingConfiguration - Visual settings for the overlay
 RenderingConfiguration:
