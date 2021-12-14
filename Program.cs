@@ -272,6 +272,7 @@ namespace MapAssist
             MapApi.Dispose();
             globalHook.Dispose();
             overlay.Dispose();
+            trayIcon.Dispose();
 
             if (backWorkOverlay.IsBusy)
             {

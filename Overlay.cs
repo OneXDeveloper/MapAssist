@@ -31,12 +31,13 @@ namespace MapAssist
     public class Overlay : IDisposable
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
-      
+
         private readonly GraphicsWindow _window;
         private GameDataReader _gameDataReader;
         private GameData _gameData;
         private Compositor _compositor;
         private bool _show = true;
+        private static readonly object _lock = new object();
 
         public Overlay()
         {
@@ -56,58 +57,63 @@ namespace MapAssist
 
         private void _window_DrawGraphics(object sender, DrawGraphicsEventArgs e)
         {
-            var gfx = e.Graphics;
-
-            try
+            lock (_lock)
             {
-                (_compositor, _gameData) = _gameDataReader.Get();
+                if (disposed) return;
 
-                gfx.ClearScene();
+                var gfx = e.Graphics;
 
-                if (_compositor != null && InGame() && _compositor != null && _gameData != null)
+                try
                 {
-                    UpdateLocation();
+                    (_compositor, _gameData) = _gameDataReader.Get();
 
-                    var errorLoadingAreaData = _compositor._areaData == null;
+                    gfx.ClearScene();
 
-                    var overlayHidden = !_show ||
-                        errorLoadingAreaData ||
-                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
-                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
-                        (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
-                        Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
-                        _gameData.Area == Area.None ||
-                        gfx.Width == 1 ||
-                        gfx.Height == 1;
-
-                    var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
-
-                    var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
-                    switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
+                    if (_compositor != null && InGame() && _compositor != null && _gameData != null)
                     {
-                        case MapPosition.TopLeft:
-                            drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + size);
-                            break;
-                        case MapPosition.TopRight:
-                            drawBounds = new Rectangle(0, 100, gfx.Width, 100 + size);
-                            break;
+                        UpdateLocation();
+
+                        var errorLoadingAreaData = _compositor._areaData == null;
+
+                        var overlayHidden = !_show ||
+                            errorLoadingAreaData ||
+                            (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
+                            (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
+                            (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
+                            Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
+                            _gameData.Area == Area.None ||
+                            gfx.Width == 1 ||
+                            gfx.Height == 1;
+
+                        var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
+
+                        var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
+                        switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
+                        {
+                            case MapPosition.TopLeft:
+                                drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + size);
+                                break;
+                            case MapPosition.TopRight:
+                                drawBounds = new Rectangle(0, 100, gfx.Width, 100 + size);
+                                break;
+                        }
+
+                        _compositor.Init(gfx, _gameData, drawBounds);
+
+                        if (!overlayHidden)
+                        {
+                            _compositor.DrawGamemap(gfx);
+                            _compositor.DrawOverlay(gfx);
+                            _compositor.DrawBuffs(gfx);
+                        }
+
+                        _compositor.DrawGameInfo(gfx, new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50), e, errorLoadingAreaData);
                     }
-
-                    _compositor.Init(gfx, _gameData, drawBounds);
-
-                    if (!overlayHidden)
-                    {
-                        _compositor.DrawGamemap(gfx);
-                        _compositor.DrawOverlay(gfx);
-                        _compositor.DrawBuffs(gfx);
-                    }
-
-                    _compositor.DrawGameInfo(gfx, new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50), e, errorLoadingAreaData);
                 }
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex);
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                }
             }
         }
 
@@ -201,17 +207,18 @@ namespace MapAssist
             _compositor = null;
         }
 
-        private bool disposedValue;
+        private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            lock (_lock)
             {
-                if (_compositor != null) _compositor.Dispose();
-
-                _window.Dispose();
-
-                disposedValue = true;
+                if (!disposed)
+                {
+                    disposed = true; // This first to let GraphicsWindow.DrawGraphics know to return instantly
+                    _window.Dispose(); // This second to dispose of GraphicsWindow
+                    if (_compositor != null) _compositor.Dispose(); // This last so it's disposed after GraphicsWindow stops using it
+                }
             }
         }
 

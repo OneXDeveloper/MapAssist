@@ -32,6 +32,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Path = System.IO.Path;
 
 #pragma warning disable 649
@@ -43,7 +44,7 @@ namespace MapAssist.Helpers
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private static Process _pipeClient;
         private static Thread _pipeReaderThread;
-        private static object _pipeRequestLock = new object();
+        private static readonly object _pipeRequestLock = new object();
         private static BlockingCollection<(uint, string)> collection = new BlockingCollection<(uint, string)>();
 
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
@@ -80,26 +81,31 @@ namespace MapAssist.Helpers
 
             var streamReader = _pipeClient.StandardOutput;
 
-            void Start()
+            async void Start()
             {
-                Func<int, byte[]> ReadBytes = (length) =>
+                Func<int, Task<byte[]>> ReadBytes = async (length) =>
                 {
                     var data = new byte[0];
-                    while (data.Length < length)
+
+                    while (!disposed && !_pipeClient.HasExited && data.Length < length)
                     {
                         var tryReadLength = length - data.Length;
                         var chunk = new byte[tryReadLength];
-                        var readLength = streamReader.BaseStream.Read(chunk, 0, tryReadLength);
+                        var readLength = await streamReader.BaseStream.ReadAsync(chunk, 0, tryReadLength);
 
                         data = Combine(data, chunk.Take(readLength).ToArray());
                     }
 
-                    return data;
+                    return !disposed && !_pipeClient.HasExited ? data : null;
                 };
 
-                while (true)
+                _log.Info($"{_procName} has start");
+
+                while (!disposed && !_pipeClient.HasExited)
                 {
-                    var length = BitConverter.ToUInt32(ReadBytes(4), 0);
+                    var readLength = await ReadBytes(4);
+                    if (readLength == null) break; // null is only returned when pipe has exited
+                    var length = BitConverter.ToUInt32(readLength, 0);
 
                     if (length == 0)
                     {
@@ -111,7 +117,9 @@ namespace MapAssist.Helpers
                     JObject jsonObj = null;
                     try
                     {
-                        json = Encoding.UTF8.GetString(ReadBytes((int)length));
+                        var readJson = await ReadBytes((int)length);
+                        if (readJson == null) break; // null is only returned when pipe has exited
+                        json = Encoding.UTF8.GetString(readJson);
                         if (string.IsNullOrWhiteSpace(json))
                         {
                             collection.Add((length, null));
@@ -140,6 +148,16 @@ namespace MapAssist.Helpers
                     }
 
                     collection.Add((length, json));
+                }
+
+                if (disposed)
+                {
+                    _log.Info($"{_procName} has exited");
+                }
+                else
+                {
+                    _log.Info($"{_procName} has exited, restarting");
+                    StartPipedChild();
                 }
             }
 
@@ -211,6 +229,8 @@ namespace MapAssist.Helpers
 
         public AreaData GetMapData(Area area)
         {
+            _log.Info($"Requesting MapSeed: {_mapSeed} Area: {area} Difficulty: {_difficulty}");
+
             if (!_cache.TryGetValue(area, out AreaData areaData))
             {
                 // Not in the cache, block.
@@ -327,13 +347,22 @@ namespace MapAssist.Helpers
             public uint levelId;
         }
 
+        private static bool disposed = false;
         public static void Dispose()
         {
-            try { _pipeClient.Kill(); } catch (Exception) { }
-            try { _pipeClient.Close(); } catch (Exception) { }
-            try { _pipeClient.Dispose(); } catch (Exception) { }
-            
-            _pipeReaderThread.Abort();
+            if (!disposed)
+            {
+                disposed = true;
+
+                if (!_pipeClient.HasExited)
+                {
+                    try { _pipeClient.Kill(); } catch (Exception) { }
+                    try { _pipeClient.Close(); } catch (Exception) { }
+                }
+                try { _pipeClient.Dispose(); } catch (Exception) { }
+
+                _pipeReaderThread.Abort();
+            }
         }
 
         private static void StopPipeServers()

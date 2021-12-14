@@ -82,9 +82,9 @@ namespace MapAssist.Settings
 
     public class PortalRendering : PointOfInterestRendering
     {
-        public new bool CanDrawLabel(Area area)
+        public bool CanDrawLabel(Area area)
         {
-            return base.CanDrawLabel() && area != Area.Tristram;  // Skip drawing tristram label since we have a Cairn Stone as the quest destination already and can be seen from further away
+            return CanDrawLabel() && area != Area.Tristram;  // Skip drawing tristram label since we have a Cairn Stone as the quest destination already and can be seen from further away
         }
     }
 }

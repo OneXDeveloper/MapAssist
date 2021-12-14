@@ -33,19 +33,17 @@ namespace MapAssist.Helpers
                         _log.Info($"Area changed to {gameData.Area}");
                         var areaData = _mapApi.GetMapData(gameData.Area);
 
-                        var pointsOfInterest = new List<PointOfInterest>();
-
                         if (areaData != null)
                         {
-                            pointsOfInterest = PointOfInterestHandler.Get(_mapApi, areaData, gameData);
+                            var pointsOfInterest = PointOfInterestHandler.Get(_mapApi, areaData, gameData);
                             _log.Info($"Found {pointsOfInterest.Count} points of interest");
+
+                            compositor = new Compositor(areaData, pointsOfInterest);
                         }
                         else
                         {
                             _log.Info($"Area data not loaded");
                         }
-
-                        compositor = new Compositor(areaData, pointsOfInterest);
                     }
 
                     _compositor = compositor;

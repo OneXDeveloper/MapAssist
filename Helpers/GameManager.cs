@@ -117,8 +117,15 @@ namespace MapAssist.Helpers
             }
             else if (_lastGameProcess != null && WindowsExternal.HandleExists(_lastGameHwnd))
             {
-                _processContext = new ProcessContext(_lastGameProcess);
-                return _processContext;
+                try
+                {
+                    _processContext = new ProcessContext(_lastGameProcess); // Rarely, the VirtualMemoryRead will cause an error, in that case return a null instead of a runtime error. The next frame will try again.
+                    return _processContext;
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
 
             return null;
