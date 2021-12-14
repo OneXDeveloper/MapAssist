@@ -26,34 +26,39 @@ namespace MapAssist.Structs
     public struct MenuData
     {
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x09)] public bool Inventory;
+        [FieldOffset(0x01)] public bool Inventory;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x0A)] public bool Character;
+        [FieldOffset(0x02)] public bool Character;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x0B)] public bool SkillSelect;
+        [FieldOffset(0x03)] public bool SkillSelect;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x0C)] public bool SkillTree;
+        [FieldOffset(0x04)] public bool SkillTree;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x0D)] public bool Chat;
+        [FieldOffset(0x05)] public bool Chat;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x10)] public bool NpcInteract;
+        [FieldOffset(0x08)] public bool NpcInteract;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x11)] public bool EscMenu;
+        [FieldOffset(0x09)] public bool EscMenu;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x12)] public bool Map;
+        [FieldOffset(0x0A)] public bool Map;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x13)] public bool NpcShop;
+        [FieldOffset(0x0B)] public bool NpcShop;
+        //missing 2
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x16)] public bool QuestLog;
+        [FieldOffset(0x0E)] public bool QuestLog;
+        //missing 4
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x1B)] public bool Waypoint;
+        [FieldOffset(0x13)] public bool Waypoint;
+        //missing 1
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x1D)] public bool Party;
+        [FieldOffset(0x15)] public bool Party;
+        //missing 2
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x20)] public bool Stash;
+        [FieldOffset(0x18)] public bool Stash;
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x21)] public bool Cube;
+        [FieldOffset(0x19)] public bool Cube;
+        //missing 4
         [MarshalAs(UnmanagedType.U1)]
-        [FieldOffset(0x26)] public bool MercenaryInventory;
+        [FieldOffset(0x1E)] public bool MercenaryInventory;
     }
 }
