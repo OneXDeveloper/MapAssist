@@ -94,8 +94,8 @@ namespace MapAssist
 
                     var configMenuItem = new ToolStripMenuItem("Config", null, Config);
                     var lootFilterMenuItem = new ToolStripMenuItem("Loot Filter", null, LootFilter);
-                    var restartMenuItem = new ToolStripMenuItem("Restart", null, Restart);
-                    var exitMenuItem = new ToolStripMenuItem("Exit", null, Exit);
+                    var restartMenuItem = new ToolStripMenuItem("Restart", null, TrayRestart);
+                    var exitMenuItem = new ToolStripMenuItem("Exit", null, TrayExit);
                     contextMenu.Items.Add(exitMenuItem);
 
                     contextMenu.Items.AddRange(new ToolStripItem[] {
@@ -266,8 +266,7 @@ namespace MapAssist
         private static void Dispose()
         {
             _log.Info("Disposing");
-
-            trayIcon.Visible = false;
+            _log.Info(new StackTrace());
 
             GameManager.Dispose();
             MapApi.Dispose();
@@ -280,20 +279,23 @@ namespace MapAssist
             }
 
             mutex.Dispose();
+
+            _log.Info("Finished disposing");
+            LogManager.Flush();
         }
 
-        private static void Restart(object sender, EventArgs e)
+        private static void TrayRestart(object sender, EventArgs e)
         {
-            Dispose();
             _log.Info("Restarting from tray icon");
+            Dispose();
 
             Application.Restart();
         }
 
-        private static void Exit(object sender, EventArgs e)
+        private static void TrayExit(object sender, EventArgs e)
         {
-            Dispose();
             _log.Info("Exiting from tray icon");
+            Dispose();
 
             Application.Exit();
         }
