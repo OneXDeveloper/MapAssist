@@ -203,7 +203,6 @@ namespace MapAssist.Helpers
                 _log.Info("We failed to read the process memory");
                 return IntPtr.Zero;
             }
-            Console.WriteLine(BitConverter.ToString(offsetBuffer));
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
             return IntPtr.Add(_baseAddr, offsetAddressToInt);
