@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
+using MapAssist.Types;
 using System.Drawing;
 using YamlDotNet.Serialization;
 
@@ -75,8 +76,15 @@ namespace MapAssist.Settings
         public bool CanDrawLabel()
         {
             return LabelColor != Color.Transparent && !string.IsNullOrWhiteSpace(LabelFont) &&
-                   LabelFontSize > 0;
+                LabelFontSize > 0;
         }
     }
 
+    public class PortalRendering : PointOfInterestRendering
+    {
+        public new bool CanDrawLabel(Area area)
+        {
+            return base.CanDrawLabel() && area != Area.Tristram;  // Skip drawing tristram label since we have a Cairn Stone as the quest destination already and can be seen from further away
+        }
+    }
 }

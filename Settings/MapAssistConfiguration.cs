@@ -118,7 +118,7 @@ namespace MapAssist.Settings
         public PointOfInterestRendering NonPartyPlayer { get; set; }
 
         [YamlMember(Alias = "Portal", ApplyNamingConventions = false)]
-        public PointOfInterestRendering Portal { get; set; }
+        public PortalRendering Portal { get; set; }
 
         [YamlMember(Alias = "SuperChest", ApplyNamingConventions = false)]
         public PointOfInterestRendering SuperChest { get; set; }

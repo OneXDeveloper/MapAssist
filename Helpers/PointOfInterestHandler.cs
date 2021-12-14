@@ -57,10 +57,15 @@ namespace MapAssist.Helpers
             [Area.SpiderForest] = Area.SpiderCavern,
             [Area.FlayerJungle] = Area.FlayerDungeonLevel1,
             [Area.KurastBazaar] = Area.RuinedTemple,
+            [Area.CrystallinePassage] = Area.FrozenRiver,
         };
 
         private static readonly Dictionary<Area, Dictionary<GameObject, string>> AreaSpecificQuestObjects = new Dictionary<Area, Dictionary<GameObject, string>>()
         {
+            [Area.StonyField] = new Dictionary<GameObject, string>()
+            {
+                [GameObject.CairnStoneAlpha] = "Tristram",
+            },
             [Area.MatronsDen] = new Dictionary<GameObject, string>()
             {
                 [GameObject.SparklyChest] = "Lilith",
@@ -91,25 +96,25 @@ namespace MapAssist.Helpers
             },
         };
 
-        private static readonly HashSet<GameObject> QuestObjects = new HashSet<GameObject>
+        private static readonly Dictionary<GameObject, string> QuestObjects = new Dictionary<GameObject, string>
         {
-            GameObject.Malus,
-            GameObject.HoradricCubeChest,
-            GameObject.HoradricScrollChest,
-            GameObject.StaffOfKingsChest,
-            GameObject.HoradricOrifice,
-            GameObject.YetAnotherTome, // Summoner in Arcane Sanctuary
-            GameObject.FrozenAnya,
-            GameObject.InifussTree,
-            GameObject.CairnStoneAlpha,
-            GameObject.WirtCorpse,
-            GameObject.HellForge,
-            GameObject.NihlathakWildernessStartPosition,
-            GameObject.DrehyaWildernessStartPosition,
-            GameObject.GidbinnAltar,
-            GameObject.KhalimChest1,
-            GameObject.KhalimChest2,
-            GameObject.KhalimChest3,
+            [GameObject.CairnStoneAlpha] = "Tristram",
+            [GameObject.WirtCorpse] = "Wirt's Leg",
+            [GameObject.InifussTree] = "Inifuss Tree",
+            [GameObject.Malus] = "Malus",
+            [GameObject.HoradricScrollChest] = "Horadric Scroll",
+            [GameObject.HoradricCubeChest] = "Horadric Cube",
+            [GameObject.StaffOfKingsChest] = "Staff of Kings",
+            [GameObject.YetAnotherTome] = "Summoner",
+            [GameObject.HoradricOrifice] = "Orifice",
+            [GameObject.KhalimChest1] = "Khalim's Heart",
+            [GameObject.KhalimChest2] = "Khalim's Brain",
+            [GameObject.KhalimChest3] = "Khalim's Eye",
+            [GameObject.GidbinnAltar] = "Gidbinn",
+            [GameObject.HellForge] = "Hell Forge",
+            [GameObject.DrehyaWildernessStartPosition] = "Anya",
+            [GameObject.NihlathakWildernessStartPosition] = "Nihlathak",
+            [GameObject.CagedWussie] = "Prisoners",
         };
 
         private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
@@ -210,6 +215,8 @@ namespace MapAssist.Helpers
         {
             var pointOfInterest = new List<PointOfInterest>();
             var areaRenderDecided = new List<Area>();
+
+            if (areaData.Area == Area.UberTristram) return pointOfInterest; // No actual points of interest here, Wirt's leg appears without this line
 
             switch (areaData.Area)
             {
@@ -378,14 +385,20 @@ namespace MapAssist.Helpers
                     });
                 }
                 // Quest objects
-                else if (QuestObjects.Contains(obj))
+                else if (QuestObjects.TryGetValue(obj, out var questObjectName))
                 {
-                    pointOfInterest.Add(new PointOfInterest
-                    {
-                        Label = obj.ToString(),
-                        Position = points[0],
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                    });
+                    var usePoints = obj == GameObject.CagedWussie ? points : // Mark all 3 sets of prisoners in Frigid Highlands as quest destinations
+                        new Point[] { points[0] };
+
+                    foreach (var point in usePoints)
+                    { 
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = questObjectName,
+                            Position = point,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
                 }
                 // Area-specific quest objects
                 else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))

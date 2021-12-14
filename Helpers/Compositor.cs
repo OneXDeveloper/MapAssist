@@ -227,15 +227,16 @@ namespace MapAssist.Helpers
                 }
                 if (gameObject.IsPortal())
                 {
+                    var destinationArea = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
+
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawIcon())
                     {
                         DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position);
                     }
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel())
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel(destinationArea))
                     {
-                        var area = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
                         var playerName = gameObject.ObjectData.Owner.Length > 0 ? gameObject.ObjectData.Owner : null;
-                        var label = Utils.GetPortalName(area, _gameData.Difficulty, playerName);
+                        var label = Utils.GetPortalName(destinationArea, _gameData.Difficulty, playerName);
 
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
                         DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label);
