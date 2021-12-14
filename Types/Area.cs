@@ -508,7 +508,7 @@ namespace MapAssist.Types
                 Level = new int[] { 24, 54, 82 }
             },
             [Area.SpiderCave] = new AreaLabel() {
-                Text = "Spider Cave",
+                Text = "Arachnid Lair",
                 Level = new int[] { 21, 50, 79 }
             },
             [Area.SpiderCavern] = new AreaLabel() {
