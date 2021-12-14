@@ -110,7 +110,7 @@ namespace MapAssist.Helpers
             [GameObject.KhalimChest1] = "Khalim's Heart",
             [GameObject.KhalimChest2] = "Khalim's Brain",
             [GameObject.KhalimChest3] = "Khalim's Eye",
-            [GameObject.GidbinnAltar] = "Gidbinn",
+            [GameObject.GidbinnAltarDecoy] = "Gidbinn",
             [GameObject.HellForge] = "Hell Forge",
             [GameObject.DrehyaWildernessStartPosition] = "Anya",
             [GameObject.NihlathakWildernessStartPosition] = "Nihlathak",
