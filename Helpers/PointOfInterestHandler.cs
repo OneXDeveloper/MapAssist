@@ -339,7 +339,7 @@ namespace MapAssist.Helpers
                         }
                         else
                         {
-                            foreach (AdjacentLevel level in areaData.AdjacentLevels.Values)
+                            foreach (var level in areaData.AdjacentLevels.Values)
                             {
                                 // Already made render decision for this.
                                 if (areaRenderDecided.Contains(level.Area))
@@ -347,7 +347,7 @@ namespace MapAssist.Helpers
                                     continue;
                                 }
 
-                                foreach (Point position in level.Exits)
+                                foreach (var position in level.Exits)
                                 {
                                     pointOfInterest.Add(new PointOfInterest
                                     {
@@ -363,7 +363,8 @@ namespace MapAssist.Helpers
 
                     break;
             }
-            foreach (KeyValuePair<GameObject, Point[]> objAndPoints in areaData.Objects)
+            
+            foreach (var objAndPoints in areaData.Objects)
             {
                 GameObject obj = objAndPoints.Key;
                 Point[] points = objAndPoints.Value;
@@ -433,7 +434,7 @@ namespace MapAssist.Helpers
                 // Shrines
                 else if (Shrines.Contains(obj))
                 {
-                    foreach (Point point in points)
+                    foreach (var point in points)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
@@ -447,7 +448,7 @@ namespace MapAssist.Helpers
                 // Super Chest
                 else if (SuperChests.Contains(obj))
                 {
-                    foreach (Point point in points)
+                    foreach (var point in points)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
@@ -461,7 +462,7 @@ namespace MapAssist.Helpers
                 // Normal Chest
                 else if (NormalChests.Contains(obj))
                 {
-                    foreach (Point point in points)
+                    foreach (var point in points)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
@@ -475,7 +476,7 @@ namespace MapAssist.Helpers
                 // Armor Stands & Weapon Racks
                 else if (ArmorWeapRacks.Contains(obj))
                 {
-                    foreach (Point point in points)
+                    foreach (var point in points)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
@@ -486,6 +487,21 @@ namespace MapAssist.Helpers
                         });
                     }
                 }
+            }
+
+            switch(areaData.Area)
+            {
+                case Area.PlainsOfDespair:
+                    foreach (var objAndPoints in areaData.NPCs)
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = "Izual",
+                            Position = objAndPoints.Value[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
+                        });
+                    }
+                    break;
             }
 
             return pointOfInterest;
