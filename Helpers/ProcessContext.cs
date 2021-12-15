@@ -191,13 +191,13 @@ namespace MapAssist.Helpers
         public object GetMenuDataOffset()
         {
             var buffer = GetProcessMemory();
-            var pattern = "\x0F\xB6\x1D\x00\x00\x00\x00\x45\x84\xF6\x75\x0D";
+            var pattern = "\x41\x0F\xB6\xAC\x3F\x00\x00\x00\x00";
             IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
                 pattern,
-                "xxx????xxxxx");
+                "xxxxx????");
             
             var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 5);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
                 _log.Info("We failed to read the process memory");
@@ -205,8 +205,7 @@ namespace MapAssist.Helpers
             }
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
-            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
-            return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
+            return IntPtr.Add(_baseAddr, offsetAddressToInt);
         }
         public IntPtr GetRosterDataOffset()
         {
