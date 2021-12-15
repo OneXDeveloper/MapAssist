@@ -59,20 +59,19 @@ namespace MapAssist.Helpers
             // So we can kill off any previously lingering pipe servers
             // in case we had a weird shutdown that didn't clean up appropriately.
             StopPipeServers();
-            
-            var tempFile = Path.GetTempPath() + _procName;
-            File.WriteAllBytes(tempFile, Resources.piped);
-            if (!File.Exists(tempFile))
+
+            var procFile = Path.Combine(Environment.CurrentDirectory.TrimEnd('\\') + "\\", _procName);
+            File.WriteAllBytes(procFile, Resources.piped);
+            if (!File.Exists(procFile))
             {
                 throw new Exception("Unable to start map server. Check Anti Virus settings.");
             }
 
             var path = FindD2();
-            path = path.Contains(" ") ? "\"" + path + "\"" : path;
             
             _pipeClient = new Process();
-            _pipeClient.StartInfo.FileName = tempFile;
-            _pipeClient.StartInfo.Arguments = path;
+            _pipeClient.StartInfo.FileName = procFile;
+            _pipeClient.StartInfo.Arguments = "\"" + path + "\"";
             _pipeClient.StartInfo.UseShellExecute = false;
             _pipeClient.StartInfo.RedirectStandardOutput = true;
             _pipeClient.StartInfo.RedirectStandardInput = true;
@@ -172,6 +171,7 @@ namespace MapAssist.Helpers
         private static string FindD2()
         {
             var providedPath = MapAssistConfiguration.Loaded.D2Path;
+            if (providedPath.Length > 0) providedPath = providedPath.TrimEnd('\\') + "\\";
             if (!string.IsNullOrEmpty(providedPath))
             {
                 if (Path.HasExtension(providedPath))
@@ -189,8 +189,8 @@ namespace MapAssist.Helpers
                 throw new Exception("Provided D2 path is not the correct version");
             }
             
-            var retrieved = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID");
-            var installPath = retrieved as string;
+            var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
+            if (installPath != "INVALID") installPath = installPath.TrimEnd('\\') + "\\";
             if (installPath == "INVALID" || !IsValidD2Path(installPath))
             {
                 _log.Info("Registry-provided D2 path not found or invalid");
