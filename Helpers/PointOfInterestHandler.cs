@@ -124,7 +124,8 @@ namespace MapAssist.Helpers
             GameObject.ArcaneLargeChestLeft,
             GameObject.ArcaneLargeChestRight,
             GameObject.ArcaneSmallChestLeft,
-            GameObject.ArcaneSmallChestRight
+            GameObject.ArcaneSmallChestRight,
+            GameObject.ExpansionSpecialChest,
         };
 
         private static readonly HashSet<GameObject> NormalChests = new HashSet<GameObject>
@@ -174,7 +175,6 @@ namespace MapAssist.Helpers
             GameObject.ExpansionSmallChestLeft,
             GameObject.ExpansionSmallChestRight,
             GameObject.ExpansionExplodingChest,
-            GameObject.ExpansionSpecialChest,
             GameObject.ExpansionSnowyWoodChestLeft,
             GameObject.ExpansionSnowyWoodChestRight,
             GameObject.ExpansionSnowyWoodChest2Left,
@@ -373,6 +373,36 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
+                // Area-specific quest objects
+                if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
+                {
+                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest,
+                            Type = PoiType.AreaSpecificQuest
+                        });
+                    }
+                }
+
+                // Area-specific landmarks
+                if (AreaPortals.ContainsKey(areaData.Area))
+                {
+                    if (AreaPortals[areaData.Area].ContainsKey(obj))
+                    {
+                        pointOfInterest.Add(new PointOfInterest
+                        {
+                            Label = Utils.GetPortalName(AreaPortals[areaData.Area][obj], gameData.Difficulty),
+                            Position = points[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
+                            Type = PoiType.AreaPortal
+                        });
+                    }
+                }
+
                 // Waypoints
                 if (obj.IsWaypoint())
                 {
@@ -397,34 +427,6 @@ namespace MapAssist.Helpers
                             Label = questObjectName,
                             Position = point,
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
-                        });
-                    }
-                }
-                // Area-specific quest objects
-                else if (AreaSpecificQuestObjects.ContainsKey(areaData.Area))
-                {
-                    if (AreaSpecificQuestObjects[areaData.Area].ContainsKey(obj))
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = AreaSpecificQuestObjects[areaData.Area][obj],
-                            Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest,
-                            Type = PoiType.AreaSpecificQuest
-                        });
-                    }
-                }
-                // Area-specific landmarks
-                else if (AreaPortals.ContainsKey(areaData.Area))
-                {
-                    if (AreaPortals[areaData.Area].ContainsKey(obj))
-                    {
-                        pointOfInterest.Add(new PointOfInterest
-                        {
-                            Label = Utils.GetPortalName(AreaPortals[areaData.Area][obj], gameData.Difficulty),
-                            Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
-                            Type = PoiType.AreaPortal
                         });
                     }
                 }
