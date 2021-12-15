@@ -487,11 +487,10 @@ namespace MapAssist.Helpers
                 }
             }
 
-            if (areaData.Area == Area.PlainsOfDespair)
+            switch(areaData.Area)
             {
-                foreach (var objAndPoints in areaData.NPCs)
-                {
-                    if (objAndPoints.Key == Npc.Izual)
+                case Area.PlainsOfDespair:
+                    foreach (var objAndPoints in areaData.NPCs)
                     {
                         pointOfInterest.Add(new PointOfInterest
                         {
@@ -500,7 +499,7 @@ namespace MapAssist.Helpers
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Quest
                         });
                     }
-                }
+                    break;
             }
 
             return pointOfInterest;
