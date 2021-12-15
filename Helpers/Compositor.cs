@@ -19,6 +19,7 @@
 
 using GameOverlay.Drawing;
 using GameOverlay.Windows;
+using MapAssist.Files.Font;
 using MapAssist.Settings;
 using MapAssist.Structs;
 using MapAssist.Types;
@@ -39,6 +40,7 @@ namespace MapAssist.Helpers
         public GameData _gameData;
         public readonly AreaData _areaData;
         private readonly IReadOnlyList<PointOfInterest> _pointsOfInterest;
+        ExocetFont _exocetFont;
 
         private Matrix3x2 mapTransformMatrix;
         private Matrix3x2 areaTransformMatrix;
@@ -56,6 +58,7 @@ namespace MapAssist.Helpers
             _areaData.CalcViewAreas(_rotateRadians);
 
             _pointsOfInterest = pointsOfInterest;
+            _exocetFont = new ExocetFont();
         }
 
         public void Init(Graphics gfx, GameData gameData, Rectangle drawBounds)
@@ -1030,7 +1033,18 @@ namespace MapAssist.Helpers
         private Font CreateFont(Graphics gfx, string fontFamilyName, float size)
         {
             var key = (fontFamilyName, size);
-            if (!cacheFonts.ContainsKey(key)) cacheFonts[key] = gfx.CreateFont(fontFamilyName, size);
+            if (!cacheFonts.ContainsKey(key))
+            {
+                if(fontFamilyName.Equals("Exocet Blizzard Mixed Caps"))
+                {
+                    cacheFonts[key] = _exocetFont.CreateFont(size);
+                }
+                else
+                {
+                    cacheFonts[key] = gfx.CreateFont(fontFamilyName, size);
+                }
+            }
+
             return cacheFonts[key];
         }
 

@@ -76,7 +76,7 @@ MapConfiguration:
     ArrowHeadSize: 15
     LabelColor: SpringGreen
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   PreviousArea:
     IconColor: Violet
     IconShape: Square
@@ -84,7 +84,7 @@ MapConfiguration:
     LineColor: ''
     LabelColor: Violet
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   Waypoint:
     IconColor: SteelBlue
     IconShape: Square
@@ -95,7 +95,7 @@ MapConfiguration:
     ArrowHeadSize: 15
     LabelColor: Tomato
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   Player:
     IconColor: Chartreuse
     IconShape: Cross
@@ -103,7 +103,7 @@ MapConfiguration:
     IconThickness: 2
     LabelColor: Chartreuse
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   NonPartyPlayer:
     IconColor: Orange
     IconShape: Cross
@@ -111,7 +111,7 @@ MapConfiguration:
     IconThickness: 2
     LabelColor: Orange
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   Portal:
     IconColor: Yellow
     IconShape: Portal
@@ -119,7 +119,7 @@ MapConfiguration:
     IconThickness: 2
     LabelColor: Yellow
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   SuperChest:
     IconColor: '17, 255, 0'
     IconShape: Square
@@ -134,7 +134,7 @@ MapConfiguration:
     IconSize: 5
     LabelColor: '255, 218, 100'
     LabelFontSize: 16
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
   ArmorWeapRack:
     IconColor: '132, 132, 132'
     IconShape: Square
@@ -143,7 +143,7 @@ MapConfiguration:
     IconColor: DarkOrange
     IconShape: Ellipse
     IconSize: 4
-    LabelFont: 'Helvetica'
+    LabelFont: 'Exocet Blizzard Mixed Caps'
     LabelFontSize: 16
 
 ## ItemLog - Alerts for in-game dropped items nearby
@@ -155,7 +155,7 @@ ItemLog:
   ## SoundFile - Name of .wav file for drop sound (put .wav file in the MapAssist folder)
   SoundFile: ""
   DisplayForSeconds: 45
-  LabelFont: "Helvetica"
+  LabelFont: "Exocet Blizzard Mixed Caps"
   LabelFontSize: 14
 
 ## MapColorConfiguration - Color schema for drawing overlay map
