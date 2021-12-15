@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using MapAssist.Properties;
 using MapAssist.Settings;
 using MapAssist.Types;
 using Microsoft.Win32;
@@ -60,8 +59,7 @@ namespace MapAssist.Helpers
             // in case we had a weird shutdown that didn't clean up appropriately.
             StopPipeServers();
 
-            var procFile = Path.Combine(Environment.CurrentDirectory.TrimEnd('\\') + "\\", _procName);
-            File.WriteAllBytes(procFile, Resources.piped);
+            var procFile = Path.Combine(Environment.CurrentDirectory, _procName);
             if (!File.Exists(procFile))
             {
                 throw new Exception("Unable to start map server. Check Anti Virus settings.");
@@ -98,7 +96,7 @@ namespace MapAssist.Helpers
                     return !disposed && !_pipeClient.HasExited ? data : null;
                 };
 
-                _log.Info($"{_procName} has start");
+                _log.Info($"{_procName} has started");
 
                 while (!disposed && !_pipeClient.HasExited)
                 {
@@ -116,6 +114,7 @@ namespace MapAssist.Helpers
                     JObject jsonObj = null;
                     try
                     {
+                        _log.Info($"Reading {length} bytes from {_procName}");
                         var readJson = await ReadBytes((int)length);
                         if (readJson == null) break; // null is only returned when pipe has exited
                         json = Encoding.UTF8.GetString(readJson);
@@ -171,7 +170,6 @@ namespace MapAssist.Helpers
         private static string FindD2()
         {
             var providedPath = MapAssistConfiguration.Loaded.D2Path;
-            if (providedPath.Length > 0) providedPath = providedPath.TrimEnd('\\') + "\\";
             if (!string.IsNullOrEmpty(providedPath))
             {
                 if (Path.HasExtension(providedPath))
@@ -190,7 +188,6 @@ namespace MapAssist.Helpers
             }
             
             var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
-            if (installPath != "INVALID") installPath = installPath.TrimEnd('\\') + "\\";
             if (installPath == "INVALID" || !IsValidD2Path(installPath))
             {
                 _log.Info("Registry-provided D2 path not found or invalid");

@@ -522,7 +522,9 @@
     <None Include="Resources\COLD.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\piped" />
+    <Content Include="MAServer.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
