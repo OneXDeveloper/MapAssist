@@ -171,7 +171,7 @@ namespace MapAssist.Helpers
         private static string FindD2()
         {
             var providedPath = MapAssistConfiguration.Loaded.D2Path;
-            if (providedPath.Length > 0) providedPath = providedPath.TrimEnd('\\') + "\\";
+            if (providedPath.Length > 0) providedPath = providedPath.TrimEnd('\\');
             if (!string.IsNullOrEmpty(providedPath))
             {
                 if (Path.HasExtension(providedPath))
