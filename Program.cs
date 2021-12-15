@@ -32,7 +32,10 @@ namespace MapAssist
 {
     static class Program
     {
-        private static string appName = "MapAssist";
+        private static readonly string githubSha = "GITHUB_SHA";
+        private static readonly string githubRunNumber = "GITHUB_RUN_NUMBER";
+        private static readonly string appName = "MapAssist";
+        private static string messageBoxTitle = $"{appName} v1.0.0";
         private static Mutex mutex = null; 
         
         private static NotifyIcon trayIcon;
@@ -49,6 +52,11 @@ namespace MapAssist
         {
             try
             {
+                if (githubSha.Length == 40)
+                {
+                    messageBoxTitle += $".{githubRunNumber}";
+                }
+
                 bool createdNew;
                 mutex = new Mutex(true, appName, out createdNew);
 
@@ -57,14 +65,18 @@ namespace MapAssist
                     var rand = new Random();
                     var isGemActive = rand.NextDouble() < 0.05;
 
-                    MessageBox.Show("An instance of " + appName + " is already running." + (isGemActive ? " Better go catch it!" : ""), appName, MessageBoxButtons.OK);
+                    MessageBox.Show("An instance of " + appName + " is already running." + (isGemActive ? " Better go catch it!" : ""), messageBoxTitle, MessageBoxButtons.OK);
                     return;
                 }
-
 
                 var configurationOk = LoadLoggingConfiguration() && LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
+                    if (githubSha.Length == 40)
+                    {
+                        _log.Info($"Running from commit {githubSha}");
+                    }
+
                     Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
                     Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                     AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -76,7 +88,7 @@ namespace MapAssist
                     {
                         if (!MapApi.StartPipedChild())
                         {
-                            MessageBox.Show("Unable to start d2mapapi pipe.", appName, MessageBoxButtons.OK);
+                            MessageBox.Show($"{messageBoxTitle}: Unable to start d2mapapi pipe", messageBoxTitle, MessageBoxButtons.OK);
                             return;
                         }
                     }
@@ -86,7 +98,7 @@ namespace MapAssist
                         _log.Fatal(e, "Unable to start d2mapapi pipe.");
 
                         var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
-                        MessageBox.Show(message, "Unable to start d2mapapi pipe.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(message, $"{messageBoxTitle}: Unable to start d2mapapi pipe", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -150,7 +162,7 @@ namespace MapAssist
             _log.Fatal(e);
 
             var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
-            MessageBox.Show(message, "MapAssist Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(message, $"{messageBoxTitle}: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Application.Exit();
         }
@@ -179,14 +191,13 @@ namespace MapAssist
                 _log.Fatal(e);
                 _log.Fatal(e, "Invalid yaml for configuration file");
 
-                MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid MapAssist configuration.",
+                MessageBox.Show(e.Message, $"{messageBoxTitle}: MapAssist configuration yaml parsing error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
                 _log.Fatal(e, "Unknown error loading main configuration");
-
-                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return configurationOk;
@@ -203,14 +214,16 @@ namespace MapAssist
             }
             catch (YamlDotNet.Core.YamlException e)
             {
+                _log.Fatal(e);
                 _log.Fatal("Invalid loot log yaml file");
-                MessageBox.Show(e.Message, "Yaml parsing error occurred. Invalid loot filter configuration.",
+
+                MessageBox.Show(e.Message, $"{messageBoxTitle}: Loop filter yaml parsing error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
                 _log.Fatal(e, $"Unable to initialize Loot Log configuration");
-                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return configurationOk;
@@ -244,8 +257,7 @@ namespace MapAssist
             }
             catch (Exception e)
             {
-                
-                MessageBox.Show(e.Message, "General error occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return configurationOk;
