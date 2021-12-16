@@ -42,10 +42,7 @@ namespace MapAssist.Helpers
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private static Process _pipeClient;
-        private static Thread _pipeReaderThread;
         private static readonly object _pipeRequestLock = new object();
-        private static BlockingCollection<(uint, string)> collection = new BlockingCollection<(uint, string)>();
-        private static CancellationTokenSource cancelToken;
         private const string _procName = "MAServer.exe";
 
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
@@ -75,101 +72,8 @@ namespace MapAssist.Helpers
             _pipeClient.StartInfo.RedirectStandardError = true;
             _pipeClient.Start();
 
-            var streamReader = _pipeClient.StandardOutput;
-
-            async void Start()
-            {
-                Func<int, Task<byte[]>> ReadBytes = async (length) =>
-                {
-                    var data = new byte[0];
-
-                    while (!disposed && !_pipeClient.HasExited && data.Length < length)
-                    {
-                        var tryReadLength = length - data.Length;
-                        var chunk = new byte[tryReadLength];
-                        var readLength = await streamReader.BaseStream.ReadAsync(chunk, 0, tryReadLength);
-
-                        data = Combine(data, chunk.Take(readLength).ToArray());
-                    }
-
-                    return !disposed && !_pipeClient.HasExited ? data : null;
-                };
-
-                _log.Info($"{_procName} has started");
-
-                while (!disposed && !_pipeClient.HasExited)
-                {
-                    var readLength = await ReadBytes(4);
-                    if (readLength == null) break; // null is only returned when pipe has exited
-                    var length = BitConverter.ToUInt32(readLength, 0);
-
-                    if (length == 0)
-                    {
-                        collection.Add((0, null));
-                        continue;
-                    }
-
-                    string json = null;
-                    JObject jsonObj = null;
-                    try
-                    {
-                        _log.Info($"Reading {length} bytes from {_procName}");
-                        var readJson = await ReadBytes((int)length);
-                        if (readJson == null) break; // null is only returned when pipe has exited
-                        json = Encoding.UTF8.GetString(readJson);
-                        if (string.IsNullOrWhiteSpace(json))
-                        {
-                            collection.Add((length, null));
-                            continue;
-                        }
-                        jsonObj = JObject.Parse(json);
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Error(e);
-                        _log.Error(e, "Unable to parse JSON data from pipe server.");
-                        if (!string.IsNullOrWhiteSpace(json))
-                        {
-                            _log.Error(json);
-                        }
-
-                        collection.Add((length, null));
-                        continue;
-                    }
-
-                    if (jsonObj.ContainsKey("error"))
-                    {
-                        _log.Error(jsonObj["error"].ToString());
-                        collection.Add((length, null)); // Error occurred, do null check in the outer function
-                        continue;
-                    }
-
-                    collection.Add((length, json));
-                }
-
-                if (disposed)
-                {
-                    _log.Info($"{_procName} has exited");
-                }
-                else
-                {
-                    _log.Info($"{_procName} has exited, restarting");
-                    StartPipedChild();
-                }
-            }
-
-            _pipeReaderThread = new Thread(Start);
-            _pipeReaderThread.Start();
-
-            var (startupLength, _) = collection.Take();
-
-            // Cancel requests on the previous pipe only after the current pipe has successfully started
-            if (cancelToken != null)
-            {
-                cancelToken.Cancel();
-                cancelToken.Dispose();
-            }
-            cancelToken = new CancellationTokenSource();
+            var (startupLength, _) = MapApiRequest().Result;
+            _log.Info($"{_procName} has started");
 
             return startupLength == 0;
         }
@@ -218,6 +122,99 @@ namespace MapAssist.Helpers
             {
                 return false;
             }
+        }
+
+        private static async Task<(uint, string)> MapApiRequest(byte[] writeBytes = null, int timeout = 1000)
+        {
+            if (disposed || _pipeClient.HasExited)
+            {
+                return (0, null);
+            }
+
+            var pipeInput = _pipeClient.StandardInput;
+            var pipeOutput = _pipeClient.StandardOutput;
+
+            Func<int, Task<byte[]>> ReadBytes = async (readBytesLength) =>
+            {
+                var data = new byte[0];
+                var cts = new CancellationTokenSource(timeout);
+
+                while (!disposed && !_pipeClient.HasExited && !cts.IsCancellationRequested && data.Length < readBytesLength)
+                {
+                    var tryReadLength = readBytesLength - data.Length;
+                    var chunk = new byte[tryReadLength];
+                    var dataReadLength = await pipeOutput.BaseStream.ReadAsync(chunk, 0, tryReadLength, cts.Token);
+
+                    data = Combine(data, chunk.Take(dataReadLength).ToArray());
+                }
+
+                var response = !disposed && !_pipeClient.HasExited && !cts.IsCancellationRequested ? data : null;
+                cts.Dispose();
+                return response;
+            };
+
+            Func<int, Task<byte[]>> TryReadBytes = async (readBytesLength) =>
+            {
+                var task = ReadBytes(readBytesLength);
+                var result = await Task.WhenAny(task, Task.Delay(timeout));
+                if (result == task)
+                {
+                    return await task;
+                }
+                else
+                {
+                    return null;
+                }
+            };
+
+            if (writeBytes != null)
+            {
+                pipeInput.BaseStream.Write(writeBytes, 0, writeBytes.Length);
+                pipeInput.BaseStream.Flush();
+            }
+
+            var readLength = await TryReadBytes(4);
+            if (readLength == null) return (0, null);
+            var length = BitConverter.ToUInt32(readLength, 0);
+
+            if (length == 0)
+            {
+                return (0, null);
+            }
+
+            string json = null;
+            JObject jsonObj;
+            try
+            {
+                _log.Info($"Reading {length} bytes from {_procName}");
+                var readJson = await TryReadBytes((int)length);
+                if (readJson == null) return (0, null);
+                json = Encoding.UTF8.GetString(readJson);
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    return (length, null);
+                }
+                jsonObj = JObject.Parse(json);
+            }
+            catch (Exception e)
+            {
+                _log.Error(e);
+                _log.Error(e, "Unable to parse JSON data from pipe server.");
+                if (!string.IsNullOrWhiteSpace(json))
+                {
+                    _log.Error(json);
+                }
+
+                return (length, null);
+            }
+
+            if (jsonObj.ContainsKey("error"))
+            {
+                _log.Error(jsonObj["error"].ToString());
+                return (length, null);
+            }
+
+            return (length, json);
         }
 
         public MapApi(Difficulty difficulty, uint mapSeed)
@@ -302,14 +299,8 @@ namespace MapAssist.Helpers
             req.difficulty = (uint)_difficulty;
             req.levelId = (uint)area;
 
-            var writer = _pipeClient.StandardInput;
-
-            var data = ToBytes(req);
             lock (_pipeRequestLock)
             {
-                writer.BaseStream.Write(data, 0, data.Length);
-                writer.BaseStream.Flush();
-
                 uint length = 0;
                 string json = null;
                 var retry = false;
@@ -318,22 +309,15 @@ namespace MapAssist.Helpers
                 {
                     retry = false;
 
-                    try
+                    (length, json) = MapApiRequest(ToBytes(req)).Result;
+
+                    if (json == null)
                     {
-                        (length, json) = collection.Take(cancelToken.Token);
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        _log.Info("MapApi operation cancelled, retrying");
+                        _log.Error($"Unable to load data for {area} from {_procName}, retrying after restarting {_procName}");
+                        StartPipedChild();
                         retry = true;
                     }
-                } while (retry && length == 0);
-
-                if (json == null)
-                {
-                    _log.Error("Unable to load data for " + area + " from " + _procName);
-                    return null;
-                }
+                } while (retry);
 
                 var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
                 return rawAreaData.ToInternal(area);
@@ -374,21 +358,27 @@ namespace MapAssist.Helpers
             if (!disposed)
             {
                 disposed = true;
+                DisposePipe();
+            }
+        }
 
-                cancelToken.Dispose();
+        private static void DisposePipe()
+        {
+            if (_pipeClient != null)
+            {
                 if (!_pipeClient.HasExited)
                 {
                     try { _pipeClient.Kill(); } catch (Exception) { }
                     try { _pipeClient.Close(); } catch (Exception) { }
                 }
                 try { _pipeClient.Dispose(); } catch (Exception) { }
-
-                _pipeReaderThread.Abort();
             }
         }
 
         private static void StopPipeServers()
         {
+            DisposePipe();
+
             // Shutdown old running versions of the pipe server
             var procs = Process.GetProcessesByName(_procName);
             foreach (var proc in procs)
