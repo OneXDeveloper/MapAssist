@@ -268,7 +268,7 @@ namespace MapAssist.Types
 
         public string ItemHash()
         {
-            return Items.ItemName(TxtFileNo) + "/" + Position.X + "/" + Position.Y;
+            return $"{Items.ItemName(TxtFileNo)}/{Position.X}/{Position.Y}";
         }
 
         private List<Resist> GetImmunities()

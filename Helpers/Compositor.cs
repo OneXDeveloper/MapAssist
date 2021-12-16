@@ -135,8 +135,7 @@ namespace MapAssist.Helpers
         {
             if (_gameData.Area != _areaData.Area)
             {
-                throw new ApplicationException("Asked to compose an image for a different area." +
-                                                $"Compositor area: {_areaData.Area}, Game data: {_areaData.Area}");
+                throw new ApplicationException($"Asked to compose an image for a different area. Compositor area: {_areaData.Area}, Game data: {_areaData.Area}");
             }
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
@@ -555,13 +554,13 @@ namespace MapAssist.Helpers
             {
                 var fontColor = _gameData.Session.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? Color.Green : Color.Red;
 
-                var ipText = "Game IP: " + _gameData.Session.GameIP;
+                var ipText = $"Game IP: {_gameData.Session.GameIP}";
                 DrawText(gfx, anchor, ipText, "Consolas", 14, fontColor);
 
                 anchor.Y += fontHeight + 5;
 
                 // Area Label
-                var areaText = "Area: " + Utils.GetAreaLabel(_areaData.Area, _gameData.Difficulty, true);
+                var areaText = $"Area: {Utils.GetAreaLabel(_areaData.Area, _gameData.Difficulty, true)}";
                 DrawText(gfx, anchor, areaText, "Consolas", 14, Color.FromArgb(255, 218, 100));
 
                 anchor.Y += fontHeight + 5;
@@ -569,7 +568,7 @@ namespace MapAssist.Helpers
                 // Overlay FPS
                 if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
                 {
-                    var fpsText = "FPS: " + gfx.FPS.ToString() + "   " + "DeltaTime: " + e.DeltaTime.ToString();
+                    var fpsText = $"FPS: {gfx.FPS}    DeltaTime: {e.DeltaTime}";
                     DrawText(gfx, anchor, fpsText, "Consolas", 14, Color.FromArgb(0, 255, 0));
 
                     anchor.Y += fontHeight + 5;
@@ -623,7 +622,7 @@ namespace MapAssist.Helpers
 
                 if (ItemLog[i].Stats.TryGetValue(Stat.STAT_ITEM_NUMSOCKETS, out var numSockets))
                 {
-                    itemLabelExtra += "[" + numSockets + " S] ";
+                    itemLabelExtra += $"[ {numSockets} S]";
                     fontColor = Items.ItemColors[ItemQuality.SUPERIOR];
                 }
 
@@ -632,10 +631,10 @@ namespace MapAssist.Helpers
                 switch (ItemLog[i].ItemData.ItemQuality)
                 {
                     case ItemQuality.UNIQUE:
-                        itemSpecialName = Items.UniqueName(item.TxtFileNo) + " ";
+                        itemSpecialName = $"{Items.UniqueName(item.TxtFileNo)} ";
                         break;
                     case ItemQuality.SET:
-                        itemSpecialName = Items.SetName(item.TxtFileNo) + " ";
+                        itemSpecialName = $"{Items.SetName(item.TxtFileNo)} ";
                         break;
                 }
 

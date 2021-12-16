@@ -27,6 +27,7 @@ using System.Diagnostics;
 using NLog;
 using MapAssist.Helpers;
 using MapAssist.Types;
+using System.Text;
 
 namespace MapAssist
 {
@@ -57,7 +58,7 @@ namespace MapAssist
                     var rand = new Random();
                     var isGemActive = rand.NextDouble() < 0.05;
 
-                    MessageBox.Show("An instance of " + appName + " is already running." + (isGemActive ? " Better go catch it!" : ""), appName, MessageBoxButtons.OK);
+                    MessageBox.Show($"An instance of {appName} is already running. {(isGemActive ? "Better go catch it!" : "")}", appName, MessageBoxButtons.OK);
                     return;
                 }
 
@@ -149,8 +150,9 @@ namespace MapAssist
         {
             _log.Fatal(e);
 
-            var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
-            MessageBox.Show(message, "MapAssist Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            // use string builder instead concatination
+            var message = new StringBuilder(e.Message).Append(Environment.NewLine).Append(Environment.NewLine).Append(e.StackTrace);
+            MessageBox.Show(message.ToString(), "MapAssist Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Application.Exit();
         }
@@ -254,13 +256,13 @@ namespace MapAssist
         private static void Config(object sender, EventArgs e)
         {
             var _path = AppDomain.CurrentDomain.BaseDirectory;
-            Process.Start(_path + "\\Config.yaml");
+            Process.Start(System.IO.Path.Combine(_path, "Config.yaml"));
         }
 
         private static void LootFilter(object sender, EventArgs e)
         {
             var _path = AppDomain.CurrentDomain.BaseDirectory;
-            Process.Start(_path + "\\" + MapAssistConfiguration.Loaded.ItemLog.FilterFileName);
+            Process.Start(System.IO.Path.Combine(_path, MapAssistConfiguration.Loaded.ItemLog.FilterFileName));
         }
 
         private static void Dispose()

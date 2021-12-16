@@ -68,7 +68,7 @@ namespace MapAssist.Helpers
             }
 
             var path = FindD2();
-            path = path.Contains(" ") ? "\"" + path + "\"" : path;
+            //path = path.Contains(" ") ? "\"" + path + "\"" : path;
             
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = tempFile;
@@ -310,7 +310,7 @@ namespace MapAssist.Helpers
 
                 if (json == null)
                 {
-                    _log.Error("Unable to load data for " + area + " from " + _procName);
+                    _log.Error($"Unable to load data for {area} from {_procName});
                     return null;
                 }
 

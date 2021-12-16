@@ -14,7 +14,7 @@ namespace MapAssist.Helpers
             {
                 var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 var directory = System.IO.Path.GetDirectoryName(exePath);
-                var soundPath = directory + @"\" + MapAssistConfiguration.Loaded.ItemLog.SoundFile;
+                var soundPath = System.IO.Path.Combine(directory, MapAssistConfiguration.Loaded.ItemLog.SoundFile);
                 _itemAlertPlayer = new SoundPlayer(soundPath);
             }
             if (_itemAlertPlayer == null) { _itemAlertPlayer = new SoundPlayer(Properties.Resources.ching); }
