@@ -5,7 +5,6 @@ HotkeyConfiguration:
   ToggleKey: '\'
   ZoomInKey: '+'
   ZoomOutKey: '-'
-  GameInfoKey: '['
 
 ## PrefetchAreas - Areas to preload so that they're hot and ready as soon as you go to them
 PrefetchAreas:
@@ -163,14 +162,16 @@ MapColorConfiguration:
   Walkable:
   Border: '255, 255, 255'
 
-## GameInfo - Displaying game server IP address
+## GameInfo - Display setting for game info
 GameInfo:
-  Enabled: true
+  ## ShowGameIP - Display game server IP address
+  ShowGameIP: true
+  ## HuntingIP - Set an IP address to display in green instead of red
+  HuntingIP: 'x.x.x.x'
+  ## ShowAreaLevel - Display current area and alvl
+  ShowAreaLevel: true
   ## ShowOverlayFPS - Developer setting, probably not useful
   ShowOverlayFPS: false
-
-## HuntingIP - Set an IP address to display in green instead of red
-HuntingIP: 'x.x.x.x'
 
 ## Path to D2LOD installation. Optional.
 ## Should only need to provide if we are not able to look it up

@@ -156,11 +156,6 @@ namespace MapAssist
                           (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize * 0.05f);
                     }
                 }
-
-                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.GameInfoKey)
-                {
-                    MapAssistConfiguration.Loaded.GameInfo.Enabled = !MapAssistConfiguration.Loaded.GameInfo.Enabled;
-                }
             }
         }
 

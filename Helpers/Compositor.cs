@@ -551,29 +551,33 @@ namespace MapAssist.Helpers
             var fontHeight = (fontSize + fontSize / 2f);
 
             // Game IP
-            if (MapAssistConfiguration.Loaded.GameInfo.Enabled)
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowGameIP)
             {
-                var fontColor = _gameData.Session.GameIP == MapAssistConfiguration.Loaded.HuntingIP ? Color.Green : Color.Red;
+                var fontColor = _gameData.Session.GameIP == MapAssistConfiguration.Loaded.GameInfo.HuntingIP ? Color.Green : Color.Red;
 
                 var ipText = "Game IP: " + _gameData.Session.GameIP;
                 DrawText(gfx, anchor, ipText, "Consolas", 14, fontColor);
 
                 anchor.Y += fontHeight + 5;
+            }
 
+            // Area Level
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel)
+            {
                 // Area Label
                 var areaText = "Area: " + Utils.GetAreaLabel(_areaData.Area, _gameData.Difficulty, true);
                 DrawText(gfx, anchor, areaText, "Consolas", 14, Color.FromArgb(255, 218, 100));
 
                 anchor.Y += fontHeight + 5;
+            }
 
-                // Overlay FPS
-                if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
-                {
-                    var fpsText = "FPS: " + gfx.FPS.ToString() + "   " + "DeltaTime: " + e.DeltaTime.ToString();
-                    DrawText(gfx, anchor, fpsText, "Consolas", 14, Color.FromArgb(0, 255, 0));
+            // Overlay FPS
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
+            {
+                var fpsText = "FPS: " + gfx.FPS.ToString() + "   " + "DeltaTime: " + e.DeltaTime.ToString();
+                DrawText(gfx, anchor, fpsText, "Consolas", 14, Color.FromArgb(0, 255, 0));
 
-                    anchor.Y += fontHeight + 5;
-                }
+                anchor.Y += fontHeight + 5;
             }
 
             if (errorLoadingAreaData)
