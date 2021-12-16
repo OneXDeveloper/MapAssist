@@ -45,14 +45,14 @@ namespace MapAssist.Helpers
         private static Thread _pipeReaderThread;
         private static readonly object _pipeRequestLock = new object();
         private static BlockingCollection<(uint, string)> collection = new BlockingCollection<(uint, string)>();
+        private static CancellationTokenSource cancelToken;
+        private const string _procName = "MAServer.exe";
 
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
         private Difficulty _difficulty;
         private uint _mapSeed;
-        private const string _procName = "MAServer.exe";
-
-        public static bool StartPipedChild()
         
+        public static bool StartPipedChild()
         {
             // We have an exclusive lock on the MA process.
             // So we can kill off any previously lingering pipe servers
@@ -66,7 +66,6 @@ namespace MapAssist.Helpers
             }
 
             var path = FindD2();
-            
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = procFile;
             _pipeClient.StartInfo.Arguments = "\"" + path + "\"";
@@ -137,7 +136,7 @@ namespace MapAssist.Helpers
                         collection.Add((length, null));
                         continue;
                     }
-                    
+
                     if (jsonObj.ContainsKey("error"))
                     {
                         _log.Error(jsonObj["error"].ToString());
@@ -163,6 +162,14 @@ namespace MapAssist.Helpers
             _pipeReaderThread.Start();
 
             var (startupLength, _) = collection.Take();
+
+            // Cancel requests on the previous pipe only after the current pipe has successfully started
+            if (cancelToken != null)
+            {
+                cancelToken.Cancel();
+                cancelToken.Dispose();
+            }
+            cancelToken = new CancellationTokenSource();
 
             return startupLength == 0;
         }
@@ -303,7 +310,24 @@ namespace MapAssist.Helpers
                 writer.BaseStream.Write(data, 0, data.Length);
                 writer.BaseStream.Flush();
 
-                var (length, json) = collection.Take();
+                uint length = 0;
+                string json = null;
+                var retry = false;
+
+                do
+                {
+                    retry = false;
+
+                    try
+                    {
+                        (length, json) = collection.Take(cancelToken.Token);
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        _log.Info("MapApi operation cancelled, retrying");
+                        retry = true;
+                    }
+                } while (retry && length == 0);
 
                 if (json == null)
                 {
@@ -351,6 +375,7 @@ namespace MapAssist.Helpers
             {
                 disposed = true;
 
+                cancelToken.Dispose();
                 if (!_pipeClient.HasExited)
                 {
                     try { _pipeClient.Kill(); } catch (Exception) { }
