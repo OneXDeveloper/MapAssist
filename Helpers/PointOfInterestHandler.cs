@@ -317,6 +317,18 @@ namespace MapAssist.Helpers
                                     break;
                             }
                         }
+                        else if (areaData.Area == Area.InnerCloister)
+                        {
+                            // Cathedral door
+                            pointOfInterest.Add(new PointOfInterest
+                            {
+                                Label = Utils.GetAreaLabel(Area.Cathedral, gameData.Difficulty),
+                                Position = new Point(20053, 5000),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                Type = PoiType.NextArea
+                            });
+                            areaRenderDecided.Add(Area.InnerCloister);
+                        }
                         else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
                         {
                             var nextLevel = areaData.AdjacentLevels[nextArea];
