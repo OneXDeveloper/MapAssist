@@ -273,7 +273,7 @@ namespace MapAssist.Helpers
                         }
                         else if (areaData.Area == Area.OuterCloister)
                         {
-                            var fountain = areaData.Objects.First(obj => obj.Key == GameObject.RogueFountain).Value;
+                            var fountain = areaData.Objects.First(obj => obj.Key == GameObject.WaypointPortal).Value;
                             var doors = areaData.Objects
                                 .Where(obj => obj.Key == GameObject.DoorCourtyardLeft || obj.Key == GameObject.DoorCourtyardRight).ToArray();
 
@@ -285,13 +285,13 @@ namespace MapAssist.Helpers
                                 foreach (var doorType in doors)
                                 {
                                     var points = doorType.Value;
-                                    foreach (var point in points)
+                                    foreach (var doorPoint in points)
                                     {
-                                        var distance = Math.Sqrt(Math.Pow(point.X - fountain[0].X, 2) + Math.Pow(point.Y - fountain[0].Y, 2));
+                                        var distance = Math.Sqrt(Math.Pow(doorPoint.X - fountain[0].X, 2) + Math.Pow(doorPoint.Y - fountain[0].Y, 2));
                                         if (distance > minDistance)
                                         {
                                             minDistance = distance;
-                                            farDoorPoint = point;
+                                            farDoorPoint = doorPoint;
                                         }
                                     }
                                 }
