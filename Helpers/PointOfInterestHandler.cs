@@ -273,39 +273,48 @@ namespace MapAssist.Helpers
                         }
                         else if (areaData.Area == Area.OuterCloister)
                         {
-                            var fountain = areaData.Objects.First(obj => obj.Key == GameObject.WaypointPortal).Value;
-                            var doors = areaData.Objects
-                                .Where(obj => obj.Key == GameObject.DoorCourtyardLeft || obj.Key == GameObject.DoorCourtyardRight).ToArray();
-
-                            // determine farthest courtyard door from the fountain...
-                            if (fountain.Any())
+                            // Barracks Door is based on waypoint position
+                            var waypoint = areaData.Objects.First(obj => obj.Key == GameObject.WaypointPortal).Value.First();
+                            switch (waypoint.X)
                             {
-                                var minDistance = 0d;
-                                Point farDoorPoint = default;
-                                foreach (var doorType in doors)
-                                {
-                                    var points = doorType.Value;
-                                    foreach (var doorPoint in points)
-                                    {
-                                        var distance = Math.Sqrt(Math.Pow(doorPoint.X - fountain[0].X, 2) + Math.Pow(doorPoint.Y - fountain[0].Y, 2));
-                                        if (distance > minDistance)
-                                        {
-                                            minDistance = distance;
-                                            farDoorPoint = doorPoint;
-                                        }
-                                    }
-                                }
-
-                                if (farDoorPoint != default)
-                                {
+                                case 15129:
+                                    // Waypoint = { X: 15129, Y: 4954 }
+                                    // SE Door = { X: 15280, Y: 4940 }
                                     pointOfInterest.Add(new PointOfInterest
                                     {
                                         Label = Utils.GetAreaLabel(Area.Barracks, gameData.Difficulty),
-                                        Position = farDoorPoint,
+                                        Position = new Point(15280, 4940),
                                         RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
                                         Type = PoiType.NextArea
                                     });
-                                }
+                                    areaRenderDecided.Add(Area.OuterCloister);
+                                    break;
+
+                                case 15154:
+                                    // Waypoint = { X: 15154, Y: 4919 }
+                                    // NE Door = { X: 15141, Y: 4802 }
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = Utils.GetAreaLabel(Area.Barracks, gameData.Difficulty),
+                                        Position = new Point(15141, 4802),
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                        Type = PoiType.NextArea
+                                    });
+                                    areaRenderDecided.Add(Area.OuterCloister);
+                                    break;
+
+                                case 15159:
+                                    // Waypoint = { X: 15159, Y: 4934 }
+                                    // NW Door = { X: 15002, Y: 4943 }
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = Utils.GetAreaLabel(Area.Barracks, gameData.Difficulty),
+                                        Position = new Point(15002, 4943),
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                        Type = PoiType.NextArea
+                                    });
+                                    areaRenderDecided.Add(Area.OuterCloister);
+                                    break;
                             }
                         }
                         else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
