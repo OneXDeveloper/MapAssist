@@ -271,6 +271,43 @@ namespace MapAssist.Helpers
                             });
                             areaRenderDecided.Add(Area.MonasteryGate);
                         }
+                        else if (areaData.Area == Area.OuterCloister)
+                        {
+                            var fountain = areaData.Objects.First(obj => obj.Key == GameObject.RogueFountain).Value;
+                            var doors = areaData.Objects
+                                .Where(obj => obj.Key == GameObject.DoorCourtyardLeft || obj.Key == GameObject.DoorCourtyardRight).ToArray();
+
+                            // determine farthest courtyard door from the fountain...
+                            if (fountain.Any())
+                            {
+                                var minDistance = 0d;
+                                Point farDoorPoint = default;
+                                foreach (var doorType in doors)
+                                {
+                                    var points = doorType.Value;
+                                    foreach (var point in points)
+                                    {
+                                        var distance = Math.Sqrt(Math.Pow(point.X - fountain[0].X, 2) + Math.Pow(point.Y - fountain[0].Y, 2));
+                                        if (distance > minDistance)
+                                        {
+                                            minDistance = distance;
+                                            farDoorPoint = point;
+                                        }
+                                    }
+                                }
+
+                                if (farDoorPoint != default)
+                                {
+                                    pointOfInterest.Add(new PointOfInterest
+                                    {
+                                        Label = Utils.GetAreaLabel(Area.Barracks, gameData.Difficulty),
+                                        Position = farDoorPoint,
+                                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                        Type = PoiType.NextArea
+                                    });
+                                }
+                            }
+                        }
                         else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
                         {
                             var nextLevel = areaData.AdjacentLevels[nextArea];
