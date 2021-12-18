@@ -350,27 +350,13 @@ namespace MapAssist.Types
                     {
                         if (hostileInfo.UnitId == otherUnitId)
                         {
-                            if (hostileInfo.HostileFlag > 0)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
+                            return hostileInfo.HostileFlag > 0;
                         }
                         hostileInfo = processContext.Read<HostileInfo>(hostileInfo.NextHostileInfo);
                     }
                     if (hostileInfo.UnitId == otherUnitId)
                     {
-                        if (hostileInfo.HostileFlag > 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return hostileInfo.HostileFlag > 0;
                     }
                 }
             }
