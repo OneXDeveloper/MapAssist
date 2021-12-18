@@ -742,20 +742,22 @@ namespace MapAssist.Helpers
 
             var brush = CreateSolidBrush(gfx, rendering.LineColor);
 
-            startPosition = startPosition.Rotate(-angle, startPosition).Add(5 * scaleWidth, 0).Rotate(angle, startPosition); // Add 5a for a little extra spacing from the start point
+            startPosition = startPosition.Rotate(-angle, startPosition).Add(5 * scaleWidth, 0).Rotate(angle, startPosition); // Add 5 for a little extra spacing from the start point
 
             if (length > 60) // Don't render when line is too short
             {
                 if (rendering.CanDrawArrowHead())
                 {
-                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize + scaleWidth, 0).Rotate(angle, startPosition); // Add scaleWidth for a little extra spacing from the end point
+                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(5 * scaleWidth, 0).Rotate(angle, startPosition); // Subtract 5 for a little extra spacing from the end point
 
                     var points = new Point[]
                     {
                         new Point((float)(Math.Sqrt(3) / -2), 0.5f),
                         new Point((float)(Math.Sqrt(3) / -2), -0.5f),
                         new Point(0, 0),
-                    }.Select(point => point.Multiply(rendering.ArrowHeadSize).Add(rendering.ArrowHeadSize / 2f, 0).Rotate(angle).Add(endPosition)).ToArray(); // Divide by 2 to make the line end inside the triangle
+                    }.Select(point => point.Multiply(rendering.ArrowHeadSize).Rotate(angle).Add(endPosition)).ToArray(); // Divide by 2 to make the line end inside the triangle
+
+                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(rendering.ArrowHeadSize / 2f, 0).Rotate(angle, startPosition); // Make the line end inside the triangle
 
                     gfx.DrawLine(brush, startPosition, endPosition, rendering.LineThickness);
                     gfx.FillTriangle(brush, points[0], points[1], points[2]);
