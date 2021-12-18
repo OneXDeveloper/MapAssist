@@ -330,7 +330,7 @@ namespace MapAssist.Types
             return stateList;
         }
 
-        public bool IsHostileTo(UnitAny otherUnit)
+        public bool IsHostileTo(UnitAny otherUnit, GameData gameData)
         {
             if(UnitType != UnitType.Player || otherUnit.UnitType != UnitType.Player)
             {
@@ -343,7 +343,7 @@ namespace MapAssist.Types
             }
             using (var processContext = GameManager.GetProcessContext())
             {
-                if (GameMemory.GameData.Roster.EntriesByUnitId.TryGetValue(UnitId, out var rosterEntry))
+                if (gameData.Roster.EntriesByUnitId.TryGetValue(UnitId, out var rosterEntry))
                 {
                     var hostileInfo = rosterEntry.HostileInfo;
                     while (hostileInfo.NextHostileInfo != IntPtr.Zero)

@@ -424,7 +424,7 @@ namespace MapAssist.Helpers
                             var hostileToMe = false;
                             if (!myPlayer)
                             {
-                                hostileToMe = playerUnit.IsHostileTo(GameManager.PlayerUnit);
+                                hostileToMe = playerUnit.IsHostileTo(GameManager.PlayerUnit, _gameData);
                                 if (canDrawNonPartyIcon)
                                 {
                                     if (hostileToMe)
