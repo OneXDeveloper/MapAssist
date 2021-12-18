@@ -578,7 +578,8 @@ namespace MapAssist.Helpers
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
             // Setup
-            var fontSize = MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
+            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+            var fontSize = MapAssistConfiguration.Loaded.GameInfo.LabelFontSize;
             var fontHeight = (fontSize + fontSize / 2f);
 
             // Game IP
@@ -587,7 +588,7 @@ namespace MapAssist.Helpers
                 var fontColor = _gameData.Session.GameIP == MapAssistConfiguration.Loaded.GameInfo.HuntingIP ? Color.Green : Color.Red;
 
                 var ipText = "Game IP: " + _gameData.Session.GameIP;
-                DrawText(gfx, anchor, ipText, "Consolas", 14, fontColor);
+                DrawText(gfx, anchor, ipText, font, fontSize, fontColor);
 
                 anchor.Y += fontHeight + 5;
             }
@@ -597,7 +598,7 @@ namespace MapAssist.Helpers
             {
                 // Area Label
                 var areaText = "Area: " + Utils.GetAreaLabel(_areaData.Area, _gameData.Difficulty, true);
-                DrawText(gfx, anchor, areaText, "Consolas", 14, Color.FromArgb(255, 218, 100));
+                DrawText(gfx, anchor, areaText, font, fontSize, Color.FromArgb(255, 218, 100));
 
                 anchor.Y += fontHeight + 5;
             }
@@ -606,15 +607,15 @@ namespace MapAssist.Helpers
             if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
             {
                 var fpsText = "FPS: " + gfx.FPS.ToString() + "   " + "DeltaTime: " + e.DeltaTime.ToString();
-                DrawText(gfx, anchor, fpsText, "Consolas", 14, Color.FromArgb(0, 255, 0));
+                DrawText(gfx, anchor, fpsText, font, fontSize, Color.FromArgb(0, 255, 0));
 
                 anchor.Y += fontHeight + 5;
             }
 
             if (errorLoadingAreaData)
             {
-                DrawText(gfx, anchor, "ERROR LOADING GAME MAP!", "Consolas", 20, Color.Orange);
-                anchor.Y += fontHeight + 5;
+                DrawText(gfx, anchor, "ERROR LOADING GAME MAP!", font, (int)Math.Round(fontSize * 1.5), Color.Orange);
+                anchor.Y += (int)Math.Round(fontHeight * 1.5) + 5;
             }
 
             DrawItemLog(gfx, anchor);
@@ -816,7 +817,7 @@ namespace MapAssist.Helpers
             var playerCoord = Vector2.Transform(_gameData.PlayerPosition.ToVector(), areaTransformMatrix);
             position = Vector2.Transform(position.ToVector(), areaTransformMatrix).ToPoint();
 
-            var useColor = color == null ? rendering.LabelColor : (Color)color;
+            var useColor = color ?? rendering.LabelColor;
 
             var font = CreateFont(gfx, rendering.LabelFont, rendering.LabelFontSize);
             var iconShape = GetIconShape(rendering).ToRectangle();

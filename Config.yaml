@@ -181,6 +181,8 @@ GameInfo:
   ShowAreaLevel: true
   ## ShowOverlayFPS - Developer setting, probably not useful
   ShowOverlayFPS: false
+  LabelFont: "Exocet Blizzard Mixed Caps"
+  LabelFontSize: 14
 
 ## Path to D2LOD installation. Optional.
 ## Should only need to provide if we are not able to look it up

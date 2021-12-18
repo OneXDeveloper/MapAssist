@@ -199,6 +199,12 @@ public class GameInfoConfiguration
 
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
+    
+    [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
+    public string LabelFont { get; set; }
+
+    [YamlMember(Alias = "LabelFontSize", ApplyNamingConventions = false)]
+    public int LabelFontSize { get; set; }
 }
 
 public class ItemLogConfiguration
