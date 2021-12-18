@@ -111,7 +111,7 @@ namespace MapAssist.Types
                                         _stateList = GetStateList();
                                     } else
                                     {
-                                        if (GameManager.PlayerFound && _rosterData!=null)
+                                        if (GameManager.PlayerFound && _rosterData != null)
                                         {
                                             if (PartyId == ushort.MaxValue)
                                             {
