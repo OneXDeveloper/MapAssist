@@ -396,6 +396,7 @@ namespace MapAssist.Helpers
                 var canDrawLabel = MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawLabel();
                 var canDrawNonPartyIcon = MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer.CanDrawIcon();
                 var canDrawNonPartyLabel = MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer.CanDrawLabel();
+                var canDrawHostileLine = MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.CanDrawLine();
 
                 foreach (var player in _gameData.Roster.List)
                 {
@@ -420,22 +421,43 @@ namespace MapAssist.Helpers
                         }
                         else
                         {
+                            var hostileToMe = false;
                             if (!myPlayer)
                             {
+                                hostileToMe = playerUnit.IsHostileTo(GameManager.PlayerUnit);
                                 if (canDrawNonPartyIcon)
                                 {
-                                    DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer, playerUnit.Position);
+                                    if (hostileToMe)
+                                    {
+                                        DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, playerUnit.Position); //not my player and not in my party + hostile
+                                    } else
+                                    {
+                                        DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer, playerUnit.Position); //not my player and not in my party
+                                    }
+                                }
+                                if(canDrawHostileLine && hostileToMe)
+                                {
+                                    var padding = canDrawNonPartyLabel ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelFontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                                    var poiPosition = MovePointInBounds(playerUnit.Position, _gameData.PlayerPosition, padding);
+                                    DrawLine(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, _gameData.PlayerPosition, poiPosition);
                                 }
                             }
                             else if (canDrawIcon)
                             {
-                                DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Player, playerUnit.Position);
+                                DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Player, playerUnit.Position); //my player
                             }
 
                             if (canDrawNonPartyLabel && !myPlayer)
                             {
-                                DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer, playerUnit.Position, playerName,
-                                    color: MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer.LabelColor);
+                                if (hostileToMe)
+                                {
+                                    DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, playerUnit.Position, playerName,
+                                        color: MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelColor);
+                                } else
+                                {
+                                    DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer, playerUnit.Position, playerName,
+                                        color: MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer.LabelColor);
+                                }
                             }
                         }
                     }

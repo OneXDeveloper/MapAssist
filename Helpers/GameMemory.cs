@@ -31,6 +31,7 @@ namespace MapAssist.Helpers
         private static int _currentProcessId;
 
         public static Dictionary<int, UnitAny> PlayerUnits = new Dictionary<int, UnitAny>();
+        public static GameData GameData;
 
         public static GameData GetGameData()
         {
@@ -133,7 +134,7 @@ namespace MapAssist.Helpers
 
                         var roster = new Roster(GameManager.RosterDataOffset);
 
-                        return new GameData
+                        var gameData = new GameData
                         {
                             PlayerPosition = playerUnit.Position,
                             MapSeed = mapSeed,
@@ -151,6 +152,10 @@ namespace MapAssist.Helpers
                             MenuOpen = menuData,
                             MenuPanelOpen = menuOpen
                         };
+
+                        GameData = gameData;
+
+                        return gameData;
                     }
                 }
             }

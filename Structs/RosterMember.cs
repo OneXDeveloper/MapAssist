@@ -36,13 +36,15 @@ namespace MapAssist.Structs
         [FieldOffset(0x30)] public uint PosX; //partyid must match your players to update
         [FieldOffset(0x34)] public uint PosY; //partyid must match your players to update
         [FieldOffset(0x38)] public uint PartyFlags; //01 = normal, 02 = invited
-        [FieldOffset(0x40)] public IntPtr pRosterInfo; //01 = normal, 02 = invited
+        [FieldOffset(0x40)] public IntPtr pHostileInfo; //ptr that leads to another ptr that gets first HostileInfo
         [FieldOffset(0x108)] public IntPtr pNext;
     }
     [StructLayout(LayoutKind.Explicit)]
-    public struct RosterInfo
+    public struct HostileInfo
     {
-        [FieldOffset(0x0)] public uint RosterId;
+        [FieldOffset(0x0)] public uint UnitId;
+        [FieldOffset(0x04)] public uint HostileFlag;
+        [FieldOffset(0x08)] public IntPtr NextHostileInfo;
     }
 
     public enum PlayerClass : uint

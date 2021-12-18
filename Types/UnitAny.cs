@@ -330,6 +330,49 @@ namespace MapAssist.Types
             return stateList;
         }
 
+        public bool IsHostileTo(UnitAny otherUnit)
+        {
+            var otherUnitId = otherUnit.UnitId;
+            if (otherUnitId == UnitId)
+            {
+                return false;
+            }
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                if (GameMemory.GameData.Roster.EntriesByUnitId.TryGetValue(UnitId, out var rosterEntry))
+                {
+                    var hostileInfo = rosterEntry.HostileInfo;
+                    while (hostileInfo.NextHostileInfo != IntPtr.Zero)
+                    {
+                        if (hostileInfo.UnitId == otherUnitId)
+                        {
+                            if (hostileInfo.HostileFlag > 0)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        hostileInfo = processContext.Read<HostileInfo>(hostileInfo.NextHostileInfo);
+                    }
+                    if (hostileInfo.UnitId == otherUnitId)
+                    {
+                        if (hostileInfo.HostileFlag > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         public override bool Equals(object obj) => obj is UnitAny other && Equals(other);
 
         public bool Equals(UnitAny unit) => UnitId == unit.UnitId;

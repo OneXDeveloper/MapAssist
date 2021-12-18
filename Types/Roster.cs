@@ -36,7 +36,9 @@ namespace MapAssist.Types
         public Area Area;
         public Point Position;
         public uint PartyFlags;
-        public uint RosterId;
+        public IntPtr pHostileInfo;
+        public uint FirstHostileUnitId;
+        public HostileInfo HostileInfo;
         public IntPtr pNext;
     }
     public class Roster : IUpdatable<Roster>
@@ -72,7 +74,8 @@ namespace MapAssist.Types
             using (var processContext = GameManager.GetProcessContext())
             {
                 var member = processContext.Read<RosterMember>(pAddress);
-                var memberInfo = processContext.Read<RosterInfo>(member.pRosterInfo);
+                var hostilePtr = processContext.Read<IntPtr>(member.pHostileInfo);
+                var hostileInfo = processContext.Read<HostileInfo>(hostilePtr);
                 var entry = new RosterEntry
                 {
                     Name = member.Name,
@@ -83,7 +86,9 @@ namespace MapAssist.Types
                     Area = member.Area,
                     Position = new Point((int)member.PosX, (int)member.PosY),
                     PartyFlags = member.PartyFlags,
-                    RosterId = memberInfo.RosterId,
+                    pHostileInfo = hostilePtr,
+                    FirstHostileUnitId = hostileInfo.UnitId,
+                    HostileInfo = hostileInfo,
                     pNext = member.pNext
                 };
                 return entry;
