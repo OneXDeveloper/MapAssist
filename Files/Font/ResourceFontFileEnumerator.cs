@@ -54,7 +54,7 @@ namespace MapAssist.Files.Font
         /// <unmanaged>HRESULT IDWriteFontFileEnumerator::MoveNext([Out] BOOL* hasCurrentFile)</unmanaged>
         bool FontFileEnumerator.MoveNext()
         {
-            bool moveNext = keyStream.RemainingLength != 0;
+            var moveNext = keyStream.RemainingLength != 0;
             if (moveNext)
             {
                 if (_currentFontFile != null)

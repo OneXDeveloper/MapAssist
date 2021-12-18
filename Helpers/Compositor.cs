@@ -407,7 +407,7 @@ namespace MapAssist.Helpers
                     if (_gameData.Players.TryGetValue(player.UnitId, out var playerUnit))
                     {
                         // use data from the unit table if available
-                        if (inMyParty && player.PartyID < ushort.MaxValue) // partyid is max if player is not in a party
+                        if (playerUnit.InPlayerParty) // partyid is max if player is not in a party
                         {
                             if (canDrawIcon)
                             {
@@ -421,13 +421,11 @@ namespace MapAssist.Helpers
                         }
                         else
                         {
-                            var hostileToMe = false;
                             if (!myPlayer)
                             {
-                                hostileToMe = playerUnit.IsHostileTo(GameManager.PlayerUnit, _gameData);
                                 if (canDrawNonPartyIcon)
                                 {
-                                    if (hostileToMe)
+                                    if (playerUnit.HostileToPlayer)
                                     {
                                         DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, playerUnit.Position); //not my player and not in my party + hostile
                                     } else
@@ -435,7 +433,7 @@ namespace MapAssist.Helpers
                                         DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer, playerUnit.Position); //not my player and not in my party
                                     }
                                 }
-                                if(canDrawHostileLine && hostileToMe)
+                                if(canDrawHostileLine && playerUnit.HostileToPlayer)
                                 {
                                     var padding = canDrawNonPartyLabel ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelFontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
                                     var poiPosition = MovePointInBounds(playerUnit.Position, _gameData.PlayerPosition, padding);
@@ -449,7 +447,7 @@ namespace MapAssist.Helpers
 
                             if (canDrawNonPartyLabel && !myPlayer)
                             {
-                                if (hostileToMe)
+                                if (playerUnit.HostileToPlayer)
                                 {
                                     DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, playerUnit.Position, playerName,
                                         color: MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelColor);

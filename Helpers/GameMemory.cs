@@ -61,10 +61,6 @@ namespace MapAssist.Helpers
                         PlayerUnits[_currentProcessId] = playerUnit;
                     }
 
-                    if (!Equals(playerUnit, default(UnitAny)))
-                    {
-                        playerUnit = playerUnit.Update();
-                    }
                         
                     if (!Equals(playerUnit, default(UnitAny)))
                     {
@@ -124,14 +120,17 @@ namespace MapAssist.Helpers
                             throw new Exception("Level id out of bounds.");
                         }
 
+                        Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
+
+                        var rosterData = new Roster(GameManager.RosterDataOffset);
+
+                        playerUnit = playerUnit.Update(rosterData);
+
                         var monsterList = new HashSet<UnitAny>();
                         var itemList = new HashSet<UnitAny>();
                         var objectList = new HashSet<UnitAny>();
                         var playerList = new Dictionary<uint, UnitAny>();
-                        GetUnits(ref monsterList, ref itemList, ref playerList, ref objectList);
-                        Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
-
-                        var roster = new Roster(GameManager.RosterDataOffset);
+                        GetUnits(rosterData, ref monsterList, ref itemList, ref playerList, ref objectList);
 
                         return new GameData
                         {
@@ -146,7 +145,7 @@ namespace MapAssist.Helpers
                             Objects = objectList,
                             Players = playerList,
                             Session = session,
-                            Roster = roster,
+                            Roster = rosterData,
                             PlayerUnit = playerUnit,
                             MenuOpen = menuData,
                             MenuPanelOpen = menuOpen
@@ -170,7 +169,7 @@ namespace MapAssist.Helpers
             return null;
         }
 
-        private static void GetUnits(ref HashSet<UnitAny> monsterList, ref HashSet<UnitAny> itemList, ref Dictionary<uint, UnitAny> playerList, ref HashSet<UnitAny> objectList)
+        private static void GetUnits(Roster rosterData, ref HashSet<UnitAny> monsterList, ref HashSet<UnitAny> itemList, ref Dictionary<uint, UnitAny> playerList, ref HashSet<UnitAny> objectList)
         {
             for (var i = 0; i <= 4; i++)
             {
@@ -186,7 +185,7 @@ namespace MapAssist.Helpers
                 }
                 foreach (var pUnitAny in unitHashTable.UnitTable)
                 {
-                    var unitAny = new UnitAny(pUnitAny);
+                    var unitAny = new UnitAny(pUnitAny, rosterData);
                     while (unitAny.IsValidUnit())
                     {
                         switch (unitType)
@@ -216,7 +215,7 @@ namespace MapAssist.Helpers
                                 }
                                 break;
                         }
-                        unitAny = unitAny.ListNext;
+                        unitAny = unitAny.ListNext(rosterData);
                     }
                 }
             }

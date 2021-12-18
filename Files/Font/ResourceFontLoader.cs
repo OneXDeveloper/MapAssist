@@ -55,7 +55,7 @@ namespace MapAssist.Files.Font
 
             // Build a Key storage that stores the index of the font
             _keyStream = new DataStream(sizeof(int) * _fontStreams.Count, true, true);
-            for (int i = 0; i < _fontStreams.Count; i++)
+            for (var i = 0; i < _fontStreams.Count; i++)
                 _keyStream.Write((int)i);
             _keyStream.Position = 0;
 
