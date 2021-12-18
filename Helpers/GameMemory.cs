@@ -125,31 +125,33 @@ namespace MapAssist.Helpers
                         var rosterData = new Roster(GameManager.RosterDataOffset);
 
                         playerUnit = playerUnit.Update(rosterData);
-
-                        var monsterList = new HashSet<UnitAny>();
-                        var itemList = new HashSet<UnitAny>();
-                        var objectList = new HashSet<UnitAny>();
-                        var playerList = new Dictionary<uint, UnitAny>();
-                        GetUnits(rosterData, ref monsterList, ref itemList, ref playerList, ref objectList);
-
-                        return new GameData
+                        if(!Equals(playerUnit, default(UnitAny)))
                         {
-                            PlayerPosition = playerUnit.Position,
-                            MapSeed = mapSeed,
-                            Area = levelId,
-                            Difficulty = gameDifficulty,
-                            MainWindowHandle = GameManager.MainWindowHandle,
-                            PlayerName = playerUnit.Name,
-                            Monsters = monsterList,
-                            Items = itemList,
-                            Objects = objectList,
-                            Players = playerList,
-                            Session = session,
-                            Roster = rosterData,
-                            PlayerUnit = playerUnit,
-                            MenuOpen = menuData,
-                            MenuPanelOpen = menuOpen
-                        };
+                            var monsterList = new HashSet<UnitAny>();
+                            var itemList = new HashSet<UnitAny>();
+                            var objectList = new HashSet<UnitAny>();
+                            var playerList = new Dictionary<uint, UnitAny>();
+                            GetUnits(rosterData, ref monsterList, ref itemList, ref playerList, ref objectList);
+
+                            return new GameData
+                            {
+                                PlayerPosition = playerUnit.Position,
+                                MapSeed = mapSeed,
+                                Area = levelId,
+                                Difficulty = gameDifficulty,
+                                MainWindowHandle = GameManager.MainWindowHandle,
+                                PlayerName = playerUnit.Name,
+                                Monsters = monsterList,
+                                Items = itemList,
+                                Objects = objectList,
+                                Players = playerList,
+                                Session = session,
+                                Roster = rosterData,
+                                PlayerUnit = playerUnit,
+                                MenuOpen = menuData,
+                                MenuPanelOpen = menuOpen
+                            };
+                        }
                     }
                 }
             }
