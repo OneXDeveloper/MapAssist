@@ -332,6 +332,10 @@ namespace MapAssist.Types
 
         public bool IsHostileTo(UnitAny otherUnit)
         {
+            if(UnitType != UnitType.Player || otherUnit.UnitType != UnitType.Player)
+            {
+                return false;
+            }
             var otherUnitId = otherUnit.UnitId;
             if (otherUnitId == UnitId)
             {
