@@ -229,6 +229,20 @@ namespace MapAssist.Helpers
                     }
                     continue;
                 }
+                if(gameObject.ObjectTxt.ObjectType == "Well")
+                {
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawIcon())
+                    {
+                        DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position);
+                    }
+
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawLabel())
+                    {
+                        var label = "Well"; //update this when language changes are ready for merge
+                        DrawText(gfx, MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position, label);
+                    }
+                    continue;
+                }
                 if (gameObject.IsPortal())
                 {
                     var destinationArea = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
