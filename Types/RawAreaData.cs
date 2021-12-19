@@ -80,11 +80,14 @@ namespace MapAssist.Types
             if (npcs == null) npcs = new Dictionary<string, XY[]>();
             if (objects == null) objects = new Dictionary<string, XY[]>();
 
+            var padding = 2;
+
             return new AreaData
             {
                 Area = area,
                 Origin = offset.ToPoint(),
-                CollisionGrid = GetCollisionGid(),
+                MapPadding = padding,
+                CollisionGrid = GetCollisionGid(padding),
                 AdjacentLevels = exits
                     .Select(o =>
                     {
@@ -128,9 +131,8 @@ namespace MapAssist.Types
             };
         }
     
-        private int[][] GetCollisionGid()
+        private int[][] GetCollisionGid(int padding = 0)
         {
-            var padding = 2;
             var mapRows = new int[crop.y1 - crop.y0][];
             var unwalkableTile = new int[padding].Select(_ => -1).ToArray();
             var unwalkableRow = new int[padding].Select(_ => new int[crop.x1 - crop.x0 + padding * 2].Select(__ => -1).ToArray()).ToArray();

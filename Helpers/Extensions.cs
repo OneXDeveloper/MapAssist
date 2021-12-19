@@ -79,6 +79,11 @@ namespace MapAssist.Helpers
             return (float)Math.Atan2(point.Y, point.X);
         }
 
+        public static float Length(this Point point)
+        {
+            return point.ToVector().Length();
+        }
+
         // System type conversions
         public static Vector2 ToVector(this Point point)
         {

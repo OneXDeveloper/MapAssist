@@ -36,7 +36,9 @@ namespace MapAssist.Types
     {
         public Area Area;
         public Point Origin;
+        public int MapPadding = 0;
         public Dictionary<Area, AdjacentLevel> AdjacentLevels;
+        public Dictionary<Area, AreaData> AdjacentAreas = new Dictionary<Area, AreaData>();
         public int[][] CollisionGrid;
         public Rectangle ViewInputRect;
         public Rectangle ViewOutputRect;
@@ -101,6 +103,15 @@ namespace MapAssist.Types
                 ViewInputRect = points.ToArray().ToRectangle(1);
                 ViewOutputRect = points.Select(point => point.Subtract(ViewInputRect.Left + ViewInputRect.Width / 2, ViewInputRect.Top + ViewInputRect.Height / 2).Rotate(angleRadians)).ToArray().ToRectangle(1);
             }
+        }
+    
+        public bool IncludesPoint(Point point)
+        {
+            var adjPoint = point.Subtract(Origin);
+            return adjPoint.X > 0 && 
+                adjPoint.Y > 0 && 
+                adjPoint.X < ViewInputRect.Width - MapPadding * 2 && 
+                adjPoint.Y < ViewInputRect.Height - MapPadding * 2;
         }
     }
 
