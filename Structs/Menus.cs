@@ -26,6 +26,8 @@ namespace MapAssist.Structs
     public struct MenuData
     {
         [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x0)] public bool InGame;
+        [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x01)] public bool Inventory;
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x02)] public bool Character;

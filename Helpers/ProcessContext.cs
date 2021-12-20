@@ -137,10 +137,10 @@ namespace MapAssist.Helpers
         {
             var buffer = GetProcessMemory();
             IntPtr patternAddress = FindPatternEx(ref buffer, _baseAddr, _moduleSize,
-                "\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\x48\x85\xC0\x0F\x84\x00\x00\x00\x00\x83\x78\x5C\x00\x0F\x84\x00\x00\x00\x00\x33\xD2\x41",
-                "xx????xxxxxxxxx????xxxxxx????xxx");
+                "\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\xD9\xF3\x0F\x10\x50\x00",
+                "xxx????xxxxxxx?");
             var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, -4);
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
                 _log.Info("We failed to read the process memory");
@@ -149,7 +149,7 @@ namespace MapAssist.Helpers
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
             var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
-            return IntPtr.Add(_baseAddr, (int)(delta + offsetAddressToInt));
+            return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
         }
         public object GetGameIPOffset()
         {

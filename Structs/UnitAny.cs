@@ -35,12 +35,21 @@ namespace MapAssist.Structs
         [FieldOffset(0x38)] public IntPtr pPath;
         [FieldOffset(0x88)] public IntPtr pStatsListEx;
         [FieldOffset(0x90)] public IntPtr pInventory;
-        [FieldOffset(0xB8)] public uint OwnerType; // ?
+        //[MarshalAs(UnmanagedType.U1)]
+        //[FieldOffset(0xB9)] public bool isAlive1; // ?
         [FieldOffset(0xC4)] public ushort X;
         [FieldOffset(0xC6)] public ushort Y;
         [FieldOffset(0x100)] public IntPtr pSkills;
         [FieldOffset(0x150)] public IntPtr pListNext;
         [FieldOffset(0x158)] public IntPtr pRoomNext;
+        [FieldOffset(0x174)] public PlayerClass charClass;
+        //[FieldOffset(0x194)] public ushort unk1;
+        //[FieldOffset(0x19D)] public byte isAlive2; //could be = 16 for alive players
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x1A6)] public bool isCorpse;
+        //[FieldOffset(0x1B8)] public uint unk2;
+        //[FieldOffset(0x1BC)] public uint unk3;
+        //[FieldOffset(0x1C0)] public uint unk4;
 
         public override bool Equals(object obj) => obj is UnitAny other && Equals(other);
 

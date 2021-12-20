@@ -38,5 +38,8 @@ namespace MapAssist.Structs
         [FieldOffset(0x1C0)] public byte GameIPLength;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
         [FieldOffset(0x1D0)] public byte[] GameIP;
+        [FieldOffset(0xACD0)] public byte CharNameLength;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
+        [FieldOffset(0xACE0)] public byte[] CharName;
     }
 }
