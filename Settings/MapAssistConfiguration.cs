@@ -184,6 +184,12 @@ public class HotkeyConfiguration
 
     [YamlMember(Alias = "ZoomOutKey", ApplyNamingConventions = false)]
     public char ZoomOutKey { get; set; }
+
+    [YamlMember(Alias = "OpacityUpKey", ApplyNamingConventions = false)]
+    public char OpacityUpKey { get; set; }
+
+    [YamlMember(Alias = "OpacityDownKey", ApplyNamingConventions = false)]
+    public char OpacityDownKey { get; set; }
 }
 
 public class GameInfoConfiguration

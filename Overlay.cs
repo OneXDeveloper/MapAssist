@@ -158,6 +158,21 @@ namespace MapAssist
                           (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize * 0.05f);
                     }
                 }
+
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.OpacityUpKey)
+                {
+                    if (MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity < 1.0)
+                    {
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity += 0.05f;
+                    }
+                }
+                if (args.KeyChar == MapAssistConfiguration.Loaded.HotkeyConfiguration.OpacityDownKey)
+                {
+                    if (MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity > 0.0)
+                    {
+                        MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity -= 0.05f;
+                    }
+                }
             }
         }
 
