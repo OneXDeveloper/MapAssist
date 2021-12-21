@@ -234,21 +234,6 @@ namespace MapAssist.Helpers
                             });
                             areaRenderDecided.Add(Area.MonasteryGate);
                         }
-                        else if (areaData.Area == Area.Barracks)
-                        {
-                            var outerCloisterArea = mapApi.GetMapData(Area.OuterCloister);
-                            var barracksAreaData = GetArea(mapApi, outerCloisterArea, gameData);
-                            var barracks = barracksAreaData.FirstOrDefault(poi => poi.Type == PoiType.NextArea);
-
-                            pointsOfInterest.Add(new PointOfInterest
-                            {
-                                Area = areaData.Area,
-                                Label = Utils.GetAreaLabel(Area.OuterCloister, gameData.Difficulty),
-                                Position = barracks.Position,
-                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                                Type = PoiType.PreviousArea
-                            });
-                        }
                         else if (areaData.Area == Area.OuterCloister)
                         {
                             // Barracks Door is based on waypoint position
@@ -377,6 +362,21 @@ namespace MapAssist.Helpers
                                 Area = areaData.Area,
                                 Label = Utils.GetAreaLabel(tamoe.Area, gameData.Difficulty),
                                 Position = new Point(outerCloister.Exits[0].X, tamoe.Exits[0].Y),
+                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                Type = PoiType.PreviousArea
+                            });
+                        }
+                        else if (areaData.Area == Area.Barracks)
+                        {
+                            var outerCloisterArea = mapApi.GetMapData(Area.OuterCloister);
+                            var barracksAreaData = GetArea(mapApi, outerCloisterArea, gameData);
+                            var barracks = barracksAreaData.FirstOrDefault(poi => poi.Type == PoiType.NextArea);
+
+                            pointsOfInterest.Add(new PointOfInterest
+                            {
+                                Area = areaData.Area,
+                                Label = Utils.GetAreaLabel(Area.OuterCloister, gameData.Difficulty),
+                                Position = barracks.Position,
                                 RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
                                 Type = PoiType.PreviousArea
                             });
