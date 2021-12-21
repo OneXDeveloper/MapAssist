@@ -141,8 +141,9 @@ namespace MapAssist.Helpers
                 }
 
                 gamemap.CopyFromMemory(bytes, imageSize.Width * 4);
+                var origin = renderArea.Origin.Add(renderArea.ViewInputRect.Left - _areaData.ViewInputRect.Left, renderArea.ViewInputRect.Top - _areaData.ViewInputRect.Top);
 
-                gamemaps.Add((gamemap, renderArea.Origin));
+                gamemaps.Add((gamemap, origin));
             }
         }
 
@@ -1095,7 +1096,8 @@ namespace MapAssist.Helpers
             }
             else
             {
-                mapTransformMatrix = Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
+                mapTransformMatrix = Matrix3x2.CreateTranslation(new Vector2(_areaData.MapPadding / 2, _areaData.MapPadding / 2))
+                    * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewInputRect.Width / 2, _areaData.ViewInputRect.Height / 2)))
                     * Matrix3x2.CreateRotation(_rotateRadians)
                     * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Left, _areaData.ViewOutputRect.Top)))
                     * Matrix3x2.CreateScale(scaleWidth, scaleHeight)
@@ -1103,7 +1105,7 @@ namespace MapAssist.Helpers
 
                 if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position == MapPosition.Center)
                 {
-                    mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(gfx.Width / 2, gfx.Height / 2))
+                    mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2, _drawBounds.Height / 2))
                         * Matrix3x2.CreateTranslation(Vector2.Negate(new Vector2(_areaData.ViewOutputRect.Width / 2 * scaleWidth, _areaData.ViewOutputRect.Height / 2 * scaleHeight)));
                 }
             }
