@@ -103,6 +103,7 @@ namespace MapAssist.Types
                                 if (IsMonster())
                                 {
                                     _monsterData = processContext.Read<MonsterData>(_unitAny.pUnitData);
+                                    _stateList = GetStateList();
                                 }
                                 break;
                             case UnitType.Item:

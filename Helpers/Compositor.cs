@@ -310,8 +310,23 @@ namespace MapAssist.Helpers
                     if (mobRender == GetMonsterIconRendering(unitAny.MonsterData) && mobRender.CanDrawIcon())
                     {
                         var monsterPosition = unitAny.Position;
-
-                        DrawIcon(gfx, mobRender, monsterPosition);
+                        var isReviveMonster = false;
+                        foreach (var state in unitAny.StateList)
+                        {
+                            if (state == State.STATE_REVIVE)
+                            {
+                                isReviveMonster = true;
+                                break;
+                            }
+                        }
+                        if (isReviveMonster)
+                        {
+                            DrawIcon(gfx, MapAssistConfiguration.Loaded.MapConfiguration.ReviveMonster, monsterPosition);
+                        }
+                        else
+                        {
+                            DrawIcon(gfx, mobRender, monsterPosition);
+                        }
                     }
                 }
             }

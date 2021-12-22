@@ -96,6 +96,9 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "NormalMonster", ApplyNamingConventions = false)]
         public IconRendering NormalMonster { get; set; }
 
+        [YamlMember(Alias = "ReviveMonster", ApplyNamingConventions = false)]
+        public IconRendering ReviveMonster { get; set; }
+
         [YamlMember(Alias = "NextArea", ApplyNamingConventions = false)]
         public PointOfInterestRendering NextArea { get; set; }
 

@@ -68,6 +68,11 @@ MapConfiguration:
     IconShape: Cross
     IconSize: 6
     IconThickness: 2
+  ReviveMonster:
+    IconColor: Blue
+    IconShape: Cross
+    IconSize: 6
+    IconThickness: 2
   NextArea:
     IconColor: SpringGreen
     IconShape: Square
