@@ -501,7 +501,11 @@ namespace MapAssist.Helpers
                 var canDrawNonPartyLabel = MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer.CanDrawLabel();
                 var canDrawHostileLine = MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.CanDrawLine();
 
-                var areasToRender = (new AreaData[] { _areaData }).Concat(_areaData.AdjacentAreas.Values).ToArray();
+                var areasToRender = new AreaData[] { _areaData };
+                if (AreaExtensions.RequiresStitching(_areaData.Area))
+                {
+                    areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                }
 
                 foreach (var player in _gameData.Roster.List)
                 {
@@ -509,11 +513,10 @@ namespace MapAssist.Helpers
                     var inMyParty = player.PartyID == myPlayerEntry.PartyID;
                     var playerName = player.Name;
 
-                    var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(player.Position));
-                    if (foundInArea != null && foundInArea.Area != _areaData.Area && !AreaExtensions.RequiresStitching(foundInArea.Area)) continue; // Don't show gamedata objects in another area if areas aren't stitched together
-
                     if (_gameData.Players.TryGetValue(player.UnitId, out var playerUnit))
                     {
+                        if (!myPlayer && !areasToRender.Any(area => area.IncludesPoint(playerUnit.Position))) continue; // Don't show player if not in drawn areas
+
                         // use data from the unit table if available
                         if (playerUnit.InPlayerParty) // partyid is max if player is not in a party
                         {
@@ -569,8 +572,7 @@ namespace MapAssist.Helpers
                     }
                     else
                     {
-                        var inCurrentOrAdjacentArea = player.Area == _gameData.Area || _areaData.AdjacentLevels.Keys.Contains(player.Area);
-                        if (!inCurrentOrAdjacentArea) continue;
+                        if (!myPlayer && !areasToRender.Any(area => area.IncludesPoint(player.Position))) continue; // Don't show player if not in drawn areas
 
                         // otherwise use the data from the roster
                         // only draw if in the same party, otherwise position/area data will not be up to date
@@ -1102,10 +1104,10 @@ namespace MapAssist.Helpers
         {
             var halfSize = size.Multiply(1 / 2f);
 
-            if (point.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - point.X + halfSize.X;
-            if (point.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - point.X - halfSize.X;
-            if (point.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - point.Y + halfSize.Y;
-            if (point.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - point.Y - halfSize.Y;
+            if (point.X - halfSize.X < _drawBounds.Left) point.X += _drawBounds.Left - point.X + halfSize.X + 1; // Single extra pixel to prevent GameOverlay from word wrapping
+            if (point.X + halfSize.X > _drawBounds.Right) point.X += _drawBounds.Right - point.X - halfSize.X - 1; // Single extra pixel to prevent GameOverlay from word wrapping
+            if (point.Y - halfSize.Y < _drawBounds.Top) point.Y += _drawBounds.Top - point.Y + halfSize.Y + 1; // Single extra pixel to prevent GameOverlay from word wrapping
+            if (point.Y + halfSize.Y > _drawBounds.Bottom) point.Y += _drawBounds.Bottom - point.Y - halfSize.Y - 1; // Single extra pixel to prevent GameOverlay from word wrapping
 
             return point;
         }
