@@ -26,9 +26,9 @@ Mage Plate:
     Sockets: [0, 3]
 
 # This monarch rule is 2 separate rules. Notice the "-" on each line
-# This will show unique and set monarchs as well as non-magical monarchs with 0 or 4 sockets
+# This will show unique monarchs as well as non-magical monarchs with 0 or 4 sockets
 Monarch:
-  - Qualities: [unique, set] # Stormshield and Milabrega's Orb
+  - Qualities: unique # Stormshield
   - Qualities: [normal, superior]
     Sockets: [0, 4]
 
