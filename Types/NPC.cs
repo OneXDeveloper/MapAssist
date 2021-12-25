@@ -89,6 +89,7 @@ namespace MapAssist.Types
             { 415, Npc.InfernoSentry },
             { 416, Npc.DeathSentry },
             { 417, Npc.ShadowWarrior },
+            { 418, Npc.ShadowMaster },
             { 419, Npc.DruidHawk },
             { 420, Npc.DruidSpiritWolf },
             { 421, Npc.DruidFenris },
