@@ -1,5 +1,6 @@
 # MapAssist
 
+![MapAssist](https://user-images.githubusercontent.com/1294559/147396525-b44982b9-fbd9-4a48-bfbf-73ef2178e60b.png)
 
 THE 'MapAssist' TOOL AND CONTENTS THEREIN WERE INTENDED FOR INFORMATIONAL AND LEARNING PURPOSES ONLY.
 
