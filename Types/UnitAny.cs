@@ -430,7 +430,7 @@ namespace MapAssist.Types
 
         public override int GetHashCode() => UnitId.GetHashCode();
 
-        public static bool operator ==(UnitAny unit1, UnitAny unit2) => !(unit1 is null) && unit1.Equals(unit2);
+        public static bool operator ==(UnitAny unit1, UnitAny unit2) => (unit1 is null && unit2 is null) || (!(unit1 is null) && unit1.Equals(unit2));
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
         public UnitAny Clone()
