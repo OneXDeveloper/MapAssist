@@ -78,6 +78,9 @@ namespace MapAssist.Helpers
             }
 
             var path = FindD2();
+            var directoryInfo = new DirectoryInfo(path);
+            path = Path.Combine(directoryInfo.FullName, " ").TrimEnd();
+
             _pipeClient = new Process();
             _pipeClient.StartInfo.FileName = procFile;
             _pipeClient.StartInfo.Arguments = "\"" + path + "\"";
