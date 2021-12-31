@@ -95,6 +95,7 @@ namespace MapAssist.Types
             { 421, Npc.DruidFenris },
             { 423, Npc.HeartOfWolverine },
             { 424, Npc.OakSage },
+            { 428, Npc.DruidBear },
             { 543, Npc.BaalThrone },
             { 567, Npc.InjuredBarbarian },
             { 568, Npc.InjuredBarbarian2 },
