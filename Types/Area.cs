@@ -369,7 +369,7 @@ namespace MapAssist.Types
             },
             [Area.SewersLevel3Act2] = new AreaLabel() {
                 Text = "Sewers Level 3",
-                Level = new int[] { 13, 44, 75 }
+                Level = new int[] { 14, 44, 75 }
             },
             [Area.HaremLevel1] = new AreaLabel() {
                 Text = "Harem Level 1",
@@ -377,7 +377,7 @@ namespace MapAssist.Types
             },
             [Area.HaremLevel2] = new AreaLabel() {
                 Text = "Harem Level 2",
-                Level = new int[] { 14, 47, 78 }
+                Level = new int[] { 13, 47, 78 }
             },
             [Area.PalaceCellarLevel1] = new AreaLabel() {
                 Text = "Palace Cellar Level 1",
@@ -469,7 +469,7 @@ namespace MapAssist.Types
             },
             [Area.ArcaneSanctuary] = new AreaLabel() {
                 Text = "Arcane Sanctuary",
-                Level = new int[] { 14, 84, 79 }
+                Level = new int[] { 14, 48, 79 }
             },
             [Area.KurastDocks] = new AreaLabel() {
                 Text = "Kurast Docks",
@@ -689,7 +689,7 @@ namespace MapAssist.Types
             },
             [Area.TheWorldStoneKeepLevel2] = new AreaLabel() {
                 Text = "Worldstone Keep Level 2",
-                Level = new int[] { 39, 65, 85 }
+                Level = new int[] { 40, 65, 85 }
             },
             [Area.TheWorldStoneKeepLevel3] = new AreaLabel() {
                 Text = "Worldstone Keep Level 3",
