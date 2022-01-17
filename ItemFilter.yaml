@@ -67,6 +67,44 @@ Thresher:
     Sockets: [0, 4]
   - Qualities: unique # The Reaper's Toll
 
+# Possible classes of items are:
+#   Axes
+#   Wands
+#   Clubs
+#   Scepters
+#   Maces
+#   Hammers
+#   Swords
+#   Daggers
+#   Throwing Knifes
+#   Throwing Axes
+#   Javelins
+#   Spears
+#   Polearms
+#   Staves
+#   Bows
+#   Crossbows
+#   Helms
+#   Armors
+#   Shields
+#   Gloves
+#   Boots
+#   Belts
+#   Circlets
+#   Assassin Katars
+#   Sorceress Orbs
+#   Amazon Bows
+#   Amazon Spears
+#   Amazon Javelins
+#   Druid Helms
+#   Barbarian Helms
+#   Paladin Shields
+#   Necromancer Shields
+# Possible tiers of items are (note that these will not work with circlets):
+#   Normal
+#   Exceptional
+#   Elite
+
 # This will show 3/20 Javazon Gloves when a town vendor has a pair for sale
 # It will work with all exceptional and elite gloves
 Gloves:
