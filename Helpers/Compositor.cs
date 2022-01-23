@@ -992,6 +992,11 @@ namespace MapAssist.Helpers
                 gfx.DrawText(font, brush, position, itemName);
             }
         }
+        public void DrawCubeRecipes(Graphics gfx)
+        {
+            var sizeMulti = gfx.Height / 6.35f;
+            DrawBitmap(gfx, CreateResourceBitmap(gfx, "cubeRecipes"), new Point(sizeMulti * 0.87f, sizeMulti), 1.0f, gfx.Height / 1080.0f);
+        }
 
         // Drawing Utility Functions
         private void DrawBitmap(Graphics gfx, Bitmap bitmapDX, Point anchor, float opacity,

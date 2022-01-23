@@ -117,6 +117,11 @@ namespace MapAssist
                             _compositor.DrawMonsterBar(gfx);
                         }
 
+                        if (_gameData.MenuOpen.Cube)
+                        {
+                            _compositor.DrawCubeRecipes(gfx);
+                        }
+
                         var gameInfoAnchor = GameInfoAnchor(MapAssistConfiguration.Loaded.GameInfo.Position);
                         var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData);
 

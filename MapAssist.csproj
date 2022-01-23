@@ -556,6 +556,9 @@
     <None Include="Resources\COLD.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\cubeRecipes.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="MAServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
