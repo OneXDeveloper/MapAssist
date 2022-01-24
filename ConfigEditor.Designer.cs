@@ -151,6 +151,8 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.chkItemLogItemsOnIdentify = new System.Windows.Forms.CheckBox();
+            this.chkItemLogVendorItems = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -603,7 +605,7 @@
             // chkStickToLastGameWindow
             // 
             this.chkStickToLastGameWindow.AutoSize = true;
-            this.chkStickToLastGameWindow.Location = new System.Drawing.Point(9, 264);
+            this.chkStickToLastGameWindow.Location = new System.Drawing.Point(10, 264);
             this.chkStickToLastGameWindow.Name = "chkStickToLastGameWindow";
             this.chkStickToLastGameWindow.Size = new System.Drawing.Size(222, 17);
             this.chkStickToLastGameWindow.TabIndex = 25;
@@ -817,7 +819,7 @@
             // chkToggleViaPanels
             // 
             this.chkToggleViaPanels.AutoSize = true;
-            this.chkToggleViaPanels.Location = new System.Drawing.Point(9, 241);
+            this.chkToggleViaPanels.Location = new System.Drawing.Point(10, 241);
             this.chkToggleViaPanels.Name = "chkToggleViaPanels";
             this.chkToggleViaPanels.Size = new System.Drawing.Size(196, 17);
             this.chkToggleViaPanels.TabIndex = 9;
@@ -1221,6 +1223,8 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.chkItemLogVendorItems);
+            this.tabPage6.Controls.Add(this.chkItemLogItemsOnIdentify);
             this.tabPage6.Controls.Add(this.cboItemLogPosition);
             this.tabPage6.Controls.Add(this.lblItemLogPosition);
             this.tabPage6.Controls.Add(this.chkLogTextShadow);
@@ -1269,7 +1273,7 @@
             // chkLogTextShadow
             // 
             this.chkLogTextShadow.AutoSize = true;
-            this.chkLogTextShadow.Location = new System.Drawing.Point(142, 273);
+            this.chkLogTextShadow.Location = new System.Drawing.Point(142, 285);
             this.chkLogTextShadow.Name = "chkLogTextShadow";
             this.chkLogTextShadow.Size = new System.Drawing.Size(89, 17);
             this.chkLogTextShadow.TabIndex = 31;
@@ -1282,7 +1286,7 @@
             this.btnClearLogFont.FlatAppearance.BorderSize = 0;
             this.btnClearLogFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearLogFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearLogFont.Location = new System.Drawing.Point(89, 270);
+            this.btnClearLogFont.Location = new System.Drawing.Point(89, 282);
             this.btnClearLogFont.Name = "btnClearLogFont";
             this.btnClearLogFont.Size = new System.Drawing.Size(23, 23);
             this.btnClearLogFont.TabIndex = 30;
@@ -1294,7 +1298,7 @@
             // 
             this.lblSoundVolumeValue.AutoSize = true;
             this.lblSoundVolumeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblSoundVolumeValue.Location = new System.Drawing.Point(279, 165);
+            this.lblSoundVolumeValue.Location = new System.Drawing.Point(279, 199);
             this.lblSoundVolumeValue.Name = "lblSoundVolumeValue";
             this.lblSoundVolumeValue.Size = new System.Drawing.Size(25, 13);
             this.lblSoundVolumeValue.TabIndex = 29;
@@ -1307,7 +1311,7 @@
             this.soundVolume.BackColor = System.Drawing.Color.White;
             this.soundVolume.Cursor = System.Windows.Forms.Cursors.Default;
             this.soundVolume.LargeChange = 1;
-            this.soundVolume.Location = new System.Drawing.Point(85, 165);
+            this.soundVolume.Location = new System.Drawing.Point(85, 199);
             this.soundVolume.Maximum = 20;
             this.soundVolume.Name = "soundVolume";
             this.soundVolume.Size = new System.Drawing.Size(188, 27);
@@ -1319,7 +1323,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 168);
+            this.label10.Location = new System.Drawing.Point(11, 202);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(42, 13);
             this.label10.TabIndex = 27;
@@ -1329,7 +1333,7 @@
             // 
             this.lblItemDisplayForSecondsValue.AutoSize = true;
             this.lblItemDisplayForSecondsValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblItemDisplayForSecondsValue.Location = new System.Drawing.Point(279, 213);
+            this.lblItemDisplayForSecondsValue.Location = new System.Drawing.Point(279, 240);
             this.lblItemDisplayForSecondsValue.Name = "lblItemDisplayForSecondsValue";
             this.lblItemDisplayForSecondsValue.Size = new System.Drawing.Size(33, 13);
             this.lblItemDisplayForSecondsValue.TabIndex = 25;
@@ -1341,7 +1345,7 @@
             this.itemDisplayForSeconds.AutoSize = false;
             this.itemDisplayForSeconds.BackColor = System.Drawing.Color.White;
             this.itemDisplayForSeconds.LargeChange = 1;
-            this.itemDisplayForSeconds.Location = new System.Drawing.Point(85, 213);
+            this.itemDisplayForSeconds.Location = new System.Drawing.Point(85, 240);
             this.itemDisplayForSeconds.Maximum = 24;
             this.itemDisplayForSeconds.Minimum = 1;
             this.itemDisplayForSeconds.Name = "itemDisplayForSeconds";
@@ -1355,7 +1359,7 @@
             // btnLogFont
             // 
             this.btnLogFont.BackColor = System.Drawing.Color.Transparent;
-            this.btnLogFont.Location = new System.Drawing.Point(14, 270);
+            this.btnLogFont.Location = new System.Drawing.Point(14, 282);
             this.btnLogFont.Name = "btnLogFont";
             this.btnLogFont.Size = new System.Drawing.Size(75, 23);
             this.btnLogFont.TabIndex = 22;
@@ -1368,7 +1372,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
             this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label21.Location = new System.Drawing.Point(82, 70);
+            this.label21.Location = new System.Drawing.Point(86, 109);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(80, 13);
             this.label21.TabIndex = 26;
@@ -1379,7 +1383,7 @@
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
             this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label20.Location = new System.Drawing.Point(82, 137);
+            this.label20.Location = new System.Drawing.Point(86, 178);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(115, 13);
             this.label20.TabIndex = 25;
@@ -1388,7 +1392,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(11, 216);
+            this.label18.Location = new System.Drawing.Point(11, 243);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(75, 13);
             this.label18.TabIndex = 6;
@@ -1396,9 +1400,9 @@
             // 
             // txtSoundFile
             // 
-            this.txtSoundFile.Location = new System.Drawing.Point(85, 114);
+            this.txtSoundFile.Location = new System.Drawing.Point(89, 155);
             this.txtSoundFile.Name = "txtSoundFile";
-            this.txtSoundFile.Size = new System.Drawing.Size(227, 20);
+            this.txtSoundFile.Size = new System.Drawing.Size(223, 20);
             this.txtSoundFile.TabIndex = 5;
             this.txtSoundFile.TextChanged += new System.EventHandler(this.txtSoundFile_TextChanged);
             this.txtSoundFile.LostFocus += new System.EventHandler(this.txtSoundFile_LostFocus);
@@ -1406,16 +1410,16 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 117);
+            this.label17.Location = new System.Drawing.Point(11, 158);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(60, 13);
+            this.label17.Size = new System.Drawing.Size(57, 13);
             this.label17.TabIndex = 4;
-            this.label17.Text = "Sound File:";
+            this.label17.Text = "Sound File";
             // 
             // chkPlaySound
             // 
             this.chkPlaySound.AutoSize = true;
-            this.chkPlaySound.Location = new System.Drawing.Point(14, 91);
+            this.chkPlaySound.Location = new System.Drawing.Point(14, 131);
             this.chkPlaySound.Name = "chkPlaySound";
             this.chkPlaySound.Size = new System.Drawing.Size(121, 17);
             this.chkPlaySound.TabIndex = 3;
@@ -1425,16 +1429,16 @@
             // 
             // txtFilterFile
             // 
-            this.txtFilterFile.Location = new System.Drawing.Point(85, 47);
+            this.txtFilterFile.Location = new System.Drawing.Point(89, 86);
             this.txtFilterFile.Name = "txtFilterFile";
-            this.txtFilterFile.Size = new System.Drawing.Size(227, 20);
+            this.txtFilterFile.Size = new System.Drawing.Size(223, 20);
             this.txtFilterFile.TabIndex = 2;
             this.txtFilterFile.TextChanged += new System.EventHandler(this.txtFilterFile_TextChanged);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(11, 50);
+            this.label16.Location = new System.Drawing.Point(11, 89);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(48, 13);
             this.label16.TabIndex = 1;
@@ -1590,6 +1594,28 @@
             this.lstHidden.Name = "lstHidden";
             this.lstHidden.Size = new System.Drawing.Size(253, 160);
             this.lstHidden.TabIndex = 0;
+            // 
+            // chkItemLogItemsOnIdentify
+            // 
+            this.chkItemLogItemsOnIdentify.AutoSize = true;
+            this.chkItemLogItemsOnIdentify.Location = new System.Drawing.Point(14, 39);
+            this.chkItemLogItemsOnIdentify.Name = "chkItemLogItemsOnIdentify";
+            this.chkItemLogItemsOnIdentify.Size = new System.Drawing.Size(139, 17);
+            this.chkItemLogItemsOnIdentify.TabIndex = 39;
+            this.chkItemLogItemsOnIdentify.Text = "Check Items On Identify";
+            this.chkItemLogItemsOnIdentify.UseVisualStyleBackColor = true;
+            this.chkItemLogItemsOnIdentify.CheckedChanged += new System.EventHandler(this.chkItemLogItemsOnIdentify_CheckedChanged);
+            // 
+            // chkItemLogVendorItems
+            // 
+            this.chkItemLogVendorItems.AutoSize = true;
+            this.chkItemLogVendorItems.Location = new System.Drawing.Point(14, 62);
+            this.chkItemLogVendorItems.Name = "chkItemLogVendorItems";
+            this.chkItemLogVendorItems.Size = new System.Drawing.Size(153, 17);
+            this.chkItemLogVendorItems.TabIndex = 40;
+            this.chkItemLogVendorItems.Text = "Check Vendor Items";
+            this.chkItemLogVendorItems.UseVisualStyleBackColor = true;
+            this.chkItemLogVendorItems.CheckedChanged += new System.EventHandler(this.chkItemLogVendorItems_CheckedChanged);
             // 
             // ConfigEditor
             // 
@@ -1772,5 +1798,7 @@
         private System.Windows.Forms.ComboBox cboItemLogPosition;
         private System.Windows.Forms.Label lblItemLogPosition;
         private System.Windows.Forms.CheckBox chkMonsterHealthBar;
+        private System.Windows.Forms.CheckBox chkItemLogVendorItems;
+        private System.Windows.Forms.CheckBox chkItemLogItemsOnIdentify;
     }
 }

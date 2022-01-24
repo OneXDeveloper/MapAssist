@@ -17,15 +17,9 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
-using System.Timers;
 using MapAssist.Helpers;
 using MapAssist.Settings;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
@@ -60,14 +54,14 @@ namespace MapAssist.Types
     {
         public static Dictionary<string, LocalizedObj> LocalizedShrines = new Dictionary<string, LocalizedObj>();
 
-        public static string ShrineDisplayName(UnitAny unitAny)
+        public static string ShrineDisplayName(UnitObject obj)
         {
-            if (unitAny.IsWell())
+            if (obj.IsWell)
             {
-                return WellDisplayName(unitAny);
+                return WellDisplayName();
             }
 
-            var shrineId = unitAny.ObjectData.InteractType;
+            var shrineId = obj.ObjectData.InteractType;
             var itemCode = $"ShrId{shrineId}";
 
             LocalizedObj localItem;
@@ -92,7 +86,7 @@ namespace MapAssist.Types
             return label;
         }
 
-        public static string WellDisplayName(UnitAny unitAny)
+        public static string WellDisplayName()
         {
             var itemCode = "Well";
             LocalizedObj localItem;
@@ -106,5 +100,4 @@ namespace MapAssist.Types
             return prop.ToString();
         }
     }
-
 }

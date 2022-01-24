@@ -1,57 +1,10 @@
 # IMPORTANT: After changing anything in this file, ensure validity using https://jsonformatter.org/yaml-validator
-
-# Item filter rules
-# "Any" can be used if you would like to see ALL uniques, all set items, all items with x sockets, etc
-# Most of the time we don't want to filter that broadly, so this is commented out with #
-# Any:
-# - Qualities: [unique, magic]
+# More details about how to configure this file can be found at https://github.com/OneXDeveloper/MapAssist/wiki/Item-Filter
 
 # The first line or "Key" is the item base type, in the next case, "Harlequin Crest" is a unique "Shako"
 # Alert to any unique Shako, regardless of any other criteria (sockets, eth)
 Shako:                              # Item Base Type
   - Qualities: unique               # Rule starts with "-" and lists one of 3 criteria
-
-# Criteria options are:
-#   Ethereal: (true/false)
-#   Sockets: [0 - 6]
-#   Qualities: [inferior, normal, superior, magic, set, rare, unique, crafted]
-#   Defense: (number)
-#   Strength: (number)
-#   Dexterity: (number)
-#   Vitality: (number)
-#   Energy: (number)
-#   Max Life: (number)
-#   Max Mana: (number)
-#   Attack Rating: (number)
-#   Min Damage: (number)
-#   Max Damage: (number)
-#   Damage Reduced: (number)
-#   Life Steal: (number)
-#   Mana Steal: (number)
-#   Cold Skill Damage: (number)
-#   Lightning Skill Damage: (number)
-#   Fire Skill Damage: (number)
-#   Poison Skill Damage: (number)
-#   Increased Attack Speed: (number)
-#   Faster Run Walk: (number)
-#   Faster Hit Recovery: (number)
-#   Faster Cast Rate: (number)
-#   Magic Find: (number)
-#   Gold Find: (number)
-#   Cold Resist: (number)
-#   Lightning Resist: (number)
-#   Fire Resist: (number)
-#   Poison Resist: (number)
-#   All Resist: (number)
-#   Skills:
-#      <Skill Name>: (number)
-#   Skill Charges:
-#      <Skill Name>: (number)
-#   Class Skill Tree:
-#      <Class Tree>: (number)
-#   Class Skills:
-#      <Class>: (number)
-#   All Skills: (number)
 
 # Additional criteria can be listed below the first. Do not prefix a "-" to lines with criteria you wish to include
 # as part of the same rule. You can also list multiple values for both Qualities and Sockets as shown in the Thresher
@@ -66,44 +19,6 @@ Thresher:
     Qualities: [normal, superior]
     Sockets: [0, 4]
   - Qualities: unique # The Reaper's Toll
-
-# Possible classes of items are:
-#   Axes
-#   Wands
-#   Clubs
-#   Scepters
-#   Maces
-#   Hammers
-#   Swords
-#   Daggers
-#   Throwing Knifes
-#   Throwing Axes
-#   Javelins
-#   Spears
-#   Polearms
-#   Staves
-#   Bows
-#   Crossbows
-#   Helms
-#   Armors
-#   Shields
-#   Gloves
-#   Boots
-#   Belts
-#   Circlets
-#   Assassin Katars
-#   Sorceress Orbs
-#   Amazon Bows
-#   Amazon Spears
-#   Amazon Javelins
-#   Druid Helms
-#   Barbarian Helms
-#   Paladin Shields
-#   Necromancer Shields
-# Possible tiers of items are (note that these will not work with circlets):
-#   Normal
-#   Exceptional
-#   Elite
 
 # This will show 3/20 Javazon Gloves when a town vendor has a pair for sale
 # It will work with all exceptional and elite gloves
@@ -144,12 +59,6 @@ Short Staff:
     All Skills: 1
     PlaySoundOnDrop: false
 
-# This will show Barbarian Warcry Sticks when a town vendor has them for sale
-Glaive:
-  - Qualities: magic
-    Class Skill Tree:
-      Barbarian Warcries: 3
-
 # This is just an object that holds all our commonly used aliases
 # Aliases are labeled by the `&` and then the name and provide a simple way to reuse rule criteria later on
 # They are used by referencing `*` then the name as you'll see in the Mercenary section of this config
@@ -168,15 +77,40 @@ x-bases:
     Ethereal: true
     Qualities: [normal, superior]
     Sockets: [4]
-  - &pally-shield-base
-    # Ethereal: true # Uncomment this if you need an ethereal shield base, or flip it to false for non-ethereal
-    Qualities: [normal, superior]
-    All Resist: 25
-    Sockets: [0, 4]
 
-# This ring rule will show all magic, rare, and unique rings
+# This ring rule will show all unidentified magic, rare, and unique rings that drop on the ground
 Ring:
   - Qualities: [magic, rare, unique]
+  # The rings below have stats that are only possible on identified items, so these rules
+  # will alert you when a matching item is identified by you or picked up as identified
+  - Qualities: magic
+    Magic Find: 40
+  - Qualities: magic
+    Faster Cast Rate: 10
+    Max Mana: 120
+  - Qualities: magic
+    Magic Find: 15
+    Max Mana: 120
+  - Qualities: magic
+    Faster Cast Rate: 10
+    Fire Resist: 15
+    Lightning Resist: 15
+  - Qualities: magic
+    Magic Find: 15
+    Fire Resist: 15
+    Lightning Resist: 15
+  - Qualities: rare
+    Faster Cast Rate: 10
+    Max Mana: 80
+    All Resist: 10
+  - Qualities: unique # SoJ or BK ring
+    All Skills: 1
+
+# This will show Barbarian Warcry Sticks when you trade a town vendor that has them for sale
+Glaive:
+  - Qualities: magic
+    Class Skill Tree:
+      Barbarian Warcries: 3
 
 ### Some items are inactive
 ### To activate them for the loot log, remove the ## in front of them
@@ -244,18 +178,13 @@ Crystal Sword:
 Phase Blade:
   - Qualities: [normal, superior]
     Sockets: [5]
-Greater Talons:
-  - Qualities: [normal,superior]
-    Sockets: [3]
-Runic Talons:
-  - Qualities: [normal, superior]
-    Sockets: [3]
-Feral Claws:
-  - Qualities: [normal, superior]
-    Sockets: [3]
 Matriarchal Javelin:
   - Qualities: [magic, rare]
   - Qualities: unique # Thunderstroke
+Assassin Katars:
+  - Tiers: [exceptional, elite]
+    Qualities: [normal, superior]
+    Sockets: [3]
 
 ### Misc
 Amulet:
@@ -283,61 +212,15 @@ Charged Essence of Hatred:
 Burning Essence of Terror:
 Festering Essence of Destruction:
 
-### Exceptional Boots
-Demonhide Boots:
-  - Qualities: rare
-Sharkskin Boots:
-  - Qualities: rare
-Mesh Boots:
-  - Qualities: rare
-Battle Boots:
-  - Qualities: rare
-# War Traveler
-  - Qualities: unique
-War Boots:
-  - Qualities: rare
+### Boots
+Boots:
+  - Tiers: [exceptional, elite]
+    Qualities: rare
 
-### Elite Boots
-Wyrmhide Boots:
-  - Qualities: rare
-Scarabshell Boots:
-  - Qualities: rare
-# Sandstorm Trek
-  - Qualities: unique
-Boneweave Boots:
-  - Qualities: rare
-Mirrored Boots:
-  - Qualities: rare
-Myrmidon Greaves:
-  - Qualities: rare
-
-### Exceptional Gloves
-Demonhide Gloves:
-  - Qualities: rare
-Sharkskin Gloves:
-  - Qualities: rare
-Heavy Bracers:
-  - Qualities: rare
-# Trang-Oul's Claws
-  - Qualities: set
-Battle Gauntlets:
-  - Qualities: rare
-War Gauntlets:
-  - Qualities: rare
-
-### Elite Gloves
-Bramble Mitts:
-  - Qualities: rare
-Vampirebone Gloves:
-  - Qualities: rare
-# Dracul's Grasp
-  - Qualities: unique
-Vambraces:
-  - Qualities: rare
-Crusader Gauntlets:
-  - Qualities: rare
-Ogre Gauntlets:
-  - Qualities: rare
+### Gloves
+Gloves:
+  - Tiers: [exceptional, elite]
+    Qualities: rare
 
 ### Helmets
 Bone Visage:
@@ -347,8 +230,6 @@ Demonhead:
   - Qualities: [normal, superior]
     Sockets: [0, 3]
   - Qualities: unique # Andariel's Visage
-Winged Helm:
-  - Qualities: set # Guillaume's Face
 
 ### Circlets
 Circlet:
@@ -363,42 +244,21 @@ Diadem:
   - Qualities: unique # Griffon's Eye
 
 ### Druid Pelts
-Blood Spirit:
-  - Qualities: [magic, rare]
-Sun Spirit:
-  - Qualities: [magic, rare]
-Earth Spirit:
-  - Qualities: [magic, rare]
-Sky Spirit:
-  - Qualities: [magic, rare]
-Dream Spirit:
-  - Qualities: [magic, rare]
+Druid Helms:
+  - Tiers: elite
+    Qualities: [magic, rare]
 
 ### Barbarian Helms
-Carnage Helm:
-  - Qualities: [magic, rare]
-Fury Visor:
-  - Qualities: [magic, rare]
-Destroyer Helm:
-  - Qualities: [magic, rare]
-Conqueror Crown:
-  - Qualities: [magic, rare]
-Guardian Crown:
-  - Qualities: [magic, rare]
+Barbarian Helms:
+  - Tiers: elite
+    Qualities: [magic, rare]
 
 ### Paladin Shields
-Akaran Targe:
-  - *pally-shield-base
-Akaran Rondache:
-  - *pally-shield-base
-Sacred Targe:
-  - *pally-shield-base
-Sacred Rondache:
-  - *pally-shield-base
-Royal Shield:
-  - *pally-shield-base
-Vortex Shield:
-  - *pally-shield-base
+Paladin Shields:
+  - Tiers: elite
+    Qualities: [normal, superior]
+    All Resist: 25
+    Sockets: [0, 4]
 
 ### Runes
 Hel Rune:
@@ -433,6 +293,15 @@ Perfect Topaz:
 Perfect Skull:
 
 ### Uniques
+# Dracul's Grasp
+Vampirebone Gloves:
+  - Qualities: unique
+# War Traveler
+Battle Boots:
+  - Qualities: unique
+# Sandstorm Trek
+Scarabshell Boots:
+  - Qualities: unique
 # Ribcracker
 Quarterstaff:
   - Qualities: unique
@@ -543,4 +412,10 @@ Death Mask:
   - Qualities: set
 # Tal Rasha's Fine Spun Cloth
 Mesh Belt:
+  - Qualities: set
+# Guillaume's Face
+Winged Helm:
+  - Qualities: set 
+# Trang-Oul's Claws
+Heavy Bracers:
   - Qualities: set

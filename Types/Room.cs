@@ -82,7 +82,6 @@ namespace MapAssist.Types
         public RoomEx RoomEx => new RoomEx(_room.pRoomEx);
         public uint NumRoomsNear => _room.numRoomsNear;
         public Act Act => new Act(_room.pAct);
-        public UnitAny UnitFirst => new UnitAny(_room.pUnitFirst);
         public Room RoomNext => new Room(_room.pRoomNext);
         public Room RoomNextFast => new Room(_room.pRoomNext, false);
     }

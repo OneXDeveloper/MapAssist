@@ -32,14 +32,16 @@ namespace MapAssist.Types
         public Area Area;
         public IntPtr MainWindowHandle;
         public string PlayerName;
-        public HashSet<UnitAny> Monsters;
-        public HashSet<UnitAny> Mercs;
-        public HashSet<UnitAny> Items;
-        public HashSet<UnitAny> Objects;
-        public Dictionary<uint, UnitAny> Players;
+        public UnitPlayer PlayerUnit;
+        public Dictionary<uint, UnitPlayer> Players;
+        public UnitPlayer[] Corpses;
+        public UnitMonster[] Monsters;
+        public UnitMonster[] Mercs;
+        public UnitObject[] Objects;
+        public UnitItem[] Items;
+        public ItemLogEntry[] ItemLog;
         public Session Session;
         public Roster Roster;
-        public UnitAny PlayerUnit;
         public byte MenuPanelOpen;
         public MenuData MenuOpen;
         public Npc LastNpcInteracted;
@@ -61,8 +63,7 @@ namespace MapAssist.Types
 
         public override string ToString()
         {
-            return
-                $"{nameof(PlayerPosition)}: {PlayerPosition}, {nameof(MapSeed)}: {MapSeed}, {nameof(Difficulty)}: {Difficulty}, {nameof(Area)}: {Area}, {nameof(MenuOpen.Map)}: {MenuOpen.Map}";
+            return $"{nameof(PlayerPosition)}: {PlayerPosition}, {nameof(MapSeed)}: {MapSeed}, {nameof(Difficulty)}: {Difficulty}, {nameof(Area)}: {Area}, {nameof(MenuOpen.Map)}: {MenuOpen.Map}";
         }
     }
 }

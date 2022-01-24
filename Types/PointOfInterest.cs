@@ -20,7 +20,6 @@
 using GameOverlay.Drawing;
 using MapAssist.Settings;
 using System;
-using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
@@ -33,13 +32,13 @@ namespace MapAssist.Types
         public PointOfInterestRendering RenderingSettings;
         public PoiType Type;
 
-        public bool PoiMatchesPortal(HashSet<UnitAny> gameDataObjectList, Difficulty difficulty)
+        public bool PoiMatchesPortal(UnitObject[] gameDataObjectList, Difficulty difficulty)
         {
             if (Type == PoiType.AreaPortal)
             {
                 foreach (var gameObject in gameDataObjectList)
                 {
-                    if (gameObject.IsPortal())
+                    if (gameObject.IsPortal)
                     {
                         var area = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
                         if (area.PortalLabel(difficulty) == Label)

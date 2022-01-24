@@ -264,6 +264,52 @@ namespace MapAssist.Helpers
         }
     }
 
+    internal sealed class ItemTierYamlTypeConverter : IYamlTypeConverter
+    {
+        public bool Accepts(Type type)
+        {
+            return type == typeof(ItemTier[]);
+        }
+
+        public object ReadYaml(IParser parser, Type type)
+        {
+            if (parser.TryConsume<Scalar>(out var scalar))
+            {
+                var items = new List<string>() { scalar.Value };
+                return ParseItemTier(items);
+            }
+
+            if (parser.TryConsume<SequenceStart>(out var _))
+            {
+                var items = new List<string>();
+                while (parser.TryConsume<Scalar>(out var scalarItem))
+                {
+                    items.Add(scalarItem.Value);
+                }
+
+                parser.Consume<SequenceEnd>();
+                return ParseItemTier(items);
+            }
+
+            return null;
+        }
+
+        private ItemTier[] ParseItemTier(List<string> quality)
+        {
+            return quality.Select(q =>
+            {
+                ItemTier parsedQuality;
+                var success = Enum.TryParse(q.ToUpper(), true, out parsedQuality);
+                return new { success, parsedQuality };
+            }).Where(x => x.success).Select(x => x.parsedQuality).ToArray();
+        }
+
+        public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     internal sealed class ClassTabsYamlTypeConverter : IYamlTypeConverter
     {
         public bool Accepts(Type type)

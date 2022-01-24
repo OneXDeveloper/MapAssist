@@ -468,6 +468,8 @@ namespace MapAssist.Types
         AssassinTraps = 48,
         AssassinShadowDisciplines = 49,
         AssassinMartialArts = 50,
+
+        Any = 0xFFFF
     }
 
     public class SkillPoints

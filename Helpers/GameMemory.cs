@@ -28,13 +28,17 @@ namespace MapAssist.Helpers
     public static class GameMemory
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
-        private static Dictionary<int, uint> _lastMapSeed = new Dictionary<int, uint>();
+        private static Dictionary<int, uint> _lastMapSeeds = new Dictionary<int, uint>();
+        private static Dictionary<int, bool> _playerMapChanged = new Dictionary<int, bool>();
+        private static Dictionary<int, uint> _playerCubeOwnerID = new Dictionary<int, uint>();
         private static int _currentProcessId;
 
-        public static Dictionary<int, UnitAny> PlayerUnits = new Dictionary<int, UnitAny>();
-        public static Dictionary<int, Dictionary<uint, UnitAny>> Corpses = new Dictionary<int, Dictionary<uint, UnitAny>>();
+        public static Dictionary<int, UnitPlayer> PlayerUnits = new Dictionary<int, UnitPlayer>();
+        public static Dictionary<int, Dictionary<string, UnitPlayer>> Corpses = new Dictionary<int, Dictionary<string, UnitPlayer>>();
+        public static Dictionary<object, object> cache = new Dictionary<object, object>();
 
         private static bool _firstMemoryRead = true;
+        private static bool _errorThrown = false;
 
         public static GameData GetGameData()
         {
@@ -58,13 +62,29 @@ namespace MapAssist.Helpers
                 var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
                 var lastNpcInteracted = (Npc)processContext.Read<ushort>(GameManager.InteractedNpcOffset);
+                var rosterData = new Roster(GameManager.RosterDataOffset);
 
-                if (!menuData.InGame && Corpses.ContainsKey(_currentProcessId))
+                if (!menuData.InGame)
                 {
-                    Corpses[_currentProcessId].Clear();
+                    if (Corpses.ContainsKey(_currentProcessId))
+                    {
+                        Corpses[_currentProcessId].Clear();
+                    }
+
+                    return null;
                 }
 
-                var playerUnit = GameManager.PlayerUnit;
+                var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
+                var playerUnit = rawPlayerUnits.FirstOrDefault(x => x.IsPlayer && x.IsPlayerUnit);
+
+                if (playerUnit == null)
+                {
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Player unit not found.");
+                }
+                _errorThrown = false;
 
                 if (!PlayerUnits.ContainsKey(_currentProcessId))
                 {
@@ -75,260 +95,326 @@ namespace MapAssist.Helpers
                     PlayerUnits[_currentProcessId] = playerUnit;
                 }
 
-                if (!Equals(playerUnit, default(UnitAny)))
+                // Check for map seed
+                var mapSeed = playerUnit.Act.MapSeed;
+
+                if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
                 {
-                    var mapSeed = playerUnit.Act.MapSeed;
+                    if (_errorThrown) return null;
 
-                    if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
-                    {
-                        throw new Exception("Map seed is out of bounds.");
-                    }
-                    if (!_lastMapSeed.ContainsKey(_currentProcessId))
-                    {
-                        _lastMapSeed.Add(_currentProcessId, 0);
-                    }
-                    if (mapSeed != _lastMapSeed[_currentProcessId])
-                    {
-                        _lastMapSeed[_currentProcessId] = mapSeed;
-                        //dispose leftover timers in this process if we started a new game
-                        if (Items.ItemLogTimers.ContainsKey(_currentProcessId))
-                        {
-                            foreach (var timer in Items.ItemLogTimers[_currentProcessId])
-                            {
-                                if (timer != null)
-                                {
-                                    timer.Dispose();
-                                }
-                            }
-                        }
-
-                        if (!Items.ItemUnitHashesSeen.ContainsKey(_currentProcessId))
-                        {
-                            Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
-                            Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
-                            Items.ItemUnitIdsToSkip.Add(_currentProcessId, new HashSet<uint>());
-                            Items.ItemVendors.Add(_currentProcessId, new Dictionary<uint, Npc>());
-                            Items.ItemLog.Add(_currentProcessId, new List<UnitAny>());
-                        }
-                        else
-                        {
-                            Items.ItemUnitHashesSeen[_currentProcessId].Clear();
-                            Items.ItemUnitIdsSeen[_currentProcessId].Clear();
-                            Items.ItemUnitIdsToSkip[_currentProcessId].Clear();
-                            Items.ItemVendors[_currentProcessId].Clear();
-                            Items.ItemLog[_currentProcessId].Clear();
-                        }
-
-                        if (!Corpses.ContainsKey(_currentProcessId))
-                        {
-                            Corpses.Add(_currentProcessId, new Dictionary<uint, UnitAny>());
-                        }
-                        else
-                        {
-                            Corpses[_currentProcessId].Clear();
-                        }
-                    }
-
-                    var session = new Session(GameManager.GameIPOffset);
-
-                    var actId = playerUnit.Act.ActId;
-                    var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;
-
-                    if (!gameDifficulty.IsValid())
-                    {
-                        throw new Exception("Game difficulty out of bounds.");
-                    }
-
-                    var levelId = playerUnit.Path.Room.RoomEx.Level.LevelId;
-
-                    if (!levelId.IsValid())
-                    {
-                        throw new Exception("Level id out of bounds.");
-                    }
-
-                    Items.CurrentItemLog = Items.ItemLog[_currentProcessId];
-
-                    var rosterData = new Roster(GameManager.RosterDataOffset);
-
-                    playerUnit = playerUnit.Update(rosterData);
-                    if (!Equals(playerUnit, default(UnitAny)))
-                    {
-                        var monsterList = new HashSet<UnitAny>();
-                        var mercList = new HashSet<UnitAny>();
-                        var itemList = new HashSet<UnitAny>();
-                        var objectList = new HashSet<UnitAny>();
-                        var playerList = new Dictionary<uint, UnitAny>();
-                        GetUnits(rosterData, ref monsterList, ref mercList, ref itemList, ref playerList, ref objectList);
-
-                        if (lastHoverData.IsHovered)
-                        {
-                            var units = monsterList.Concat(mercList).Concat(itemList).Concat(playerList.Values).Concat(objectList).Where(x => x.UnitId == lastHoverData.UnitId).ToArray();
-                            if (units.Length > 0) units[0].IsHovered = true;
-                        }
-
-                        foreach (var item in itemList)
-                        {
-                            if (!item.IsInStore()) continue;
-
-                            if (Items.ItemVendors[_currentProcessId].TryGetValue(item.UnitId, out var vendor))
-                            {
-                                item.VendorOwner = vendor;
-                            }
-                            else
-                            {
-                                item.VendorOwner = !_firstMemoryRead ? lastNpcInteracted : Npc.Unknown; // This prevents marking the VendorOwner for all store items when restarting MapAssist in the middle of the game
-                                Items.ItemVendors[_currentProcessId].Add(item.UnitId, item.VendorOwner);
-                            }
-                        }
-
-                        foreach (var item in itemList.Where(item => item.IsPlayerHolding()))
-                        {
-                            if (!Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
-                            {
-                                Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
-                            }
-                        }
-
-                        _firstMemoryRead = false;
-
-                        return new GameData
-                        {
-                            PlayerPosition = playerUnit.Position,
-                            MapSeed = mapSeed,
-                            Area = levelId,
-                            Difficulty = gameDifficulty,
-                            MainWindowHandle = GameManager.MainWindowHandle,
-                            PlayerName = playerUnit.Name,
-                            Monsters = monsterList,
-                            Mercs = mercList,
-                            Items = itemList,
-                            Objects = objectList,
-                            Players = playerList,
-                            Session = session,
-                            Roster = rosterData,
-                            PlayerUnit = playerUnit,
-                            MenuOpen = menuData,
-                            MenuPanelOpen = menuOpen,
-                            LastNpcInteracted = lastNpcInteracted,
-                            ProcessId = _currentProcessId
-                        };
-                    }
+                    _errorThrown = true;
+                    throw new Exception("Map seed is out of bounds.");
                 }
-            }
 
-            GameManager.ResetPlayerUnit();
-            return null;
-        }
-
-        private static void GetUnits(Roster rosterData, ref HashSet<UnitAny> monsterList, ref HashSet<UnitAny> mercList, ref HashSet<UnitAny> itemList, ref Dictionary<uint, UnitAny> playerList, ref HashSet<UnitAny> objectList)
-        {
-            for (var i = 0; i <= 4; i++)
-            {
-                var unitType = (UnitType)i;
-                var unitHashTable = new Structs.UnitHashTable();
-                if (unitType == UnitType.Missile)
+                // Check if exited the game
+                if (!_lastMapSeeds.ContainsKey(_currentProcessId))
                 {
-                    //missiles are contained in a different table
-                    unitHashTable = GameManager.UnitHashTable(128 * 8 * (i + 6));
+                    _lastMapSeeds.Add(_currentProcessId, 0);
+                }
+
+                if (!_playerMapChanged.ContainsKey(_currentProcessId))
+                {
+                    _playerMapChanged.Add(_currentProcessId, false);
+                }
+
+                if (!_playerCubeOwnerID.ContainsKey(_currentProcessId))
+                {
+                    _playerCubeOwnerID.Add(_currentProcessId, uint.MaxValue);
+                }
+
+                // Check if new game
+                if (mapSeed == _lastMapSeeds[_currentProcessId])
+                {
+                    _playerMapChanged[_currentProcessId] = false;
                 }
                 else
                 {
-                    unitHashTable = GameManager.UnitHashTable(128 * 8 * i);
+                    UpdateMemoryData();
+                    _lastMapSeeds[_currentProcessId] = mapSeed;
+                    _playerMapChanged[_currentProcessId] = true;
                 }
-                foreach (var pUnitAny in unitHashTable.UnitTable)
+
+                // Extra checks on game details
+                var gameDifficulty = playerUnit.Act.ActMisc.GameDifficulty;
+
+                if (!gameDifficulty.IsValid())
                 {
-                    var unitAny = new UnitAny(pUnitAny, rosterData);
-                    while (unitAny.IsValidUnit())
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Game difficulty out of bounds.");
+                }
+
+                var levelId = playerUnit.Area;
+
+                if (!levelId.IsValid())
+                {
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Level id out of bounds.");
+                }
+
+                // Players
+                var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
+                    .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
+                    .Select(x => x.UpdateParties(playerUnit.RosterEntry)).ToArray()
+                    .Where(x => x != null && x.UnitId < uint.MaxValue).ToDictionary(x => x.UnitId, x => x);
+
+                // Corpses
+                var corpseList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsCorpse).Concat(Corpses[_currentProcessId].Values).Distinct().ToArray();
+                foreach (var corpse in corpseList)
+                {
+                    var containsKey = Corpses[_currentProcessId].ContainsKey(corpse.HashString);
+
+                    if (!containsKey)
                     {
-                        switch (unitType)
+                        Corpses[_currentProcessId].Add(corpse.HashString, corpse);
+                    }
+                    else if (containsKey && corpse.DistanceTo(playerUnit) <= 40)
+                    {
+                        Corpses[_currentProcessId].Remove(corpse.HashString);
+                    }
+                }
+
+                // Monsters
+                var rawMonsterUnits = GetUnits<UnitMonster>(UnitType.Monster)
+                    .Select(x => x.Update()).ToArray()
+                    .Where(x => x != null && x.UnitId < uint.MaxValue).ToArray();
+
+                var monsterList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMonster).ToArray();
+                var mercList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMerc).ToArray();
+
+                // Objects
+                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
+                foreach (var obj in rawObjectUnits)
+                {
+                    obj.Update();
+                }
+                var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Object && x.UnitId < uint.MaxValue).ToArray();
+
+                // Items
+                var rawItemUnits = new List<UnitItem>();
+                foreach (var item in GetUnits<UnitItem>(UnitType.Item, true).Where(x => x.UnitId < uint.MaxValue).ToArray())
+                {
+                    if (Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId)) continue;
+
+                    if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && item.Item != Item.HoradricCube && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
+                    {
+                        Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
+                        continue;
+                    }
+
+                    if (item.IsPlayerOwned && item.IsIdentified && !Items.InventoryItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
+                    {
+                        item.IsCached = false;
+                    }
+
+                    var enableInventoryFilterCheck = item.IsIdentified && item.IsPlayerOwned;
+
+                    item.Update();
+
+                    cache[item.UnitId] = item;
+                    cache[item.HashString] = item;
+
+                    if (item.UnitId == uint.MaxValue) continue;
+
+                    item.IsPlayerOwned = _playerCubeOwnerID[_currentProcessId] != uint.MaxValue &&
+                        item.ItemData.dwOwnerID == _playerCubeOwnerID[_currentProcessId];
+
+                    if (item.IsInStore)
+                    {
+                        if (Items.ItemVendors[_currentProcessId].TryGetValue(item.UnitId, out var vendor))
                         {
-                            case UnitType.Monster:
-                                if (!monsterList.Contains(unitAny) && unitAny.IsMonster())
-                                {
-                                    monsterList.Add(unitAny);
-                                }
-                                else if (!monsterList.Contains(unitAny) && unitAny.IsMerc())
-                                {
-                                    mercList.Add(unitAny);
-                                }
-                                break;
-
-                            case UnitType.Item:
-                                if (!itemList.Contains(unitAny))
-                                {
-                                    itemList.Add(unitAny);
-                                }
-                                break;
-
-                            case UnitType.Object:
-                                if (!objectList.Contains(unitAny))
-                                {
-                                    objectList.Add(unitAny);
-                                }
-                                break;
-
-                            case UnitType.Player:
-                                if (!playerList.ContainsKey(unitAny.UnitId) && unitAny.IsPlayer())
-                                {
-                                    playerList.Add(unitAny.UnitId, unitAny);
-                                }
-                                break;
+                            item.VendorOwner = vendor;
                         }
-                        unitAny = unitAny.ListNext(rosterData);
+                        else
+                        {
+                            item.VendorOwner = !_firstMemoryRead ? lastNpcInteracted : Npc.Unknown; // This prevents marking the VendorOwner for all store items when restarting MapAssist in the middle of the game
+                            Items.ItemVendors[_currentProcessId].Add(item.UnitId, item.VendorOwner);
+                        }
                     }
-                }
-            }
-        }
 
-        private static void GetUnits(HashSet<Room> rooms, ref List<UnitAny> monsterList, ref List<UnitAny> itemList)
-        {
-            foreach (var room in rooms)
-            {
-                var unitAny = room.UnitFirst;
-                while (unitAny.IsValidUnit())
-                {
-                    switch (unitAny.UnitType)
+                    if (item.IsValidItem && ((item.IsDropped && !item.IsIdentified) || (item.IsIdentified && item.IsInStore) || enableInventoryFilterCheck))
                     {
-                        case UnitType.Monster:
-                            if (!monsterList.Contains(unitAny) && unitAny.IsMonster())
-                            {
-                                monsterList.Add(unitAny);
-                            }
-
-                            break;
-
-                        case UnitType.Item:
-                            if (!itemList.Contains(unitAny))
-                            {
-                                itemList.Add(unitAny);
-                            }
-                            break;
+                        Items.LogItem(item, _currentProcessId);
                     }
 
-                    unitAny = unitAny.RoomNext;
-                }
-            }
-        }
+                    if (item.Item == Item.HoradricCube)
+                    {
+                        Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
+                    }
 
-        private static HashSet<Room> GetRooms(Room startingRoom, ref HashSet<Room> roomsList)
-        {
-            var roomsNear = startingRoom.RoomsNear;
-            foreach (var roomNear in roomsNear)
-            {
-                if (!roomsList.Contains(roomNear))
+                    rawItemUnits.Add(item);
+                }
+
+                //var rawItemHashes = rawItemUnits.Select(x => x.HashString).ToArray();
+                var itemList = Items.ItemLog[_currentProcessId].Select(item =>
                 {
-                    roomsList.Add(roomNear);
-                    GetRooms(roomNear, ref roomsList);
+                    var cachedItem = (UnitItem)cache[item.ItemHashString];
+                    if (cachedItem.HashString == item.ItemHashString) item.UnitItem = cachedItem;
+
+                    if (item.UnitItem.DistanceTo(playerUnit) <= 40 && !rawItemUnits.Contains(item.UnitItem)) // Player is close to the item position but it was not found
+                    {
+                        item.UnitItem.MarkInvalid();
+                    }
+
+                    return item.UnitItem;
+                }).Where(x => x != null).ToArray();
+
+                // Set Cube Owner
+                if (_playerMapChanged[_currentProcessId])
+                {
+                    var cube = rawItemUnits.FirstOrDefault(x => x.Item == Item.HoradricCube);
+                    if (cube != null)
+                    {
+                        _playerCubeOwnerID[_currentProcessId] = cube.ItemData.dwOwnerID;
+                    }
                 }
-            }
 
-            if (!roomsList.Contains(startingRoom.RoomNextFast))
-            {
-                roomsList.Add(startingRoom.RoomNextFast);
-                GetRooms(startingRoom.RoomNextFast, ref roomsList);
-            }
+                // Unit hover
+                var allUnits = ((UnitAny[])playerList.Values.ToArray()).Concat(monsterList).Concat(mercList).Concat(rawObjectUnits).Concat(rawItemUnits);
 
-            return roomsList;
+                var hoveredUnits = allUnits.Where(x => x.IsHovered).ToArray();
+                if (hoveredUnits.Length > 0 && hoveredUnits[0].UnitId != lastHoverData.UnitId) hoveredUnits[0].IsHovered = false;
+
+                if (lastHoverData.IsHovered)
+                {
+                    var units = allUnits.Where(x => x.UnitId == lastHoverData.UnitId).ToArray();
+                    if (units.Length > 0) units[0].IsHovered = true;
+                }
+
+                // Return data
+                _firstMemoryRead = false;
+                _errorThrown = false;
+
+                var session = new Session(GameManager.GameIPOffset);
+
+                return new GameData
+                {
+                    PlayerPosition = playerUnit.Position,
+                    MapSeed = mapSeed,
+                    Area = levelId,
+                    Difficulty = gameDifficulty,
+                    MainWindowHandle = GameManager.MainWindowHandle,
+                    PlayerName = playerUnit.Name,
+                    PlayerUnit = playerUnit,
+                    Players = playerList,
+                    Corpses = corpseList,
+                    Monsters = monsterList,
+                    Mercs = mercList,
+                    Objects = objectList,
+                    Items = itemList,
+                    ItemLog = Items.ItemLog[_currentProcessId].ToArray(),
+                    Session = session,
+                    Roster = rosterData,
+                    MenuOpen = menuData,
+                    MenuPanelOpen = menuOpen,
+                    LastNpcInteracted = lastNpcInteracted,
+                    ProcessId = _currentProcessId
+                };
+            }
         }
+
+        public static UnitPlayer PlayerUnit => PlayerUnits.TryGetValue(_currentProcessId, out var player) ? player : null;
+
+        private static T[] GetUnits<T>(UnitType unitType, bool saveToCache = false) where T : UnitAny
+        {
+            var allUnits = new Dictionary<uint, T>();
+            Func<IntPtr, T> CreateUnit = (ptr) => (T)Activator.CreateInstance(typeof(T), new object[] { ptr });
+
+            var unitHashTable = GameManager.UnitHashTable(128 * 8 * (int)unitType);
+
+            foreach (var ptrUnit in unitHashTable.UnitTable)
+            {
+                if (ptrUnit == IntPtr.Zero) continue;
+
+                var unit = CreateUnit(ptrUnit);
+
+                Action<object> UseCachedUnit = (seenUnit) =>
+                {
+                    var castedSeenUnit = (T)seenUnit;
+                    castedSeenUnit.CopyFrom(unit);
+
+                    allUnits[castedSeenUnit.UnitId] = castedSeenUnit;
+                };
+
+                do
+                {
+                    if (saveToCache && cache.TryGetValue(unit.UnitId, out var seenUnit1) && seenUnit1 is T && !allUnits.ContainsKey(((T)seenUnit1).UnitId))
+                    {
+                        UseCachedUnit(seenUnit1);
+                    }
+                    else if (saveToCache && cache.TryGetValue(unit.HashString, out var seenUnit2) && seenUnit2 is T && !allUnits.ContainsKey(((T)seenUnit2).UnitId))
+                    {
+                        UseCachedUnit(seenUnit2);
+                    }
+                    else if (unit.IsValidUnit && !allUnits.ContainsKey(unit.UnitId))
+                    {
+                        allUnits[unit.UnitId] = unit;
+
+                        if (saveToCache)
+                        {
+                            cache[unit.UnitId] = unit;
+                            cache[unit.HashString] = unit;
+                        }
+                    }
+                } while (unit.Struct.pListNext != IntPtr.Zero && (unit = CreateUnit(unit.Struct.pListNext)).IsValidUnit);
+            }
+
+            return allUnits.Values.ToArray();
+        }
+
+        private static void UpdateMemoryData()
+        {
+            if (!Items.ItemUnitHashesSeen.ContainsKey(_currentProcessId))
+            {
+                Items.ItemUnitHashesSeen.Add(_currentProcessId, new HashSet<string>());
+                Items.ItemUnitIdsSeen.Add(_currentProcessId, new HashSet<uint>());
+                Items.ItemUnitIdsToSkip.Add(_currentProcessId, new HashSet<uint>());
+                Items.InventoryItemUnitIdsToSkip.Add(_currentProcessId, new HashSet<uint>());
+                Items.ItemVendors.Add(_currentProcessId, new Dictionary<uint, Npc>());
+                Items.ItemLog.Add(_currentProcessId, new List<ItemLogEntry>());
+            }
+            else
+            {
+                Items.ItemUnitHashesSeen[_currentProcessId].Clear();
+                Items.ItemUnitIdsSeen[_currentProcessId].Clear();
+                Items.ItemUnitIdsToSkip[_currentProcessId].Clear();
+                Items.InventoryItemUnitIdsToSkip[_currentProcessId].Clear();
+                Items.ItemVendors[_currentProcessId].Clear();
+                Items.ItemLog[_currentProcessId].Clear();
+            }
+
+            if (!Corpses.ContainsKey(_currentProcessId))
+            {
+                Corpses.Add(_currentProcessId, new Dictionary<string, UnitPlayer>());
+            }
+            else
+            {
+                Corpses[_currentProcessId].Clear();
+            }
+        }
+
+        //private static HashSet<Room> GetRooms(Room startingRoom, ref HashSet<Room> roomsList)
+        //{
+        //    var roomsNear = startingRoom.RoomsNear;
+        //    foreach (var roomNear in roomsNear)
+        //    {
+        //        if (!roomsList.Contains(roomNear))
+        //        {
+        //            roomsList.Add(roomNear);
+        //            GetRooms(roomNear, ref roomsList);
+        //        }
+        //    }
+
+        //    if (!roomsList.Contains(startingRoom.RoomNextFast))
+        //    {
+        //        roomsList.Add(startingRoom.RoomNextFast);
+        //        GetRooms(startingRoom.RoomNextFast, ref roomsList);
+        //    }
+
+        //    return roomsList;
+        //}
     }
 }

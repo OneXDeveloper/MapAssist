@@ -175,7 +175,7 @@ namespace MapAssist.Helpers
             return IntPtr.Add(_baseAddr, (int)(offsetAddressToInt - 0xC4));
         }
 
-        public IntPtr GetLastHoverDataOffset()
+        public IntPtr GetLastHoverObjectOffset()
         {
             var pattern = "\xC6\x84\xC2\x00\x00\x00\x00\x00\x48\x8B\x74\x24\x00";
             var mask = "xxx?????xxxx?";

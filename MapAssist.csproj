@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -194,6 +194,10 @@
     <Compile Include="Settings\PointOfInterestRendering.cs" />
     <Compile Include="Settings\Shape.cs" />
     <Compile Include="Types\UnitAny.cs" />
+    <Compile Include="Types\UnitObject.cs" />
+    <Compile Include="Types\UnitPlayer.cs" />
+    <Compile Include="Types\UnitMonster.cs" />
+    <Compile Include="Types\UnitItem.cs" />
     <Compile Include="Types\UnitType.cs" />
     <EmbeddedResource Include="AddAreaForm.resx">
       <DependentUpon>AddAreaForm.cs</DependentUpon>

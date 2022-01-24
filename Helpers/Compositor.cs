@@ -253,7 +253,7 @@ namespace MapAssist.Helpers
                 var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(gameObject.Position));
                 if (foundInArea != null && foundInArea.Area != _areaData.Area && !AreaExtensions.RequiresStitching(foundInArea.Area)) continue; // Don't show gamedata objects in another area if areas aren't stitched together
 
-                if (gameObject.IsShrine() || gameObject.IsWell())
+                if (gameObject.IsShrine || gameObject.IsWell)
                 {
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawIcon())
                     {
@@ -269,7 +269,7 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
-                if (gameObject.IsPortal())
+                if (gameObject.IsPortal)
                 {
                     var destinationArea = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
 
@@ -290,7 +290,7 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
-                if (gameObject.IsChest())
+                if (gameObject.IsChest)
                 {
                     if ((gameObject.ObjectData.InteractType & ((byte)Chest.InteractFlags.Trap)) != ((byte)Chest.InteractFlags.None))
                     {
@@ -332,31 +332,30 @@ namespace MapAssist.Helpers
 
         private void DrawMonsters(Graphics gfx)
         {
-            var drawMonsterIcons = new List<(IconRendering, Types.UnitAny)>();
+            var drawMonsterIcons = new List<(IconRendering, UnitMonster)>();
             var drawMonsterLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
-            foreach (var unitAny in _gameData.Monsters)
+            foreach (var monster in _gameData.Monsters)
             {
-                var mobRender = GetMonsterIconRendering(unitAny.MonsterData);
+                var mobRender = GetMonsterIconRendering(monster.MonsterData);
 
-                var npc = (Npc)unitAny.TxtFileNo;
-                if (NpcExtensions.IsTownsfolk(npc))
+                if (NpcExtensions.IsTownsfolk(monster.Npc))
                 {
                     var npcRender = MapAssistConfiguration.Loaded.MapConfiguration.Npc;
                     if (npcRender.CanDrawIcon())
                     {
-                        drawMonsterIcons.Add((npcRender, unitAny));
+                        drawMonsterIcons.Add((npcRender, monster));
                         if (npcRender.CanDrawLabel())
                         {
-                            drawMonsterLabels.Add((npcRender, unitAny.Position, NpcExtensions.Name(npc), npcRender.LabelColor));
+                            drawMonsterLabels.Add((npcRender, monster.Position, NpcExtensions.Name(monster.Npc), npcRender.LabelColor));
                         }
                     }
                 }
                 else if (mobRender.CanDrawIcon())
                 {
-                    drawMonsterIcons.Add((mobRender, unitAny));
+                    drawMonsterIcons.Add((mobRender, monster));
                 }
             }
 
@@ -373,16 +372,16 @@ namespace MapAssist.Helpers
 
             foreach (var mobRender in monsterRenderingOrder)
             {
-                foreach ((var rendering, var unitAny) in drawMonsterIcons)
+                foreach ((var rendering, var monster) in drawMonsterIcons)
                 {
                     if (mobRender == rendering)
                     {
-                        var monsterPosition = unitAny.Position;
+                        var monsterPosition = monster.Position;
 
                         DrawIcon(gfx, rendering, monsterPosition);
 
                         // Draw Monster Immunities on top of monster icon
-                        var iCount = unitAny.Immunities.Count;
+                        var iCount = monster.Immunities.Count;
                         if (iCount > 0)
                         {
                             monsterPosition = Vector2.Transform(monsterPosition.ToVector(), areaTransformMatrix).ToPoint();
@@ -397,7 +396,7 @@ namespace MapAssist.Helpers
 
                             var iX = -dx * (iCount - 1) / 2f; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
 
-                            foreach (var immunity in unitAny.Immunities)
+                            foreach (var immunity in monster.Immunities)
                             {
                                 var render = new IconRendering()
                                 {
@@ -431,6 +430,12 @@ namespace MapAssist.Helpers
 
         private void DrawItems(Graphics gfx)
         {
+            var areasToRender = new AreaData[] { _areaData };
+            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            {
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+            }
+
             var drawItemIcons = new List<(IconRendering, Point)>();
             var drawItemLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
@@ -438,23 +443,15 @@ namespace MapAssist.Helpers
             {
                 foreach (var item in _gameData.Items)
                 {
-                    if (item.IsDropped() && !item.IsIdentified() && !Items.ItemUnitIdsToSkip[_gameData.ProcessId].Contains(item.UnitId))
+                    if (item.IsValidItem && item.IsDropped && !item.IsIdentified && !Items.ItemUnitIdsToSkip[_gameData.ProcessId].Contains(item.UnitId))
                     {
-                        (var pickupItem, _) = LootFilter.Filter(item);
-                        if (!pickupItem)
-                        {
-                            continue;
-                        }
+                        if (!areasToRender.Any(area => area.IncludesPoint(item.Position))) continue; // Don't show item if not in drawn areas
 
                         var itemPosition = item.Position;
                         var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         drawItemIcons.Add((render, itemPosition));
-
-                        var itemBaseName = Items.ItemNameDisplay(item.TxtFileNo);
-                        var itemNameColor = Items.ItemNameColor(item);
-
-                        drawItemLabels.Add((render, item.Position, itemBaseName, itemNameColor));
+                        drawItemLabels.Add((render, item.Position, item.ItemBaseName, item.ItemBaseColor));
                     }
                 }
             }
@@ -481,28 +478,12 @@ namespace MapAssist.Helpers
                 areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
             }
 
-            Dictionary<uint, Types.UnitAny> corpseList;
-            foreach (var player in _gameData.Players.Values)
-            {
-                if (player.IsCorpse && player.UnitId != _gameData.PlayerUnit.UnitId)
-                {
-                    if (GameMemory.Corpses.TryGetValue(_gameData.ProcessId, out corpseList))
-                    {
-                        if (!corpseList.TryGetValue(player.UnitId, out var corpse))
-                        {
-                            var unitAny = player.Clone();
-                            GameMemory.Corpses[_gameData.ProcessId].Add(unitAny.UnitId, unitAny);
-                        }
-                    }
-                }
-            }
-
             foreach (var merc in _gameData.Mercs.ToArray())
             {
                 if (merc.IsCorpse) continue;
 
                 var rendering = MapAssistConfiguration.Loaded.MapConfiguration.MyMerc;
-                if (!merc.IsPlayerOwned()) rendering = MapAssistConfiguration.Loaded.MapConfiguration.OtherMercs;
+                if (!merc.IsPlayerOwned) rendering = MapAssistConfiguration.Loaded.MapConfiguration.OtherMercs;
 
                 if (rendering.CanDrawIcon())
                 {
@@ -510,41 +491,33 @@ namespace MapAssist.Helpers
                 }
             }
 
-            if (GameMemory.Corpses.TryGetValue(_gameData.ProcessId, out corpseList) && corpseList.Values.Count > 0)
+            foreach (var corpse in _gameData.Corpses)
             {
                 var rendering = MapAssistConfiguration.Loaded.MapConfiguration.Corpse;
                 var fontSize = gfx.ScaleFontSize((float)rendering.LabelFontSize);
                 var canDrawLabel = rendering.CanDrawLabel();
                 var canDrawIcon = rendering.CanDrawIcon();
                 var canDrawLine = rendering.CanDrawLine();
-                var corpses = corpseList.Values.ToArray();
-                foreach (var corpse in corpses)
-                {
-                    if (corpse.Act.ActId != _gameData.PlayerUnit.Act.ActId) continue; // Don't show corpse if not in the same act
-                    if (!areasToRender.Any(area => area.Area == corpse.InitialArea)) continue; // Don't show corpse if not in drawn areas
 
-                    if (canDrawIcon)
-                    {
-                        drawPlayerIcons.Add((rendering, corpse.Position));
-                    }
-                    if (canDrawLabel)
-                    {
-                        var poiPosition = MovePointInBounds(corpse.Position, _gameData.PlayerPosition);
-                        drawPlayerLabels.Add((rendering, poiPosition, corpse.Name + " (Corpse)", null)); //fix label when language is merged in
-                    }
-                    if (canDrawLine && corpse.Name == _gameData.PlayerUnit.Name)
-                    {
-                        var padding = canDrawLabel ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
-                        var poiPosition = MovePointInBounds(corpse.Position, _gameData.PlayerPosition, padding);
-                        DrawLine(gfx, rendering, _gameData.PlayerPosition, poiPosition);
-                    }
-                    if (_gameData.PlayerUnit.DistanceTo(corpse.Position) <= 40)
-                    {
-                        if (!_gameData.Players.TryGetValue(corpse.UnitId, out var player))
-                        {
-                            GameMemory.Corpses[_gameData.ProcessId].Remove(corpse.UnitId);
-                        }
-                    }
+                if (corpse.Act.ActId != _gameData.PlayerUnit.Act.ActId) continue; // Don't show corpse if not in the same act
+                if (!areasToRender.Any(area => area.Area == corpse.Area)) continue; // Don't show corpse if not in drawn areas
+
+                if (canDrawIcon)
+                {
+                    drawPlayerIcons.Add((rendering, corpse.Position));
+                }
+
+                if (canDrawLabel)
+                {
+                    var poiPosition = MovePointInBounds(corpse.Position, _gameData.PlayerPosition);
+                    drawPlayerLabels.Add((rendering, poiPosition, corpse.Name + " (Corpse)", null)); //fix label when language is merged in
+                }
+
+                if (canDrawLine && corpse.Name == _gameData.PlayerUnit.Name)
+                {
+                    var padding = canDrawLabel ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                    var poiPosition = MovePointInBounds(corpse.Position, _gameData.PlayerPosition, padding);
+                    DrawLine(gfx, rendering, _gameData.PlayerPosition, poiPosition);
                 }
             }
 
@@ -565,7 +538,7 @@ namespace MapAssist.Helpers
                         if (!myPlayer && !areasToRender.Any(area => area.IncludesPoint(playerUnit.Position))) continue; // Don't show player if not in drawn areas
 
                         // use data from the unit table if available
-                        if (playerUnit.InPlayerParty) // partyid is max if player is not in a party
+                        if (playerUnit.InParty)
                         {
                             var rendering = myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
@@ -594,7 +567,7 @@ namespace MapAssist.Helpers
                             // not in my party
                             var rendering = (myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
-                                : (playerUnit.HostileToPlayer
+                                : (playerUnit.IsHostile
                                     ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer
                                     : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer));
 
@@ -603,7 +576,7 @@ namespace MapAssist.Helpers
                                 drawPlayerIcons.Add((rendering, playerUnit.Position));
                             }
 
-                            if (rendering.CanDrawLine() && playerUnit.HostileToPlayer)
+                            if (rendering.CanDrawLine() && playerUnit.IsHostile)
                             {
                                 var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelFontSize);
                                 var padding = rendering.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
@@ -739,7 +712,8 @@ namespace MapAssist.Helpers
                             buffColor = States.DebuffColor;
                         }
                     }
-                    if (buffsByColor.TryGetValue(buffColor, out var _))
+
+                    if (buffsByColor.ContainsKey(buffColor))
                     {
                         buffsByColor[buffColor].Add(CreateResourceBitmap(gfx, stateStr));
                         totalBuffs++;
@@ -806,37 +780,40 @@ namespace MapAssist.Helpers
         {
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar) return;
 
-            Func<(Types.UnitAny, string)> getActiveMonster = () =>
+            Func<(UnitMonster, string)> getActiveMonster = () =>
             {
-                var boss = _gameData.Monsters.FirstOrDefault(x => NPC.Bosses.Contains((Npc)x.TxtFileNo));
-                if (boss != null) return (boss, NpcExtensions.Name((Npc)boss.TxtFileNo));
+                var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
-                var monstersAround = new List<(Types.UnitAny, string)>();
+                var boss = _gameData.Monsters.FirstOrDefault(x => NPC.Bosses.Contains(x.Npc));
+                if (boss != null && (boss.IsHovered || hoveredUnit.Count() == 0)) return (boss, NpcExtensions.Name(boss.Npc));
+
+                var monstersAround = new List<(UnitMonster, string)>();
 
                 foreach (var monster in _gameData.Monsters)
                 {
                     var monsterClass = monster.MonsterStats.Name;
                     var monsterName = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
 
-                    if (monsterName.Length == 1 && (monster.MonsterData.BossLineID > 0 || (Npc)monster.TxtFileNo == Npc.Summoner)) // Summoner seems to be an odd exception
+                    if (monsterName.Length == 1 && (monster.MonsterData.BossLineID > 0 || monster.Npc == Npc.Summoner)) // Summoner seems to be an odd exception
                     {
                         monstersAround.Add((monster, NpcExtensions.LocalizedName(monsterName[0].Key)));
                     }
                 }
 
-                if (monstersAround.Count == 1) return monstersAround[0];
+                if (monstersAround.Count == 1 && hoveredUnit.Count() == 0) return monstersAround[0];
                 else if (monstersAround.Count == 0) return (null, null);
 
                 var hoveredMonster = monstersAround.Where(x => x.Item1.IsHovered).ToArray();
                 if (hoveredMonster.Length == 1) return hoveredMonster[0];
-                
+
                 return (null, null);
             };
 
             var (activeMonster, name) = getActiveMonster();
             if (activeMonster == null) return;
 
-            var infoText = $"{name} HP: {activeMonster.GetHealthPercentage():P}";
+            var healthPerc = activeMonster.HealthPercentage;
+            var infoText = $"{name} HP: {healthPerc:P}";
 
             var barWidth = gfx.Width * 0.3f;
             var barHeight = gfx.Height * 0.04f;
@@ -849,7 +826,7 @@ namespace MapAssist.Helpers
 
             var center = new Point(gfx.Width / 2, gfx.Height * 0.043f);
             var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
-            var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * activeMonster.GetHealthPercentage(), center.Y + barHeight / 2);
+            var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
 
             gfx.FillRectangle(whiteBrush, barRect);
             gfx.FillRectangle(redBrush, fillRect);
@@ -961,35 +938,27 @@ namespace MapAssist.Helpers
             var shadowOffset = fontSize * 0.0625f; // 1/16th
 
             // Item Log
-            var ItemLog = Items.CurrentItemLog.ToArray();
-            for (var i = 0; i < ItemLog.Length; i++)
+            var itemsToShow = _gameData.ItemLog.Where(item => item != null && !item.ItemLogExpired && item.Color != Color.Empty).ToArray();
+            for (var i = 0; i < itemsToShow.Length; i++)
             {
-                var item = ItemLog[i];
+                var item = itemsToShow[i];
 
-                var fontColor = Items.ItemNameColor(item);
-                if (item == null || fontColor == Color.Empty)
-                {
-                    // Invalid item quality
-                    continue;
-                }
-
-                var itemName = Items.ItemLogDisplayName(item);
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
                 var position = anchor.Add(0, i * lineHeight);
-                var brush = CreateSolidBrush(gfx, fontColor, 1);
+                var brush = CreateSolidBrush(gfx, item.Color, 1);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
                 {
-                    var stringSize = gfx.MeasureString(font, itemName);
+                    var stringSize = gfx.MeasureString(font, item.Text);
                     position = position.Subtract(stringSize.X, 0);
                 }
 
                 if (textShadow)
                 {
-                    gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, itemName);
+                    gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, item.Text);
                 }
 
-                gfx.DrawText(font, brush, position, itemName);
+                gfx.DrawText(font, brush, position, item.Text);
             }
         }
         public void DrawCubeRecipes(Graphics gfx)

@@ -200,6 +200,8 @@ ItemLog:
   Enabled: true
   Position: TopLeft
   FilterFileName: ItemFilter.yaml
+  CheckVendorItems: true
+  CheckItemOnIdentify: true
   PlaySoundOnDrop: true
   SoundFile: ''
   SoundVolume: 100

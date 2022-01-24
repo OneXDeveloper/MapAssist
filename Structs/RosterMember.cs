@@ -59,5 +59,7 @@ namespace MapAssist.Structs
         EvilForce,
         Invalid = 7,
         NumberOfPlayerClasses = 7,
+
+        Any = 0xFFFF
     };
 }

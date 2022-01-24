@@ -42,7 +42,6 @@ namespace MapAssist.Helpers
 
         public static event StatusUpdateHandler OnGameAccessDenied;
 
-        private static Types.UnitAny _PlayerUnit = default;
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _ExpansionCheckOffset;
         private static IntPtr _GameIPOffset;
@@ -53,9 +52,6 @@ namespace MapAssist.Helpers
         private static IntPtr _LastHoverDataOffset;
 
         private static WindowsExternal.WinEventDelegate _eventDelegate = null;
-
-        private static bool _playerNotFoundErrorThrown = false;
-        public static bool PlayerFound = false;
 
         public static void MonitorForegroundWindow()
         {
@@ -110,7 +106,6 @@ namespace MapAssist.Helpers
 
             // is a new game process
             _log.Info($"Active window changed to a game window (handle: {hwnd})");
-            ResetPlayerUnit();
 
             try
             {
@@ -166,48 +161,6 @@ namespace MapAssist.Helpers
 
         public static IntPtr MainWindowHandle { get => _lastGameHwnd; }
         public static bool IsGameInForeground { get => _lastGameProcessId == _foregroundProcessId; }
-
-        public static Types.UnitAny PlayerUnit
-        {
-            get
-            {
-                if (Equals(_PlayerUnit, default(Types.UnitAny)))
-                {
-                    foreach (var pUnitAny in UnitHashTable().UnitTable)
-                    {
-                        var unitAny = new Types.UnitAny(pUnitAny);
-
-                        while (unitAny.IsValidUnit())
-                        {
-                            if (unitAny.IsPlayerUnit())
-                            {
-                                _playerNotFoundErrorThrown = false;
-                                _PlayerUnit = unitAny;
-                                return _PlayerUnit;
-                            }
-
-                            unitAny = unitAny.ListNext(null);
-                        }
-                    }
-                }
-                else
-                {
-                    _playerNotFoundErrorThrown = false;
-                    PlayerFound = true;
-                    return _PlayerUnit;
-                }
-
-                if (!_playerNotFoundErrorThrown)
-                {
-                    _playerNotFoundErrorThrown = true;
-                    throw new Exception("Player unit not found.");
-                }
-                else
-                {
-                    return default(Types.UnitAny);
-                }
-            }
-        }
 
         public static UnitHashTable UnitHashTable(int offset = 0)
         {
@@ -323,7 +276,7 @@ namespace MapAssist.Helpers
 
                 using (var processContext = GetProcessContext())
                 {
-                    _LastHoverDataOffset = processContext.GetLastHoverDataOffset();
+                    _LastHoverDataOffset = processContext.GetLastHoverObjectOffset();
                 }
 
                 return _LastHoverDataOffset;
@@ -345,21 +298,6 @@ namespace MapAssist.Helpers
                 }
 
                 return _InteractedNpcOffset;
-            }
-        }
-
-        public static void ResetPlayerUnit()
-        {
-            _PlayerUnit = default;
-            PlayerFound = false;
-            using (var processContext = GetProcessContext())
-            {
-                if (processContext == null) { return; }
-                var processId = processContext.ProcessId;
-                if (GameMemory.PlayerUnits.TryGetValue(processId, out var playerUnit))
-                {
-                    GameMemory.PlayerUnits[processId] = default;
-                }
             }
         }
 
