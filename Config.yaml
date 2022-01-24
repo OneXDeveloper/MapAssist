@@ -19,6 +19,7 @@ RenderingConfiguration:
   ZoomLevel: 1
   BuffPosition: Bottom
   BuffSize: 1
+  ShowCubeOverlay: true
 MapConfiguration:
   SuperUniqueMonster:
     IconOutlineColor: Yellow

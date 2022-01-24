@@ -117,7 +117,7 @@ namespace MapAssist
                             _compositor.DrawMonsterBar(gfx);
                         }
 
-                        if (_gameData.MenuOpen.Cube)
+                        if (_gameData.MenuOpen.Cube && MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCubeOverlay)
                         {
                             _compositor.DrawCubeRecipes(gfx);
                         }
