@@ -5,16 +5,10 @@ HotkeyConfiguration:
   ZoomInKey: Num +
   ZoomOutKey: Num -
 HiddenAreas:
-- Rogue Encampment
-- Lut Gholein
-- Kurast Docktown
-- Pandemonium Fortress
-- Harrogath
 - Forgotten Tower
-- Nihlathaks Temple
 RenderingConfiguration:
-  Opacity: 0.5
-  IconOpacity: 0.9
+  Opacity: 0.3
+  IconOpacity: 0.7
   OverlayMode: true
   Position: Center
   MonsterHealthBar: true
@@ -25,6 +19,7 @@ RenderingConfiguration:
   ZoomLevel: 1
   BuffPosition: Bottom
   BuffSize: 1
+  ShowCubeOverlay: true
 MapConfiguration:
   SuperUniqueMonster:
     IconOutlineColor: Yellow
@@ -186,7 +181,7 @@ MapConfiguration:
     LabelFont: Formal 436
     LabelTextShadow: true
   ArmorWeapRack:
-    IconColor: 132, 132, 132
+    IconColor: 255, 132, 0
     IconShape: Square
     IconSize: 4
   Item:
@@ -199,20 +194,20 @@ MapConfiguration:
 ItemLog:
   Enabled: true
   Position: TopLeft
-  FilterFileName: ItemFilter.yaml
+  FilterFileName: ItemFilterEndGame.yaml
   CheckVendorItems: true
   CheckItemOnIdentify: true
   PlaySoundOnDrop: true
   SoundFile: ''
-  SoundVolume: 100
+  SoundVolume: 40
   DisplayForSeconds: 45
   LabelFont: Exocet Blizzard Mixed Caps
-  LabelFontSize: 16
+  LabelFontSize: 24
   LabelTextShadow: true
 MapColorConfiguration:
   Border: 255, 255, 255
 GameInfo:
-  Position: TopLeft
+  Position: TopRight
   ShowGameName: true
   ShowDifficulty: true
   ShowGameIP: true

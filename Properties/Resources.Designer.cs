@@ -362,6 +362,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cubeRecipes {
+            get {
+                object obj = ResourceManager.GetObject("cubeRecipes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CYCLONEARMOR {
             get {
                 object obj = ResourceManager.GetObject("CYCLONEARMOR", resourceCulture);
