@@ -117,8 +117,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cboRenderOption = new System.Windows.Forms.ComboBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.chkItemLogVendorItems = new System.Windows.Forms.CheckBox();
-            this.chkItemLogItemsOnIdentify = new System.Windows.Forms.CheckBox();
             this.cboItemLogPosition = new System.Windows.Forms.ComboBox();
             this.lblItemLogPosition = new System.Windows.Forms.Label();
             this.chkLogTextShadow = new System.Windows.Forms.CheckBox();
@@ -153,7 +151,8 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkCubeRecipes = new System.Windows.Forms.CheckBox();
+            this.chkItemLogItemsOnIdentify = new System.Windows.Forms.CheckBox();
+            this.chkItemLogVendorItems = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -463,7 +462,7 @@
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(301, 447);
+            this.panel1.Size = new System.Drawing.Size(301, 427);
             this.panel1.TabIndex = 0;
             // 
             // groupBox3
@@ -473,7 +472,7 @@
             this.groupBox3.Controls.Add(this.lblBuffSize);
             this.groupBox3.Controls.Add(this.cboBuffPosition);
             this.groupBox3.Controls.Add(this.buffSize);
-            this.groupBox3.Location = new System.Drawing.Point(0, 355);
+            this.groupBox3.Location = new System.Drawing.Point(0, 330);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(295, 89);
             this.groupBox3.TabIndex = 22;
@@ -536,7 +535,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.chkCubeRecipes);
             this.groupBox1.Controls.Add(this.chkMonsterHealthBar);
             this.groupBox1.Controls.Add(this.btnClearBorderColor);
             this.groupBox1.Controls.Add(this.btnClearWalkableColor);
@@ -562,7 +560,7 @@
             this.groupBox1.Controls.Add(this.chkToggleViaPanels);
             this.groupBox1.Location = new System.Drawing.Point(0, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 346);
+            this.groupBox1.Size = new System.Drawing.Size(295, 321);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Map Rendering";
@@ -583,7 +581,7 @@
             this.btnClearBorderColor.FlatAppearance.BorderSize = 0;
             this.btnClearBorderColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearBorderColor.Location = new System.Drawing.Point(232, 309);
+            this.btnClearBorderColor.Location = new System.Drawing.Point(232, 287);
             this.btnClearBorderColor.Name = "btnClearBorderColor";
             this.btnClearBorderColor.Size = new System.Drawing.Size(23, 23);
             this.btnClearBorderColor.TabIndex = 23;
@@ -596,7 +594,7 @@
             this.btnClearWalkableColor.FlatAppearance.BorderSize = 0;
             this.btnClearWalkableColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearWalkableColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearWalkableColor.Location = new System.Drawing.Point(102, 309);
+            this.btnClearWalkableColor.Location = new System.Drawing.Point(102, 287);
             this.btnClearWalkableColor.Name = "btnClearWalkableColor";
             this.btnClearWalkableColor.Size = new System.Drawing.Size(23, 23);
             this.btnClearWalkableColor.TabIndex = 22;
@@ -607,7 +605,7 @@
             // chkStickToLastGameWindow
             // 
             this.chkStickToLastGameWindow.AutoSize = true;
-            this.chkStickToLastGameWindow.Location = new System.Drawing.Point(10, 286);
+            this.chkStickToLastGameWindow.Location = new System.Drawing.Point(10, 264);
             this.chkStickToLastGameWindow.Name = "chkStickToLastGameWindow";
             this.chkStickToLastGameWindow.Size = new System.Drawing.Size(222, 17);
             this.chkStickToLastGameWindow.TabIndex = 25;
@@ -618,7 +616,7 @@
             // btnBorderColor
             // 
             this.btnBorderColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBorderColor.Location = new System.Drawing.Point(140, 309);
+            this.btnBorderColor.Location = new System.Drawing.Point(140, 287);
             this.btnBorderColor.Name = "btnBorderColor";
             this.btnBorderColor.Size = new System.Drawing.Size(91, 23);
             this.btnBorderColor.TabIndex = 23;
@@ -629,7 +627,7 @@
             // btnWalkableColor
             // 
             this.btnWalkableColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWalkableColor.Location = new System.Drawing.Point(10, 309);
+            this.btnWalkableColor.Location = new System.Drawing.Point(10, 287);
             this.btnWalkableColor.Name = "btnWalkableColor";
             this.btnWalkableColor.Size = new System.Drawing.Size(91, 23);
             this.btnWalkableColor.TabIndex = 22;
@@ -800,7 +798,7 @@
             // chkToggleViaMap
             // 
             this.chkToggleViaMap.AutoSize = true;
-            this.chkToggleViaMap.Location = new System.Drawing.Point(10, 240);
+            this.chkToggleViaMap.Location = new System.Drawing.Point(10, 218);
             this.chkToggleViaMap.Name = "chkToggleViaMap";
             this.chkToggleViaMap.Size = new System.Drawing.Size(172, 17);
             this.chkToggleViaMap.TabIndex = 8;
@@ -821,7 +819,7 @@
             // chkToggleViaPanels
             // 
             this.chkToggleViaPanels.AutoSize = true;
-            this.chkToggleViaPanels.Location = new System.Drawing.Point(10, 263);
+            this.chkToggleViaPanels.Location = new System.Drawing.Point(10, 241);
             this.chkToggleViaPanels.Name = "chkToggleViaPanels";
             this.chkToggleViaPanels.Size = new System.Drawing.Size(196, 17);
             this.chkToggleViaPanels.TabIndex = 9;
@@ -1253,28 +1251,6 @@
             this.tabPage6.Text = "Item Log";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // chkItemLogVendorItems
-            // 
-            this.chkItemLogVendorItems.AutoSize = true;
-            this.chkItemLogVendorItems.Location = new System.Drawing.Point(14, 62);
-            this.chkItemLogVendorItems.Name = "chkItemLogVendorItems";
-            this.chkItemLogVendorItems.Size = new System.Drawing.Size(122, 17);
-            this.chkItemLogVendorItems.TabIndex = 40;
-            this.chkItemLogVendorItems.Text = "Check Vendor Items";
-            this.chkItemLogVendorItems.UseVisualStyleBackColor = true;
-            this.chkItemLogVendorItems.CheckedChanged += new System.EventHandler(this.chkItemLogVendorItems_CheckedChanged);
-            // 
-            // chkItemLogItemsOnIdentify
-            // 
-            this.chkItemLogItemsOnIdentify.AutoSize = true;
-            this.chkItemLogItemsOnIdentify.Location = new System.Drawing.Point(14, 39);
-            this.chkItemLogItemsOnIdentify.Name = "chkItemLogItemsOnIdentify";
-            this.chkItemLogItemsOnIdentify.Size = new System.Drawing.Size(139, 17);
-            this.chkItemLogItemsOnIdentify.TabIndex = 39;
-            this.chkItemLogItemsOnIdentify.Text = "Check Items On Identify";
-            this.chkItemLogItemsOnIdentify.UseVisualStyleBackColor = true;
-            this.chkItemLogItemsOnIdentify.CheckedChanged += new System.EventHandler(this.chkItemLogItemsOnIdentify_CheckedChanged);
-            // 
             // cboItemLogPosition
             // 
             this.cboItemLogPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1619,16 +1595,27 @@
             this.lstHidden.Size = new System.Drawing.Size(253, 160);
             this.lstHidden.TabIndex = 0;
             // 
-            // chkCubeRecipes
+            // chkItemLogItemsOnIdentify
             // 
-            this.chkCubeRecipes.AutoSize = true;
-            this.chkCubeRecipes.Location = new System.Drawing.Point(10, 218);
-            this.chkCubeRecipes.Name = "chkCubeRecipes";
-            this.chkCubeRecipes.Size = new System.Drawing.Size(117, 17);
-            this.chkCubeRecipes.TabIndex = 27;
-            this.chkCubeRecipes.Text = "Show cube recipes";
-            this.chkCubeRecipes.UseVisualStyleBackColor = true;
-            this.chkCubeRecipes.CheckedChanged += new System.EventHandler(this.chkCubeRecipes_CheckedChanged);
+            this.chkItemLogItemsOnIdentify.AutoSize = true;
+            this.chkItemLogItemsOnIdentify.Location = new System.Drawing.Point(14, 39);
+            this.chkItemLogItemsOnIdentify.Name = "chkItemLogItemsOnIdentify";
+            this.chkItemLogItemsOnIdentify.Size = new System.Drawing.Size(139, 17);
+            this.chkItemLogItemsOnIdentify.TabIndex = 39;
+            this.chkItemLogItemsOnIdentify.Text = "Check Items On Identify";
+            this.chkItemLogItemsOnIdentify.UseVisualStyleBackColor = true;
+            this.chkItemLogItemsOnIdentify.CheckedChanged += new System.EventHandler(this.chkItemLogItemsOnIdentify_CheckedChanged);
+            // 
+            // chkItemLogVendorItems
+            // 
+            this.chkItemLogVendorItems.AutoSize = true;
+            this.chkItemLogVendorItems.Location = new System.Drawing.Point(14, 62);
+            this.chkItemLogVendorItems.Name = "chkItemLogVendorItems";
+            this.chkItemLogVendorItems.Size = new System.Drawing.Size(153, 17);
+            this.chkItemLogVendorItems.TabIndex = 40;
+            this.chkItemLogVendorItems.Text = "Check Vendor Items";
+            this.chkItemLogVendorItems.UseVisualStyleBackColor = true;
+            this.chkItemLogVendorItems.CheckedChanged += new System.EventHandler(this.chkItemLogVendorItems_CheckedChanged);
             // 
             // ConfigEditor
             // 
@@ -1813,6 +1800,5 @@
         private System.Windows.Forms.CheckBox chkMonsterHealthBar;
         private System.Windows.Forms.CheckBox chkItemLogVendorItems;
         private System.Windows.Forms.CheckBox chkItemLogItemsOnIdentify;
-        private System.Windows.Forms.CheckBox chkCubeRecipes;
     }
 }

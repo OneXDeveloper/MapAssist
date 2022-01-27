@@ -198,9 +198,6 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
     public double BuffSize { get; set; }
-
-    [YamlMember(Alias = "ShowCubeOverlay", ApplyNamingConventions = false)]
-    public bool ShowCubeOverlay { get; set; }
 }
 
 public class HotkeyConfiguration
