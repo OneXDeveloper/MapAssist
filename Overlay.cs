@@ -117,12 +117,12 @@ namespace MapAssist
                             _compositor.DrawMonsterBar(gfx);
                         }
 
-                        var gameInfoAnchor = GameInfoAnchor(gfx, MapAssistConfiguration.Loaded.GameInfo.Position);
+                        var gameInfoAnchor = GameInfoAnchor(MapAssistConfiguration.Loaded.GameInfo.Position);
                         var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData);
 
                         var itemLogAnchor = (MapAssistConfiguration.Loaded.ItemLog.Position == MapAssistConfiguration.Loaded.GameInfo.Position)
                             ? nextAnchor.Add(0, GameInfoPadding())
-                            : GameInfoAnchor(gfx, MapAssistConfiguration.Loaded.ItemLog.Position);
+                            : GameInfoAnchor(MapAssistConfiguration.Loaded.ItemLog.Position);
                         _compositor.DrawItemLog(gfx, itemLogAnchor);
                     }
                 }
@@ -220,7 +220,7 @@ namespace MapAssist
             return rect.Height / 100f;
         }
 
-        private Point GameInfoAnchor(Graphics gfx,GameInfoPosition position)
+        private Point GameInfoAnchor(GameInfoPosition position)
         {
             switch (position)
             {
@@ -228,9 +228,10 @@ namespace MapAssist
                     return new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50);
 
                 case GameInfoPosition.TopRight:
-                    var rightMargin = -(gfx.Width / 75f);
-                    var topMargin = gfx.Height / 35f;
-                    return new Point(gfx.Width + rightMargin, topMargin);
+                    var rect = WindowRect();
+                    var rightMargin = -(rect.Width / 75f);
+                    var topMargin = rect.Height / 35f;
+                    return new Point(rect.Width + rightMargin, topMargin);
             }
             return new Point();
         }
