@@ -66,6 +66,7 @@ namespace MapAssist
 
             chkOverlayMode.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode;
             chkMonsterHealthBar.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar;
+            chkCubeRecipes.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCubeOverlay;
             chkToggleViaMap.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap;
             chkToggleViaPanels.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels;
             chkStickToLastGameWindow.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.StickToLastGameWindow;
@@ -230,6 +231,11 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar = chkMonsterHealthBar.Checked;
         }
 
+        private void chkCubeRecipes_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCubeOverlay = chkCubeRecipes.Checked;
+        }
+
         private void cboPosition_SelectedIndexChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.RenderingConfiguration.Position = (MapPosition)cboPosition.SelectedIndex;
@@ -315,7 +321,8 @@ namespace MapAssist
 
                 btnClearGameInfoFont.Visible = true;
                 fontDlg.Dispose();
-            } else
+            }
+            else
             {
                 fontDlg.Dispose();
             }
@@ -385,7 +392,7 @@ namespace MapAssist
                 btnLineColor.BackColor = iconProp.LineColor;
                 btnLineColor.ForeColor = ContrastTextColor(btnLineColor.BackColor);
                 btnClearLineColor.Visible = btnLineColor.BackColor.A > 0;
-                
+
                 lineArrowSize.Value = iconProp.ArrowHeadSize;
                 lineThicknessSize.Value = (int)iconProp.LineThickness;
                 lblLineArrowSizeValue.Text = lineArrowSize.Value.ToString();

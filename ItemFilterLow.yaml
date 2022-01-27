@@ -1,0 +1,280 @@
+﻿### ----------========== MISC ==========----------
+Key of Terror:
+Key of Hate:
+Key of Destruction:
+Full Rejuvenation Potion:
+Twisted Essence of Suffering:
+Charged Essence of Hatred:
+Burning Essence of Terror:
+Festering Essence of Destruction:
+
+Any:
+ - Qualities: [unique, set]
+Amulet:
+ - Qualities: [rare, unique, set]
+Ring:
+ - Qualities: [rare, unique]
+Jewel:
+ - Qualities: [rare, magic, unique]
+Small Charm:
+ - Qualities: [magic, unique]
+Large Charm:
+ - Qualities: [magic, unique]
+Grand Charm:
+ - Qualities: [magic, unique]
+
+
+###----------========== ARMORS ==========----------
+### Gloves
+Gloves:
+ - Qualities: rare
+ - Qualities: magic
+   Increased Attack Speed: 20
+   Class Skill Tree:
+     Amazon Javelin And Spear: 3
+ - Qualities: magic
+   Increased Attack Speed: 20
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+ 
+### Boots
+Boots:
+ - Qualities: rare
+
+### Helms
+
+### Pelts
+Druid Helms:
+ - Qualities: rare
+ 
+### Barb helms
+
+### Circlets
+Circlets:
+ - Qualities: [rare, magic]
+ 
+### Body Armors
+Armors:
+ - Ethereal: true
+   Qualities: rare
+ - Ethereal: true
+   Qualities: [normal, superior]
+   Sockets: [0, 3, 4]
+   Defense: 1
+ - Qualities: normal
+   Sockets: [2, 3, 4]
+   Ethereal: false
+   Defense: 1
+ - Qualities: superior
+   Sockets: [0, 2, 3, 4]
+   Ethereal: false
+   Defense: 1
+
+### Belts
+Belts:
+ - Qualities: magic
+   Max Life: 90
+
+### Shields:
+Shields:
+ - Sockets: [2]
+Monarch:
+ - Qualities: superior
+ - Sockets: [4]
+
+### Shrunken Heads
+
+### Paladin Shields
+Paladin Shields:
+ - Qualities: [normal, superior]
+   Sockets: [0, 3, 4]
+   All Resist: 25
+ - Tiers: [exceptional, elite]
+   Qualities: [normal, superior]
+   Ethereal: true
+   Sockets: [0, 4]
+ 
+ 
+###----------========== WEAPONS ==========----------
+
+### Axes
+Berserker Axe:
+ - Ethereal: true
+   Sockets: [0, 6]
+   Qualities: normal
+
+### Katars
+Assassin Katars:
+ - Tiers: [exceptional, elite]
+   Qualities: magic
+   Increased Attack Speed: 40
+   Class Skill Tree:
+     Assassin Traps: 3
+
+### Daggers
+
+### Swords
+Swords:
+ - Sockets: [4]
+
+### Hammers
+
+### Maces
+
+### Clubs
+
+### Scepters
+
+### Polearms
+Polearms:
+ - Qualities: [normal, superior]
+   Sockets: [4]
+ - Tiers: [elite]
+   Ethereal: true
+   Qualities: [normal, superior]
+   Sockets: [0, 4]
+
+### Spears
+War Pike:
+ - Ethereal: true
+   Qualities: normal
+Ghost Spear:
+ - Ethereal: true
+   Qualities: normal
+ 
+### Bows
+Grand Matron Bow:
+ - Sockets: [0, 4]
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+Matriarchal Bow:
+ - Sockets: [0, 4]
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+
+### Crossbows
+
+### Javelins
+Javelins:
+ - Tiers: [exceptional, elite]
+   Qualities: magic
+   Increased Attack Speed: 40
+   Class Skill Tree:
+     Amazon Javelin And Spear: 3
+ - Qualities: magic
+   Class Skill Tree:
+     Barbarian Warcries: 3
+
+### Throwing
+
+### Orbs
+
+### Staves
+Staves:
+ - Qualities: [normal, superior]
+   Sockets: [2]
+   Skills:
+     Fire Bolt: 3
+ - Qualities: [normal, superior]
+   Sockets: [2]
+   Skills:
+     Fire Ball: 3   
+ - Skill Charges:
+     Teleport: 1
+
+### Wands
+Wands:
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Bone Spear: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Bone Spirit: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Decrepify: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Raise Skeleton: 3
+ - Skill Charges:
+     Life Tap: 1
+ - Skill Charges:
+     Lower Resist: 1
+
+
+###----------========== RUNES ==========----------
+El Rune:
+Eld Rune:
+Tir Rune:
+Nef Rune:
+Eth Rune:
+Ith Rune:
+Tal Rune:
+Ral Rune:
+Ort Rune:
+Thul Rune:
+Amn Rune:
+Sol Rune:
+Shael Rune:
+Dol Rune:
+Hel Rune:
+Io Rune:
+Lum Rune:
+Ko Rune:
+Fal Rune:
+Lem Rune:
+Pul Rune:
+Um Rune:
+Mal Rune:
+Ist Rune:
+Gul Rune:
+Vex Rune:
+Ohm Rune:
+Lo Rune:
+Sur Rune:
+Ber Rune:
+Jah Rune:
+Cham Rune:
+Zod Rune:
+
+
+###----------========== GEMS ==========----------
+#Chipped Amethyst:
+#Chipped Diamond:
+#Chipped Emerald:
+#Chipped Ruby:
+#Chipped Sapphire:
+#Chipped Skull:
+#Chipped Topaz:
+#Flawed Amethyst:
+#Flawed Diamond:
+#Flawed Emerald:
+#Flawed Ruby:
+#Flawed Sapphire:
+#Flawed Skull:
+#Flawed Topaz:
+#Amethyst:
+#Diamond:
+#Emerald:
+#Ruby:
+#Sapphire:
+#Skull:
+#Topaz:
+Flawless Amethyst:
+Flawless Diamond:
+Flawless Emerald:
+Flawless Ruby:
+Flawless Sapphire:
+Flawless Skull:
+Flawless Topaz:
+Perfect Diamond:
+Perfect Amethyst:
+Perfect Sapphire:
+Perfect Topaz:
+Perfect Ruby:
+Perfect Skull:
+Perfect Emerald:

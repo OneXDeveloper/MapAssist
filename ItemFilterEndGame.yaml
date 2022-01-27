@@ -1,0 +1,469 @@
+﻿### ----------========== MISC ==========----------
+Key of Terror:
+Key of Hate:
+Key of Destruction:
+#Full Rejuvenation Potion:
+Twisted Essence of Suffering:
+Charged Essence of Hatred:
+Burning Essence of Terror:
+Festering Essence of Destruction:
+
+#Any:
+# - Qualities: [unique, set]
+Amulet:
+ - Qualities: [rare, unique, set]
+Ring:
+ - Qualities: [rare, unique]
+Jewel:
+ - Qualities: [rare, magic, unique]
+Small Charm:
+ - Qualities: [magic, unique]
+Large Charm:
+ - Qualities: [unique]
+Grand Charm:
+ - Qualities: [magic, unique]
+
+
+###----------========== ARMORS ==========----------
+### Gloves
+Gloves:
+ - Qualities: rare
+ - Qualities: magic
+   Increased Attack Speed: 20
+   Class Skill Tree:
+     Amazon Javelin And Spear: 3
+ - Qualities: magic
+   Increased Attack Speed: 20
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+Vampirebone Gloves:
+ - Qualities: unique #Dracul's Grasp
+Chain Gloves:
+ - Qualities: unique #Chance Guards
+#Heavy Bracers:
+# - Qualities: set #Trang-Oul's Claws
+Light Gauntlets:
+ - Qualities: unique #Magefist
+Battle Gauntlets:
+# - Qualities: set #M'avina's Icy Clutch
+#War Gauntlets:
+# - Qualities: set #Immortal King's Forge
+Ogre Gauntlets:
+ - Qualities: unique #Steelrend
+ 
+### Boots
+Boots:
+ - Qualities: rare
+Sharkskin Boots:
+ - Qualities: unique #Waterwalk
+Scarabshell Boots:
+ - Qualities: unique #Sandstorm Trek
+Mesh Boots:
+ - Qualities: set #Natalya's Soul
+ - Qualities: unique #Silkweave
+Boneweave Boots:
+ - Qualities: unique #Marrowwalk
+Battle Boots:
+ - Qualities: set #Aldur's Advance
+ - Qualities: unique #War Traveler
+War Boots:
+ - Qualities: unique #Gore Rider
+# - Qualities: set #Immortal King's Pillar
+Myrmidon Greaves:
+ - Qualities: unique #Shadow Dancer
+
+### Helms
+Shako:
+ - Qualities: unique #Harlequin Crest
+Spired Helm:
+ - Qualities: unique #Nightwing's Veil
+Winged Helm:
+ - Qualities: unique #Valkyrie Wing
+Corona:
+ - Qualities: unique #Crown of Ages
+Grand Crown:
+ - Qualities: unique #Crown of Thieves
+   Ethereal: true
+Bone Visage:
+ - Qualities: set #Trang-Oul's Guise
+ - Qualities: unique #Giant Skull
+Grim Helm:
+ - Qualities: set #Natalya's Totem
+ - Qualities: unique #Vampire Gaze
+Demonhead:
+ - Qualities: unique #Andariel's Visage
+Death Mask:
+ - Qualities: set #Tal Rasha's Horadric Crest
+#Casque:
+# - Qualities: unique #Stealskull
+
+### Pelts
+Druid Helms:
+ - Qualities: rare
+Blood Spirit:
+ - Qualities: unique #Cerebus' Bite
+Hunters Guise:
+ - Qualities: set #Aldur's Stony Gaze
+Totemic Mask:
+ - Qualities: unique #Jalal's Mane
+ 
+### Barb helms
+Slayer Guard:
+ - Qualities: unique #Arreat's Face
+Avenger Guard:
+ - Qualities: set #Immortal King's Will
+
+### Circlets
+Circlets:
+ - Qualities: [rare, magic]
+Tiara:
+ - Qualities: unique #Kira's Guardian
+Diadem:
+# - Qualities: set #M'avina's True Sight
+ - Qualities: unique #Griffon's Eye
+ 
+### Body Armors
+Armors:
+ - Ethereal: true
+   Qualities: rare
+ - Ethereal: true
+   Qualities: [normal, superior]
+   Sockets: [0, 3, 4]
+   Defense: 750
+ - Qualities: normal
+   Sockets: [3, 4]
+   Ethereal: false
+   Defense: 450
+ - Qualities: superior
+   Sockets: [0, 3, 4]
+   Ethereal: false
+   Defense: 450
+Dusk Shroud:
+ - Qualities: unique #Ormus' Robes
+Serpentskin Armor:
+ - Qualities: unique #Skin of the Vipermagi
+Wire Fleece:
+ - Qualities: unique #The Gladiator's Bane
+   Ethereal: true
+Loricated Mail:
+ - Qualities: set #Natalya's Shadow
+Mesh Armor:
+ - Qualities: unique #Shaftstop
+   Ethereal: true
+ - Qualities: unique #Duriel's Shell
+Russet Armor:
+ - Qualities: unique #Skullder's Ire
+Balrog Skin:
+ - Qualities: unique #Arkaine's Valor
+Templar Coat:
+ - Qualities: unique #Guardian Angel
+Kraken Shell:
+# - Qualities: set #M'avina's Embrace
+ - Qualities: unique #Leviathan
+Lacquered Plate:
+ - Qualities: set # Tal Rasha's Guardianship
+#Chaos Armor:
+# - Qualities: set #Trang-Oul's Scales
+Shadow Plate:
+ - Qualities: set #Aldur's Deception
+ - Qualities: unique #Steel Carapace
+   Ethereal: true
+Sacred Armor:
+ - Qualities: set #Immortal King's Soul Cage
+ - Qualities: unique #Tyrael's Might
+
+### Belts
+Belts:
+ - Qualities: magic
+   Max Life: 90
+Troll Belt:
+ - Qualities: set #Trang-Oul's Girth
+Heavy Belt:
+ - Qualities: unique #Goldwrap
+Mithril Coil:
+ - Qualities: unique #Verdungo's Hearty Cord
+Mesh Belt:
+ - Qualities: set #Tal Rasha's Fine-Spun Cloth
+Sharkskin Belt:
+# - Qualities: set #M'avina's Tenet
+ - Qualities: unique #Razortail
+Spiderweb Sash:
+ - Qualities: unique #Arachnid Mesh
+Demonhide Sash:
+ - Qualities: unique #String of Ears
+War Belt:
+ - Qualities: unique #Thundergod's Vigor
+# - Qualities: set #Immortal King's Detail
+
+### Shields:
+Monarch:
+ - Qualities: superior
+ - Sockets: [4]
+ - Qualities: unique #Stormshield
+Troll Nest:
+ - Qualities: unique #Head Hunter's Glory
+
+### Shrunken Heads
+Bloodlord Skull:
+ - Qualities: unique #Darkforce Spawn
+Hierophant Trophy:
+ - Qualities: unique #Homunculus
+Succubus Skull:
+ - Qualities: unique #Boneflame
+#Cantor Trophy:
+# - Qualities: set #Trang-Oul's Wing
+
+### Paladin Shields
+Paladin Shields:
+ - Qualities: [normal, superior]
+   Sockets: [0, 3, 4]
+   All Resist: 25
+ - Tiers: [exceptional, elite]
+   Qualities: [normal, superior]
+   Ethereal: true
+   Sockets: [0, 4]
+Gilded Shield:
+ - Qualities: unique #Herald Of Zakarum
+Vortex Shield:
+ - Qualities: set #Griswold's Honor
+ 
+ 
+###----------========== WEAPONS ==========----------
+
+### Axes
+Berserker Axe:
+ - Ethereal: true
+   Sockets: [0, 6]
+   Qualities: normal
+
+### Katars
+Assassin Katars:
+ - Tiers: [exceptional, elite]
+   Qualities: magic
+   Increased Attack Speed: 40
+   Class Skill Tree:
+     Assassin Traps: 3
+Scissors Suwayyah:
+ - Qualities: set #Natalya's Mark
+
+### Daggers
+#Bone Knife:
+# - Qualities: unique #Wizardspike
+
+### Swords
+Crystal Sword:
+ - Sockets: [4]
+Phase Blade:
+ - Qualities: unique #Lightsabre
+Colossus Blade:
+ - Ethereal: true
+   Qualities: normal
+ - Qualities: unique #The Grandfather
+Tulwar:
+ - Qualities: unique #Blade of Ali Baba
+
+### Hammers
+#Ogre Maul:
+# - Qualities: set #Immortal King's Stone Crusher
+#Thunder Maul:
+# - Qualities: unique #The Cranium Basher
+Legendary Mallet:
+ - Qualities: unique #Schaefer's Hammer
+
+### Maces
+Scourge:
+ - Qualities: unique #Stormlash
+#Jagged Star:
+# - Qualities: set #Aldur's Rhythm
+
+### Clubs
+
+### Scepters
+Caduceus:
+ - Qualities: set #Griswold's Redemption
+Mighty Scepter:
+ - Qualities: unique #Heaven's Light
+
+### Polearms
+Polearms:
+ - Qualities: [normal, superior]
+   Sockets: [4]
+ - Tiers: [elite]
+   Ethereal: true
+   Qualities: [normal, superior]
+   Sockets: [0, 4]
+Ogre Axe:
+ - Qualities: unique #Bonehew
+   Ethereal: true
+Thresher:
+ - Qualities: unique #The Reaper's Toll
+Cryptic Axe:
+ - Qualities: unique #Tomb Reaver
+
+### Spears
+War Pike:
+ - Ethereal: true
+   Qualities: normal
+Ghost Spear:
+ - Ethereal: true
+   Qualities: normal
+ 
+### Bows
+Grand Matron Bow:
+ - Sockets: [0, 4]
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+Matriarchal Bow:
+ - Sockets: [0, 4]
+   Class Skill Tree:
+     Amazon Bow And Crossbow: 3
+Hydra Bow:
+ - Qualities: unique #Windforce
+
+### Crossbows
+
+### Javelins
+Javelins:
+ - Tiers: [exceptional, elite]
+   Qualities: magic
+   Increased Attack Speed: 40
+   Class Skill Tree:
+     Amazon Javelin And Spear: 3
+ - Qualities: magic
+   Class Skill Tree:
+     Barbarian Warcries: 3
+Matriarchal Javelin:
+ - Qualities: unique #Thunderstroke
+Ceremonial Javelin:
+ - Qualities: unique #Titan's Revenge
+
+### Throwing
+Winged Axe:
+ - Qualities: unique #Lacerator
+Winged Knife:
+ - Qualities: unique #Warshrike
+   Ethereal: true
+
+### Orbs
+Swirling Crystal:
+ - Qualities: unique #The Oculus
+Eldritch Orb:
+ - Qualities: unique #Eschuta's Temper
+Dimensional Shard:
+ - Qualities: unique #Death's Fathom
+
+### Staves
+Staves:
+ - Qualities: [normal, superior]
+   Sockets: [2]
+   Skills:
+     Fire Bolt: 3
+ - Qualities: [normal, superior]
+   Sockets: [2]
+   Skills:
+     Fire Ball: 3   
+ - Skill Charges:
+     Teleport: 1   
+Elder Staff:
+ - Qualities: unique #Ondal's Wisdom
+Quarterstaff:
+ - Qualities: unique #Ribcracker
+
+### Wands
+Wands:
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Bone Spear: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Bone Spirit: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Decrepify: 3
+ - Qualities: [normal, superior]
+   Sockets: [0,2]
+   Skills:
+     Raise Skeleton: 3
+ - Skill Charges:
+     Life tap: 1
+Unearthed Wand:
+ - Qualities: unique #Death's Web
+Lich Wand:
+ - Qualities: unique #Boneshade
+
+
+###----------========== RUNES ==========----------
+#El Rune:
+#Eld Rune:
+Tir Rune:
+Nef Rune:
+#Eth Rune:
+#Ith Rune:
+Tal Rune:
+Ral Rune:
+Ort Rune:
+Thul Rune:
+Amn Rune:
+Sol Rune:
+#Shael Rune:
+Dol Rune:
+Hel Rune:
+#Io Rune:
+#Lum Rune:
+#Ko Rune:
+#Fal Rune:
+Lem Rune:
+Pul Rune:
+Um Rune:
+Mal Rune:
+Ist Rune:
+Gul Rune:
+Vex Rune:
+Ohm Rune:
+Lo Rune:
+Sur Rune:
+Ber Rune:
+Jah Rune:
+Cham Rune:
+Zod Rune:
+
+
+###----------========== GEMS ==========----------
+#Chipped Amethyst:
+#Chipped Diamond:
+#Chipped Emerald:
+#Chipped Ruby:
+#Chipped Sapphire:
+#Chipped Skull:
+#Chipped Topaz:
+#Flawed Amethyst:
+#Flawed Diamond:
+#Flawed Emerald:
+#Flawed Ruby:
+#Flawed Sapphire:
+#Flawed Skull:
+#Flawed Topaz:
+#Amethyst:
+#Diamond:
+#Emerald:
+#Ruby:
+#Sapphire:
+#Skull:
+#Topaz:
+Flawless Amethyst:
+Flawless Diamond:
+Flawless Emerald:
+Flawless Ruby:
+Flawless Sapphire:
+Flawless Skull:
+Flawless Topaz:
+Perfect Diamond:
+Perfect Amethyst:
+Perfect Sapphire:
+Perfect Topaz:
+Perfect Ruby:
+Perfect Skull:
+Perfect Emerald:
