@@ -228,10 +228,9 @@ namespace MapAssist
                     return new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50);
 
                 case GameInfoPosition.TopRight:
-                    var rect = WindowRect();
-                    var rightMargin = -(rect.Width / 75f);
-                    var topMargin = rect.Height / 35f;
-                    return new Point(rect.Width + rightMargin, topMargin);
+                    var rightMargin = 25;
+                    var topMargin = _window.Height / 35f;
+                    return new Point(_window.Width - rightMargin, topMargin);
             }
             return new Point();
         }

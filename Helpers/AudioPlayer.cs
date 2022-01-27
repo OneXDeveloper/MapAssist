@@ -25,7 +25,7 @@ namespace MapAssist.Helpers
                 }
                 catch
                 {
-                    _itemAlertPlayer = new SoundPlayer(Properties.Resources.ching);
+                    _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching);
                     _itemAlertPlayer.Play();
                 }
             }
@@ -35,7 +35,7 @@ namespace MapAssist.Helpers
         {
             if (ignoreIfAlreadyLoaded)
             {
-                _itemAlertPlayer = new SoundPlayer(Properties.Resources.ching);
+                _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching);
             }
 
             if (!string.IsNullOrEmpty(MapAssistConfiguration.Loaded.ItemLog.SoundFile) && (_itemAlertPlayer == null || ignoreIfAlreadyLoaded))
@@ -46,7 +46,7 @@ namespace MapAssist.Helpers
                 _itemAlertPlayer = new SoundPlayer(soundPath);
                 Console.Write("Loaded new sound file");
             }
-            if (_itemAlertPlayer == null) { _itemAlertPlayer = new SoundPlayer(Properties.Resources.ching); }
+            if (_itemAlertPlayer == null) { _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching); }
         }
 
         private static void SetSoundVolume()

@@ -35,7 +35,7 @@ namespace MapAssist.Types
         Combat,
         ResistFire,
         ResistCold,
-        ResistLight,
+        ResistLightning,
         ResistPoison,
         Skill,
         ManaRegen,

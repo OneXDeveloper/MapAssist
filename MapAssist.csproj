@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -204,7 +205,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Fonts\exocetblizzardot-medium.otf" />
     <EmbeddedResource Include="Fonts\formal436bt-regular.otf" />
-    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -240,11 +240,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
+    <None Include="Resources\Icon2.ico" />
     <None Include="ItemFilter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Config.yaml" />
-    <None Include="Resources\ching.wav" />
+    <None Include="Resources\Ching.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConfigEditor.resx">
@@ -257,307 +258,307 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\items-localization.json" />
+    <EmbeddedResource Include="Resources\Localization.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SALVATION.bmp" />
+    <None Include="Resources\Salvation.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SANCTUARY.bmp" />
+    <None Include="Resources\Sanctuary.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SHADOWMASTER.bmp" />
+    <None Include="Resources\ShadowMaster.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SHADOWWARRIOR.bmp" />
+    <None Include="Resources\ShadowWarrior.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SHIVERARMOR.bmp" />
+    <None Include="Resources\ShiverArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SHOUT.bmp" />
+    <None Include="Resources\Shout.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SLOWMISSILES.bmp" />
+    <None Include="Resources\SlowMissiles.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SPEARMASTERY.bmp" />
+    <None Include="Resources\SpearMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\STAMINA.bmp" />
+    <None Include="Resources\Stamina.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SWORDMASTERY.bmp" />
+    <None Include="Resources\SwordMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TELEPORT.bmp" />
+    <None Include="Resources\Teleport.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TERROR.bmp" />
+    <None Include="Resources\Terror.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\THORNS.bmp" />
+    <None Include="Resources\Thorns.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\THROWINGMASTERY.bmp" />
+    <None Include="Resources\ThrowingMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\THUNDERSTORM.bmp" />
+    <None Include="Resources\ThunderStorm.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VALKYRIE.bmp" />
+    <None Include="Resources\Valkyrie.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VENOMCLAWS.bmp" />
+    <None Include="Resources\VenomClaws.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VIGOR.bmp" />
+    <None Include="Resources\Vigor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WARMTH.bmp" />
+    <None Include="Resources\Warmth.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WEAKEN.bmp" />
+    <None Include="Resources\Weaken.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WEAPONBLOCK.bmp" />
+    <None Include="Resources\WeaponBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WHIRLWIND.bmp" />
+    <None Include="Resources\Whirlwind.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WOLF.bmp" />
+    <None Include="Resources\Wolf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WOLVERINE.bmp" />
+    <None Include="Resources\Wolverine.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AMPLIFYDAMAGE.bmp" />
+    <None Include="Resources\AmplifyDamage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ARMAGEDDON.bmp" />
+    <None Include="Resources\Armageddon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ATTRACT.bmp" />
+    <None Include="Resources\Attract.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AVOID.bmp" />
+    <None Include="Resources\Avoid.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AXEMASTERY.bmp" />
+    <None Include="Resources\AxeMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BARBS.bmp" />
+    <None Include="Resources\Barbs.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BATTLECOMMAND.bmp" />
+    <None Include="Resources\BattleCommand.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BATTLEORDERS.bmp" />
+    <None Include="Resources\BattleOrders.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BEAR.bmp" />
+    <None Include="Resources\Bear.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BERSERK.bmp" />
+    <None Include="Resources\Berserk.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BLADESHIELD.bmp" />
+    <None Include="Resources\BladeShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BLAZE.bmp" />
+    <None Include="Resources\Blaze.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BLESSEDAIM.bmp" />
+    <None Include="Resources\BlessedAim.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BONEARMOR.bmp" />
+    <None Include="Resources\BoneArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CHILLINGARMOR.bmp" />
+    <None Include="Resources\ChillingArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CLAWMASTERY.bmp" />
+    <None Include="Resources\ClawMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CLEANSING.bmp" />
+    <None Include="Resources\Cleansing.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CLOAK_OF_SHADOWS.bmp" />
+    <None Include="Resources\CloakOfShadows.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CLOAKED.bmp" />
+    <None Include="Resources\Cloaked.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\COLDMASTERY.bmp" />
+    <None Include="Resources\ColdMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CONCENTRATION.bmp" />
+    <None Include="Resources\Concentration.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CONFUSE.bmp" />
+    <None Include="Resources\Confuse.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CONVERSION.bmp" />
+    <None Include="Resources\Conversion.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CONVICTION.bmp" />
+    <None Include="Resources\Conviction.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CRITICALSTRIKE.bmp" />
+    <None Include="Resources\CriticalStrike.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CYCLONEARMOR.bmp" />
+    <None Include="Resources\CycloneArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DECOY.bmp" />
+    <None Include="Resources\Decoy.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DECREPIFY.bmp" />
+    <None Include="Resources\Decrepify.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DEFIANCE.bmp" />
+    <None Include="Resources\Defiance.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DIMVISION.bmp" />
+    <None Include="Resources\DimVision.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DODGE.bmp" />
+    <None Include="Resources\Dodge.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ENCHANT.bmp" />
+    <None Include="Resources\Enchant.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ENERGYSHIELD.bmp" />
+    <None Include="Resources\EnergyShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\EVADE.bmp" />
+    <None Include="Resources\Evade.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FANATICISM.bmp" />
+    <None Include="Resources\Fanaticism.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FENRIS_RAGE.bmp" />
+    <None Include="Resources\FenrisRage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FERALRAGE.bmp" />
+    <None Include="Resources\FeralRage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FIREMASTERY.bmp" />
+    <None Include="Resources\FireMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FRENZY.bmp" />
+    <None Include="Resources\Frenzy.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FROZENARMOR.bmp" />
+    <None Include="Resources\FrozenArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HOLYFIRE.bmp" />
+    <None Include="Resources\HolyFire.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HOLYSHIELD.bmp" />
+    <None Include="Resources\HolyShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HOLYSHOCK.bmp" />
+    <None Include="Resources\HolyShock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HOLYWIND.bmp" />
+    <None Include="Resources\HolyWind.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HURRICANE.bmp" />
+    <None Include="Resources\Hurricane.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IMPALE.bmp" />
+    <None Include="Resources\Impale.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\INCREASEDSPEED.bmp" />
+    <None Include="Resources\IncreasedSpeed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\INCREASEDSTAMINA.bmp" />
+    <None Include="Resources\IncreasedStamina.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\INFERNO.bmp" />
+    <None Include="Resources\Inferno.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\INNERSIGHT.bmp" />
+    <None Include="Resources\InnerSight.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IRONMAIDEN.bmp" />
+    <None Include="Resources\IronMaiden.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IRONSKIN.bmp" />
+    <None Include="Resources\IronSkin.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LIFETAP.bmp" />
+    <None Include="Resources\LifeTap.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LIGHTNINGMASTERY.bmp" />
+    <None Include="Resources\LightningMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LOWERRESIST.bmp" />
+    <None Include="Resources\LowerResist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MACEMASTERY.bmp" />
+    <None Include="Resources\MaceMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MEDITATION.bmp" />
+    <None Include="Resources\Meditation.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MIGHT.bmp" />
+    <None Include="Resources\Might.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\NATURALRESISTANCE.bmp" />
+    <None Include="Resources\NaturalResistance.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OAKSAGE.bmp" />
+    <None Include="Resources\OakSage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PENETRATE.bmp" />
+    <None Include="Resources\Penetrate.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PIERCE.bmp" />
+    <None Include="Resources\Pierce.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\POLEARMMASTERY.bmp" />
+    <None Include="Resources\PolearmMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PRAYER.bmp" />
+    <None Include="Resources\Prayer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\QUICKNESS.bmp" />
+    <None Include="Resources\Quickness.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\REDEMPTION.bmp" />
+    <None Include="Resources\Redemption.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RESISTCOLD.bmp" />
+    <None Include="Resources\ResistCold.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RESISTFIRE.bmp" />
+    <None Include="Resources\ResistFire.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RESISTLIGHTNING.bmp" />
+    <None Include="Resources\ResistLightning.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CONVICTED.bmp" />
+    <None Include="Resources\Convicted.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FADE.bmp" />
+    <None Include="Resources\Fade.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\POISON.bmp" />
+    <None Include="Resources\Poison.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SLOWED.bmp" />
+    <None Include="Resources\Slowed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BLOOD_MANA.bmp" />
+    <None Include="Resources\BloodMana.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DEFENSE_CURSE.bmp" />
+    <None Include="Resources\DefenseCurse.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\COLD.bmp" />
+    <None Include="Resources\Cold.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MAServer.exe">

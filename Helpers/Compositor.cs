@@ -55,6 +55,8 @@ namespace MapAssist.Helpers
 
         public Compositor()
         {
+            Properties.Resources.ResourceManager.IgnoreCase = true;
+
             _exocetFont = new ExocetFont();
             _formalFont = new FormalFont();
         }
@@ -653,14 +655,14 @@ namespace MapAssist.Helpers
             RenderTarget renderTarget = gfx.GetRenderTarget();
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
-            var buffImageScale = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize;
+            var buffImageScale = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 48 / 132 * gfx.Height / 1080;
             if (buffImageScale <= 0)
             {
                 return;
             }
 
             var stateList = _gameData.PlayerUnit.StateList;
-            var imgDimensions = 48f * buffImageScale;
+            var imgDimensions = 132f * buffImageScale;
 
             var buffAlignment = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition;
             var buffYPos = 0f;
@@ -749,12 +751,12 @@ namespace MapAssist.Helpers
                     var drawPoint = new Point((gfx.Width / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
                     DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
 
+                    var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
+                    var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
+
                     var pen = new Pen(buffColor, buffImageScale);
                     if (buffColor == States.DebuffColor)
                     {
-                        var size = new Point(imgDimensions - buffImageScale + buffImageScale + buffImageScale, imgDimensions - buffImageScale + buffImageScale + buffImageScale);
-                        var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
-
                         var debuffColor = States.DebuffColor;
                         debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
                         var brush = CreateSolidBrush(gfx, debuffColor, 1);
@@ -764,9 +766,6 @@ namespace MapAssist.Helpers
                     }
                     else
                     {
-                        var size = new Point(imgDimensions - buffImageScale + buffImageScale, imgDimensions - buffImageScale + buffImageScale);
-                        var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
-
                         var brush = CreateSolidBrush(gfx, buffColor, 1);
                         gfx.DrawRectangle(brush, rect, 1);
                     }

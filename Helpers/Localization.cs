@@ -11,7 +11,7 @@ namespace MapAssist.Helpers
 
         public static void LoadLocalizationFile()
         {
-            var resString = Properties.Resources.items_localization;
+            var resString = Properties.Resources.Localization;
 
             using (var Stream = new MemoryStream(resString))
             {
