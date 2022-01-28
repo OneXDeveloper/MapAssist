@@ -25,6 +25,7 @@ RenderingConfiguration:
   ZoomLevel: 1
   BuffPosition: Bottom
   BuffSize: 1
+  LinesMode: All
 MapConfiguration:
   SuperUniqueMonster:
     IconOutlineColor: Yellow

@@ -93,4 +93,47 @@ namespace MapAssist.Settings
             return CanDrawLabel() && area != Area.Tristram;  // Skip drawing tristram label since we have a Cairn Stone as the quest destination already and can be seen from further away
         }
     }
+
+    public enum MapPosition
+    {
+        TopLeft,
+        TopRight,
+        Center
+    }
+
+    public enum MapLinesMode
+    {
+        All,
+        PVE,
+        PVP,
+    }
+
+    public enum BuffPosition
+    {
+        Top,
+        Player,
+        Bottom
+    }
+
+    public enum GameInfoPosition
+    {
+        TopLeft,
+        TopRight
+    }
+
+    public enum Shape
+    {
+        Square,
+        Ellipse,
+        Polygon,
+        Cross,
+        Portal,
+    }
+
+    public enum TextAlign
+    {
+        Left,
+        Center,
+        Right,
+    }
 }

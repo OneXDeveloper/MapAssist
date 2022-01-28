@@ -95,7 +95,7 @@ namespace MapAssist
 
                         var size = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
 
-                        var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.8f);
+                        var drawBounds = new Rectangle(0, 0, gfx.Width, gfx.Height * 0.78f);
                         switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                         {
                             case MapPosition.TopLeft:
