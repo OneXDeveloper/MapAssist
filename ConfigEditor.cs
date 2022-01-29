@@ -87,6 +87,10 @@ namespace MapAssist
             chkShowDifficulty.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty;
             chkShowGameIP.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
+            chkShowLifeMana.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana;
+            chkShowResistances.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances;
+            chkShowRateStats.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowRateStats;
+            chkShowExperience.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience;
             txtHuntIP.ReadOnly = !MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
             txtHuntIP.Text = MapAssistConfiguration.Loaded.GameInfo.HuntingIP;
             txtD2Path.Text = MapAssistConfiguration.Loaded.D2LoDPath;
@@ -292,6 +296,25 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.GameInfo.ShowArea = chkShowArea.Checked;
         }
 
+        private void chkShowLifeMana_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana = chkShowLifeMana.Checked;
+        }
+
+        private void chkShowResistances_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances = chkShowResistances.Checked;
+        }
+
+        private void chkShowRateStats_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowRateStats = chkShowRateStats.Checked;
+        }
+
+        private void chkShowExperience_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience = chkShowExperience.Checked;
+        }
         private void txtHuntIP_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.HuntingIP = txtHuntIP.Text;

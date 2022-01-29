@@ -238,7 +238,7 @@ namespace MapAssist.Types
                 return 0.0f;
             }
         }
-        public long ActualExperiance
+        public long ActualExperience
         {
             get
             {
@@ -254,7 +254,7 @@ namespace MapAssist.Types
                 if (Stats.TryGetValue(Stat.Level, out var lvl) && lvl > 0)
                 {
                     var expBetweenLevels = PlayerLevelsExp[lvl + 1] - PlayerLevelsExp[lvl];
-                    var expToLevelUp = PlayerLevelsExp[lvl + 1] - ActualExperiance;
+                    var expToLevelUp = PlayerLevelsExp[lvl + 1] - ActualExperience;
                     return 100f - ((float)expToLevelUp / expBetweenLevels * 100f);
                 }
                 return 0.0f;

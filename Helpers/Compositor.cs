@@ -969,71 +969,82 @@ namespace MapAssist.Helpers
             var blackFill = CreateSolidBrush(gfx, Color.Black, 0.7f);
 
             //Player life & mana
-            var lmFontSize = gfx.Height * 0.02f;
-            var lmShiftPosition = (gfx.Height / 2) * 0.91f;
-
-            DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualHealth.ToString() + "/" + _gameData.PlayerUnit.ActualMaxHealth.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
-            DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualMana.ToString() + "/" + _gameData.PlayerUnit.ActualMaxMana.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
-            DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.HealthPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
-            DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.ManaPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
-
-            var lmRectWidth = gfx.Height * 0.048f;
-            var lmRectHeight = gfx.Height * 0.034f;
-
-            _gameData.PlayerUnit.Stats.TryGetValue(Stat.LifeSteal, out var ll);
-            _gameData.PlayerUnit.Stats.TryGetValue(Stat.HealAfterKill, out var laek);
-            var lifePoint = new Point(center - (lmShiftPosition * 0.87f), gfx.Height - lmRectHeight);
-            var lifeText = ll + "% " + StatShortcuts.StatShortcut[Stat.LifeSteal] +
-                Environment.NewLine +
-                laek + " " + StatShortcuts.StatShortcut[Stat.HealAfterKill];
-            DrawRectangleWithText(gfx, lifePoint, lmRectWidth, lmRectHeight, blackFill, lifeText, font, Color.White);
-
-            _gameData.PlayerUnit.Stats.TryGetValue(Stat.ManaSteal, out var ml);
-            _gameData.PlayerUnit.Stats.TryGetValue(Stat.ManaAfterKill, out var maek);
-            var manaPoint = new Point(center + (lmShiftPosition * 0.76f), gfx.Height - lmRectHeight);
-            var manaText = ml + "% " + StatShortcuts.StatShortcut[Stat.ManaSteal] +
-                Environment.NewLine +
-                maek + " " + StatShortcuts.StatShortcut[Stat.ManaAfterKill];
-            DrawRectangleWithText(gfx, manaPoint, lmRectWidth, lmRectHeight, blackFill, manaText, font, Color.White);
-
-
-            //Player actual resistances
-            var resRectWidth = gfx.Height * 0.09f;
-            var resRectHeight = gfx.Height * 0.022f;
-            var resShiftCenterPosition = new Point(center - (gfx.Height / 1.57f), gfx.Height - resRectHeight);
-            Stat[] resArray = { Stat.PoisonResist, Stat.ColdResist, Stat.LightningResist, Stat.FireResist, Stat.DamageReduced };
-            var shiftRes = 0;
-            foreach(Stat res in resArray)
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana)
             {
-                var value = _gameData.PlayerUnit.GetResists(_gameData.Difficulty.ResistancePenalty())[res];
-                var fill = CreateSolidBrush(gfx, ResistColors.ResistColor[StatResistColors.StatResistColor[res]], 0.5f);
-                var point = new Point(resShiftCenterPosition.X, resShiftCenterPosition.Y - ((resRectHeight + 1) * shiftRes));
-                var text = value + "% " + StatShortcuts.StatShortcut[res].ToUpper();
-                DrawRectangleWithText(gfx, point, resRectWidth, resRectHeight, fill, text, font, Color.White);
-                shiftRes++;
+                var lmFontSize = gfx.Height * 0.02f;
+                var lmShiftPosition = (gfx.Height / 2) * 0.91f;
+
+                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualHealth.ToString() + "/" + _gameData.PlayerUnit.ActualMaxHealth.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualMana.ToString() + "/" + _gameData.PlayerUnit.ActualMaxMana.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.HealthPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.ManaPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
+
+                var lmRectWidth = gfx.Height * 0.048f;
+                var lmRectHeight = gfx.Height * 0.034f;
+
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.LifeSteal, out var ll);
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.HealAfterKill, out var laek);
+                var lifePoint = new Point(center - (lmShiftPosition * 0.87f), gfx.Height - lmRectHeight);
+                var lifeText = ll + "% " + StatShortcuts.StatShortcut[Stat.LifeSteal] +
+                    Environment.NewLine +
+                    laek + " " + StatShortcuts.StatShortcut[Stat.HealAfterKill];
+                DrawRectangleWithText(gfx, lifePoint, lmRectWidth, lmRectHeight, blackFill, lifeText, font, Color.White);
+
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.ManaSteal, out var ml);
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.ManaAfterKill, out var maek);
+                var manaPoint = new Point(center + (lmShiftPosition * 0.76f), gfx.Height - lmRectHeight);
+                var manaText = ml + "% " + StatShortcuts.StatShortcut[Stat.ManaSteal] +
+                    Environment.NewLine +
+                    maek + " " + StatShortcuts.StatShortcut[Stat.ManaAfterKill];
+                DrawRectangleWithText(gfx, manaPoint, lmRectWidth, lmRectHeight, blackFill, manaText, font, Color.White);
             }
 
-            //Player experiance
-            var expRectWidth = gfx.Height * 0.06f;
-            var expRectHeight = gfx.Height * 0.02f;
-            var expPoint = new Point(center - (expRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
-            _gameData.PlayerUnit.Stats.TryGetValue(Stat.Level, out var lvl);
-            DrawRectangleWithText(gfx, expPoint, expRectWidth, expRectHeight, blackFill, lvl + " lvl", font, Color.White);
-            DrawRectangleWithText(gfx, expPoint.Add(0, expRectHeight), expRectWidth, expRectHeight, blackFill, _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%", font, Color.White);
+            //Player actual resistances
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances)
+            {
+                var resRectWidth = gfx.Height * 0.09f;
+                var resRectHeight = gfx.Height * 0.022f;
+                var resShiftCenterPosition = new Point(center - (gfx.Height / 1.57f), gfx.Height - resRectHeight);
+                Stat[] resArray = { Stat.PoisonResist, Stat.ColdResist, Stat.LightningResist, Stat.FireResist, Stat.DamageReduced };
+                var shiftRes = 0;
+                foreach (Stat res in resArray)
+                {
+                    var value = _gameData.PlayerUnit.GetResists(_gameData.Difficulty.ResistancePenalty())[res];
+                    var fill = CreateSolidBrush(gfx, ResistColors.ResistColor[StatResistColors.StatResistColor[res]], 0.5f);
+                    var point = new Point(resShiftCenterPosition.X, resShiftCenterPosition.Y - ((resRectHeight + 1) * shiftRes));
+                    var text = value + "% " + StatShortcuts.StatShortcut[res].ToUpper();
+                    DrawRectangleWithText(gfx, point, resRectWidth, resRectHeight, fill, text, font, Color.White);
+                    shiftRes++;
+                }
+            }
+
+            //Player Experience
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience)
+            {
+                var expRectWidth = gfx.Height * 0.06f;
+                var expRectHeight = gfx.Height * 0.02f;
+                var expPoint = new Point(center - (expRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.Level, out var lvl);
+                DrawRectangleWithText(gfx, expPoint, expRectWidth, expRectHeight, blackFill, lvl + " lvl", font, Color.White);
+                DrawRectangleWithText(gfx, expPoint.Add(0, expRectHeight), expRectWidth, expRectHeight, blackFill, _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%", font, Color.White);
+            }
 
             //Player RateStats
-            var rateRectWidth = gfx.Height * 0.09f;
-            var rateRectHeight = gfx.Height * 0.022f;
-            var rateShiftCenterPosition = new Point(center + (gfx.Height / 1.85f), gfx.Height - rateRectHeight);
-            Stat[] rateArray = { Stat.FasterBlockRate, Stat.FasterHitRecovery, Stat.IncreasedAttackSpeed, Stat.FasterRunWalk, Stat.FasterCastRate };
-            var shiftRate = 0;
-            foreach (Stat rate in rateArray)
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowRateStats)
             {
-                _gameData.PlayerUnit.Stats.TryGetValue(rate, out var value);
-                var point = new Point(rateShiftCenterPosition.X, rateShiftCenterPosition.Y - ((rateRectHeight + 1) * shiftRate));
-                var text = value + "% " + StatShortcuts.StatShortcut[rate].ToUpper();
-                DrawRectangleWithText(gfx, point, rateRectWidth, rateRectHeight, blackFill, text, font, Color.White);
-                shiftRate++;
+                var rateRectWidth = gfx.Height * 0.09f;
+                var rateRectHeight = gfx.Height * 0.022f;
+                var rateShiftCenterPosition = new Point(center + (gfx.Height / 1.85f), gfx.Height - rateRectHeight);
+                Stat[] rateArray = { Stat.FasterBlockRate, Stat.FasterHitRecovery, Stat.IncreasedAttackSpeed, Stat.FasterRunWalk, Stat.FasterCastRate };
+                var shiftRate = 0;
+                foreach (Stat rate in rateArray)
+                {
+                    _gameData.PlayerUnit.Stats.TryGetValue(rate, out var value);
+                    var point = new Point(rateShiftCenterPosition.X, rateShiftCenterPosition.Y - ((rateRectHeight + 1) * shiftRate));
+                    var text = value + "% " + StatShortcuts.StatShortcut[rate].ToUpper();
+                    DrawRectangleWithText(gfx, point, rateRectWidth, rateRectHeight, blackFill, text, font, Color.White);
+                    shiftRate++;
+                }
             }
         }
 
