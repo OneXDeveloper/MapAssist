@@ -128,6 +128,8 @@ namespace MapAssist.Settings
         Polygon,
         Cross,
         Portal,
+        Dress,
+        Kite,
     }
 
     public enum TextAlign

@@ -36,6 +36,7 @@ namespace MapAssist.Types
         public Point Position => new Point(X, Y);
         public ushort X => IsMovable ? Path.DynamicX : Path.StaticX;
         public ushort Y => IsMovable ? Path.DynamicY : Path.StaticY;
+        public StatListStruct StatsStruct { get; private set; }
         public Dictionary<Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
         public Dictionary<Stat, int> Stats { get; private set; }
         protected uint[] StateFlags { get; set; }
@@ -60,6 +61,8 @@ namespace MapAssist.Types
 
         public void CopyFrom(UnitAny other)
         {
+            if (Struct.UnitId != other.Struct.UnitId) IsCached = false; // Reload all data since the unit id changed
+
             PtrUnit = other.PtrUnit;
             Struct = other.Struct;
             Path = other.Path;
@@ -87,10 +90,10 @@ namespace MapAssist.Types
                             var stats = new Dictionary<Stat, int>();
                             var statLayers = new Dictionary<Stat, Dictionary<ushort, int>>();
 
-                            var statListStruct = processContext.Read<StatListStruct>(Struct.pStatsListEx);
-                            StateFlags = statListStruct.StateFlags;
+                            StatsStruct = processContext.Read<StatListStruct>(Struct.pStatsListEx);
+                            StateFlags = StatsStruct.StateFlags;
 
-                            var statValues = processContext.Read<StatValue>(statListStruct.Stats.pFirstStat, Convert.ToInt32(statListStruct.Stats.Size));
+                            var statValues = processContext.Read<StatValue>(StatsStruct.Stats.pFirstStat, Convert.ToInt32(StatsStruct.Stats.Size));
                             foreach (var stat in statValues)
                             {
                                 if (statLayers.ContainsKey(stat.Stat))

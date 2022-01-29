@@ -1,4 +1,4 @@
-﻿/**
+/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -539,7 +539,7 @@ namespace MapAssist.Types
                         if (item.StatLayers.TryGetValue(statType, out var anyItemStats) &&
                             anyItemStats.TryGetValue((ushort)skillId, out var anySkillLevel))
                         {
-                            anySkillLevel += (statType == Stat.SingleSkill ? GetItemStatAddSkillTreeSkills(item, skill.GetSkillTree()).Item2 : 0); // This adds the +skill tree points, +class skill points and +all skills points
+                            anySkillLevel += (statType == Stat.SingleSkill ? GetItemStatAddSkillTreeSkills(item, skillId.GetSkillTree()).Item2 : 0); // This adds the +skill tree points, +class skill points and +all skills points
 
                             if (anySkillLevel > maxSkillQuantity)
                             {

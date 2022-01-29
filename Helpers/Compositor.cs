@@ -1215,6 +1215,26 @@ namespace MapAssist.Helpers
                         new Point(d, a), new Point(c, b), new Point(d, c), new Point(c, d),
                         new Point(b, c), new Point(a, d), new Point(0, c), new Point(a, b)
                     }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, _scaleHeight)).ToArray();
+
+                case Shape.Dress:
+                    return new Point[]
+                    {
+                        new Point(0.50f, 0),
+                        new Point(0.60f, 0.20f),
+                        new Point(0.22f, 0.85f),
+                        new Point(0.50f, 1),
+                        new Point(0.78f, 0.85f),
+                        new Point(0.40f, 0.20f)
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                case Shape.Kite:
+                    return new Point[]
+                    {
+                        new Point(0.50f, 0),
+                        new Point(0.15f, 0.35f),
+                        new Point(0.50f, 1),
+                        new Point(0.85f, 0.35f)
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
             }
 
             return new Point[]
