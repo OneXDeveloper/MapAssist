@@ -198,6 +198,9 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
     public double BuffSize { get; set; }
+
+    [YamlMember(Alias = "LinesMode", ApplyNamingConventions = false)]
+    public MapLinesMode LinesMode { get; set; }
 }
 
 public class HotkeyConfiguration

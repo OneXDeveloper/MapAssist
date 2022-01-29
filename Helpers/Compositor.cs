@@ -222,7 +222,7 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
-                if (poi.RenderingSettings.CanDrawLine())
+                if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !_areaData.Area.IsTown())
                 {
                     var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
                     var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
@@ -341,7 +341,7 @@ namespace MapAssist.Helpers
 
             foreach (var monster in _gameData.Monsters)
             {
-                var mobRender = GetMonsterIconRendering(monster.MonsterData);
+                var mobRender = GetMonsterIconRendering(monster);
 
                 if (NpcExtensions.IsTownsfolk(monster.Npc))
                 {
@@ -528,7 +528,7 @@ namespace MapAssist.Helpers
                 foreach (var player in _gameData.Roster.List)
                 {
                     var myPlayer = player.UnitId == myPlayerEntry.UnitId;
-                    var inMyParty = player.PartyID == myPlayerEntry.PartyID;
+                    var inMyParty = player.PartyID != ushort.MaxValue && player.PartyID == myPlayerEntry.PartyID;
                     var playerName = player.Name;
 
                     var canDrawIcon = MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon();
@@ -578,7 +578,7 @@ namespace MapAssist.Helpers
                                 drawPlayerIcons.Add((rendering, playerUnit.Position));
                             }
 
-                            if (rendering.CanDrawLine() && playerUnit.IsHostile)
+                            if (CanDrawMapLines(MapLinesMode.PVP) && rendering.CanDrawLine() && playerUnit.IsHostile && !playerUnit.Area.IsTown())
                             {
                                 var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelFontSize);
                                 var padding = rendering.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
@@ -655,7 +655,7 @@ namespace MapAssist.Helpers
             RenderTarget renderTarget = gfx.GetRenderTarget();
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
-            var buffImageScale = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 48 / 132 * gfx.Height / 1080;
+            var buffImageScale = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 59 / 132 * gfx.Height / 1080;
             if (buffImageScale <= 0)
             {
                 return;
@@ -683,7 +683,7 @@ namespace MapAssist.Helpers
                         return;
                     }
 
-                    buffYPos = gfx.Height * .8f;
+                    buffYPos = gfx.Height * .78f;
                     break;
             }
 
@@ -1208,6 +1208,14 @@ namespace MapAssist.Helpers
         }
 
         // Utility Functions
+        private bool CanDrawMapLines(MapLinesMode mode)
+        {
+            if (_areaData.Area.IsTown()) return false;
+
+            var configMode = MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode;
+            return configMode == MapLinesMode.All || configMode == mode;
+        }
+
         private Point[] GetIconShape(IconRendering render,
             bool equalScaling = false)
         {
@@ -1267,6 +1275,26 @@ namespace MapAssist.Helpers
                         new Point(d, a), new Point(c, b), new Point(d, c), new Point(c, d),
                         new Point(b, c), new Point(a, d), new Point(0, c), new Point(a, b)
                     }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, _scaleHeight)).ToArray();
+
+                case Shape.Dress:
+                    return new Point[]
+                    {
+                        new Point(0.50f, 0),
+                        new Point(0.60f, 0.20f),
+                        new Point(0.22f, 0.85f),
+                        new Point(0.50f, 1),
+                        new Point(0.78f, 0.85f),
+                        new Point(0.40f, 0.20f)
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                case Shape.Kite:
+                    return new Point[]
+                    {
+                        new Point(0.50f, 0),
+                        new Point(0.15f, 0.35f),
+                        new Point(0.50f, 1),
+                        new Point(0.85f, 0.35f)
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
             }
 
             return new Point[]
@@ -1275,28 +1303,15 @@ namespace MapAssist.Helpers
             };
         }
 
-        private IconRendering GetMonsterIconRendering(MonsterData monsterData)
+        private IconRendering GetMonsterIconRendering(UnitMonster monster)
         {
-            if ((monsterData.MonsterType & MonsterTypeFlags.Champion) == MonsterTypeFlags.Champion)
+            switch (monster.MonsterType)
             {
-                return MapAssistConfiguration.Loaded.MapConfiguration.ChampionMonster;
+                case MonsterTypeFlags.SuperUnique: return MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster;
+                case MonsterTypeFlags.Champion:    return MapAssistConfiguration.Loaded.MapConfiguration.ChampionMonster;
+                case MonsterTypeFlags.Minion:      return MapAssistConfiguration.Loaded.MapConfiguration.MinionMonster;
+                case MonsterTypeFlags.Unique:      return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
             }
-
-            if ((monsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique)
-            {
-                return MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster;
-            }
-
-            if ((monsterData.MonsterType & MonsterTypeFlags.Minion) == MonsterTypeFlags.Minion)
-            {
-                return MapAssistConfiguration.Loaded.MapConfiguration.MinionMonster;
-            }
-
-            if ((monsterData.MonsterType & MonsterTypeFlags.Unique) == MonsterTypeFlags.Unique)
-            {
-                return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
-            }
-
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }
 

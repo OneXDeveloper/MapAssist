@@ -53,7 +53,7 @@ namespace MapAssist.Types
         {
             if (player != null)
             {
-                if (PartyID == player.PartyID)
+                if (player.PartyID != ushort.MaxValue && PartyID == player.PartyID)
                 {
                     InParty = true;
                     IsHostile = false;

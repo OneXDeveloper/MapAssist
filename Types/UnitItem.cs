@@ -49,6 +49,8 @@ namespace MapAssist.Types
 
         public bool IsInStore => ItemModeMapped == ItemModeMapped.Vendor;
 
+        public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
+
         public bool IsAnyPlayerHolding
         {
             get

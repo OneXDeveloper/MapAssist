@@ -44,6 +44,11 @@ namespace MapAssist
                 cboLanguage.Items.Add(LocaleExtensions.Name(element));
             }
 
+            foreach (var element in Enum.GetNames(typeof(MapLinesMode)))
+            {
+                cboMapLinesMode.Items.Add(element);
+            }
+
             foreach (var element in Enum.GetNames(typeof(GameInfoPosition)))
             {
                 cboGameInfoPosition.Items.Add(element.ToProperCase());
@@ -74,6 +79,7 @@ namespace MapAssist
             buffSize.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 10d);
             lblBuffSizeValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.ToString();
             cboBuffPosition.SelectedIndex = cboBuffPosition.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition.ToString().ToProperCase());
+            cboMapLinesMode.SelectedIndex = cboMapLinesMode.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode.ToString().ToProperCase());
 
             chkShowGameName.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameName;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowArea;
@@ -253,6 +259,11 @@ namespace MapAssist
         private void cboBuffPosition_SelectedIndexChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition = (BuffPosition)cboBuffPosition.SelectedIndex;
+        }
+
+        private void cboMapLinesMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode = (MapLinesMode)cboMapLinesMode.SelectedIndex;
         }
 
         private void chkShowGameIP_CheckedChanged(object sender, EventArgs e)
