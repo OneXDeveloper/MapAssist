@@ -151,7 +151,11 @@ namespace MapAssist.Types
         }
         public Dictionary<Stat, int> GetResists(int resPenalty)
         {
+            Stats.TryGetValue(Stat.DamageReduced, out var resP);
+            Stats.TryGetValue(Stat.MagicDamageReduction, out var resM);
             var resists = new Dictionary<Stat, int>();
+            resists.Add(Stat.DamageReduced, resP);
+            resists.Add(Stat.MagicDamageReduction, resM);
             resists.Add(Stat.FireResist, CalculateResist(Stat.FireResist, Stat.MaxFireResist, resPenalty));
             resists.Add(Stat.LightningResist, CalculateResist(Stat.LightningResist, Stat.MaxLightningResist, resPenalty));
             resists.Add(Stat.ColdResist, CalculateResist(Stat.ColdResist, Stat.MaxColdResist, resPenalty));
@@ -195,7 +199,7 @@ namespace MapAssist.Types
                 if (Stats.TryGetValue(Stat.Life, out var health) &&
                     Stats.TryGetValue(Stat.MaxLife, out var maxHp) && maxHp > 0)
                 {
-                    return (float)health / maxHp;
+                    return ((float)health / maxHp) * 100f;
                 }
                 return 0.0f;
             }
@@ -229,7 +233,7 @@ namespace MapAssist.Types
                 if (Stats.TryGetValue(Stat.Mana, out var mana) &&
                     Stats.TryGetValue(Stat.MaxMana, out var maxMana) && maxMana > 0)
                 {
-                    return (float)mana / maxMana;
+                    return ((float)mana / maxMana) * 100f;
                 }
                 return 0.0f;
             }
@@ -251,9 +255,7 @@ namespace MapAssist.Types
                 {
                     var expBetweenLevels = PlayerLevelsExp[lvl + 1] - PlayerLevelsExp[lvl];
                     var expToLevelUp = PlayerLevelsExp[lvl + 1] - ActualExperiance;
-                    var f = (float)expToLevelUp / expBetweenLevels;
-                    var ff = (((float)expBetweenLevels / expToLevelUp) * 100f) - 100f;
-                    return ff;
+                    return 100f - ((float)expToLevelUp / expBetweenLevels * 100f);
                 }
                 return 0.0f;
             }

@@ -216,6 +216,8 @@ namespace MapAssist.Types
     {
         public static Dictionary<Stat, Resist> StatResistColor = new Dictionary<Stat, Resist>
         {
+            {Stat.DamageReduced, Resist.PHYSICAL},
+            {Stat.MagicDamageReduction, Resist.MAGIC},
             {Stat.FireResist, Resist.FIRE},
             {Stat.LightningResist, Resist.LIGHTNING},
             {Stat.ColdResist, Resist.COLD},
@@ -232,6 +234,28 @@ namespace MapAssist.Types
             {Resist.LIGHTNING, "⚡"},
             {Resist.COLD, "❄"},
             {Resist.POISON, "☠"},
+        };
+    }
+    public static class StatShortcuts
+    {
+        public static Dictionary<Stat, string> StatShortcut = new Dictionary<Stat, string>
+        {
+            {Stat.FasterRunWalk, "frw"},
+            {Stat.FasterHitRecovery, "fhr"},
+            {Stat.FasterCastRate, "fcr"},
+            {Stat.FasterBlockRate, "fbr"},
+            {Stat.IncreasedAttackSpeed, "ias"},
+            {Stat.ColdResist, "cr"},
+            {Stat.FireResist, "fr"},
+            {Stat.LightningResist, "lr"},
+            {Stat.PoisonResist, "pr"},
+            {Stat.DamageReduced, "dr"},
+            {Stat.LifeSteal, "ll"},
+            {Stat.ManaSteal, "ml"},
+            {Stat.HealAfterKill, "laek"},
+            {Stat.ManaAfterKill, "maek"},
+            {Stat.HPRegen, "rl"},
+            {Stat.ManaRecovery, "mr"},
         };
     }
 
