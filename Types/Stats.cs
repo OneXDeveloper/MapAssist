@@ -212,6 +212,28 @@ namespace MapAssist.Types
             {Resist.POISON, Color.LimeGreen},
         };
     }
+    public static class StatResistColors
+    {
+        public static Dictionary<Stat, Resist> StatResistColor = new Dictionary<Stat, Resist>
+        {
+            {Stat.FireResist, Resist.FIRE},
+            {Stat.LightningResist, Resist.LIGHTNING},
+            {Stat.ColdResist, Resist.COLD},
+            {Stat.PoisonResist, Resist.POISON},
+        };
+    }
+    public static class ResistUnicodes
+    {
+        public static Dictionary<Resist, string> ResistUnicode = new Dictionary<Resist, string>
+        {
+            {Resist.PHYSICAL, "🔨"},
+            {Resist.MAGIC, "✨"},
+            {Resist.FIRE, "🔥"},
+            {Resist.LIGHTNING, "⚡"},
+            {Resist.COLD, "❄"},
+            {Resist.POISON, "☠"},
+        };
+    }
 
     public enum Resist
     {

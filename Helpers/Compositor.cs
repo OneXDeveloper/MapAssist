@@ -1,4 +1,4 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -961,7 +961,67 @@ namespace MapAssist.Helpers
             }
         }
 
+        public void DrawPlayerInfo(Graphics gfx)
+        {
+            var center = gfx.Width / 2;
+            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+
+            //Player globes life & mana
+            var globesFontSize = gfx.Height * 0.02f;
+            var globesShiftPosition = (gfx.Height / 2) * 0.91f;
+
+            var pLife = _gameData.PlayerUnit.ActualHealth;
+            var pMLife = _gameData.PlayerUnit.ActualMaxHealth;
+            var lifePercentage = _gameData.PlayerUnit.HealthPercentage * 100f;
+            var pMana = _gameData.PlayerUnit.ActualMana;
+            var pMMana = _gameData.PlayerUnit.ActualMaxMana;
+            var manaPercentage = _gameData.PlayerUnit.ManaPercentage * 100f;
+
+            DrawText(gfx, new Point(center - globesShiftPosition, gfx.Height - (globesShiftPosition / 5.0f)), pLife.ToString() + "/" + pMLife.ToString(), font, globesFontSize, Color.White, true, TextAlign.Center);
+            DrawText(gfx, new Point(center + (globesShiftPosition * 1.02f), gfx.Height - (globesShiftPosition / 5.0f)), pMana.ToString() + "/" + pMMana.ToString(), font, globesFontSize, Color.White, true, TextAlign.Center);
+            DrawText(gfx, new Point(center - globesShiftPosition, gfx.Height - (globesShiftPosition / 5.0f) + globesFontSize), lifePercentage.ToString("F0") + "%", font, globesFontSize, Color.White, true, TextAlign.Center);
+            DrawText(gfx, new Point(center + (globesShiftPosition * 1.02f), gfx.Height - (globesShiftPosition / 5.0f) + globesFontSize), manaPercentage.ToString("F0") + "%", font, globesFontSize, Color.White, true, TextAlign.Center);
+
+            //Player actual resistances
+            var rectWidth = gfx.Height * 0.06f;
+            var rectHeight = gfx.Height * 0.022f;
+            var resShiftCenterPosition = new Point(center - (gfx.Height / 1.6f), gfx.Height - rectHeight);
+            Stat[] resArray = { Stat.PoisonResist, Stat.ColdResist, Stat.LightningResist, Stat.FireResist };
+            var shiftRes = 0;
+            foreach(Stat res in resArray)
+            {
+                var resValue = _gameData.PlayerUnit.GetResists(_gameData.Difficulty.ResistancePenalty())[res];
+                var fillBrush = CreateSolidBrush(gfx, ResistColors.ResistColor[StatResistColors.StatResistColor[res]], 0.5f);
+                var resRect = new Rectangle(resShiftCenterPosition.X, resShiftCenterPosition.Y - (rectHeight * shiftRes), resShiftCenterPosition.X + rectWidth, resShiftCenterPosition.Y - (rectHeight * shiftRes));
+                var text = ResistUnicodes.ResistUnicode[StatResistColors.StatResistColor[res]] + resValue + "%";
+                DrawRectangleWithText(gfx, new Point(resRect.Left, resRect.Top), rectWidth, rectHeight, fillBrush, text, font, Color.White);
+                shiftRes++;
+            }
+
+            //Player experiance
+            var expFontSize = gfx.Height * 0.015f;
+            var exp = _gameData.PlayerUnit.ActualExperiance;
+            var levelPercentage = _gameData.PlayerUnit.LevelPercentage;
+            _gameData.PlayerUnit.Stats.TryGetValue(Stat.Level, out var lvl);
+
+            DrawText(gfx, new Point(center, gfx.Height - (gfx.Height / 10.5f)), lvl + "lvl (" + levelPercentage.ToString("n2") + "%)", font, expFontSize, Color.White, true, TextAlign.Center);
+
+        }
+
         // Drawing Utility Functions
+        private void DrawRectangleWithText(Graphics gfx, Point rectTopLeft, float rectWidth, float rectHeight, IBrush fillBrush, string text, string font, Color fontColor, IBrush strokeBrush = null, float stroke = 0)
+        {
+            var rect = new Rectangle(rectTopLeft.X, rectTopLeft.Y, rectTopLeft.X + rectWidth, rectTopLeft.Y + rectHeight);
+            gfx.FillRectangle(fillBrush, rect);
+            if (strokeBrush != null)
+            {
+                var strokeRect = new Rectangle(rect.Left - (stroke / 2), rect.Top - (stroke / 2), rect.Right + (stroke / 2), rect.Bottom + (stroke / 2));
+                gfx.DrawRectangle(strokeBrush, strokeRect, stroke);
+            }
+            var fontSize = rectHeight * 0.7f;
+            var point = new Point(rectTopLeft.X + (rectWidth / 2), rectTopLeft.Y + (rectHeight / 2.5f));
+            DrawText(gfx, point, text, font, fontSize, fontColor, true, TextAlign.Center);
+        }
         private void DrawBitmap(Graphics gfx, Bitmap bitmapDX, Point anchor, float opacity,
             float size = 1)
         {
