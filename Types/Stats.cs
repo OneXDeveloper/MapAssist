@@ -146,6 +146,19 @@ namespace MapAssist.Types
             State.STATE_BLOOD_MANA,
             State.STATE_DEFENSE_CURSE
         };
+        public static int GetPlayerStatShifted(UnitPlayer unitPlayer, Stat stat)
+        {
+            var shift = StatShifts.ContainsKey(stat) ? StatShifts[stat] : 0;
+            return unitPlayer.Stats.TryGetValue(stat, out var statValue) ? statValue >> shift : 0;
+        }
+
+        public static Dictionary<Stat, int> StatShifts = new Dictionary<Stat, int>()
+        {
+            [Stat.MaxLife] = 8,
+            [Stat.MaxMana] = 8,
+            [Stat.Life] = 8,
+            [Stat.Mana] = 8,
+        };
     }
     public static class StateMasks
     {
@@ -224,18 +237,6 @@ namespace MapAssist.Types
             {Stat.PoisonResist, Resist.POISON},
         };
     }
-    public static class ResistUnicodes
-    {
-        public static Dictionary<Resist, string> ResistUnicode = new Dictionary<Resist, string>
-        {
-            {Resist.PHYSICAL, "🔨"},
-            {Resist.MAGIC, "✨"},
-            {Resist.FIRE, "🔥"},
-            {Resist.LIGHTNING, "⚡"},
-            {Resist.COLD, "❄"},
-            {Resist.POISON, "☠"},
-        };
-    }
     public static class StatShortcuts
     {
         public static Dictionary<Stat, string> StatShortcut = new Dictionary<Stat, string>
@@ -256,6 +257,8 @@ namespace MapAssist.Types
             {Stat.ManaAfterKill, "maek"},
             {Stat.HPRegen, "rl"},
             {Stat.ManaRecovery, "mr"},
+            {Stat.MagicFind, "mf"},
+            {Stat.GoldFind, "gf"},
         };
     }
 

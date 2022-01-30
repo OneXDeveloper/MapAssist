@@ -170,28 +170,6 @@ namespace MapAssist.Types
             Stats.TryGetValue(_maxRes, out var maxRes);
             return (res - resPenalty <= 75 + maxRes) ? res - resPenalty : 75 + maxRes;
         }
-        public int ActualHealth
-        {
-            get
-            {
-                if (Stats.TryGetValue(Stat.Life, out var health) && health > 0)
-                {
-                    return health / 256;
-                }
-                return 0;
-            }
-        }
-        public int ActualMaxHealth
-        {
-            get
-            {
-                if (Stats.TryGetValue(Stat.MaxLife, out var maxHp) && maxHp > 0)
-                {
-                    return maxHp / 256;
-                }
-                return 0;
-            }
-        }
         public float HealthPercentage
         {
             get
@@ -202,28 +180,6 @@ namespace MapAssist.Types
                     return ((float)health / maxHp) * 100f;
                 }
                 return 0.0f;
-            }
-        }
-        public int ActualMana
-        {
-            get
-            {
-                if (Stats.TryGetValue(Stat.Mana, out var mana) && mana > 0)
-                {
-                    return mana / 256;
-                }
-                return 0;
-            }
-        }
-        public int ActualMaxMana
-        {
-            get
-            {
-                if (Stats.TryGetValue(Stat.MaxMana, out var maxMana) && maxMana > 0)
-                {
-                    return maxMana / 256;
-                }
-                return 0;
             }
         }
         public float ManaPercentage

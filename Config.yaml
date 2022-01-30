@@ -228,6 +228,6 @@ PlayerInfo:
   ShowLifeMana: true
   ShowResistances: true
   ShowRateStats: true
-  ShowExperience: true
+  ShowCenterStats: true
 D2Path: ''
 LanguageCode: enUS

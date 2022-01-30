@@ -267,8 +267,8 @@ public class PlayerInfoConfiguration
     [YamlMember(Alias = "ShowRateStats", ApplyNamingConventions = false)]
     public bool ShowRateStats { get; set; }
 
-    [YamlMember(Alias = "ShowExperience", ApplyNamingConventions = false)]
-    public bool ShowExperience { get; set; }
+    [YamlMember(Alias = "ShowCenterStats", ApplyNamingConventions = false)]
+    public bool ShowCenterStats { get; set; }
 }
 public class ItemLogConfiguration
 {

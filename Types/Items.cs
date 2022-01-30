@@ -206,7 +206,7 @@ namespace MapAssist.Types
                 }
             }
 
-            foreach (var (stat, shift) in LootFilter.StatShifts.Select(x => (x.Key, x.Value)))
+            foreach (var (stat, shift) in States.StatShifts.Select(x => (x.Key, x.Value)))
             {
                 var property = rule.GetType().GetProperty(stat.ToString());
                 var propertyValue = property.GetValue(rule, null);

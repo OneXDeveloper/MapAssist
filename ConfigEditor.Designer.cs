@@ -32,7 +32,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.grpPlayerInfo = new System.Windows.Forms.GroupBox();
-            this.chkShowExperience = new System.Windows.Forms.CheckBox();
+            this.chkShowCenterStats = new System.Windows.Forms.CheckBox();
             this.chkShowRateStats = new System.Windows.Forms.CheckBox();
             this.chkShowResistances = new System.Windows.Forms.CheckBox();
             this.chkShowLifeMana = new System.Windows.Forms.CheckBox();
@@ -224,7 +224,7 @@
             // grpPlayerInfo
             // 
             this.grpPlayerInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.grpPlayerInfo.Controls.Add(this.chkShowExperience);
+            this.grpPlayerInfo.Controls.Add(this.chkShowCenterStats);
             this.grpPlayerInfo.Controls.Add(this.chkShowRateStats);
             this.grpPlayerInfo.Controls.Add(this.chkShowResistances);
             this.grpPlayerInfo.Controls.Add(this.chkShowLifeMana);
@@ -235,16 +235,16 @@
             this.grpPlayerInfo.TabStop = false;
             this.grpPlayerInfo.Text = "Game Info";
             // 
-            // chkShowExperience
+            // chkShowCenterStats
             // 
-            this.chkShowExperience.AutoSize = true;
-            this.chkShowExperience.Location = new System.Drawing.Point(159, 39);
-            this.chkShowExperience.Name = "chkShowExperience";
-            this.chkShowExperience.Size = new System.Drawing.Size(79, 17);
-            this.chkShowExperience.TabIndex = 39;
-            this.chkShowExperience.Text = "Experience";
-            this.chkShowExperience.UseVisualStyleBackColor = true;
-            this.chkShowExperience.CheckedChanged += new System.EventHandler(this.chkShowExperience_CheckedChanged);
+            this.chkShowCenterStats.AutoSize = true;
+            this.chkShowCenterStats.Location = new System.Drawing.Point(159, 39);
+            this.chkShowCenterStats.Name = "chkShowCenterStats";
+            this.chkShowCenterStats.Size = new System.Drawing.Size(79, 17);
+            this.chkShowCenterStats.TabIndex = 39;
+            this.chkShowCenterStats.Text = "Center Stats";
+            this.chkShowCenterStats.UseVisualStyleBackColor = true;
+            this.chkShowCenterStats.CheckedChanged += new System.EventHandler(this.chkShowCenterStats_CheckedChanged);
             // 
             // chkShowRateStats
             // 
@@ -1912,7 +1912,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox grpPlayerInfo;
-        private System.Windows.Forms.CheckBox chkShowExperience;
+        private System.Windows.Forms.CheckBox chkShowCenterStats;
         private System.Windows.Forms.CheckBox chkShowRateStats;
         private System.Windows.Forms.CheckBox chkShowResistances;
         private System.Windows.Forms.CheckBox chkShowLifeMana;

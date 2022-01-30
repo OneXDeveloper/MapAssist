@@ -90,7 +90,7 @@ namespace MapAssist
             chkShowLifeMana.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana;
             chkShowResistances.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances;
             chkShowRateStats.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowRateStats;
-            chkShowExperience.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience;
+            chkShowCenterStats.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowCenterStats;
             txtHuntIP.ReadOnly = !MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
             txtHuntIP.Text = MapAssistConfiguration.Loaded.GameInfo.HuntingIP;
             txtD2Path.Text = MapAssistConfiguration.Loaded.D2LoDPath;
@@ -311,9 +311,9 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.PlayerInfo.ShowRateStats = chkShowRateStats.Checked;
         }
 
-        private void chkShowExperience_CheckedChanged(object sender, EventArgs e)
+        private void chkShowCenterStats_CheckedChanged(object sender, EventArgs e)
         {
-            MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience = chkShowExperience.Checked;
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowCenterStats = chkShowCenterStats.Checked;
         }
         private void txtHuntIP_TextChanged(object sender, EventArgs e)
         {

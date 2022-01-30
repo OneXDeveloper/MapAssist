@@ -965,7 +965,6 @@ namespace MapAssist.Helpers
         {
             var center = gfx.Width / 2;
             var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
-            var stroke = CreateSolidBrush(gfx, Color.White, 0.7f);
             var blackFill = CreateSolidBrush(gfx, Color.Black, 0.7f);
 
             //Player life & mana
@@ -974,8 +973,8 @@ namespace MapAssist.Helpers
                 var lmFontSize = gfx.Height * 0.02f;
                 var lmShiftPosition = (gfx.Height / 2) * 0.91f;
 
-                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualHealth.ToString() + "/" + _gameData.PlayerUnit.ActualMaxHealth.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
-                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), _gameData.PlayerUnit.ActualMana.ToString() + "/" + _gameData.PlayerUnit.ActualMaxMana.ToString(), font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), States.GetPlayerStatShifted(_gameData.PlayerUnit, Stat.Life) + "/" + States.GetPlayerStatShifted(_gameData.PlayerUnit, Stat.MaxLife), font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), States.GetPlayerStatShifted(_gameData.PlayerUnit, Stat.Mana) + "/" + States.GetPlayerStatShifted(_gameData.PlayerUnit, Stat.MaxMana), font, lmFontSize, Color.White, true, TextAlign.Center);
                 DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.HealthPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
                 DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.ManaPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
 
@@ -1018,15 +1017,26 @@ namespace MapAssist.Helpers
                 }
             }
 
-            //Player Experience
-            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience)
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowCenterStats)
             {
-                var expRectWidth = gfx.Height * 0.06f;
-                var expRectHeight = gfx.Height * 0.02f;
-                var expPoint = new Point(center - (expRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
+                //Player Experience
+                var centerRectWidth = gfx.Height * 0.06f;
+                var expRectHeight = gfx.Height * 0.04f;
+                var expPoint = new Point(center - (centerRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
                 _gameData.PlayerUnit.Stats.TryGetValue(Stat.Level, out var lvl);
-                DrawRectangleWithText(gfx, expPoint, expRectWidth, expRectHeight, blackFill, lvl + " lvl", font, Color.White);
-                DrawRectangleWithText(gfx, expPoint.Add(0, expRectHeight), expRectWidth, expRectHeight, blackFill, _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%", font, Color.White);
+                var expText = "Lvl " + lvl +
+                    Environment.NewLine +
+                    _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%";
+                DrawRectangleWithText(gfx, expPoint, centerRectWidth, expRectHeight, blackFill, expText, font, Color.White);
+
+                //Player MF & GF
+                var mfgfRectHeight = gfx.Height * 0.034f;
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.MagicFind, out var mf);
+                _gameData.PlayerUnit.Stats.TryGetValue(Stat.GoldFind, out var gf);
+                var mfgfText = mf + "% " + StatShortcuts.StatShortcut[Stat.MagicFind] +
+                    Environment.NewLine +
+                    gf + "% " + StatShortcuts.StatShortcut[Stat.GoldFind];
+                DrawRectangleWithText(gfx, expPoint.Add(0, expRectHeight), centerRectWidth, mfgfRectHeight, blackFill, mfgfText, font, Color.White);
             }
 
             //Player RateStats

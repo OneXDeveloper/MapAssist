@@ -27,12 +27,6 @@ namespace MapAssist.Helpers
 {
     public static class LootFilter
     {
-        public static Dictionary<Stat, int> StatShifts = new Dictionary<Stat, int>()
-        {
-            [Stat.MaxLife] = 8,
-            [Stat.MaxMana] = 8,
-        };
-
         public static List<Stat> NegativeValueStats = new List<Stat>()
         {
             Stat.EnemyFireResist,
@@ -96,7 +90,7 @@ namespace MapAssist.Helpers
                     },
                 };
 
-                foreach (var (stat, shift) in StatShifts.Select(x => (x.Key, x.Value)))
+                foreach (var (stat, shift) in States.StatShifts.Select(x => (x.Key, x.Value)))
                 {
                     requirementsFunctions.Add(stat.ToString(), () => Items.GetItemStatShifted(item, stat, shift) >= (int)rule[stat]);
                 }
