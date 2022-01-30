@@ -34,8 +34,8 @@ namespace MapAssist.Types
         public uint TxtFileNo => Struct.TxtFileNo;
         public Area Area { get; private set; }
         public Point Position => new Point(X, Y);
-        public ushort X => IsMovable ? Path.DynamicX : Path.StaticX;
-        public ushort Y => IsMovable ? Path.DynamicY : Path.StaticY;
+        public float X => IsMovable ? Path.DynamicX : (float)Path.StaticX;
+        public float Y => IsMovable ? Path.DynamicY : (float)Path.StaticY;
         public StatListStruct StatsStruct { get; private set; }
         public Dictionary<Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
         public Dictionary<Stat, int> Stats { get; private set; }
