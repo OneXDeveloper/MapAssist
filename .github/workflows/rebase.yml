@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+env:
+  HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }} # main
+
 jobs:
   rebase:
     # this job will only run if the PR has been merged
@@ -18,9 +22,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ github.event.pull_request.head.ref }}
         fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
-    - name: Automatic Rebase
-      uses: cirrus-actions/rebase@1.5
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Rebase
+      run: |
+        git config --global user.email "${GITHUB_ACTOR}"
+        git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+        git status
+        git rebase origin/$BASE_BRANCH
+        git status
+        git push --force-with-lease origin HEAD:$HEAD_BRANCH
+        git status
