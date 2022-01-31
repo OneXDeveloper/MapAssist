@@ -1,4 +1,4 @@
-# MapAssist
+# [MapAssist](https://mapassist.github.io)
 
 ## Features
 
