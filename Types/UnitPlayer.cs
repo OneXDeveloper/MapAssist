@@ -3,7 +3,7 @@ using MapAssist.Structs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static MapAssist.Types.Stats;
+using MapAssist.Types;
 
 namespace MapAssist.Types
 {
@@ -150,18 +150,18 @@ namespace MapAssist.Types
             }
             return stateList;
         }
-        public Dictionary<Stat, int> GetResists(int resPenalty)
+        public Dictionary<Stats.Stat, int> GetResists(int resPenalty)
         {
-            var resists = new Dictionary<Stat, int>();
-            resists.Add(Stat.FireResist, CalculateResist(Stat.FireResist, Stat.MaxFireResist, resPenalty));
-            resists.Add(Stat.LightningResist, CalculateResist(Stat.LightningResist, Stat.MaxLightningResist, resPenalty));
-            resists.Add(Stat.ColdResist, CalculateResist(Stat.ColdResist, Stat.MaxColdResist, resPenalty));
-            resists.Add(Stat.PoisonResist, CalculateResist(Stat.PoisonResist, Stat.MaxPoisonResist, resPenalty));
+            var resists = new Dictionary<Stats.Stat, int>();
+            resists.Add(Types.Stats.Stat.FireResist, CalculateResist(Types.Stats.Stat.FireResist, Types.Stats.Stat.MaxFireResist, resPenalty));
+            resists.Add(Types.Stats.Stat.LightningResist, CalculateResist(Types.Stats.Stat.LightningResist, Types.Stats.Stat.MaxLightningResist, resPenalty));
+            resists.Add(Types.Stats.Stat.ColdResist, CalculateResist(Types.Stats.Stat.ColdResist, Types.Stats.Stat.MaxColdResist, resPenalty));
+            resists.Add(Types.Stats.Stat.PoisonResist, CalculateResist(Types.Stats.Stat.PoisonResist, Types.Stats.Stat.MaxPoisonResist, resPenalty));
 
             return resists;
         }
 
-        private int CalculateResist(Stat _res, Stat _maxRes, int resPenalty)
+        private int CalculateResist(Stats.Stat _res, Stats.Stat _maxRes, int resPenalty)
         {
             Stats.TryGetValue(_res, out var res);
             Stats.TryGetValue(_maxRes, out var maxRes);
@@ -171,8 +171,8 @@ namespace MapAssist.Types
         {
             get
             {
-                if (Stats.TryGetValue(Stat.Life, out var health) &&
-                    Stats.TryGetValue(Stat.MaxLife, out var maxHp) && maxHp > 0)
+                if (Stats.TryGetValue(Types.Stats.Stat.Life, out var health) &&
+                    Stats.TryGetValue(Types.Stats.Stat.MaxLife, out var maxHp) && maxHp > 0)
                 {
                     return ((float)health / maxHp) * 100f;
                 }
@@ -183,8 +183,8 @@ namespace MapAssist.Types
         {
             get
             {
-                if (Stats.TryGetValue(Stat.Mana, out var mana) &&
-                    Stats.TryGetValue(Stat.MaxMana, out var maxMana) && maxMana > 0)
+                if (Stats.TryGetValue(Types.Stats.Stat.Mana, out var mana) &&
+                    Stats.TryGetValue(Types.Stats.Stat.MaxMana, out var maxMana) && maxMana > 0)
                 {
                     return ((float)mana / maxMana) * 100f;
                 }
@@ -196,7 +196,7 @@ namespace MapAssist.Types
             get
             {
                 const long maxInt = (long)int.MaxValue + 1;
-                Stats.TryGetValue(Stat.Experience, out var exp);
+                Stats.TryGetValue(Types.Stats.Stat.Experience, out var exp);
                 return exp < 0 ? maxInt + exp + maxInt : exp;
             }
         }
@@ -204,8 +204,9 @@ namespace MapAssist.Types
         {
             get
             {
-                if (Stats.TryGetValue(Stat.Level, out var lvl) && lvl > 0)
+                if (Stats.TryGetValue(Types.Stats.Stat.Level, out var lvl) && lvl > 0)
                 {
+                    if (lvl == 99) return 100f;
                     var expBetweenLevels = PlayerLevelsExp[lvl + 1] - PlayerLevelsExp[lvl];
                     var expToLevelUp = PlayerLevelsExp[lvl + 1] - ActualExperience;
                     return 100f - ((float)expToLevelUp / expBetweenLevels * 100f);
@@ -213,9 +214,9 @@ namespace MapAssist.Types
                 return 0.0f;
             }
         }
-        public static int GetPlayerStatShifted(UnitPlayer unitPlayer, Stat stat)
+        public static int GetPlayerStatShifted(UnitPlayer unitPlayer, Stats.Stat stat)
         {
-            return unitPlayer.Stats.TryGetValue(stat, out var statValue) && StatShifts.TryGetValue(stat, out var shift) ? statValue >> shift : 0;
+            return unitPlayer.Stats.TryGetValue(stat, out var statValue) && Types.Stats.StatShifts.TryGetValue(stat, out var shift) ? statValue >> shift : 0;
         }
 
         private bool GetState(State state)

@@ -163,6 +163,7 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.grpPlayerInfo.SuspendLayout();
@@ -226,22 +227,23 @@
             // grpPlayerInfo
             // 
             this.grpPlayerInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grpPlayerInfo.Controls.Add(this.label3);
             this.grpPlayerInfo.Controls.Add(this.cboResistancesPosition);
             this.grpPlayerInfo.Controls.Add(this.chkShowExperience);
             this.grpPlayerInfo.Controls.Add(this.chkShowResistances);
             this.grpPlayerInfo.Controls.Add(this.chkShowLifeMana);
-            this.grpPlayerInfo.Location = new System.Drawing.Point(11, 149);
+            this.grpPlayerInfo.Location = new System.Drawing.Point(11, 136);
             this.grpPlayerInfo.Name = "grpPlayerInfo";
-            this.grpPlayerInfo.Size = new System.Drawing.Size(300, 60);
+            this.grpPlayerInfo.Size = new System.Drawing.Size(300, 65);
             this.grpPlayerInfo.TabIndex = 40;
             this.grpPlayerInfo.TabStop = false;
-            this.grpPlayerInfo.Text = "Game Info";
+            this.grpPlayerInfo.Text = "Player Info";
             // 
             // cboResistancesPosition
             // 
             this.cboResistancesPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboResistancesPosition.FormattingEnabled = true;
-            this.cboResistancesPosition.Location = new System.Drawing.Point(205, 33);
+            this.cboResistancesPosition.Location = new System.Drawing.Point(205, 34);
             this.cboResistancesPosition.Name = "cboResistancesPosition";
             this.cboResistancesPosition.Size = new System.Drawing.Size(87, 21);
             this.cboResistancesPosition.TabIndex = 40;
@@ -250,7 +252,7 @@
             // chkShowExperience
             // 
             this.chkShowExperience.AutoSize = true;
-            this.chkShowExperience.Location = new System.Drawing.Point(159, 16);
+            this.chkShowExperience.Location = new System.Drawing.Point(11, 36);
             this.chkShowExperience.Name = "chkShowExperience";
             this.chkShowExperience.Size = new System.Drawing.Size(106, 17);
             this.chkShowExperience.TabIndex = 39;
@@ -261,11 +263,11 @@
             // chkShowResistances
             // 
             this.chkShowResistances.AutoSize = true;
-            this.chkShowResistances.Location = new System.Drawing.Point(11, 37);
+            this.chkShowResistances.Location = new System.Drawing.Point(159, 16);
             this.chkShowResistances.Name = "chkShowResistances";
-            this.chkShowResistances.Size = new System.Drawing.Size(167, 17);
+            this.chkShowResistances.Size = new System.Drawing.Size(84, 17);
             this.chkShowResistances.TabIndex = 38;
-            this.chkShowResistances.Text = "Resistances and their position";
+            this.chkShowResistances.Text = "Resistances";
             this.chkShowResistances.UseVisualStyleBackColor = true;
             this.chkShowResistances.CheckedChanged += new System.EventHandler(this.chkShowResistances_CheckedChanged);
             // 
@@ -285,9 +287,9 @@
             this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox5.Controls.Add(this.cboLanguage);
             this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Location = new System.Drawing.Point(11, 274);
+            this.groupBox5.Location = new System.Drawing.Point(11, 270);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(300, 58);
+            this.groupBox5.Size = new System.Drawing.Size(300, 48);
             this.groupBox5.TabIndex = 25;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Translation";
@@ -317,9 +319,9 @@
             this.groupBox4.Controls.Add(this.txtD2Path);
             this.groupBox4.Controls.Add(this.btnBrowseD2Location);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(11, 215);
+            this.groupBox4.Location = new System.Drawing.Point(11, 206);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(300, 54);
+            this.groupBox4.Size = new System.Drawing.Size(300, 58);
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "D2LoD 1.13c Path";
@@ -372,7 +374,7 @@
             this.grpGameInfo.Controls.Add(this.label7);
             this.grpGameInfo.Location = new System.Drawing.Point(11, 3);
             this.grpGameInfo.Name = "grpGameInfo";
-            this.grpGameInfo.Size = new System.Drawing.Size(300, 140);
+            this.grpGameInfo.Size = new System.Drawing.Size(300, 132);
             this.grpGameInfo.TabIndex = 23;
             this.grpGameInfo.TabStop = false;
             this.grpGameInfo.Text = "Game Info";
@@ -380,7 +382,7 @@
             // chkShowGameIP
             // 
             this.chkShowGameIP.AutoSize = true;
-            this.chkShowGameIP.Location = new System.Drawing.Point(159, 59);
+            this.chkShowGameIP.Location = new System.Drawing.Point(159, 53);
             this.chkShowGameIP.Name = "chkShowGameIP";
             this.chkShowGameIP.Size = new System.Drawing.Size(67, 17);
             this.chkShowGameIP.TabIndex = 6;
@@ -391,7 +393,7 @@
             // chkGameInfoTextShadow
             // 
             this.chkGameInfoTextShadow.AutoSize = true;
-            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 111);
+            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 103);
             this.chkGameInfoTextShadow.Name = "chkGameInfoTextShadow";
             this.chkGameInfoTextShadow.Size = new System.Drawing.Size(89, 17);
             this.chkGameInfoTextShadow.TabIndex = 34;
@@ -402,7 +404,7 @@
             // chkShowOverlayFPS
             // 
             this.chkShowOverlayFPS.AutoSize = true;
-            this.chkShowOverlayFPS.Location = new System.Drawing.Point(11, 59);
+            this.chkShowOverlayFPS.Location = new System.Drawing.Point(11, 53);
             this.chkShowOverlayFPS.Name = "chkShowOverlayFPS";
             this.chkShowOverlayFPS.Size = new System.Drawing.Size(85, 17);
             this.chkShowOverlayFPS.TabIndex = 2;
@@ -413,7 +415,7 @@
             // chkShowAreaLevel
             // 
             this.chkShowAreaLevel.AutoSize = true;
-            this.chkShowAreaLevel.Location = new System.Drawing.Point(159, 39);
+            this.chkShowAreaLevel.Location = new System.Drawing.Point(159, 35);
             this.chkShowAreaLevel.Name = "chkShowAreaLevel";
             this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaLevel.TabIndex = 39;
@@ -424,7 +426,7 @@
             // chkShowArea
             // 
             this.chkShowArea.AutoSize = true;
-            this.chkShowArea.Location = new System.Drawing.Point(159, 19);
+            this.chkShowArea.Location = new System.Drawing.Point(159, 17);
             this.chkShowArea.Name = "chkShowArea";
             this.chkShowArea.Size = new System.Drawing.Size(48, 17);
             this.chkShowArea.TabIndex = 16;
@@ -435,7 +437,7 @@
             // chkShowDifficulty
             // 
             this.chkShowDifficulty.AutoSize = true;
-            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 39);
+            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 35);
             this.chkShowDifficulty.Name = "chkShowDifficulty";
             this.chkShowDifficulty.Size = new System.Drawing.Size(66, 17);
             this.chkShowDifficulty.TabIndex = 38;
@@ -446,7 +448,7 @@
             // chkShowGameName
             // 
             this.chkShowGameName.AutoSize = true;
-            this.chkShowGameName.Location = new System.Drawing.Point(11, 19);
+            this.chkShowGameName.Location = new System.Drawing.Point(11, 17);
             this.chkShowGameName.Name = "chkShowGameName";
             this.chkShowGameName.Size = new System.Drawing.Size(120, 17);
             this.chkShowGameName.TabIndex = 37;
@@ -458,7 +460,7 @@
             // 
             this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboGameInfoPosition.FormattingEnabled = true;
-            this.cboGameInfoPosition.Location = new System.Drawing.Point(205, 109);
+            this.cboGameInfoPosition.Location = new System.Drawing.Point(205, 101);
             this.cboGameInfoPosition.Name = "cboGameInfoPosition";
             this.cboGameInfoPosition.Size = new System.Drawing.Size(87, 21);
             this.cboGameInfoPosition.TabIndex = 36;
@@ -467,7 +469,7 @@
             // lblGameInfoPosition
             // 
             this.lblGameInfoPosition.AutoSize = true;
-            this.lblGameInfoPosition.Location = new System.Drawing.Point(155, 112);
+            this.lblGameInfoPosition.Location = new System.Drawing.Point(155, 104);
             this.lblGameInfoPosition.Name = "lblGameInfoPosition";
             this.lblGameInfoPosition.Size = new System.Drawing.Size(44, 13);
             this.lblGameInfoPosition.TabIndex = 35;
@@ -478,7 +480,7 @@
             this.btnClearGameInfoFont.FlatAppearance.BorderSize = 0;
             this.btnClearGameInfoFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearGameInfoFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 80);
+            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 73);
             this.btnClearGameInfoFont.Name = "btnClearGameInfoFont";
             this.btnClearGameInfoFont.Size = new System.Drawing.Size(23, 23);
             this.btnClearGameInfoFont.TabIndex = 33;
@@ -489,7 +491,7 @@
             // btnGameInfoFont
             // 
             this.btnGameInfoFont.BackColor = System.Drawing.Color.Transparent;
-            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 80);
+            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 73);
             this.btnGameInfoFont.Name = "btnGameInfoFont";
             this.btnGameInfoFont.Size = new System.Drawing.Size(75, 23);
             this.btnGameInfoFont.TabIndex = 32;
@@ -499,7 +501,7 @@
             // 
             // txtHuntIP
             // 
-            this.txtHuntIP.Location = new System.Drawing.Point(205, 82);
+            this.txtHuntIP.Location = new System.Drawing.Point(205, 75);
             this.txtHuntIP.Name = "txtHuntIP";
             this.txtHuntIP.Size = new System.Drawing.Size(87, 20);
             this.txtHuntIP.TabIndex = 9;
@@ -508,7 +510,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(155, 85);
+            this.label7.Location = new System.Drawing.Point(155, 78);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(43, 13);
             this.label7.TabIndex = 10;
@@ -1742,6 +1744,15 @@
             this.lstHidden.Size = new System.Drawing.Size(253, 160);
             this.lstHidden.TabIndex = 0;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(155, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.TabIndex = 41;
+            this.label3.Text = "Position";
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1939,5 +1950,6 @@
         private System.Windows.Forms.CheckBox chkShowResistances;
         private System.Windows.Forms.CheckBox chkShowLifeMana;
         private System.Windows.Forms.ComboBox cboResistancesPosition;
+        private System.Windows.Forms.Label label3;
     }
 }

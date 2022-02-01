@@ -821,8 +821,6 @@ namespace MapAssist.Types
             {Stat.FireResist, "fr"},
             {Stat.LightningResist, "lr"},
             {Stat.PoisonResist, "pr"},
-            {Stat.MagicFind, "mf"},
-            {Stat.GoldFind, "gf"},
         };
     }
 }
