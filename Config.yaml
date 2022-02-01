@@ -225,5 +225,10 @@ GameInfo:
   LabelFont: Exocet Blizzard Mixed Caps
   LabelFontSize: 16
   LabelTextShadow: true
+PlayerInfo:
+  ShowLifeMana: true
+  ShowResistances: true
+  ResistancesPosition: Left
+  ShowExperience: true
 D2Path: ''
 LanguageCode: enUS

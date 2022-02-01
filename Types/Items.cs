@@ -206,7 +206,7 @@ namespace MapAssist.Types
                 }
             }
 
-            foreach (var (stat, shift) in Stats.StatShifts.Select(x => (x.Key, x.Value)))
+            foreach (var stat in ShiftedStats)
             {
                 var property = rule.GetType().GetProperty(stat.ToString());
                 var propertyValue = property.GetValue(rule, null);
@@ -260,6 +260,12 @@ namespace MapAssist.Types
 
             return itemPrefix + itemSpecialName + itemBaseName + itemSuffix;
         }
+
+        private static List<Stats.Stat> ShiftedStats = new List<Stats.Stat>()
+        {
+            Stats.Stat.MaxLife,
+            Stats.Stat.MaxMana,
+        };
 
         public static string GetItemNameFromKey(string key)
         {

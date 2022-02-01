@@ -424,6 +424,8 @@ namespace MapAssist.Types
         {
             [Stat.MaxLife] = 8,
             [Stat.MaxMana] = 8,
+            [Stat.Life] = 8,
+            [Stat.Mana] = 8,
         };
 
         public static Dictionary<Stat, double> StatDivisors = new Dictionary<Stat, double>()
@@ -803,6 +805,24 @@ namespace MapAssist.Types
             QuestItemDifficulty,
             PassiveMagicMastery,
             PassiveMagicPierce,
+        };
+
+        public static Dictionary<Stat, Resist> StatResistColor = new Dictionary<Stat, Resist>
+        {
+            {Stat.FireResist, Resist.FIRE},
+            {Stat.LightningResist, Resist.LIGHTNING},
+            {Stat.ColdResist, Resist.COLD},
+            {Stat.PoisonResist, Resist.POISON},
+        };
+
+        public static Dictionary<Stat, string> StatShortcut = new Dictionary<Stat, string>
+        {
+            {Stat.ColdResist, "cr"},
+            {Stat.FireResist, "fr"},
+            {Stat.LightningResist, "lr"},
+            {Stat.PoisonResist, "pr"},
+            {Stat.MagicFind, "mf"},
+            {Stat.GoldFind, "gf"},
         };
     }
 }

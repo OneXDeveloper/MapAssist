@@ -1,4 +1,4 @@
-/**
+﻿/**
  *   Copyright (C) 2021 okaygo
  *
  *   https://github.com/misterokaygo/MapAssist/
@@ -961,7 +961,100 @@ namespace MapAssist.Helpers
             }
         }
 
+        public void DrawPlayerInfo(Graphics gfx)
+        {
+            var center = gfx.Width / 2;
+            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+            var blackFill = CreateSolidBrush(gfx, Color.Black, 0.7f);
+
+            //Player life & mana
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana)
+            {
+                var lmFontSize = gfx.Height * 0.02f;
+                var lmShiftPosition = (gfx.Height / 2) * 0.91f;
+
+                var life = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.Life);
+                var mana = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.Mana);
+                var maxLife = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.MaxLife);
+                var maxMana = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.MaxMana);
+
+                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), life + "/" + maxLife, font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), mana + "/" + maxMana, font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.HealthPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.ManaPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
+            }
+
+            //Player actual resistances
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances)
+            {
+                var resRectWidth = gfx.Height * 0.06f;
+                var resRectHeight = gfx.Height * 0.020f;
+                var resBoxTransparency = 0.2f;
+                var stateList = _gameData.PlayerUnit.StateList;
+
+                var warning = (stateList.Contains(State.STATE_CONVICTION) && _gameData.PlayerUnit.Skills.RightSkillId != Skill.Conviction)
+                    || stateList.Contains(State.STATE_LOWERRESIST);
+                if (warning)
+                {
+                    resRectWidth *= 2;
+                    resRectHeight *= 2;
+                    resBoxTransparency *= 4;
+                }
+
+                var resShift = MapAssistConfiguration.Loaded.PlayerInfo.ResistancesPosition == ResistancesPosition.Left ?
+                    new Point(center - ((gfx.Height / 1.85f) + resRectWidth), gfx.Height - resRectHeight) :
+                    new Point(center + (gfx.Height / 1.85f), gfx.Height - resRectHeight);
+
+                var statList = new List<Stats.Stat> { Stats.Stat.PoisonResist, Stats.Stat.LightningResist, Stats.Stat.ColdResist, Stats.Stat.FireResist };
+                var shift = 0;
+                foreach (var stat in statList)
+                {
+                    var fillBrush = CreateSolidBrush(gfx, ResistColors.ResistColor[Stats.StatResistColor[stat]], resBoxTransparency);
+                    var text = _gameData.PlayerUnit.GetResists(_gameData.Difficulty.ResistancePenalty())[stat] + "% " + Stats.StatShortcut[stat];
+                    DrawRectangleWithText(gfx, resShift.Subtract(0, (resRectHeight + 2) * shift), resRectWidth, resRectHeight, fillBrush, text, font, Color.White);
+                    shift++;
+                }
+
+                if (warning)
+                {
+                    DrawText(gfx, resShift.Subtract(-(resRectWidth / 2), resRectHeight * 4.5f), "⚠️", font, resRectWidth * 0.5f, Color.Red, true, TextAlign.Center, resBoxTransparency);
+                }
+            }
+
+            //Player Experience
+            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience)
+            {
+                var centerRectWidth = gfx.Height * 0.06f;
+                var expRectHeight = gfx.Height * 0.04f;
+                var expPoint = new Point(center - (centerRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
+                _gameData.PlayerUnit.Stats.TryGetValue(Stats.Stat.Level, out var lvl);
+                var expText = "Lvl " + lvl +
+                    Environment.NewLine +
+                    _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%";
+                DrawRectangleWithText(gfx, expPoint, centerRectWidth, expRectHeight, blackFill, expText, font, Color.White);
+            }
+        }
+
         // Drawing Utility Functions
+        private void DrawRectangleWithText(Graphics gfx, Point rectTopLeft, float rectWidth, float rectHeight, IBrush fillBrush, string text, string font, Color fontColor, IBrush strokeBrush = null, float stroke = 0)
+        {
+            var splitedText = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            var textLines = splitedText.Length;
+            var rect = new Rectangle(rectTopLeft.X, rectTopLeft.Y, rectTopLeft.X + rectWidth, rectTopLeft.Y + rectHeight);
+            gfx.FillRectangle(fillBrush, rect);
+            if (strokeBrush != null)
+            {
+                var strokeRect = new Rectangle(rect.Left - (stroke / 2), rect.Top - (stroke / 2), rect.Right + (stroke / 2), rect.Bottom + (stroke / 2));
+                gfx.DrawRectangle(strokeBrush, strokeRect, stroke);
+            }
+            var fontSize = (rectHeight / textLines) * 0.7f;
+            var point = new Point(rectTopLeft.X + (rectWidth / 2), rectTopLeft.Y + (rectHeight / textLines / 2.0f));
+            for (var i = 0; i < textLines; i++)
+            {
+                var startLine = i > 0 ? (fontSize * i) + (fontSize / 3f) : 0;
+                DrawText(gfx, point.Add(0, startLine), splitedText[i], font, fontSize, fontColor, true, TextAlign.Center);
+            }
+        }
         private void DrawBitmap(Graphics gfx, Bitmap bitmapDX, Point anchor, float opacity,
             float size = 1)
         {

@@ -55,6 +55,11 @@ namespace MapAssist
                 cboItemLogPosition.Items.Add(element.ToProperCase());
             }
 
+            foreach (var element in Enum.GetNames(typeof(ResistancesPosition)))
+            {
+                cboResistancesPosition.Items.Add(element.ToProperCase());
+            }
+
             cboLanguage.SelectedIndex = (int)MapAssistConfiguration.Loaded.LanguageCode;
 
             opacity.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity * 100d / 5);
@@ -95,6 +100,11 @@ namespace MapAssist
                 MapAssistConfiguration.Loaded.GameInfo.LabelFontSize != MapAssistConfiguration.Default.GameInfo.LabelFontSize;
             chkShowOverlayFPS.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS;
             cboGameInfoPosition.SelectedIndex = cboGameInfoPosition.FindStringExact(MapAssistConfiguration.Loaded.GameInfo.Position.ToString().ToProperCase());
+
+            chkShowLifeMana.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana;
+            chkShowResistances.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances;
+            cboResistancesPosition.SelectedIndex = cboResistancesPosition.FindStringExact(MapAssistConfiguration.Loaded.PlayerInfo.ResistancesPosition.ToString().ToProperCase());
+            chkShowExperience.Checked = MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience;
 
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey.ToString()).Monitor(txtToggleMapKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey.ToString()).Monitor(txtAreaLevelKey);
@@ -293,6 +303,25 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.GameInfo.ShowArea = chkShowArea.Checked;
         }
 
+        private void chkShowLifeMana_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana = chkShowLifeMana.Checked;
+        }
+
+        private void chkShowResistances_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances = chkShowResistances.Checked;
+        }
+
+        private void cboResistancesPosition_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ResistancesPosition = (ResistancesPosition)cboResistancesPosition.SelectedIndex;
+        }
+
+        private void chkShowExperience_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience = chkShowExperience.Checked;
+        }
         private void txtHuntIP_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.HuntingIP = txtHuntIP.Text;
@@ -327,7 +356,8 @@ namespace MapAssist
 
                 btnClearGameInfoFont.Visible = true;
                 fontDlg.Dispose();
-            } else
+            }
+            else
             {
                 fontDlg.Dispose();
             }
@@ -397,7 +427,7 @@ namespace MapAssist
                 btnLineColor.BackColor = iconProp.LineColor;
                 btnLineColor.ForeColor = ContrastTextColor(btnLineColor.BackColor);
                 btnClearLineColor.Visible = btnLineColor.BackColor.A > 0;
-                
+
                 lineArrowSize.Value = iconProp.ArrowHeadSize;
                 lineThicknessSize.Value = (int)iconProp.LineThickness;
                 lblLineArrowSizeValue.Text = lineArrowSize.Value.ToString();

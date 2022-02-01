@@ -32,5 +32,10 @@ namespace MapAssist.Types
         {
             return (ushort)difficulty >= 0 && (ushort)difficulty <= 2;
         }
+
+        public static int ResistancePenalty(this Difficulty difficulty)
+        {
+            return (ushort)difficulty == 2 ? 100 : (ushort)difficulty == 1 ? 40 : 0;
+        }
     }
 }

@@ -117,6 +117,8 @@ namespace MapAssist
                             _compositor.DrawMonsterBar(gfx);
                         }
 
+                        _compositor.DrawPlayerInfo(gfx);
+
                         var gameInfoAnchor = GameInfoAnchor(MapAssistConfiguration.Loaded.GameInfo.Position);
                         var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData);
 

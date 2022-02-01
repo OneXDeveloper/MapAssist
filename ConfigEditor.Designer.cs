@@ -31,6 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEditor));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.grpPlayerInfo = new System.Windows.Forms.GroupBox();
+            this.cboResistancesPosition = new System.Windows.Forms.ComboBox();
+            this.chkShowExperience = new System.Windows.Forms.CheckBox();
+            this.chkShowResistances = new System.Windows.Forms.CheckBox();
+            this.chkShowLifeMana = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cboLanguage = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -160,6 +165,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.grpPlayerInfo.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.grpGameInfo.SuspendLayout();
@@ -206,6 +212,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.grpPlayerInfo);
             this.tabPage5.Controls.Add(this.groupBox5);
             this.tabPage5.Controls.Add(this.groupBox4);
             this.tabPage5.Controls.Add(this.grpGameInfo);
@@ -216,12 +223,69 @@
             this.tabPage5.Text = "Main";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // grpPlayerInfo
+            // 
+            this.grpPlayerInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grpPlayerInfo.Controls.Add(this.cboResistancesPosition);
+            this.grpPlayerInfo.Controls.Add(this.chkShowExperience);
+            this.grpPlayerInfo.Controls.Add(this.chkShowResistances);
+            this.grpPlayerInfo.Controls.Add(this.chkShowLifeMana);
+            this.grpPlayerInfo.Location = new System.Drawing.Point(11, 149);
+            this.grpPlayerInfo.Name = "grpPlayerInfo";
+            this.grpPlayerInfo.Size = new System.Drawing.Size(300, 60);
+            this.grpPlayerInfo.TabIndex = 40;
+            this.grpPlayerInfo.TabStop = false;
+            this.grpPlayerInfo.Text = "Game Info";
+            // 
+            // cboResistancesPosition
+            // 
+            this.cboResistancesPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboResistancesPosition.FormattingEnabled = true;
+            this.cboResistancesPosition.Location = new System.Drawing.Point(205, 33);
+            this.cboResistancesPosition.Name = "cboResistancesPosition";
+            this.cboResistancesPosition.Size = new System.Drawing.Size(87, 21);
+            this.cboResistancesPosition.TabIndex = 40;
+            this.cboResistancesPosition.SelectedIndexChanged += new System.EventHandler(this.cboResistancesPosition_SelectedIndexChanged);
+            // 
+            // chkShowExperience
+            // 
+            this.chkShowExperience.AutoSize = true;
+            this.chkShowExperience.Location = new System.Drawing.Point(159, 16);
+            this.chkShowExperience.Name = "chkShowExperience";
+            this.chkShowExperience.Size = new System.Drawing.Size(106, 17);
+            this.chkShowExperience.TabIndex = 39;
+            this.chkShowExperience.Text = "Experience Stats";
+            this.chkShowExperience.UseVisualStyleBackColor = true;
+            this.chkShowExperience.CheckedChanged += new System.EventHandler(this.chkShowExperience_CheckedChanged);
+            // 
+            // chkShowResistances
+            // 
+            this.chkShowResistances.AutoSize = true;
+            this.chkShowResistances.Location = new System.Drawing.Point(11, 37);
+            this.chkShowResistances.Name = "chkShowResistances";
+            this.chkShowResistances.Size = new System.Drawing.Size(167, 17);
+            this.chkShowResistances.TabIndex = 38;
+            this.chkShowResistances.Text = "Resistances and their position";
+            this.chkShowResistances.UseVisualStyleBackColor = true;
+            this.chkShowResistances.CheckedChanged += new System.EventHandler(this.chkShowResistances_CheckedChanged);
+            // 
+            // chkShowLifeMana
+            // 
+            this.chkShowLifeMana.AutoSize = true;
+            this.chkShowLifeMana.Location = new System.Drawing.Point(11, 16);
+            this.chkShowLifeMana.Name = "chkShowLifeMana";
+            this.chkShowLifeMana.Size = new System.Drawing.Size(103, 17);
+            this.chkShowLifeMana.TabIndex = 37;
+            this.chkShowLifeMana.Text = "Life && Mana Info";
+            this.chkShowLifeMana.UseVisualStyleBackColor = true;
+            this.chkShowLifeMana.CheckedChanged += new System.EventHandler(this.chkShowLifeMana_CheckedChanged);
+            // 
             // groupBox5
             // 
             this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox5.Controls.Add(this.cboLanguage);
             this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Location = new System.Drawing.Point(11, 256);
+            this.groupBox5.Location = new System.Drawing.Point(11, 274);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(300, 58);
             this.groupBox5.TabIndex = 25;
@@ -232,7 +296,7 @@
             // 
             this.cboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboLanguage.FormattingEnabled = true;
-            this.cboLanguage.Location = new System.Drawing.Point(71, 22);
+            this.cboLanguage.Location = new System.Drawing.Point(71, 16);
             this.cboLanguage.Name = "cboLanguage";
             this.cboLanguage.Size = new System.Drawing.Size(146, 21);
             this.cboLanguage.TabIndex = 14;
@@ -241,7 +305,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 25);
+            this.label11.Location = new System.Drawing.Point(7, 19);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(55, 13);
             this.label11.TabIndex = 13;
@@ -253,9 +317,9 @@
             this.groupBox4.Controls.Add(this.txtD2Path);
             this.groupBox4.Controls.Add(this.btnBrowseD2Location);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(11, 167);
+            this.groupBox4.Location = new System.Drawing.Point(11, 215);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(300, 69);
+            this.groupBox4.Size = new System.Drawing.Size(300, 54);
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "D2LoD 1.13c Path";
@@ -263,7 +327,7 @@
             // txtD2Path
             // 
             this.txtD2Path.Enabled = false;
-            this.txtD2Path.Location = new System.Drawing.Point(10, 23);
+            this.txtD2Path.Location = new System.Drawing.Point(10, 17);
             this.txtD2Path.Name = "txtD2Path";
             this.txtD2Path.Size = new System.Drawing.Size(201, 20);
             this.txtD2Path.TabIndex = 7;
@@ -271,7 +335,7 @@
             // 
             // btnBrowseD2Location
             // 
-            this.btnBrowseD2Location.Location = new System.Drawing.Point(217, 21);
+            this.btnBrowseD2Location.Location = new System.Drawing.Point(217, 15);
             this.btnBrowseD2Location.Name = "btnBrowseD2Location";
             this.btnBrowseD2Location.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseD2Location.TabIndex = 17;
@@ -284,7 +348,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(7, 46);
+            this.label1.Location = new System.Drawing.Point(7, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(133, 13);
             this.label1.TabIndex = 15;
@@ -306,7 +370,7 @@
             this.grpGameInfo.Controls.Add(this.btnGameInfoFont);
             this.grpGameInfo.Controls.Add(this.txtHuntIP);
             this.grpGameInfo.Controls.Add(this.label7);
-            this.grpGameInfo.Location = new System.Drawing.Point(11, 9);
+            this.grpGameInfo.Location = new System.Drawing.Point(11, 3);
             this.grpGameInfo.Name = "grpGameInfo";
             this.grpGameInfo.Size = new System.Drawing.Size(300, 140);
             this.grpGameInfo.TabIndex = 23;
@@ -1693,6 +1757,8 @@
             this.Text = "Configuration - MapAssist";
             this.tabControl1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
+            this.grpPlayerInfo.ResumeLayout(false);
+            this.grpPlayerInfo.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -1868,5 +1934,10 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.GroupBox grpPlayerInfo;
+        private System.Windows.Forms.CheckBox chkShowExperience;
+        private System.Windows.Forms.CheckBox chkShowResistances;
+        private System.Windows.Forms.CheckBox chkShowLifeMana;
+        private System.Windows.Forms.ComboBox cboResistancesPosition;
     }
 }

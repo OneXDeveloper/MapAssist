@@ -120,6 +120,11 @@ namespace MapAssist.Settings
         TopLeft,
         TopRight
     }
+    public enum ResistancesPosition
+    {
+        Left,
+        Right
+    }
 
     public enum Shape
     {

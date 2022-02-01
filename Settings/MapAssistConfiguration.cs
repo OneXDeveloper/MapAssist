@@ -64,6 +64,9 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "GameInfo", ApplyNamingConventions = false)]
         public GameInfoConfiguration GameInfo { get; set; }
 
+        [YamlMember(Alias = "PlayerInfo", ApplyNamingConventions = false)]
+        public PlayerInfoConfiguration PlayerInfo { get; set; }
+
         [YamlMember(Alias = "D2Path", ApplyNamingConventions = false)]
         public string D2LoDPath { get; set; }
 
@@ -255,6 +258,20 @@ public class GameInfoConfiguration
 
     [YamlMember(Alias = "LabelTextShadow", ApplyNamingConventions = false)]
     public bool LabelTextShadow { get; set; }
+}
+public class PlayerInfoConfiguration
+{
+    [YamlMember(Alias = "ShowLifeMana", ApplyNamingConventions = false)]
+    public bool ShowLifeMana { get; set; }
+
+    [YamlMember(Alias = "ShowResistances", ApplyNamingConventions = false)]
+    public bool ShowResistances { get; set; }
+
+    [YamlMember(Alias = "ResistancesPosition", ApplyNamingConventions = false)]
+    public ResistancesPosition ResistancesPosition { get; set; }
+
+    [YamlMember(Alias = "ShowExperience", ApplyNamingConventions = false)]
+    public bool ShowExperience { get; set; }
 }
 
 public class ItemLogConfiguration
