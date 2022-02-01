@@ -122,19 +122,19 @@ namespace MapAssist.Helpers
                         else if (stat == Stats.Stat.AddClassSkills)
                         {
                             var (classSkills, points) = Items.GetItemStatAddClassSkills(item, (PlayerClass)layer);
-                            name = classSkills.ToString() + " Skills";
+                            name = classSkills[0].ToString() + " Skills";
                             finalValue = points.ToString();
                         }
                         else if (stat == Stats.Stat.AddSkillTab)
                         {
-                            var (skillTree, points) = Items.GetItemStatAddSkillTreeSkills(item, (SkillTree)layer);
-                            name = AddSpaces(skillTree.ToString());
+                            var (skillTrees, points) = Items.GetItemStatAddSkillTreeSkills(item, (SkillTree)layer);
+                            name = AddSpaces(skillTrees[0].ToString());
                             finalValue = points.ToString();
                         }
                         else if (stat == Stats.Stat.SingleSkill || stat == Stats.Stat.NonClassSkill)
                         {
-                            var (skill, points) = Items.GetItemStatAddSingleSkills(item, (Skill)layer);
-                            name = AddSpaces(skill.ToString());
+                            var (skills, points) = Items.GetItemStatAddSingleSkills(item, (Skill)layer);
+                            name = AddSpaces(skills[0].ToString());
                             finalValue = points.ToString();
                         }
                         else if (stat == Stats.Stat.ItemChargedSkill)
