@@ -559,6 +559,24 @@
     <None Include="Resources\Cold.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TigerStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BladesOfIce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClawsOfThunder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CobraStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FistsOfFire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PhoenixStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="MAServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

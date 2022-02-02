@@ -319,6 +319,24 @@
   <data name="Prayer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Prayer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Progressive_Damage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TigerStrike.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progressive_Steal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CobraStrike.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progressive_Other" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PhoenixStrike.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progressive_Fire" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FistsOfFire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progressive_Cold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BladesOfIce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progressive_Lightning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClawsOfThunder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Quickness" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Quickness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
