@@ -6,13 +6,7 @@ HotkeyConfiguration:
   ZoomOutKey: Num -
   ExportItemsKey: F9
 HiddenAreas:
-- Rogue Encampment
-- Lut Gholein
-- Kurast Docktown
-- Pandemonium Fortress
-- Harrogath
 - Forgotten Tower
-- Nihlathaks Temple
 RenderingConfiguration:
   Opacity: 0.5
   IconOpacity: 0.9
@@ -24,8 +18,16 @@ RenderingConfiguration:
   StickToLastGameWindow: false
   Size: 800
   ZoomLevel: 1
-  BuffPosition: Bottom
   BuffSize: 1
+  BuffPosition: Bottom
+  BuffAlertLowRes: true
+  ShowLife: false
+  ShowLifePerc: true
+  ShowMana: false
+  ShowManaPerc: true
+  ShowCurrentLevel: false
+  ShowExpProgress: true
+  ShowResistances: false
   LinesMode: All
 MapConfiguration:
   SuperUniqueMonster:
@@ -225,10 +227,5 @@ GameInfo:
   LabelFont: Exocet Blizzard Mixed Caps
   LabelFontSize: 16
   LabelTextShadow: true
-PlayerInfo:
-  ShowLifeMana: true
-  ShowResistances: true
-  ResistancesPosition: Left
-  ShowExperience: true
 D2Path: ''
 LanguageCode: enUS

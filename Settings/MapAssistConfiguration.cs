@@ -17,11 +17,11 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System.Drawing;
 using MapAssist.Files;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Types;
+using System.Drawing;
 using YamlDotNet.Serialization;
 
 namespace MapAssist.Settings
@@ -30,6 +30,7 @@ namespace MapAssist.Settings
     {
         public static MapAssistConfiguration Default { get; set; }
         public static MapAssistConfiguration Loaded { get; set; }
+
         public static void Load()
         {
             Default = ConfigurationParser<MapAssistConfiguration>.ParseConfigurationMain(Properties.Resources.Config);
@@ -64,9 +65,6 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "GameInfo", ApplyNamingConventions = false)]
         public GameInfoConfiguration GameInfo { get; set; }
 
-        [YamlMember(Alias = "PlayerInfo", ApplyNamingConventions = false)]
-        public PlayerInfoConfiguration PlayerInfo { get; set; }
-
         [YamlMember(Alias = "D2Path", ApplyNamingConventions = false)]
         public string D2LoDPath { get; set; }
 
@@ -76,10 +74,9 @@ namespace MapAssist.Settings
 
     public class MapColorConfiguration
     {
-        
         [YamlMember(Alias = "Walkable", ApplyNamingConventions = false)]
         public Color? Walkable { get; set; }
-        
+
         [YamlMember(Alias = "Border", ApplyNamingConventions = false)]
         public Color? Border { get; set; }
     }
@@ -191,16 +188,41 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "Size", ApplyNamingConventions = false)]
     public int Size { get; set; }
+
     internal int InitialSize { get; set; }
 
     [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
     public double ZoomLevel { get; set; }
 
+    [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
+    public double BuffSize { get; set; }
+
+    [YamlMember(Alias = "BuffAlertLowRes", ApplyNamingConventions = false)]
+    public bool BuffAlertLowRes { get; set; }
+
     [YamlMember(Alias = "BuffPosition", ApplyNamingConventions = false)]
     public BuffPosition BuffPosition { get; set; }
 
-    [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
-    public double BuffSize { get; set; }
+    [YamlMember(Alias = "ShowLife", ApplyNamingConventions = false)]
+    public bool ShowLife { get; set; }
+
+    [YamlMember(Alias = "ShowLifePerc", ApplyNamingConventions = false)]
+    public bool ShowLifePerc { get; set; }
+
+    [YamlMember(Alias = "ShowMana", ApplyNamingConventions = false)]
+    public bool ShowMana { get; set; }
+
+    [YamlMember(Alias = "ShowManaPerc", ApplyNamingConventions = false)]
+    public bool ShowManaPerc { get; set; }
+
+    [YamlMember(Alias = "ShowCurrentLevel", ApplyNamingConventions = false)]
+    public bool ShowCurrentLevel { get; set; }
+
+    [YamlMember(Alias = "ShowExpProgress", ApplyNamingConventions = false)]
+    public bool ShowExpProgress { get; set; }
+
+    [YamlMember(Alias = "ShowResistances", ApplyNamingConventions = false)]
+    public bool ShowResistances { get; set; }
 
     [YamlMember(Alias = "LinesMode", ApplyNamingConventions = false)]
     public MapLinesMode LinesMode { get; set; }
@@ -249,7 +271,7 @@ public class GameInfoConfiguration
 
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
-    
+
     [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
     public string LabelFont { get; set; }
 
@@ -258,20 +280,6 @@ public class GameInfoConfiguration
 
     [YamlMember(Alias = "LabelTextShadow", ApplyNamingConventions = false)]
     public bool LabelTextShadow { get; set; }
-}
-public class PlayerInfoConfiguration
-{
-    [YamlMember(Alias = "ShowLifeMana", ApplyNamingConventions = false)]
-    public bool ShowLifeMana { get; set; }
-
-    [YamlMember(Alias = "ShowResistances", ApplyNamingConventions = false)]
-    public bool ShowResistances { get; set; }
-
-    [YamlMember(Alias = "ResistancesPosition", ApplyNamingConventions = false)]
-    public ResistancesPosition ResistancesPosition { get; set; }
-
-    [YamlMember(Alias = "ShowExperience", ApplyNamingConventions = false)]
-    public bool ShowExperience { get; set; }
 }
 
 public class ItemLogConfiguration

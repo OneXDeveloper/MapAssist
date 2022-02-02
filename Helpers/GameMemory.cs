@@ -224,7 +224,8 @@ namespace MapAssist.Helpers
 
                     cache[item.UnitId] = item;
 
-                    if (item.ItemModeMapped == ItemModeMapped.Ground) {
+                    if (item.ItemModeMapped == ItemModeMapped.Ground)
+                    {
                         cache[item.HashString] = item;
                     }
 

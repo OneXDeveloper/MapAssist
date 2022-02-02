@@ -40,6 +40,7 @@ namespace MapAssist.Helpers
         public GameData _gameData;
         public AreaData _areaData;
         private IReadOnlyList<PointOfInterest> _pointsOfInterest;
+        private int _frameCount = 0;
         private ExocetFont _exocetFont;
         private FormalFont _formalFont;
 
@@ -80,6 +81,7 @@ namespace MapAssist.Helpers
         {
             _gameData = gameData;
             _drawBounds = drawBounds;
+            _frameCount += 1;
             (scaleWidth, scaleHeight) = GetScaleRatios();
 
             var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * _areaData.ViewOutputRect.Width / _areaData.ViewOutputRect.Height;
@@ -667,10 +669,12 @@ namespace MapAssist.Helpers
             var buffAlignment = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition;
             var buffYPos = 0f;
 
+            var playerBuffPosition = (gfx.Height / 2f) - imgDimensions - (gfx.Height * .15f);
+
             switch (buffAlignment)
             {
                 case BuffPosition.Player:
-                    buffYPos = (gfx.Height / 2f) - imgDimensions - (gfx.Height * .12f);
+                    buffYPos = playerBuffPosition;
                     break;
 
                 case BuffPosition.Top:
@@ -695,6 +699,8 @@ namespace MapAssist.Helpers
             buffsByColor.Add(States.AuraColor, new List<Bitmap>());
             buffsByColor.Add(States.BuffColor, new List<Bitmap>());
 
+            var alertLoweredRes = false;
+
             foreach (var state in stateList)
             {
                 var stateStr = Enum.GetName(typeof(State), state).Substring(6);
@@ -705,7 +711,7 @@ namespace MapAssist.Helpers
                     Color buffColor = States.StateColor(state);
                     if (state == State.STATE_CONVICTION)
                     {
-                        if (_gameData.PlayerUnit.Skills.RightSkillId == Skill.Conviction) //add check later for if infinity is equipped
+                        if (_gameData.PlayerUnit.Skills.RightSkillId == Skill.Conviction) // add check later for if infinity is equipped
                         {
                             buffColor = States.BuffColor;
                         }
@@ -719,6 +725,15 @@ namespace MapAssist.Helpers
                     {
                         buffsByColor[buffColor].Add(CreateResourceBitmap(gfx, stateStr));
                         totalBuffs++;
+                    }
+
+                    var loweredRes = (state == State.STATE_CONVICTION && buffColor == States.DebuffColor)
+                         || state == State.STATE_CONVICTED
+                         || state == State.STATE_LOWERRESIST;
+
+                    if (MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes && loweredRes)
+                    {
+                        alertLoweredRes = true;
                     }
                 }
             }
@@ -771,6 +786,25 @@ namespace MapAssist.Helpers
                     }
 
                     buffIndex++;
+                }
+            }
+
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowResistances || alertLoweredRes)
+            {
+                var fontFamily = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+                var alertFontSize = gfx.ScaleFontSize(40);
+
+                if (alertLoweredRes && (_frameCount / 20) % 2 == 0)
+                {
+                    DrawText(gfx, new Point(gfx.Width / 2, playerBuffPosition), "⚠️", fontFamily, alertFontSize, Color.Red, true, TextAlign.Center, 0.8f);
+                }
+
+                foreach (var (i, immunity, value) in _gameData.PlayerUnit.GetResists(_gameData.Difficulty).Select((x, i) => (i, x.Key, x.Value)))
+                {
+                    var immunityFontSize = gfx.ScaleFontSize(12);
+                    var distBetween = immunityFontSize * 1.5f;
+
+                    DrawText(gfx, new Point(gfx.Width / 2 + (i - 1.5f) * distBetween, playerBuffPosition + alertFontSize), value.ToString(), fontFamily, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
                 }
             }
         }
@@ -963,98 +997,72 @@ namespace MapAssist.Helpers
 
         public void DrawPlayerInfo(Graphics gfx)
         {
-            var center = gfx.Width / 2;
-            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
-            var blackFill = CreateSolidBrush(gfx, Color.Black, 0.7f);
+            var centerX = gfx.Width / 2 + 2;
+            var fontFamily = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
 
-            //Player life & mana
-            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowLifeMana)
+            // Player life & mana
+            var lmOffsetX = gfx.Height * .453f;
+            var lmY = gfx.Height * .91f;
+
+            var fontSize = gfx.ScaleFontSize(20);
+
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife)
             {
-                var lmFontSize = gfx.Height * 0.02f;
-                var lmShiftPosition = (gfx.Height / 2) * 0.91f;
-
-                var life = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.Life);
-                var mana = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.Mana);
-                var maxLife = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.MaxLife);
-                var maxMana = UnitPlayer.GetPlayerStatShifted(_gameData.PlayerUnit, Stats.Stat.MaxMana);
-
-                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f)), life + "/" + maxLife, font, lmFontSize, Color.White, true, TextAlign.Center);
-                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f)), mana + "/" + maxMana, font, lmFontSize, Color.White, true, TextAlign.Center);
-                DrawText(gfx, new Point(center - lmShiftPosition, gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.HealthPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
-                DrawText(gfx, new Point(center + (lmShiftPosition * 1.02f), gfx.Height - (lmShiftPosition / 5.0f) + lmFontSize), _gameData.PlayerUnit.ManaPercentage.ToString("F0") + "%", font, lmFontSize, Color.White, true, TextAlign.Center);
+                var life = _gameData.PlayerUnit.Life;
+                var maxLife = _gameData.PlayerUnit.MaxLife;
+                DrawText(gfx, new Point(centerX - lmOffsetX, lmY), life + "/" + maxLife, fontFamily, fontSize, Color.White, true, TextAlign.Center);
             }
 
-            //Player actual resistances
-            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowResistances)
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLifePerc)
             {
-                var resRectWidth = gfx.Height * 0.06f;
-                var resRectHeight = gfx.Height * 0.020f;
-                var resBoxTransparency = 0.2f;
-                var stateList = _gameData.PlayerUnit.StateList;
-
-                var warning = (stateList.Contains(State.STATE_CONVICTION) && _gameData.PlayerUnit.Skills.RightSkillId != Skill.Conviction)
-                    || stateList.Contains(State.STATE_LOWERRESIST);
-                if (warning)
-                {
-                    resRectWidth *= 2;
-                    resRectHeight *= 2;
-                    resBoxTransparency *= 4;
-                }
-
-                var resShift = MapAssistConfiguration.Loaded.PlayerInfo.ResistancesPosition == ResistancesPosition.Left ?
-                    new Point(center - ((gfx.Height / 1.85f) + resRectWidth), gfx.Height - resRectHeight) :
-                    new Point(center + (gfx.Height / 1.85f), gfx.Height - resRectHeight);
-
-                var statList = new List<Stats.Stat> { Stats.Stat.PoisonResist, Stats.Stat.LightningResist, Stats.Stat.ColdResist, Stats.Stat.FireResist };
-                var shift = 0;
-                foreach (var stat in statList)
-                {
-                    var fillBrush = CreateSolidBrush(gfx, ResistColors.ResistColor[Stats.StatResistColor[stat]], resBoxTransparency);
-                    var text = _gameData.PlayerUnit.GetResists(_gameData.Difficulty.ResistancePenalty())[stat] + "% " + Stats.StatShortcut[stat];
-                    DrawRectangleWithText(gfx, resShift.Subtract(0, (resRectHeight + 2) * shift), resRectWidth, resRectHeight, fillBrush, text, font, Color.White);
-                    shift++;
-                }
-
-                if (warning)
-                {
-                    DrawText(gfx, resShift.Subtract(-(resRectWidth / 2), resRectHeight * 4.5f), "⚠️", font, resRectWidth * 0.5f, Color.Red, true, TextAlign.Center, resBoxTransparency);
-                }
+                var lifePerc = _gameData.PlayerUnit.LifePercentage;
+                DrawText(gfx, new Point(centerX - lmOffsetX, lmY + fontSize), lifePerc.ToString("F0") + "%", fontFamily, fontSize, Color.White, true, TextAlign.Center);
             }
 
-            //Player Experience
-            if (MapAssistConfiguration.Loaded.PlayerInfo.ShowExperience)
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana)
             {
-                var centerRectWidth = gfx.Height * 0.06f;
-                var expRectHeight = gfx.Height * 0.04f;
-                var expPoint = new Point(center - (centerRectWidth / 2), gfx.Height - (gfx.Height / 13.5f));
-                _gameData.PlayerUnit.Stats.TryGetValue(Stats.Stat.Level, out var lvl);
-                var expText = "Lvl " + lvl +
-                    Environment.NewLine +
-                    _gameData.PlayerUnit.LevelPercentage.ToString("n2") + "%";
-                DrawRectangleWithText(gfx, expPoint, centerRectWidth, expRectHeight, blackFill, expText, font, Color.White);
+                var mana = _gameData.PlayerUnit.Mana;
+                var maxMana = _gameData.PlayerUnit.MaxMana;
+                DrawText(gfx, new Point(centerX + lmOffsetX * 1.02f, lmY), mana + "/" + maxMana, fontFamily, fontSize, Color.White, true, TextAlign.Center);
+            }
+
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc)
+            {
+                var manaPerc = _gameData.PlayerUnit.ManaPercentage;
+                DrawText(gfx, new Point(centerX + lmOffsetX * 1.02f, lmY + fontSize), manaPerc.ToString("F0") + "%", fontFamily, fontSize, Color.White, true, TextAlign.Center);
+            }
+
+            // Player Experience
+            if (_gameData.PlayerUnit.Stats.TryGetValue(Stats.Stat.Level, out var lvl))
+            {
+                var blackBrush = CreateSolidBrush(gfx, Color.Black, 0.7f);
+                var font = CreateFont(gfx, fontFamily, gfx.ScaleFontSize(17));
+
+                var anchor = new Point(centerX, gfx.Height * 0.94f);
+
+                var text = new string[] {
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel ? "Lvl " + lvl : null,
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress ? _gameData.PlayerUnit.LevelProgress.ToString("n2") + "%": null
+                }.Where(x => x != null).ToArray();
+
+                if (text.Length > 0)
+                {
+                    var textSize = gfx.MeasureString(font, string.Join(Environment.NewLine, text));
+
+                    foreach (var line in text)
+                    {
+                        var lineSize = gfx.MeasureString(font, line);
+
+                        gfx.FillRectangle(blackBrush, new Rectangle(anchor.X - textSize.X / 2, anchor.Y - lineSize.Y / 2, anchor.X + textSize.X / 2, anchor.Y + lineSize.Y / 2));
+                        DrawText(gfx, anchor, line, fontFamily, font.FontSize * 0.8f, Color.White, false, TextAlign.Center);
+
+                        anchor = anchor.Add(0, lineSize.Y);
+                    }
+                }
             }
         }
 
         // Drawing Utility Functions
-        private void DrawRectangleWithText(Graphics gfx, Point rectTopLeft, float rectWidth, float rectHeight, IBrush fillBrush, string text, string font, Color fontColor, IBrush strokeBrush = null, float stroke = 0)
-        {
-            var splitedText = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            var textLines = splitedText.Length;
-            var rect = new Rectangle(rectTopLeft.X, rectTopLeft.Y, rectTopLeft.X + rectWidth, rectTopLeft.Y + rectHeight);
-            gfx.FillRectangle(fillBrush, rect);
-            if (strokeBrush != null)
-            {
-                var strokeRect = new Rectangle(rect.Left - (stroke / 2), rect.Top - (stroke / 2), rect.Right + (stroke / 2), rect.Bottom + (stroke / 2));
-                gfx.DrawRectangle(strokeBrush, strokeRect, stroke);
-            }
-            var fontSize = (rectHeight / textLines) * 0.7f;
-            var point = new Point(rectTopLeft.X + (rectWidth / 2), rectTopLeft.Y + (rectHeight / textLines / 2.0f));
-            for (var i = 0; i < textLines; i++)
-            {
-                var startLine = i > 0 ? (fontSize * i) + (fontSize / 3f) : 0;
-                DrawText(gfx, point.Add(0, startLine), splitedText[i], font, fontSize, fontColor, true, TextAlign.Center);
-            }
-        }
         private void DrawBitmap(Graphics gfx, Bitmap bitmapDX, Point anchor, float opacity,
             float size = 1)
         {
@@ -1341,9 +1349,9 @@ namespace MapAssist.Helpers
             switch (monster.MonsterType)
             {
                 case MonsterTypeFlags.SuperUnique: return MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster;
-                case MonsterTypeFlags.Champion:    return MapAssistConfiguration.Loaded.MapConfiguration.ChampionMonster;
-                case MonsterTypeFlags.Minion:      return MapAssistConfiguration.Loaded.MapConfiguration.MinionMonster;
-                case MonsterTypeFlags.Unique:      return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
+                case MonsterTypeFlags.Champion: return MapAssistConfiguration.Loaded.MapConfiguration.ChampionMonster;
+                case MonsterTypeFlags.Minion: return MapAssistConfiguration.Loaded.MapConfiguration.MinionMonster;
+                case MonsterTypeFlags.Unique: return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
             }
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
         }

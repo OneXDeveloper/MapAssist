@@ -210,23 +210,23 @@ namespace MapAssist.Types
     {
         public static Dictionary<Resist, Color> ResistColor = new Dictionary<Resist, Color>
         {
-            {Resist.PHYSICAL, Color.RosyBrown},
-            {Resist.MAGIC, Color.DarkOrange},
-            {Resist.FIRE, Color.Red},
-            {Resist.LIGHTNING, Color.Yellow},
-            {Resist.COLD, Color.CornflowerBlue},
-            {Resist.POISON, Color.LimeGreen},
+            {Resist.Physical, Color.RosyBrown},
+            {Resist.Magic, Color.DarkOrange},
+            {Resist.Fire, Color.Red},
+            {Resist.Lightning, Color.Yellow},
+            {Resist.Cold, Color.CornflowerBlue},
+            {Resist.Poison, Color.LimeGreen},
         };
     }
 
     public enum Resist
     {
-        PHYSICAL = 0,
-        MAGIC = 1,
-        FIRE = 2,
-        LIGHTNING = 3,
-        COLD = 4,
-        POISON = 5
+        Physical = 0,
+        Magic = 1,
+        Fire = 2,
+        Lightning = 3,
+        Cold = 4,
+        Poison = 5
     }
 
     public enum State
@@ -805,22 +805,6 @@ namespace MapAssist.Types
             QuestItemDifficulty,
             PassiveMagicMastery,
             PassiveMagicPierce,
-        };
-
-        public static Dictionary<Stat, Resist> StatResistColor = new Dictionary<Stat, Resist>
-        {
-            {Stat.FireResist, Resist.FIRE},
-            {Stat.LightningResist, Resist.LIGHTNING},
-            {Stat.ColdResist, Resist.COLD},
-            {Stat.PoisonResist, Resist.POISON},
-        };
-
-        public static Dictionary<Stat, string> StatShortcut = new Dictionary<Stat, string>
-        {
-            {Stat.ColdResist, "cr"},
-            {Stat.FireResist, "fr"},
-            {Stat.LightningResist, "lr"},
-            {Stat.PoisonResist, "pr"},
         };
     }
 }
