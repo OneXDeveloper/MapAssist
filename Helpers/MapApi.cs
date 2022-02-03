@@ -399,8 +399,13 @@ namespace MapAssist.Helpers
                     return new Area[] {
                         Area.InnerCloister, // Missing adjacent area
                     };
+                case Area.LutGholein:
+                    return new Area[] {
+                        Area.DryHills,
+                    };
                 case Area.DryHills:
                     return new Area[] {
+                        Area.LutGholein,
                         Area.LostCity,
                     };
                 case Area.RockyWaste:
