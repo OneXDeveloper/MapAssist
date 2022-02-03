@@ -68,7 +68,6 @@ namespace MapAssist.Types
 
                 ItemLog[processId].Add(new ItemLogEntry()
                 {
-                    Text = ItemLogDisplayName(item, rule),
                     Color = item.ItemBaseColor,
                     ItemHashString = item.HashString,
                     UnitItem = item
@@ -318,7 +317,10 @@ namespace MapAssist.Types
                 return "ItemNotFound";
             }
 
-            return localItem.enUS;
+            var lang = MapAssistConfiguration.Loaded.LanguageCode;
+            var prop = localItem.GetType().GetProperty(lang.ToString()).GetValue(localItem, null);
+
+            return prop.ToString();
         }
 
         public static string GetUniqueName(UnitItem item)
@@ -1803,10 +1805,10 @@ namespace MapAssist.Types
 
     public class ItemLogEntry
     {
-        public string Text { get; set; }
+        public string Text => Items.ItemLogDisplayName(UnitItem, Rule);
         public Color Color { get; set; }
         public DateTime LogDate { get; private set; } = DateTime.Now;
-        public bool ItemLogExpired { get => DateTime.Now.Subtract(LogDate).TotalSeconds > MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds; }
+        public bool ItemLogExpired => DateTime.Now.Subtract(LogDate).TotalSeconds > MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds;
         public string ItemHashString { get; set; }
         public string ShowOnMap { get; set; }
         public UnitItem UnitItem { get; set; }
