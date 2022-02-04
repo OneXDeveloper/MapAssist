@@ -64,6 +64,8 @@ namespace MapAssist.Structs
         [FieldOffset(0x1A)] public bool PotionBelt;
         //missing 3
         [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x1D)] public bool ExpansionCheck;
+        [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x1E)] public bool MercenaryInventory;
     }
 
