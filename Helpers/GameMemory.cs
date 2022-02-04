@@ -216,7 +216,7 @@ namespace MapAssist.Helpers
                         item.IsCached = false;
                     }
 
-                    var enableInventoryFilterCheck = item.IsIdentified && item.IsPlayerOwned && !item.IsInSocket;
+                    var checkInventoryItem = Items.CheckInventoryItem(item, _currentProcessId);
 
                     item.Update();
 
@@ -244,9 +244,9 @@ namespace MapAssist.Helpers
                         }
                     }
 
-                    var isOnGround = !item.IsIdentified && item.IsDropped;
-                    var isInStore = item.IsIdentified && item.IsInStore;
-                    if (item.IsValidItem && (isOnGround || isInStore || enableInventoryFilterCheck))
+                    var checkDroppedItem = Items.CheckDroppedItem(item, _currentProcessId);
+                    var checkVendorItem = Items.CheckVendorItem(item, _currentProcessId);
+                    if (item.IsValidItem && (checkDroppedItem || checkVendorItem || checkInventoryItem))
                     {
                         Items.LogItem(item, _currentProcessId);
                     }

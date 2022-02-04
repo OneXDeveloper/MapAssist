@@ -39,54 +39,54 @@ namespace MapAssist.Types
 
         public static void LogItem(UnitItem item, int processId)
         {
-            if (CheckDroppedItem(item, processId) || CheckInventoryItem(item, processId) || CheckVendorItem(item, processId))
+            if (item.IsInStore)
             {
-                if (item.IsInStore)
-                {
-                    InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
-                }
-                else
-                {
-                    ItemUnitHashesSeen[processId].Add(item.HashString);
-                }
-
-                if (item.IsPlayerOwned && item.IsIdentified)
-                {
-                    InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
-                    ItemUnitIdsToSkip[processId].Add(item.UnitId);
-                }
-
-                ItemUnitIdsSeen[processId].Add(item.UnitId);
-
-                var (logItem, rule) = LootFilter.Filter(item);
-                if (!logItem) return;
-
-                if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop && (rule == null || rule.PlaySoundOnDrop))
-                {
-                    AudioPlayer.PlayItemAlert();
-                }
-
-                ItemLog[processId].Add(new ItemLogEntry()
-                {
-                    Color = item.ItemBaseColor,
-                    ItemHashString = item.HashString,
-                    UnitItem = item,
-                    Rule = rule
-                });
+                InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
             }
+            else
+            {
+                ItemUnitHashesSeen[processId].Add(item.HashString);
+            }
+
+            if (item.IsPlayerOwned && item.IsIdentified)
+            {
+                InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
+                ItemUnitIdsToSkip[processId].Add(item.UnitId);
+            }
+
+            ItemUnitIdsSeen[processId].Add(item.UnitId);
+
+            var (logItem, rule) = LootFilter.Filter(item);
+            if (!logItem) return;
+
+            if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop && (rule == null || rule.PlaySoundOnDrop))
+            {
+                AudioPlayer.PlayItemAlert();
+            }
+
+            ItemLog[processId].Add(new ItemLogEntry()
+            {
+                Color = item.ItemBaseColor,
+                ItemHashString = item.HashString,
+                UnitItem = item,
+                Rule = rule
+            });
         }
 
-        private static bool CheckInventoryItem(UnitItem item, int processId) =>
-            item.IsIdentified && item.IsPlayerOwned &&
+        public static bool CheckInventoryItem(UnitItem item, int processId) =>
+            MapAssistConfiguration.Loaded.ItemLog.CheckItemOnIdentify &&
+            item.IsIdentified && item.IsPlayerOwned && !item.IsInSocket &&
             !InventoryItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
-        private static bool CheckDroppedItem(UnitItem item, int processId) =>
+        public static bool CheckDroppedItem(UnitItem item, int processId) =>
+            !item.IsIdentified && item.IsDropped &&
             !ItemUnitHashesSeen[processId].Contains(item.HashString) &&
             !ItemUnitIdsSeen[processId].Contains(item.UnitId) &&
             !ItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
-        private static bool CheckVendorItem(UnitItem item, int processId) =>
-            item.IsInStore &&
+        public static bool CheckVendorItem(UnitItem item, int processId) =>
+            MapAssistConfiguration.Loaded.ItemLog.CheckVendorItems &&
+            item.IsIdentified && item.IsInStore &&
             !ItemUnitIdsSeen[processId].Contains(item.UnitId) &&
             !ItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
