@@ -88,6 +88,7 @@ namespace MapAssist
             chkManaPerc.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc;
             chkCurrentLevel.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel;
             chkExpProgress.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress;
+            chkPotionBelt.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowPotionBelt;
             chkResistances.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowResistances;
 
             chkShowGameName.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameName;
@@ -269,6 +270,11 @@ namespace MapAssist
         private void chkExpProgress_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress = chkExpProgress.Checked;
+        }
+
+        private void chkPotionBelt_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowPotionBelt = chkPotionBelt.Checked;
         }
 
         private void chkResistances_CheckedChanged(object sender, EventArgs e)

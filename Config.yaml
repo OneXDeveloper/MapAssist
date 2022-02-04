@@ -27,6 +27,7 @@ RenderingConfiguration:
   ShowManaPerc: true
   ShowCurrentLevel: false
   ShowExpProgress: true
+  ShowPotionBelt: true
   ShowResistances: false
   LinesMode: All
 MapConfiguration:

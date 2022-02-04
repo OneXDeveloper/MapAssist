@@ -22,7 +22,7 @@ namespace MapAssist.Types
 
         public new UnitItem Update()
         {
-            base.Update();
+            if (base.Update() == UpdateResult.InvalidUpdate) return this;
 
             if (IsValidUnit && MapAssistConfiguration.Loaded.ItemLog.Enabled)
             {
@@ -44,6 +44,8 @@ namespace MapAssist.Types
         public bool IsValidItem => !_isInvalid && UnitId != uint.MaxValue;
 
         public bool IsIdentified => ItemData.ItemQuality >= ItemQuality.MAGIC && (ItemData.ItemFlags & ItemFlags.IFLAG_IDENTIFIED) == ItemFlags.IFLAG_IDENTIFIED;
+
+        public bool IsIdentifiedForLog { get; set; }
 
         public bool IsDropped => ItemModeMapped == ItemModeMapped.Ground;
 
@@ -84,7 +86,8 @@ namespace MapAssist.Types
                         else return ItemModeMapped.Mercenary;
                 }
 
-                if (ItemData.dwOwnerID == uint.MaxValue && (ItemData.ItemFlags & ItemFlags.IFLAG_INSTORE) == ItemFlags.IFLAG_INSTORE) return ItemModeMapped.Vendor;
+                if (ItemData.dwOwnerID == uint.MaxValue && (ItemData.ItemFlags & ItemFlags.IFLAG_INSTORE) == ItemFlags.IFLAG_INSTORE && ItemData.InvPage != InvPage.NULL) return ItemModeMapped.Vendor;
+                if (ItemData.dwOwnerID == uint.MaxValue) return ItemModeMapped.Selected;
                 if (ItemData.dwOwnerID != uint.MaxValue && ItemData.InvPage == InvPage.EQUIP) return ItemModeMapped.Trade; // Other player's trade window
 
                 switch (ItemData.InvPage)

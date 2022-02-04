@@ -169,6 +169,7 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.chkPotionBelt = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -786,6 +787,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.chkPotionBelt);
             this.groupBox7.Controls.Add(this.chkResistances);
             this.groupBox7.Controls.Add(this.chkExpProgress);
             this.groupBox7.Controls.Add(this.chkCurrentLevel);
@@ -803,7 +805,7 @@
             // chkResistances
             // 
             this.chkResistances.AutoSize = true;
-            this.chkResistances.Location = new System.Drawing.Point(9, 67);
+            this.chkResistances.Location = new System.Drawing.Point(102, 65);
             this.chkResistances.Name = "chkResistances";
             this.chkResistances.Size = new System.Drawing.Size(84, 17);
             this.chkResistances.TabIndex = 24;
@@ -1819,6 +1821,17 @@
             this.lstHidden.Size = new System.Drawing.Size(293, 160);
             this.lstHidden.TabIndex = 0;
             // 
+            // checkBox1
+            // 
+            this.chkPotionBelt.AutoSize = true;
+            this.chkPotionBelt.Location = new System.Drawing.Point(9, 65);
+            this.chkPotionBelt.Name = "checkBox1";
+            this.chkPotionBelt.Size = new System.Drawing.Size(77, 17);
+            this.chkPotionBelt.TabIndex = 25;
+            this.chkPotionBelt.Text = "Potion Belt";
+            this.chkPotionBelt.UseVisualStyleBackColor = true;
+            this.chkPotionBelt.CheckedChanged += new System.EventHandler(this.chkPotionBelt_CheckedChanged);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2024,5 +2037,6 @@
         private System.Windows.Forms.CheckBox chkLifePerc;
         private System.Windows.Forms.CheckBox chkLife;
         private System.Windows.Forms.CheckBox chkResistances;
+        private System.Windows.Forms.CheckBox chkPotionBelt;
     }
 }

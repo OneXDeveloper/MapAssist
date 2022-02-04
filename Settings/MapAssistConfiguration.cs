@@ -221,6 +221,9 @@ public class RenderingConfiguration
     [YamlMember(Alias = "ShowExpProgress", ApplyNamingConventions = false)]
     public bool ShowExpProgress { get; set; }
 
+    [YamlMember(Alias = "ShowPotionBelt", ApplyNamingConventions = false)]
+    public bool ShowPotionBelt { get; set; }
+
     [YamlMember(Alias = "ShowResistances", ApplyNamingConventions = false)]
     public bool ShowResistances { get; set; }
 

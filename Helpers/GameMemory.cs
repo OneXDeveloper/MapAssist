@@ -203,14 +203,6 @@ namespace MapAssist.Helpers
                 var rawItemUnits = new List<UnitItem>();
                 foreach (var item in allItems)
                 {
-                    if (Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId)) continue;
-
-                    if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && item.Item != Item.HoradricCube && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
-                    {
-                        Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
-                        continue;
-                    }
-
                     if (item.IsPlayerOwned && item.IsIdentified && !Items.InventoryItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
                     {
                         item.IsCached = false;
@@ -225,6 +217,14 @@ namespace MapAssist.Helpers
                     if (item.ItemModeMapped == ItemModeMapped.Ground)
                     {
                         cache[item.HashString] = item;
+                    }
+
+                    if (Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId)) continue;
+
+                    if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && item.Item != Item.HoradricCube && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
+                    {
+                        Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
+                        continue;
                     }
 
                     if (item.UnitId == uint.MaxValue) continue;
@@ -283,6 +283,16 @@ namespace MapAssist.Helpers
                         _playerCubeOwnerID[_currentProcessId] = cube.ItemData.dwOwnerID;
                     }
                 }
+
+                // Belt items
+                var belt = allItems.FirstOrDefault(x => x.ItemModeMapped == ItemModeMapped.Player && x.ItemData.BodyLoc == BodyLoc.BELT);
+                var beltItems = allItems.Where(x => x.ItemModeMapped == ItemModeMapped.Belt).ToArray();
+
+                var beltSize = belt == null ? 1 :
+                    new Item[] { Item.Sash, Item.LightBelt }.Contains(belt.Item) ? 2 :
+                    new Item[] { Item.Belt, Item.HeavyBelt }.Contains(belt.Item) ? 3 : 4;
+
+                playerUnit.BeltItems = Enumerable.Range(0, 4).Select(i => Enumerable.Range(0, beltSize).Select(j => beltItems.FirstOrDefault(item => item.X == i + j * 4)).ToArray()).ToArray();
 
                 // Unit hover
                 var allUnits = ((UnitAny[])playerList.Values.ToArray()).Concat(monsterList).Concat(mercList).Concat(rawObjectUnits).Concat(rawItemUnits);

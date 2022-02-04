@@ -68,7 +68,7 @@ namespace MapAssist.Types
             Path = other.Path;
         }
 
-        protected bool Update()
+        protected UpdateResult Update()
         {
             if (IsValidPointer)
             {
@@ -76,10 +76,10 @@ namespace MapAssist.Types
                 {
                     var newStruct = processContext.Read<Structs.UnitAny>(PtrUnit);
 
-                    if (newStruct.UnitId == uint.MaxValue) return false;
+                    if (newStruct.UnitId == uint.MaxValue) return UpdateResult.InvalidUpdate;
                     else Struct = newStruct;
 
-                    if (IsCached) return false;
+                    if (IsCached) return UpdateResult.Cached;
 
                     if (IsValidUnit)
                     {
@@ -117,12 +117,12 @@ namespace MapAssist.Types
 
                         if (GameMemory.cache.ContainsKey(UnitId)) IsCached = true;
 
-                        return true;
+                        return UpdateResult.Updated;
                     }
                 }
             }
 
-            return false;
+            return UpdateResult.InvalidUpdate;
         }
 
         private bool IsMovable => !(Struct.UnitType == UnitType.Object || Struct.UnitType == UnitType.Item);
@@ -164,5 +164,12 @@ namespace MapAssist.Types
         public static bool operator ==(UnitAny unit1, UnitAny unit2) => (unit1 is null && unit2 is null) || (!(unit1 is null) && unit1.Equals(unit2));
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
+
+        public enum UpdateResult
+        {
+            Updated,
+            Cached,
+            InvalidUpdate
+        }
     }
 }

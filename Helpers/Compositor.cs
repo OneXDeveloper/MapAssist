@@ -447,7 +447,7 @@ namespace MapAssist.Helpers
             {
                 foreach (var item in _gameData.Items)
                 {
-                    if (item.IsValidItem && item.IsDropped && !item.IsIdentified && !Items.ItemUnitIdsToSkip[_gameData.ProcessId].Contains(item.UnitId))
+                    if (item.IsValidItem && item.IsDropped && !item.IsIdentified)
                     {
                         if (!areasToRender.Any(area => area.IncludesPoint(item.Position))) continue; // Don't show item if not in drawn areas
 
@@ -1061,6 +1061,42 @@ namespace MapAssist.Helpers
                         DrawText(gfx, anchor, line, fontFamily, font.FontSize * 0.8f, Color.White, false, TextAlign.Center);
 
                         anchor = anchor.Add(0, lineSize.Y);
+                    }
+                }
+            }
+
+            // Belt items
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowPotionBelt)
+            {
+                var font = CreateFont(gfx, fontFamily, gfx.ScaleFontSize(20));
+                var colors = new Color[]
+                {
+                    Color.FromArgb(238, 168, 174), // Health
+                    Color.FromArgb(169, 183, 238), // Mana
+                    Color.FromArgb(200, 119, 199), // Rejuv
+                };
+
+                for (var i = 0; i < 4; i++)
+                {
+                    var itemTypes = _gameData.PlayerUnit.BeltItems[i].Where(x => x != null)
+                        .Select(x => x.Item.IsHealthPotion() ? 0 : x.Item.IsManaPotion() ? 1 : x.Item.IsRejuvPotion() ? 2 : 3)
+                        .Distinct().ToArray();
+                    var numHave = _gameData.PlayerUnit.BeltItems[i].Count(x => x != null);
+                    var isAllTopTier = _gameData.PlayerUnit.BeltItems[i].Count(x => x != null && x.Item.IsTopTierPotion()) == numHave;
+                    var color = itemTypes.Length == 1 ? colors[itemTypes[0]] : Color.White;
+
+                    var position = new Point(
+                        0.5f * gfx.Width + 0.16f * gfx.Height + 8.00f + 0.0575f * gfx.Height * i,
+                        0.99f * gfx.Height - font.FontSize
+                    );
+
+                    DrawText(gfx, position, numHave.ToString(), fontFamily, font.FontSize, color, true, TextAlign.Right);
+
+                    position.Y += font.FontSize - 0.05f * gfx.Height;
+
+                    if (!isAllTopTier)
+                    {
+                        DrawText(gfx, position, "*", fontFamily, font.FontSize, color, true, TextAlign.Right);
                     }
                 }
             }

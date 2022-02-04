@@ -23,7 +23,7 @@ namespace MapAssist.Types
 
         public new UnitPlayer Update()
         {
-            if (base.Update())
+            if (base.Update() == UpdateResult.Updated)
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
@@ -96,18 +96,7 @@ namespace MapAssist.Types
             }
         }
 
-        private ushort PartyID
-        {
-            get
-            {
-                if (RosterEntry != null)
-                {
-                    return RosterEntry.PartyID;
-                }
-
-                return ushort.MaxValue; // not in party
-            }
-        }
+        private ushort PartyID => RosterEntry != null ? RosterEntry.PartyID : ushort.MaxValue;
 
         private bool IsHostileTo(RosterEntry otherUnit)
         {
@@ -151,6 +140,8 @@ namespace MapAssist.Types
             return stateList;
         }
 
+        public UnitItem[][] BeltItems { get; set; } = new UnitItem[][] { };
+        public int BeltSize => BeltItems.Length > 0 ? BeltItems[0].Length : 0;
         public float Life => Stats.TryGetValue(Types.Stats.Stat.Life, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;
         public float MaxLife => Stats.TryGetValue(Types.Stats.Stat.MaxLife, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;
         public float Mana => Stats.TryGetValue(Types.Stats.Stat.Mana, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;

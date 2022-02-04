@@ -27,7 +27,7 @@ using YamlDotNet.Serialization;
 
 namespace MapAssist.Types
 {
-    public class Items
+    public static class Items
     {
         public static Dictionary<int, HashSet<string>> ItemUnitHashesSeen = new Dictionary<int, HashSet<string>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsSeen = new Dictionary<int, HashSet<uint>>();
@@ -63,6 +63,8 @@ namespace MapAssist.Types
             {
                 AudioPlayer.PlayItemAlert();
             }
+
+            item.IsIdentifiedForLog = item.IsIdentified;
 
             ItemLog[processId].Add(new ItemLogEntry()
             {
@@ -103,7 +105,7 @@ namespace MapAssist.Types
                 var vendorLabel = item.VendorOwner != Npc.Unknown ? NpcExtensions.Name(item.VendorOwner) : "Vendor";
                 itemPrefix += $"[{vendorLabel}] ";
             }
-            else if (item.IsIdentified)
+            else if (item.IsIdentifiedForLog)
             {
                 itemPrefix += "[Identified] ";
             }
@@ -1816,6 +1818,14 @@ namespace MapAssist.Types
         public ItemFilter Rule { get; set; }
     }
 
+    public static class ItemExtensions
+    {
+        public static bool IsHealthPotion(this Item item) => item >= Item.MinorHealingPotion && item <= Item.SuperHealingPotion;
+        public static bool IsManaPotion(this Item item) => item >= Item.MinorManaPotion && item <= Item.SuperManaPotion;
+        public static bool IsRejuvPotion(this Item item) => item >= Item.RejuvenationPotion && item <= Item.FullRejuvenationPotion;
+        public static bool IsTopTierPotion(this Item item) => new Item[] { Item.SuperHealingPotion, Item.SuperManaPotion, Item.FullRejuvenationPotion }.Contains(item);
+    }
+
     [Flags]
     public enum ItemFlags : uint
     {
@@ -1923,6 +1933,7 @@ namespace MapAssist.Types
         Mercenary,
         Socket,
         Ground,
+        Selected,
         Unknown
     };
 

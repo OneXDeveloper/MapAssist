@@ -18,7 +18,7 @@ namespace MapAssist.Types
 
         public new UnitMonster Update()
         {
-            if (base.Update())
+            if (base.Update() == UpdateResult.Updated)
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
