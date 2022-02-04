@@ -1006,30 +1006,34 @@ namespace MapAssist.Helpers
 
             var fontSize = gfx.ScaleFontSize(20);
 
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife)
+            var life = _gameData.PlayerUnit.Life;
+            var maxLife = _gameData.PlayerUnit.MaxLife;
+            var lifePerc = _gameData.PlayerUnit.LifePercentage;
+
+            var lifeText = new string[]
             {
-                var life = _gameData.PlayerUnit.Life;
-                var maxLife = _gameData.PlayerUnit.MaxLife;
-                DrawText(gfx, new Point(centerX - lmOffsetX, lmY), life + "/" + maxLife, fontFamily, fontSize, Color.White, true, TextAlign.Center);
+                MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife ?  life + "/" + maxLife : null,
+                MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLifePerc ?  lifePerc.ToString("F0") + "%" : null
+            }.Where(line => line != null).ToArray();
+
+            foreach (var (line, i) in lifeText.Select((x, i) => (x, i)))
+            {
+                DrawText(gfx, new Point(centerX - lmOffsetX, lmY + fontSize * i), line, fontFamily, fontSize, Color.White, true, TextAlign.Center);
             }
 
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLifePerc)
-            {
-                var lifePerc = _gameData.PlayerUnit.LifePercentage;
-                DrawText(gfx, new Point(centerX - lmOffsetX, lmY + fontSize), lifePerc.ToString("F0") + "%", fontFamily, fontSize, Color.White, true, TextAlign.Center);
-            }
+            var mana = _gameData.PlayerUnit.Mana;
+            var maxMana = _gameData.PlayerUnit.MaxMana;
+            var manaPerc = _gameData.PlayerUnit.ManaPercentage;
 
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana)
+            var manaText = new string[]
             {
-                var mana = _gameData.PlayerUnit.Mana;
-                var maxMana = _gameData.PlayerUnit.MaxMana;
-                DrawText(gfx, new Point(centerX + lmOffsetX * 1.02f, lmY), mana + "/" + maxMana, fontFamily, fontSize, Color.White, true, TextAlign.Center);
-            }
+                MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana?  mana + "/" + maxMana: null,
+                MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc ?  manaPerc.ToString("F0") + "%" : null
+            }.Where(line => line != null).ToArray();
 
-            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc)
+            foreach (var (line, i) in manaText.Select((x, i) => (x, i)))
             {
-                var manaPerc = _gameData.PlayerUnit.ManaPercentage;
-                DrawText(gfx, new Point(centerX + lmOffsetX * 1.02f, lmY + fontSize), manaPerc.ToString("F0") + "%", fontFamily, fontSize, Color.White, true, TextAlign.Center);
+                DrawText(gfx, new Point(centerX + lmOffsetX * 1.02f, lmY + fontSize * i), line, fontFamily, fontSize, Color.White, true, TextAlign.Center);
             }
 
             // Player Experience
