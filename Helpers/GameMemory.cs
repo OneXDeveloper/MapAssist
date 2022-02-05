@@ -137,8 +137,12 @@ namespace MapAssist.Helpers
                     }
 
                     _playerArea[_currentProcessId] = levelId;
-                    _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
-                    _sessions[_currentProcessId].AreaPreviousTime = _sessions[_currentProcessId].AreaTimer.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
+
+                    if (areaCacheFound)
+                    {
+                        _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
+                        _sessions[_currentProcessId].AreaPreviousTime = _sessions[_currentProcessId].AreaTimer.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
+                    }
                 }
 
                 // Check for map seed
