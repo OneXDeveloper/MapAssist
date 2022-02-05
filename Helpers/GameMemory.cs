@@ -180,20 +180,14 @@ namespace MapAssist.Helpers
                     throw new Exception("Level id out of bounds.");
                 }
 
-                if (!_playerArea.ContainsKey(_currentProcessId))
-                {
-                    _playerArea.Add(_currentProcessId, levelId);
-                    _sessions[_currentProcessId].AreaTimerStart = DateTime.Now;
-                }
-
-                if (_playerArea[_currentProcessId] != levelId)
+                if (!_playerArea.ContainsKey(_currentProcessId) || _playerArea[_currentProcessId] != levelId)
                 {
                     _playerArea[_currentProcessId] = levelId;
                     _sessions[_currentProcessId].AreaTimerStart = DateTime.Now;
                 }
 
                 // Players
-                    var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
+                var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
                     .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
                     .Select(x => x.UpdateParties(playerUnit.RosterEntry)).ToArray()
                     .Where(x => x != null && x.UnitId < uint.MaxValue).ToDictionary(x => x.UnitId, x => x);
