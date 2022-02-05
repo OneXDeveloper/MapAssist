@@ -79,6 +79,7 @@
             this.chkToggleViaPanels = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.chkPotionBelt = new System.Windows.Forms.CheckBox();
             this.chkResistances = new System.Windows.Forms.CheckBox();
             this.chkExpProgress = new System.Windows.Forms.CheckBox();
             this.chkCurrentLevel = new System.Windows.Forms.CheckBox();
@@ -169,7 +170,8 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkPotionBelt = new System.Windows.Forms.CheckBox();
+            this.chkShowGameTimer = new System.Windows.Forms.CheckBox();
+            this.chkShowAreaTimer = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -269,12 +271,12 @@
             this.groupBox4.Controls.Add(this.txtD2Path);
             this.groupBox4.Controls.Add(this.btnBrowseD2Location);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(11, 167);
+            this.groupBox4.Location = new System.Drawing.Point(11, 178);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(335, 69);
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "D2LoD 1.13c Path";
+            this.groupBox4.Text = "D2 LOD 1.13c Path";
             // 
             // txtD2Path
             // 
@@ -310,21 +312,23 @@
             // 
             this.grpGameInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpGameInfo.Controls.Add(this.chkShowGameIP);
-            this.grpGameInfo.Controls.Add(this.chkGameInfoTextShadow);
-            this.grpGameInfo.Controls.Add(this.chkShowOverlayFPS);
             this.grpGameInfo.Controls.Add(this.chkShowAreaLevel);
-            this.grpGameInfo.Controls.Add(this.chkShowArea);
-            this.grpGameInfo.Controls.Add(this.chkShowDifficulty);
-            this.grpGameInfo.Controls.Add(this.chkShowGameName);
             this.grpGameInfo.Controls.Add(this.cboGameInfoPosition);
             this.grpGameInfo.Controls.Add(this.lblGameInfoPosition);
-            this.grpGameInfo.Controls.Add(this.btnClearGameInfoFont);
-            this.grpGameInfo.Controls.Add(this.btnGameInfoFont);
             this.grpGameInfo.Controls.Add(this.txtHuntIP);
             this.grpGameInfo.Controls.Add(this.label7);
+            this.grpGameInfo.Controls.Add(this.chkGameInfoTextShadow);
+            this.grpGameInfo.Controls.Add(this.chkShowOverlayFPS);
+            this.grpGameInfo.Controls.Add(this.chkShowDifficulty);
+            this.grpGameInfo.Controls.Add(this.btnClearGameInfoFont);
+            this.grpGameInfo.Controls.Add(this.btnGameInfoFont);
+            this.grpGameInfo.Controls.Add(this.chkShowAreaTimer);
+            this.grpGameInfo.Controls.Add(this.chkShowGameTimer);
+            this.grpGameInfo.Controls.Add(this.chkShowArea);
+            this.grpGameInfo.Controls.Add(this.chkShowGameName);
             this.grpGameInfo.Location = new System.Drawing.Point(11, 9);
             this.grpGameInfo.Name = "grpGameInfo";
-            this.grpGameInfo.Size = new System.Drawing.Size(335, 140);
+            this.grpGameInfo.Size = new System.Drawing.Size(335, 160);
             this.grpGameInfo.TabIndex = 23;
             this.grpGameInfo.TabStop = false;
             this.grpGameInfo.Text = "Game Info";
@@ -332,7 +336,7 @@
             // chkShowGameIP
             // 
             this.chkShowGameIP.AutoSize = true;
-            this.chkShowGameIP.Location = new System.Drawing.Point(192, 59);
+            this.chkShowGameIP.Location = new System.Drawing.Point(192, 79);
             this.chkShowGameIP.Name = "chkShowGameIP";
             this.chkShowGameIP.Size = new System.Drawing.Size(67, 17);
             this.chkShowGameIP.TabIndex = 6;
@@ -343,7 +347,7 @@
             // chkGameInfoTextShadow
             // 
             this.chkGameInfoTextShadow.AutoSize = true;
-            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 111);
+            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 131);
             this.chkGameInfoTextShadow.Name = "chkGameInfoTextShadow";
             this.chkGameInfoTextShadow.Size = new System.Drawing.Size(89, 17);
             this.chkGameInfoTextShadow.TabIndex = 34;
@@ -354,7 +358,7 @@
             // chkShowOverlayFPS
             // 
             this.chkShowOverlayFPS.AutoSize = true;
-            this.chkShowOverlayFPS.Location = new System.Drawing.Point(11, 59);
+            this.chkShowOverlayFPS.Location = new System.Drawing.Point(11, 79);
             this.chkShowOverlayFPS.Name = "chkShowOverlayFPS";
             this.chkShowOverlayFPS.Size = new System.Drawing.Size(85, 17);
             this.chkShowOverlayFPS.TabIndex = 2;
@@ -365,7 +369,7 @@
             // chkShowAreaLevel
             // 
             this.chkShowAreaLevel.AutoSize = true;
-            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 39);
+            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 59);
             this.chkShowAreaLevel.Name = "chkShowAreaLevel";
             this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaLevel.TabIndex = 39;
@@ -387,7 +391,7 @@
             // chkShowDifficulty
             // 
             this.chkShowDifficulty.AutoSize = true;
-            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 39);
+            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 59);
             this.chkShowDifficulty.Name = "chkShowDifficulty";
             this.chkShowDifficulty.Size = new System.Drawing.Size(66, 17);
             this.chkShowDifficulty.TabIndex = 38;
@@ -410,7 +414,7 @@
             // 
             this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboGameInfoPosition.FormattingEnabled = true;
-            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 109);
+            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 129);
             this.cboGameInfoPosition.Name = "cboGameInfoPosition";
             this.cboGameInfoPosition.Size = new System.Drawing.Size(87, 21);
             this.cboGameInfoPosition.TabIndex = 36;
@@ -419,7 +423,7 @@
             // lblGameInfoPosition
             // 
             this.lblGameInfoPosition.AutoSize = true;
-            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 112);
+            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 132);
             this.lblGameInfoPosition.Name = "lblGameInfoPosition";
             this.lblGameInfoPosition.Size = new System.Drawing.Size(44, 13);
             this.lblGameInfoPosition.TabIndex = 35;
@@ -430,7 +434,7 @@
             this.btnClearGameInfoFont.FlatAppearance.BorderSize = 0;
             this.btnClearGameInfoFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearGameInfoFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 80);
+            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 100);
             this.btnClearGameInfoFont.Name = "btnClearGameInfoFont";
             this.btnClearGameInfoFont.Size = new System.Drawing.Size(23, 23);
             this.btnClearGameInfoFont.TabIndex = 33;
@@ -441,7 +445,7 @@
             // btnGameInfoFont
             // 
             this.btnGameInfoFont.BackColor = System.Drawing.Color.Transparent;
-            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 80);
+            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 100);
             this.btnGameInfoFont.Name = "btnGameInfoFont";
             this.btnGameInfoFont.Size = new System.Drawing.Size(75, 23);
             this.btnGameInfoFont.TabIndex = 32;
@@ -451,7 +455,7 @@
             // 
             // txtHuntIP
             // 
-            this.txtHuntIP.Location = new System.Drawing.Point(239, 82);
+            this.txtHuntIP.Location = new System.Drawing.Point(239, 102);
             this.txtHuntIP.Name = "txtHuntIP";
             this.txtHuntIP.Size = new System.Drawing.Size(87, 20);
             this.txtHuntIP.TabIndex = 9;
@@ -460,7 +464,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(189, 85);
+            this.label7.Location = new System.Drawing.Point(189, 105);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(43, 13);
             this.label7.TabIndex = 10;
@@ -801,6 +805,17 @@
             this.groupBox7.TabIndex = 25;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Player Info";
+            // 
+            // chkPotionBelt
+            // 
+            this.chkPotionBelt.AutoSize = true;
+            this.chkPotionBelt.Location = new System.Drawing.Point(9, 65);
+            this.chkPotionBelt.Name = "chkPotionBelt";
+            this.chkPotionBelt.Size = new System.Drawing.Size(77, 17);
+            this.chkPotionBelt.TabIndex = 25;
+            this.chkPotionBelt.Text = "Potion Belt";
+            this.chkPotionBelt.UseVisualStyleBackColor = true;
+            this.chkPotionBelt.CheckedChanged += new System.EventHandler(this.chkPotionBelt_CheckedChanged);
             // 
             // chkResistances
             // 
@@ -1821,16 +1836,27 @@
             this.lstHidden.Size = new System.Drawing.Size(293, 160);
             this.lstHidden.TabIndex = 0;
             // 
-            // checkBox1
+            // chkShowGameTimer
             // 
-            this.chkPotionBelt.AutoSize = true;
-            this.chkPotionBelt.Location = new System.Drawing.Point(9, 65);
-            this.chkPotionBelt.Name = "checkBox1";
-            this.chkPotionBelt.Size = new System.Drawing.Size(77, 17);
-            this.chkPotionBelt.TabIndex = 25;
-            this.chkPotionBelt.Text = "Potion Belt";
-            this.chkPotionBelt.UseVisualStyleBackColor = true;
-            this.chkPotionBelt.CheckedChanged += new System.EventHandler(this.chkPotionBelt_CheckedChanged);
+            this.chkShowGameTimer.AutoSize = true;
+            this.chkShowGameTimer.Location = new System.Drawing.Point(11, 39);
+            this.chkShowGameTimer.Name = "chkShowGameTimer";
+            this.chkShowGameTimer.Size = new System.Drawing.Size(83, 17);
+            this.chkShowGameTimer.TabIndex = 40;
+            this.chkShowGameTimer.Text = "Game Timer";
+            this.chkShowGameTimer.UseVisualStyleBackColor = true;
+            this.chkShowGameTimer.CheckedChanged += new System.EventHandler(this.chkShowGameTimer_CheckedChanged);
+            // 
+            // chkShowAreaTimer
+            // 
+            this.chkShowAreaTimer.AutoSize = true;
+            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 39);
+            this.chkShowAreaTimer.Name = "chkShowAreaTimer";
+            this.chkShowAreaTimer.Size = new System.Drawing.Size(77, 17);
+            this.chkShowAreaTimer.TabIndex = 41;
+            this.chkShowAreaTimer.Text = "Area Timer";
+            this.chkShowAreaTimer.UseVisualStyleBackColor = true;
+            this.chkShowAreaTimer.CheckedChanged += new System.EventHandler(this.chkShowAreaTimer_CheckedChanged);
             // 
             // ConfigEditor
             // 
@@ -2038,5 +2064,7 @@
         private System.Windows.Forms.CheckBox chkLife;
         private System.Windows.Forms.CheckBox chkResistances;
         private System.Windows.Forms.CheckBox chkPotionBelt;
+        private System.Windows.Forms.CheckBox chkShowAreaTimer;
+        private System.Windows.Forms.CheckBox chkShowGameTimer;
     }
 }
