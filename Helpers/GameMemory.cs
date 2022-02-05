@@ -118,6 +118,35 @@ namespace MapAssist.Helpers
                     PlayerUnits[_currentProcessId] = playerUnit;
                 }
 
+                var levelId = playerUnit.Area;
+
+                if (!levelId.IsValid())
+                {
+                    _playerArea.Remove(_currentProcessId);
+
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Level id out of bounds.");
+                }
+
+                var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
+                if (!areaCacheFound || previousArea != levelId)
+                {
+                    if (areaCacheFound)
+                    {
+                        _sessions[_currentProcessId].AreaTimer[previousArea] = _sessions[_currentProcessId].AreaElapsedTime;
+                    }
+
+                    _playerArea[_currentProcessId] = levelId;
+
+                    if (areaCacheFound)
+                    {
+                        _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
+                        _sessions[_currentProcessId].AreaPreviousTime = _sessions[_currentProcessId].AreaTimer.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
+                    }
+                }
+
                 // Check for map seed
                 var mapSeed = playerUnit.Act.MapSeed;
 
@@ -166,24 +195,6 @@ namespace MapAssist.Helpers
 
                     _errorThrown = true;
                     throw new Exception("Game difficulty out of bounds.");
-                }
-
-                var levelId = playerUnit.Area;
-
-                if (!levelId.IsValid())
-                {
-                    _playerArea.Remove(_currentProcessId);
-
-                    if (_errorThrown) return null;
-
-                    _errorThrown = true;
-                    throw new Exception("Level id out of bounds.");
-                }
-
-                if (!_playerArea.ContainsKey(_currentProcessId) || _playerArea[_currentProcessId] != levelId)
-                {
-                    _playerArea[_currentProcessId] = levelId;
-                    _sessions[_currentProcessId].AreaTimerStart = DateTime.Now;
                 }
 
                 // Players
