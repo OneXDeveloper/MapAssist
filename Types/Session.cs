@@ -61,10 +61,10 @@ namespace MapAssist.Types
         public string GameTimerDisplay => FormatTime(DateTime.Now.Subtract(GameTimerStart).TotalSeconds);
 
         public DateTime LastAreaChange { get; set; } = DateTime.Now;
-        public double AreaPreviousTime { get; set; } = 0;
-        public double AreaElapsedTime => AreaPreviousTime + DateTime.Now.Subtract(LastAreaChange).TotalSeconds;
-        public Dictionary<Area, double> AreaTimer { get; set; } = new Dictionary<Area, double>();
-        public string AreaTimerDisplay => FormatTime(AreaElapsedTime);
+        public double PreviousAreaTime { get; set; } = 0;
+        public double AreaTimeElapsed => PreviousAreaTime + DateTime.Now.Subtract(LastAreaChange).TotalSeconds;
+        public Dictionary<Area, double> TotalAreaTimeElapsed { get; set; } = new Dictionary<Area, double>();
+        public string AreaTimerDisplay => FormatTime(AreaTimeElapsed);
 
         public string FormatTime(double seconds)
         {

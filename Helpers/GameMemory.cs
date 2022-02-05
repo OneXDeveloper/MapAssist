@@ -128,12 +128,13 @@ namespace MapAssist.Helpers
                     throw new Exception("Level id out of bounds.");
                 }
 
+                // Update area timer
                 var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
                 if (!areaCacheFound || previousArea != levelId)
                 {
                     if (areaCacheFound)
                     {
-                        _sessions[_currentProcessId].AreaTimer[previousArea] = _sessions[_currentProcessId].AreaElapsedTime;
+                        _sessions[_currentProcessId].TotalAreaTimeElapsed[previousArea] = _sessions[_currentProcessId].AreaTimeElapsed;
                     }
 
                     _playerArea[_currentProcessId] = levelId;
@@ -141,7 +142,7 @@ namespace MapAssist.Helpers
                     if (areaCacheFound)
                     {
                         _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
-                        _sessions[_currentProcessId].AreaPreviousTime = _sessions[_currentProcessId].AreaTimer.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
+                        _sessions[_currentProcessId].PreviousAreaTime = _sessions[_currentProcessId].TotalAreaTimeElapsed.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
                     }
                 }
 
