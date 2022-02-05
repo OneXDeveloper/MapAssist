@@ -918,14 +918,6 @@ namespace MapAssist.Helpers
                 anchor.Y += lineHeight;
             }
 
-            // Area Timer
-            if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer)
-            {
-                var areaElapsed = "Area Time: " + _gameData.Session.AreaTimerDisplay;
-                DrawText(gfx, anchor, areaElapsed, font, fontSize, textColor, textShadow, textAlign);
-                anchor.Y += lineHeight;
-            }
-
             // Difficulty
             if (MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty)
             {
@@ -953,6 +945,14 @@ namespace MapAssist.Helpers
                     DrawText(gfx, anchor, areaLevelText, font, fontSize, textColor, textShadow, textAlign);
                     anchor.Y += lineHeight;
                 }
+            }
+
+            // Area Timer
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer)
+            {
+                var areaElapsed = "Area Time: " + _gameData.Session.AreaTimerDisplay;
+                DrawText(gfx, anchor, areaElapsed, font, fontSize, textColor, textShadow, textAlign);
+                anchor.Y += lineHeight;
             }
 
             // Overlay FPS

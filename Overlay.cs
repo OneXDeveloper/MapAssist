@@ -247,7 +247,7 @@ namespace MapAssist
 
         private void _window_DestroyGraphics(object sender, DestroyGraphicsEventArgs e)
         {
-            _compositor?.Dispose();
+            if (_compositor != null) _compositor.Dispose();
             _compositor = null;
         }
 
@@ -263,7 +263,7 @@ namespace MapAssist
                 {
                     disposed = true; // This first to let GraphicsWindow.DrawGraphics know to return instantly
                     _window.Dispose(); // This second to dispose of GraphicsWindow
-                    _compositor?.Dispose(); // This last so it's disposed after GraphicsWindow stops using it
+                    if (_compositor != null) _compositor.Dispose(); // This last so it's disposed after GraphicsWindow stops using it
                 }
             }
         }
