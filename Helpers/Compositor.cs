@@ -902,11 +902,27 @@ namespace MapAssist.Helpers
                 }
             }
 
+            // Game Timer
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer)
+            {
+                var gameElapsed = "Game Time: " + _gameData.Session.GameTimerDisplay;
+                DrawText(gfx, anchor, gameElapsed, font, fontSize, textColor, textShadow, textAlign);
+                anchor.Y += lineHeight;
+            }
+
             // Area
             if (MapAssistConfiguration.Loaded.GameInfo.ShowArea)
             {
                 var areaText = _areaData.Area.Name();
                 DrawText(gfx, anchor, areaText, font, fontSize, textColor, textShadow, textAlign);
+                anchor.Y += lineHeight;
+            }
+
+            // Area Timer
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer)
+            {
+                var areaElapsed = "Area Time: " + _gameData.Session.AreaTimerDisplay;
+                DrawText(gfx, anchor, areaElapsed, font, fontSize, textColor, textShadow, textAlign);
                 anchor.Y += lineHeight;
             }
 

@@ -31,6 +31,8 @@ namespace MapAssist.Helpers
         private static Dictionary<int, uint> _lastMapSeeds = new Dictionary<int, uint>();
         private static Dictionary<int, bool> _playerMapChanged = new Dictionary<int, bool>();
         private static Dictionary<int, uint> _playerCubeOwnerID = new Dictionary<int, uint>();
+        private static Dictionary<int, Area> _playerArea = new Dictionary<int, Area>();
+        private static Dictionary<int, Session> _sessions = new Dictionary<int, Session>();
         private static int _currentProcessId;
 
         public static Dictionary<int, UnitPlayer> PlayerUnits = new Dictionary<int, UnitPlayer>();
@@ -66,6 +68,21 @@ namespace MapAssist.Helpers
 
                 if (!menuData.InGame)
                 {
+                    if (_sessions.ContainsKey(_currentProcessId))
+                    {
+                        _sessions.Remove(_currentProcessId);
+                    }
+
+                    if (_playerArea.ContainsKey(_currentProcessId))
+                    {
+                        _playerArea.Remove(_currentProcessId);
+                    }
+
+                    if (_lastMapSeeds.ContainsKey(_currentProcessId))
+                    {
+                        _lastMapSeeds.Remove(_currentProcessId);
+                    }
+
                     if (Corpses.ContainsKey(_currentProcessId))
                     {
                         Corpses[_currentProcessId].Clear();
@@ -74,15 +91,16 @@ namespace MapAssist.Helpers
                     return null;
                 }
 
+                if (!_sessions.ContainsKey(_currentProcessId))
+                {
+                    _sessions.Add(_currentProcessId, new Session(GameManager.GameIPOffset));
+                }
+
                 var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
                 var playerUnit = rawPlayerUnits.FirstOrDefault(x => x.IsPlayer && x.IsPlayerUnit);
 
                 if (playerUnit == null)
                 {
-                    if (_lastMapSeeds.ContainsKey(_currentProcessId))
-                    {
-                        _lastMapSeeds[_currentProcessId] = 0;
-                    }
 
                     if (_errorThrown) return null;
 
@@ -154,14 +172,28 @@ namespace MapAssist.Helpers
 
                 if (!levelId.IsValid())
                 {
+                    _playerArea.Remove(_currentProcessId);
+
                     if (_errorThrown) return null;
 
                     _errorThrown = true;
                     throw new Exception("Level id out of bounds.");
                 }
 
+                if (!_playerArea.ContainsKey(_currentProcessId))
+                {
+                    _playerArea.Add(_currentProcessId, levelId);
+                    _sessions[_currentProcessId].AreaTimerStart = DateTime.Now;
+                }
+
+                if (_playerArea[_currentProcessId] != levelId)
+                {
+                    _playerArea[_currentProcessId] = levelId;
+                    _sessions[_currentProcessId].AreaTimerStart = DateTime.Now;
+                }
+
                 // Players
-                var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
+                    var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
                     .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
                     .Select(x => x.UpdateParties(playerUnit.RosterEntry)).ToArray()
                     .Where(x => x != null && x.UnitId < uint.MaxValue).ToDictionary(x => x.UnitId, x => x);
@@ -310,8 +342,6 @@ namespace MapAssist.Helpers
                 _firstMemoryRead = false;
                 _errorThrown = false;
 
-                var session = new Session(GameManager.GameIPOffset);
-
                 return new GameData
                 {
                     PlayerPosition = playerUnit.Position,
@@ -329,7 +359,7 @@ namespace MapAssist.Helpers
                     Items = itemList,
                     AllItems = allItems,
                     ItemLog = Items.ItemLog[_currentProcessId].ToArray(),
-                    Session = session,
+                    Session = _sessions[_currentProcessId],
                     Roster = rosterData,
                     MenuOpen = menuData,
                     MenuPanelOpen = menuOpen,

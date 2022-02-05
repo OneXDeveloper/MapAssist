@@ -92,6 +92,8 @@ namespace MapAssist
             chkResistances.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowResistances;
 
             chkShowGameName.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameName;
+            chkShowGameTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer;
+            chkShowAreaTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowArea;
             chkShowAreaLevel.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
             chkShowDifficulty.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty;
@@ -331,6 +333,16 @@ namespace MapAssist
         private void chkShowGameName_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.ShowGameName = chkShowGameName.Checked;
+        }
+
+        private void chkShowGameTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer = chkShowGameTimer.Checked;
+        }
+
+        private void chkShowAreaTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer = chkShowAreaTimer.Checked;
         }
 
         private void chkShowDifficulty_CheckedChanged(object sender, EventArgs e)

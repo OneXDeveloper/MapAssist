@@ -275,6 +275,12 @@ public class GameInfoConfiguration
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
 
+    [YamlMember(Alias = "ShowGameTimer", ApplyNamingConventions = false)]
+    public bool ShowGameTimer { get; set; }
+
+    [YamlMember(Alias = "ShowAreaTimer", ApplyNamingConventions = false)]
+    public bool ShowAreaTimer { get; set; }
+
     [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
     public string LabelFont { get; set; }
 
