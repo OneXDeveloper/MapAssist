@@ -1013,6 +1013,8 @@ namespace MapAssist.Helpers
 
         public void DrawPlayerInfo(Graphics gfx)
         {
+            if (_gameData.MenuOpen.EscMenu) return;
+
             var centerX = gfx.Width / 2 + 2;
             var fontFamily = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
 
