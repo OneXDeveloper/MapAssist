@@ -62,7 +62,7 @@ namespace MapAssist.Helpers
             _formalFont = new FormalFont();
         }
 
-        public void setArea(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
+        public void SetArea(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
             _areaData.CalcViewAreas(_rotateRadians);
@@ -1096,23 +1096,22 @@ namespace MapAssist.Helpers
 
                 for (var i = 0; i < 4; i++)
                 {
-                    var itemTypes = _gameData.PlayerUnit.BeltItems[i].Where(x => x != null)
-                        .Select(x => x.Item.IsHealthPotion() ? 0 : x.Item.IsManaPotion() ? 1 : x.Item.IsRejuvPotion() ? 2 : 3)
-                        .Distinct().ToArray();
-                    var numHave = _gameData.PlayerUnit.BeltItems[i].Count(x => x != null);
-                    var isAllTopTier = _gameData.PlayerUnit.BeltItems[i].Count(x => x != null && x.Item.IsTopTierPotion()) == numHave;
-                    var color = itemTypes.Length == 1 ? colors[itemTypes[0]] : Color.White;
+                    var items = _gameData.PlayerUnit.BeltItems[i].Where(x => x != null).ToArray();
+
+                    var itemTypes = items.Select(x => x.Item.IsHealthPotion() ? 0 : x.Item.IsManaPotion() ? 1 : x.Item.IsRejuvPotion() ? 2 : 3).ToArray();
+                    var color = itemTypes.Distinct().Count() == 1 && itemTypes[0] < colors.Length ? colors[itemTypes[0]] : Color.White;
+                    var showAsterisk = items.Count(x => x.Item == items[0].Item) < items.Length;
 
                     var position = new Point(
                         0.5f * gfx.Width + 0.16f * gfx.Height + 8.00f + 0.0575f * gfx.Height * i,
                         0.99f * gfx.Height - font.FontSize
                     );
 
-                    DrawText(gfx, position, numHave.ToString(), fontFamily, font.FontSize, color, true, TextAlign.Right);
+                    DrawText(gfx, position, items.Length.ToString(), fontFamily, font.FontSize, color, true, TextAlign.Right);
 
                     position.Y += font.FontSize - 0.05f * gfx.Height;
 
-                    if (!isAllTopTier)
+                    if (showAsterisk)
                     {
                         DrawText(gfx, position, "*", fontFamily, font.FontSize, color, true, TextAlign.Right);
                     }
