@@ -53,6 +53,15 @@ namespace MapAssist.Settings
                     }
                 }
             }
+
+            // Validation for Enhanced Damage
+            foreach (var item in Filters.Where(kv => kv.Value != null && kv.Value.Exists(x => x.EnhancedDamage != null)))
+            {
+                if (item.Key != Item.Any && item.Key != Item.Jewel && item.Key != Item.ClassPaladinShields && Items.ItemClasses.FirstOrDefault(x => x.Value.Contains(item.Key)).Key != Item.ClassPaladinShields)
+                {
+                    throw new Exception($"Enhanced Damage was found on an ItemFilter rule for {item.Key}.\n\nIt is currently supported for Jewels and Paladin Shields.");
+                }
+            }
         }
     }
 
@@ -227,6 +236,9 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Damage Taken Goes To Mana")]
         public int? DamageTakenGoesToMana { get; set; }
+
+        [YamlMember(Alias = "Enhanced Damage")]
+        public int? EnhancedDamage { get; set; }
     }
 
     public static class ItemFilterExtensions
