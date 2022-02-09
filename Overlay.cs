@@ -72,7 +72,7 @@ namespace MapAssist
 
                     if (changed)
                     {
-                        _compositor.setArea(areaData, pointsOfInterest);
+                        _compositor.SetArea(areaData, pointsOfInterest);
                     }
 
                     gfx.ClearScene();
