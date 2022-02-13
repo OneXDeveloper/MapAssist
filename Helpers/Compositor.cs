@@ -47,6 +47,7 @@ namespace MapAssist.Helpers
         private Matrix3x2 mapTransformMatrix;
         private Matrix3x2 areaTransformMatrix;
         private HashSet<(Bitmap, Point)> gamemaps = new HashSet<(Bitmap, Point)>();
+        private (Color?, Color?) gamemapColors = (Color.Empty, Color.Empty);
         private Rectangle _drawBounds;
         private readonly float _rotateRadians = (float)(45 * Math.PI / 180f);
         private float scaleWidth = 1;
@@ -98,6 +99,15 @@ namespace MapAssist.Helpers
 
             CalcTransformMatrices(gfx);
 
+            var maybeWalkableColor = MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable;
+            var maybeBorderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.Border;
+
+            if (gamemapColors != (maybeWalkableColor, maybeBorderColor))
+            {
+                gamemaps.Clear();
+                gamemapColors = (maybeWalkableColor, maybeBorderColor);
+            }
+
             if (gamemaps.Count > 0) return;
 
             RenderTarget renderTarget = gfx.GetRenderTarget();
@@ -109,9 +119,6 @@ namespace MapAssist.Helpers
                 var imageSize = new Size2((int)renderArea.ViewInputRect.Width, (int)renderArea.ViewInputRect.Height);
                 var gamemap = new Bitmap(renderTarget, imageSize, new BitmapProperties(renderTarget.PixelFormat));
                 var bytes = new byte[imageSize.Width * imageSize.Height * 4];
-
-                var maybeWalkableColor = MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable;
-                var maybeBorderColor = MapAssistConfiguration.Loaded.MapColorConfiguration.Border;
 
                 if (maybeWalkableColor != null || maybeBorderColor != null)
                 {
