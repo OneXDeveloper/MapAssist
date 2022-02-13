@@ -226,7 +226,7 @@ namespace MapAssist.Helpers
 
             foreach (var poi in _pointsOfInterest)
             {
-                if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint }).Contains(poi.Type))
+                if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint, PoiType.AreaPortal }).Contains(poi.Type))
                 {
                     continue;
                 }
