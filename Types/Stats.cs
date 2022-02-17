@@ -432,6 +432,7 @@ namespace MapAssist.Types
             [Stat.MaxMana] = 8,
             [Stat.Life] = 8,
             [Stat.Mana] = 8,
+            [Stat.MaxStamina] = 8,
         };
 
         public static Dictionary<Stat, double> StatDivisors = new Dictionary<Stat, double>()
