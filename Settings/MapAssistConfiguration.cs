@@ -236,6 +236,9 @@ public class HotkeyConfiguration
     [YamlMember(Alias = "ToggleKey", ApplyNamingConventions = false)]
     public string ToggleKey { get; set; }
 
+    [YamlMember(Alias = "HideMapKey", ApplyNamingConventions = false)]
+    public string HideMapKey { get; set; }
+
     [YamlMember(Alias = "AreaLevelKey", ApplyNamingConventions = false)]
     public string AreaLevelKey { get; set; }
 

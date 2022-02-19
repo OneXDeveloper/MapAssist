@@ -157,6 +157,11 @@ namespace MapAssist
                     _show = !_show;
                 }
 
+                if (keys == new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey))
+                {
+                    _show = false;
+                }
+
                 if (keys == new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey))
                 {
                     MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel = !MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
