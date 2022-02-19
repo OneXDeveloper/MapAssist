@@ -40,18 +40,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpGameInfo = new System.Windows.Forms.GroupBox();
             this.chkShowGameIP = new System.Windows.Forms.CheckBox();
-            this.chkGameInfoTextShadow = new System.Windows.Forms.CheckBox();
-            this.chkShowOverlayFPS = new System.Windows.Forms.CheckBox();
             this.chkShowAreaLevel = new System.Windows.Forms.CheckBox();
-            this.chkShowArea = new System.Windows.Forms.CheckBox();
-            this.chkShowDifficulty = new System.Windows.Forms.CheckBox();
-            this.chkShowGameName = new System.Windows.Forms.CheckBox();
             this.cboGameInfoPosition = new System.Windows.Forms.ComboBox();
             this.lblGameInfoPosition = new System.Windows.Forms.Label();
-            this.btnClearGameInfoFont = new System.Windows.Forms.Button();
-            this.btnGameInfoFont = new System.Windows.Forms.Button();
             this.txtHuntIP = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.chkGameInfoTextShadow = new System.Windows.Forms.CheckBox();
+            this.chkShowOverlayFPS = new System.Windows.Forms.CheckBox();
+            this.chkShowDifficulty = new System.Windows.Forms.CheckBox();
+            this.btnClearGameInfoFont = new System.Windows.Forms.Button();
+            this.btnGameInfoFont = new System.Windows.Forms.Button();
+            this.chkShowAreaTimer = new System.Windows.Forms.CheckBox();
+            this.chkShowGameTimer = new System.Windows.Forms.CheckBox();
+            this.chkShowArea = new System.Windows.Forms.CheckBox();
+            this.chkShowGameName = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkMonsterHealthBar = new System.Windows.Forms.CheckBox();
@@ -170,8 +172,8 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkShowGameTimer = new System.Windows.Forms.CheckBox();
-            this.chkShowAreaTimer = new System.Windows.Forms.CheckBox();
+            this.txtHideMapKey = new System.Windows.Forms.TextBox();
+            this.lblHideMapKey = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -221,6 +223,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(367, 351);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.TabStop = false;
             // 
             // tabPage5
             // 
@@ -344,6 +347,53 @@
             this.chkShowGameIP.UseVisualStyleBackColor = true;
             this.chkShowGameIP.CheckedChanged += new System.EventHandler(this.chkShowGameIP_CheckedChanged);
             // 
+            // chkShowAreaLevel
+            // 
+            this.chkShowAreaLevel.AutoSize = true;
+            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 59);
+            this.chkShowAreaLevel.Name = "chkShowAreaLevel";
+            this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
+            this.chkShowAreaLevel.TabIndex = 39;
+            this.chkShowAreaLevel.Text = "Area Level";
+            this.chkShowAreaLevel.UseVisualStyleBackColor = true;
+            this.chkShowAreaLevel.CheckedChanged += new System.EventHandler(this.chkShowAreaLevel_CheckedChanged);
+            // 
+            // cboGameInfoPosition
+            // 
+            this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboGameInfoPosition.FormattingEnabled = true;
+            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 129);
+            this.cboGameInfoPosition.Name = "cboGameInfoPosition";
+            this.cboGameInfoPosition.Size = new System.Drawing.Size(87, 21);
+            this.cboGameInfoPosition.TabIndex = 36;
+            this.cboGameInfoPosition.SelectedIndexChanged += new System.EventHandler(this.cboGameInfoPosition_SelectedIndexChanged);
+            // 
+            // lblGameInfoPosition
+            // 
+            this.lblGameInfoPosition.AutoSize = true;
+            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 132);
+            this.lblGameInfoPosition.Name = "lblGameInfoPosition";
+            this.lblGameInfoPosition.Size = new System.Drawing.Size(44, 13);
+            this.lblGameInfoPosition.TabIndex = 35;
+            this.lblGameInfoPosition.Text = "Position";
+            // 
+            // txtHuntIP
+            // 
+            this.txtHuntIP.Location = new System.Drawing.Point(239, 102);
+            this.txtHuntIP.Name = "txtHuntIP";
+            this.txtHuntIP.Size = new System.Drawing.Size(87, 20);
+            this.txtHuntIP.TabIndex = 9;
+            this.txtHuntIP.TextChanged += new System.EventHandler(this.txtHuntIP_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(189, 105);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Hunt IP";
+            // 
             // chkGameInfoTextShadow
             // 
             this.chkGameInfoTextShadow.AutoSize = true;
@@ -366,28 +416,6 @@
             this.chkShowOverlayFPS.UseVisualStyleBackColor = true;
             this.chkShowOverlayFPS.CheckedChanged += new System.EventHandler(this.chkShowOverlayFPS_CheckedChanged);
             // 
-            // chkShowAreaLevel
-            // 
-            this.chkShowAreaLevel.AutoSize = true;
-            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 59);
-            this.chkShowAreaLevel.Name = "chkShowAreaLevel";
-            this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
-            this.chkShowAreaLevel.TabIndex = 39;
-            this.chkShowAreaLevel.Text = "Area Level";
-            this.chkShowAreaLevel.UseVisualStyleBackColor = true;
-            this.chkShowAreaLevel.CheckedChanged += new System.EventHandler(this.chkShowAreaLevel_CheckedChanged);
-            // 
-            // chkShowArea
-            // 
-            this.chkShowArea.AutoSize = true;
-            this.chkShowArea.Location = new System.Drawing.Point(192, 19);
-            this.chkShowArea.Name = "chkShowArea";
-            this.chkShowArea.Size = new System.Drawing.Size(48, 17);
-            this.chkShowArea.TabIndex = 16;
-            this.chkShowArea.Text = "Area";
-            this.chkShowArea.UseVisualStyleBackColor = true;
-            this.chkShowArea.CheckedChanged += new System.EventHandler(this.chkShowArea_CheckedChanged);
-            // 
             // chkShowDifficulty
             // 
             this.chkShowDifficulty.AutoSize = true;
@@ -398,36 +426,6 @@
             this.chkShowDifficulty.Text = "Difficulty";
             this.chkShowDifficulty.UseVisualStyleBackColor = true;
             this.chkShowDifficulty.CheckedChanged += new System.EventHandler(this.chkShowDifficulty_CheckedChanged);
-            // 
-            // chkShowGameName
-            // 
-            this.chkShowGameName.AutoSize = true;
-            this.chkShowGameName.Location = new System.Drawing.Point(11, 19);
-            this.chkShowGameName.Name = "chkShowGameName";
-            this.chkShowGameName.Size = new System.Drawing.Size(120, 17);
-            this.chkShowGameName.TabIndex = 37;
-            this.chkShowGameName.Text = "Game Name && Pass";
-            this.chkShowGameName.UseVisualStyleBackColor = true;
-            this.chkShowGameName.CheckedChanged += new System.EventHandler(this.chkShowGameName_CheckedChanged);
-            // 
-            // cboGameInfoPosition
-            // 
-            this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboGameInfoPosition.FormattingEnabled = true;
-            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 129);
-            this.cboGameInfoPosition.Name = "cboGameInfoPosition";
-            this.cboGameInfoPosition.Size = new System.Drawing.Size(87, 21);
-            this.cboGameInfoPosition.TabIndex = 36;
-            this.cboGameInfoPosition.SelectedIndexChanged += new System.EventHandler(this.cboGameInfoPosition_SelectedIndexChanged);
-            // 
-            // lblGameInfoPosition
-            // 
-            this.lblGameInfoPosition.AutoSize = true;
-            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 132);
-            this.lblGameInfoPosition.Name = "lblGameInfoPosition";
-            this.lblGameInfoPosition.Size = new System.Drawing.Size(44, 13);
-            this.lblGameInfoPosition.TabIndex = 35;
-            this.lblGameInfoPosition.Text = "Position";
             // 
             // btnClearGameInfoFont
             // 
@@ -453,22 +451,49 @@
             this.btnGameInfoFont.UseVisualStyleBackColor = false;
             this.btnGameInfoFont.Click += new System.EventHandler(this.btnGameInfoFont_Click);
             // 
-            // txtHuntIP
+            // chkShowAreaTimer
             // 
-            this.txtHuntIP.Location = new System.Drawing.Point(239, 102);
-            this.txtHuntIP.Name = "txtHuntIP";
-            this.txtHuntIP.Size = new System.Drawing.Size(87, 20);
-            this.txtHuntIP.TabIndex = 9;
-            this.txtHuntIP.TextChanged += new System.EventHandler(this.txtHuntIP_TextChanged);
+            this.chkShowAreaTimer.AutoSize = true;
+            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 39);
+            this.chkShowAreaTimer.Name = "chkShowAreaTimer";
+            this.chkShowAreaTimer.Size = new System.Drawing.Size(77, 17);
+            this.chkShowAreaTimer.TabIndex = 41;
+            this.chkShowAreaTimer.Text = "Area Timer";
+            this.chkShowAreaTimer.UseVisualStyleBackColor = true;
+            this.chkShowAreaTimer.CheckedChanged += new System.EventHandler(this.chkShowAreaTimer_CheckedChanged);
             // 
-            // label7
+            // chkShowGameTimer
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(189, 105);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Hunt IP";
+            this.chkShowGameTimer.AutoSize = true;
+            this.chkShowGameTimer.Location = new System.Drawing.Point(11, 39);
+            this.chkShowGameTimer.Name = "chkShowGameTimer";
+            this.chkShowGameTimer.Size = new System.Drawing.Size(83, 17);
+            this.chkShowGameTimer.TabIndex = 40;
+            this.chkShowGameTimer.Text = "Game Timer";
+            this.chkShowGameTimer.UseVisualStyleBackColor = true;
+            this.chkShowGameTimer.CheckedChanged += new System.EventHandler(this.chkShowGameTimer_CheckedChanged);
+            // 
+            // chkShowArea
+            // 
+            this.chkShowArea.AutoSize = true;
+            this.chkShowArea.Location = new System.Drawing.Point(192, 19);
+            this.chkShowArea.Name = "chkShowArea";
+            this.chkShowArea.Size = new System.Drawing.Size(48, 17);
+            this.chkShowArea.TabIndex = 16;
+            this.chkShowArea.Text = "Area";
+            this.chkShowArea.UseVisualStyleBackColor = true;
+            this.chkShowArea.CheckedChanged += new System.EventHandler(this.chkShowArea_CheckedChanged);
+            // 
+            // chkShowGameName
+            // 
+            this.chkShowGameName.AutoSize = true;
+            this.chkShowGameName.Location = new System.Drawing.Point(11, 19);
+            this.chkShowGameName.Name = "chkShowGameName";
+            this.chkShowGameName.Size = new System.Drawing.Size(120, 17);
+            this.chkShowGameName.TabIndex = 37;
+            this.chkShowGameName.Text = "Game Name && Pass";
+            this.chkShowGameName.UseVisualStyleBackColor = true;
+            this.chkShowGameName.CheckedChanged += new System.EventHandler(this.chkShowGameName_CheckedChanged);
             // 
             // tabPage1
             // 
@@ -1679,6 +1704,8 @@
             // 
             // grpHotkeys
             // 
+            this.grpHotkeys.Controls.Add(this.txtHideMapKey);
+            this.grpHotkeys.Controls.Add(this.lblHideMapKey);
             this.grpHotkeys.Controls.Add(this.txtZoomOutKey);
             this.grpHotkeys.Controls.Add(this.txtZoomInKey);
             this.grpHotkeys.Controls.Add(this.txtAreaLevelKey);
@@ -1691,36 +1718,39 @@
             this.grpHotkeys.Controls.Add(this.label22);
             this.grpHotkeys.Location = new System.Drawing.Point(11, 9);
             this.grpHotkeys.Name = "grpHotkeys";
-            this.grpHotkeys.Size = new System.Drawing.Size(335, 159);
+            this.grpHotkeys.Size = new System.Drawing.Size(335, 214);
             this.grpHotkeys.TabIndex = 9;
             this.grpHotkeys.TabStop = false;
             this.grpHotkeys.Text = "Hotkeys";
             // 
             // txtZoomOutKey
             // 
-            this.txtZoomOutKey.Location = new System.Drawing.Point(160, 102);
+            this.txtZoomOutKey.Location = new System.Drawing.Point(160, 127);
             this.txtZoomOutKey.MaxLength = 1;
             this.txtZoomOutKey.Name = "txtZoomOutKey";
             this.txtZoomOutKey.Size = new System.Drawing.Size(94, 20);
             this.txtZoomOutKey.TabIndex = 15;
+            this.txtZoomOutKey.TabStop = false;
             this.txtZoomOutKey.TextChanged += new System.EventHandler(this.txtZoomOutKey_TextChanged);
             // 
             // txtZoomInKey
             // 
-            this.txtZoomInKey.Location = new System.Drawing.Point(160, 75);
+            this.txtZoomInKey.Location = new System.Drawing.Point(160, 99);
             this.txtZoomInKey.MaxLength = 1;
             this.txtZoomInKey.Name = "txtZoomInKey";
             this.txtZoomInKey.Size = new System.Drawing.Size(94, 20);
             this.txtZoomInKey.TabIndex = 14;
+            this.txtZoomInKey.TabStop = false;
             this.txtZoomInKey.TextChanged += new System.EventHandler(this.txtZoomInKey_TextChanged);
             // 
             // txtAreaLevelKey
             // 
-            this.txtAreaLevelKey.Location = new System.Drawing.Point(160, 48);
+            this.txtAreaLevelKey.Location = new System.Drawing.Point(160, 73);
             this.txtAreaLevelKey.MaxLength = 1;
             this.txtAreaLevelKey.Name = "txtAreaLevelKey";
             this.txtAreaLevelKey.Size = new System.Drawing.Size(94, 20);
             this.txtAreaLevelKey.TabIndex = 13;
+            this.txtAreaLevelKey.TabStop = false;
             this.txtAreaLevelKey.TextChanged += new System.EventHandler(this.txtAreaLevelKey_TextChanged);
             // 
             // txtToggleMapKey
@@ -1730,21 +1760,23 @@
             this.txtToggleMapKey.Name = "txtToggleMapKey";
             this.txtToggleMapKey.Size = new System.Drawing.Size(94, 20);
             this.txtToggleMapKey.TabIndex = 12;
+            this.txtToggleMapKey.TabStop = false;
             this.txtToggleMapKey.TextChanged += new System.EventHandler(this.txtToggleMapKey_TextChanged);
             // 
             // txtExportItemsKey
             // 
-            this.txtExportItemsKey.Location = new System.Drawing.Point(160, 129);
+            this.txtExportItemsKey.Location = new System.Drawing.Point(160, 154);
             this.txtExportItemsKey.MaxLength = 1;
             this.txtExportItemsKey.Name = "txtExportItemsKey";
             this.txtExportItemsKey.Size = new System.Drawing.Size(94, 20);
             this.txtExportItemsKey.TabIndex = 16;
+            this.txtExportItemsKey.TabStop = false;
             this.txtExportItemsKey.TextChanged += new System.EventHandler(this.txtExportItemsKey_TextChanged);
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 105);
+            this.label15.Location = new System.Drawing.Point(6, 130);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(75, 13);
             this.label15.TabIndex = 11;
@@ -1753,7 +1785,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 78);
+            this.label14.Location = new System.Drawing.Point(6, 103);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(67, 13);
             this.label14.TabIndex = 10;
@@ -1762,7 +1794,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 51);
+            this.label13.Location = new System.Drawing.Point(6, 76);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(115, 13);
             this.label13.TabIndex = 9;
@@ -1780,7 +1812,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(6, 132);
+            this.label22.Location = new System.Drawing.Point(6, 157);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(86, 13);
             this.label22.TabIndex = 17;
@@ -1836,27 +1868,24 @@
             this.lstHidden.Size = new System.Drawing.Size(293, 160);
             this.lstHidden.TabIndex = 0;
             // 
-            // chkShowGameTimer
+            // txtHideMapKey
             // 
-            this.chkShowGameTimer.AutoSize = true;
-            this.chkShowGameTimer.Location = new System.Drawing.Point(11, 39);
-            this.chkShowGameTimer.Name = "chkShowGameTimer";
-            this.chkShowGameTimer.Size = new System.Drawing.Size(83, 17);
-            this.chkShowGameTimer.TabIndex = 40;
-            this.chkShowGameTimer.Text = "Game Timer";
-            this.chkShowGameTimer.UseVisualStyleBackColor = true;
-            this.chkShowGameTimer.CheckedChanged += new System.EventHandler(this.chkShowGameTimer_CheckedChanged);
+            this.txtHideMapKey.Location = new System.Drawing.Point(160, 47);
+            this.txtHideMapKey.MaxLength = 1;
+            this.txtHideMapKey.Name = "txtHideMapKey";
+            this.txtHideMapKey.Size = new System.Drawing.Size(94, 20);
+            this.txtHideMapKey.TabIndex = 19;
+            this.txtHideMapKey.TabStop = false;
+            this.txtHideMapKey.TextChanged += new System.EventHandler(this.txtHideMapKey_TextChanged);
             // 
-            // chkShowAreaTimer
+            // lblHideMapKey
             // 
-            this.chkShowAreaTimer.AutoSize = true;
-            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 39);
-            this.chkShowAreaTimer.Name = "chkShowAreaTimer";
-            this.chkShowAreaTimer.Size = new System.Drawing.Size(77, 17);
-            this.chkShowAreaTimer.TabIndex = 41;
-            this.chkShowAreaTimer.Text = "Area Timer";
-            this.chkShowAreaTimer.UseVisualStyleBackColor = true;
-            this.chkShowAreaTimer.CheckedChanged += new System.EventHandler(this.chkShowAreaTimer_CheckedChanged);
+            this.lblHideMapKey.AutoSize = true;
+            this.lblHideMapKey.Location = new System.Drawing.Point(6, 50);
+            this.lblHideMapKey.Name = "lblHideMapKey";
+            this.lblHideMapKey.Size = new System.Drawing.Size(74, 13);
+            this.lblHideMapKey.TabIndex = 18;
+            this.lblHideMapKey.Text = "Hide Map Key";
             // 
             // ConfigEditor
             // 
@@ -2066,5 +2095,7 @@
         private System.Windows.Forms.CheckBox chkPotionBelt;
         private System.Windows.Forms.CheckBox chkShowAreaTimer;
         private System.Windows.Forms.CheckBox chkShowGameTimer;
+        private System.Windows.Forms.TextBox txtHideMapKey;
+        private System.Windows.Forms.Label lblHideMapKey;
     }
 }

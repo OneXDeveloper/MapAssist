@@ -1,6 +1,7 @@
 # Change these settings from the Config GUI provided in MapAssist
 HotkeyConfiguration:
   ToggleKey: '|'
+  HideMapKey: ''
   AreaLevelKey: '['
   ZoomInKey: Num +
   ZoomOutKey: Num -

@@ -109,6 +109,7 @@ namespace MapAssist
             cboGameInfoPosition.SelectedIndex = cboGameInfoPosition.FindStringExact(MapAssistConfiguration.Loaded.GameInfo.Position.ToString().ToProperCase());
 
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey.ToString()).Monitor(txtToggleMapKey);
+            new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey.ToString()).Monitor(txtHideMapKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey.ToString()).Monitor(txtAreaLevelKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomInKey.ToString()).Monitor(txtZoomInKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomOutKey.ToString()).Monitor(txtZoomOutKey);
@@ -750,6 +751,11 @@ namespace MapAssist
         private void txtToggleMapKey_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey = txtToggleMapKey.Text;
+        }
+
+        private void txtHideMapKey_TextChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey = txtHideMapKey.Text;
         }
 
         private void txtAreaLevelKey_TextChanged(object sender, EventArgs e)
