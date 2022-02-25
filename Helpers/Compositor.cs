@@ -852,6 +852,7 @@ namespace MapAssist.Helpers
             var (activeMonster, name) = getActiveMonster();
             if (activeMonster == null) return;
 
+            // Health
             var healthPerc = activeMonster.HealthPercentage;
             var infoText = $"{name} HP: {healthPerc:P}";
 
@@ -861,18 +862,31 @@ namespace MapAssist.Helpers
 
             var fontSize = barHeight / 2f;
             var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
-            var redBrush = CreateSolidBrush(gfx, Color.Firebrick, 1);
-            var whiteBrush = CreateSolidBrush(gfx, Color.DarkGray, 1);
+            var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
+            var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
 
             var center = new Point(gfx.Width / 2, gfx.Height * 0.043f);
             var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
             var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
 
-            gfx.FillRectangle(whiteBrush, barRect);
-            gfx.FillRectangle(redBrush, fillRect);
+            gfx.FillRectangle(lightFillBrush, barRect);
+            gfx.FillRectangle(darkFillBrush, fillRect);
             gfx.DrawRectangle(blackBrush, barRect, 2);
 
-            DrawText(gfx, center, infoText, font, fontSize, Color.Black, false, TextAlign.Center);
+            var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
+            
+            DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
+
+            // Immunities
+            var immunityFontSize = gfx.ScaleFontSize(14);
+            var immunitiesDistanceBetween = gfx.ScaleFontSize(10);
+            var immunitiesWidth = activeMonster.Immunities.Select(x => gfx.MeasureString(CreateFont(gfx, font, immunityFontSize), x.ToString()).X).ToArray();
+            var immunitiesTotalWidth = immunitiesWidth.Sum() + immunitiesDistanceBetween * (activeMonster.Immunities.Count() - 1);
+
+            foreach (var (i, immunity) in activeMonster.Immunities.Select((x, i) => (i, x)))
+            {
+                DrawText(gfx, new Point(gfx.Width / 2 - immunitiesTotalWidth / 2 + immunitiesWidth.Take(i).Sum() + immunitiesWidth[i] / 2 + i * immunitiesDistanceBetween, gfx.Height * 0.053f), immunity.ToString(), font, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+            }
         }
 
         public Point DrawGameInfo(Graphics gfx, Point anchor,
