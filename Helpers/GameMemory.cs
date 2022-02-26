@@ -338,7 +338,7 @@ namespace MapAssist.Helpers
 
                 if (lastHoverData.IsHovered)
                 {
-                    var units = allUnits.Where(x => x.UnitId == lastHoverData.UnitId).ToArray();
+                    var units = allUnits.Where(x => x.UnitId == lastHoverData.UnitId && x.UnitType == lastHoverData.UnitType).ToArray();
                     if (units.Length > 0) units[0].IsHovered = true;
                 }
 
