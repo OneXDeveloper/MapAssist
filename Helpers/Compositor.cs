@@ -947,15 +947,6 @@ namespace MapAssist.Helpers
                 anchor.Y += lineHeight;
             }
 
-            // Game IP
-            if (MapAssistConfiguration.Loaded.GameInfo.ShowGameIP)
-            {
-                var ipColor = _gameData.Session.GameIP == MapAssistConfiguration.Loaded.GameInfo.HuntingIP ? Color.Green : textColor;
-                var ipText = "IP: " + _gameData.Session.GameIP;
-                DrawText(gfx, anchor, ipText, font, fontSize, ipColor, textShadow, textAlign);
-                anchor.Y += lineHeight;
-            }
-
             // Area Level
             if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel)
             {

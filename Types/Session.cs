@@ -33,7 +33,6 @@ namespace MapAssist.Types
         private readonly IntPtr _pSession;
         private string _gameName;
         private string _gamePass;
-        private string _gameIP;
 
         public Session(IntPtr pSession)
         {
@@ -48,14 +47,12 @@ namespace MapAssist.Types
 
                 _gameName = Encoding.ASCII.GetString(sessionData.GameName).Substring(0, sessionData.GameNameLength);
                 _gamePass = Encoding.ASCII.GetString(sessionData.GamePass).Substring(0, sessionData.GamePassLength);
-                _gameIP = Encoding.ASCII.GetString(sessionData.GameIP).Substring(0, sessionData.GameIPLength);
             }
             return this;
         }
 
         public string GameName => _gameName;
         public string GamePass => _gamePass;
-        public string GameIP => _gameIP;
 
         public DateTime GameTimerStart { get; private set; } = DateTime.Now;
         public string GameTimerDisplay => FormatTime(DateTime.Now.Subtract(GameTimerStart).TotalSeconds);

@@ -266,12 +266,6 @@ public class GameInfoConfiguration
     [YamlMember(Alias = "ShowDifficulty", ApplyNamingConventions = false)]
     public bool ShowDifficulty { get; set; }
 
-    [YamlMember(Alias = "ShowGameIP", ApplyNamingConventions = false)]
-    public bool ShowGameIP { get; set; }
-
-    [YamlMember(Alias = "HuntingIP", ApplyNamingConventions = false)]
-    public string HuntingIP { get; set; }
-
     [YamlMember(Alias = "ShowAreaLevel", ApplyNamingConventions = false)]
     public bool ShowAreaLevel { get; set; }
 

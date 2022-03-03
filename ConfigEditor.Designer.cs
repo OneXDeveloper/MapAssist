@@ -39,12 +39,9 @@
             this.btnBrowseD2Location = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.grpGameInfo = new System.Windows.Forms.GroupBox();
-            this.chkShowGameIP = new System.Windows.Forms.CheckBox();
             this.chkShowAreaLevel = new System.Windows.Forms.CheckBox();
             this.cboGameInfoPosition = new System.Windows.Forms.ComboBox();
             this.lblGameInfoPosition = new System.Windows.Forms.Label();
-            this.txtHuntIP = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.chkGameInfoTextShadow = new System.Windows.Forms.CheckBox();
             this.chkShowOverlayFPS = new System.Windows.Forms.CheckBox();
             this.chkShowDifficulty = new System.Windows.Forms.CheckBox();
@@ -156,6 +153,8 @@
             this.label21 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.grpHotkeys = new System.Windows.Forms.GroupBox();
+            this.txtHideMapKey = new System.Windows.Forms.TextBox();
+            this.lblHideMapKey = new System.Windows.Forms.Label();
             this.txtZoomOutKey = new System.Windows.Forms.TextBox();
             this.txtZoomInKey = new System.Windows.Forms.TextBox();
             this.txtAreaLevelKey = new System.Windows.Forms.TextBox();
@@ -172,8 +171,6 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtHideMapKey = new System.Windows.Forms.TextBox();
-            this.lblHideMapKey = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -274,7 +271,7 @@
             this.groupBox4.Controls.Add(this.txtD2Path);
             this.groupBox4.Controls.Add(this.btnBrowseD2Location);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(11, 178);
+            this.groupBox4.Location = new System.Drawing.Point(11, 172);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(335, 69);
             this.groupBox4.TabIndex = 24;
@@ -314,12 +311,9 @@
             // grpGameInfo
             // 
             this.grpGameInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.grpGameInfo.Controls.Add(this.chkShowGameIP);
             this.grpGameInfo.Controls.Add(this.chkShowAreaLevel);
             this.grpGameInfo.Controls.Add(this.cboGameInfoPosition);
             this.grpGameInfo.Controls.Add(this.lblGameInfoPosition);
-            this.grpGameInfo.Controls.Add(this.txtHuntIP);
-            this.grpGameInfo.Controls.Add(this.label7);
             this.grpGameInfo.Controls.Add(this.chkGameInfoTextShadow);
             this.grpGameInfo.Controls.Add(this.chkShowOverlayFPS);
             this.grpGameInfo.Controls.Add(this.chkShowDifficulty);
@@ -331,26 +325,15 @@
             this.grpGameInfo.Controls.Add(this.chkShowGameName);
             this.grpGameInfo.Location = new System.Drawing.Point(11, 9);
             this.grpGameInfo.Name = "grpGameInfo";
-            this.grpGameInfo.Size = new System.Drawing.Size(335, 160);
+            this.grpGameInfo.Size = new System.Drawing.Size(335, 144);
             this.grpGameInfo.TabIndex = 23;
             this.grpGameInfo.TabStop = false;
             this.grpGameInfo.Text = "Game Info";
             // 
-            // chkShowGameIP
-            // 
-            this.chkShowGameIP.AutoSize = true;
-            this.chkShowGameIP.Location = new System.Drawing.Point(192, 79);
-            this.chkShowGameIP.Name = "chkShowGameIP";
-            this.chkShowGameIP.Size = new System.Drawing.Size(67, 17);
-            this.chkShowGameIP.TabIndex = 6;
-            this.chkShowGameIP.Text = "Game IP";
-            this.chkShowGameIP.UseVisualStyleBackColor = true;
-            this.chkShowGameIP.CheckedChanged += new System.EventHandler(this.chkShowGameIP_CheckedChanged);
-            // 
             // chkShowAreaLevel
             // 
             this.chkShowAreaLevel.AutoSize = true;
-            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 59);
+            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 65);
             this.chkShowAreaLevel.Name = "chkShowAreaLevel";
             this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaLevel.TabIndex = 39;
@@ -362,7 +345,7 @@
             // 
             this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboGameInfoPosition.FormattingEnabled = true;
-            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 129);
+            this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 111);
             this.cboGameInfoPosition.Name = "cboGameInfoPosition";
             this.cboGameInfoPosition.Size = new System.Drawing.Size(87, 21);
             this.cboGameInfoPosition.TabIndex = 36;
@@ -371,33 +354,16 @@
             // lblGameInfoPosition
             // 
             this.lblGameInfoPosition.AutoSize = true;
-            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 132);
+            this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 114);
             this.lblGameInfoPosition.Name = "lblGameInfoPosition";
             this.lblGameInfoPosition.Size = new System.Drawing.Size(44, 13);
             this.lblGameInfoPosition.TabIndex = 35;
             this.lblGameInfoPosition.Text = "Position";
             // 
-            // txtHuntIP
-            // 
-            this.txtHuntIP.Location = new System.Drawing.Point(239, 102);
-            this.txtHuntIP.Name = "txtHuntIP";
-            this.txtHuntIP.Size = new System.Drawing.Size(87, 20);
-            this.txtHuntIP.TabIndex = 9;
-            this.txtHuntIP.TextChanged += new System.EventHandler(this.txtHuntIP_TextChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(189, 105);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Hunt IP";
-            // 
             // chkGameInfoTextShadow
             // 
             this.chkGameInfoTextShadow.AutoSize = true;
-            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 131);
+            this.chkGameInfoTextShadow.Location = new System.Drawing.Point(11, 119);
             this.chkGameInfoTextShadow.Name = "chkGameInfoTextShadow";
             this.chkGameInfoTextShadow.Size = new System.Drawing.Size(89, 17);
             this.chkGameInfoTextShadow.TabIndex = 34;
@@ -408,7 +374,7 @@
             // chkShowOverlayFPS
             // 
             this.chkShowOverlayFPS.AutoSize = true;
-            this.chkShowOverlayFPS.Location = new System.Drawing.Point(11, 79);
+            this.chkShowOverlayFPS.Location = new System.Drawing.Point(192, 88);
             this.chkShowOverlayFPS.Name = "chkShowOverlayFPS";
             this.chkShowOverlayFPS.Size = new System.Drawing.Size(85, 17);
             this.chkShowOverlayFPS.TabIndex = 2;
@@ -419,7 +385,7 @@
             // chkShowDifficulty
             // 
             this.chkShowDifficulty.AutoSize = true;
-            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 59);
+            this.chkShowDifficulty.Location = new System.Drawing.Point(11, 65);
             this.chkShowDifficulty.Name = "chkShowDifficulty";
             this.chkShowDifficulty.Size = new System.Drawing.Size(66, 17);
             this.chkShowDifficulty.TabIndex = 38;
@@ -432,7 +398,7 @@
             this.btnClearGameInfoFont.FlatAppearance.BorderSize = 0;
             this.btnClearGameInfoFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearGameInfoFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 100);
+            this.btnClearGameInfoFont.Location = new System.Drawing.Point(85, 88);
             this.btnClearGameInfoFont.Name = "btnClearGameInfoFont";
             this.btnClearGameInfoFont.Size = new System.Drawing.Size(23, 23);
             this.btnClearGameInfoFont.TabIndex = 33;
@@ -443,7 +409,7 @@
             // btnGameInfoFont
             // 
             this.btnGameInfoFont.BackColor = System.Drawing.Color.Transparent;
-            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 100);
+            this.btnGameInfoFont.Location = new System.Drawing.Point(10, 88);
             this.btnGameInfoFont.Name = "btnGameInfoFont";
             this.btnGameInfoFont.Size = new System.Drawing.Size(75, 23);
             this.btnGameInfoFont.TabIndex = 32;
@@ -454,7 +420,7 @@
             // chkShowAreaTimer
             // 
             this.chkShowAreaTimer.AutoSize = true;
-            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 39);
+            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 42);
             this.chkShowAreaTimer.Name = "chkShowAreaTimer";
             this.chkShowAreaTimer.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaTimer.TabIndex = 41;
@@ -465,7 +431,7 @@
             // chkShowGameTimer
             // 
             this.chkShowGameTimer.AutoSize = true;
-            this.chkShowGameTimer.Location = new System.Drawing.Point(11, 39);
+            this.chkShowGameTimer.Location = new System.Drawing.Point(11, 42);
             this.chkShowGameTimer.Name = "chkShowGameTimer";
             this.chkShowGameTimer.Size = new System.Drawing.Size(83, 17);
             this.chkShowGameTimer.TabIndex = 40;
@@ -1723,6 +1689,25 @@
             this.grpHotkeys.TabStop = false;
             this.grpHotkeys.Text = "Hotkeys";
             // 
+            // txtHideMapKey
+            // 
+            this.txtHideMapKey.Location = new System.Drawing.Point(160, 47);
+            this.txtHideMapKey.MaxLength = 1;
+            this.txtHideMapKey.Name = "txtHideMapKey";
+            this.txtHideMapKey.Size = new System.Drawing.Size(94, 20);
+            this.txtHideMapKey.TabIndex = 19;
+            this.txtHideMapKey.TabStop = false;
+            this.txtHideMapKey.TextChanged += new System.EventHandler(this.txtHideMapKey_TextChanged);
+            // 
+            // lblHideMapKey
+            // 
+            this.lblHideMapKey.AutoSize = true;
+            this.lblHideMapKey.Location = new System.Drawing.Point(6, 50);
+            this.lblHideMapKey.Name = "lblHideMapKey";
+            this.lblHideMapKey.Size = new System.Drawing.Size(74, 13);
+            this.lblHideMapKey.TabIndex = 18;
+            this.lblHideMapKey.Text = "Hide Map Key";
+            // 
             // txtZoomOutKey
             // 
             this.txtZoomOutKey.Location = new System.Drawing.Point(160, 127);
@@ -1868,25 +1853,6 @@
             this.lstHidden.Size = new System.Drawing.Size(293, 160);
             this.lstHidden.TabIndex = 0;
             // 
-            // txtHideMapKey
-            // 
-            this.txtHideMapKey.Location = new System.Drawing.Point(160, 47);
-            this.txtHideMapKey.MaxLength = 1;
-            this.txtHideMapKey.Name = "txtHideMapKey";
-            this.txtHideMapKey.Size = new System.Drawing.Size(94, 20);
-            this.txtHideMapKey.TabIndex = 19;
-            this.txtHideMapKey.TabStop = false;
-            this.txtHideMapKey.TextChanged += new System.EventHandler(this.txtHideMapKey_TextChanged);
-            // 
-            // lblHideMapKey
-            // 
-            this.lblHideMapKey.AutoSize = true;
-            this.lblHideMapKey.Location = new System.Drawing.Point(6, 50);
-            this.lblHideMapKey.Name = "lblHideMapKey";
-            this.lblHideMapKey.Size = new System.Drawing.Size(74, 13);
-            this.lblHideMapKey.TabIndex = 18;
-            this.lblHideMapKey.Text = "Hide Map Key";
-            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1958,10 +1924,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.CheckBox chkShowGameIP;
         private System.Windows.Forms.TextBox txtD2Path;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtHuntIP;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cboRenderOption;
         private System.Windows.Forms.TabControl tabDrawing;

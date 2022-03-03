@@ -97,10 +97,7 @@ namespace MapAssist
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowArea;
             chkShowAreaLevel.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
             chkShowDifficulty.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty;
-            chkShowGameIP.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
-            txtHuntIP.ReadOnly = !MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
-            txtHuntIP.Text = MapAssistConfiguration.Loaded.GameInfo.HuntingIP;
             txtD2Path.Text = MapAssistConfiguration.Loaded.D2LoDPath;
             chkGameInfoTextShadow.Checked = MapAssistConfiguration.Loaded.GameInfo.LabelTextShadow;
             btnClearGameInfoFont.Visible = MapAssistConfiguration.Loaded.GameInfo.LabelFont != MapAssistConfiguration.Default.GameInfo.LabelFont ||
@@ -325,12 +322,6 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode = (MapLinesMode)cboMapLinesMode.SelectedIndex;
         }
 
-        private void chkShowGameIP_CheckedChanged(object sender, EventArgs e)
-        {
-            MapAssistConfiguration.Loaded.GameInfo.ShowGameIP = chkShowGameIP.Checked;
-            txtHuntIP.ReadOnly = !MapAssistConfiguration.Loaded.GameInfo.ShowGameIP;
-        }
-
         private void chkShowGameName_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.ShowGameName = chkShowGameName.Checked;
@@ -360,12 +351,6 @@ namespace MapAssist
         {
             MapAssistConfiguration.Loaded.GameInfo.ShowArea = chkShowArea.Checked;
         }
-
-        private void txtHuntIP_TextChanged(object sender, EventArgs e)
-        {
-            MapAssistConfiguration.Loaded.GameInfo.HuntingIP = txtHuntIP.Text;
-        }
-
         private void txtD2Path_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.D2LoDPath = txtD2Path.Text;

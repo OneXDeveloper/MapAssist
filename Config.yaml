@@ -221,8 +221,6 @@ GameInfo:
   Position: TopLeft
   ShowGameName: true
   ShowDifficulty: true
-  ShowGameIP: true
-  HuntingIP: 0.0.0.0
   ShowArea: true
   ShowAreaLevel: true
   ShowOverlayFPS: false

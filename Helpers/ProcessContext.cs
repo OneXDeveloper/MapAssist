@@ -86,8 +86,8 @@ namespace MapAssist.Helpers
 
         public IntPtr GetGameIPOffset()
         {
-            var pattern = "\xE8\x00\x00\x00\x00\x48\x8D\x0D\x00\x00\x00\x00\x44\x88\x2D\x00\x00\x00\x00";
-            var mask = "x????xxx????xxx????";
+            var pattern = "\xE8\x00\x00\x00\x00\x48\x8B\x15\x00\x00\x00\x00\x48\xB9\x00\x00\x00\x00\x00\x00\x00\x00\x44\x88\x25\x00\x00\x00\x00";
+            var mask = "x????xxx????xx????????xxx????";
             var patternAddress = FindPattern(pattern, mask);
 
             var offsetBuffer = new byte[4];
@@ -160,19 +160,19 @@ namespace MapAssist.Helpers
 
         public IntPtr GetInteractedNpcOffset()
         {
-            var pattern = "\x42\x0F\xB6\x84\x20\x00\x00\x00\x00\x38\x02";
-            var mask = "xxxxx????xx";
+            var pattern = "\x43\x01\x84\x31\x00\x00\x00\x00";
+            var mask = "xxxx????";
             var patternAddress = FindPattern(pattern, mask);
 
             var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, 5);
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 4);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
                 _log.Info($"Failed to find pattern {PatternToString(pattern)}");
                 return IntPtr.Zero;
             }
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
-            return IntPtr.Add(_baseAddr, (int)(offsetAddressToInt - 0xC4));
+            return IntPtr.Add(_baseAddr, (int)(offsetAddressToInt + 0x1D4));
         }
 
         public IntPtr GetLastHoverObjectOffset()

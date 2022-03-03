@@ -28,16 +28,16 @@ namespace MapAssist.Structs
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
         [FieldOffset(0x0)] public string Name;
-        [FieldOffset(0x18)] public uint UnitId;
-        [FieldOffset(0x24)] public PlayerClass PlayerClass;
-        [FieldOffset(0x28)] public ushort PlayerLevel;
-        [FieldOffset(0x2A)] public ushort PartyID;
-        [FieldOffset(0x2C)] public Area Area; //partyid must match your players to update
-        [FieldOffset(0x30)] public uint PosX; //partyid must match your players to update
-        [FieldOffset(0x34)] public uint PosY; //partyid must match your players to update
-        [FieldOffset(0x38)] public uint PartyFlags; //01 = normal, 02 = invited
-        [FieldOffset(0x40)] public IntPtr pHostileInfo; //ptr that leads to another ptr that gets first HostileInfo
-        [FieldOffset(0x108)] public IntPtr pNext;
+        [FieldOffset(0x48)] public uint UnitId;
+        [FieldOffset(0x54)] public PlayerClass PlayerClass;
+        [FieldOffset(0x58)] public ushort PlayerLevel;
+        [FieldOffset(0x5A)] public ushort PartyID;
+        [FieldOffset(0x5C)] public Area Area; //partyid must match your players to update
+        [FieldOffset(0x60)] public uint PosX; //partyid must match your players to update
+        [FieldOffset(0x64)] public uint PosY; //partyid must match your players to update
+        [FieldOffset(0x68)] public uint PartyFlags; //01 = normal, 02 = invited
+        [FieldOffset(0x70)] public IntPtr pHostileInfo; //ptr that leads to another ptr that gets first HostileInfo
+        [FieldOffset(0x148)] public IntPtr pNext;
     }
     [StructLayout(LayoutKind.Explicit)]
     public struct HostileInfo
