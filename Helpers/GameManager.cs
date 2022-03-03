@@ -44,7 +44,7 @@ namespace MapAssist.Helpers
 
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _ExpansionCheckOffset;
-        private static IntPtr _GameIPOffset;
+        private static IntPtr _GameNameOffset;
         private static IntPtr _MenuPanelOpenOffset;
         private static IntPtr _MenuDataOffset;
         private static IntPtr _RosterDataOffset;
@@ -193,21 +193,21 @@ namespace MapAssist.Helpers
             }
         }
 
-        public static IntPtr GameIPOffset
+        public static IntPtr GameNameOffset
         {
             get
             {
-                if (_GameIPOffset != IntPtr.Zero)
+                if (_GameNameOffset != IntPtr.Zero)
                 {
-                    return _GameIPOffset;
+                    return _GameNameOffset;
                 }
 
                 using (var processContext = GetProcessContext())
                 {
-                    _GameIPOffset = (IntPtr)processContext.GetGameIPOffset();
+                    _GameNameOffset = (IntPtr)processContext.GetGameNameOffset();
                 }
 
-                return _GameIPOffset;
+                return _GameNameOffset;
             }
         }
 

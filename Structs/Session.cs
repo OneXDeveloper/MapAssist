@@ -25,11 +25,11 @@ namespace MapAssist.Structs
     [StructLayout(LayoutKind.Explicit)]
     public struct Session
     {
-        [FieldOffset(0x38)] public byte GameNameLength;
+        [FieldOffset(0x30)] public byte GameNameLength;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
-        [FieldOffset(0x48)] public byte[] GameName;
-        [FieldOffset(0x98)] public byte GamePassLength;
+        [FieldOffset(0x40)] public byte[] GameName;
+        [FieldOffset(0x88)] public byte GamePassLength;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
-        [FieldOffset(0x108)] public byte[] GamePass;
+        [FieldOffset(0x98)] public byte[] GamePass;
     }
 }

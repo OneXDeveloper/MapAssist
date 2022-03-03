@@ -93,7 +93,7 @@ namespace MapAssist.Helpers
 
                 if (!_sessions.ContainsKey(_currentProcessId))
                 {
-                    _sessions.Add(_currentProcessId, new Session(GameManager.GameIPOffset));
+                    _sessions.Add(_currentProcessId, new Session(GameManager.GameNameOffset));
                 }
 
                 var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
