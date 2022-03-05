@@ -88,7 +88,7 @@ namespace MapAssist.Types
 
         public static bool CheckVendorItem(UnitItem item, int processId) =>
             MapAssistConfiguration.Loaded.ItemLog.CheckVendorItems &&
-            item.IsIdentified && item.IsInStore &&
+            item.IsInStore &&
             !ItemUnitIdsSeen[processId].Contains(item.UnitId) &&
             !ItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
