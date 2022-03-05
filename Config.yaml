@@ -231,3 +231,5 @@ GameInfo:
   LabelTextShadow: true
 D2Path: ''
 LanguageCode: enUS
+DPIAware: false
+

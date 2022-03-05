@@ -171,6 +171,8 @@
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -204,6 +206,7 @@
             this.grpHotkeys.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -1806,6 +1809,7 @@
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.groupBox2);
+            this.tabPage4.Controls.Add(this.groupBox8);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(359, 325);
@@ -1852,6 +1856,29 @@
             this.lstHidden.Name = "lstHidden";
             this.lstHidden.Size = new System.Drawing.Size(293, 160);
             this.lstHidden.TabIndex = 0;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox8.Controls.Add(this.chkDPIAware);
+            this.groupBox8.Location = new System.Drawing.Point(11, 200);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(335, 54);
+            this.groupBox8.TabIndex = 29;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "HiDPI";
+            // 
+            // chkDPIAware
+            // 
+            this.chkDPIAware.AutoSize = true;
+            this.chkDPIAware.Location = new System.Drawing.Point(10, 26);
+            this.chkDPIAware.Name = "chkDPIAware";
+            this.chkDPIAware.Size = new System.Drawing.Size(120, 16);
+            this.chkDPIAware.TabIndex = 27;
+            this.chkDPIAware.Text = "DPI Awareness(*)";
+            this.chkDPIAware.UseVisualStyleBackColor = true;
+            this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
+
             // 
             // ConfigEditor
             // 
@@ -1912,6 +1939,8 @@
             this.grpHotkeys.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2060,5 +2089,7 @@
         private System.Windows.Forms.CheckBox chkShowGameTimer;
         private System.Windows.Forms.TextBox txtHideMapKey;
         private System.Windows.Forms.Label lblHideMapKey;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.CheckBox chkDPIAware;
     }
 }

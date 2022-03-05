@@ -70,6 +70,9 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "LanguageCode", ApplyNamingConventions = false)]
         public Locale LanguageCode { get; set; }
+
+        [YamlMember(Alias = "DPIAware", ApplyNamingConventions = false)]
+        public bool DPIAware { get; set; }
     }
 
     public class MapColorConfiguration
@@ -229,6 +232,7 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "LinesMode", ApplyNamingConventions = false)]
     public MapLinesMode LinesMode { get; set; }
+
 }
 
 public class HotkeyConfiguration

@@ -155,6 +155,7 @@ namespace MapAssist
             {
                 lstHidden.Items.Add(AreaExtensions.Name(area));
             }
+            chkDPIAware.Checked = MapAssistConfiguration.Loaded.DPIAware;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -865,6 +866,11 @@ namespace MapAssist
                 backgroundColor.B * backgroundColor.B * .114);
 
             return brightness > 128 ? Color.Black : Color.White;
+        }
+
+        private void chkDPIAware_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.DPIAware = chkDPIAware.Checked;
         }
     }
 }

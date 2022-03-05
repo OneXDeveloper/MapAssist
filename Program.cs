@@ -27,9 +27,11 @@ using System.Diagnostics;
 using NLog;
 using MapAssist.Helpers;
 using MapAssist.Types;
+using System.Runtime.InteropServices;
 
 namespace MapAssist
 {
+
     static class Program
     {
         private static readonly string githubSha = "GITHUB_SHA";
@@ -76,6 +78,11 @@ namespace MapAssist
                     if (githubSha.Length == 40)
                     {
                         _log.Info($"Running from commit {githubSha}");
+                    }
+
+                    if (MapAssistConfiguration.Loaded.DPIAware)
+                    {
+                        SetProcessDPIAware();
                     }
 
                     Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -332,5 +339,9 @@ namespace MapAssist
 
             Application.Exit();
         }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SetProcessDPIAware();
     }
+
 }
