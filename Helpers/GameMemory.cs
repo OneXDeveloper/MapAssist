@@ -227,12 +227,12 @@ namespace MapAssist.Helpers
                 var mercList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMerc).ToArray();
 
                 // Objects
-                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Missile, true);
+                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
                 foreach (var obj in rawObjectUnits)
                 {
                     obj.Update();
                 }
-                var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Missile && x.UnitId < uint.MaxValue).ToArray();
+                var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Object && x.UnitId < uint.MaxValue).ToArray();
 
                 // Missiles
                 // enemy missiles

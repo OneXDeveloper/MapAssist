@@ -125,7 +125,7 @@ namespace MapAssist.Types
             return UpdateResult.InvalidUpdate;
         }
 
-        private bool IsMovable => !(Struct.UnitType == UnitType.Item);
+        private bool IsMovable => !(Struct.UnitType == UnitType.Object || Struct.UnitType == UnitType.Item);
 
         public bool IsValidPointer => PtrUnit != IntPtr.Zero;
 
