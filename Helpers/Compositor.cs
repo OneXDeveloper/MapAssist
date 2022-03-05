@@ -351,47 +351,22 @@ namespace MapAssist.Helpers
             {
                 if (MissileTypes._MissileTypes.TryGetValue(missile.TxtFileNo, out var missileType))
                 {
-                    // surely there's a better way to do this
-                    var render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor;
-                    switch (missileType)
+                    var missileRenderingConfig = new IconRendering[]
                     {
-                        case MissileType.PhysicalMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor;
-                            break;
-                        case MissileType.PhysicalMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMinor;
-                            break;
-                        case MissileType.FireMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.FireMajor;
-                            break;
-                        case MissileType.FireMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.FireMinor;
-                            break;
-                        case MissileType.IceMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.IceMajor;
-                            break;
-                        case MissileType.IceMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.IceMinor;
-                            break;
-                        case MissileType.LightMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.LightMajor;
-                            break;
-                        case MissileType.LightMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.LightMinor;
-                            break;
-                        case MissileType.PoisonMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.PoisonMajor;
-                            break;
-                        case MissileType.PoisonMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.PoisonMinor;
-                            break;
-                        case MissileType.MagicMajor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.MagicMajor;
-                            break;
-                        case MissileType.MagicMinor:
-                            render = MapAssistConfiguration.Loaded.MapConfiguration.MagicMinor;
-                            break;
-                    }
+                        MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.FireMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.FireMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.IceMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.IceMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.LightMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.LightMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.PoisonMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.PoisonMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MagicMajor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MagicMinor,
+                    };
+                    var render = missileRenderingConfig[(int)missileType];
                     drawMissileIcons.Add((render, missile.Position));
                 }
             }
