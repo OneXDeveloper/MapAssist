@@ -130,6 +130,7 @@
     <Compile Include="Helpers\GameDataReader.cs" />
     <Compile Include="Helpers\GameManager.cs" />
     <Compile Include="Helpers\Hotkey.cs" />
+    <Compile Include="Helpers\ItemExport.cs" />
     <Compile Include="Helpers\Localization.cs" />
     <Compile Include="Helpers\LootFilter.cs" />
     <Compile Include="Helpers\ProcessContext.cs" />
@@ -558,9 +559,31 @@
     <None Include="Resources\Cold.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TigerStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BladesOfIce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClawsOfThunder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CobraStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FistsOfFire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PhoenixStrike.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="MAServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\InventoryExportTemplate.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

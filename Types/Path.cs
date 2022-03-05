@@ -44,8 +44,13 @@ namespace MapAssist.Types
             return this;
         }
 
-        public ushort DynamicX => _path.DynamicX;
-        public ushort DynamicY => _path.DynamicY;
+        public float CalcFloatPos(ushort DynamicVal, ushort OffsetVal)
+        {
+            return DynamicVal + ((float)OffsetVal / 65535);
+        }
+
+        public float DynamicX => CalcFloatPos(_path.DynamicX, _path.XOffset);
+        public float DynamicY => CalcFloatPos(_path.DynamicY, _path.YOffset);
         public ushort StaticX => _path.StaticX;
         public ushort StaticY => _path.StaticY;
         public Room Room => new Room(_path.pRoom);

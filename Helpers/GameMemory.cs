@@ -31,6 +31,8 @@ namespace MapAssist.Helpers
         private static Dictionary<int, uint> _lastMapSeeds = new Dictionary<int, uint>();
         private static Dictionary<int, bool> _playerMapChanged = new Dictionary<int, bool>();
         private static Dictionary<int, uint> _playerCubeOwnerID = new Dictionary<int, uint>();
+        private static Dictionary<int, Area> _playerArea = new Dictionary<int, Area>();
+        private static Dictionary<int, Session> _sessions = new Dictionary<int, Session>();
         private static int _currentProcessId;
 
         public static Dictionary<int, UnitPlayer> PlayerUnits = new Dictionary<int, UnitPlayer>();
@@ -66,6 +68,21 @@ namespace MapAssist.Helpers
 
                 if (!menuData.InGame)
                 {
+                    if (_sessions.ContainsKey(_currentProcessId))
+                    {
+                        _sessions.Remove(_currentProcessId);
+                    }
+
+                    if (_playerArea.ContainsKey(_currentProcessId))
+                    {
+                        _playerArea.Remove(_currentProcessId);
+                    }
+
+                    if (_lastMapSeeds.ContainsKey(_currentProcessId))
+                    {
+                        _lastMapSeeds.Remove(_currentProcessId);
+                    }
+
                     if (Corpses.ContainsKey(_currentProcessId))
                     {
                         Corpses[_currentProcessId].Clear();
@@ -74,15 +91,16 @@ namespace MapAssist.Helpers
                     return null;
                 }
 
+                if (!_sessions.ContainsKey(_currentProcessId))
+                {
+                    _sessions.Add(_currentProcessId, new Session(GameManager.GameIPOffset));
+                }
+
                 var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
                 var playerUnit = rawPlayerUnits.FirstOrDefault(x => x.IsPlayer && x.IsPlayerUnit);
 
                 if (playerUnit == null)
                 {
-                    if (_lastMapSeeds.ContainsKey(_currentProcessId))
-                    {
-                        _lastMapSeeds[_currentProcessId] = 0;
-                    }
 
                     if (_errorThrown) return null;
 
@@ -98,6 +116,34 @@ namespace MapAssist.Helpers
                 else
                 {
                     PlayerUnits[_currentProcessId] = playerUnit;
+                }
+
+                var levelId = playerUnit.Area;
+
+                if (!levelId.IsValid())
+                {
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Level id out of bounds.");
+                }
+
+                // Update area timer
+                var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
+                if (!areaCacheFound || previousArea != levelId)
+                {
+                    if (areaCacheFound)
+                    {
+                        _sessions[_currentProcessId].TotalAreaTimeElapsed[previousArea] = _sessions[_currentProcessId].AreaTimeElapsed;
+                    }
+
+                    _playerArea[_currentProcessId] = levelId;
+
+                    if (areaCacheFound)
+                    {
+                        _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
+                        _sessions[_currentProcessId].PreviousAreaTime = _sessions[_currentProcessId].TotalAreaTimeElapsed.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
+                    }
                 }
 
                 // Check for map seed
@@ -150,16 +196,6 @@ namespace MapAssist.Helpers
                     throw new Exception("Game difficulty out of bounds.");
                 }
 
-                var levelId = playerUnit.Area;
-
-                if (!levelId.IsValid())
-                {
-                    if (_errorThrown) return null;
-
-                    _errorThrown = true;
-                    throw new Exception("Level id out of bounds.");
-                }
-
                 // Players
                 var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
                     .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
@@ -199,9 +235,26 @@ namespace MapAssist.Helpers
                 var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Object && x.UnitId < uint.MaxValue).ToArray();
 
                 // Items
+                var allItems = GetUnits<UnitItem>(UnitType.Item, true).Where(x => x.UnitId < uint.MaxValue).ToArray();
                 var rawItemUnits = new List<UnitItem>();
-                foreach (var item in GetUnits<UnitItem>(UnitType.Item, true).Where(x => x.UnitId < uint.MaxValue).ToArray())
+                foreach (var item in allItems)
                 {
+                    if (item.IsPlayerOwned && item.IsIdentified && !Items.InventoryItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
+                    {
+                        item.IsCached = false;
+                    }
+
+                    var checkInventoryItem = Items.CheckInventoryItem(item, _currentProcessId);
+
+                    item.Update();
+
+                    cache[item.UnitId] = item;
+
+                    if (item.ItemModeMapped == ItemModeMapped.Ground)
+                    {
+                        cache[item.HashString] = item;
+                    }
+
                     if (Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId)) continue;
 
                     if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && item.Item != Item.HoradricCube && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
@@ -210,25 +263,9 @@ namespace MapAssist.Helpers
                         continue;
                     }
 
-                    if (item.IsPlayerOwned && item.IsIdentified && !Items.InventoryItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
-                    {
-                        item.IsCached = false;
-                    }
-
-                    var enableInventoryFilterCheck = item.IsIdentified && item.IsPlayerOwned && !item.IsInSocket;
-
-                    item.Update();
-
-                    cache[item.UnitId] = item;
-
-                    if (item.ItemModeMapped == ItemModeMapped.Ground) {
-                        cache[item.HashString] = item;
-                    }
-
                     if (item.UnitId == uint.MaxValue) continue;
 
-                    item.IsPlayerOwned = _playerCubeOwnerID[_currentProcessId] != uint.MaxValue &&
-                        item.ItemData.dwOwnerID == _playerCubeOwnerID[_currentProcessId];
+                    item.IsPlayerOwned = _playerCubeOwnerID[_currentProcessId] != uint.MaxValue && item.ItemData.dwOwnerID == _playerCubeOwnerID[_currentProcessId];
 
                     if (item.IsInStore)
                     {
@@ -243,7 +280,9 @@ namespace MapAssist.Helpers
                         }
                     }
 
-                    if (item.IsValidItem && ((item.IsDropped && !item.IsIdentified) || (item.IsIdentified && item.IsInStore) || enableInventoryFilterCheck))
+                    var checkDroppedItem = Items.CheckDroppedItem(item, _currentProcessId);
+                    var checkVendorItem = Items.CheckVendorItem(item, _currentProcessId);
+                    if (item.IsValidItem && (checkDroppedItem || checkVendorItem || checkInventoryItem))
                     {
                         Items.LogItem(item, _currentProcessId);
                     }
@@ -274,12 +313,22 @@ namespace MapAssist.Helpers
                 // Set Cube Owner
                 if (_playerMapChanged[_currentProcessId])
                 {
-                    var cube = rawItemUnits.FirstOrDefault(x => x.Item == Item.HoradricCube);
+                    var cube = allItems.FirstOrDefault(x => x.Item == Item.HoradricCube);
                     if (cube != null)
                     {
                         _playerCubeOwnerID[_currentProcessId] = cube.ItemData.dwOwnerID;
                     }
                 }
+
+                // Belt items
+                var belt = allItems.FirstOrDefault(x => x.ItemModeMapped == ItemModeMapped.Player && x.ItemData.BodyLoc == BodyLoc.BELT);
+                var beltItems = allItems.Where(x => x.ItemModeMapped == ItemModeMapped.Belt).ToArray();
+
+                var beltSize = belt == null ? 1 :
+                    new Item[] { Item.Sash, Item.LightBelt }.Contains(belt.Item) ? 2 :
+                    new Item[] { Item.Belt, Item.HeavyBelt }.Contains(belt.Item) ? 3 : 4;
+
+                playerUnit.BeltItems = Enumerable.Range(0, 4).Select(i => Enumerable.Range(0, beltSize).Select(j => beltItems.FirstOrDefault(item => item.X == i + j * 4)).ToArray()).ToArray();
 
                 // Unit hover
                 var allUnits = ((UnitAny[])playerList.Values.ToArray()).Concat(monsterList).Concat(mercList).Concat(rawObjectUnits).Concat(rawItemUnits);
@@ -297,8 +346,6 @@ namespace MapAssist.Helpers
                 _firstMemoryRead = false;
                 _errorThrown = false;
 
-                var session = new Session(GameManager.GameIPOffset);
-
                 return new GameData
                 {
                     PlayerPosition = playerUnit.Position,
@@ -314,8 +361,9 @@ namespace MapAssist.Helpers
                     Mercs = mercList,
                     Objects = objectList,
                     Items = itemList,
+                    AllItems = allItems,
                     ItemLog = Items.ItemLog[_currentProcessId].ToArray(),
-                    Session = session,
+                    Session = _sessions[_currentProcessId],
                     Roster = rosterData,
                     MenuOpen = menuData,
                     MenuPanelOpen = menuOpen,
@@ -354,10 +402,10 @@ namespace MapAssist.Helpers
                     {
                         UseCachedUnit(seenUnit1);
                     }
-                    else if (saveToCache && cache.TryGetValue(unit.HashString, out var seenUnit2) && seenUnit2 is T && !allUnits.ContainsKey(((T)seenUnit2).UnitId))
-                    {
-                        UseCachedUnit(seenUnit2);
-                    }
+                    //else if (saveToCache && cache.TryGetValue(unit.HashString, out var seenUnit2) && seenUnit2 is T && !allUnits.ContainsKey(((T)seenUnit2).UnitId))
+                    //{
+                    //    UseCachedUnit(seenUnit2);
+                    //}
                     else if (unit.IsValidUnit && !allUnits.ContainsKey(unit.UnitId))
                     {
                         allUnits[unit.UnitId] = unit;

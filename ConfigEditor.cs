@@ -78,10 +78,22 @@ namespace MapAssist
 
             buffSize.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 10d);
             lblBuffSizeValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.ToString();
+            chkAlertLowerRes.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes;
             cboBuffPosition.SelectedIndex = cboBuffPosition.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition.ToString().ToProperCase());
             cboMapLinesMode.SelectedIndex = cboMapLinesMode.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode.ToString().ToProperCase());
 
+            chkLife.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife;
+            chkMana.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana;
+            chkLifePerc.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLifePerc;
+            chkManaPerc.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc;
+            chkCurrentLevel.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel;
+            chkExpProgress.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress;
+            chkPotionBelt.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowPotionBelt;
+            chkResistances.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowResistances;
+
             chkShowGameName.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameName;
+            chkShowGameTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer;
+            chkShowAreaTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowArea;
             chkShowAreaLevel.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
             chkShowDifficulty.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty;
@@ -97,9 +109,11 @@ namespace MapAssist
             cboGameInfoPosition.SelectedIndex = cboGameInfoPosition.FindStringExact(MapAssistConfiguration.Loaded.GameInfo.Position.ToString().ToProperCase());
 
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey.ToString()).Monitor(txtToggleMapKey);
+            new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey.ToString()).Monitor(txtHideMapKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey.ToString()).Monitor(txtAreaLevelKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomInKey.ToString()).Monitor(txtZoomInKey);
             new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomOutKey.ToString()).Monitor(txtZoomOutKey);
+            new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ExportItemsKey.ToString()).Monitor(txtExportItemsKey);
 
             cboItemLogPosition.SelectedIndex = cboItemLogPosition.FindStringExact(MapAssistConfiguration.Loaded.ItemLog.Position.ToString().ToProperCase());
             chkItemLogEnabled.Checked = MapAssistConfiguration.Loaded.ItemLog.Enabled;
@@ -152,7 +166,7 @@ namespace MapAssist
             base.OnFormClosing(e);
         }
 
-        private void IgnoreMouseWheel(object sender, EventArgs e)
+        private void IgnoreMouseWheel(object sender, MouseEventArgs e)
         {
             ((HandledMouseEventArgs)e).Handled = true;
         }
@@ -226,6 +240,51 @@ namespace MapAssist
             lblBuffSizeValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.ToString();
         }
 
+        private void chkAlertLowerRes_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes = chkAlertLowerRes.Checked;
+        }
+
+        private void chkLife_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife = chkLife.Checked;
+        }
+
+        private void chkMana_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana = chkMana.Checked;
+        }
+
+        private void chkLifePerc_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLifePerc = chkLifePerc.Checked;
+        }
+
+        private void chkManaPerc_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowManaPerc = chkManaPerc.Checked;
+        }
+
+        private void chkCurrentLevel_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel = chkCurrentLevel.Checked;
+        }
+
+        private void chkExpProgress_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress = chkExpProgress.Checked;
+        }
+
+        private void chkPotionBelt_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowPotionBelt = chkPotionBelt.Checked;
+        }
+
+        private void chkResistances_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowResistances = chkResistances.Checked;
+        }
+
         private void chkOverlayMode_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode = chkOverlayMode.Checked;
@@ -277,6 +336,16 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.GameInfo.ShowGameName = chkShowGameName.Checked;
         }
 
+        private void chkShowGameTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer = chkShowGameTimer.Checked;
+        }
+
+        private void chkShowAreaTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer = chkShowAreaTimer.Checked;
+        }
+
         private void chkShowDifficulty_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty = chkShowDifficulty.Checked;
@@ -326,7 +395,8 @@ namespace MapAssist
 
                 btnClearGameInfoFont.Visible = true;
                 fontDlg.Dispose();
-            } else
+            }
+            else
             {
                 fontDlg.Dispose();
             }
@@ -396,7 +466,7 @@ namespace MapAssist
                 btnLineColor.BackColor = iconProp.LineColor;
                 btnLineColor.ForeColor = ContrastTextColor(btnLineColor.BackColor);
                 btnClearLineColor.Visible = btnLineColor.BackColor.A > 0;
-                
+
                 lineArrowSize.Value = iconProp.ArrowHeadSize;
                 lineThicknessSize.Value = (int)iconProp.LineThickness;
                 lblLineArrowSizeValue.Text = lineArrowSize.Value.ToString();
@@ -683,6 +753,11 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.HotkeyConfiguration.ToggleKey = txtToggleMapKey.Text;
         }
 
+        private void txtHideMapKey_TextChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey = txtHideMapKey.Text;
+        }
+
         private void txtAreaLevelKey_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey = txtAreaLevelKey.Text;
@@ -696,6 +771,11 @@ namespace MapAssist
         private void txtZoomOutKey_TextChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.HotkeyConfiguration.ZoomOutKey = txtZoomOutKey.Text;
+        }
+
+        private void txtExportItemsKey_TextChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.HotkeyConfiguration.ExportItemsKey = txtExportItemsKey.Text;
         }
 
         private void btnWalkableColor_Click(object sender, EventArgs e)

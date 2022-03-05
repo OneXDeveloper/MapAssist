@@ -1,17 +1,13 @@
 # Change these settings from the Config GUI provided in MapAssist
 HotkeyConfiguration:
   ToggleKey: '|'
+  HideMapKey: ''
   AreaLevelKey: '['
   ZoomInKey: Num +
   ZoomOutKey: Num -
+  ExportItemsKey: F9
 HiddenAreas:
-- Rogue Encampment
-- Lut Gholein
-- Kurast Docktown
-- Pandemonium Fortress
-- Harrogath
 - Forgotten Tower
-- Nihlathaks Temple
 RenderingConfiguration:
   Opacity: 0.5
   IconOpacity: 0.9
@@ -23,8 +19,17 @@ RenderingConfiguration:
   StickToLastGameWindow: false
   Size: 800
   ZoomLevel: 1
-  BuffPosition: Bottom
   BuffSize: 1
+  BuffPosition: Bottom
+  BuffAlertLowRes: true
+  ShowLife: false
+  ShowLifePerc: true
+  ShowMana: false
+  ShowManaPerc: true
+  ShowCurrentLevel: false
+  ShowExpProgress: true
+  ShowPotionBelt: true
+  ShowResistances: false
   LinesMode: All
 MapConfiguration:
   SuperUniqueMonster:
@@ -221,6 +226,8 @@ GameInfo:
   ShowArea: true
   ShowAreaLevel: true
   ShowOverlayFPS: false
+  ShowGameTimer: true
+  ShowAreaTimer: true
   LabelFont: Exocet Blizzard Mixed Caps
   LabelFontSize: 16
   LabelTextShadow: true

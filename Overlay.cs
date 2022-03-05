@@ -72,7 +72,7 @@ namespace MapAssist
 
                     if (changed)
                     {
-                        _compositor.setArea(areaData, pointsOfInterest);
+                        _compositor.SetArea(areaData, pointsOfInterest);
                     }
 
                     gfx.ClearScene();
@@ -117,6 +117,8 @@ namespace MapAssist
                             _compositor.DrawMonsterBar(gfx);
                         }
 
+                        _compositor.DrawPlayerInfo(gfx);
+
                         var gameInfoAnchor = GameInfoAnchor(MapAssistConfiguration.Loaded.GameInfo.Position);
                         var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData);
 
@@ -155,6 +157,11 @@ namespace MapAssist
                     _show = !_show;
                 }
 
+                if (keys == new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.HideMapKey))
+                {
+                    _show = false;
+                }
+
                 if (keys == new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.AreaLevelKey))
                 {
                     MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel = !MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
@@ -177,6 +184,14 @@ namespace MapAssist
                         MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel += 0.25f;
                         MapAssistConfiguration.Loaded.RenderingConfiguration.Size -=
                           (int)(MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize * 0.05f);
+                    }
+                }
+
+                if (keys == new Hotkey(MapAssistConfiguration.Loaded.HotkeyConfiguration.ExportItemsKey))
+                {
+                    if (InGame())
+                    {
+                        ItemExport.ExportPlayerInventory(_gameData.PlayerUnit, _gameData.AllItems);
                     }
                 }
             }

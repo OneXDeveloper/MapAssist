@@ -27,20 +27,6 @@ namespace MapAssist.Helpers
 {
     public static class LootFilter
     {
-        public static Dictionary<Stat, int> StatShifts = new Dictionary<Stat, int>()
-        {
-            [Stat.MaxLife] = 8,
-            [Stat.MaxMana] = 8,
-        };
-
-        public static List<Stat> NegativeValueStats = new List<Stat>()
-        {
-            Stat.EnemyFireResist,
-            Stat.EnemyLightningResist,
-            Stat.EnemyColdResist,
-            Stat.EnemyPoisonResist,
-        };
-
         public static (bool, ItemFilter) Filter(UnitItem item)
         {
             // Skip low quality items
@@ -69,7 +55,7 @@ namespace MapAssist.Helpers
                 var requirementsFunctions = new Dictionary<string, Func<bool>>()
                 {
                     ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
-                    ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stat.NumSockets)),
+                    ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
                     ["Ethereal"] = () => ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL) == rule.Ethereal,
                     ["AllAttributes"] = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
                     ["AllResist"] = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
@@ -96,9 +82,9 @@ namespace MapAssist.Helpers
                     },
                 };
 
-                foreach (var (stat, shift) in StatShifts.Select(x => (x.Key, x.Value)))
+                foreach (var (stat, shift) in Stats.StatShifts.Select(x => (x.Key, x.Value)))
                 {
-                    requirementsFunctions.Add(stat.ToString(), () => Items.GetItemStatShifted(item, stat, shift) >= (int)rule[stat]);
+                    requirementsFunctions.Add(stat.ToString(), () => Items.GetItemStatShifted(item, stat) >= (int)rule[stat]);
                 }
 
                 var requirementMet = true;
@@ -113,9 +99,9 @@ namespace MapAssist.Helpers
                     {
                         requirementMet &= requirementFunc();
                     }
-                    else if (Enum.TryParse<Stat>(property.Name, out var stat))
+                    else if (Enum.TryParse<Stats.Stat>(property.Name, out var stat))
                     {
-                        requirementMet &= NegativeValueStats.Contains(stat)
+                        requirementMet &= Stats.NegativeValueStats.Contains(stat)
                             ? (int)propertyValue < 0 && Items.GetItemStat(item, stat) <= (int)propertyValue
                             : Items.GetItemStat(item, stat) >= (int)propertyValue;
                     }

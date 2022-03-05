@@ -70,7 +70,7 @@ namespace MapAssist.Structs
     public readonly struct StatValue
     {
         [FieldOffset(0x0)] public readonly ushort Layer;
-        [FieldOffset(0x2)] public readonly Stat Stat;
+        [FieldOffset(0x2)] public readonly Stats.Stat Stat;
         [FieldOffset(0x4)] public readonly int Value;
     }
 

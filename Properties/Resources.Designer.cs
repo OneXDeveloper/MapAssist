@@ -650,6 +650,37 @@ namespace MapAssist.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;{{player-name}}&lt;/title&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        body {
+        ///            font-family: Verdana;
+        ///            background: black;
+        ///            color: white;
+        ///            display: flex;
+        ///            flex-direction: column;
+        ///            align-items: center;
+        ///        }
+        ///
+        ///        #footer {
+        ///            font-size: xx-small;
+        ///            text-align: center;
+        ///            color: #606060;
+        ///        }
+        ///
+        ///        .header {
+        ///            margin: 2rem;
+        ///            font-size: 2rem;
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InventoryExportTemplate {
+            get {
+                return ResourceManager.GetString("InventoryExportTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap IronMaiden {
@@ -805,6 +836,66 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap Prayer {
             get {
                 object obj = ResourceManager.GetObject("Prayer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BladesOfIce {
+            get {
+                object obj = ResourceManager.GetObject("BladesOfIce", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TigerStrike {
+            get {
+                object obj = ResourceManager.GetObject("TigerStrike", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FistsOfFire {
+            get {
+                object obj = ResourceManager.GetObject("FistsOfFire", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ClawsOfThunder {
+            get {
+                object obj = ResourceManager.GetObject("ClawsOfThunder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PhoenixStrike {
+            get {
+                object obj = ResourceManager.GetObject("PhoenixStrike", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CobraStrike {
+            get {
+                object obj = ResourceManager.GetObject("CobraStrike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

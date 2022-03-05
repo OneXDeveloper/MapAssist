@@ -46,7 +46,10 @@ namespace MapAssist.Structs
         [FieldOffset(0x0A)] public bool Map;
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x0B)] public bool NpcShop;
-        //missing 2
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x0C)] public bool GroundItems;
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x0D)] public bool Anvil; // Imbue and sockets
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x0E)] public bool QuestLog;
         //missing 4
@@ -62,7 +65,11 @@ namespace MapAssist.Structs
         [FieldOffset(0x19)] public bool Cube;
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x1A)] public bool PotionBelt;
-        //missing 3
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x1B)] public bool Help;
+        //missing 1
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x1D)] public bool Portraits;
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x1E)] public bool MercenaryInventory;
     }

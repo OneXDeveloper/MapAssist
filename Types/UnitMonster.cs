@@ -18,7 +18,7 @@ namespace MapAssist.Types
 
         public new UnitMonster Update()
         {
-            if (base.Update())
+            if (base.Update() == UpdateResult.Updated)
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
@@ -35,12 +35,12 @@ namespace MapAssist.Types
 
         private List<Resist> GetImmunities()
         {
-            Stats.TryGetValue(Stat.DamageReduced, out var resistanceDamage);
-            Stats.TryGetValue(Stat.MagicResist, out var resistanceMagic);
-            Stats.TryGetValue(Stat.FireResist, out var resistanceFire);
-            Stats.TryGetValue(Stat.LightningResist, out var resistanceLightning);
-            Stats.TryGetValue(Stat.ColdResist, out var resistanceCold);
-            Stats.TryGetValue(Stat.PoisonResist, out var resistancePoison);
+            Stats.TryGetValue(Types.Stats.Stat.DamageReduced, out var resistanceDamage);
+            Stats.TryGetValue(Types.Stats.Stat.MagicResist, out var resistanceMagic);
+            Stats.TryGetValue(Types.Stats.Stat.FireResist, out var resistanceFire);
+            Stats.TryGetValue(Types.Stats.Stat.LightningResist, out var resistanceLightning);
+            Stats.TryGetValue(Types.Stats.Stat.ColdResist, out var resistanceCold);
+            Stats.TryGetValue(Types.Stats.Stat.PoisonResist, out var resistancePoison);
 
             var resists = new List<int>
             {
@@ -69,8 +69,8 @@ namespace MapAssist.Types
         {
             get
             {
-                if (Stats.TryGetValue(Stat.Life, out var health) &&
-                    Stats.TryGetValue(Stat.MaxLife, out var maxHp) && maxHp > 0)
+                if (Stats.TryGetValue(Types.Stats.Stat.Life, out var health) &&
+                    Stats.TryGetValue(Types.Stats.Stat.MaxLife, out var maxHp) && maxHp > 0)
                 {
                     return (float)health / maxHp;
                 }

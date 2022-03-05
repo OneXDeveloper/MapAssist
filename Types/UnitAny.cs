@@ -34,11 +34,11 @@ namespace MapAssist.Types
         public uint TxtFileNo => Struct.TxtFileNo;
         public Area Area { get; private set; }
         public Point Position => new Point(X, Y);
-        public ushort X => IsMovable ? Path.DynamicX : Path.StaticX;
-        public ushort Y => IsMovable ? Path.DynamicY : Path.StaticY;
+        public float X => IsMovable ? Path.DynamicX : (float)Path.StaticX;
+        public float Y => IsMovable ? Path.DynamicY : (float)Path.StaticY;
         public StatListStruct StatsStruct { get; private set; }
-        public Dictionary<Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
-        public Dictionary<Stat, int> Stats { get; private set; }
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
+        public Dictionary<Stats.Stat, int> Stats { get; private set; }
         protected uint[] StateFlags { get; set; }
         public DateTime FoundTime { get; set; } = DateTime.Now;
         public bool IsHovered { get; set; } = false;
@@ -68,7 +68,7 @@ namespace MapAssist.Types
             Path = other.Path;
         }
 
-        protected bool Update()
+        protected UpdateResult Update()
         {
             if (IsValidPointer)
             {
@@ -76,10 +76,10 @@ namespace MapAssist.Types
                 {
                     var newStruct = processContext.Read<Structs.UnitAny>(PtrUnit);
 
-                    if (newStruct.UnitId == uint.MaxValue) return false;
+                    if (newStruct.UnitId == uint.MaxValue) return UpdateResult.InvalidUpdate;
                     else Struct = newStruct;
 
-                    if (IsCached) return false;
+                    if (IsCached) return UpdateResult.Cached;
 
                     if (IsValidUnit)
                     {
@@ -87,8 +87,8 @@ namespace MapAssist.Types
 
                         if (Struct.pStatsListEx != IntPtr.Zero)
                         {
-                            var stats = new Dictionary<Stat, int>();
-                            var statLayers = new Dictionary<Stat, Dictionary<ushort, int>>();
+                            var stats = new Dictionary<Stats.Stat, int>();
+                            var statLayers = new Dictionary<Stats.Stat, Dictionary<ushort, int>>();
 
                             StatsStruct = processContext.Read<StatListStruct>(Struct.pStatsListEx);
                             StateFlags = StatsStruct.StateFlags;
@@ -117,12 +117,12 @@ namespace MapAssist.Types
 
                         if (GameMemory.cache.ContainsKey(UnitId)) IsCached = true;
 
-                        return true;
+                        return UpdateResult.Updated;
                     }
                 }
             }
 
-            return false;
+            return UpdateResult.InvalidUpdate;
         }
 
         private bool IsMovable => !(Struct.UnitType == UnitType.Object || Struct.UnitType == UnitType.Item);
@@ -133,7 +133,7 @@ namespace MapAssist.Types
 
         public bool IsPlayer => Struct.UnitType == UnitType.Player && Struct.pAct != IntPtr.Zero;
 
-        public bool IsPlayerOwned => IsMerc && Stats.ContainsKey(Stat.Strength); // This is ugly, but seems to work.
+        public bool IsPlayerOwned => IsMerc && Stats.ContainsKey(Types.Stats.Stat.Strength); // This is ugly, but seems to work.
 
         public bool IsMonster
         {
@@ -164,5 +164,12 @@ namespace MapAssist.Types
         public static bool operator ==(UnitAny unit1, UnitAny unit2) => (unit1 is null && unit2 is null) || (!(unit1 is null) && unit1.Equals(unit2));
 
         public static bool operator !=(UnitAny unit1, UnitAny unit2) => !(unit1 == unit2);
+
+        public enum UpdateResult
+        {
+            Updated,
+            Cached,
+            InvalidUpdate
+        }
     }
 }
