@@ -200,6 +200,7 @@ namespace MapAssist.Helpers
 
             DrawPointsOfInterest(gfx);
             DrawMonsters(gfx);
+            DrawMissiles(gfx);
             DrawItems(gfx);
             DrawPlayers(gfx);
 
@@ -339,6 +340,67 @@ namespace MapAssist.Helpers
             {
                 DrawText(gfx, rendering, position, text, color);
             }
+        }
+
+        private void DrawMissiles(Graphics gfx)
+        {
+            //_log.Info($"Found missiles {_gameData.Missiles.Length}");
+            var drawMissileIcons = new List<(IconRendering, Point)>();
+
+            foreach (var missile in _gameData.Missiles)
+            {
+                if (MissileTypes._MissileTypes.TryGetValue(missile.TxtFileNo, out var missileType))
+                {
+                    // surely there's a better way to do this
+                    var render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor;
+                    switch (missileType)
+                    {
+                        case MissileType.PhysicalMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor;
+                            break;
+                        case MissileType.PhysicalMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMinor;
+                            break;
+                        case MissileType.FireMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.FireMajor;
+                            break;
+                        case MissileType.FireMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.FireMinor;
+                            break;
+                        case MissileType.IceMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.IceMajor;
+                            break;
+                        case MissileType.IceMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.IceMinor;
+                            break;
+                        case MissileType.LightMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.LightMajor;
+                            break;
+                        case MissileType.LightMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.LightMinor;
+                            break;
+                        case MissileType.PoisonMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.PoisonMajor;
+                            break;
+                        case MissileType.PoisonMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.PoisonMinor;
+                            break;
+                        case MissileType.MagicMajor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.MagicMajor;
+                            break;
+                        case MissileType.MagicMinor:
+                            render = MapAssistConfiguration.Loaded.MapConfiguration.MagicMinor;
+                            break;
+                    }
+                    drawMissileIcons.Add((render, missile.Position));
+                }
+            }
+
+            foreach ((var rendering, var position) in drawMissileIcons)
+            {
+                DrawIcon(gfx, rendering, position);
+            }
+
         }
 
         private void DrawMonsters(Graphics gfx)

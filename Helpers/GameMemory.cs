@@ -227,12 +227,22 @@ namespace MapAssist.Helpers
                 var mercList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMerc).ToArray();
 
                 // Objects
-                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
+                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Missile, true);
                 foreach (var obj in rawObjectUnits)
                 {
                     obj.Update();
                 }
-                var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Object && x.UnitId < uint.MaxValue).ToArray();
+                var objectList = rawObjectUnits.Where(x => x != null && x.UnitType == UnitType.Missile && x.UnitId < uint.MaxValue).ToArray();
+
+                // Missiles
+                // enemy missiles
+                var rawMissileUnits = GetUnits<UnitMissile>(UnitType.Missile, false);
+                var clientMissileList = rawMissileUnits.Where(x => x != null && x.UnitType == UnitType.Missile && x.UnitId < uint.MaxValue).ToArray();
+
+                // player missiles
+                var rawServerMissileUnits = GetUnits<UnitMissile>(UnitType.ServerMissile, false);
+                var serverMissileList = rawServerMissileUnits.Where(x => x != null && x.UnitType == UnitType.Missile && x.UnitId < uint.MaxValue).ToArray();
+                var missileList = clientMissileList.Concat(serverMissileList).ToArray();
 
                 // Items
                 var allItems = GetUnits<UnitItem>(UnitType.Item, true).Where(x => x.UnitId < uint.MaxValue).ToArray();
@@ -360,6 +370,7 @@ namespace MapAssist.Helpers
                     Monsters = monsterList,
                     Mercs = mercList,
                     Objects = objectList,
+                    Missiles = missileList,
                     Items = itemList,
                     AllItems = allItems,
                     ItemLog = Items.ItemLog[_currentProcessId].ToArray(),
@@ -381,7 +392,7 @@ namespace MapAssist.Helpers
             Func<IntPtr, T> CreateUnit = (ptr) => (T)Activator.CreateInstance(typeof(T), new object[] { ptr });
 
             var unitHashTable = GameManager.UnitHashTable(128 * 8 * (int)unitType);
-
+            
             foreach (var ptrUnit in unitHashTable.UnitTable)
             {
                 if (ptrUnit == IntPtr.Zero) continue;

@@ -27,5 +27,11 @@ namespace MapAssist.Types
         Missile,
         Item,
         Tile,
+        ServerPlayer,
+        ServerMonster,
+        ServerObject,
+        ServerMissile,
+        ServerItem,
+        ServerTile,
     }
 }
