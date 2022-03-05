@@ -217,7 +217,7 @@ namespace MapAssist.Types
             },
             [Area.UndergroundPassageLevel1] = new AreaLabel() {
                 Text = "Underground Passage Level 1",
-                Level = new int[] { 4, 37, 85 }
+                Level = new int[] { 4, 37, 69 }
             },
             [Area.HoleLevel1] = new AreaLabel() {
                 Text = "Hole Level 1",
@@ -233,7 +233,7 @@ namespace MapAssist.Types
             },
             [Area.UndergroundPassageLevel2] = new AreaLabel() {
                 Text = "Underground Passage Level 2",
-                Level = new int[] { 4, 38, 83 }
+                Level = new int[] { 4, 38, 85 }
             },
             [Area.HoleLevel2] = new AreaLabel() {
                 Text = "Hole Level 2",
