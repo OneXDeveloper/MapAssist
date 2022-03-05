@@ -217,7 +217,7 @@ namespace MapAssist.Types
             },
             [Area.UndergroundPassageLevel1] = new AreaLabel() {
                 Text = "Underground Passage Level 1",
-                Level = new int[] { 4, 37, 69 }
+                Level = new int[] { 4, 37, 85 }
             },
             [Area.HoleLevel1] = new AreaLabel() {
                 Text = "Hole Level 1",
@@ -397,7 +397,7 @@ namespace MapAssist.Types
             },
             [Area.StonyTombLevel1] = new AreaLabel() {
                 Text = "Stony Tomb Level 1",
-                Level = new int[] { 12, 44, 78 }
+                Level = new int[] { 12, 44, 85 }
             },
             [Area.HallsOfTheDeadLevel1] = new AreaLabel() {
                 Text = "Halls of the Dead Level 1",
@@ -413,7 +413,7 @@ namespace MapAssist.Types
             },
             [Area.StonyTombLevel2] = new AreaLabel() {
                 Text = "Stony Tomb Level 2",
-                Level = new int[] { 12, 44, 79 }
+                Level = new int[] { 12, 44, 85 }
             },
             [Area.HallsOfTheDeadLevel3] = new AreaLabel() {
                 Text = "Halls of the Dead Level 3",
@@ -513,7 +513,7 @@ namespace MapAssist.Types
             },
             [Area.SpiderCave] = new AreaLabel() {
                 Text = "Arachnid Lair",
-                Level = new int[] { 21, 50, 79 }
+                Level = new int[] { 21, 50, 85 }
             },
             [Area.SpiderCavern] = new AreaLabel() {
                 Text = "Spider Cavern",
@@ -521,11 +521,11 @@ namespace MapAssist.Types
             },
             [Area.SwampyPitLevel1] = new AreaLabel() {
                 Text = "Swampy Pit Level 1",
-                Level = new int[] { 21, 51, 80 }
+                Level = new int[] { 21, 51, 85 }
             },
             [Area.SwampyPitLevel2] = new AreaLabel() {
                 Text = "Swampy Pit Level 2",
-                Level = new int[] { 21, 51, 81 }
+                Level = new int[] { 21, 51, 85 }
             },
             [Area.FlayerDungeonLevel1] = new AreaLabel() {
                 Text = "Flayer Dungeon Level 1",
@@ -537,7 +537,7 @@ namespace MapAssist.Types
             },
             [Area.SwampyPitLevel3] = new AreaLabel() {
                 Text = "Swampy Pit Level 3",
-                Level = new int[] { 21, 51, 82 }
+                Level = new int[] { 21, 51, 85 }
             },
             [Area.FlayerDungeonLevel3] = new AreaLabel() {
                 Text = "Flayer Dungeon Level 3",
@@ -545,7 +545,7 @@ namespace MapAssist.Types
             },
             [Area.SewersLevel1Act3] = new AreaLabel() {
                 Text = "Sewers Level 1",
-                Level = new int[] { 23, 52, 84 }
+                Level = new int[] { 23, 52, 85 }
             },
             [Area.SewersLevel2Act3] = new AreaLabel() {
                 Text = "Sewers Level 2",
@@ -553,15 +553,15 @@ namespace MapAssist.Types
             },
             [Area.RuinedTemple] = new AreaLabel() {
                 Text = "Ruined Temple",
-                Level = new int[] { 23, 53, 84 }
+                Level = new int[] { 23, 53, 85 }
             },
             [Area.DisusedFane] = new AreaLabel() {
                 Text = "Disused Fane",
-                Level = new int[] { 23, 53, 84 }
+                Level = new int[] { 23, 53, 85 }
             },
             [Area.ForgottenReliquary] = new AreaLabel() {
                 Text = "Forgotten Reliquary",
-                Level = new int[] { 23, 53, 84 }
+                Level = new int[] { 23, 53, 85 }
             },
             [Area.ForgottenTemple] = new AreaLabel() {
                 Text = "Forgotten Temple",
@@ -641,7 +641,7 @@ namespace MapAssist.Types
             },
             [Area.DrifterCavern] = new AreaLabel() {
                 Text = "Drifter Cavern",
-                Level = new int[] { 29, 61, 84 }
+                Level = new int[] { 29, 61, 85 }
             },
             [Area.FrozenTundra] = new AreaLabel() {
                 Text = "Frozen Tundra",
@@ -653,7 +653,7 @@ namespace MapAssist.Types
             },
             [Area.IcyCellar] = new AreaLabel() {
                 Text = "Icy Cellar",
-                Level = new int[] { 29, 62, 83 }
+                Level = new int[] { 29, 62, 85 }
             },
             [Area.ArreatSummit] = new AreaLabel() {
                 Text = "Arreat Summit",
@@ -677,15 +677,15 @@ namespace MapAssist.Types
             },
             [Area.Abaddon] = new AreaLabel() {
                 Text = "Abaddon",
-                Level = new int[] { 39, 60, 81 }
+                Level = new int[] { 39, 60, 85 }
             },
             [Area.PitOfAcheron] = new AreaLabel() {
                 Text = "Pit of Acheron",
-                Level = new int[] { 39, 61, 82 }
+                Level = new int[] { 39, 61, 85 }
             },
             [Area.InfernalPit] = new AreaLabel() {
                 Text = "Infernal Pit",
-                Level = new int[] { 39, 62, 83 }
+                Level = new int[] { 39, 62, 85 }
             },
             [Area.TheWorldStoneKeepLevel1] = new AreaLabel() {
                 Text = "Worldstone Keep Level 1",
