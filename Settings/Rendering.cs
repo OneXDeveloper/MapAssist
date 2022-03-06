@@ -18,12 +18,13 @@
  **/
 
 using MapAssist.Types;
+using System;
 using System.Drawing;
 using YamlDotNet.Serialization;
 
 namespace MapAssist.Settings
 {
-    public class IconRendering
+    public class IconRendering : ICloneable
     {
         [YamlMember(Alias = "IconColor", ApplyNamingConventions = false)]
         public Color IconColor { get; set; }
@@ -43,6 +44,11 @@ namespace MapAssist.Settings
         public bool CanDrawIcon()
         {
             return IconSize > 0 && (IconColor != Color.Transparent || IconOutlineColor != Color.Transparent);
+        }
+
+        public object Clone()
+        {
+            return (IconRendering)MemberwiseClone();
         }
     }
 
