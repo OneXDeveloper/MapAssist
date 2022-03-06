@@ -170,9 +170,10 @@
             this.btnRemoveHidden = new System.Windows.Forms.Button();
             this.btnAddHidden = new System.Windows.Forms.Button();
             this.lstHidden = new System.Windows.Forms.ListBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -471,7 +472,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(359, 325);
+            this.tabPage1.Size = new System.Drawing.Size(359, 305);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Map";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -778,7 +779,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(359, 325);
+            this.tabPage3.Size = new System.Drawing.Size(359, 305);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Overlay";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1008,7 +1009,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(359, 325);
+            this.tabPage2.Size = new System.Drawing.Size(359, 305);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Drawing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1666,7 +1667,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(359, 325);
+            this.tabPage7.Size = new System.Drawing.Size(359, 305);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Hotkeys";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1860,25 +1861,36 @@
             // groupBox8
             // 
             this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox8.Controls.Add(this.label3);
             this.groupBox8.Controls.Add(this.chkDPIAware);
             this.groupBox8.Location = new System.Drawing.Point(11, 200);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(335, 54);
+            this.groupBox8.Size = new System.Drawing.Size(335, 58);
             this.groupBox8.TabIndex = 29;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "HiDPI";
+            this.groupBox8.Text = "High DPI";
             // 
             // chkDPIAware
             // 
             this.chkDPIAware.AutoSize = true;
-            this.chkDPIAware.Location = new System.Drawing.Point(10, 26);
+            this.chkDPIAware.Location = new System.Drawing.Point(10, 19);
             this.chkDPIAware.Name = "chkDPIAware";
-            this.chkDPIAware.Size = new System.Drawing.Size(120, 16);
+            this.chkDPIAware.Size = new System.Drawing.Size(99, 17);
             this.chkDPIAware.TabIndex = 27;
-            this.chkDPIAware.Text = "DPI Awareness(*)";
+            this.chkDPIAware.Text = "DPI Awareness";
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
-
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label3.Location = new System.Drawing.Point(7, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Requires restart";
             // 
             // ConfigEditor
             // 
@@ -2091,5 +2103,6 @@
         private System.Windows.Forms.Label lblHideMapKey;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.CheckBox chkDPIAware;
+        private System.Windows.Forms.Label label3;
     }
 }

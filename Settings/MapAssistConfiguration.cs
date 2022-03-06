@@ -232,7 +232,6 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "LinesMode", ApplyNamingConventions = false)]
     public MapLinesMode LinesMode { get; set; }
-
 }
 
 public class HotkeyConfiguration
