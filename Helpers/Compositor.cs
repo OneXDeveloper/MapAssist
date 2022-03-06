@@ -1463,7 +1463,8 @@ namespace MapAssist.Helpers
 
         private (float, float) GetScaleRatios()
         {
-            var multiplier = 5.5f - (float)MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel; // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
+            var zoomLevel = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
+            var multiplier = 4.5f * (float)Math.Pow(zoomLevel > 1 ? 2 : 4, -zoomLevel + 1); // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
 
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode)
             {
