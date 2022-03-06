@@ -240,10 +240,11 @@ namespace MapAssist
             switch (position)
             {
                 case GameInfoPosition.TopLeft:
-                    return new Point(PlayerIconWidth() + 50, PlayerIconWidth() + 50);
+                    var margin = _window.Height / 20f;
+                    return new Point(PlayerIconWidth() + margin, PlayerIconWidth() + margin);
 
                 case GameInfoPosition.TopRight:
-                    var rightMargin = 25;
+                    var rightMargin = _window.Width / 60f;
                     var topMargin = _window.Height / 35f;
                     return new Point(_window.Width - rightMargin, topMargin);
             }

@@ -616,7 +616,7 @@
             this.mapZoom.BackColor = System.Drawing.Color.White;
             this.mapZoom.LargeChange = 1;
             this.mapZoom.Location = new System.Drawing.Point(79, 118);
-            this.mapZoom.Maximum = 25;
+            this.mapZoom.Maximum = 101;
             this.mapZoom.Minimum = 1;
             this.mapZoom.Name = "mapZoom";
             this.mapZoom.Size = new System.Drawing.Size(213, 27);

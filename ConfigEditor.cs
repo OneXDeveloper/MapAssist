@@ -211,18 +211,17 @@ namespace MapAssist
             lblMapZoomValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel.ToString();
         }
 
+        // zoom: -5 ~ 5 -> tick 1 ~ 101, 0.1 per tick
         private int zoomToTick(double zoom)
         {
-            if (zoom == 1) return 10;
-            else if (zoom < 1) return (int)Math.Max(Math.Round((1 - zoom) * 10), 1); // Minimum zoom = 0.1 translates to tick = 1
-            else return (int)Math.Min(Math.Round((zoom - 1) * 5) + 10, 25); // Maximum zoom = 4 translates to tick = 25
+            var scaled = (zoom - (-5d)) * 10d;
+            return 1 + (int)scaled;
         }
 
         private double tickToZoom(int tick)
         {
-            if (tick == 10) return 1;
-            else if (tick < 10) return Math.Max(tick / 10d, 0.1d); // Minimum zoom = 0.1 translates to tick = 1
-            else return Math.Min((tick - 10) / 5d + 1, 4); // Maximum zoom = 4 translates to tick = 25
+            var scaled = (double)(tick - 1) / 10d;
+            return scaled - 5d;
         }
 
         private void buffSize_Scroll(object sender, EventArgs e)
