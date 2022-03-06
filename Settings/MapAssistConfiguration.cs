@@ -158,41 +158,41 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "Item", ApplyNamingConventions = false)]
         public PointOfInterestRendering Item { get; set; }
 
-        [YamlMember(Alias = "PhysicalMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering PhysicalMajor { get; set; }
+        [YamlMember(Alias = "MissilePhysicalLarge", ApplyNamingConventions = false)]
+        public IconRendering MissilePhysicalLarge { get; set; }
 
-        [YamlMember(Alias = "PhysicalMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering PhysicalMinor { get; set; }
+        [YamlMember(Alias = "MissilePhysicalSmall", ApplyNamingConventions = false)]
+        public IconRendering MissilePhysicalSmall { get; set; }
 
-        [YamlMember(Alias = "FireMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering FireMajor { get; set; }
+        [YamlMember(Alias = "MissileFireLarge", ApplyNamingConventions = false)]
+        public IconRendering MissileFireLarge { get; set; }
         
-        [YamlMember(Alias = "FireMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering FireMinor { get; set; }
+        [YamlMember(Alias = "MissileFireSmall", ApplyNamingConventions = false)]
+        public IconRendering MissileFireSmall { get; set; }
         
-        [YamlMember(Alias = "IceMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering IceMajor { get; set; }
+        [YamlMember(Alias = "MissileIceLarge", ApplyNamingConventions = false)]
+        public IconRendering MissileIceLarge { get; set; }
         
-        [YamlMember(Alias = "IceMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering IceMinor { get; set; }
+        [YamlMember(Alias = "MissileIceSmall", ApplyNamingConventions = false)]
+        public IconRendering MissileIceSmall { get; set; }
         
-        [YamlMember(Alias = "LightMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering LightMajor { get; set; }
+        [YamlMember(Alias = "MissileLightLarge", ApplyNamingConventions = false)]
+        public IconRendering MissileLightLarge { get; set; }
         
-        [YamlMember(Alias = "LightMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering LightMinor { get; set; }
+        [YamlMember(Alias = "MissileLightSmall", ApplyNamingConventions = false)]
+        public IconRendering MissileLightSmall { get; set; }
         
-        [YamlMember(Alias = "PoisonMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering PoisonMajor { get; set; }
+        [YamlMember(Alias = "MissilePoisonLarge", ApplyNamingConventions = false)]
+        public IconRendering MissilePoisonLarge { get; set; }
         
-        [YamlMember(Alias = "PoisonMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering PoisonMinor { get; set; }
+        [YamlMember(Alias = "MissilePoisonSmall", ApplyNamingConventions = false)]
+        public IconRendering MissilePoisonSmall { get; set; }
 
-        [YamlMember(Alias = "MagicMajor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering MagicMajor { get; set; }
+        [YamlMember(Alias = "MissileMagicLarge", ApplyNamingConventions = false)]
+        public IconRendering MissileMagicLarge { get; set; }
 
-        [YamlMember(Alias = "MagicMinor", ApplyNamingConventions = false)]
-        public PointOfInterestRendering MagicMinor { get; set; }
+        [YamlMember(Alias = "MissileMagicSmall", ApplyNamingConventions = false)]
+        public IconRendering MissileMagicSmall { get; set; }
     }
 }
 

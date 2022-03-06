@@ -344,38 +344,30 @@ namespace MapAssist.Helpers
 
         private void DrawMissiles(Graphics gfx)
         {
-            //_log.Info($"Found missiles {_gameData.Missiles.Length}");
-            var drawMissileIcons = new List<(IconRendering, Point)>();
-
             foreach (var missile in _gameData.Missiles)
             {
                 if (MissileTypes._MissileTypes.TryGetValue(missile.TxtFileNo, out var missileType))
                 {
                     var missileRenderingConfig = new IconRendering[]
                     {
-                        MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.PhysicalMinor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.FireMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.FireMinor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.IceMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.IceMinor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.LightMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.LightMinor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.PoisonMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.PoisonMinor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.MagicMajor,
-                        MapAssistConfiguration.Loaded.MapConfiguration.MagicMinor,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissilePhysicalLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissilePhysicalSmall,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileFireLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileFireSmall,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileIceLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileIceSmall,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileLightLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileLightSmall,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissilePoisonLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissilePoisonSmall,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileMagicLarge,
+                        MapAssistConfiguration.Loaded.MapConfiguration.MissileMagicSmall,
                     };
                     var render = missileRenderingConfig[(int)missileType];
-                    drawMissileIcons.Add((render, missile.Position));
+                    DrawIcon(gfx, render, missile.Position);
+                    
                 }
             }
-
-            foreach ((var rendering, var position) in drawMissileIcons)
-            {
-                DrawIcon(gfx, rendering, position);
-            }
-
         }
 
         private void DrawMonsters(Graphics gfx)
