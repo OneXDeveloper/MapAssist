@@ -364,7 +364,7 @@ namespace MapAssist.Helpers
                         MapAssistConfiguration.Loaded.MapConfiguration.MissileMagicSmall,
                     };
                     var render = (IconRendering)missileRenderingConfig[(int)missileType].Clone();
-                    if (render.IconSize > 0)
+                    if (render.CanDrawIcon())
                     {
                         render.IconSize = render.IconSize / 5;  // scale down by factor 5
                         DrawIcon(gfx, render, missile.Position);
