@@ -2647,4 +2647,13 @@ namespace MapAssist.Types
         Elite,
         NotApplicable
     }
+
+    public enum StashTab
+    {
+        None,
+        Personal,
+        Shared1,
+        Shared2,
+        Shared3
+    }
 }

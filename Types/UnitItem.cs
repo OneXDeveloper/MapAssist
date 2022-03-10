@@ -53,6 +53,8 @@ namespace MapAssist.Types
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
 
+        public StashTab StashTab { get; set; } = StashTab.None;
+
         public bool IsAnyPlayerHolding
         {
             get

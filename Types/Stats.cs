@@ -422,6 +422,9 @@ namespace MapAssist.Types
         STATE_PASSIVE_RESISTCOLD,
         STATE_PASSIVE_RESISTLTNG,
         STATE_UBERMINION,
+        STATE_COOLDOWN,
+        STATE_SHAREDSTASH,
+        STATE_HIDEDEAD
     };
 
     public static class Stats

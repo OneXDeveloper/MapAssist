@@ -117,6 +117,10 @@ namespace MapAssist.Helpers
                 {
                     PlayerUnits[_currentProcessId] = playerUnit;
                 }
+                var stashTabOrder = rawPlayerUnits
+                    .Where(o => o.StateList.Contains(State.STATE_SHAREDSTASH) || o.IsPlayer)
+                    .OrderBy(o => o.Struct.UnkSortStashesBy)
+                    .Select(o => o.UnitId).ToList();
 
                 var levelId = playerUnit.Area;
 
@@ -248,6 +252,15 @@ namespace MapAssist.Helpers
 
                     item.Update();
 
+                    if (item.ItemModeMapped == ItemModeMapped.Stash)
+                    {
+                        var stashIndex = stashTabOrder.FindIndex(a => a == item.ItemData.dwOwnerID);
+                        if (stashIndex >= 0)
+                        {
+                            item.StashTab = (StashTab)stashIndex+1;
+                        }
+                    }
+
                     cache[item.UnitId] = item;
 
                     if (item.ItemModeMapped == ItemModeMapped.Ground)
@@ -287,6 +300,7 @@ namespace MapAssist.Helpers
                         Items.LogItem(item, _currentProcessId);
                     }
 
+
                     if (item.Item == Item.HoradricCube)
                     {
                         Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
@@ -294,6 +308,7 @@ namespace MapAssist.Helpers
 
                     rawItemUnits.Add(item);
                 }
+                _log.Info($"------");
 
                 var itemList = Items.ItemLog[_currentProcessId].Select(item =>
                 {
@@ -355,6 +370,7 @@ namespace MapAssist.Helpers
                     MainWindowHandle = GameManager.MainWindowHandle,
                     PlayerName = playerUnit.Name,
                     PlayerUnit = playerUnit,
+                    StashTabOrder = stashTabOrder,
                     Players = playerList,
                     Corpses = corpseList,
                     Monsters = monsterList,
