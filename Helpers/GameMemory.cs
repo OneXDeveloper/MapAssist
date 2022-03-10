@@ -300,7 +300,6 @@ namespace MapAssist.Helpers
                         Items.LogItem(item, _currentProcessId);
                     }
 
-
                     if (item.Item == Item.HoradricCube)
                     {
                         Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
@@ -308,7 +307,6 @@ namespace MapAssist.Helpers
 
                     rawItemUnits.Add(item);
                 }
-                _log.Info($"------");
 
                 var itemList = Items.ItemLog[_currentProcessId].Select(item =>
                 {
