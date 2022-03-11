@@ -101,7 +101,6 @@ namespace MapAssist.Helpers
 
                 if (playerUnit == null)
                 {
-
                     if (_errorThrown) return null;
 
                     _errorThrown = true;
@@ -267,7 +266,7 @@ namespace MapAssist.Helpers
                         var stashIndex = stashTabOrder.FindIndex(a => a == item.ItemData.dwOwnerID);
                         if (stashIndex >= 0)
                         {
-                            item.StashTab = (StashTab)stashIndex+1;
+                            item.StashTab = (StashTab)stashIndex + 1;
                         }
                     }
 
@@ -405,7 +404,7 @@ namespace MapAssist.Helpers
             Func<IntPtr, T> CreateUnit = (ptr) => (T)Activator.CreateInstance(typeof(T), new object[] { ptr });
 
             var unitHashTable = GameManager.UnitHashTable(128 * 8 * (int)unitType);
-            
+
             foreach (var ptrUnit in unitHashTable.UnitTable)
             {
                 if (ptrUnit == IntPtr.Zero) continue;

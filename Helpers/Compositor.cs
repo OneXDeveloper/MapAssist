@@ -906,7 +906,7 @@ namespace MapAssist.Helpers
             gfx.DrawRectangle(blackBrush, barRect, 2);
 
             var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
-            
+
             DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
 
             // Immunities

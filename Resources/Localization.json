@@ -21155,6 +21155,23 @@
       "zhCN": "地狱火炬"
     },
     {
+      "id": 11163,
+      "Key": "toa",
+      "enUS": "Token of Absolution",
+      "zhTW": "赦免徽章",
+      "deDE": "Zeichen der Absolution",
+      "esES": "Muestra de absolución",
+      "frFR": "Gage d’absolution",
+      "itIT": "Gettone dell'Assoluzione",
+      "koKR": "면죄의 징표",
+      "plPL": "Znak Rozgrzeszenia",
+      "esMX": "Insignia de la absolución",
+      "jaJP": "赦しのトークン",
+      "ptBR": "Insígnia da Absolvição",
+      "ruRU": "Талисман очищения",
+      "zhCN": "赦免之证"
+    },
+    {
       "id": 11164,
       "Key": "tes",
       "enUS": "Twisted Essence of Suffering",

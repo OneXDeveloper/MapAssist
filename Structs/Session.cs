@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
@@ -26,9 +25,12 @@ namespace MapAssist.Structs
     public struct Session
     {
         [FieldOffset(0x30)] public byte GameNameLength;
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
         [FieldOffset(0x40)] public byte[] GameName;
+
         [FieldOffset(0x88)] public byte GamePassLength;
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x10)]
         [FieldOffset(0x98)] public byte[] GamePass;
     }

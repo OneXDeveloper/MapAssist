@@ -17,12 +17,12 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using System;
-using System.Collections.Generic;
 using GameOverlay.Drawing;
 using MapAssist.Helpers;
 using MapAssist.Interfaces;
 using MapAssist.Structs;
+using System;
+using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
@@ -41,6 +41,7 @@ namespace MapAssist.Types
         public HostileInfo HostileInfo;
         public IntPtr pNext;
     }
+
     public class Roster : IUpdatable<Roster>
     {
         private readonly IntPtr _pFirst;
@@ -52,6 +53,7 @@ namespace MapAssist.Types
             _pFirst = pFirst;
             Update();
         }
+
         public Roster Update()
         {
             using (var processContext = GameManager.GetProcessContext())
@@ -69,6 +71,7 @@ namespace MapAssist.Types
             }
             return this;
         }
+
         private RosterEntry GetNewEntry(IntPtr pAddress)
         {
             using (var processContext = GameManager.GetProcessContext())
@@ -94,6 +97,7 @@ namespace MapAssist.Types
                 return entry;
             }
         }
+
         public List<RosterEntry> List => _list;
         public Dictionary<uint, RosterEntry> EntriesByUnitId => _entriesByUnitId;
     }

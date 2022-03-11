@@ -28,6 +28,7 @@ namespace MapAssist.Structs
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
         [FieldOffset(0x0)] public string Name;
+
         [FieldOffset(0x48)] public uint UnitId;
         [FieldOffset(0x54)] public PlayerClass PlayerClass;
         [FieldOffset(0x58)] public ushort PlayerLevel;
@@ -39,6 +40,7 @@ namespace MapAssist.Structs
         [FieldOffset(0x70)] public IntPtr pHostileInfo; //ptr that leads to another ptr that gets first HostileInfo
         [FieldOffset(0x148)] public IntPtr pNext;
     }
+
     [StructLayout(LayoutKind.Explicit)]
     public struct HostileInfo
     {

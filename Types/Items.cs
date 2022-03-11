@@ -1821,8 +1821,11 @@ namespace MapAssist.Types
     public static class ItemExtensions
     {
         public static bool IsHealthPotion(this Item item) => item >= Item.MinorHealingPotion && item <= Item.SuperHealingPotion;
+
         public static bool IsManaPotion(this Item item) => item >= Item.MinorManaPotion && item <= Item.SuperManaPotion;
+
         public static bool IsRejuvPotion(this Item item) => item >= Item.RejuvenationPotion && item <= Item.FullRejuvenationPotion;
+
         public static bool IsTopTierPotion(this Item item) => new Item[] { Item.SuperHealingPotion, Item.SuperManaPotion, Item.FullRejuvenationPotion }.Contains(item);
     }
 

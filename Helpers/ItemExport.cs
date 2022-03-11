@@ -48,12 +48,36 @@ namespace MapAssist.Helpers
                     template = template.Replace("{{merc-items}}", GetItemList(mercItems));
                 }
 
-                var stashItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemData.InvPage == InvPage.STASH);
+                var stashPersonalItems = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Personal);
 
-                if (stashItems.Count() > 0)
+                if (stashPersonalItems.Count() > 0)
                 {
-                    template = template.Replace("{{show-stash}}", "show");
-                    template = template.Replace("{{stash-items}}", GetItemList(stashItems));
+                    template = template.Replace("{{show-stash-personal}}", "show");
+                    template = template.Replace("{{stash-personal-items}}", GetItemList(stashPersonalItems));
+                }
+
+                var stashShared1Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared1);
+
+                if (stashShared1Items.Count() > 0)
+                {
+                    template = template.Replace("{{show-stash-shared1}}", "show");
+                    template = template.Replace("{{stash-shared1-items}}", GetItemList(stashShared1Items));
+                }
+
+                var stashshared2Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared2);
+
+                if (stashshared2Items.Count() > 0)
+                {
+                    template = template.Replace("{{show-stash-shared2}}", "show");
+                    template = template.Replace("{{stash-shared2-items}}", GetItemList(stashshared2Items));
+                }
+
+                var stashshared3Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared3);
+
+                if (stashshared3Items.Count() > 0)
+                {
+                    template = template.Replace("{{show-stash-shared3}}", "show");
+                    template = template.Replace("{{stash-shared3-items}}", GetItemList(stashshared3Items));
                 }
 
                 var cubeItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemModeMapped == ItemModeMapped.Cube);
