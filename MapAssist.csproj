@@ -167,6 +167,7 @@
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Chest.cs" />
+    <Compile Include="Types\ItemsExport.cs" />
     <Compile Include="Types\Locale.cs" />
     <Compile Include="Types\Items.cs" />
     <Compile Include="Types\Missile.cs" />
