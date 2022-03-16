@@ -276,15 +276,26 @@ namespace MapAssist.Types
         public static string ItemFullName(UnitItem item)
         {
             var itemFullName = item.ItemBaseName;
-            switch (item.ItemData.ItemQuality)
+
+            if (item.IsIdentified)
             {
-                case ItemQuality.UNIQUE:
-                    _UniqueFromId.TryGetValue(item.ItemData.uniqueOrSetId, out itemFullName);
-                    break;
-                case ItemQuality.SET:
-                    _SetFromId.TryGetValue(item.ItemData.uniqueOrSetId, out itemFullName);
-                    break;
+                switch (item.ItemData.ItemQuality)
+                {
+                    case ItemQuality.UNIQUE:
+                        if (_UniqueFromId.TryGetValue(item.ItemData.uniqueOrSetId, out var foundFullUniqueName))
+                        {
+                            itemFullName = foundFullUniqueName;
+                        }
+                        break;
+                    case ItemQuality.SET:
+                        if (_SetFromId.TryGetValue(item.ItemData.uniqueOrSetId, out var foundFullSetName))
+                        {
+                            itemFullName = foundFullSetName;
+                        }
+                        break;
+                }
             }
+
             var localizedName = GetItemNameFromKey(itemFullName);
             if (localizedName == "ItemNotFound") return itemFullName;
             return localizedName;
