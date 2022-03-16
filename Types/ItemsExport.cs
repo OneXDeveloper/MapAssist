@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
@@ -32,19 +28,15 @@ namespace MapAssist.Types
         public uint y { get; set; }
     }
 
-    public class JSONItems
+    public class ExportedItems
     {
-        public List<JSONItem> equipped { get; set; }
-        public List<JSONItem> inventory { get; set; }
-        public List<JSONItem> mercenary { get; set; }
-        public List<JSONItem> personalStash { get; set; }
-        public List<JSONItem> sharedStashTab1 { get; set; }
-        public List<JSONItem> sharedStashTab2 { get; set; }
-        public List<JSONItem> sharedStashTab3 { get; set; }
-    }
-
-    public class ItemsExport
-    {
-        public JSONItems items { get; set; }
+        public List<UnitItem> equipped { get; set; }
+        public List<UnitItem> inventory { get; set; }
+        public List<UnitItem> mercenary { get; set; }
+        public List<UnitItem> cube { get; set; }
+        public List<UnitItem> personalStash { get; set; }
+        public List<UnitItem> sharedStashTab1 { get; set; }
+        public List<UnitItem> sharedStashTab2 { get; set; }
+        public List<UnitItem> sharedStashTab3 { get; set; }
     }
 }

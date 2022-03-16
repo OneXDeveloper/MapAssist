@@ -17,16 +17,16 @@ namespace MapAssist.Helpers
 
         public static void ExportPlayerInventory(UnitPlayer player, UnitItem[] itemAry)
         {
-            ExportPlayerInventoryHTML(player, itemAry);
-            ExportPlayerInventoryJSON(player, itemAry);
+            var itemsExport = GetItemsExport(player, itemAry);
+
+            ExportPlayerInventoryHTML(player, itemsExport);
+            ExportPlayerInventoryJSON(player, itemsExport);
         }
 
-        public static void ExportPlayerInventoryJSON(UnitPlayer player, UnitItem[] itemAry)
+        public static ExportedItems GetItemsExport(UnitPlayer player, UnitItem[] itemAry)
         {
             using (var processContext = GameManager.GetProcessContext())
             {
-                var outputfile = player.Name + ".json";
-
                 var items = itemAry.Select(item => { item.IsCached = false; return item.Update(); }).ToList();
 
                 var equippedItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemData.InvPage == InvPage.NULL && x.ItemData.BodyLoc != BodyLoc.NONE).ToList();
@@ -36,28 +36,102 @@ namespace MapAssist.Helpers
                 var stashShared1Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared1).ToList();
                 var stashShared2Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared2).ToList();
                 var stashShared3Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared3).ToList();
-                //var cubeItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemModeMapped == ItemModeMapped.Cube).ToList();
+                var cubeItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemModeMapped == ItemModeMapped.Cube).ToList();
 
-                // initial object to be serialized to JSON
-                var json = new ItemsExport()
+                return new ExportedItems()
                 {
-                    items = new JSONItems()
-                    {
-                        equipped = ItemsToList(equippedItems),
-                        inventory = ItemsToList(inventoryItems),
-                        mercenary = ItemsToList(mercItems),
-                        personalStash = ItemsToList(stashPersonalItems),
-                        sharedStashTab1 = ItemsToList(stashShared1Items),
-                        sharedStashTab2 = ItemsToList(stashShared2Items),
-                        sharedStashTab3 = ItemsToList(stashShared3Items),
-                    }
+                    equipped = equippedItems,
+                    inventory = inventoryItems,
+                    mercenary = mercItems,
+                    cube = cubeItems,
+                    personalStash = stashPersonalItems,
+                    sharedStashTab1 = stashShared1Items,
+                    sharedStashTab2 = stashShared2Items,
+                    sharedStashTab3 = stashShared3Items,
                 };
-
-                var finalJSONstr = JsonConvert.SerializeObject(json);
-                File.WriteAllText(outputfile, finalJSONstr);
-                _log.Info($"Created JSON item file {outputfile}");
-
             }
+        }
+
+        public static void ExportPlayerInventoryJSON(UnitPlayer player, ExportedItems items)
+        {
+            var outputfile = player.Name + ".json";
+
+            var json = new Dictionary<string, object>
+            {
+                { "items",  new Dictionary<string, List<JSONItem>> {
+                    { "equipped", ItemsToList(items.equipped)},
+                    { "inventory", ItemsToList(items.inventory) },
+                    { "mercenary", ItemsToList(items.mercenary) },
+                    { "cube", ItemsToList(items.cube) },
+                    { "personalStash", ItemsToList(items.personalStash) },
+                    { "sharedStashTab1", ItemsToList(items.sharedStashTab1) },
+                    { "sharedStashTab2", ItemsToList(items.sharedStashTab2) },
+                    { "sharedStashTab3", ItemsToList(items.sharedStashTab3) },
+                }}
+            };
+            var finalJSONstr = JsonConvert.SerializeObject(json);
+
+            File.WriteAllText(outputfile, finalJSONstr);
+            _log.Info($"Created JSON item file {outputfile}");
+        }
+
+        public static void ExportPlayerInventoryHTML(UnitPlayer player, ExportedItems items)
+        {
+            var finalHTMLstr = Properties.Resources.InventoryExportTemplate;
+            var outputfile = player.Name + ".html";
+
+            finalHTMLstr = finalHTMLstr.Replace("{{player-name}}", player.Name);
+
+            if (items.equipped.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-equipped}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{equipped-items}}", GetItemHtmlList(items.equipped));
+            }
+
+            if (items.inventory.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-inventory}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{inventory-items}}", GetItemHtmlList(items.inventory));
+            }
+
+            if (items.mercenary.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-merc}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{merc-items}}", GetItemHtmlList(items.mercenary));
+            }
+
+            if (items.personalStash.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-stash-personal}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-personal-items}}", GetItemHtmlList(items.personalStash));
+            }
+
+            if (items.sharedStashTab1.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared1}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared1-items}}", GetItemHtmlList(items.sharedStashTab1));
+            }
+
+            if (items.sharedStashTab2.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared2}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared2-items}}", GetItemHtmlList(items.sharedStashTab2));
+            }
+
+            if (items.sharedStashTab3.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared3}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared3-items}}", GetItemHtmlList(items.sharedStashTab3));
+            }
+
+            if (items.cube.Count() > 0)
+            {
+                finalHTMLstr = finalHTMLstr.Replace("{{show-cube}}", "show");
+                finalHTMLstr = finalHTMLstr.Replace("{{cube-items}}", GetItemHtmlList(items.cube));
+            }
+
+            File.WriteAllText(outputfile, finalHTMLstr);
+            _log.Info($"Created HTML item file {outputfile}");
         }
 
         public static List<JSONItem> ItemsToList(List<UnitItem> filteredItems)
@@ -66,13 +140,12 @@ namespace MapAssist.Helpers
             foreach (var item in filteredItems)
             {
                 item.Stats.TryGetValue(Stats.Stat.NumSockets, out var numSockets);
-                var itemName = Items.ItemFullName(item);
                 var thisItem = new JSONItem()
                 {
                     txtFileNo = item.TxtFileNo,
                     baseName = item.ItemBaseName,
                     quality = item.ItemData.ItemQuality.ToString(),
-                    fullName = itemName,
+                    fullName = Items.ItemFullName(item),
                     ethereal = ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL),
                     identified = item.IsIdentified,
                     numSockets = numSockets,
@@ -166,91 +239,11 @@ namespace MapAssist.Helpers
             return affixes;
         }
 
-        public static void ExportPlayerInventoryHTML(UnitPlayer player, UnitItem[] itemAry)
-        {
-            using (var processContext = GameManager.GetProcessContext())
-            {
-                var template = Properties.Resources.InventoryExportTemplate;
-                var outputfile = player.Name + ".html";
-
-                template = template.Replace("{{player-name}}", player.Name);
-
-                var items = itemAry.Select(item => { item.IsCached = false; return item.Update(); }).ToList();
-
-                var equippedItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemData.InvPage == InvPage.NULL && x.ItemData.BodyLoc != BodyLoc.NONE);
-
-                if (equippedItems.Count() > 0)
-                {
-                    template = template.Replace("{{show-equipped}}", "show");
-                    template = template.Replace("{{equipped-items}}", GetItemList(equippedItems));
-                }
-
-                var inventoryItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemData.InvPage == InvPage.INVENTORY);
-
-                if (inventoryItems.Count() > 0)
-                {
-                    template = template.Replace("{{show-inventory}}", "show");
-                    template = template.Replace("{{inventory-items}}", GetItemList(inventoryItems));
-                }
-
-                var mercItems = items.Where(x => x.ItemMode == ItemMode.EQUIP && x.ItemModeMapped == ItemModeMapped.Mercenary);
-
-                if (mercItems.Count() > 0)
-                {
-                    template = template.Replace("{{show-merc}}", "show");
-                    template = template.Replace("{{merc-items}}", GetItemList(mercItems));
-                }
-
-                var stashPersonalItems = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Personal);
-
-                if (stashPersonalItems.Count() > 0)
-                {
-                    template = template.Replace("{{show-stash-personal}}", "show");
-                    template = template.Replace("{{stash-personal-items}}", GetItemList(stashPersonalItems));
-                }
-
-                var stashShared1Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared1);
-
-                if (stashShared1Items.Count() > 0)
-                {
-                    template = template.Replace("{{show-stash-shared1}}", "show");
-                    template = template.Replace("{{stash-shared1-items}}", GetItemList(stashShared1Items));
-                }
-
-                var stashshared2Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared2);
-
-                if (stashshared2Items.Count() > 0)
-                {
-                    template = template.Replace("{{show-stash-shared2}}", "show");
-                    template = template.Replace("{{stash-shared2-items}}", GetItemList(stashshared2Items));
-                }
-
-                var stashshared3Items = items.Where(x => x.ItemModeMapped == ItemModeMapped.Stash && x.StashTab == StashTab.Shared3);
-
-                if (stashshared3Items.Count() > 0)
-                {
-                    template = template.Replace("{{show-stash-shared3}}", "show");
-                    template = template.Replace("{{stash-shared3-items}}", GetItemList(stashshared3Items));
-                }
-
-                var cubeItems = items.Where(x => x.ItemData.dwOwnerID == player.UnitId && x.ItemModeMapped == ItemModeMapped.Cube);
-
-                if (cubeItems.Count() > 0)
-                {
-                    template = template.Replace("{{show-cube}}", "show");
-                    template = template.Replace("{{cube-items}}", GetItemList(cubeItems));
-                }
-
-                File.WriteAllText(outputfile, template);
-                _log.Info($"Created HTML item file {outputfile}");
-            }
-        }
-
-        private static string GetItemList(IEnumerable<UnitItem> items)
+        private static string GetItemHtmlList(IEnumerable<UnitItem> items)
         {
             var result = "";
 
-            foreach (UnitItem item in items.OrderBy(x => x.TxtFileNo))
+            foreach (var item in items.OrderBy(x => x.TxtFileNo))
             {
                 result += GetItemHtml(item);
             }
@@ -260,7 +253,7 @@ namespace MapAssist.Helpers
 
         private static string GetItemHtml(UnitItem item)
         {
-            var itemName = Items.ItemLogDisplayName(item, new Settings.ItemFilter());
+            var itemName = Items.ItemFullName(item);
 
             if (item.ItemData.ItemQuality > ItemQuality.SUPERIOR && item.IsIdentified)
             {
