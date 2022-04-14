@@ -84,14 +84,14 @@ namespace MapAssist.Helpers
             return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
         }
 
-        public IntPtr GetGameNameOffset() // This is relatively more hacky than the other scans, need to test against another D2R 1.2 build. Struct changed massively with 1.2 from what I can tell.
+        public IntPtr GetGameNameOffset()
         {
-            var pattern = "\x48\x83\xC4\x28\xC3\x1A\xDF";
-            var mask = "xxxxxxx";
+            var pattern = "\xE8\x00\x00\x00\x00\x48\x8B\x15\x00\x00\x00\x00\x48\xB9\x00\x00\x00\x00\x00\x00\x00\x00\x44\x88\x25\x00\x00\x00\x00";
+            var mask = "x????xxx????xx????????xxx????";
             var patternAddress = FindPattern(pattern, mask);
 
             var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, -0x44);
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 8);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
                 _log.Info($"Failed to find pattern {PatternToString(pattern)}");
@@ -99,18 +99,8 @@ namespace MapAssist.Helpers
             }
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
-
-            try
-            {
-                offsetAddressToInt = (int)Read<uint>(IntPtr.Add(_baseAddr, offsetAddressToInt + 0x145));
-            }
-            catch (Exception)
-            {
-                _log.Info($"Failed to find pattern {PatternToString(pattern)}");
-                return IntPtr.Zero;
-            }
-
-            return IntPtr.Add(_baseAddr, (int)(offsetAddressToInt + 0x13));
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta - 0xF4 + offsetAddressToInt));
         }
 
         public IntPtr GetMenuOpenOffset()
