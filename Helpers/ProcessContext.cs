@@ -86,6 +86,9 @@ namespace MapAssist.Helpers
 
         public IntPtr GetGameNameOffset()
         {
+            return IntPtr.Add(_baseAddr, 0x29B7A70);
+
+            // This sig needs to be updated
             var pattern = "\xE8\x00\x00\x00\x00\x48\x8B\x15\x00\x00\x00\x00\x48\xB9\x00\x00\x00\x00\x00\x00\x00\x00\x44\x88\x25\x00\x00\x00\x00";
             var mask = "x????xxx????xx????????xxx????";
             var patternAddress = FindPattern(pattern, mask);
