@@ -979,6 +979,7 @@ namespace MapAssist.Types
             Npc.Atma,
             Npc.Geglash,
             Npc.Kaelan,
+            Npc.Jerhyn,
             // Act 3 Npcs
             Npc.DeckardCain3,
             Npc.Meshif2,
