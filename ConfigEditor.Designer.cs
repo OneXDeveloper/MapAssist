@@ -293,7 +293,7 @@
             // 
             // btnBrowseD2Location
             // 
-            this.btnBrowseD2Location.Location = new System.Drawing.Point(251, 18);
+            this.btnBrowseD2Location.Location = new System.Drawing.Point(251, 21);
             this.btnBrowseD2Location.Name = "btnBrowseD2Location";
             this.btnBrowseD2Location.Size = new System.Drawing.Size(75, 21);
             this.btnBrowseD2Location.TabIndex = 17;
@@ -1450,7 +1450,7 @@
             // 
             this.lblSoundVolumeValue.AutoSize = true;
             this.lblSoundVolumeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblSoundVolumeValue.Location = new System.Drawing.Point(292, 173);
+            this.lblSoundVolumeValue.Location = new System.Drawing.Point(294, 180);
             this.lblSoundVolumeValue.Name = "lblSoundVolumeValue";
             this.lblSoundVolumeValue.Size = new System.Drawing.Size(23, 12);
             this.lblSoundVolumeValue.TabIndex = 29;
@@ -1461,7 +1461,7 @@
             // 
             this.lblItemDisplayForSecondsValue.AutoSize = true;
             this.lblItemDisplayForSecondsValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblItemDisplayForSecondsValue.Location = new System.Drawing.Point(292, 210);
+            this.lblItemDisplayForSecondsValue.Location = new System.Drawing.Point(294, 210);
             this.lblItemDisplayForSecondsValue.Name = "lblItemDisplayForSecondsValue";
             this.lblItemDisplayForSecondsValue.Size = new System.Drawing.Size(35, 12);
             this.lblItemDisplayForSecondsValue.TabIndex = 25;
@@ -1497,7 +1497,7 @@
             this.itemDisplayForSeconds.AutoSize = false;
             this.itemDisplayForSeconds.BackColor = System.Drawing.Color.White;
             this.itemDisplayForSeconds.LargeChange = 1;
-            this.itemDisplayForSeconds.Location = new System.Drawing.Point(85, 210);
+            this.itemDisplayForSeconds.Location = new System.Drawing.Point(100, 204);
             this.itemDisplayForSeconds.Maximum = 24;
             this.itemDisplayForSeconds.Minimum = 1;
             this.itemDisplayForSeconds.Name = "itemDisplayForSeconds";
@@ -1554,7 +1554,7 @@
             this.soundVolume.BackColor = System.Drawing.Color.White;
             this.soundVolume.Cursor = System.Windows.Forms.Cursors.Default;
             this.soundVolume.LargeChange = 1;
-            this.soundVolume.Location = new System.Drawing.Point(85, 173);
+            this.soundVolume.Location = new System.Drawing.Point(100, 174);
             this.soundVolume.Maximum = 20;
             this.soundVolume.Name = "soundVolume";
             this.soundVolume.Size = new System.Drawing.Size(201, 25);
@@ -1577,7 +1577,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 173);
+            this.label10.Location = new System.Drawing.Point(8, 180);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 12);
             this.label10.TabIndex = 27;
