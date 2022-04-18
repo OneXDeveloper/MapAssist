@@ -564,8 +564,8 @@ namespace MapAssist
         private void btnFont_Click(object sender, EventArgs e)
         {
             dynamic labelProp = SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null);
-            var labelFont = labelProp.LabelFont;
-            var labelSize = labelProp.LabelFontSize;
+            var labelFont = (string) labelProp.LabelFont;
+            var labelSize = (float) labelProp.LabelFontSize;
             if (labelFont == null)
             {
                 labelFont = "Helvetica";
