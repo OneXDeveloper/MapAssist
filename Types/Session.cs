@@ -28,8 +28,8 @@ namespace MapAssist.Types
     public class Session : IUpdatable<Session>
     {
         private readonly IntPtr _pSession;
-        private string _gameName;
-        private string _gamePass;
+        private string _gameName = "";
+        private string _gamePass = "";
 
         public Session(IntPtr pSession)
         {
@@ -43,8 +43,12 @@ namespace MapAssist.Types
             {
                 var sessionData = processContext.Read<Structs.Session>(_pSession);
 
-                _gameName = Encoding.ASCII.GetString(sessionData.GameName).Substring(0, sessionData.GameNameLength);
-                _gamePass = Encoding.ASCII.GetString(sessionData.GamePass).Substring(0, sessionData.GamePassLength);
+                try
+                {
+                    _gameName = Encoding.ASCII.GetString(sessionData.GameName).Substring(0, sessionData.GameNameLength);
+                    _gamePass = Encoding.ASCII.GetString(sessionData.GamePass).Substring(0, sessionData.GamePassLength);
+                }
+                catch (Exception) { }
             }
             return this;
         }
