@@ -48,8 +48,8 @@ namespace MapAssist.Helpers
 
         public IntPtr GetUnitHashtableOffset()
         {
-            var pattern = "\x48\x8d\x00\x00\x00\x00\x00\x8b\xd1";
-            var mask = "xx?????xx";
+            var pattern = "\x48\x8D\x0D\x00\x00\x00\x00\x48\xC1\xE0\x0A\x48\x03\xC1\xC3\xCC";
+            var mask = "xxx????xxxxxxxxx";
             var patternAddress = FindPattern(pattern, mask);
 
             var offsetBuffer = new byte[4];
