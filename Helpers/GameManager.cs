@@ -48,6 +48,7 @@ namespace MapAssist.Helpers
         private static IntPtr _GameNameOffset;
         private static IntPtr _MenuPanelOpenOffset;
         private static IntPtr _MenuDataOffset;
+        private static IntPtr _MapSeedOffset;
         private static IntPtr _RosterDataOffset;
         private static IntPtr _InteractedNpcOffset;
         private static IntPtr _LastHoverDataOffset;
@@ -252,6 +253,24 @@ namespace MapAssist.Helpers
                 }
 
                 return _MenuDataOffset;
+            }
+        }
+
+        public static IntPtr MapSeedOffset
+        {
+            get
+            {
+                if (_MapSeedOffset != IntPtr.Zero)
+                {
+                    return _MapSeedOffset;
+                }
+
+                using (var processContext = GetProcessContext())
+                {
+                    _MapSeedOffset = (IntPtr)processContext.GetMapSeedOffset();
+                }
+
+                return _MapSeedOffset;
             }
         }
 

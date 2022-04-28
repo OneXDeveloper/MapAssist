@@ -141,6 +141,34 @@ namespace MapAssist.Helpers
             return IntPtr.Add(_baseAddr, (int)(delta + 10 + offsetAddressToInt));
         }
 
+        public IntPtr GetMapSeedOffset()
+        {
+            var pattern = "\x41\x8B\xF9\x48\x8D\x0D\x00\x00\x00\x00";
+            var mask = "xxxxxx????";
+            var patternAddress = FindPattern(pattern, mask);
+
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 6);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                _log.Info($"Failed to find pattern {PatternToString(pattern)}");
+                return IntPtr.Zero;
+            }
+
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+
+            var offsetBuffer2 = new byte[8];
+            var resultRelativeAddress2 = IntPtr.Add(_baseAddr, (int)(delta + 0xEA + offsetAddressToInt));
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress2, offsetBuffer2, sizeof(long), out _))
+            {
+                _log.Info($"Failed to read memory found from pattern {PatternToString(pattern)}");
+                return IntPtr.Zero;
+            }
+
+            return new IntPtr(BitConverter.ToInt64(offsetBuffer2, 0) + 0x10C0);
+        }
+
         public IntPtr GetRosterDataOffset()
         {
             var pattern = "\x02\x45\x33\xD2\x4D\x8B";
