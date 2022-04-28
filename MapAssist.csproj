@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Settings\LootLogConfiguration.cs" />
     <Compile Include="Settings\MapAssistConfiguration.cs" />
+    <Compile Include="Structs\MapSeed.cs" />
     <Compile Include="Structs\Act.cs" />
     <Compile Include="Structs\ActMisc.cs" />
     <Compile Include="Structs\Inventory.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Types\Items.cs" />
     <Compile Include="Types\Missile.cs" />
     <Compile Include="Types\Roster.cs" />
+    <Compile Include="Types\MapSeed.cs" />
     <Compile Include="Types\Session.cs" />
     <Compile Include="Types\Shrine.cs" />
     <Compile Include="Types\Skill.cs" />

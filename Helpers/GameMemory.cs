@@ -150,7 +150,8 @@ namespace MapAssist.Helpers
                 }
 
                 // Check for map seed
-                var mapSeed = processContext.Read<uint>(GameManager.MapSeedOffset);
+                var mapSeedData = new MapSeed(GameManager.MapSeedOffset);
+                var mapSeed = mapSeedData.Seed;
 
                 if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
                 {

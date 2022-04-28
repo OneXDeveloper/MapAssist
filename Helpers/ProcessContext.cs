@@ -157,16 +157,7 @@ namespace MapAssist.Helpers
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
             var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
-
-            var offsetBuffer2 = new byte[8];
-            var resultRelativeAddress2 = IntPtr.Add(_baseAddr, (int)(delta + 0xEA + offsetAddressToInt));
-            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress2, offsetBuffer2, sizeof(long), out _))
-            {
-                _log.Info($"Failed to read memory found from pattern {PatternToString(pattern)}");
-                return IntPtr.Zero;
-            }
-
-            return new IntPtr(BitConverter.ToInt64(offsetBuffer2, 0) + 0x10C0);
+            return IntPtr.Add(_baseAddr, (int)(delta + 0xEA + offsetAddressToInt));
         }
 
         public IntPtr GetRosterDataOffset()
