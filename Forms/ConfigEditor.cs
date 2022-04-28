@@ -163,8 +163,6 @@ namespace MapAssist
             }
 
             chkDPIAware.Checked = MapAssistConfiguration.Loaded.DPIAware;
-
-            comboBox1.SelectedIndex = 0;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -903,14 +901,6 @@ namespace MapAssist
         private void chkDPIAware_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.DPIAware = chkDPIAware.Checked;
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedItem.ToString().Length > 0)
-            {
-                GameManager.OffsetCheck = comboBox1.SelectedItem.ToString();
-            }
         }
     }
 }

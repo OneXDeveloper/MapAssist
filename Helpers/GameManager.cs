@@ -53,8 +53,6 @@ namespace MapAssist.Helpers
         private static IntPtr _InteractedNpcOffset;
         private static IntPtr _LastHoverDataOffset;
 
-        public static string OffsetCheck = "Default";
-
         private static WindowsExternal.WinEventDelegate _eventDelegate = null;
 
         public static void MonitorForegroundWindow()
