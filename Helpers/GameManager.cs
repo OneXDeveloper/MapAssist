@@ -133,6 +133,16 @@ namespace MapAssist.Helpers
                 }
             }
 
+            _UnitHashTableOffset = IntPtr.Zero;
+            _ExpansionCheckOffset = IntPtr.Zero;
+            _GameNameOffset = IntPtr.Zero;
+            _MenuPanelOpenOffset = IntPtr.Zero;
+            _MenuDataOffset = IntPtr.Zero;
+            _MapSeedOffset = IntPtr.Zero;
+            _RosterDataOffset = IntPtr.Zero;
+            _InteractedNpcOffset = IntPtr.Zero;
+            _LastHoverDataOffset = IntPtr.Zero;
+
             _lastGameHwnd = hwnd;
             _lastGameProcess = process;
             _lastGameProcessId = _foregroundProcessId;
