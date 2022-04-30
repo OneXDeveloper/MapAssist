@@ -180,7 +180,7 @@ namespace MapAssist.Helpers
                     else if (stat == Stats.Stat.AddClassSkills)
                     {
                         var (classSkills, points) = Items.GetItemStatAddClassSkills(item, (PlayerClass)layer);
-                        name = classSkills[0].ToString() + " Skills";
+                        name = classSkills[0].ToString().Replace(" Skills", "") + " Skills";
                         finalValue = points.ToString();
                     }
                     else if (stat == Stats.Stat.AddSkillTab)
