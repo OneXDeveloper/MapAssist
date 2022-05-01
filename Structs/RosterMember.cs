@@ -26,8 +26,8 @@ namespace MapAssist.Structs
     [StructLayout(LayoutKind.Explicit)]
     public struct RosterMember
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
-        [FieldOffset(0x0)] public string Name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x40)]
+        [FieldOffset(0x0)] public byte[] Name;
 
         [FieldOffset(0x48)] public uint UnitId;
         [FieldOffset(0x54)] public PlayerClass PlayerClass;

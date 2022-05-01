@@ -23,6 +23,7 @@ using MapAssist.Interfaces;
 using MapAssist.Structs;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace MapAssist.Types
 {
@@ -81,7 +82,7 @@ namespace MapAssist.Types
                 var hostileInfo = processContext.Read<HostileInfo>(hostilePtr);
                 var entry = new RosterEntry
                 {
-                    Name = member.Name,
+                    Name = Encoding.UTF8.GetString(member.Name).TrimEnd((char)0),
                     UnitId = member.UnitId,
                     PlayerClass = member.PlayerClass,
                     PlayerLevel = member.PlayerLevel,
