@@ -179,7 +179,7 @@ namespace MapAssist.Types
                     {
                         foreach (var skillTree in skillTrees)
                         {
-                            itemSuffix += $" (+{points} {skillTree.Name()} skills)";
+                            itemSuffix += $" (+{points} {skillTree.Name().Replace(" Skills", "")} skills)";
                         }
                     }
                 }
