@@ -239,6 +239,9 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Enhanced Damage")]
         public int? EnhancedDamage { get; set; }
+
+        [YamlMember(Alias = "Area Level")]
+        public int? AreaLevel { get; set; }
     }
 
     public static class ItemFilterExtensions

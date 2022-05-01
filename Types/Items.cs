@@ -37,7 +37,7 @@ namespace MapAssist.Types
         public static Dictionary<int, List<ItemLogEntry>> ItemLog = new Dictionary<int, List<ItemLogEntry>>();
         public static Dictionary<string, LocalizedObj> LocalizedItems = new Dictionary<string, LocalizedObj>();
 
-        public static void LogItem(UnitItem item, int processId)
+        public static void LogItem(UnitItem item, int areaLevel, int processId)
         {
             if (item.IsInStore)
             {
@@ -56,7 +56,7 @@ namespace MapAssist.Types
 
             ItemUnitIdsSeen[processId].Add(item.UnitId);
 
-            var (logItem, rule) = LootFilter.Filter(item);
+            var (logItem, rule) = LootFilter.Filter(item, areaLevel);
             if (!logItem) return;
 
             if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop && (rule == null || rule.PlaySoundOnDrop))

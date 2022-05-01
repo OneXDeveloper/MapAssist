@@ -27,7 +27,7 @@ namespace MapAssist.Helpers
 {
     public static class LootFilter
     {
-        public static (bool, ItemFilter) Filter(UnitItem item)
+        public static (bool, ItemFilter) Filter(UnitItem item, int areaLevel)
         {
             // Skip low quality items
             var lowQuality = (item.ItemData.ItemFlags & ItemFlags.IFLAG_LOWQUALITY) == ItemFlags.IFLAG_LOWQUALITY;
@@ -57,6 +57,7 @@ namespace MapAssist.Helpers
                     ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
                     ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
                     ["Ethereal"] = () => ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL) == rule.Ethereal,
+                    ["AreaLevel"] = () => areaLevel >= rule.AreaLevel,
                     ["AllAttributes"] = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
                     ["AllResist"] = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
                     ["SumResist"] = () => Items.GetItemStatResists(item, true) >= rule.SumResist,

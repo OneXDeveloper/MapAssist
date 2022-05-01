@@ -200,6 +200,8 @@ namespace MapAssist.Helpers
                     throw new Exception("Game difficulty out of bounds.");
                 }
 
+                var areaLevel = levelId.Level(gameDifficulty);
+
                 // Players
                 var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
                     .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
@@ -309,7 +311,7 @@ namespace MapAssist.Helpers
                     var checkVendorItem = Items.CheckVendorItem(item, _currentProcessId);
                     if (item.IsValidItem && (checkDroppedItem || checkVendorItem || checkInventoryItem))
                     {
-                        Items.LogItem(item, _currentProcessId);
+                        Items.LogItem(item, areaLevel, _currentProcessId);
                     }
 
                     if (item.Item == Item.HoradricCube)

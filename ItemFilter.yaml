@@ -386,6 +386,8 @@ Amulet:
 
 Ring:
   - Qualities: [rare, unique]
+  - Qualities: magic
+    Area Level: 85
 
 Jewel:
   - Qualities: [magic, rare, unique]
