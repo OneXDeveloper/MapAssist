@@ -34,8 +34,8 @@ namespace MapAssist.Structs
         public IntPtr pShrineTxt;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
         private byte[] unk2;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
-        public string Owner;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x2D)]
+        public byte[] Owner; 
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

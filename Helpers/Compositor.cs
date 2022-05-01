@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 
@@ -292,7 +293,8 @@ namespace MapAssist.Helpers
 
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel(destinationArea))
                     {
-                        var playerName = !string.IsNullOrWhiteSpace(gameObject.ObjectData.Owner) ? gameObject.ObjectData.Owner : null;
+                        var playerNameUnicode = Encoding.UTF8.GetString(gameObject.ObjectData.Owner);
+                        var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null;
                         var label = destinationArea.PortalLabel(_gameData.Difficulty, playerName);
 
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
