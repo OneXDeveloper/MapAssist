@@ -17,9 +17,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  **/
 
-using MapAssist.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
@@ -32,18 +30,22 @@ namespace MapAssist.Structs
         public byte PortalFlags;
         private short unk1;
         public IntPtr pShrineTxt;
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
         private byte[] unk2;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x10)]
-        public string Owner;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
+        public byte[] Owner;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ObjectTxt
     {
         public ushort Id;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x40)]
         public string ObjectName;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x40)]
         public string ObjectType;
     }

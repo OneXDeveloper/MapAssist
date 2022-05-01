@@ -21,6 +21,7 @@ using MapAssist.Helpers;
 using MapAssist.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MapAssist.Types
@@ -45,8 +46,8 @@ namespace MapAssist.Types
 
                 try
                 {
-                    _gameName = Encoding.ASCII.GetString(sessionData.GameName).Substring(0, sessionData.GameNameLength);
-                    _gamePass = Encoding.ASCII.GetString(sessionData.GamePass).Substring(0, sessionData.GamePassLength);
+                    _gameName = Encoding.UTF8.GetString(sessionData.GameName.Take(sessionData.GameNameLength).ToArray()).TrimEnd((char)0);
+                    _gamePass = Encoding.UTF8.GetString(sessionData.GamePass.Take(sessionData.GamePassLength).ToArray()).TrimEnd((char)0);
                 }
                 catch (Exception) { }
             }

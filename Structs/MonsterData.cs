@@ -36,8 +36,8 @@ namespace MapAssist.Structs
     {
         private ushort Id;
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-        public string Name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        public byte[] Name;
     }
 
     [Flags]

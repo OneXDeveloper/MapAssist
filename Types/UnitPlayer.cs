@@ -27,7 +27,7 @@ namespace MapAssist.Types
             {
                 using (var processContext = GameManager.GetProcessContext())
                 {
-                    Name = Encoding.ASCII.GetString(processContext.Read<byte>(Struct.pUnitData, 16)).TrimEnd((char)0);
+                    Name = Encoding.UTF8.GetString(processContext.Read<byte>(Struct.pUnitData, 16)).TrimEnd((char)0);
                     Act = new Act(Struct.pAct);
                     //Inventory = processContext.Read<Inventory>(Struct.ptrInventory);
                     Skills = new Skills(Struct.pSkills);
