@@ -1,355 +1,265 @@
-# https://github.com/admon84/MapAssist/blob/config/ItemFilter.yaml
-# https://github.com/blizzhackers/pickits/tree/master/d2nt/extreme
+# IMPORTANT: After changing anything in this file, ensure validity using https://jsonformatter.org/yaml-validator
+# More details about how to configure this file can be found at https://github.com/OneXDeveloper/MapAssist/wiki/Item-Filter
 
-#### All Items ######################################
-Any:
-  - Qualities: [normal, superior, magic, rare]
-    Skills:
-      Any: 4
-  - Qualities: [normal, superior, magic, rare]
-    Class Skill Tree:
-      Any: 3
+# The first line or "Key" is the item base type, in the next case, "Harlequin Crest" is a unique "Shako"
+# Alert to any unique Shako, regardless of any other criteria (sockets, eth)
+Shako:                              # Item Base Type
+  - Qualities: unique               # Rule starts with "-" and lists one of 3 criteria
 
-#### Aliases ####################################
-x-bases:
-  - &merc-weapon-base # Eth Polearm Runeword Base
+# Additional criteria can be listed below the first. Do not prefix a "-" to lines with criteria you wish to include
+# as part of the same rule. You can also list multiple values for both Qualities and Sockets as shown in the Thresher
+# example below
+#
+# This thresher rule is really 2 separate rules. One with 3 criteria and one with a single criteria.
+# The first rule will look for only ethereal threshers with 0 or 4 sockets that are either normal or superior quality
+# The second rule looks only for unique threshers. The criteria listed for the first rule do not apply to the second
+# Therefore, the second rule will log any unique thresher, with any number of sockets
+Thresher:
+  - Ethereal: true
     Qualities: [normal, superior]
     Sockets: [0, 4]
-    Ethereal: true
+  - Qualities: unique # The Reaper's Toll
 
-#### Helms ######################################
-Grim Helm:
-  - Qualities: unique # Vampire Gaze
-    Ethereal: true
-
-Grand Crown:
-  - Qualities: unique # Crown of Thieves
-
-Shako:
-  - Qualities: unique # Harlequin Crest
-
-Demonhead:
-  - Qualities: superior
-    Sockets: [3]
-
-  - Qualities: unique # Andariel's Visage
-
-Spired Helm:
-  - Qualities: unique # Nightwing's Veil
-
-Bone Visage:
-  - Qualities: superior
-    Sockets: [3]
-
-  - Qualities: unique # Giant Skull
-
-Corona:
-  - Qualities: unique # Crown of Ages
-
-#### Armor ######################################
-Armors:
-  - Qualities: [normal, superior] # Eth Armor Runeword Base
-    Sockets: [3, 4]
-    Ethereal: true
-    Defense: 800
-
-  - Qualities: magic
-    Ethereal: false
-    Sockets: [4]
-    Max Life: 80
-
+# Listing multiple values
+# Another way to list multiple values for Qualities and Sockets is to list each desired quality or number of sockets
+# on its own line with an extra indent and a "-"
+# This format is supported but its use is discouraged
+# This mage plate rule will look for any normal/superior mage plate with 0 or 3 sockets
+# Because Ethereal: true is not set here, both non-ethereal and ethereal items will trigger this rule
 Mage Plate:
-  - Qualities: superior
-    Sockets: [3]
-    Ethereal: false
-    Defense: 287
+  - Qualities:
+    - normal
+    - superior
+    Sockets: [0, 3]
 
-Serpentskin Armor:
-  - Qualities: unique # Skin of the Vipermagi
+# This will show magic and unique monarchs as well as non-magical monarchs with 0 or 4 sockets
+Monarch:
+  - Qualities: [magic, unique] # Stormshield
+  - Qualities: [normal, superior]
+    Sockets: [0, 4]
 
-Cuirass:
-  - Qualities: unique # Duriel's Shell
+# This will show a short staff with +1 to skills, +1 to sorc skills, +1 to fire skills, and +1 fire bolt
+# Notifications are turned off for this item specifically using the PlaySoundOnDrop: false option
+Short Staff:
+  - Skills:
+      Fire Bolt: 1
+    Class Skill Tree:
+      Sorceress Fire: 1
+    Class Skills:
+      Sorceress: 1
+    All Skills: 1
+    PlaySoundOnDrop: false
+
+# This is just an object that holds all our commonly used aliases
+# Aliases are labeled by the `&` and then the name and provide a simple way to reuse rule criteria later on
+# They are used by referencing `*` then the name as you'll see in the Mercenary section of this config
+x-bases:
+  - &merc-arm-base
     Ethereal: true
-
-Dusk Shroud:
-  - Qualities: superior
-    Sockets: [3]
-    Ethereal: false
-    Defense: 514
-
-  - Qualities: unique # Ormus' Robes
-    Ethereal: false
-
-Wire Fleece:
-  - Qualities: unique # The Gladiator's Bane
-    Ethereal: true
-
-Archon Plate:
-  - Qualities: superior
+    Qualities: [normal, superior]
+    Defense: 680
     Sockets: [0, 3, 4]
+  - &player-arm-base
     Ethereal: false
-    Defense: 576
+    Qualities: [normal, superior]
+    Sockets: [0, 3, 4]
+    Defense: 400
+  - &merc-wep-base
+    Ethereal: true
+    Qualities: [normal, superior]
+    Sockets: [4]
 
+# This ring rule will show all unidentified magic, rare, and unique rings that drop on the ground
+Ring:
+  - Qualities: [magic, rare, unique]
+  # The rings below have stats that are only possible on identified items, so these rules
+  # will alert you when a matching item is identified by you or picked up as identified
+  - Qualities: magic
+    Area Level: 85
+  - Qualities: magic
+    Magic Find: 40
+  - Qualities: magic
+    Faster Cast Rate: 10
+    Max Mana: 120
+  - Qualities: magic
+    Magic Find: 15
+    Max Mana: 120
+  - Qualities: magic
+    Faster Cast Rate: 10
+    Sum Resist: 30
+  - Qualities: magic
+    Magic Find: 15
+    Sum Resist: 30
+  - Qualities: rare
+    Faster Cast Rate: 10
+    Max Mana: 80
+    Sum Resist: 40
+  - Qualities: unique # SoJ or BK ring
+    All Skills: 1
+
+# This will show Barbarian Warcry Sticks when you trade a town vendor that has them for sale
+Glaive:
+  - Qualities: magic
+    Class Skill Tree:
+      Barbarian Warcries: 3
+
+### Some items are inactive
+### To activate them for the loot log, remove the ## in front of them
+### To inactivate items, include a ## in front of them or delete it completely, then save this file.
+### You can test this with Full Rejuvenation Potion below.
+## Full Rejuvenation Potion:
+
+### Mercenary Weapon Bases
+Colossus Voulge:
+  - *merc-wep-base    # This is an alias mentioned above and its criteria applies as if the rules were typed here
+Cryptic Axe:
+  - *merc-wep-base
+  - Qualities: unique # Tomb Reaver is not part of the *merc-wep-base alias so we list its criteria as its own rule
+Giant Thresher:
+  - *merc-wep-base
+  - Qualities: unique # Stormspire is useful for certain player builds (but not mercs, so we don't want Ethereal!)
+    Ethereal: false
+
+### Mercenary Armor Bases
+Dusk Shroud:
+  - *merc-arm-base
+  - *player-arm-base
+  - Qualities: unique # Ormus' Robes
+Wyrmhide:
+  - *merc-arm-base
+  - *player-arm-base
+Scarab Husk:
+  - *merc-arm-base
+Wire Fleece:
+  - *merc-arm-base
+Diamond Mail:
+  - *merc-arm-base
+Loricated Mail:
+  - *merc-arm-base
+Great Hauberk:
+  - *merc-arm-base
+Boneweave:
+  - *merc-arm-base
+Balrog Skin:
+  - *merc-arm-base
+Kraken Shell:
+  - *merc-arm-base
+Hellforge Plate:
+  - *merc-arm-base
 Lacquered Plate:
-  - Qualities: set # Tal Rasha's Guardianship
-
+  - *merc-arm-base
+  - Qualities: Set # Tal Rasha's Guardianship
+Shadow Plate:
+  - *merc-arm-base
 Sacred Armor:
+  - *merc-arm-base
   - Qualities: unique # Tyrael's Might
-
   - Qualities: set # Immortal King's Soul Cage
 
-#### Shields ####################################
-Monarch:
-  - Qualities: magic
-    Sockets: [4]
-    Ethereal: false
-  - Qualities: normal
-    Sockets: [0, 4]
-
-#### Gloves #####################################
-Gloves:
-  - Qualities: magic
-    Increased Attack Speed: 20
-    Class Skill Tree:
-      Any: 3
-
-  - Qualities: rare
-    Increased Attack Speed: 20
-    Class Skill Tree:
-      Any: 2
-
-  - Tiers: Elite
-    Qualities: rare
-
-Vampirebone Gloves:
-  - Qualities: unique # Dracul's Grasp
-
-#### Boots ######################################
-Boots:
-  - Tiers: [Exceptional, Elite]
-    Qualities: rare
-
-Battle Boots:
-  - Qualities: unique # War Traveler
-
-Scarabshell Boots:
-  - Qualities: unique # Sandstorm Trek
-    Ethereal: true
-
-#### Belts ######################################
-Belts:
-  - Qualities: magic
-    Gold Find: 80
-    Sum Resist: 30
-
-Mithril Coil:
-  - Qualities: unique # Verdungo's Hearty Cord
-
-Spiderweb Sash:
-  - Qualities: unique # Arachnid Mesh
-
-#### Barbarian Helms ############################
-Slayer Guard:
-  - Qualities: unique # Arreat's Face
-
-#### Druid Pelt #################################
-Totemic Mask:
-  - Qualities: unique # Jalal's Mane
-
-Druid Helms:
+### Bases
+Archon Plate:
+  - *merc-arm-base
+  - *player-arm-base
+Flail:
   - Qualities: [normal, superior]
-    Ethereal: false
-    Skills:
-      Tornado: 3
-      Hurricane: 3
-
-#### Paladin Shields ############################
-Paladin Shields:
+    Sockets: [4, 5]
+Crystal Sword:
   - Qualities: [normal, superior]
-    Tiers: [exceptional, elite]
-    Sockets: [0, 4]
-    All Resist: 40
-    Ethereal: true
-
+    Sockets: [4, 5]
+Phase Blade:
   - Qualities: [normal, superior]
-    Tiers: [exceptional, elite]
-    Sockets: [0, 3, 4]
-    All Resist: 40
-    Ethereal: false
-
-  - Qualities: magic
-    Tiers: [exceptional, elite]
-    Sockets: [4]
-    Faster Block Rate: 30
-
-Gilded Shield:
-  - Qualities: unique # Herald Of Zakarum
-
-Sacred Rondache:
-  - Qualities: unique # Alma Negra
-
-Sacred Targe:
-  - Qualities: magic
-    Sockets: [4]
-    Ethereal: false
-
-#### Necromancer Shrunken Heads #################
-Hierophant Trophy:
-  - Qualities: unique # Homunculus
-
-Bloodlord Skull:
-  - Qualities: unique # Darkforce Spawn
-
-#### Axes #######################################
-Berserker Axe:
-  - Qualities: [superior]
-    Sockets: [5, 6]
-    Ethereal: true
-
-#### Bows #######################################
-Hydra Bow:
-  - Qualities: unique # Windforce
-
-#### Crossbows ##################################
-
-#### Daggers ####################################
-
-#### Javelins ###################################
-
-#### Maces ######################################
-
-#### Polearms ###################################
-Thresher:
-  - *merc-weapon-base
-
-  - Qualities: unique # The Reaper's Toll
-    Ethereal: true
-
-Giant Thresher: 
-  - *merc-weapon-base
-
-Colossus Voulge:
-  - *merc-weapon-base
-
-Cryptic Axe:
-  - *merc-weapon-base
-
-  - Qualities: unique # Tomb Reaver
-    Ethereal: true
-
-Great Poleaxe:
-  - *merc-weapon-base
-
-#### Scepters ###################################
-Caduceus:
-  - Qualities: unique # Astreon's Iron Ward
-
-Mighty Scepter:
-  - Qualities: unique # Heaven's Light
-
-#### Spears #####################################
-Yari: 
-  - Qualities: unique # Hone Sundan
-    Ethereal: true
-
-#### Staves #####################################
-Elder Staff:
-  - Qualities: unique # Ondal's Wisdom
-
-  - Qualities: set # Naj's Puzzler
-
-Archon Staff:
-  - Qualities: unique # Mang Song's Lesson
-
-#### Swords #####################################
-Colossus Blade:
-  - Qualities: [normal, superior]
-    Sockets: [6]
-    Ethereal: true
-
-#### Throwing ####################################
-Winged Knife:
-  - Qualities: unique # Warshrike
-    Ethereal: true
-
-Winged Axe:
-  - Qualities: unique # Lacerator
-    Ethereal: true
-
-
-#### Wands #######################################
-Wands:
-  - Qualities: [normal, superior]
-    Sockets: [0, 2]
-    Ethereal: false
-    Skills:
-      Bone Spear: 3
-
-  - Qualities: [normal, superior]
-    Sockets: [0, 2]
-    Ethereal: false
-    Skills:
-      Poison Nova: 3
-      
-#### Amazon Weapons ##############################
-Ceremonial Javelin:
-  - Qualities: unique # Titan's Revenge
-
+    Sockets: [5]
 Matriarchal Javelin:
+  - Qualities: [magic, rare]
   - Qualities: unique # Thunderstroke
-
-Grand Matron Bow:
-  - Qualities: [normal, superior]
-    Ethereal: false
-    Sockets: [4]
-    Class Skill Tree:
-      Amazon Bow And Crossbow: 3
-
-Amazon Javelins:
-  - Qualities: magic
-    Ethereal: false
-    Increased Attack Speed: 30
-    Class Skill Tree:
-      Amazon Javelin And Spear: 4
-
-#### Assassin Katars ############################
 Assassin Katars:
-  - Qualities: [normal, superior]
-    Skills:
-      Any: 3
-
-#### Sorceress Orbs #############################
-Dimensional Shard:
-  - Qualities: unique # Death's Fathom
-
-Eldritch Orb:
-  - Qualities: unique # Eschuta's Temper
-
-Swirling Crystal:
-  - Qualities: unique # The Oculus
-
-#### Circlets ###################################
-Circlets:
-  - Qualities: magic
+  - Tiers: [exceptional, elite]
+    Qualities: [normal, superior]
     Sockets: [3]
-    Faster Run Walk: 25
-    Ethereal: false
 
-  - Qualities: rare
+### Misc
+Amulet:
+  - Qualities:
+    - magic
+    - rare
+    - unique
+    - set
+Jewel:
+  - Qualities:
+    - magic
+    - rare
+    - unique # Rainbow Facet
+Small Charm:
+  - Qualities: [magic, unique]
+Large Charm:
+  - Qualities: unique
+Grand Charm:
+  - Qualities: [magic, unique]
+Key of Terror:
+Key of Hate:
+Key of Destruction:
+Twisted Essence of Suffering:
+Charged Essence of Hatred:
+Burning Essence of Terror:
+Festering Essence of Destruction:
 
+### Boots
+Boots:
+  - Tiers: [exceptional, elite]
+    Qualities: rare
+
+### Gloves
+Gloves:
+  - Tiers: [exceptional, elite]
+    Qualities: rare
+  # This will show 3/20 Javazon Gloves when a town vendor has a pair for sale
+  # It will work with all exceptional and elite gloves
+  - Tiers: [exceptional, elite]
+    Qualities: magic
+    Increased Attack Speed: 20
+    Class Skill Tree:
+        Amazon Javelin And Spear: 3
+
+### Helmets
+Bone Visage:
+  - Qualities: [normal, superior]
+    Sockets: [0, 3]
+Demonhead:
+  - Qualities: [normal, superior]
+    Sockets: [0, 3]
+  - Qualities: unique # Andariel's Visage
+
+### Circlets
+Circlet:
+  - Qualities: [magic, rare]
 Tiara:
+  - Qualities: [magic, rare]
   - Qualities: unique # Kira's Guardian
-
+Coronet:
+  - Qualities: [magic, rare]
 Diadem:
+  - Qualities: [magic, rare]
   - Qualities: unique # Griffon's Eye
 
-#### Runes ######################################
-Ral Rune:
+### Druid Pelts
+Druid Helms:
+  - Tiers: elite
+    Qualities: [magic, rare]
 
+### Barbarian Helms
+Barbarian Helms:
+  - Tiers: elite
+    Qualities: [magic, rare]
+
+### Paladin Shields
+Paladin Shields:
+  - Tiers: elite
+    Qualities: [normal, superior]
+    All Resist: 25
+    Sockets: [0, 4]
+
+### Runes
 Hel Rune:
-Ko Rune:
-Fal Rune:
-Lem Rune:
 Pul Rune:
 Um Rune:
 Mal Rune:
@@ -364,7 +274,7 @@ Jah Rune:
 Cham Rune:
 Zod Rune:
 
-#### Gems #######################################
+### Gems
 Flawless Ruby:
 Flawless Sapphire:
 Flawless Emerald:
@@ -380,64 +290,130 @@ Perfect Diamond:
 Perfect Topaz:
 Perfect Skull:
 
-#### Misc #######################################
-Amulet:
-  - Qualities: [rare, unique, set]
-
-Ring:
-  - Qualities: [rare, unique]
-  - Qualities: magic
-    Area Level: 85
-
-Jewel:
-  - Qualities: [magic, rare, unique]
-
-Small Charm:
-  - Qualities: [magic, unique]
-
-Large Charm:
+### Uniques
+# Dracul's Grasp
+Vampirebone Gloves:
+  - Qualities: unique
+# War Traveler
+Battle Boots:
+  - Qualities: unique
+# Sandstorm Trek
+Scarabshell Boots:
+  - Qualities: unique
+# Ribcracker
+Quarterstaff:
+  - Qualities: unique
+# Skin of the Vipermagi
+Serpentskin Armor:
+  - Qualities: unique
+# Skullder's Ire
+Russet Armor:
+  - Qualities: unique
+# Aldur's Advance
+  - Qualities: set
+# Jalal's Mane
+Totemic Mask:
+  - Qualities: unique
+# Oculus
+Swirling Crystal:
+  - Qualities: unique
+# Tal Rasha's Lidless Eye
+  - Qualities: set
+# Homunculus
+Hierophant Trophy:
+  - Qualities: unique
+# Herald of Zakarum
+Gilded Shield:
+  - Qualities: unique
+# Vampire Gaze
+Grim Helm:
+  - Qualities: unique
+# Titan's Revenge
+Ceremonial Javelin:
+  - Qualities: unique
+# Shaftstop
+Mesh Armor:
+  - Qualities: unique
+# Arachnid Mesh
+Spiderweb Sash:
+  - Qualities: unique
+# Eschuta's Temper
+Eldritch Orb:
+  - Qualities: unique
+# Arreat's Face
+Slayer Guard:
+  - Qualities: unique
+# Death's Web
+Unearthed Wand:
+  - Qualities: unique
+# Chance Guards
+Chain Gloves:
+  - Qualities: unique
+# Death's Fathom
+Dimensional Shard:
+  - Qualities: unique
+# Nightwing's Veil
+Spired Helm:
+  - Qualities: unique
+# Crown of Ages
+Corona:
+  - Qualities: unique
+# Verdungo's Hearty Cord
+Mithril Coil:
+  - Qualities: unique
+# String of Ears
+Demonhide Sash:
+  - Qualities: unique
+# Duriel's Shell
+Cuirass:
+  - Qualities: unique
+# Razortail
+Sharkskin Belt:
+  - Qualities: unique
+# Goldwrap
+Heavy Belt:
+  - Qualities: unique
+# Nosferatu's Coil
+Vampirefang Belt:
+  - Qualities: unique
+# Thundergod's Vigor
+War Belt:
+  - Qualities: unique
+# Ondal's Wisdom
+Elder Staff:
+  - Qualities: unique
+# Goblin Toe
+Light Plated Boots:
+  - Qualities: unique
+# Magefist
+Light Gauntlets:
+  - Qualities: unique
+# Gull
+Dagger:
+  - Qualities: unique
+# Wizardspike
+Bone Knife:
+  - Qualities: unique
+# Fleshripper
+Fanged Knife:
+  - Qualities: unique
+# Windforce
+Hydra Bow:
+  - Qualities: unique
+# Buriza-Do Kyanon
+Ballista:
   - Qualities: unique
 
-Grand Charm:
-  - Qualities: [magic, unique]
-
-Key of Terror:
-Key of Hate:
-Key of Destruction:
-Burning Essence of Terror:
-Festering Essence of Destruction:
-
-#### Ladder #######################################
-# Stealth - tal eth - body armor
-# Oath - shael pul mal lum - sword
-# Rhyme - shael eth - shield
-# Lore - ort sol - helm
-# Malice - ith el eth - weapon
-# Strength - amn tir - weapon
-
-Shael Rune:
-Eth Rune:
-Lum Rune:
-El Rune:
-Tal Rune:
-Tir Rune:
-Nef Rune:
-Ith Rune:
-Amn Rune:
-
-Highland Blade:
-  - Qualities: [normal, superior]
-    Sockets: [0, 4]
-    Ethereal: true
-Balrog Blade:
-  - Qualities: [normal, superior]
-    Sockets: [0, 4]
-    Ethereal: true
-Colossus Sword:
-  - Qualities: [normal, superior]
-    Sockets: [4]
-    Ethereal: true
-Colossus Blade:
-  - Qualities: [normal, superior]
-    Sockets: [4]
-    Ethereal: true
+### Sets
+# Tal Rasha's Horadric Crest
+Death Mask:
+  - Qualities: set
+# Tal Rasha's Fine Spun Cloth
+Mesh Belt:
+  - Qualities: set
+# Guillaume's Face
+Winged Helm:
+  - Qualities: set 
+# Trang-Oul's Claws
+Heavy Bracers:
+  - Qualities: set

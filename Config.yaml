@@ -1,6 +1,6 @@
 # Change these settings from the Config GUI provided in MapAssist
 HotkeyConfiguration:
-  ToggleKey: ''
+  ToggleKey: '|'
   HideMapKey: ''
   AreaLevelKey: '['
   ZoomInKey: Num +
@@ -8,6 +8,7 @@ HotkeyConfiguration:
   ExportItemsKey: F9
 HiddenAreas:
 - Forgotten Tower
+AuthorizedWindowTitles: []
 RenderingConfiguration:
   Opacity: 0.5
   IconOpacity: 0.9
@@ -33,7 +34,7 @@ RenderingConfiguration:
   LinesMode: All
 MapConfiguration:
   SuperUniqueMonster:
-    IconOutlineColor: DarkRed
+    IconOutlineColor: Yellow
     IconShape: Cross
     IconSize: 6
     IconThickness: 2
@@ -43,22 +44,22 @@ MapConfiguration:
     IconSize: 6
     IconThickness: 2
   ChampionMonster:
-    IconOutlineColor: DarkOrange
+    IconOutlineColor: DarkRed
     IconShape: Cross
     IconSize: 6
     IconThickness: 2
   MinionMonster:
-    IconOutlineColor: 183, 100, 0
+    IconOutlineColor: 255, 150, 150
     IconShape: Cross
     IconSize: 6
     IconThickness: 1
   NormalMonster:
-    IconOutlineColor: LightYellow
+    IconOutlineColor: Gray
     IconShape: Cross
     IconSize: 6
     IconThickness: 1
   Npc:
-    IconOutlineColor: White
+    IconOutlineColor: 196, 196, 196
     IconShape: Cross
     IconSize: 6
     IconThickness: 1
@@ -68,39 +69,33 @@ MapConfiguration:
     LabelTextShadow: true
   NextArea:
     IconColor: SpringGreen
-    IconOutlineColor: White
     IconShape: Square
     IconSize: 5
-    IconThickness: 1
     LineColor: SpringGreen
     LineThickness: 2
     ArrowHeadSize: 15
     LabelColor: SpringGreen
-    LabelFontSize: 15
+    LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   PreviousArea:
     IconColor: Violet
-    IconOutlineColor: White
     IconShape: Square
     IconSize: 5
-    IconThickness: 1
     LabelColor: Violet
-    LabelFontSize: 15
+    LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   Waypoint:
     IconColor: SteelBlue
-    IconOutlineColor: White
     IconShape: Square
     IconSize: 5
-    IconThickness: 1
   Quest:
     LineColor: Tomato
     LineThickness: 2
     ArrowHeadSize: 15
     LabelColor: Tomato
-    LabelFontSize: 15
+    LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   Player:
@@ -180,15 +175,15 @@ MapConfiguration:
   NormalChest:
     IconColor: 17, 128, 0
     IconShape: Square
-    IconSize: 0
+    IconSize: 3
   LockedChest:
     IconColor: Maroon
     IconShape: Square
-    IconSize: 0
+    IconSize: 3
   TrappedChest:
     IconColor: Red
     IconShape: Square
-    IconSize: 0
+    IconSize: 4
   Shrine:
     IconColor: 255, 218, 100
     IconShape: Polygon
@@ -272,7 +267,7 @@ ItemLog:
 MapColorConfiguration:
   Border: 255, 255, 255
 GameInfo:
-  Position: TopRight
+  Position: TopLeft
   ShowGameName: true
   ShowDifficulty: true
   ShowArea: true
