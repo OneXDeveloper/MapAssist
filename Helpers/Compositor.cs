@@ -294,7 +294,7 @@ namespace MapAssist.Helpers
                     if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel(destinationArea))
                     {
                         var playerNameUnicode = Encoding.UTF8.GetString(gameObject.ObjectData.Owner).TrimEnd((char)0);
-                        var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null; 
+                        var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null;
                         var label = destinationArea.PortalLabel(_gameData.Difficulty, playerName);
 
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
@@ -699,10 +699,6 @@ namespace MapAssist.Helpers
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
             var buffImageScale = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 59 / 132 * gfx.Height / 1080;
-            if (buffImageScale <= 0)
-            {
-                return;
-            }
 
             var stateList = _gameData.PlayerUnit.StateList;
             var imgDimensions = 132f * buffImageScale;
@@ -797,36 +793,39 @@ namespace MapAssist.Helpers
                 }
             }
 
-            var buffIndex = 1;
-            foreach (var buff in buffsByColor)
+            if (buffImageScale > 0)
             {
-                for (var i = 0; i < buff.Value.Count; i++)
+                var buffIndex = 1;
+                foreach (var buff in buffsByColor)
                 {
-                    var buffImg = buff.Value[i];
-                    var buffColor = buff.Key;
-                    var drawPoint = new Point((gfx.Width / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
-                    DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
-
-                    var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
-                    var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
-
-                    var pen = new Pen(buffColor, buffImageScale);
-                    if (buffColor == States.DebuffColor)
+                    for (var i = 0; i < buff.Value.Count; i++)
                     {
-                        var debuffColor = States.DebuffColor;
-                        debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
-                        var brush = CreateSolidBrush(gfx, debuffColor, 1);
+                        var buffImg = buff.Value[i];
+                        var buffColor = buff.Key;
+                        var drawPoint = new Point((gfx.Width / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
+                        DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
 
-                        gfx.FillRectangle(brush, rect);
-                        gfx.DrawRectangle(brush, rect, 1);
-                    }
-                    else
-                    {
-                        var brush = CreateSolidBrush(gfx, buffColor, 1);
-                        gfx.DrawRectangle(brush, rect, 1);
-                    }
+                        var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
+                        var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
 
-                    buffIndex++;
+                        var pen = new Pen(buffColor, buffImageScale);
+                        if (buffColor == States.DebuffColor)
+                        {
+                            var debuffColor = States.DebuffColor;
+                            debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
+                            var brush = CreateSolidBrush(gfx, debuffColor, 1);
+
+                            gfx.FillRectangle(brush, rect);
+                            gfx.DrawRectangle(brush, rect, 1);
+                        }
+                        else
+                        {
+                            var brush = CreateSolidBrush(gfx, buffColor, 1);
+                            gfx.DrawRectangle(brush, rect, 1);
+                        }
+
+                        buffIndex++;
+                    }
                 }
             }
 
@@ -834,10 +833,11 @@ namespace MapAssist.Helpers
             {
                 var fontFamily = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
                 var alertFontSize = gfx.ScaleFontSize(40);
+                var playerResPosition = gfx.Height / 2f - gfx.Height * .20f;
 
                 if (alertLoweredRes && (_frameCount / 20) % 2 == 0)
                 {
-                    DrawText(gfx, new Point(gfx.Width / 2, playerBuffPosition), "⚠️", fontFamily, alertFontSize, Color.Red, true, TextAlign.Center, 0.8f);
+                    DrawText(gfx, new Point(gfx.Width / 2, playerResPosition), "⚠️", fontFamily, alertFontSize, Color.Red, true, TextAlign.Center, 0.8f);
                 }
 
                 foreach (var (i, immunity, value) in _gameData.PlayerUnit.GetResists(_gameData.Difficulty).Select((x, i) => (i, x.Key, x.Value)))
@@ -845,7 +845,7 @@ namespace MapAssist.Helpers
                     var immunityFontSize = gfx.ScaleFontSize(14);
                     var distBetween = immunityFontSize * 2.0f;
 
-                    DrawText(gfx, new Point(gfx.Width / 2 + (i - 1.5f) * distBetween, playerBuffPosition + alertFontSize), value.ToString(), fontFamily, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+                    DrawText(gfx, new Point(gfx.Width / 2 + (i - 1.5f) * distBetween, playerResPosition + alertFontSize), value.ToString(), fontFamily, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
                 }
             }
         }
