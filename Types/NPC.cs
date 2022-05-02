@@ -89,6 +89,7 @@ namespace MapAssist.Types
             { 410, Npc.WakeOfDestruction },
             { 411, Npc.ChargedBoltSentry },
             { 412, Npc.LightningSentry },
+            { 413, Npc.BladeCreeper },
             { 414, Npc.InvisiblePet },
             { 415, Npc.InfernoSentry },
             { 416, Npc.DeathSentry },
