@@ -148,6 +148,7 @@ namespace MapAssist.Types
         public float MaxMana => Stats.TryGetValue(Types.Stats.Stat.MaxMana, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;
         public float LifePercentage => 100f * Life / MaxLife;
         public float ManaPercentage => 100f * Mana / MaxMana;
+        public int Level => Stats.TryGetValue(Types.Stats.Stat.Level, out var lvl) ? lvl : 0;
 
         public long Experience
         {
@@ -163,12 +164,12 @@ namespace MapAssist.Types
         {
             get
             {
-                if (Stats.TryGetValue(Types.Stats.Stat.Level, out var lvl) && lvl > 0)
+                if (Level > 0)
                 {
-                    if (lvl == 99) return 100f;
+                    if (Level == 99) return 100f;
 
-                    var numer = Experience - PlayerLevelsExp[lvl - 1];
-                    var denom = PlayerLevelsExp[lvl] - PlayerLevelsExp[lvl - 1];
+                    var numer = Experience - PlayerLevelsExp[Level - 1];
+                    var denom = PlayerLevelsExp[Level] - PlayerLevelsExp[Level - 1];
 
                     return 100f * numer / denom;
                 }

@@ -1101,7 +1101,7 @@ namespace MapAssist.Helpers
             }
 
             // Player Experience
-            if (_gameData.PlayerUnit.Stats.TryGetValue(Stats.Stat.Level, out var lvl))
+            if (_gameData.PlayerUnit.Level > 0)
             {
                 var blackBrush = CreateSolidBrush(gfx, Color.Black, 0.7f);
                 var font = CreateFont(gfx, fontFamily, gfx.ScaleFontSize(17));
@@ -1109,7 +1109,7 @@ namespace MapAssist.Helpers
                 var anchor = new Point(centerX, gfx.Height * 0.94f);
 
                 var text = new string[] {
-                    MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel ? "Lvl " + lvl : null,
+                    MapAssistConfiguration.Loaded.RenderingConfiguration.ShowCurrentLevel ? "Lvl " + _gameData.PlayerUnit.Level : null,
                     MapAssistConfiguration.Loaded.RenderingConfiguration.ShowExpProgress ? _gameData.PlayerUnit.LevelProgress.ToString("n2") + "%": null
                 }.Where(x => x != null).ToArray();
 

@@ -75,7 +75,7 @@ Ring:
   # The rings below have stats that are only possible on identified items, so these rules
   # will alert you when a matching item is identified by you or picked up as identified
   - Qualities: magic
-    Area Level: 85
+    Min Area Level: 85
   - Qualities: magic
     Magic Find: 40
   - Qualities: magic
