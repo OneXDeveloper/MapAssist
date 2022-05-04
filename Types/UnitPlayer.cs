@@ -12,7 +12,6 @@ namespace MapAssist.Types
         public string Name { get; private set; }
         public Act Act { get; private set; }
         public Skills Skills { get; private set; }
-        public List<State> StateList { get; private set; }
         public bool InParty { get; private set; }
         public bool IsHostile { get; private set; }
         public RosterEntry RosterEntry { get; private set; }
@@ -127,19 +126,6 @@ namespace MapAssist.Types
             return false;
         }
 
-        private List<State> GetStateList()
-        {
-            var stateList = new List<State>();
-            for (var i = 0; i <= States.StateCount; i++)
-            {
-                if (GetState((State)i))
-                {
-                    stateList.Add((State)i);
-                }
-            }
-            return stateList;
-        }
-
         public UnitItem[][] BeltItems { get; set; } = new UnitItem[][] { };
         public int BeltSize => BeltItems.Length > 0 ? BeltItems[0].Length : 0;
         public float Life => Stats.TryGetValue(Types.Stats.Stat.Life, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;
@@ -194,11 +180,6 @@ namespace MapAssist.Types
 
                 return Math.Min(res - penalty, 75 + maxRes);
             });
-        }
-
-        private bool GetState(State state)
-        {
-            return (StateFlags[(int)state >> 5] & StateMasks.gdwBitMasks[(int)state & 31]) > 0;
         }
 
         public override string HashString => Name + "/" + Position.X + "/" + Position.Y;

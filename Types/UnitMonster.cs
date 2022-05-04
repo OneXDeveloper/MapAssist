@@ -25,6 +25,7 @@ namespace MapAssist.Types
                     MonsterData = processContext.Read<MonsterData>(Struct.pUnitData);
                     MonsterStats = processContext.Read<MonStats>(MonsterData.pMonStats);
                     Immunities = GetImmunities();
+                    StateList = GetStateList();
                 }
 
                 return this;

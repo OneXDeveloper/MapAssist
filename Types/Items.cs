@@ -287,6 +287,7 @@ namespace MapAssist.Types
                             itemFullName = foundFullUniqueName;
                         }
                         break;
+
                     case ItemQuality.SET:
                         if (_SetFromId.TryGetValue(item.ItemData.uniqueOrSetId, out var foundFullSetName))
                         {
