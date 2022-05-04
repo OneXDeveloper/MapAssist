@@ -75,6 +75,7 @@ namespace MapAssist.Types
             { 352, Npc.Hydra2 },
             { 353, Npc.Hydra3 },
             { 355, Npc.SevenTombs },
+            { 356, Npc.Decoy },
             { 357, Npc.Valkyrie },
             { 359, Npc.IronWolf },
             { 363, Npc.NecroSkeleton },
