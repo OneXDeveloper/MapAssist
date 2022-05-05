@@ -32,6 +32,11 @@ namespace MapAssist.Helpers
                 Items.LocalizedItems.Add(item.Key, item);
             }
 
+            foreach (var item in _localization.Runewords)
+            {
+                Items.LocalizedRunewords.Add((ushort)item.ID, item);
+            }
+
             foreach (var item in _localization.Npcs)
             {
                 NpcExtensions.LocalizedNpcs.Add(item.Key, item);
@@ -56,6 +61,7 @@ namespace MapAssist.Helpers
         public List<LocalizedObj> Npcs = new List<LocalizedObj>();
         public List<LocalizedObj> Shrines = new List<LocalizedObj>();
         public List<LocalizedObj> Monsters = new List<LocalizedObj>();
+        public List<LocalizedObj> Runewords = new List<LocalizedObj>();
     }
 
     public class LocalizedObj

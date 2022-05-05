@@ -3,6 +3,7 @@ using MapAssist.Settings;
 using MapAssist.Structs;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace MapAssist.Types
 {
@@ -47,11 +48,17 @@ namespace MapAssist.Types
 
         public bool IsIdentifiedForLog { get; set; }
 
+        public bool IsRuneWord => (ItemData.ItemFlags & ItemFlags.IFLAG_RUNEWORD) == ItemFlags.IFLAG_RUNEWORD;
+
         public bool IsDropped => ItemModeMapped == ItemModeMapped.Ground;
 
         public bool IsInStore => ItemModeMapped == ItemModeMapped.Vendor;
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
+        
+        public ushort[] Prefixes => ItemData.Affixes.Take(3).ToArray();
+
+        public ushort[] Suffixes => ItemData.Affixes.Skip(3).ToArray();
 
         public StashTab StashTab { get; set; } = StashTab.None;
 

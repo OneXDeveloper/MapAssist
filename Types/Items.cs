@@ -36,6 +36,7 @@ namespace MapAssist.Types
         public static Dictionary<int, Dictionary<uint, Npc>> ItemVendors = new Dictionary<int, Dictionary<uint, Npc>>();
         public static Dictionary<int, List<ItemLogEntry>> ItemLog = new Dictionary<int, List<ItemLogEntry>>();
         public static Dictionary<string, LocalizedObj> LocalizedItems = new Dictionary<string, LocalizedObj>();
+        public static Dictionary<ushort, LocalizedObj> LocalizedRunewords = new Dictionary<ushort, LocalizedObj>();
 
         public static void LogItem(UnitItem item, int areaLevel, int playerLevel, int processId)
         {
@@ -298,7 +299,13 @@ namespace MapAssist.Types
             }
 
             var localizedName = GetItemNameFromKey(itemFullName);
-            if (localizedName == "ItemNotFound") return itemFullName;
+            if (localizedName == "ItemNotFound") localizedName = itemFullName;
+
+            if (item.IsRuneWord)
+            {
+                return GetRunewordFromId(item.Prefixes[0]) + " " + localizedName;
+            }
+
             return localizedName;
         }
 
@@ -306,6 +313,20 @@ namespace MapAssist.Types
         {
             LocalizedObj localItem;
             if (!LocalizedItems.TryGetValue(key, out localItem))
+            {
+                return "ItemNotFound";
+            }
+
+            var lang = MapAssistConfiguration.Loaded.LanguageCode;
+            var prop = localItem.GetType().GetProperty(lang.ToString()).GetValue(localItem, null);
+
+            return prop.ToString();
+        }
+
+        public static string GetRunewordFromId(ushort id)
+        {
+            LocalizedObj localItem;
+            if (!LocalizedRunewords.TryGetValue(id, out localItem))
             {
                 return "ItemNotFound";
             }
