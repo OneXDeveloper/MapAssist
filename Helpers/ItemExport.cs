@@ -177,6 +177,10 @@ namespace MapAssist.Helpers
                     {
                         finalValue = Items.GetItemStatDecimal(item, stat).ToString();
                     }
+                    else if (Stats.NegativeValueStats.Contains(stat))
+                    {
+                        finalValue = (-value).ToString();
+                    }
                     else if (stat == Stats.Stat.AddClassSkills)
                     {
                         var (classSkills, points) = Items.GetItemStatAddClassSkills(item, (PlayerClass)layer);
