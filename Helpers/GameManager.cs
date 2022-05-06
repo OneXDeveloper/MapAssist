@@ -105,6 +105,13 @@ namespace MapAssist.Helpers
                     ClearLastGameProcess();
                     return;
                 }
+
+                if (process.HasExited) // Game window has exited
+                {
+                    _log.Info($"Game window has exited (handle: {hwnd})");
+                    ClearLastGameProcess();
+                    return;
+                }
             }
             catch
             {
