@@ -292,7 +292,7 @@
     <None Include="Resources\Stamina.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SwordMastery.png" />
+    <None Include="Resources\BladeMastery.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Teleport.png" />

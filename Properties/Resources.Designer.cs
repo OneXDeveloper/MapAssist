@@ -163,6 +163,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BladeMastery {
+            get {
+                object obj = ResourceManager.GetObject("BladeMastery", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BladeShield {
             get {
                 object obj = ResourceManager.GetObject("BladeShield", resourceCulture);
@@ -1046,16 +1056,6 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap Stamina {
             get {
                 object obj = ResourceManager.GetObject("Stamina", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SwordMastery {
-            get {
-                object obj = ResourceManager.GetObject("SwordMastery", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

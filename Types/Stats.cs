@@ -68,7 +68,7 @@ namespace MapAssist.Types
             State.STATE_BLADESOFICE,
             State.STATE_CLAWSOFTHUNDER,
             State.STATE_SPEARMASTERY,
-            State.STATE_SWORDMASTERY,
+            State.STATE_BLADEMASTERY,
             State.STATE_THROWINGMASTERY,
             State.STATE_WARMTH,
             State.STATE_WEAPONBLOCK
@@ -311,7 +311,7 @@ namespace MapAssist.Types
         STATE_FIREMASTERY,
         STATE_LIGHTNINGMASTERY,
         STATE_COLDMASTERY,
-        STATE_SWORDMASTERY,
+        STATE_BLADEMASTERY,
         STATE_AXEMASTERY,
         STATE_MACEMASTERY,
         STATE_POLEARMMASTERY,
