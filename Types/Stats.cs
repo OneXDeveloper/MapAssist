@@ -447,9 +447,21 @@ namespace MapAssist.Types
             [Stat.ExtraGoldPerLevel] = 8,
             [Stat.DamageDemonPerLevel] = 8,
             [Stat.DamageUndeadPerLevel] = 8,
-            [Stat.ReplenishDurability] = 4,
             [Stat.DefensePerLevel] = 8,
             [Stat.MaxDamagePerLevel] = 8,
+            [Stat.MaxDamagePercentPerLevel] = 8,
+            [Stat.AttackRatingUndeadPerLevel] = 2,
+            [Stat.HitCausesMonsterToFlee] = 1.28,
+            [Stat.PoisonLength] = 25,
+            [Stat.StrengthPerLevel] = 8,
+            [Stat.DexterityPerLevel] = 8,
+            [Stat.VitalityPerLevel] = 8,
+            [Stat.EnergyPerLevel] = 8,
+        };
+
+        public static Dictionary<Stat, double> StatInvertDivisors = new Dictionary<Stat, double>()
+        {
+            [Stat.ReplenishDurability] = 100,
         };
 
         public static List<Stat> NegativeValueStats = new List<Stat>()
@@ -555,7 +567,7 @@ namespace MapAssist.Types
             DoubleHerbDuration,
             LightRadius,
             LightColor,
-            RequirementPercent,
+            Requirements,
             LevelRequire,
             IncreasedAttackSpeed,
             LevelRequirePercent,
@@ -576,7 +588,7 @@ namespace MapAssist.Types
             CurseResistance,
             PoisonLengthReduced,
             NormalDamage,
-            Howl,
+            HitCausesMonsterToFlee,
             HitBlindsTarget,
             DamageTakenGoesToMana,
             IgnoreTargetsDefense,
@@ -618,11 +630,11 @@ namespace MapAssist.Types
             Aura,
             Indestructible,
             CannotBeFrozen,
-            StaminaDrainPercent,
+            SlowerStaminaDrain,
             Reanimate,
             Pierce,
-            MagicAarow,
-            ExplosiveAarow,
+            MagicArrow,
+            ExplosiveArrow,
             ThrowMinDamage,
             ThrowMaxDamage,
             SkillHandofAthena,
