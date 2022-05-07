@@ -295,7 +295,7 @@ namespace MapAssist.Helpers
                         Items.LogItem(item, areaLevel, PlayerUnit.Level, _currentProcessId);
                     }
 
-                    if (item.Item == Item.HoradricCube)
+                    if (item.Item == Item.HoradricCube && !item.IsDropped)
                     {
                         Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
                     }
@@ -319,7 +319,7 @@ namespace MapAssist.Helpers
                 }).Where(x => x != null).ToArray();
 
                 // Set Cube Owner
-                if (_playerMapChanged[_currentProcessId])
+                if (_playerMapChanged[_currentProcessId] || _playerCubeOwnerID[_currentProcessId] == uint.MaxValue)
                 {
                     var cube = allItems.FirstOrDefault(x => x.Item == Item.HoradricCube);
                     if (cube != null)
