@@ -76,6 +76,8 @@ namespace MapAssist.Helpers
             return point.ToVector().Length();
         }
 
+        public static double DistanceTo(this Point a, Point b) => Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
+
         // System type conversions
         public static Vector2 ToVector(this Point point)
         {

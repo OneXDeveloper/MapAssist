@@ -19,7 +19,7 @@ namespace MapAssist.Types
         public static Dictionary<string, LocalizedObj> LocalizedItems = new Dictionary<string, LocalizedObj>();
         public static Dictionary<ushort, LocalizedObj> LocalizedRunewords = new Dictionary<ushort, LocalizedObj>();
 
-        public static void LogItem(UnitItem item, int areaLevel, int playerLevel, int processId)
+        public static void LogItem(UnitItem item, Area area, int areaLevel, int playerLevel, int processId)
         {
             if (item.IsInStore)
             {
@@ -53,7 +53,8 @@ namespace MapAssist.Types
                 Color = item.ItemBaseColor,
                 ItemHashString = item.HashString,
                 UnitItem = item,
-                Rule = rule
+                Rule = rule,
+                Area = area
             });
         }
 
@@ -2380,6 +2381,7 @@ namespace MapAssist.Types
         public string ItemHashString { get; set; }
         public UnitItem UnitItem { get; set; }
         public ItemFilter Rule { get; set; }
+        public Area Area { get; set; }
     }
 
     public static class ItemExtensions

@@ -1024,10 +1024,10 @@ namespace MapAssist.Helpers
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
                 var position = anchor.Add(0, i * lineHeight);
                 var brush = CreateSolidBrush(gfx, item.Color, 1);
+                var stringSize = gfx.MeasureString(font, item.Text);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
                 {
-                    var stringSize = gfx.MeasureString(font, item.Text);
                     position = position.Subtract(stringSize.X, 0);
                 }
 
@@ -1037,6 +1037,23 @@ namespace MapAssist.Helpers
                 }
 
                 gfx.DrawText(font, brush, position, item.Text);
+
+                if (item.Area == _gameData.Area && item.UnitItem.Position.X > 0 && item.UnitItem.Position.Y > 0)
+                {
+                    position = position.Add(stringSize.X + 8, fontSize * 0.3f);
+
+                    var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
+
+                    var label = item.UnitItem.IsDropped
+                        ? $"({Math.Round(_gameData.PlayerPosition.DistanceTo(item.UnitItem.Position))}m)"
+                        : "(picked up)";
+
+                    if (textShadow)
+                    {
+                        gfx.DrawText(smallFont, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, label);
+                    }
+                    gfx.DrawText(smallFont, brush, position, label);
+                }
             }
         }
 
