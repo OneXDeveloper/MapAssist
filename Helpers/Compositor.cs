@@ -1127,6 +1127,8 @@ namespace MapAssist.Helpers
                 {
                     var items = _gameData.PlayerUnit.BeltItems[i].Where(x => x != null).ToArray();
 
+                    if (items.Length == 0) continue;
+
                     var itemTypes = items.Select(x => x.Item.IsHealthPotion() ? 0 : x.Item.IsManaPotion() ? 1 : x.Item.IsRejuvPotion() ? 2 : 3).ToArray();
                     var color = itemTypes.Distinct().Count() == 1 && itemTypes[0] < colors.Length ? colors[itemTypes[0]] : Color.White;
                     var showAsterisk = items.Count(x => x.Item == items[0].Item) < items.Length;

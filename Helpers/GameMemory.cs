@@ -330,7 +330,7 @@ namespace MapAssist.Helpers
 
                 // Belt items
                 var belt = allItems.FirstOrDefault(x => x.IsPlayerOwned && x.ItemModeMapped == ItemModeMapped.Player && x.ItemData.BodyLoc == BodyLoc.BELT);
-                var beltItems = allItems.Where(x => x.ItemModeMapped == ItemModeMapped.Belt).ToArray();
+                var beltItems = allItems.Where(x => _playerCubeOwnerID[_currentProcessId] != uint.MaxValue && x.ItemModeMapped == ItemModeMapped.Belt).ToArray();
 
                 var beltSize = belt == null ? 1 :
                     new Item[] { Item.Sash, Item.LightBelt }.Contains(belt.Item) ? 2 :
