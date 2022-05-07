@@ -1045,7 +1045,7 @@ namespace MapAssist.Helpers
                     var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
 
                     var label = item.UnitItem.IsDropped
-                        ? $"(~{Math.Round(_gameData.PlayerPosition.DistanceTo(item.UnitItem.Position))} away)"
+                        ? $"(range: {Math.Round(_gameData.PlayerPosition.DistanceTo(item.UnitItem.Position))})"
                         : "(picked up)";
 
                     if (textShadow)
