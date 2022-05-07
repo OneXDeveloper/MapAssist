@@ -334,6 +334,9 @@ public class ItemLogConfiguration
     [YamlMember(Alias = "PlaySoundOnDrop", ApplyNamingConventions = false)]
     public bool PlaySoundOnDrop { get; set; }
 
+    [YamlMember(Alias = "ShowDistanceToItem", ApplyNamingConventions = false)]
+    public bool ShowDistanceToItem { get; set; }
+
     [YamlMember(Alias = "SoundFile", ApplyNamingConventions = false)]
     public string SoundFile { get; set; }
 

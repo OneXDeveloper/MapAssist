@@ -179,6 +179,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.chkShowDistanceToItem = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -218,7 +219,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -247,7 +250,9 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox5.Controls.Add(this.cboLanguage);
             this.groupBox5.Controls.Add(this.label11);
@@ -279,7 +284,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox4.Controls.Add(this.txtD2Path);
             this.groupBox4.Controls.Add(this.btnBrowseD2Location);
@@ -293,7 +299,8 @@
             // 
             // txtD2Path
             // 
-            this.txtD2Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtD2Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtD2Path.Enabled = false;
             this.txtD2Path.Location = new System.Drawing.Point(10, 23);
             this.txtD2Path.Name = "txtD2Path";
@@ -325,7 +332,8 @@
             // 
             // grpGameInfo
             // 
-            this.grpGameInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpGameInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpGameInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpGameInfo.Controls.Add(this.chkShowAreaLevel);
             this.grpGameInfo.Controls.Add(this.cboGameInfoPosition);
@@ -348,7 +356,8 @@
             // 
             // chkShowAreaLevel
             // 
-            this.chkShowAreaLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkShowAreaLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowAreaLevel.AutoSize = true;
             this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 65);
             this.chkShowAreaLevel.Name = "chkShowAreaLevel";
@@ -360,7 +369,8 @@
             // 
             // cboGameInfoPosition
             // 
-            this.cboGameInfoPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboGameInfoPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboGameInfoPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboGameInfoPosition.FormattingEnabled = true;
             this.cboGameInfoPosition.Location = new System.Drawing.Point(239, 111);
@@ -371,7 +381,8 @@
             // 
             // lblGameInfoPosition
             // 
-            this.lblGameInfoPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGameInfoPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGameInfoPosition.AutoSize = true;
             this.lblGameInfoPosition.Location = new System.Drawing.Point(189, 114);
             this.lblGameInfoPosition.Name = "lblGameInfoPosition";
@@ -392,7 +403,8 @@
             // 
             // chkShowOverlayFPS
             // 
-            this.chkShowOverlayFPS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkShowOverlayFPS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowOverlayFPS.AutoSize = true;
             this.chkShowOverlayFPS.Location = new System.Drawing.Point(192, 88);
             this.chkShowOverlayFPS.Name = "chkShowOverlayFPS";
@@ -439,7 +451,8 @@
             // 
             // chkShowAreaTimer
             // 
-            this.chkShowAreaTimer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkShowAreaTimer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowAreaTimer.AutoSize = true;
             this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 42);
             this.chkShowAreaTimer.Name = "chkShowAreaTimer";
@@ -462,7 +475,8 @@
             // 
             // chkShowArea
             // 
-            this.chkShowArea.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkShowArea.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowArea.AutoSize = true;
             this.chkShowArea.Location = new System.Drawing.Point(192, 19);
             this.chkShowArea.Name = "chkShowArea";
@@ -497,7 +511,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.chkMonsterHealthBar);
             this.groupBox1.Controls.Add(this.btnClearBorderColor);
             this.groupBox1.Controls.Add(this.btnClearWalkableColor);
@@ -621,7 +637,8 @@
             // cboPosition
             // 
             this.cboPosition.AllowDrop = true;
-            this.cboPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPosition.FormattingEnabled = true;
             this.cboPosition.Location = new System.Drawing.Point(222, 151);
@@ -632,7 +649,8 @@
             // 
             // mapZoom
             // 
-            this.mapZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapZoom.AutoSize = false;
             this.mapZoom.BackColor = System.Drawing.Color.White;
             this.mapZoom.LargeChange = 1;
@@ -648,7 +666,8 @@
             // 
             // mapSize
             // 
-            this.mapSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapSize.AutoSize = false;
             this.mapSize.BackColor = System.Drawing.Color.White;
             this.mapSize.LargeChange = 1;
@@ -697,7 +716,8 @@
             // 
             // iconOpacity
             // 
-            this.iconOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.iconOpacity.AutoSize = false;
             this.iconOpacity.BackColor = System.Drawing.Color.White;
             this.iconOpacity.LargeChange = 1;
@@ -745,7 +765,8 @@
             // 
             // opacity
             // 
-            this.opacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.opacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.opacity.AutoSize = false;
             this.opacity.BackColor = System.Drawing.Color.White;
             this.opacity.LargeChange = 1;
@@ -814,7 +835,8 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox7.Controls.Add(this.chkPotionBelt);
             this.groupBox7.Controls.Add(this.chkResistances);
             this.groupBox7.Controls.Add(this.chkExpProgress);
@@ -920,7 +942,9 @@
             // 
             // grpPresets
             // 
-            this.grpPresets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpPresets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPresets.Controls.Add(this.lblMapLinesMode);
             this.grpPresets.Controls.Add(this.cboMapLinesMode);
             this.grpPresets.Location = new System.Drawing.Point(11, 263);
@@ -953,7 +977,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.chkAlertLowerRes);
             this.groupBox3.Controls.Add(this.lblBuffSizeValue);
             this.groupBox3.Controls.Add(this.label5);
@@ -1022,7 +1047,8 @@
             // 
             // buffSize
             // 
-            this.buffSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.buffSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buffSize.AutoSize = false;
             this.buffSize.BackColor = System.Drawing.Color.White;
             this.buffSize.LargeChange = 1;
@@ -1049,7 +1075,9 @@
             // 
             // tabDrawing
             // 
-            this.tabDrawing.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabDrawing.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabDrawing.Controls.Add(this.tabIcon);
             this.tabDrawing.Controls.Add(this.tabLabel);
             this.tabDrawing.Controls.Add(this.tabLine);
@@ -1169,7 +1197,8 @@
             // 
             // iconThickness
             // 
-            this.iconThickness.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconThickness.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.iconThickness.AutoSize = false;
             this.iconThickness.BackColor = System.Drawing.Color.White;
             this.iconThickness.LargeChange = 1;
@@ -1194,7 +1223,8 @@
             // 
             // iconSize
             // 
-            this.iconSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.iconSize.AutoSize = false;
             this.iconSize.BackColor = System.Drawing.Color.White;
             this.iconSize.LargeChange = 1;
@@ -1368,7 +1398,8 @@
             // 
             // lineThicknessSize
             // 
-            this.lineThicknessSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineThicknessSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lineThicknessSize.AutoSize = false;
             this.lineThicknessSize.BackColor = System.Drawing.Color.White;
             this.lineThicknessSize.LargeChange = 1;
@@ -1393,7 +1424,8 @@
             // 
             // lineArrowSize
             // 
-            this.lineArrowSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineArrowSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lineArrowSize.AutoSize = false;
             this.lineArrowSize.BackColor = System.Drawing.Color.White;
             this.lineArrowSize.LargeChange = 1;
@@ -1429,7 +1461,8 @@
             // 
             // cboRenderOption
             // 
-            this.cboRenderOption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboRenderOption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboRenderOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRenderOption.FormattingEnabled = true;
             this.cboRenderOption.Location = new System.Drawing.Point(118, 6);
@@ -1450,7 +1483,9 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.chkShowDistanceToItem);
             this.groupBox6.Controls.Add(this.chkItemLogVendorItems);
             this.groupBox6.Controls.Add(this.lblSoundVolumeValue);
             this.groupBox6.Controls.Add(this.lblItemDisplayForSecondsValue);
@@ -1540,7 +1575,8 @@
             // 
             // itemDisplayForSeconds
             // 
-            this.itemDisplayForSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.itemDisplayForSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.itemDisplayForSeconds.AutoSize = false;
             this.itemDisplayForSeconds.BackColor = System.Drawing.Color.White;
             this.itemDisplayForSeconds.LargeChange = 1;
@@ -1597,7 +1633,8 @@
             // 
             // soundVolume
             // 
-            this.soundVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.soundVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.soundVolume.AutoSize = false;
             this.soundVolume.BackColor = System.Drawing.Color.White;
             this.soundVolume.Cursor = System.Windows.Forms.Cursors.Default;
@@ -1651,7 +1688,8 @@
             // 
             // txtSoundFile
             // 
-            this.txtSoundFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSoundFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSoundFile.Location = new System.Drawing.Point(85, 147);
             this.txtSoundFile.Name = "txtSoundFile";
             this.txtSoundFile.Size = new System.Drawing.Size(293, 20);
@@ -1661,7 +1699,8 @@
             // 
             // cboItemLogPosition
             // 
-            this.cboItemLogPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboItemLogPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboItemLogPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboItemLogPosition.FormattingEnabled = true;
             this.cboItemLogPosition.Location = new System.Drawing.Point(238, 17);
@@ -1672,7 +1711,8 @@
             // 
             // txtFilterFile
             // 
-            this.txtFilterFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilterFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilterFile.Location = new System.Drawing.Point(85, 88);
             this.txtFilterFile.Name = "txtFilterFile";
             this.txtFilterFile.Size = new System.Drawing.Size(293, 20);
@@ -1725,7 +1765,8 @@
             // 
             // grpHotkeys
             // 
-            this.grpHotkeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpHotkeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpHotkeys.Controls.Add(this.txtHideMapKey);
             this.grpHotkeys.Controls.Add(this.lblHideMapKey);
             this.grpHotkeys.Controls.Add(this.txtZoomOutKey);
@@ -1873,7 +1914,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.btnRemoveHidden);
             this.groupBox2.Controls.Add(this.btnAddHidden);
             this.groupBox2.Controls.Add(this.lstHidden);
@@ -1908,7 +1950,8 @@
             // 
             // lstHidden
             // 
-            this.lstHidden.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstHidden.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstHidden.FormattingEnabled = true;
             this.lstHidden.Location = new System.Drawing.Point(10, 19);
             this.lstHidden.Name = "lstHidden";
@@ -1917,7 +1960,8 @@
             // 
             // groupBoxAuthorizedWindowTitle
             // 
-            this.groupBoxAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.txtAuthorizedWindowTitle);
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.btnRemoveAuthorizedWindowTitle);
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.btnAddAuthorizedWindowTitle);
@@ -1931,7 +1975,8 @@
             // 
             // txtAuthorizedWindowTitle
             // 
-            this.txtAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAuthorizedWindowTitle.Location = new System.Drawing.Point(10, 94);
             this.txtAuthorizedWindowTitle.Name = "txtAuthorizedWindowTitle";
             this.txtAuthorizedWindowTitle.Size = new System.Drawing.Size(346, 20);
@@ -1961,7 +2006,8 @@
             // 
             // lstAuthorizedWindowTitle
             // 
-            this.lstAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstAuthorizedWindowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstAuthorizedWindowTitle.FormattingEnabled = true;
             this.lstAuthorizedWindowTitle.Location = new System.Drawing.Point(10, 19);
             this.lstAuthorizedWindowTitle.Name = "lstAuthorizedWindowTitle";
@@ -1970,7 +2016,8 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox8.Controls.Add(this.label3);
             this.groupBox8.Controls.Add(this.chkDPIAware);
@@ -2002,6 +2049,17 @@
             this.chkDPIAware.Text = "DPI Awareness";
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
+            // 
+            // chkShowDistanceToItem
+            // 
+            this.chkShowDistanceToItem.AutoSize = true;
+            this.chkShowDistanceToItem.Location = new System.Drawing.Point(191, 53);
+            this.chkShowDistanceToItem.Name = "chkShowDistanceToItem";
+            this.chkShowDistanceToItem.Size = new System.Drawing.Size(182, 17);
+            this.chkShowDistanceToItem.TabIndex = 41;
+            this.chkShowDistanceToItem.Text = "Show Item Distance / Picked Up";
+            this.chkShowDistanceToItem.UseVisualStyleBackColor = true;
+            this.chkShowDistanceToItem.CheckedChanged += new System.EventHandler(this.chkShowDistanceToItem_CheckedChanged);
             // 
             // ConfigEditor
             // 
@@ -2067,6 +2125,7 @@
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -2221,5 +2280,6 @@
         private System.Windows.Forms.CheckBox chkDPIAware;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtAuthorizedWindowTitle;
+        private System.Windows.Forms.CheckBox chkShowDistanceToItem;
     }
 }

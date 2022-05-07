@@ -1038,7 +1038,7 @@ namespace MapAssist.Helpers
 
                 gfx.DrawText(font, brush, position, item.Text);
 
-                if (item.Area == _gameData.Area && item.UnitItem.Position.X > 0 && item.UnitItem.Position.Y > 0)
+                if (MapAssistConfiguration.Loaded.ItemLog.ShowDistanceToItem && item.Area == _gameData.Area && item.UnitItem.Position.X > 0 && item.UnitItem.Position.Y > 0)
                 {
                     position = position.Add(stringSize.X + 8, fontSize * 0.2f);
 
