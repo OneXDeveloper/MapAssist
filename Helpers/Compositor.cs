@@ -1040,7 +1040,7 @@ namespace MapAssist.Helpers
 
                 if (item.Area == _gameData.Area && item.UnitItem.Position.X > 0 && item.UnitItem.Position.Y > 0)
                 {
-                    position = position.Add(stringSize.X + 8, fontSize * 0.3f);
+                    position = position.Add(stringSize.X + 8, fontSize * 0.2f);
 
                     var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
 
