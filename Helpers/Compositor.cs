@@ -1031,29 +1031,34 @@ namespace MapAssist.Helpers
                     position = position.Subtract(stringSize.X, 0);
                 }
 
+                if (MapAssistConfiguration.Loaded.ItemLog.ShowDistanceToItem && item.Area == _gameData.Area && !item.UnitItem.IsInStore)
+                {
+                    var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
+                    var rangePosition = position.Add(stringSize.X + 8, fontSize * 0.2f);
+
+                    var rangeText = item.UnitItem.IsDropped
+                        ? $"(range: {Math.Round(_gameData.PlayerPosition.DistanceTo(item.UnitItem.Position))})"
+                        : "(picked up)";
+
+                    if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
+                    {
+                        var rangeTextSize = gfx.MeasureString(smallFont, rangeText);
+                        position = position.Subtract(rangeTextSize.X, 0);
+                        rangePosition = rangePosition.Subtract(rangeTextSize.X, 0);
+                    }
+
+                    if (textShadow)
+                    {
+                        gfx.DrawText(smallFont, shadowBrush, rangePosition.X + shadowOffset, rangePosition.Y + shadowOffset, rangeText);
+                    }
+                    gfx.DrawText(smallFont, brush, rangePosition, rangeText);
+                }
+
                 if (textShadow)
                 {
                     gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, item.Text);
                 }
-
                 gfx.DrawText(font, brush, position, item.Text);
-
-                if (MapAssistConfiguration.Loaded.ItemLog.ShowDistanceToItem && item.Area == _gameData.Area && !item.UnitItem.IsInStore)
-                {
-                    position = position.Add(stringSize.X + 8, fontSize * 0.2f);
-
-                    var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
-
-                    var label = item.UnitItem.IsDropped
-                        ? $"(range: {Math.Round(_gameData.PlayerPosition.DistanceTo(item.UnitItem.Position))})"
-                        : "(picked up)";
-
-                    if (textShadow)
-                    {
-                        gfx.DrawText(smallFont, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, label);
-                    }
-                    gfx.DrawText(smallFont, brush, position, label);
-                }
             }
         }
 
