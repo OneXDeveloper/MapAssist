@@ -1,0 +1,6743 @@
+﻿[
+  {
+    "id": 2407,
+    "key": "aegis",
+    "name": "Aegis",
+    "qlvl": 79,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20330,
+    "key": "pa4",
+    "name": "Aerin Shield",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20398,
+    "key": "pa7",
+    "name": "Akaran Rondache",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 20397,
+    "key": "pa6",
+    "name": "Akaran Targe",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21700,
+    "key": "Aldur's Advance",
+    "name": "Aldur's Advance",
+    "qlvl": 29,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21698,
+    "key": "Aldur's Deception",
+    "name": "Aldur's Deception",
+    "qlvl": 29,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21847,
+    "key": "Aldur's Gauntlet",
+    "name": "Aldur's Rhythm",
+    "qlvl": 29,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21697,
+    "key": "Aldur's Stony Gaze",
+    "name": "Aldur's Stony Gaze",
+    "qlvl": 29,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21430,
+    "key": "Alma Negra",
+    "name": "Alma Negra",
+    "qlvl": 85,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20390,
+    "key": "dr6",
+    "name": "Alpha Helm",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1950,
+    "key": "aar",
+    "name": "Ancient Armor",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2171,
+    "key": "9gi",
+    "name": "Ancient Axe",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2074,
+    "key": "xts",
+    "name": "Ancient Shield",
+    "qlvl": 56,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2148,
+    "key": "9wd",
+    "name": "Ancient Sword",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21560,
+    "key": "Andariel's Visage",
+    "name": "Andariel's Visage",
+    "qlvl": 85,
+    "tclass": "TC75"
+  },
+  {
+    "id": 10173,
+    "key": "Angelic Mantle",
+    "name": "Angelic Mantle",
+    "qlvl": 17,
+    "tclass": "TC12"
+  },
+  {
+    "id": 10172,
+    "key": "Angelic Sickle",
+    "name": "Angelic Sickle",
+    "qlvl": 17,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21743,
+    "key": "Annihilus",
+    "name": "Annihilus",
+    "qlvl": 110,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20319,
+    "key": "dr3",
+    "name": "Antlers",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21592,
+    "key": "Arachnid Mesh",
+    "name": "Arachnid Mesh",
+    "qlvl": 87,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2105,
+    "key": "8lx",
+    "name": "Arbalest",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 10181,
+    "key": "Arcanna's Deathwand",
+    "name": "Arcanna's Deathwand",
+    "qlvl": 20,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10183,
+    "key": "Arcanna's Flesh",
+    "name": "Arcanna's Flesh",
+    "qlvl": 20,
+    "tclass": "TC36"
+  },
+  {
+    "id": 10182,
+    "key": "Arcanna's Head",
+    "name": "Arcanna's Head",
+    "qlvl": 20,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20362,
+    "key": "utp",
+    "name": "Archon Plate",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20268,
+    "key": "6ws",
+    "name": "Archon Staff",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 10178,
+    "key": "Arctic Binding",
+    "name": "Arctic Binding",
+    "qlvl": 3,
+    "tclass": "TC9"
+  },
+  {
+    "id": 10177,
+    "key": "Arctic Furs",
+    "name": "Arctic Furs",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10176,
+    "key": "Arctic Horn",
+    "name": "Arctic Horn",
+    "qlvl": 3,
+    "tclass": "TC27"
+  },
+  {
+    "id": 10179,
+    "key": "Arctic Mitts",
+    "name": "Arctic Mitts",
+    "qlvl": 3,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21402,
+    "key": "Arioc's Needle",
+    "name": "Arioc's Needle",
+    "qlvl": 85,
+    "tclass": "TC60"
+  },
+  {
+    "id": 21624,
+    "key": "Arkaine's Valor",
+    "name": "Arkaine's Valor",
+    "qlvl": 85,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21299,
+    "key": "Arm of King Leoric",
+    "name": "Arm of King Leoric",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20343,
+    "key": "ulm",
+    "name": "Armet",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 21744,
+    "key": "Arreat's Face",
+    "name": "Arreat's Face",
+    "qlvl": 50,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20302,
+    "key": "am6",
+    "name": "Ashwood Bow",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20325,
+    "key": "ba4",
+    "name": "Assault Helmet",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21599,
+    "key": "Ironward",
+    "name": "Astreon's Iron Ward",
+    "qlvl": 68,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20227,
+    "key": "7sm",
+    "name": "Ataghan",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21338,
+    "key": "Athena's Wrath",
+    "name": "Athena's Wrath",
+    "qlvl": 50,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21532,
+    "key": "Atma's Wail",
+    "name": "Atma's Wail",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 20326,
+    "key": "ba5",
+    "name": "Avenger Guard",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 1977,
+    "key": "axe",
+    "name": "Axe",
+    "qlvl": 7,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2579,
+    "key": "Fechmars Axe",
+    "name": "Axe of Fechmar",
+    "qlvl": 11,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2603,
+    "key": "Azurewrath",
+    "name": "Azurewrath",
+    "qlvl": 87,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21309,
+    "key": "Baezils Vortex",
+    "name": "Baezil's Vortex",
+    "qlvl": 53,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2022,
+    "key": "bal",
+    "name": "Balanced Axe",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2021,
+    "key": "bkf",
+    "name": "Balanced Knife",
+    "qlvl": 13,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2103,
+    "key": "8hx",
+    "name": "Ballista",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 20236,
+    "key": "7gs",
+    "name": "Balrog Blade",
+    "qlvl": 71,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20356,
+    "key": "upl",
+    "name": "Balrog Skin",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20250,
+    "key": "7s7",
+    "name": "Balrog Spear",
+    "qlvl": 71,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2628,
+    "key": "Bane Ash",
+    "name": "Bane Ash",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21649,
+    "key": "Baranar's Star",
+    "name": "Baranar's Star",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2162,
+    "key": "9sp",
+    "name": "Barbed Club",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2056,
+    "key": "xpk",
+    "name": "Barbed Shield",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2033,
+    "key": "bar",
+    "name": "Bardiche",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 10000,
+    "key": "Cutthroat1",
+    "name": "Bartuc's Cut-throat",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2098,
+    "key": "xhl",
+    "name": "Basinet",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2012,
+    "key": "bsw",
+    "name": "Bastard Sword",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 1983,
+    "key": "btx",
+    "name": "Battle Axe",
+    "qlvl": 17,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2060,
+    "key": "ztb",
+    "name": "Battle Belt",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2065,
+    "key": "xtb",
+    "name": "Battle Boots",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20197,
+    "key": "7cs",
+    "name": "Battle Cestus",
+    "qlvl": 73,
+    "tclass": "TC75"
+  },
+  {
+    "id": 2138,
+    "key": "9tk",
+    "name": "Battle Dart",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2070,
+    "key": "xtg",
+    "name": "Battle Gauntlets",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2158,
+    "key": "9wh",
+    "name": "Battle Hammer",
+    "qlvl": 48,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2122,
+    "key": "9s8",
+    "name": "Battle Scythe",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2042,
+    "key": "bst",
+    "name": "Battle Staff",
+    "qlvl": 17,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2150,
+    "key": "9bs",
+    "name": "Battle Sword",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2174,
+    "key": "9ba",
+    "name": "Bearded Axe",
+    "qlvl": 38,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2120,
+    "key": "9h9",
+    "name": "Bec-de-Corbin",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 1970,
+    "key": "mbl",
+    "name": "Belt",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 11010,
+    "key": "7wa",
+    "name": "Berserker Axe",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 10168,
+    "key": "Berserker's Hatchet",
+    "name": "Berserker's Hatchet",
+    "qlvl": 5,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10167,
+    "key": "Berserker's Hauberk",
+    "name": "Berserker's Hauberk",
+    "qlvl": 5,
+    "tclass": "TC21"
+  },
+  {
+    "id": 10166,
+    "key": "Berserker's Headgear",
+    "name": "Berserker's Headgear",
+    "qlvl": 5,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2645,
+    "key": "War Bonnet",
+    "name": "Biggin's Bonnet",
+    "qlvl": 4,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2123,
+    "key": "9vo",
+    "name": "Bill",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21322,
+    "key": "Bing Sz Wang",
+    "name": "Bing Sz Wang",
+    "qlvl": 51,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21533,
+    "key": "Black Hades",
+    "name": "Black Hades",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21329,
+    "key": "Blackbog's Sharp",
+    "name": "Blackbog's Sharp",
+    "qlvl": 46,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21300,
+    "key": "Blackhand Key",
+    "name": "Blackhand Key",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21523,
+    "key": "Blackhorn's Face",
+    "name": "Blackhorn's Face",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21337,
+    "key": "Blackleach Blade",
+    "name": "Blackleach Blade",
+    "qlvl": 50,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21622,
+    "key": "Blackoak Shield",
+    "name": "Blackoak Shield",
+    "qlvl": 67,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2610,
+    "key": "Blacktongue",
+    "name": "Blacktongue",
+    "qlvl": 35,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2018,
+    "key": "bld",
+    "name": "Blade",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20386,
+    "key": "upk",
+    "name": "Blade Barrier",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20270,
+    "key": "6hb",
+    "name": "Blade Bow",
+    "qlvl": 60,
+    "tclass": "TC60"
+  },
+  {
+    "id": 21316,
+    "key": "Blade of Ali Baba",
+    "name": "Blade of Ali Baba",
+    "qlvl": 43,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20185,
+    "key": "btl",
+    "name": "Blade Talons",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2576,
+    "key": "Bladebone",
+    "name": "Bladebone",
+    "qlvl": 20,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2690,
+    "key": "Bladebuckle",
+    "name": "Bladebuckle",
+    "qlvl": 39,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2640,
+    "key": "Blastbark",
+    "name": "Blastbark",
+    "qlvl": 38,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2654,
+    "key": "Blinkbats Form",
+    "name": "Blinkbat's Form",
+    "qlvl": 16,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2600,
+    "key": "Blood Crescent",
+    "name": "Blood Crescent",
+    "qlvl": 10,
+    "tclass": "TC6"
+  },
+  {
+    "id": 21508,
+    "key": "Bloodraven's Charge",
+    "name": "Blood Raven's Charge",
+    "qlvl": 79,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20410,
+    "key": "drb",
+    "name": "Blood Spirit",
+    "qlvl": 62,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2677,
+    "key": "Bloodfist",
+    "name": "Bloodfist",
+    "qlvl": 12,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21313,
+    "key": "Bloodletter",
+    "name": "Bloodletter",
+    "qlvl": 38,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20425,
+    "key": "nef",
+    "name": "Bloodlord Skull",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21449,
+    "key": "Bloodmoon",
+    "name": "Bloodmoon",
+    "qlvl": 69,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2594,
+    "key": "Bloodrise",
+    "name": "Bloodrise",
+    "qlvl": 20,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2619,
+    "key": "Bloodthief",
+    "name": "Bloodthief",
+    "qlvl": 23,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21311,
+    "key": "Bloodtree Stump",
+    "name": "Bloodtree Stump",
+    "qlvl": 56,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1973,
+    "key": "bhm",
+    "name": "Bone Helm",
+    "qlvl": 22,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20240,
+    "key": "7dg",
+    "name": "Bone Knife",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 1974,
+    "key": "bsh",
+    "name": "Bone Shield",
+    "qlvl": 19,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20384,
+    "key": "uh9",
+    "name": "Bone Visage",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 1988,
+    "key": "bwn",
+    "name": "Bone Wand",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21555,
+    "key": "Boneflame",
+    "name": "Boneflame",
+    "qlvl": 80,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2662,
+    "key": "Boneflesh",
+    "name": "Boneflesh",
+    "qlvl": 35,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21398,
+    "key": "Bonehew",
+    "name": "Bonehew",
+    "qlvl": 72,
+    "tclass": "TC60"
+  },
+  {
+    "id": 21567,
+    "key": "Boneshade",
+    "name": "Boneshade",
+    "qlvl": 84,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21295,
+    "key": "Boneslayer Blade",
+    "name": "Boneslayer Blade",
+    "qlvl": 50,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2597,
+    "key": "Bonesob",
+    "name": "Bonesnap",
+    "qlvl": 32,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20354,
+    "key": "uhn",
+    "name": "Boneweave",
+    "qlvl": 62,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20376,
+    "key": "umb",
+    "name": "Boneweave Boots",
+    "qlvl": 72,
+    "tclass": "TC72"
+  },
+  {
+    "id": 1963,
+    "key": "lbt",
+    "name": "Boots",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2582,
+    "key": "Brainhew",
+    "name": "Brainhew",
+    "qlvl": 34,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20369,
+    "key": "ulg",
+    "name": "Bramble Mitts",
+    "qlvl": 57,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2030,
+    "key": "brn",
+    "name": "Brandistock",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 1944,
+    "key": "brs",
+    "name": "Breast Plate",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 1982,
+    "key": "bax",
+    "name": "Broad Axe",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2006,
+    "key": "bsd",
+    "name": "Broad Sword",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 1952,
+    "key": "buc",
+    "name": "Buckler",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21688,
+    "key": "Bul-Kathos' Sacred Charge",
+    "name": "Bul-Kathos' Sacred Charge",
+    "qlvl": 50,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21689,
+    "key": "Bul-Kathos' Tribal Guardian",
+    "name": "Bul-Kathos' Tribal Guardian",
+    "qlvl": 50,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21353,
+    "key": "Buriza-Do Kyanon",
+    "name": "Buriza-Do Kyanon",
+    "qlvl": 59,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2170,
+    "key": "9wn",
+    "name": "Burnt Wand",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21288,
+    "key": "Butcher's Pupil",
+    "name": "Butcher's Pupil",
+    "qlvl": 47,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2674,
+    "key": "Bverrit Keep",
+    "name": "Bverrit Keep",
+    "qlvl": 26,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20218,
+    "key": "7ws",
+    "name": "Caduceus",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20405,
+    "key": "ne9",
+    "name": "Cantor Trophy",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 1930,
+    "key": "cap",
+    "name": "Cap",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21658,
+    "key": "Carin Shard",
+    "name": "Carin Shard",
+    "qlvl": 43,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20412,
+    "key": "bab",
+    "name": "Carnage Helm",
+    "qlvl": 60,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2099,
+    "key": "xlm",
+    "name": "Casque",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 10150,
+    "key": "Cathan's Mesh",
+    "name": "Cathan's Mesh",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10151,
+    "key": "Cathan's Rule",
+    "name": "Cathan's Rule",
+    "qlvl": 15,
+    "tclass": "TC18"
+  },
+  {
+    "id": 10149,
+    "key": "Cathan's Visage",
+    "name": "Cathan's Visage",
+    "qlvl": 15,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2111,
+    "key": "8lb",
+    "name": "Cedar Bow",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2116,
+    "key": "8cs",
+    "name": "Cedar Staff",
+    "qlvl": 38,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21476,
+    "key": "Cerebus",
+    "name": "Cerebus' Bite",
+    "qlvl": 71,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20303,
+    "key": "am7",
+    "name": "Ceremonial Bow",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 20306,
+    "key": "ama",
+    "name": "Ceremonial Javelin",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20305,
+    "key": "am9",
+    "name": "Ceremonial Pike",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20304,
+    "key": "am8",
+    "name": "Ceremonial Spear",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20183,
+    "key": "ces",
+    "name": "Cestus",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 1965,
+    "key": "mbt",
+    "name": "Chain Boots",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 1960,
+    "key": "mgl",
+    "name": "Chain Gloves",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 1943,
+    "key": "chn",
+    "name": "Chain Mail",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20209,
+    "key": "7ga",
+    "name": "Champion Axe",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20237,
+    "key": "7b7",
+    "name": "Champion Sword",
+    "qlvl": 77,
+    "tclass": "TC78"
+  },
+  {
+    "id": 2678,
+    "key": "Chance Guards",
+    "name": "Chance Guards",
+    "qlvl": 20,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2082,
+    "key": "xul",
+    "name": "Chaos Armor",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2184,
+    "key": "gpm",
+    "name": "Choking Gas Potion",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21343,
+    "key": "Chromatic Ire",
+    "name": "Chromatic Ire",
+    "qlvl": 43,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2102,
+    "key": "8rx",
+    "name": "Chu-Ko-Nu",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2140,
+    "key": "9kr",
+    "name": "Cinquedeas",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2386,
+    "key": "circlet",
+    "name": "Circlet",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10124,
+    "key": "Civerb's Cudgel",
+    "name": "Civerb's Cudgel",
+    "qlvl": 13,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10122,
+    "key": "Civerb's Ward",
+    "name": "Civerb's Ward",
+    "qlvl": 13,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20284,
+    "key": "ob4",
+    "name": "Clasped Orb",
+    "qlvl": 17,
+    "tclass": "TC18"
+  },
+  {
+    "id": 20184,
+    "key": "clw",
+    "name": "Claws",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2010,
+    "key": "clm",
+    "name": "Claymore",
+    "qlvl": 17,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2179,
+    "key": "9ax",
+    "name": "Cleaver",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 10129,
+    "key": "Cleglaw's Claw",
+    "name": "Cleglaw's Claw",
+    "qlvl": 6,
+    "tclass": "TC6"
+  },
+  {
+    "id": 10130,
+    "key": "Cleglaw's Pincers",
+    "name": "Cleglaw's Pincers",
+    "qlvl": 6,
+    "tclass": "TC12"
+  },
+  {
+    "id": 10128,
+    "key": "Cleglaw's Tooth",
+    "name": "Cleglaw's Tooth",
+    "qlvl": 6,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21368,
+    "key": "Cliffkiller",
+    "name": "Cliffkiller",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21324,
+    "key": "Cloudcrack",
+    "name": "Cloudcrack",
+    "qlvl": 53,
+    "tclass": "TC48"
+  },
+  {
+    "id": 20299,
+    "key": "ob8",
+    "name": "Cloudy Sphere",
+    "qlvl": 41,
+    "tclass": "TC42"
+  },
+  {
+    "id": 1990,
+    "key": "clb",
+    "name": "Club",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2647,
+    "key": "Coif of Glory",
+    "name": "Coif of Glory",
+    "qlvl": 19,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21286,
+    "key": "Coldkill",
+    "name": "Coldkill",
+    "qlvl": 44,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21372,
+    "key": "Coldsteel Eye",
+    "name": "Coldsteel Eye",
+    "qlvl": 39,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20239,
+    "key": "7gd",
+    "name": "Colossus Blade",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20279,
+    "key": "6hx",
+    "name": "Colossus Crossbow",
+    "qlvl": 75,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20383,
+    "key": "uhc",
+    "name": "Colossus Girdle",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20238,
+    "key": "7fb",
+    "name": "Colossus Sword",
+    "qlvl": 80,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20259,
+    "key": "7vo",
+    "name": "Colossus Voulge",
+    "qlvl": 64,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2047,
+    "key": "cbw",
+    "name": "Composite Bow",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20415,
+    "key": "bae",
+    "name": "Conqueror Crown",
+    "qlvl": 80,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20231,
+    "key": "7bs",
+    "name": "Conquest Sword",
+    "qlvl": 78,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20346,
+    "key": "urn",
+    "name": "Corona",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20338,
+    "key": "ci1",
+    "name": "Coronet",
+    "qlvl": 52,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21534,
+    "key": "Corpsemourn",
+    "name": "Corpsemourn",
+    "qlvl": 63,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21724,
+    "key": "Cow King's Hide",
+    "name": "Cow King's Hide",
+    "qlvl": 20,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21725,
+    "key": "Cow King's Hoofs",
+    "name": "Cow King's Hooves",
+    "qlvl": 20,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21723,
+    "key": "Cow King's Horns",
+    "name": "Cow King's Horns",
+    "qlvl": 20,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21321,
+    "key": "Crainte Vomir",
+    "name": "Crainte Vomir",
+    "qlvl": 50,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21451,
+    "key": "Cranebeak",
+    "name": "Cranebeak",
+    "qlvl": 71,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21721,
+    "key": "Credendum",
+    "name": "Credendum",
+    "qlvl": 39,
+    "tclass": "TC75"
+  },
+  {
+    "id": 2053,
+    "key": "mxb",
+    "name": "Crossbow",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21528,
+    "key": "Crow Caw",
+    "name": "Crow Caw",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2177,
+    "key": "9mp",
+    "name": "Crowbill",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1935,
+    "key": "crn",
+    "name": "Crown",
+    "qlvl": 29,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21559,
+    "key": "Crown of Ages",
+    "name": "Crown of Ages",
+    "qlvl": 86,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21522,
+    "key": "Crown of Thieves",
+    "name": "Crown of Thieves",
+    "qlvl": 57,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20331,
+    "key": "pa5",
+    "name": "Crown Shield",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20274,
+    "key": "6l7",
+    "name": "Crusader Bow",
+    "qlvl": 77,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20372,
+    "key": "utg",
+    "name": "Crusader Gauntlets",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 2593,
+    "key": "Crushflange",
+    "name": "Crushflange",
+    "qlvl": 12,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20261,
+    "key": "7pa",
+    "name": "Cryptic Axe",
+    "qlvl": 79,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20232,
+    "key": "7ls",
+    "name": "Cryptic Sword",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2005,
+    "key": "crs",
+    "name": "Crystal Sword",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20298,
+    "key": "ob7",
+    "name": "Crystalline Globe",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2166,
+    "key": "9cl",
+    "name": "Cudgel",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 2087,
+    "key": "xrs",
+    "name": "Cuirass",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2606,
+    "key": "Culwens Point",
+    "name": "Culwen's Point",
+    "qlvl": 39,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2154,
+    "key": "9sm",
+    "name": "Cutlass",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2146,
+    "key": "9cm",
+    "name": "Dacian Falx",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2015,
+    "key": "dgr",
+    "name": "Dagger",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21823,
+    "key": "Dangoon's Teaching",
+    "name": "Dangoon's Teaching",
+    "qlvl": 55,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21720,
+    "key": "Spiritual Custodian",
+    "name": "Dark Adherent",
+    "qlvl": 39,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21301,
+    "key": "Dark Clan Crusher",
+    "name": "Dark Clan Crusher",
+    "qlvl": 42,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21431,
+    "key": "Darkforge Spawn",
+    "name": "Darkforce Spawn",
+    "qlvl": 72,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2657,
+    "key": "Darkglow",
+    "name": "Darkglow",
+    "qlvl": 19,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21521,
+    "key": "Darksight Helm",
+    "name": "Darksight Helm",
+    "qlvl": 46,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21409,
+    "key": "Deathcleaver",
+    "name": "Death Cleaver",
+    "qlvl": 78,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2095,
+    "key": "xsk",
+    "name": "Death Mask",
+    "qlvl": 48,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21571,
+    "key": "Fathom",
+    "name": "Death's Fathom",
+    "qlvl": 81,
+    "tclass": "TC87"
+  },
+  {
+    "id": 10170,
+    "key": "Death's Guard",
+    "name": "Death's Guard",
+    "qlvl": 8,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10169,
+    "key": "Death's Hand",
+    "name": "Death's Hand",
+    "qlvl": 8,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10171,
+    "key": "Death's Touch",
+    "name": "Death's Touch",
+    "qlvl": 8,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21390,
+    "key": "Death's Web",
+    "name": "Death's Web",
+    "qlvl": 74,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21379,
+    "key": "Deathbit",
+    "name": "Deathbit",
+    "qlvl": 52,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2575,
+    "key": "Deathspade",
+    "name": "Deathspade",
+    "qlvl": 12,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20208,
+    "key": "7bt",
+    "name": "Decapitator",
+    "qlvl": 73,
+    "tclass": "TC75"
+  },
+  {
+    "id": 2079,
+    "key": "xuc",
+    "name": "Defender",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20280,
+    "key": "6rx",
+    "name": "Demon Crossbow",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20336,
+    "key": "ne5",
+    "name": "Demon Head",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20309,
+    "key": "obd",
+    "name": "Demon Heart",
+    "qlvl": 75,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21387,
+    "key": "Demonlimb",
+    "name": "Demon Limb",
+    "qlvl": 71,
+    "tclass": "TC57"
+  },
+  {
+    "id": 21366,
+    "key": "Demon Machine",
+    "name": "Demon Machine",
+    "qlvl": 57,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21447,
+    "key": "Demon's Arch",
+    "name": "Demon's Arch",
+    "qlvl": 76,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20347,
+    "key": "usk",
+    "name": "Demonhead",
+    "qlvl": 74,
+    "tclass": "TC75"
+  },
+  {
+    "id": 2092,
+    "key": "xla",
+    "name": "Demonhide Armor",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2068,
+    "key": "xlb",
+    "name": "Demonhide Boots",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2073,
+    "key": "xlg",
+    "name": "Demonhide Gloves",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2063,
+    "key": "zlb",
+    "name": "Demonhide Sash",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21425,
+    "key": "Demonhorn's Edge",
+    "name": "Demonhorn's Edge",
+    "qlvl": 69,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20414,
+    "key": "bad",
+    "name": "Destroyer Helm",
+    "qlvl": 73,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20221,
+    "key": "7mt",
+    "name": "Devil Star",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2550,
+    "key": "Diadem",
+    "name": "Diadem",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20273,
+    "key": "6s7",
+    "name": "Diamond Bow",
+    "qlvl": 72,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20352,
+    "key": "ung",
+    "name": "Diamond Mail",
+    "qlvl": 72,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2151,
+    "key": "9cr",
+    "name": "Dimensional Blade",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20311,
+    "key": "obf",
+    "name": "Dimensional Shard",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2622,
+    "key": "Dimoaks Hew",
+    "name": "Dimoak's Hew",
+    "qlvl": 11,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2016,
+    "key": "dir",
+    "name": "Dirk",
+    "qlvl": 9,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2163,
+    "key": "9ws",
+    "name": "Divine Scepter",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21450,
+    "key": "Djinnslayer",
+    "name": "Djinn Slayer",
+    "qlvl": 73,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21644,
+    "key": "Doombringer",
+    "name": "Doombringer",
+    "qlvl": 75,
+    "tclass": "TC78"
+  },
+  {
+    "id": 2644,
+    "key": "Doomspittle",
+    "name": "Doomslinger",
+    "qlvl": 38,
+    "tclass": "TC33"
+  },
+  {
+    "id": 1978,
+    "key": "2ax",
+    "name": "Double Axe",
+    "qlvl": 13,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2110,
+    "key": "8cb",
+    "name": "Double Bow",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21583,
+    "key": "Dracul's Grasp",
+    "name": "Dracul's Grasp",
+    "qlvl": 84,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2076,
+    "key": "xit",
+    "name": "Dragon Shield",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21562,
+    "key": "Dragonscale",
+    "name": "Dragonscale",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20411,
+    "key": "drf",
+    "name": "Dream Spirit",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21529,
+    "key": "Duriel's Shell",
+    "name": "Duriel's Shell",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 20348,
+    "key": "uui",
+    "name": "Dusk Shroud",
+    "qlvl": 65,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2648,
+    "key": "Duskdeep",
+    "name": "Duskdeep",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20281,
+    "key": "ob1",
+    "name": "Eagle Orb",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21636,
+    "key": "Eaglehorn",
+    "name": "Eaglehorn",
+    "qlvl": 77,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21461,
+    "key": "Earthshifter",
+    "name": "Earth Shifter",
+    "qlvl": 77,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20409,
+    "key": "drd",
+    "name": "Earth Spirit",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21310,
+    "key": "Earthshaker",
+    "name": "Earthshaker",
+    "qlvl": 51,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2113,
+    "key": "8sb",
+    "name": "Edge Bow",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20266,
+    "key": "6cs",
+    "name": "Elder Staff",
+    "qlvl": 74,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20308,
+    "key": "obc",
+    "name": "Eldritch Orb",
+    "qlvl": 67,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20228,
+    "key": "7sb",
+    "name": "Elegant Blade",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2083,
+    "key": "xth",
+    "name": "Embossed Plate",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 21348,
+    "key": "Endlessshail",
+    "name": "Endlesshail",
+    "qlvl": 44,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21586,
+    "key": "Eschuta's temper",
+    "name": "Eschuta's Temper",
+    "qlvl": 80,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2147,
+    "key": "92h",
+    "name": "Espandon",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21494,
+    "key": "Ethereal edge",
+    "name": "Ethereal Edge",
+    "qlvl": 82,
+    "tclass": "TC66"
+  },
+  {
+    "id": 20203,
+    "key": "72a",
+    "name": "Ettin Axe",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2143,
+    "key": "9gd",
+    "name": "Executioner Sword",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21410,
+    "key": "Executioner's Justice",
+    "name": "Executioner's Justice",
+    "qlvl": 83,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2185,
+    "key": "opm",
+    "name": "Exploding Potion",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 20226,
+    "key": "7ss",
+    "name": "Falcata",
+    "qlvl": 56,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2004,
+    "key": "flc",
+    "name": "Falchion",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20317,
+    "key": "dr4",
+    "name": "Falcon Mask",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20323,
+    "key": "ba2",
+    "name": "Fanged Helm",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20242,
+    "key": "7kr",
+    "name": "Fanged Knife",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20189,
+    "key": "9xf",
+    "name": "Fascia",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2588,
+    "key": "Felloak",
+    "name": "Felloak",
+    "qlvl": 4,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20206,
+    "key": "7la",
+    "name": "Feral Axe",
+    "qlvl": 57,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20198,
+    "key": "7lw",
+    "name": "Feral Claws",
+    "qlvl": 78,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20403,
+    "key": "ne7",
+    "name": "Fetish Trophy",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 1947,
+    "key": "fld",
+    "name": "Field Plate",
+    "qlvl": 28,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21587,
+    "key": "Firelizard's Talons",
+    "name": "Firelizard's Talons",
+    "qlvl": 75,
+    "tclass": "TC78"
+  },
+  {
+    "id": 1997,
+    "key": "fla",
+    "name": "Flail",
+    "qlvl": 19,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2013,
+    "key": "flb",
+    "name": "Flamberge",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21570,
+    "key": "Flamebellow",
+    "name": "Flamebellow",
+    "qlvl": 79,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2161,
+    "key": "9ma",
+    "name": "Flanged Mace",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21306,
+    "key": "Fleshrender",
+    "name": "Fleshrender",
+    "qlvl": 46,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21466,
+    "key": "Fleshripper",
+    "name": "Fleshripper",
+    "qlvl": 76,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20245,
+    "key": "7ta",
+    "name": "Flying Axe",
+    "qlvl": 56,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20244,
+    "key": "7tk",
+    "name": "Flying Knife",
+    "qlvl": 64,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2137,
+    "key": "9ta",
+    "name": "Francisca",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2680,
+    "key": "Frostburn",
+    "name": "Frostburn",
+    "qlvl": 39,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21584,
+    "key": "Frostwind",
+    "name": "Frostwind",
+    "qlvl": 78,
+    "tclass": "TC84"
+  },
+  {
+    "id": 1933,
+    "key": "fhl",
+    "name": "Full Helm",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 1949,
+    "key": "ful",
+    "name": "Full Plate Mail",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2183,
+    "key": "opl",
+    "name": "Fulminating Potion",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20413,
+    "key": "bac",
+    "name": "Fury Visor",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2128,
+    "key": "9tr",
+    "name": "Fuscina",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20335,
+    "key": "ne4",
+    "name": "Gargoyle Head",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21418,
+    "key": "Gargoyle's Bite",
+    "name": "Gargoyle's Bite",
+    "qlvl": 78,
+    "tclass": "TC87"
+  },
+  {
+    "id": 1962,
+    "key": "hgl",
+    "name": "Gauntlets",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21539,
+    "key": "Gerke's Sanctuary",
+    "name": "Gerke's Sanctuary",
+    "qlvl": 52,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21576,
+    "key": "Gheed's Fortune",
+    "name": "Gheed's Fortune",
+    "qlvl": 70,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2094,
+    "key": "xui",
+    "name": "Ghost Armor",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20251,
+    "key": "7gl",
+    "name": "Ghost Glaive",
+    "qlvl": 79,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20256,
+    "key": "7st",
+    "name": "Ghost Spear",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20212,
+    "key": "7yw",
+    "name": "Ghost Wand",
+    "qlvl": 65,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21438,
+    "key": "Ghostflame",
+    "name": "Ghostflame",
+    "qlvl": 70,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21542,
+    "key": "Ghoulhide",
+    "name": "Ghoulhide",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1985,
+    "key": "gix",
+    "name": "Giant Axe",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 20344,
+    "key": "uhl",
+    "name": "Giant Conch",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21598,
+    "key": "Giantskull",
+    "name": "Giant Skull",
+    "qlvl": 73,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2011,
+    "key": "gis",
+    "name": "Giant Sword",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20263,
+    "key": "7wc",
+    "name": "Giant Thresher",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20400,
+    "key": "pa9",
+    "name": "Gilded Shield",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21637,
+    "key": "Gimmershred",
+    "name": "Gimmershred",
+    "qlvl": 78,
+    "tclass": "TC57"
+  },
+  {
+    "id": 21829,
+    "key": "Ginther's Rift",
+    "name": "Ginther's Rift",
+    "qlvl": 45,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2155,
+    "key": "9ss",
+    "name": "Gladius",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 2026,
+    "key": "glv",
+    "name": "Glaive",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2602,
+    "key": "Gleamscythe",
+    "name": "Gleamscythe",
+    "qlvl": 18,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21549,
+    "key": "Gloomstrap",
+    "name": "Gloom's Trap",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20210,
+    "key": "7gi",
+    "name": "Glorious Axe",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20297,
+    "key": "ob6",
+    "name": "Glowing Orb",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2041,
+    "key": "cst",
+    "name": "Gnarled Staff",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2684,
+    "key": "Goblin Toe",
+    "name": "Goblin Toe",
+    "qlvl": 30,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2665,
+    "key": "Goldskin",
+    "name": "Goldskin",
+    "qlvl": 38,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21350,
+    "key": "Godstrike Arch",
+    "name": "Goldstrike Arch",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2689,
+    "key": "Goldwrap",
+    "name": "Goldwrap",
+    "qlvl": 36,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21356,
+    "key": "Gorerider",
+    "name": "Gore Rider",
+    "qlvl": 55,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2682,
+    "key": "Gorefoot",
+    "name": "Gorefoot",
+    "qlvl": 12,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2580,
+    "key": "Goreshovel",
+    "name": "Goreshovel",
+    "qlvl": 19,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20278,
+    "key": "6mx",
+    "name": "Gorgon Crossbow",
+    "qlvl": 67,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2172,
+    "key": "9ga",
+    "name": "Gothic Axe",
+    "qlvl": 46,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2106,
+    "key": "8lw",
+    "name": "Gothic Bow",
+    "qlvl": 52,
+    "tclass": "TC54"
+  },
+  {
+    "id": 1948,
+    "key": "gth",
+    "name": "Gothic Plate",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 1957,
+    "key": "gts",
+    "name": "Gothic Shield",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 2115,
+    "key": "8bs",
+    "name": "Gothic Staff",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2181,
+    "key": "9b9",
+    "name": "Gothic Sword",
+    "qlvl": 48,
+    "tclass": "TC48"
+  },
+  {
+    "id": 20437,
+    "key": "cm3",
+    "name": "Grand Charm",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2096,
+    "key": "xrn",
+    "name": "Grand Crown",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20313,
+    "key": "amc",
+    "name": "Grand Matron Bow",
+    "qlvl": 78,
+    "tclass": "TC78"
+  },
+  {
+    "id": 1992,
+    "key": "gsc",
+    "name": "Grand Scepter",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2167,
+    "key": "9gw",
+    "name": "Grave Wand",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2586,
+    "key": "Gravenspine",
+    "name": "Gravenspine",
+    "qlvl": 27,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21541,
+    "key": "Gravepalm",
+    "name": "Gravepalm",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 1984,
+    "key": "gax",
+    "name": "Great Axe",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20272,
+    "key": "6cb",
+    "name": "Great Bow",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20355,
+    "key": "urs",
+    "name": "Great Hauberk",
+    "qlvl": 75,
+    "tclass": "TC75"
+  },
+  {
+    "id": 1934,
+    "key": "ghm",
+    "name": "Great Helm",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2000,
+    "key": "gma",
+    "name": "Great Maul",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2133,
+    "key": "9pi",
+    "name": "Great Pilum",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20262,
+    "key": "7h7",
+    "name": "Great Poleaxe",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2014,
+    "key": "gsd",
+    "name": "Great Sword",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20191,
+    "key": "9lw",
+    "name": "Greater Claws",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20192,
+    "key": "9tw",
+    "name": "Greater Talons",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 1967,
+    "key": "hbt",
+    "name": "Greaves",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2653,
+    "key": "Greyform",
+    "name": "Greyform",
+    "qlvl": 10,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20388,
+    "key": "dr7",
+    "name": "Griffon Headdress",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21442,
+    "key": "Griffon's Eye",
+    "name": "Griffon's Eye",
+    "qlvl": 84,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2058,
+    "key": "xh9",
+    "name": "Grim Helm",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2119,
+    "key": "9wc",
+    "name": "Grim Scythe",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2057,
+    "key": "xsh",
+    "name": "Grim Shield",
+    "qlvl": 48,
+    "tclass": "TC48"
+  },
+  {
+    "id": 1989,
+    "key": "gwn",
+    "name": "Grim Wand",
+    "qlvl": 26,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21341,
+    "key": "Grim's Burning Dead",
+    "name": "Grim's Burning Dead",
+    "qlvl": 52,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2604,
+    "key": "Griswolds Edge",
+    "name": "Griswold's Edge",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21675,
+    "key": "Griswold's Heart",
+    "name": "Griswold's Heart",
+    "qlvl": 44,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21674,
+    "key": "Griswold's Honor",
+    "name": "Griswold's Honor",
+    "qlvl": 44,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21673,
+    "key": "Griswolds's Redemption",
+    "name": "Griswold's Redemption",
+    "qlvl": 44,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21676,
+    "key": "Griswold's Valor",
+    "name": "Griswold's Valor",
+    "qlvl": 44,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21360,
+    "key": "Guardian Angle",
+    "name": "Guardian Angel",
+    "qlvl": 53,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20416,
+    "key": "baf",
+    "name": "Guardian Crown",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21291,
+    "key": "Guardian Naga",
+    "name": "Guardian Naga",
+    "qlvl": 56,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21731,
+    "key": "Guillaume's Face",
+    "name": "Guillaume's Face",
+    "qlvl": 41,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2613,
+    "key": "Gull",
+    "name": "Gull",
+    "qlvl": 6,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21381,
+    "key": "Gutsiphon",
+    "name": "Gut Siphon",
+    "qlvl": 79,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21579,
+    "key": "Halaberd's Reign",
+    "name": "Halaberd's Reign",
+    "qlvl": 85,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2037,
+    "key": "hal",
+    "name": "Halberd",
+    "qlvl": 29,
+    "tclass": "TC30"
+  },
+  {
+    "id": 1976,
+    "key": "hax",
+    "name": "Hand Axe",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21305,
+    "key": "Hand of Blessed Light",
+    "name": "Hand of Blessed Light",
+    "qlvl": 50,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20190,
+    "key": "9cs",
+    "name": "Hand Scythe",
+    "qlvl": 41,
+    "tclass": "TC42"
+  },
+  {
+    "id": 1939,
+    "key": "hla",
+    "name": "Hard Leather Armor",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 21627,
+    "key": "Harlequin Crest",
+    "name": "Harlequin Crest",
+    "qlvl": 69,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2130,
+    "key": "9ts",
+    "name": "Harpoon",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2180,
+    "key": "9ha",
+    "name": "Hatchet",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21780,
+    "key": "axf",
+    "name": "Hatchet Hands",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20318,
+    "key": "dr2",
+    "name": "Hawk Helm",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2658,
+    "key": "Hawkmail",
+    "name": "Hawkmail",
+    "qlvl": 20,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21455,
+    "key": "Headhunter's Glory",
+    "name": "Head Hunter's Glory",
+    "qlvl": 83,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21318,
+    "key": "Headstriker",
+    "name": "Headstriker",
+    "qlvl": 47,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21328,
+    "key": "Heart Carver",
+    "name": "Heart Carver",
+    "qlvl": 44,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20363,
+    "key": "uuc",
+    "name": "Heater",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 21590,
+    "key": "Heaven's Light",
+    "name": "Heaven's Light",
+    "qlvl": 69,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2667,
+    "key": "Heavenly Garb",
+    "name": "Heavenly Garb",
+    "qlvl": 39,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20307,
+    "key": "obb",
+    "name": "Heavenly Stone",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 1971,
+    "key": "tbl",
+    "name": "Heavy Belt",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 1964,
+    "key": "vbt",
+    "name": "Heavy Boots",
+    "qlvl": 7,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2071,
+    "key": "xmg",
+    "name": "Heavy Bracers",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2054,
+    "key": "hxb",
+    "name": "Heavy Crossbow",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 1959,
+    "key": "vgl",
+    "name": "Heavy Gloves",
+    "qlvl": 7,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2643,
+    "key": "Hellcast",
+    "name": "Hellcast",
+    "qlvl": 36,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2639,
+    "key": "Hellclap",
+    "name": "Hellclap",
+    "qlvl": 36,
+    "tclass": "TC27"
+  },
+  {
+    "id": 11153,
+    "key": "Hellfire Torch",
+    "name": "Hellfire Torch",
+    "qlvl": 110,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20357,
+    "key": "ult",
+    "name": "Hellforge Plate",
+    "qlvl": 78,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21543,
+    "key": "Hellmouth",
+    "name": "Hellmouth",
+    "qlvl": 55,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2605,
+    "key": "Hellplague",
+    "name": "Hellplague",
+    "qlvl": 30,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21429,
+    "key": "Hellrack",
+    "name": "Hellrack",
+    "qlvl": 84,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21652,
+    "key": "Hellslayer",
+    "name": "Hellslayer",
+    "qlvl": 71,
+    "tclass": "TC75"
+  },
+  {
+    "id": 11006,
+    "key": "neg",
+    "name": "Hellspawn Skull",
+    "qlvl": 67,
+    "tclass": "TC69"
+  },
+  {
+    "id": 1932,
+    "key": "hlm",
+    "name": "Helm",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21758,
+    "key": "Herald of Zakarum",
+    "name": "Herald of Zakarum",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20329,
+    "key": "pa3",
+    "name": "Heraldic Shield",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21315,
+    "key": "Hexfire",
+    "name": "Hexfire",
+    "qlvl": 41,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20406,
+    "key": "nea",
+    "name": "Hierophant Trophy",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20235,
+    "key": "7cm",
+    "name": "Highland Blade",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2164,
+    "key": "9qs",
+    "name": "Holy Water Sprinkler",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21755,
+    "key": "Homunculus",
+    "name": "Homunculus",
+    "qlvl": 50,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21334,
+    "key": "Hone Sundan",
+    "name": "Hone Sundan",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21469,
+    "key": "Horizon's Tornado",
+    "name": "Horizon's Tornado",
+    "qlvl": 72,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20324,
+    "key": "ba3",
+    "name": "Horned Helm",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2681,
+    "key": "Hotspur",
+    "name": "Hotspur",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2650,
+    "key": "Howltusk",
+    "name": "Howltusk",
+    "qlvl": 34,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10126,
+    "key": "Hsarus' Iron Fist",
+    "name": "Hsarus' Iron Fist",
+    "qlvl": 4,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10125,
+    "key": "Hsarus' Iron Heel",
+    "name": "Hsarus' Iron Heel",
+    "qlvl": 4,
+    "tclass": "TC12"
+  },
+  {
+    "id": 10127,
+    "key": "Hsarus' Iron Stay",
+    "name": "Hsarus' Iron Stay",
+    "qlvl": 4,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2583,
+    "key": "The Humongous",
+    "name": "Humongous",
+    "qlvl": 39,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2045,
+    "key": "hbw",
+    "name": "Hunter's Bow",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20389,
+    "key": "dr8",
+    "name": "Hunter's Guise",
+    "qlvl": 46,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2135,
+    "key": "9b8",
+    "name": "Hurlbat",
+    "qlvl": 41,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21340,
+    "key": "Husoldal Evo",
+    "name": "Husoldal Evo",
+    "qlvl": 52,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21712,
+    "key": "Hwanin's Justice",
+    "name": "Hwanin's Justice",
+    "qlvl": 28,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21714,
+    "key": "Hwanin's Refuge",
+    "name": "Hwanin's Refuge",
+    "qlvl": 28,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21713,
+    "key": "Hwanin's Splendor",
+    "name": "Hwanin's Splendor",
+    "qlvl": 28,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20276,
+    "key": "6lw",
+    "name": "Hydra Bow",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20229,
+    "key": "7fc",
+    "name": "Hydra Edge",
+    "qlvl": 69,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20342,
+    "key": "ukp",
+    "name": "Hydraskull",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20365,
+    "key": "urg",
+    "name": "Hyperion",
+    "qlvl": 64,
+    "tclass": "TC66"
+  },
+  {
+    "id": 20248,
+    "key": "7ja",
+    "name": "Hyperion Javelin",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20253,
+    "key": "7sr",
+    "name": "Hyperion Spear",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2661,
+    "key": "Iceblink",
+    "name": "Iceblink",
+    "qlvl": 30,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2642,
+    "key": "Ichorsting",
+    "name": "Ichorsting",
+    "qlvl": 24,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21843,
+    "key": "Immortal King's Detail",
+    "name": "Immortal King's Detail",
+    "qlvl": 37,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21842,
+    "key": "Immortal King's Forge",
+    "name": "Immortal King's Forge",
+    "qlvl": 37,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21841,
+    "key": "Immortal King's Pillar",
+    "name": "Immortal King's Pillar",
+    "qlvl": 37,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21844,
+    "key": "Immortal King's Soul Cage",
+    "name": "Immortal King's Soul Cage",
+    "qlvl": 37,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21840,
+    "key": "Immortal King's Stone Crusher",
+    "name": "Immortal King's Stone Crusher",
+    "qlvl": 37,
+    "tclass": "TC69"
+  },
+  {
+    "id": 21845,
+    "key": "Immortal King's Will",
+    "name": "Immortal King's Will",
+    "qlvl": 37,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10163,
+    "key": "Infernal Cranium",
+    "name": "Infernal Cranium",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10165,
+    "key": "Infernal Sign",
+    "name": "Infernal Sign",
+    "qlvl": 7,
+    "tclass": "TC21"
+  },
+  {
+    "id": 10164,
+    "key": "Infernal Torch",
+    "name": "Infernal Torch",
+    "qlvl": 7,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21544,
+    "key": "Infernostride",
+    "name": "Infernostride",
+    "qlvl": 37,
+    "tclass": "TC36"
+  },
+  {
+    "id": 10132,
+    "key": "Iratha's Coil",
+    "name": "Iratha's Coil",
+    "qlvl": 21,
+    "tclass": "TC30"
+  },
+  {
+    "id": 10131,
+    "key": "Iratha's Cord",
+    "name": "Iratha's Cord",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 10133,
+    "key": "Iratha's Cuff",
+    "name": "Iratha's Cuff",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21526,
+    "key": "Ironpelt",
+    "name": "Iron Pelt",
+    "qlvl": 41,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2596,
+    "key": "Ironstone",
+    "name": "Ironstone",
+    "qlvl": 36,
+    "tclass": "TC27"
+  },
+  {
+    "id": 10136,
+    "key": "Isenhart's Case",
+    "name": "Isenhart's Case",
+    "qlvl": 11,
+    "tclass": "TC18"
+  },
+  {
+    "id": 10135,
+    "key": "Isenhart's Horns",
+    "name": "Isenhart's Horns",
+    "qlvl": 11,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10138,
+    "key": "Isenhart's Lightbrand",
+    "name": "Isenhart's Lightbrand",
+    "qlvl": 11,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10137,
+    "key": "Isenhart's Parry",
+    "name": "Isenhart's Parry",
+    "qlvl": 11,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21289,
+    "key": "Islestrike",
+    "name": "Islestrike",
+    "qlvl": 51,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21473,
+    "key": "Jadetalon",
+    "name": "Jade Talon",
+    "qlvl": 74,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2160,
+    "key": "9mt",
+    "name": "Jagged Star",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21750,
+    "key": "Jalal's Mane",
+    "name": "Jalal's Mane",
+    "qlvl": 50,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2023,
+    "key": "jav",
+    "name": "Javelin",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20322,
+    "key": "ba1",
+    "name": "Jawbone Cap",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20392,
+    "key": "ba6",
+    "name": "Jawbone Visor",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2118,
+    "key": "8ss",
+    "name": "Jo Staff",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20181,
+    "key": "ktr",
+    "name": "Katar",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21332,
+    "key": "Kelpie Snare",
+    "name": "Kelpie Snare",
+    "qlvl": 41,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2609,
+    "key": "Kinemils Awl",
+    "name": "Kinemil's Awl",
+    "qlvl": 31,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21574,
+    "key": "Kira's Guardian",
+    "name": "Kira's Guardian",
+    "qlvl": 85,
+    "tclass": "TC72"
+  },
+  {
+    "id": 1955,
+    "key": "kit",
+    "name": "Kite Shield",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2589,
+    "key": "Knell Striker",
+    "name": "Knell Striker",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2159,
+    "key": "9fl",
+    "name": "Knout",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20358,
+    "key": "uld",
+    "name": "Kraken Shell",
+    "qlvl": 81,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2017,
+    "key": "kri",
+    "name": "Kris",
+    "qlvl": 17,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21347,
+    "key": "Kuko Shakaku",
+    "name": "Kuko Shakaku",
+    "qlvl": 41,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21419,
+    "key": "Lacerator",
+    "name": "Lacerator",
+    "qlvl": 76,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20359,
+    "key": "uth",
+    "name": "Lacquered Plate",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2125,
+    "key": "9p9",
+    "name": "Lance",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21553,
+    "key": "Lanceguard",
+    "name": "Lance Guard",
+    "qlvl": 43,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2620,
+    "key": "Lance of Yaggai",
+    "name": "Lance of Yaggai",
+    "qlvl": 30,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21351,
+    "key": "Langer Briser",
+    "name": "Langer Briser",
+    "qlvl": 40,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1981,
+    "key": "lax",
+    "name": "Large Axe",
+    "qlvl": 6,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20436,
+    "key": "cm2",
+    "name": "Large Charm",
+    "qlvl": 14,
+    "tclass": "TC15"
+  },
+  {
+    "id": 1954,
+    "key": "lrg",
+    "name": "Large Shield",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2108,
+    "key": "8l8",
+    "name": "Large Siege Bow",
+    "qlvl": 16,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21357,
+    "key": "Lavagout",
+    "name": "Lava Gout",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21718,
+    "key": "Laying of Hands",
+    "name": "Laying of Hands",
+    "qlvl": 39,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2641,
+    "key": "Leadcrow",
+    "name": "Leadcrow",
+    "qlvl": 12,
+    "tclass": "TC6"
+  },
+  {
+    "id": 1938,
+    "key": "lea",
+    "name": "Leather Armor",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 1958,
+    "key": "lgl",
+    "name": "Leather Gloves",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20243,
+    "key": "7bl",
+    "name": "Legend Spike",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20234,
+    "key": "72h",
+    "name": "Legend Sword",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 11008,
+    "key": "uhf",
+    "name": "Legendary Mallet",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2686,
+    "key": "Lenyms Cord",
+    "name": "Lenymo",
+    "qlvl": 10,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21412,
+    "key": "Leviathan",
+    "name": "Leviathan",
+    "qlvl": 73,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20213,
+    "key": "7bw",
+    "name": "Lich Wand",
+    "qlvl": 75,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21552,
+    "key": "Lidless Wall",
+    "name": "Lidless Wall",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 1969,
+    "key": "vbl",
+    "name": "Light Belt",
+    "qlvl": 7,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2052,
+    "key": "lxb",
+    "name": "Light Crossbow",
+    "qlvl": 6,
+    "tclass": "TC6"
+  },
+  {
+    "id": 1961,
+    "key": "tgl",
+    "name": "Light Gauntlets",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 1951,
+    "key": "ltp",
+    "name": "Light Plate",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1966,
+    "key": "tbt",
+    "name": "Light Plated Boots",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21646,
+    "key": "Lightsabre",
+    "name": "Lightsabre",
+    "qlvl": 66,
+    "tclass": "TC75"
+  },
+  {
+    "id": 2090,
+    "key": "xng",
+    "name": "Linked Mail",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 20393,
+    "key": "ba7",
+    "name": "Lion Helm",
+    "qlvl": 38,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2124,
+    "key": "9b7",
+    "name": "Lochaber Axe",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2049,
+    "key": "lbb",
+    "name": "Long Battle Bow",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2046,
+    "key": "lbw",
+    "name": "Long Bow",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2040,
+    "key": "lst",
+    "name": "Long Staff",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2007,
+    "key": "lsd",
+    "name": "Long Sword",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2051,
+    "key": "lwb",
+    "name": "Long War Bow",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20353,
+    "key": "ucl",
+    "name": "Loricated Mail",
+    "qlvl": 73,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20364,
+    "key": "uml",
+    "name": "Luna",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21737,
+    "key": "Lycander's Aim",
+    "name": "Lycander's Aim",
+    "qlvl": 80,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21827,
+    "key": "Lycander's Flank",
+    "name": "Lycander's Flank",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21706,
+    "key": "M'avina's Caster",
+    "name": "M'avina's Caster",
+    "qlvl": 21,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21703,
+    "key": "M'avina's Embrace",
+    "name": "M'avina's Embrace",
+    "qlvl": 21,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21704,
+    "key": "M'avina's Icy Clutch",
+    "name": "M'avina's Icy Clutch",
+    "qlvl": 21,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21705,
+    "key": "M'avina's Tenet",
+    "name": "M'avina's Tenet",
+    "qlvl": 21,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21702,
+    "key": "M'avina's True Sight",
+    "name": "M'avina's True Sight",
+    "qlvl": 21,
+    "tclass": "TC87"
+  },
+  {
+    "id": 1995,
+    "key": "mac",
+    "name": "Mace",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2585,
+    "key": "Maelstromwrath",
+    "name": "Maelstrom",
+    "qlvl": 19,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2080,
+    "key": "xtp",
+    "name": "Mage Plate",
+    "qlvl": 60,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2679,
+    "key": "Magefist",
+    "name": "Magefist",
+    "qlvl": 31,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21367,
+    "key": "Magewrath",
+    "name": "Magewrath",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21733,
+    "key": "Magnus' Skin",
+    "name": "Magnus' Skin",
+    "qlvl": 41,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20296,
+    "key": "am5",
+    "name": "Maiden Javelin",
+    "qlvl": 23,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20295,
+    "key": "am4",
+    "name": "Maiden Pike",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 20294,
+    "key": "am3",
+    "name": "Maiden Spear",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 20255,
+    "key": "7br",
+    "name": "Mancatcher",
+    "qlvl": 74,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21420,
+    "key": "Mang Song's Lesson",
+    "name": "Mang Song's Lesson",
+    "qlvl": 86,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21589,
+    "key": "Marrowwalk",
+    "name": "Marrowwalk",
+    "qlvl": 74,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2156,
+    "key": "9gm",
+    "name": "Martel de Fer",
+    "qlvl": 53,
+    "tclass": "TC54"
+  },
+  {
+    "id": 1936,
+    "key": "msk",
+    "name": "Mask",
+    "qlvl": 19,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20312,
+    "key": "amb",
+    "name": "Matriarchal Bow",
+    "qlvl": 53,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20316,
+    "key": "amf",
+    "name": "Matriarchal Javelin",
+    "qlvl": 65,
+    "tclass": "TC66"
+  },
+  {
+    "id": 20315,
+    "key": "ame",
+    "name": "Matriarchal Pike",
+    "qlvl": 81,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20314,
+    "key": "amd",
+    "name": "Matriarchal Spear",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 1999,
+    "key": "mau",
+    "name": "Maul",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21516,
+    "key": "Medusa's Gaze",
+    "name": "Medusa's Gaze",
+    "qlvl": 84,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2088,
+    "key": "xhn",
+    "name": "Mesh Armor",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2061,
+    "key": "zmb",
+    "name": "Mesh Belt",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2066,
+    "key": "xmb",
+    "name": "Mesh Boots",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21651,
+    "key": "Messerschmidt's Reaver",
+    "name": "Messerschmidt's Reaver",
+    "qlvl": 75,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20216,
+    "key": "7sc",
+    "name": "Mighty Scepter",
+    "qlvl": 62,
+    "tclass": "TC63"
+  },
+  {
+    "id": 10144,
+    "key": "Milabrega's Diadem",
+    "name": "Milabrega's Diadem",
+    "qlvl": 23,
+    "tclass": "TC30"
+  },
+  {
+    "id": 10146,
+    "key": "Milabrega's Orb",
+    "name": "Milabrega's Orb",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 10143,
+    "key": "Milabrega's Robe",
+    "name": "Milabrega's Robe",
+    "qlvl": 23,
+    "tclass": "TC42"
+  },
+  {
+    "id": 10145,
+    "key": "Milabrega's Rod",
+    "name": "Milabrega's Rod",
+    "qlvl": 23,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2175,
+    "key": "9la",
+    "name": "Military Axe",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1979,
+    "key": "mpi",
+    "name": "Military Pick",
+    "qlvl": 19,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20421,
+    "key": "neb",
+    "name": "Minion Skull",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 20377,
+    "key": "utb",
+    "name": "Mirrored Boots",
+    "qlvl": 81,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20381,
+    "key": "umc",
+    "name": "Mithril Coil",
+    "qlvl": 75,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20241,
+    "key": "7di",
+    "name": "Mithril Point",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20366,
+    "key": "uit",
+    "name": "Monarch",
+    "qlvl": 72,
+    "tclass": "TC72"
+  },
+  {
+    "id": 21308,
+    "key": "Moonfall",
+    "name": "Moonfall",
+    "qlvl": 50,
+    "tclass": "TC39"
+  },
+  {
+    "id": 1996,
+    "key": "mst",
+    "name": "Morning Star",
+    "qlvl": 13,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21536,
+    "key": "Moser's Blessed Circle",
+    "name": "Moser's Blessed Circle",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20402,
+    "key": "ne6",
+    "name": "Mummified Trophy",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20378,
+    "key": "uhb",
+    "name": "Myrmidon Greaves",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20233,
+    "key": "7wd",
+    "name": "Mythical Sword",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2176,
+    "key": "9wa",
+    "name": "Naga",
+    "qlvl": 48,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21832,
+    "key": "Naj's Circlet",
+    "name": "Naj's Circlet",
+    "qlvl": 43,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21831,
+    "key": "Naj's Light Plate",
+    "name": "Naj's Light Plate",
+    "qlvl": 43,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21640,
+    "key": "Naj's Puzzler",
+    "name": "Naj's Puzzler",
+    "qlvl": 43,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21669,
+    "key": "Natalya's Mark",
+    "name": "Natalya's Mark",
+    "qlvl": 22,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21670,
+    "key": "Natalya's Shadow",
+    "name": "Natalya's Shadow",
+    "qlvl": 22,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21671,
+    "key": "Natalya's Soul",
+    "name": "Natalya's Soul",
+    "qlvl": 22,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21668,
+    "key": "Natalya's Totem",
+    "name": "Natalya's Totem",
+    "qlvl": 22,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2688,
+    "key": "Nightsmoke",
+    "name": "Nightsmoke",
+    "qlvl": 27,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21557,
+    "key": "Nightwing's Veil",
+    "name": "Nightwing's Veil",
+    "qlvl": 75,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21470,
+    "key": "Nord's Tenderizer",
+    "name": "Nord's Tenderizer",
+    "qlvl": 76,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21593,
+    "key": "Nosferatu's Coil",
+    "name": "Nosferatu's Coil",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20258,
+    "key": "7o7",
+    "name": "Ogre Axe",
+    "qlvl": 60,
+    "tclass": "TC60"
+  },
+  {
+    "id": 20373,
+    "key": "uhg",
+    "name": "Ogre Gauntlets",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20224,
+    "key": "7m7",
+    "name": "Ogre Maul",
+    "qlvl": 69,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2187,
+    "key": "ops",
+    "name": "Oil Potion",
+    "qlvl": 28,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21824,
+    "key": "Ondal's Almighty",
+    "name": "Ondal's Almighty",
+    "qlvl": 55,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21375,
+    "key": "Ondal's Wisdom",
+    "name": "Ondal's Wisdom",
+    "qlvl": 74,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21623,
+    "key": "Ormus' Robes",
+    "name": "Ormus' Robes",
+    "qlvl": 83,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2081,
+    "key": "xar",
+    "name": "Ornate Plate",
+    "qlvl": 64,
+    "tclass": "TC66"
+  },
+  {
+    "id": 20423,
+    "key": "ned",
+    "name": "Overseer Skull",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2121,
+    "key": "9pa",
+    "name": "Partizan",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2075,
+    "key": "xow",
+    "name": "Pavise",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21365,
+    "key": "Peasent Crown",
+    "name": "Peasant Crown",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20277,
+    "key": "6lx",
+    "name": "Pellet Bow",
+    "qlvl": 57,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2668,
+    "key": "Pelta Lunata",
+    "name": "Pelta Lunata",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2169,
+    "key": "9yw",
+    "name": "Petrified Wand",
+    "qlvl": 38,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20230,
+    "key": "7cr",
+    "name": "Phase Blade",
+    "qlvl": 73,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21339,
+    "key": "Pierre Tombale Couant",
+    "name": "Pierre Tombale Couant",
+    "qlvl": 51,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2032,
+    "key": "pik",
+    "name": "Pike",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2024,
+    "key": "pil",
+    "name": "Pilum",
+    "qlvl": 10,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21319,
+    "key": "Plague Bearer",
+    "name": "Plague Bearer",
+    "qlvl": 49,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1946,
+    "key": "plt",
+    "name": "Plate Mail",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 1972,
+    "key": "hbl",
+    "name": "Plated Belt",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2633,
+    "key": "Pluckeye",
+    "name": "Pluckeye",
+    "qlvl": 10,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2142,
+    "key": "9dg",
+    "name": "Poignard",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2036,
+    "key": "pax",
+    "name": "Poleaxe",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20211,
+    "key": "7wn",
+    "name": "Polished Wand",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 21290,
+    "key": "Pompe's Wrath",
+    "name": "Pompeii's Wrath",
+    "qlvl": 53,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20332,
+    "key": "ne1",
+    "name": "Preserved Head",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20399,
+    "key": "pa8",
+    "name": "Protector Shield",
+    "qlvl": 46,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21352,
+    "key": "Pus Spiter",
+    "name": "Pus Spitter",
+    "qlvl": 44,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2117,
+    "key": "8ls",
+    "name": "Quarterstaff",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21535,
+    "key": "Que-hegan's Wisdom",
+    "name": "Que-Hegan's Wisdom",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 20187,
+    "key": "9ar",
+    "name": "Quhab",
+    "qlvl": 28,
+    "tclass": "TC30"
+  },
+  {
+    "id": 1937,
+    "key": "qui",
+    "name": "Quilted Armor",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21540,
+    "key": "Radimant's Sphere",
+    "name": "Radament's Sphere",
+    "qlvl": 58,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20394,
+    "key": "ba8",
+    "name": "Rage Mask",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2578,
+    "key": "Rakescar",
+    "name": "Rakescar",
+    "qlvl": 36,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2186,
+    "key": "gps",
+    "name": "Rancid Gas Potion",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2664,
+    "key": "Rattlecage",
+    "name": "Rattlecage",
+    "qlvl": 39,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2635,
+    "key": "Rimeraven",
+    "name": "Raven Claw",
+    "qlvl": 20,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21566,
+    "key": "Ravenlore",
+    "name": "Ravenlore",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2112,
+    "key": "8hb",
+    "name": "Razor Bow",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21382,
+    "key": "Razoredge",
+    "name": "Razor's Edge",
+    "qlvl": 75,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21370,
+    "key": "Razorswitch",
+    "name": "Razorswitch",
+    "qlvl": 36,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21548,
+    "key": "Razortail",
+    "name": "Razortail",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2618,
+    "key": "Razortine",
+    "name": "Razortine",
+    "qlvl": 16,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20293,
+    "key": "am2",
+    "name": "Reflex Bow",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 20220,
+    "key": "7ma",
+    "name": "Reinforced Mace",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2055,
+    "key": "rxb",
+    "name": "Repeating Crossbow",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21342,
+    "key": "Ribcracker",
+    "name": "Ribcracker",
+    "qlvl": 39,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1941,
+    "key": "rng",
+    "name": "Ring Mail",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21369,
+    "key": "Riphook",
+    "name": "Riphook",
+    "qlvl": 39,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2611,
+    "key": "Ripsaw",
+    "name": "Ripsaw",
+    "qlvl": 35,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21719,
+    "key": "Rite of Passage",
+    "name": "Rite of Passage",
+    "qlvl": 39,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2599,
+    "key": "Rixots Keen",
+    "name": "Rixot's Keen",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2663,
+    "key": "Rockfleece",
+    "name": "Rockfleece",
+    "qlvl": 38,
+    "tclass": "TC30"
+  },
+  {
+    "id": 21519,
+    "key": "Rockstopper",
+    "name": "Rockstopper",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2636,
+    "key": "Piercerib",
+    "name": "Rogue's Bow",
+    "qlvl": 27,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20328,
+    "key": "pa2",
+    "name": "Rondache",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2141,
+    "key": "9di",
+    "name": "Rondel",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2078,
+    "key": "xml",
+    "name": "Round Shield",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20401,
+    "key": "paa",
+    "name": "Royal Shield",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2107,
+    "key": "8sw",
+    "name": "Rune Bow",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21408,
+    "key": "Runemaster",
+    "name": "Rune Master",
+    "qlvl": 80,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2165,
+    "key": "9sc",
+    "name": "Rune Scepter",
+    "qlvl": 31,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2114,
+    "key": "8ws",
+    "name": "Rune Staff",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2149,
+    "key": "9ls",
+    "name": "Rune Sword",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20199,
+    "key": "7tw",
+    "name": "Runic Talons",
+    "qlvl": 81,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2086,
+    "key": "xpl",
+    "name": "Russet Armor",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2590,
+    "key": "Rusthandle",
+    "name": "Rusthandle",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2003,
+    "key": "sbr",
+    "name": "Sabre",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20361,
+    "key": "uar",
+    "name": "Sacred Armor",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20387,
+    "key": "dr9",
+    "name": "Sacred Feathers",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20282,
+    "key": "ob2",
+    "name": "Sacred Globe",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20418,
+    "key": "pac",
+    "name": "Sacred Rondache",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 20417,
+    "key": "pab",
+    "name": "Sacred Targe",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2100,
+    "key": "xkp",
+    "name": "Sallet",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21878,
+    "key": "McAuley's Paragon",
+    "name": "Sander's Paragon",
+    "qlvl": 20,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21877,
+    "key": "McAuley's Riprap",
+    "name": "Sander's Riprap",
+    "qlvl": 20,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21875,
+    "key": "McAuley's Superstition",
+    "name": "Sander's Superstition",
+    "qlvl": 20,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21876,
+    "key": "McAuley's Taboo",
+    "name": "Sander's Taboo",
+    "qlvl": 20,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21588,
+    "key": "Sandstorm Trek",
+    "name": "Sandstorm Trek",
+    "qlvl": 72,
+    "tclass": "TC66"
+  },
+  {
+    "id": 1968,
+    "key": "lbl",
+    "name": "Sash",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20395,
+    "key": "ba9",
+    "name": "Savage Helmet",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21708,
+    "key": "Sazabi's Cobalt Redeemer",
+    "name": "Sazabi's Cobalt Redeemer",
+    "qlvl": 34,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21709,
+    "key": "Sazabi's Ghost Liberator",
+    "name": "Sazabi's Ghost Liberator",
+    "qlvl": 34,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21710,
+    "key": "Sazabi's Mental Sheath",
+    "name": "Sazabi's Mental Sheath",
+    "qlvl": 34,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1942,
+    "key": "scl",
+    "name": "Scale Mail",
+    "qlvl": 13,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20350,
+    "key": "ula",
+    "name": "Scarab Husk",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20375,
+    "key": "uvb",
+    "name": "Scarabshell Boots",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 1991,
+    "key": "scp",
+    "name": "Scepter",
+    "qlvl": 3,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21648,
+    "key": "Schaefer's Hammer",
+    "name": "Schaefer's Hammer",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2002,
+    "key": "scm",
+    "name": "Scimitar",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20186,
+    "key": "skr",
+    "name": "Scissors Katar",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 20193,
+    "key": "9qr",
+    "name": "Scissors Quhab",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20200,
+    "key": "7qr",
+    "name": "Scissors Suwayyah",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20222,
+    "key": "7fl",
+    "name": "Scourge",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 2077,
+    "key": "xrg",
+    "name": "Scutum",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2035,
+    "key": "scy",
+    "name": "Scythe",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20217,
+    "key": "7qs",
+    "name": "Seraph Rod",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 2629,
+    "key": "Serpent Lord",
+    "name": "Serpent Lord",
+    "qlvl": 12,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2093,
+    "key": "xea",
+    "name": "Serpentskin Armor",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20404,
+    "key": "ne8",
+    "name": "Sexton Trophy",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20271,
+    "key": "6lb",
+    "name": "Shadow Bow",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21403,
+    "key": "Shadowdancer",
+    "name": "Shadow Dancer",
+    "qlvl": 79,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21439,
+    "key": "Shadowkiller",
+    "name": "Shadow Killer",
+    "qlvl": 85,
+    "tclass": "TC75"
+  },
+  {
+    "id": 20360,
+    "key": "uul",
+    "name": "Shadow Plate",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2607,
+    "key": "Shadowfang",
+    "name": "Shadowfang",
+    "qlvl": 16,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21361,
+    "key": "Shaftstop",
+    "name": "Shaftstop",
+    "qlvl": 46,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20341,
+    "key": "uap",
+    "name": "Shako",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2153,
+    "key": "9sb",
+    "name": "Shamshir",
+    "qlvl": 35,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2062,
+    "key": "zvb",
+    "name": "Sharkskin Belt",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2067,
+    "key": "xvb",
+    "name": "Sharkskin Boots",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2072,
+    "key": "xvg",
+    "name": "Sharkskin Gloves",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2084,
+    "key": "xld",
+    "name": "Sharktooth Armor",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20267,
+    "key": "6bs",
+    "name": "Shillelagh",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 2048,
+    "key": "sbb",
+    "name": "Short Battle Bow",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2044,
+    "key": "sbw",
+    "name": "Short Bow",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2109,
+    "key": "8s8",
+    "name": "Short Siege Bow",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2025,
+    "key": "ssp",
+    "name": "Short Spear",
+    "qlvl": 15,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2039,
+    "key": "sst",
+    "name": "Short Staff",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2001,
+    "key": "ssd",
+    "name": "Short Sword",
+    "qlvl": 1,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2050,
+    "key": "swb",
+    "name": "Short War Bow",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2104,
+    "key": "8mx",
+    "name": "Siege Crossbow",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 10159,
+    "key": "Sigon's Gage",
+    "name": "Sigon's Gage",
+    "qlvl": 9,
+    "tclass": "TC27"
+  },
+  {
+    "id": 10162,
+    "key": "Sigon's Guard",
+    "name": "Sigon's Guard",
+    "qlvl": 9,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10160,
+    "key": "Sigon's Sabot",
+    "name": "Sigon's Sabot",
+    "qlvl": 9,
+    "tclass": "TC27"
+  },
+  {
+    "id": 10158,
+    "key": "Sigon's Shelter",
+    "name": "Sigon's Shelter",
+    "qlvl": 9,
+    "tclass": "TC33"
+  },
+  {
+    "id": 10157,
+    "key": "Sigon's Visor",
+    "name": "Sigon's Visor",
+    "qlvl": 9,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10161,
+    "key": "Sigon's Wrap",
+    "name": "Sigon's Wrap",
+    "qlvl": 9,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2666,
+    "key": "Victors Silk",
+    "name": "Silks of the Victor",
+    "qlvl": 38,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21546,
+    "key": "Silkweave",
+    "name": "Silkweave",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20207,
+    "key": "7ba",
+    "name": "Silver-edged Axe",
+    "qlvl": 65,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2132,
+    "key": "9s9",
+    "name": "Simbilan",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2601,
+    "key": "Krintizs Skewer",
+    "name": "Skewer of Krintiz",
+    "qlvl": 14,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21633,
+    "key": "Skin of the Flayerd One",
+    "name": "Skin of the Flayed One",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21362,
+    "key": "Skin of the Vipermagi",
+    "name": "Skin of the Vipermagi",
+    "qlvl": 37,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1931,
+    "key": "skp",
+    "name": "Skull Cap",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 21345,
+    "key": "Skullcollector",
+    "name": "Skull Collector",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2577,
+    "key": "Mindrend",
+    "name": "Skull Splitter",
+    "qlvl": 28,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21530,
+    "key": "Skullder's Ire",
+    "name": "Skullder's Ire",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20407,
+    "key": "dre",
+    "name": "Sky Spirit",
+    "qlvl": 83,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21346,
+    "key": "Skystrike",
+    "name": "Skystrike",
+    "qlvl": 36,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20396,
+    "key": "baa",
+    "name": "Slayer Guard",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 20435,
+    "key": "cm1",
+    "name": "Small Charm",
+    "qlvl": 28,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20202,
+    "key": "7ax",
+    "name": "Small Crescent",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 1953,
+    "key": "sml",
+    "name": "Small Shield",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 20283,
+    "key": "ob3",
+    "name": "Smoked Sphere",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2687,
+    "key": "Snakecord",
+    "name": "Snakecord",
+    "qlvl": 16,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21550,
+    "key": "Snowclash",
+    "name": "Snowclash",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21407,
+    "key": "Souldrain",
+    "name": "Soul Drainer",
+    "qlvl": 82,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2624,
+    "key": "Soul Harvest",
+    "name": "Soul Harvest",
+    "qlvl": 26,
+    "tclass": "TC15"
+  },
+  {
+    "id": 21333,
+    "key": "Soulfeast Tine",
+    "name": "Soulfeast Tine",
+    "qlvl": 43,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2608,
+    "key": "Soulflay",
+    "name": "Soulflay",
+    "qlvl": 26,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2659,
+    "key": "Sparking Mail",
+    "name": "Sparking Mail",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 20300,
+    "key": "ob9",
+    "name": "Sparkling Ball",
+    "qlvl": 46,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2028,
+    "key": "spr",
+    "name": "Spear",
+    "qlvl": 5,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2616,
+    "key": "Irices Shard",
+    "name": "Spectral Shard",
+    "qlvl": 34,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21293,
+    "key": "Spellsteel",
+    "name": "Spellsteel",
+    "qlvl": 47,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2031,
+    "key": "spt",
+    "name": "Spetum",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20269,
+    "key": "6sb",
+    "name": "Spider Bow",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 20379,
+    "key": "ulc",
+    "name": "Spiderweb Sash",
+    "qlvl": 61,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21582,
+    "key": "Spike Thorn",
+    "name": "Spike Thorn",
+    "qlvl": 78,
+    "tclass": "TC69"
+  },
+  {
+    "id": 1994,
+    "key": "spc",
+    "name": "Spiked Club",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 1975,
+    "key": "spk",
+    "name": "Spiked Shield",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21327,
+    "key": "Spineripper",
+    "name": "Spineripper",
+    "qlvl": 40,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21335,
+    "key": "Spire of Honor",
+    "name": "Spire of Honor",
+    "qlvl": 47,
+    "tclass": "TC48"
+  },
+  {
+    "id": 2630,
+    "key": "Lazarus Spire",
+    "name": "Spire of Lazarus",
+    "qlvl": 24,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20345,
+    "key": "uhm",
+    "name": "Spired Helm",
+    "qlvl": 79,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21527,
+    "key": "Spiritforge",
+    "name": "Spirit Forge",
+    "qlvl": 43,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21428,
+    "key": "Spiritkeeper",
+    "name": "Spirit Keeper",
+    "qlvl": 75,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20321,
+    "key": "dr5",
+    "name": "Spirit Mask",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21573,
+    "key": "Spirit Ward",
+    "name": "Spirit Ward",
+    "qlvl": 76,
+    "tclass": "TC84"
+  },
+  {
+    "id": 1945,
+    "key": "spl",
+    "name": "Splint Mail",
+    "qlvl": 20,
+    "tclass": "TC21"
+  },
+  {
+    "id": 20292,
+    "key": "am1",
+    "name": "Stag Bow",
+    "qlvl": 18,
+    "tclass": "TC18"
+  },
+  {
+    "id": 20265,
+    "key": "6ls",
+    "name": "Stalagmite",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21520,
+    "key": "Stealskull",
+    "name": "Stealskull",
+    "qlvl": 43,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21563,
+    "key": "Steel Carapice",
+    "name": "Steel Carapace",
+    "qlvl": 74,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21556,
+    "key": "Steelpillar",
+    "name": "Steel Pillar",
+    "qlvl": 77,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21388,
+    "key": "Steelshade",
+    "name": "Steel Shade",
+    "qlvl": 70,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2673,
+    "key": "Steelclash",
+    "name": "Steelclash",
+    "qlvl": 23,
+    "tclass": "TC15"
+  },
+  {
+    "id": 2598,
+    "key": "Steeldriver",
+    "name": "Steeldriver",
+    "qlvl": 39,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2623,
+    "key": "Steelgoad",
+    "name": "Steelgoad",
+    "qlvl": 19,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21399,
+    "key": "Steelrend",
+    "name": "Steelrend",
+    "qlvl": 78,
+    "tclass": "TC87"
+  },
+  {
+    "id": 11028,
+    "key": "9bl",
+    "name": "Stiletto",
+    "qlvl": 46,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21400,
+    "key": "Stone Crusher",
+    "name": "Stone Crusher",
+    "qlvl": 76,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21482,
+    "key": "Stoneraven",
+    "name": "Stoneraven",
+    "qlvl": 72,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21537,
+    "key": "Stormchaser",
+    "name": "Stormchaser",
+    "qlvl": 43,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2591,
+    "key": "Stormeye",
+    "name": "Stormeye",
+    "qlvl": 31,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2670,
+    "key": "Stormguild",
+    "name": "Stormguild",
+    "qlvl": 18,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21578,
+    "key": "Stormlash",
+    "name": "Stormlash",
+    "qlvl": 86,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21294,
+    "key": "Stormrider",
+    "name": "Stormrider",
+    "qlvl": 49,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21621,
+    "key": "Stormshield",
+    "name": "Stormshield",
+    "qlvl": 77,
+    "tclass": "TC72"
+  },
+  {
+    "id": 21330,
+    "key": "Stormspike",
+    "name": "Stormspike",
+    "qlvl": 49,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21639,
+    "key": "Stormspire",
+    "name": "Stormspire",
+    "qlvl": 78,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2637,
+    "key": "Pullspite",
+    "name": "Stormstrike",
+    "qlvl": 34,
+    "tclass": "TC18"
+  },
+  {
+    "id": 2592,
+    "key": "Stoutnail",
+    "name": "Stoutnail",
+    "qlvl": 7,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2182,
+    "key": "gpl",
+    "name": "Strangling Gas Potion",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 21355,
+    "key": "String of Ears",
+    "name": "String of Ears",
+    "qlvl": 37,
+    "tclass": "TC36"
+  },
+  {
+    "id": 1940,
+    "key": "stu",
+    "name": "Studded Leather",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20254,
+    "key": "7tr",
+    "name": "Stygian Pike",
+    "qlvl": 66,
+    "tclass": "TC66"
+  },
+  {
+    "id": 20249,
+    "key": "7pi",
+    "name": "Stygian Pilum",
+    "qlvl": 62,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20424,
+    "key": "nee",
+    "name": "Succubus Skull",
+    "qlvl": 81,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21297,
+    "key": "Suicide Branch",
+    "name": "Suicide Branch",
+    "qlvl": 41,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20408,
+    "key": "drc",
+    "name": "Sun Spirit",
+    "qlvl": 69,
+    "tclass": "TC69"
+  },
+  {
+    "id": 21307,
+    "key": "Sureshrill Frost",
+    "name": "Sureshrill Frost",
+    "qlvl": 47,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20194,
+    "key": "7ar",
+    "name": "Suwayyah",
+    "qlvl": 59,
+    "tclass": "TC60"
+  },
+  {
+    "id": 20301,
+    "key": "oba",
+    "name": "Swirling Crystal",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2672,
+    "key": "Swordback Hold",
+    "name": "Swordback Hold",
+    "qlvl": 20,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21326,
+    "key": "Swordguard",
+    "name": "Swordguard",
+    "qlvl": 55,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2173,
+    "key": "9bt",
+    "name": "Tabar",
+    "qlvl": 42,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21825,
+    "key": "Heaven's Taebaek",
+    "name": "Taebaek's Glory",
+    "qlvl": 55,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21816,
+    "key": "Tal Rasha's Fire-Spun Cloth",
+    "name": "Tal Rasha's Fire-Spun Cloth",
+    "qlvl": 26,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21818,
+    "key": "Tal Rasha's Howling Wind",
+    "name": "Tal Rasha's Guardianship",
+    "qlvl": 26,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21820,
+    "key": "Tal Rasha's Horadric Crest",
+    "name": "Tal Rasha's Horadric Crest",
+    "qlvl": 26,
+    "tclass": "TC48"
+  },
+  {
+    "id": 21819,
+    "key": "Tal Rasha's Lidless Eye",
+    "name": "Tal Rasha's Lidless Eye",
+    "qlvl": 26,
+    "tclass": "TC51"
+  },
+  {
+    "id": 10152,
+    "key": "Tancred's Crowbill",
+    "name": "Tancred's Crowbill",
+    "qlvl": 27,
+    "tclass": "TC21"
+  },
+  {
+    "id": 10154,
+    "key": "Tancred's Hobnails",
+    "name": "Tancred's Hobnails",
+    "qlvl": 27,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10156,
+    "key": "Tancred's Skull",
+    "name": "Tancred's Skull",
+    "qlvl": 27,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10153,
+    "key": "Tancred's Spine",
+    "name": "Tancred's Spine",
+    "qlvl": 27,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20327,
+    "key": "pa1",
+    "name": "Targe",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2646,
+    "key": "Tarnhelm",
+    "name": "Tarnhelm",
+    "qlvl": 20,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2685,
+    "key": "Tearhaunch",
+    "name": "Tearhaunch",
+    "qlvl": 39,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2085,
+    "key": "xlt",
+    "name": "Templar Coat",
+    "qlvl": 52,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21585,
+    "key": "Templar's Might",
+    "name": "Templar's Might",
+    "qlvl": 82,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21320,
+    "key": "The Atlantien",
+    "name": "The Atlantean",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2625,
+    "key": "The Battlebranch",
+    "name": "The Battlebranch",
+    "qlvl": 34,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2655,
+    "key": "The Centurion",
+    "name": "The Centurion",
+    "qlvl": 19,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2581,
+    "key": "The Chieftan",
+    "name": "The Chieftain",
+    "qlvl": 26,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21647,
+    "key": "The Cranium Basher",
+    "name": "The Cranium Basher",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2614,
+    "key": "The Diggler",
+    "name": "The Diggler",
+    "qlvl": 15,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2617,
+    "key": "The Dragon Chang",
+    "name": "The Dragon Chang",
+    "qlvl": 11,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2652,
+    "key": "The Face of Horror",
+    "name": "The Face of Horror",
+    "qlvl": 27,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21304,
+    "key": "The Fetid Sprinkler",
+    "name": "The Fetid Sprinkler",
+    "qlvl": 46,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21312,
+    "key": "The Gavel of Pain",
+    "name": "The Gavel of Pain",
+    "qlvl": 53,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2595,
+    "key": "The Generals Tan Do Li Ga",
+    "name": "The General's Tan Do Li Ga",
+    "qlvl": 28,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21625,
+    "key": "The Gladiator's Bane",
+    "name": "The Gladiator's Bane",
+    "qlvl": 85,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2574,
+    "key": "The Gnasher",
+    "name": "The Gnasher",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21643,
+    "key": "The Grandfather",
+    "name": "The Grandfather",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2627,
+    "key": "The Grim Reaper",
+    "name": "The Grim Reaper",
+    "qlvl": 39,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2676,
+    "key": "The Hand of Broc",
+    "name": "The Hand of Broc",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 21331,
+    "key": "The Impaler",
+    "name": "The Impaler",
+    "qlvl": 39,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2632,
+    "key": "The Iron Jang Bong",
+    "name": "The Iron Jang Bong",
+    "qlvl": 38,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2615,
+    "key": "The Jade Tan Do",
+    "name": "The Jade Tan Do",
+    "qlvl": 26,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21336,
+    "key": "The Meat Scraper",
+    "name": "The Meat Scraper",
+    "qlvl": 49,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21296,
+    "key": "The Minotaur",
+    "name": "The Minotaur",
+    "qlvl": 53,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21762,
+    "key": "The Oculus",
+    "name": "The Oculus",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2612,
+    "key": "The Patriarch",
+    "name": "The Patriarch",
+    "qlvl": 39,
+    "tclass": "TC33"
+  },
+  {
+    "id": 21427,
+    "key": "The Reaper's Toll",
+    "name": "The Reaper's Toll",
+    "qlvl": 83,
+    "tclass": "TC72"
+  },
+  {
+    "id": 21394,
+    "key": "The Reedeemer",
+    "name": "The Redeemer",
+    "qlvl": 80,
+    "tclass": "TC63"
+  },
+  {
+    "id": 2631,
+    "key": "The Salamander",
+    "name": "The Salamander",
+    "qlvl": 28,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21448,
+    "key": "The Scalper",
+    "name": "The Scalper",
+    "qlvl": 65,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21524,
+    "key": "The Spirit Shroud",
+    "name": "The Spirit Shroud",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2621,
+    "key": "The Tannr Gorerod",
+    "name": "The Tannr Gorerod",
+    "qlvl": 36,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21323,
+    "key": "The Vile Husk",
+    "name": "The Vile Husk",
+    "qlvl": 52,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2675,
+    "key": "The Ward",
+    "name": "The Ward",
+    "qlvl": 35,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20260,
+    "key": "7s8",
+    "name": "Thresher",
+    "qlvl": 71,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2020,
+    "key": "tax",
+    "name": "Throwing Axe",
+    "qlvl": 7,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2019,
+    "key": "tkf",
+    "name": "Throwing Knife",
+    "qlvl": 2,
+    "tclass": "TC3"
+  },
+  {
+    "id": 2027,
+    "key": "tsp",
+    "name": "Throwing Spear",
+    "qlvl": 29,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20225,
+    "key": "7gm",
+    "name": "Thunder Maul",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21551,
+    "key": "Thudergod's Vigor",
+    "name": "Thundergod's Vigor",
+    "qlvl": 55,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21445,
+    "key": "Thunderstroke",
+    "name": "Thunderstroke",
+    "qlvl": 77,
+    "tclass": "TC66"
+  },
+  {
+    "id": 21538,
+    "key": "Tiamat's Rebuke",
+    "name": "Tiamat's Rebuke",
+    "qlvl": 46,
+    "tclass": "TC45"
+  },
+  {
+    "id": 20339,
+    "key": "ci2",
+    "name": "Tiara",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 2089,
+    "key": "xcl",
+    "name": "Tigulated Mail",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21735,
+    "key": "Titan's Revenge",
+    "name": "Titan's Revenge",
+    "qlvl": 50,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21325,
+    "key": "Todesfaelle Flamme",
+    "name": "Todesfaelle Flamme",
+    "qlvl": 54,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20201,
+    "key": "7ha",
+    "name": "Tomahawk",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 21389,
+    "key": "Tomb Reaver",
+    "name": "Tomb Reaver",
+    "qlvl": 86,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2168,
+    "key": "9bw",
+    "name": "Tomb Wand",
+    "qlvl": 43,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21531,
+    "key": "Toothrow",
+    "name": "Toothrow",
+    "qlvl": 56,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2584,
+    "key": "Iros Torch",
+    "name": "Torch of Iro",
+    "qlvl": 7,
+    "tclass": "TC3"
+  },
+  {
+    "id": 20391,
+    "key": "dra",
+    "name": "Totemic Mask",
+    "qlvl": 55,
+    "tclass": "TC57"
+  },
+  {
+    "id": 1956,
+    "key": "tow",
+    "name": "Tower Shield",
+    "qlvl": 22,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21665,
+    "key": "Trang-Oul's Claws",
+    "name": "Trang-Oul's Claws",
+    "qlvl": 32,
+    "tclass": "TC45"
+  },
+  {
+    "id": 21666,
+    "key": "Trang-Oul's Girth",
+    "name": "Trang-Oul's Girth",
+    "qlvl": 32,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21661,
+    "key": "Trang-Oul's Guise",
+    "name": "Trang-Oul's Guise",
+    "qlvl": 32,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21664,
+    "key": "Trang-Oul's Scales",
+    "name": "Trang-Oul's Scales",
+    "qlvl": 32,
+    "tclass": "TC63"
+  },
+  {
+    "id": 21662,
+    "key": "Trang-Oul's Wing",
+    "name": "Trang-Oul's Wing",
+    "qlvl": 32,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2683,
+    "key": "Treads of Cthon",
+    "name": "Treads of Cthon",
+    "qlvl": 20,
+    "tclass": "TC12"
+  },
+  {
+    "id": 2091,
+    "key": "xtu",
+    "name": "Trellised Armor",
+    "qlvl": 40,
+    "tclass": "TC42"
+  },
+  {
+    "id": 2029,
+    "key": "tri",
+    "name": "Trident",
+    "qlvl": 9,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20382,
+    "key": "utc",
+    "name": "Troll Belt",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20385,
+    "key": "ush",
+    "name": "Troll Nest",
+    "qlvl": 76,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20215,
+    "key": "7cl",
+    "name": "Truncheon",
+    "qlvl": 52,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2152,
+    "key": "9fc",
+    "name": "Tulwar",
+    "qlvl": 37,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2145,
+    "key": "9gs",
+    "name": "Tusk Sword",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2178,
+    "key": "92a",
+    "name": "Twin Axe",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 2656,
+    "key": "Twitchthroe",
+    "name": "Twitchthroe",
+    "qlvl": 22,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2009,
+    "key": "2hs",
+    "name": "Two-Handed Sword",
+    "qlvl": 10,
+    "tclass": "TC12"
+  },
+  {
+    "id": 21645,
+    "key": "Tyrael's Might",
+    "name": "Tyrael's Might",
+    "qlvl": 87,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20219,
+    "key": "7sp",
+    "name": "Tyrant Club",
+    "qlvl": 57,
+    "tclass": "TC57"
+  },
+  {
+    "id": 2669,
+    "key": "Umbral Disk",
+    "name": "Umbral Disk",
+    "qlvl": 12,
+    "tclass": "TC6"
+  },
+  {
+    "id": 2587,
+    "key": "Umes Lament",
+    "name": "Ume's Lament",
+    "qlvl": 38,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2651,
+    "key": "Undead Crown",
+    "name": "Undead Crown",
+    "qlvl": 39,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20214,
+    "key": "7gw",
+    "name": "Unearthed Wand",
+    "qlvl": 86,
+    "tclass": "TC87"
+  },
+  {
+    "id": 20334,
+    "key": "ne3",
+    "name": "Unraveller Head",
+    "qlvl": 16,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21364,
+    "key": "Valkiry Wing",
+    "name": "Valkyrie Wing",
+    "qlvl": 52,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20371,
+    "key": "umg",
+    "name": "Vambraces",
+    "qlvl": 69,
+    "tclass": "TC69"
+  },
+  {
+    "id": 21354,
+    "key": "Vampiregaze",
+    "name": "Vampire Gaze",
+    "qlvl": 49,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20370,
+    "key": "uvg",
+    "name": "Vampirebone Gloves",
+    "qlvl": 63,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20380,
+    "key": "uvc",
+    "name": "Vampirefang Belt",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 21626,
+    "key": "Veil of Steel",
+    "name": "Veil of Steel",
+    "qlvl": 77,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21358,
+    "key": "Venom Grip",
+    "name": "Venom Grip",
+    "qlvl": 37,
+    "tclass": "TC33"
+  },
+  {
+    "id": 2660,
+    "key": "Venomsward",
+    "name": "Venom Ward",
+    "qlvl": 27,
+    "tclass": "TC18"
+  },
+  {
+    "id": 21595,
+    "key": "Verdugo's Hearty Cord",
+    "name": "Verdungo's Hearty Cord",
+    "qlvl": 71,
+    "tclass": "TC75"
+  },
+  {
+    "id": 10140,
+    "key": "Vidala's Ambush",
+    "name": "Vidala's Ambush",
+    "qlvl": 19,
+    "tclass": "TC3"
+  },
+  {
+    "id": 10142,
+    "key": "Vidala's Barb",
+    "name": "Vidala's Barb",
+    "qlvl": 19,
+    "tclass": "TC24"
+  },
+  {
+    "id": 10141,
+    "key": "Vidala's Fetlock",
+    "name": "Vidala's Fetlock",
+    "qlvl": 19,
+    "tclass": "TC21"
+  },
+  {
+    "id": 21421,
+    "key": "Viperfork",
+    "name": "Viperfork",
+    "qlvl": 79,
+    "tclass": "TC75"
+  },
+  {
+    "id": 21359,
+    "key": "Visceratuant",
+    "name": "Visceratuant",
+    "qlvl": 36,
+    "tclass": "TC36"
+  },
+  {
+    "id": 20310,
+    "key": "obe",
+    "name": "Vortex Orb",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20420,
+    "key": "paf",
+    "name": "Vortex Shield",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 2034,
+    "key": "vou",
+    "name": "Voulge",
+    "qlvl": 11,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20264,
+    "key": "6ss",
+    "name": "Walking Stick",
+    "qlvl": 58,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2671,
+    "key": "Wall of the Eyeless",
+    "name": "Wall of the Eyeless",
+    "qlvl": 27,
+    "tclass": "TC21"
+  },
+  {
+    "id": 1986,
+    "key": "wnd",
+    "name": "Wand",
+    "qlvl": 2,
+    "tclass": "TC3"
+  },
+  {
+    "id": 1980,
+    "key": "wax",
+    "name": "War Axe",
+    "qlvl": 25,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2059,
+    "key": "zhb",
+    "name": "War Belt",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2064,
+    "key": "xhb",
+    "name": "War Boots",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 2157,
+    "key": "9m9",
+    "name": "War Club",
+    "qlvl": 45,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2136,
+    "key": "9bk",
+    "name": "War Dart",
+    "qlvl": 39,
+    "tclass": "TC39"
+  },
+  {
+    "id": 20196,
+    "key": "7xf",
+    "name": "War Fist",
+    "qlvl": 68,
+    "tclass": "TC69"
+  },
+  {
+    "id": 2127,
+    "key": "9br",
+    "name": "War Fork",
+    "qlvl": 41,
+    "tclass": "TC42"
+  },
+  {
+    "id": 11012,
+    "key": "xhg",
+    "name": "War Gauntlets",
+    "qlvl": 54,
+    "tclass": "TC54"
+  },
+  {
+    "id": 1998,
+    "key": "whm",
+    "name": "War Hammer",
+    "qlvl": 25,
+    "tclass": "TC27"
+  },
+  {
+    "id": 2101,
+    "key": "xap",
+    "name": "War Hat",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2134,
+    "key": "9ja",
+    "name": "War Javelin",
+    "qlvl": 30,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20257,
+    "key": "7p7",
+    "name": "War Pike",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 1993,
+    "key": "wsp",
+    "name": "War Scepter",
+    "qlvl": 21,
+    "tclass": "TC21"
+  },
+  {
+    "id": 2038,
+    "key": "wsc",
+    "name": "War Scythe",
+    "qlvl": 34,
+    "tclass": "TC36"
+  },
+  {
+    "id": 2129,
+    "key": "9sr",
+    "name": "War Spear",
+    "qlvl": 33,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20204,
+    "key": "7mp",
+    "name": "War Spike",
+    "qlvl": 79,
+    "tclass": "TC81"
+  },
+  {
+    "id": 2043,
+    "key": "wst",
+    "name": "War Staff",
+    "qlvl": 24,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2008,
+    "key": "wsd",
+    "name": "War Sword",
+    "qlvl": 27,
+    "tclass": "TC27"
+  },
+  {
+    "id": 21547,
+    "key": "Wartraveler",
+    "name": "War Traveler",
+    "qlvl": 50,
+    "tclass": "TC51"
+  },
+  {
+    "id": 2408,
+    "key": "ward",
+    "name": "Ward",
+    "qlvl": 84,
+    "tclass": "TC84"
+  },
+  {
+    "id": 20275,
+    "key": "6sw",
+    "name": "Ward Bow",
+    "qlvl": 80,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21292,
+    "key": "Warlord's Trust",
+    "name": "Warlord's Trust",
+    "qlvl": 43,
+    "tclass": "TC36"
+  },
+  {
+    "id": 21344,
+    "key": "Warpspear",
+    "name": "Warpspear",
+    "qlvl": 47,
+    "tclass": "TC42"
+  },
+  {
+    "id": 21380,
+    "key": "Warshrike",
+    "name": "Warshrike",
+    "qlvl": 83,
+    "tclass": "TC78"
+  },
+  {
+    "id": 21545,
+    "key": "Waterwalk",
+    "name": "Waterwalk",
+    "qlvl": 40,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21734,
+    "key": "Wihtstan's Guard",
+    "name": "Whitstan's Guard",
+    "qlvl": 41,
+    "tclass": "TC39"
+  },
+  {
+    "id": 21436,
+    "key": "Widow maker",
+    "name": "Widowmaker",
+    "qlvl": 73,
+    "tclass": "TC81"
+  },
+  {
+    "id": 21839,
+    "key": "Wilhelm's Pride",
+    "name": "Wilhelm's Pride",
+    "qlvl": 41,
+    "tclass": "TC51"
+  },
+  {
+    "id": 21635,
+    "key": "Windforce",
+    "name": "Windforce",
+    "qlvl": 80,
+    "tclass": "TC87"
+  },
+  {
+    "id": 21444,
+    "key": "Windhammer",
+    "name": "Windhammer",
+    "qlvl": 76,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20247,
+    "key": "7b8",
+    "name": "Winged Axe",
+    "qlvl": 80,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20252,
+    "key": "7ts",
+    "name": "Winged Harpoon",
+    "qlvl": 85,
+    "tclass": "TC87"
+  },
+  {
+    "id": 10021,
+    "key": "xhm",
+    "name": "Winged Helm",
+    "qlvl": 51,
+    "tclass": "TC51"
+  },
+  {
+    "id": 20246,
+    "key": "7bk",
+    "name": "Winged Knife",
+    "qlvl": 77,
+    "tclass": "TC78"
+  },
+  {
+    "id": 20351,
+    "key": "utu",
+    "name": "Wire Fleece",
+    "qlvl": 70,
+    "tclass": "TC72"
+  },
+  {
+    "id": 10911,
+    "key": "Whichwild String",
+    "name": "Witchwild String",
+    "qlvl": 47,
+    "tclass": "TC45"
+  },
+  {
+    "id": 2634,
+    "key": "Witherstring",
+    "name": "Witherstring",
+    "qlvl": 18,
+    "tclass": "TC6"
+  },
+  {
+    "id": 21642,
+    "key": "Wizardspike",
+    "name": "Wizardspike",
+    "qlvl": 69,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2638,
+    "key": "Wizendraw",
+    "name": "Wizendraw",
+    "qlvl": 35,
+    "tclass": "TC24"
+  },
+  {
+    "id": 2626,
+    "key": "Woestave",
+    "name": "Woestave",
+    "qlvl": 38,
+    "tclass": "TC30"
+  },
+  {
+    "id": 20320,
+    "key": "dr1",
+    "name": "Wolf Head",
+    "qlvl": 4,
+    "tclass": "TC6"
+  },
+  {
+    "id": 21572,
+    "key": "Wolfhowl",
+    "name": "Wolfhowl",
+    "qlvl": 85,
+    "tclass": "TC66"
+  },
+  {
+    "id": 2649,
+    "key": "Wormskull",
+    "name": "Wormskull",
+    "qlvl": 28,
+    "tclass": "TC24"
+  },
+  {
+    "id": 21512,
+    "key": "Wraithflight",
+    "name": "Wraith Flight",
+    "qlvl": 84,
+    "tclass": "TC81"
+  },
+  {
+    "id": 20182,
+    "key": "wrb",
+    "name": "Wrist Blade",
+    "qlvl": 9,
+    "tclass": "TC9"
+  },
+  {
+    "id": 20188,
+    "key": "9wb",
+    "name": "Wrist Spike",
+    "qlvl": 32,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20195,
+    "key": "7wb",
+    "name": "Wrist Sword",
+    "qlvl": 62,
+    "tclass": "TC63"
+  },
+  {
+    "id": 20349,
+    "key": "uea",
+    "name": "Wyrmhide",
+    "qlvl": 67,
+    "tclass": "TC69"
+  },
+  {
+    "id": 20374,
+    "key": "ulb",
+    "name": "Wyrmhide Boots",
+    "qlvl": 60,
+    "tclass": "TC60"
+  },
+  {
+    "id": 2126,
+    "key": "9st",
+    "name": "Yari",
+    "qlvl": 44,
+    "tclass": "TC45"
+  },
+  {
+    "id": 1987,
+    "key": "ywn",
+    "name": "Yew Wand",
+    "qlvl": 12,
+    "tclass": "TC12"
+  },
+  {
+    "id": 20419,
+    "key": "pae",
+    "name": "Zakarum Shield",
+    "qlvl": 82,
+    "tclass": "TC84"
+  },
+  {
+    "id": 21303,
+    "key": "Zakrum's Hand",
+    "name": "Zakarum's Hand",
+    "qlvl": 45,
+    "tclass": "TC33"
+  },
+  {
+    "id": 20333,
+    "key": "ne2",
+    "name": "Zombie Head",
+    "qlvl": 8,
+    "tclass": "TC9"
+  },
+  {
+    "id": 2144,
+    "key": "9fb",
+    "name": "Zweihander",
+    "qlvl": 49,
+    "tclass": "TC51"
+  }
+]

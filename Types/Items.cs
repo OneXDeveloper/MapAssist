@@ -18,6 +18,7 @@ namespace MapAssist.Types
         public static Dictionary<int, List<ItemLogEntry>> ItemLog = new Dictionary<int, List<ItemLogEntry>>();
         public static Dictionary<string, LocalizedObj> LocalizedItems = new Dictionary<string, LocalizedObj>();
         public static Dictionary<ushort, LocalizedObj> LocalizedRunewords = new Dictionary<ushort, LocalizedObj>();
+        public static Dictionary<string, QualityLevelsObj> QualityLevels = new Dictionary<string, QualityLevelsObj>();
 
         public static void LogItem(UnitItem item, Area area, int areaLevel, int playerLevel, int processId)
         {
@@ -108,6 +109,15 @@ namespace MapAssist.Types
             if (item.ItemData.ItemQuality == ItemQuality.SUPERIOR)
             {
                 itemPrefix += "Sup. ";
+            }
+
+            if (rule.MinQualityLevel != null || rule.MaxQualityLevel != null)
+            {
+                var qualityLevel = GetQualityLevel(item);
+                if (qualityLevel != null)
+                {
+                    itemSuffix += $" (qlvl {qualityLevel})";
+                }
             }
 
             if (rule.AllResist != null)
@@ -407,6 +417,40 @@ namespace MapAssist.Types
             var prop = localItem.GetType().GetProperty(lang.ToString()).GetValue(localItem, null);
 
             return prop.ToString();
+        }
+        
+        public static int? GetQualityLevel(UnitItem item)
+        { 
+            string itemCode;
+            if (!_ItemCodes.TryGetValue(item.TxtFileNo, out itemCode))
+            {
+                return null;
+            }
+            
+            string namedCode;
+            switch (item.ItemData.ItemQuality)
+            {
+                case ItemQuality.UNIQUE:
+                    if(_UniqueFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Unique") {
+                        itemCode = namedCode;
+                    }
+
+                    break;
+
+                case ItemQuality.SET:
+                    if(_SetFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Set") {
+                        itemCode = namedCode;
+                    }
+                    break;
+            }
+
+            QualityLevelsObj qualityLevel;
+            if (!QualityLevels.TryGetValue(itemCode, out qualityLevel))
+            {
+                return null;
+            }
+
+            return qualityLevel.qlvl;
         }
 
         public static Color GetItemBaseColor(UnitItem unit)

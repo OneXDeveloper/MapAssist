@@ -18,6 +18,7 @@ namespace MapAssist.Settings
             Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfigurationMain(Properties.Resources.Config, $"./Config.yaml");
             Localization.LoadLocalizationFile();
             PointOfInterestHandler.UpdateLocalizationNames();
+            QualityLevels.LoadQualityLevelsFile();
         }
 
         public void Save()

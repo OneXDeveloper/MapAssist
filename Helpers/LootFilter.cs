@@ -35,16 +35,18 @@ namespace MapAssist.Helpers
                 // Requirement check functions
                 var requirementsFunctions = new Dictionary<string, Func<bool>>()
                 {
-                    ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
-                    ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
-                    ["Ethereal"] = () => ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL) == rule.Ethereal,
-                    ["MinAreaLevel"] = () => areaLevel >= rule.MinAreaLevel,
-                    ["MaxAreaLevel"] = () => areaLevel <= rule.MaxAreaLevel,
-                    ["MinPlayerLevel"] = () => playerLevel >= rule.MinPlayerLevel,
-                    ["MaxPlayerLevel"] = () => playerLevel <= rule.MaxPlayerLevel,
-                    ["AllAttributes"] = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
-                    ["AllResist"] = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
-                    ["SumResist"] = () => Items.GetItemStatResists(item, true) >= rule.SumResist,
+                    ["Qualities"]       = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
+                    ["Sockets"]         = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
+                    ["Ethereal"]        = () => ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL) == rule.Ethereal,
+                    ["MinAreaLevel"]    = () => areaLevel >= rule.MinAreaLevel,
+                    ["MaxAreaLevel"]    = () => areaLevel <= rule.MaxAreaLevel,
+                    ["MinPlayerLevel"]  = () => playerLevel >= rule.MinPlayerLevel,
+                    ["MaxPlayerLevel"]  = () => playerLevel <= rule.MaxPlayerLevel,
+                    ["MinQualityLevel"] = () => Items.GetQualityLevel(item) >= rule.MinQualityLevel,
+                    ["MaxQualityLevel"] = () => Items.GetQualityLevel(item) <= rule.MaxQualityLevel,
+                    ["AllAttributes"]   = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
+                    ["AllResist"]       = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
+                    ["SumResist"]       = () => Items.GetItemStatResists(item, true) >= rule.SumResist,
                     ["ClassSkills"] = () =>
                     {
                         if (rule.ClassSkills.Count() == 0) return true;

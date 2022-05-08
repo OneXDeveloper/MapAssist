@@ -251,6 +251,12 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Max Player Level")]
         public int? MaxPlayerLevel { get; set; }
+
+        [YamlMember(Alias = "Min Quality Level")]
+        public int? MinQualityLevel { get; set; }
+
+        [YamlMember(Alias = "Max Quality Level")]
+        public int? MaxQualityLevel { get; set; }
     }
 
     public static class ItemFilterExtensions
