@@ -1,4 +1,4 @@
-﻿using MapAssist.Settings;
+using MapAssist.Settings;
 using MapAssist.Types;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -336,7 +336,7 @@ namespace MapAssist.Helpers
             }
             else
             {
-                _log.Info($"areaData was null on {area}");
+                _log.Info($"Area data was null for {area}");
             }
 
             return areaData;
@@ -436,21 +436,21 @@ namespace MapAssist.Helpers
             {
                 uint length = 0;
                 string json = null;
-                var retry = false;
+                var retriesLeft = 5;
 
                 do
                 {
-                    retry = false;
-
                     (length, json) = MapApiRequest(ToBytes(req)).Result;
 
                     if (json == null)
                     {
                         _log.Error($"Unable to load data for {area} from {_procName}, retrying after restarting {_procName}");
                         StartPipedChild();
-                        retry = true;
+                        retriesLeft--;
                     }
-                } while (retry);
+                } while (json == null && retriesLeft > 0);
+
+                if (json == null) return null;
 
                 var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
                 return rawAreaData.ToInternal(area);

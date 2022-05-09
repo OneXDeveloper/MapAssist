@@ -48,6 +48,8 @@ namespace MapAssist.Helpers
         public void SetArea(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
         {
             _areaData = areaData;
+            if (_areaData == null) return;
+
             _areaData.CalcViewAreas(_rotateRadians);
 
             foreach (var adjacentArea in _areaData.AdjacentAreas.Values)
@@ -66,6 +68,8 @@ namespace MapAssist.Helpers
             _drawBounds = drawBounds;
             _frameCount += 1;
             (scaleWidth, scaleHeight) = GetScaleRatios();
+
+            if (_areaData == null) return;
 
             var renderWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.Size * _areaData.ViewOutputRect.Width / _areaData.ViewOutputRect.Height;
             switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
@@ -950,7 +954,7 @@ namespace MapAssist.Helpers
             // Area
             if (MapAssistConfiguration.Loaded.GameInfo.ShowArea)
             {
-                var areaText = _areaData.Area.Name();
+                var areaText = _gameData.Area.Name();
                 DrawText(gfx, anchor, areaText, font, fontSize, textColor, textShadow, textAlign);
                 anchor.Y += lineHeight;
             }
@@ -966,7 +970,7 @@ namespace MapAssist.Helpers
             // Area Level
             if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel)
             {
-                var areaLevel = _areaData.Area.Level(_gameData.Difficulty);
+                var areaLevel = _gameData.Area.Level(_gameData.Difficulty);
                 if (areaLevel > 0)
                 {
                     var areaLevelText = "Area Level: " + areaLevel;
@@ -993,7 +997,7 @@ namespace MapAssist.Helpers
 
             if (errorLoadingAreaData)
             {
-                DrawText(gfx, anchor, "ERROR LOADING AREA!", font, (int)Math.Round(fontSize * 1.5), Color.Orange, textShadow, textAlign);
+                DrawText(gfx, anchor, "ERROR LOADING AREA!", font, fontSize * 1.5f, Color.Orange, textShadow, textAlign);
                 anchor.Y += lineHeight;
             }
 
@@ -1288,7 +1292,8 @@ namespace MapAssist.Helpers
             var currentTransform = renderTarget.Transform;
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
-            if (transformForMap) { 
+            if (transformForMap)
+            {
                 startPosition = Vector2.Transform(startPosition.ToVector(), areaTransformMatrix).ToPoint();
                 endPosition = Vector2.Transform(endPosition.ToVector(), areaTransformMatrix).ToPoint();
             }

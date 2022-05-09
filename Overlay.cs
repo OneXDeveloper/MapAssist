@@ -94,8 +94,12 @@ namespace MapAssist
 
                             if (!overlayHidden)
                             {
-                                _compositor.DrawGamemap(gfx);
-                                _compositor.DrawOverlay(gfx);
+                                if (!errorLoadingAreaData)
+                                {
+                                    _compositor.DrawGamemap(gfx);
+                                    _compositor.DrawOverlay(gfx);
+                                }
+
                                 _compositor.DrawBuffs(gfx);
                                 _compositor.DrawMonsterBar(gfx);
                             }
