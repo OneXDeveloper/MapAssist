@@ -1031,6 +1031,11 @@ namespace MapAssist.Helpers
                     position = position.Subtract(stringSize.X, 0);
                 }
 
+                if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem)
+                {
+                    position = position.Add(stringSize.Y, 0);
+                }
+
                 if (MapAssistConfiguration.Loaded.ItemLog.ShowDistanceToItem && item.Area == _gameData.Area && !item.UnitItem.IsInStore)
                 {
                     var smallFont = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize * 0.7f);
@@ -1059,6 +1064,27 @@ namespace MapAssist.Helpers
                     gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, item.Text);
                 }
                 gfx.DrawText(font, brush, position, item.Text);
+
+                if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem && item.UnitItem.IsDropped)
+                {
+                    var startPosition = Vector2.Transform(_gameData.PlayerPosition.ToVector(), areaTransformMatrix).ToPoint();
+                    var endPosition = Vector2.Transform(item.UnitItem.Position.ToVector(), areaTransformMatrix).ToPoint();
+
+                    var angle = endPosition.Subtract(startPosition).Angle();
+
+                    var arrowcenter = position.Add(-stringSize.Y / 2 - 5, stringSize.Y / 2);
+                    var arrowStartPosition = arrowcenter.Add(stringSize.Y / 2, 0).Rotate(angle + (float)Math.PI, arrowcenter);
+                    var arrowEndPosition = arrowcenter.Add(stringSize.Y / 2, 0).Rotate(angle, arrowcenter);
+
+                    var rendering = new PointOfInterestRendering()
+                    {
+                        LineColor = item.Color,
+                        LineThickness = 2,
+                        ArrowHeadSize = 8
+                    };
+
+                    DrawLine(gfx, rendering, arrowStartPosition, arrowEndPosition, transformForMap: false, renderIfShort: true, spacing: 0);
+                }
             }
         }
 
@@ -1255,27 +1281,30 @@ namespace MapAssist.Helpers
             renderTarget.Transform = currentTransform;
         }
 
-        private void DrawLine(Graphics gfx, PointOfInterestRendering rendering, Point startPosition, Point endPosition)
+        private void DrawLine(Graphics gfx, PointOfInterestRendering rendering, Point startPosition, Point endPosition,
+            bool transformForMap = true, bool renderIfShort = false, int spacing = 5)
         {
             var renderTarget = gfx.GetRenderTarget();
             var currentTransform = renderTarget.Transform;
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
 
-            startPosition = Vector2.Transform(startPosition.ToVector(), areaTransformMatrix).ToPoint();
-            endPosition = Vector2.Transform(endPosition.ToVector(), areaTransformMatrix).ToPoint();
+            if (transformForMap) { 
+                startPosition = Vector2.Transform(startPosition.ToVector(), areaTransformMatrix).ToPoint();
+                endPosition = Vector2.Transform(endPosition.ToVector(), areaTransformMatrix).ToPoint();
+            }
 
             var angle = endPosition.Subtract(startPosition).Angle();
             var length = endPosition.Rotate(-angle, startPosition).X - startPosition.X;
 
             var brush = CreateSolidBrush(gfx, rendering.LineColor);
 
-            startPosition = startPosition.Rotate(-angle, startPosition).Add(5 * scaleWidth, 0).Rotate(angle, startPosition); // Add 5 for a little extra spacing from the start point
+            startPosition = startPosition.Rotate(-angle, startPosition).Add(spacing * scaleWidth, 0).Rotate(angle, startPosition); // Add a little extra spacing from the start point
 
-            if (length > 60) // Don't render when line is too short
+            if (renderIfShort || length > 60)
             {
                 if (rendering.CanDrawArrowHead())
                 {
-                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(5 * scaleWidth, 0).Rotate(angle, startPosition); // Subtract 5 for a little extra spacing from the end point
+                    endPosition = endPosition.Rotate(-angle, startPosition).Subtract(spacing * scaleWidth, 0).Rotate(angle, startPosition); // Subtract a little extra spacing from the end point
 
                     var points = new Point[]
                     {

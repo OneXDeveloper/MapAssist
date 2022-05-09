@@ -130,6 +130,7 @@
             this.cboRenderOption = new System.Windows.Forms.ComboBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkShowDistanceToItem = new System.Windows.Forms.CheckBox();
             this.chkItemLogVendorItems = new System.Windows.Forms.CheckBox();
             this.lblSoundVolumeValue = new System.Windows.Forms.Label();
             this.lblItemDisplayForSecondsValue = new System.Windows.Forms.Label();
@@ -179,7 +180,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkShowDistanceToItem = new System.Windows.Forms.CheckBox();
+            this.chkShowDirectionToItem = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1485,6 +1486,7 @@
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.chkShowDirectionToItem);
             this.groupBox6.Controls.Add(this.chkShowDistanceToItem);
             this.groupBox6.Controls.Add(this.chkItemLogVendorItems);
             this.groupBox6.Controls.Add(this.lblSoundVolumeValue);
@@ -1513,6 +1515,17 @@
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Item Log";
+            // 
+            // chkShowDistanceToItem
+            // 
+            this.chkShowDistanceToItem.AutoSize = true;
+            this.chkShowDistanceToItem.Location = new System.Drawing.Point(191, 42);
+            this.chkShowDistanceToItem.Name = "chkShowDistanceToItem";
+            this.chkShowDistanceToItem.Size = new System.Drawing.Size(182, 17);
+            this.chkShowDistanceToItem.TabIndex = 41;
+            this.chkShowDistanceToItem.Text = "Show Item Distance / Picked Up";
+            this.chkShowDistanceToItem.UseVisualStyleBackColor = true;
+            this.chkShowDistanceToItem.CheckedChanged += new System.EventHandler(this.chkShowDistanceToItem_CheckedChanged);
             // 
             // chkItemLogVendorItems
             // 
@@ -2050,16 +2063,16 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
-            // chkShowDistanceToItem
+            // chkShowDirectionToItem
             // 
-            this.chkShowDistanceToItem.AutoSize = true;
-            this.chkShowDistanceToItem.Location = new System.Drawing.Point(191, 53);
-            this.chkShowDistanceToItem.Name = "chkShowDistanceToItem";
-            this.chkShowDistanceToItem.Size = new System.Drawing.Size(182, 17);
-            this.chkShowDistanceToItem.TabIndex = 41;
-            this.chkShowDistanceToItem.Text = "Show Item Distance / Picked Up";
-            this.chkShowDistanceToItem.UseVisualStyleBackColor = true;
-            this.chkShowDistanceToItem.CheckedChanged += new System.EventHandler(this.chkShowDistanceToItem_CheckedChanged);
+            this.chkShowDirectionToItem.AutoSize = true;
+            this.chkShowDirectionToItem.Location = new System.Drawing.Point(191, 65);
+            this.chkShowDirectionToItem.Name = "chkShowDirectionToItem";
+            this.chkShowDirectionToItem.Size = new System.Drawing.Size(137, 17);
+            this.chkShowDirectionToItem.TabIndex = 42;
+            this.chkShowDirectionToItem.Text = "Show Direction To Item";
+            this.chkShowDirectionToItem.UseVisualStyleBackColor = true;
+            this.chkShowDirectionToItem.CheckedChanged += new System.EventHandler(this.chkShowDirectionToItem_CheckedChanged);
             // 
             // ConfigEditor
             // 
@@ -2281,5 +2294,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtAuthorizedWindowTitle;
         private System.Windows.Forms.CheckBox chkShowDistanceToItem;
+        private System.Windows.Forms.CheckBox chkShowDirectionToItem;
     }
 }

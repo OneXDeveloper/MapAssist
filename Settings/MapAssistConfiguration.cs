@@ -338,6 +338,9 @@ public class ItemLogConfiguration
     [YamlMember(Alias = "ShowDistanceToItem", ApplyNamingConventions = false)]
     public bool ShowDistanceToItem { get; set; }
 
+    [YamlMember(Alias = "ShowDirectionToItem", ApplyNamingConventions = false)]
+    public bool ShowDirectionToItem { get; set; }
+
     [YamlMember(Alias = "SoundFile", ApplyNamingConventions = false)]
     public string SoundFile { get; set; }
 
