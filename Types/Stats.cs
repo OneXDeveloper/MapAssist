@@ -531,7 +531,7 @@ namespace MapAssist.Types
             Value,
             Durability,
             MaxDurability,
-            HPRegen,
+            ReplenishLife,
             MaxDurabilityPercent,
             MaxHPPercent,
             MaxManaPercent,

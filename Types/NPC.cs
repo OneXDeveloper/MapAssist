@@ -154,7 +154,7 @@ namespace MapAssist.Types
             { "Megaflow Rectifier", "minion1" },
             { "Eyeback Unleashed", "deathmauler1" },
             { "Threash Socket", "siegebeast3" },
-            { "Pindleskin", "reanimatedhorde" },
+            { "Pindleskin", "reanimatedhorde5" },
             { "Snapchip Shatter", "frozenhorror1" },
             { "Anodized Elite", "succubus4" },
             { "Vinvear Molech", "succubuswitch2" },
