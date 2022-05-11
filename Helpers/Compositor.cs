@@ -1069,7 +1069,7 @@ namespace MapAssist.Helpers
                 }
                 gfx.DrawText(font, brush, position, item.Text);
 
-                if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem && item.UnitItem.IsDropped)
+                if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem && item.Area == _gameData.Area && item.UnitItem.IsDropped)
                 {
                     var startPosition = Vector2.Transform(_gameData.PlayerPosition.ToVector(), areaTransformMatrix).ToPoint();
                     var endPosition = Vector2.Transform(item.UnitItem.Position.ToVector(), areaTransformMatrix).ToPoint();
