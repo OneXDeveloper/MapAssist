@@ -354,6 +354,14 @@ namespace MapAssist.Helpers
                 _firstMemoryRead = false;
                 _errorThrown = false;
 
+                if (_currentProcessId != processContext.ProcessId)
+                {
+                    if (_errorThrown) return null;
+
+                    _errorThrown = true;
+                    throw new Exception("Process ID changed in the middle of the frame.");
+                }
+
                 return new GameData
                 {
                     PlayerPosition = playerUnit.Position,
