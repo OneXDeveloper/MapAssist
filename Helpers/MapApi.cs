@@ -149,12 +149,16 @@ namespace MapAssist.Helpers
                 if (File.Exists(gamePath))
                 {
                     var fileChecksum = Files.Checksum.FileChecksum(gamePath);
+                    var versionInfo = FileVersionInfo.GetVersionInfo(gamePath);
+
+                    _log.Info($"Found Game.exe (CRC 0x{fileChecksum:X}, Version {versionInfo.FileVersion.Replace(", ", ".")})");
+
                     foreach (KeyValuePair<string, uint> kvp in GameCRC32)
                     {
                         var allowedChecksum = kvp.Value;
                         if (fileChecksum == allowedChecksum)
                         {
-                            _log.Info("Valid D2 LoD version identified by Game.exe - v" + kvp.Key);
+                            _log.Info($"Valid D2 LoD version identified by Game.exe - v{kvp.Key}");
                             return true;
                         }
                     }
@@ -165,12 +169,16 @@ namespace MapAssist.Helpers
                     if (File.Exists(gamePath))
                     {
                         var fileChecksum = Files.Checksum.FileChecksum(gamePath);
+                        var versionInfo = FileVersionInfo.GetVersionInfo(gamePath);
+
+                        _log.Info($"Found Storm.dll (CRC 0x{fileChecksum:X}, Version {versionInfo.FileVersion.Replace(", ", ".")})");
+
                         foreach (KeyValuePair<string, uint> kvp in StormCRC32)
                         {
                             var allowedChecksum = kvp.Value;
                             if (fileChecksum == allowedChecksum)
                             {
-                                _log.Info("Valid D2 LoD version identified by Storm.dll - v" + kvp.Key);
+                                _log.Info($"Valid D2 LoD version identified by Storm.dll - v{kvp.Key}");
                                 return true;
                             }
                         }
@@ -212,6 +220,10 @@ namespace MapAssist.Helpers
 
                     data = Combine(data, chunk.Take(dataReadLength).ToArray());
                 }
+
+                if (disposed) _log.Warn($"{_procName} has been disposed");
+                else if (_pipeClient.HasExited) _log.Warn($"{_procName} has exited unexpectedly");
+                else if (cts.IsCancellationRequested) _log.Warn($"{_procName} request has been cancelled");
 
                 var response = !disposed && !_pipeClient.HasExited && !cts.IsCancellationRequested ? data : null;
                 cts.Dispose();
