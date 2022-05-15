@@ -5,6 +5,14 @@ using System.Collections.Generic;
 
 namespace MapAssist.Types
 {
+    public enum MenuPanelState : byte
+    {
+        ClosedAll = 0,
+        RightOpen,
+        LeftOpen,
+        BothOpen
+    }
+
     public class GameData
     {
         public Point PlayerPosition;
@@ -25,7 +33,7 @@ namespace MapAssist.Types
         public ItemLogEntry[] ItemLog;
         public Session Session;
         public Roster Roster;
-        public byte MenuPanelOpen;
+        public MenuPanelState MenuPanelOpen;
         public MenuData MenuOpen;
         public Npc LastNpcInteracted;
         public int ProcessId;

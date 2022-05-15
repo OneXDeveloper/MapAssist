@@ -41,7 +41,7 @@ namespace MapAssist.Helpers
             {
                 _currentProcessId = processContext.ProcessId;
 
-                var menuOpen = processContext.Read<byte>(GameManager.MenuOpenOffset);
+                var menuPanelOpened = (MenuPanelState)processContext.Read<byte>(GameManager.MenuOpenOffset);
                 var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
                 var lastNpcInteracted = (Npc)processContext.Read<ushort>(GameManager.InteractedNpcOffset);
@@ -383,7 +383,7 @@ namespace MapAssist.Helpers
                     Session = _sessions[_currentProcessId],
                     Roster = rosterData,
                     MenuOpen = menuData,
-                    MenuPanelOpen = menuOpen,
+                    MenuPanelOpen = menuPanelOpened,
                     LastNpcInteracted = lastNpcInteracted,
                     ProcessId = _currentProcessId
                 };
