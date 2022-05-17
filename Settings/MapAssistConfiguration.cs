@@ -34,7 +34,7 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "AuthorizedWindowTitles", ApplyNamingConventions = false)]
         public string[] AuthorizedWindowTitles { get; set; } = new string[] { };
-        
+
         [YamlMember(Alias = "RenderingConfiguration", ApplyNamingConventions = false)]
         public RenderingConfiguration RenderingConfiguration { get; set; }
 
@@ -157,25 +157,25 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "MissileFireLarge", ApplyNamingConventions = false)]
         public IconRendering MissileFireLarge { get; set; }
-        
+
         [YamlMember(Alias = "MissileFireSmall", ApplyNamingConventions = false)]
         public IconRendering MissileFireSmall { get; set; }
-        
+
         [YamlMember(Alias = "MissileIceLarge", ApplyNamingConventions = false)]
         public IconRendering MissileIceLarge { get; set; }
-        
+
         [YamlMember(Alias = "MissileIceSmall", ApplyNamingConventions = false)]
         public IconRendering MissileIceSmall { get; set; }
-        
+
         [YamlMember(Alias = "MissileLightLarge", ApplyNamingConventions = false)]
         public IconRendering MissileLightLarge { get; set; }
-        
+
         [YamlMember(Alias = "MissileLightSmall", ApplyNamingConventions = false)]
         public IconRendering MissileLightSmall { get; set; }
-        
+
         [YamlMember(Alias = "MissilePoisonLarge", ApplyNamingConventions = false)]
         public IconRendering MissilePoisonLarge { get; set; }
-        
+
         [YamlMember(Alias = "MissilePoisonSmall", ApplyNamingConventions = false)]
         public IconRendering MissilePoisonSmall { get; set; }
 
@@ -290,11 +290,11 @@ public class GameInfoConfiguration
     [YamlMember(Alias = "ShowArea", ApplyNamingConventions = false)]
     public bool ShowArea { get; set; }
 
-    [YamlMember(Alias = "ShowDifficulty", ApplyNamingConventions = false)]
-    public bool ShowDifficulty { get; set; }
-
     [YamlMember(Alias = "ShowAreaLevel", ApplyNamingConventions = false)]
     public bool ShowAreaLevel { get; set; }
+
+    [YamlMember(Alias = "ShowDifficulty", ApplyNamingConventions = false)]
+    public bool ShowDifficulty { get; set; }
 
     [YamlMember(Alias = "ShowOverlayFPS", ApplyNamingConventions = false)]
     public bool ShowOverlayFPS { get; set; }
@@ -358,4 +358,22 @@ public class ItemLogConfiguration
 
     [YamlMember(Alias = "LabelTextShadow", ApplyNamingConventions = false)]
     public bool LabelTextShadow { get; set; }
+
+    [YamlMember(Alias = "SuperiorColor", ApplyNamingConventions = false)]
+    public Color SuperiorColor { get; set; }
+
+    [YamlMember(Alias = "MagicColor", ApplyNamingConventions = false)]
+    public Color MagicColor { get; set; }
+
+    [YamlMember(Alias = "RareColor", ApplyNamingConventions = false)]
+    public Color RareColor { get; set; }
+
+    [YamlMember(Alias = "SetColor", ApplyNamingConventions = false)]
+    public Color SetColor { get; set; }
+
+    [YamlMember(Alias = "UniqueColor", ApplyNamingConventions = false)]
+    public Color UniqueColor { get; set; }
+
+    [YamlMember(Alias = "CraftedColor", ApplyNamingConventions = false)]
+    public Color CraftedColor { get; set; }
 }

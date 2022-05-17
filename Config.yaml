@@ -21,8 +21,8 @@ RenderingConfiguration:
   Size: 800
   ZoomLevel: 1
   BuffSize: 1
-  BuffPosition: Bottom
   BuffAlertLowRes: true
+  BuffPosition: Bottom
   ShowLife: false
   ShowLifePerc: true
   ShowMana: false
@@ -216,7 +216,7 @@ MapConfiguration:
     IconShape: Ellipse
     IconSize: 0
   MissileFireLarge:
-    IconColor: 255, 0, 0
+    IconColor: Red
     IconShape: Ellipse
     IconSize: 0
   MissileFireSmall:
@@ -232,7 +232,7 @@ MapConfiguration:
     IconShape: Ellipse
     IconSize: 0
   MissileLightLarge:
-    IconColor: 255, 255, 0
+    IconColor: Yellow
     IconShape: Ellipse
     IconSize: 0
   MissileLightSmall:
@@ -240,7 +240,7 @@ MapConfiguration:
     IconShape: Ellipse
     IconSize: 0
   MissilePoisonLarge:
-    IconColor: 0, 255, 0
+    IconColor: Lime
     IconShape: Ellipse
     IconSize: 0
   MissilePoisonSmall:
@@ -270,14 +270,20 @@ ItemLog:
   LabelFont: Exocet Blizzard Mixed Caps
   LabelFontSize: 16
   LabelTextShadow: true
+  SuperiorColor: Gray
+  MagicColor: RoyalBlue
+  RareColor: Yellow
+  SetColor: Lime
+  UniqueColor: 165, 146, 99
+  CraftedColor: 255, 174, 0
 MapColorConfiguration:
-  Border: 255, 255, 255
+  Border: White
 GameInfo:
   Position: TopLeft
   ShowGameName: true
-  ShowDifficulty: true
   ShowArea: true
   ShowAreaLevel: true
+  ShowDifficulty: true
   ShowOverlayFPS: false
   ShowGameTimer: true
   ShowAreaTimer: true

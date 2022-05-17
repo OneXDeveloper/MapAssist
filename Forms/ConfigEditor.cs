@@ -130,12 +130,36 @@ namespace MapAssist
                 MapAssistConfiguration.Loaded.ItemLog.LabelFontSize != MapAssistConfiguration.Default.ItemLog.LabelFontSize;
             chkLogTextShadow.Checked = MapAssistConfiguration.Loaded.ItemLog.LabelTextShadow;
 
+            btnSuperiorColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.SuperiorColor;
+            btnSuperiorColor.ForeColor = ContrastTextColor(btnSuperiorColor.BackColor);
+            btnClearSuperiorColor.Visible = MapAssistConfiguration.Loaded.ItemLog.SuperiorColor != MapAssistConfiguration.Default.ItemLog.SuperiorColor;
+
+            btnMagicColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.MagicColor;
+            btnMagicColor.ForeColor = ContrastTextColor(btnMagicColor.BackColor);
+            btnClearMagicColor.Visible = MapAssistConfiguration.Loaded.ItemLog.MagicColor != MapAssistConfiguration.Default.ItemLog.MagicColor;
+
+            btnRareColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.RareColor;
+            btnRareColor.ForeColor = ContrastTextColor(btnRareColor.BackColor);
+            btnClearRareColor.Visible = MapAssistConfiguration.Loaded.ItemLog.RareColor != MapAssistConfiguration.Default.ItemLog.RareColor;
+
+            btnSetColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.SetColor;
+            btnSetColor.ForeColor = ContrastTextColor(btnSetColor.BackColor);
+            btnClearSetColor.Visible = MapAssistConfiguration.Loaded.ItemLog.SetColor != MapAssistConfiguration.Default.ItemLog.SetColor;
+
+            btnUniqueColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.UniqueColor;
+            btnUniqueColor.ForeColor = ContrastTextColor(btnUniqueColor.BackColor);
+            btnClearUniqueColor.Visible = MapAssistConfiguration.Loaded.ItemLog.UniqueColor != MapAssistConfiguration.Default.ItemLog.UniqueColor;
+
+            btnCraftedColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.CraftedColor;
+            btnCraftedColor.ForeColor = ContrastTextColor(btnCraftedColor.BackColor);
+            btnClearCraftedColor.Visible = MapAssistConfiguration.Loaded.ItemLog.CraftedColor != MapAssistConfiguration.Default.ItemLog.CraftedColor;
+
             if (MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable != null)
             {
-                var walkableColor = (Color)MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable;
-                btnWalkableColor.BackColor = walkableColor;
-                btnWalkableColor.ForeColor = ContrastTextColor(btnWalkableColor.BackColor);
-                btnClearWalkableColor.Visible = walkableColor.A > 0;
+                var color = (Color)MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable;
+                btnWalkableColor.BackColor = color;
+                btnWalkableColor.ForeColor = ContrastTextColor(color);
+                btnClearWalkableColor.Visible = color.A > 0;
             }
             else
             {
@@ -144,10 +168,10 @@ namespace MapAssist
 
             if (MapAssistConfiguration.Loaded.MapColorConfiguration.Border != null)
             {
-                var borderColor = (Color)MapAssistConfiguration.Loaded.MapColorConfiguration.Border;
-                btnBorderColor.BackColor = borderColor;
-                btnBorderColor.ForeColor = ContrastTextColor(btnBorderColor.BackColor);
-                btnClearBorderColor.Visible = borderColor.A > 0;
+                var color = (Color)MapAssistConfiguration.Loaded.MapColorConfiguration.Border;
+                btnBorderColor.BackColor = color;
+                btnBorderColor.ForeColor = ContrastTextColor(color);
+                btnClearBorderColor.Visible = color.A > 0;
             }
             else
             {
@@ -752,6 +776,144 @@ namespace MapAssist
         private void chkLogTextShadow_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.ItemLog.LabelTextShadow = chkLogTextShadow.Checked;
+        }
+
+        private void btnSuperiorColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.SuperiorColor = colorDlg.Color;
+                btnSuperiorColor.BackColor = colorDlg.Color;
+                btnSuperiorColor.ForeColor = ContrastTextColor(btnSuperiorColor.BackColor);
+
+                btnClearSuperiorColor.Visible = true;
+            }
+        }
+
+        private void btnMagicColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.MagicColor = colorDlg.Color;
+                btnMagicColor.BackColor = colorDlg.Color;
+                btnMagicColor.ForeColor = ContrastTextColor(btnMagicColor.BackColor);
+
+                btnClearMagicColor.Visible = true;
+            }
+        }
+
+        private void btnRareColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.RareColor = colorDlg.Color;
+                btnRareColor.BackColor = colorDlg.Color;
+                btnRareColor.ForeColor = ContrastTextColor(btnRareColor.BackColor);
+
+                btnClearRareColor.Visible = true;
+            }
+        }
+
+        private void btnSetColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.SetColor = colorDlg.Color;
+                btnSetColor.BackColor = colorDlg.Color;
+                btnSetColor.ForeColor = ContrastTextColor(btnSetColor.BackColor);
+
+                btnClearSetColor.Visible = true;
+            }
+        }
+
+        private void btnUniqueColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.UniqueColor = colorDlg.Color;
+                btnUniqueColor.BackColor = colorDlg.Color;
+                btnUniqueColor.ForeColor = ContrastTextColor(btnUniqueColor.BackColor);
+
+                btnClearUniqueColor.Visible = true;
+            }
+        }
+
+        private void btnCraftedColor_Click(object sender, EventArgs e)
+        {
+            var colorDlg = new ColorDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.ItemLog.CraftedColor = colorDlg.Color;
+                btnCraftedColor.BackColor = colorDlg.Color;
+                btnCraftedColor.ForeColor = ContrastTextColor(btnCraftedColor.BackColor);
+
+                btnClearCraftedColor.Visible = true;
+            }
+        }
+
+        private void btnClearSuperiorColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.SuperiorColor = MapAssistConfiguration.Default.ItemLog.SuperiorColor;
+
+            btnSuperiorColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.SuperiorColor;
+            btnSuperiorColor.ForeColor = ContrastTextColor(btnSuperiorColor.BackColor);
+
+            btnClearSuperiorColor.Visible = false;
+        }
+
+        private void btnClearMagicColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.MagicColor = MapAssistConfiguration.Default.ItemLog.MagicColor;
+
+            btnMagicColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.MagicColor;
+            btnMagicColor.ForeColor = ContrastTextColor(btnMagicColor.BackColor);
+
+            btnClearMagicColor.Visible = false;
+        }
+
+        private void btnClearRareColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.RareColor = MapAssistConfiguration.Default.ItemLog.RareColor;
+
+            btnRareColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.RareColor;
+            btnRareColor.ForeColor = ContrastTextColor(btnRareColor.BackColor);
+
+            btnClearRareColor.Visible = false;
+        }
+
+        private void btnClearSetColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.SetColor = MapAssistConfiguration.Default.ItemLog.SetColor;
+
+            btnSetColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.SetColor;
+            btnSetColor.ForeColor = ContrastTextColor(btnSetColor.BackColor);
+
+            btnClearSetColor.Visible = false;
+        }
+
+        private void btnClearUniqueColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.UniqueColor = MapAssistConfiguration.Default.ItemLog.UniqueColor;
+
+            btnUniqueColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.UniqueColor;
+            btnUniqueColor.ForeColor = ContrastTextColor(btnUniqueColor.BackColor);
+
+            btnClearUniqueColor.Visible = false;
+        }
+
+        private void btnClearCraftedColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.CraftedColor = MapAssistConfiguration.Default.ItemLog.CraftedColor;
+
+            btnCraftedColor.BackColor = MapAssistConfiguration.Loaded.ItemLog.CraftedColor;
+            btnCraftedColor.ForeColor = ContrastTextColor(btnCraftedColor.BackColor);
+
+            btnClearCraftedColor.Visible = false;
         }
 
         private void txtToggleMapKey_TextChanged(object sender, EventArgs e)

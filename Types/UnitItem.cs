@@ -2,6 +2,7 @@ using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Structs;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace MapAssist.Types
         public Item Item => (Item)TxtFileNo;
         public ItemMode ItemMode => (ItemMode)Struct.Mode;
         public string ItemBaseName => Items.GetItemBaseName(this);
-        public Color ItemBaseColor => Items.GetItemBaseColor(this);
+        public ItemQuality? MappedItemQuality { get; set; } = null;
 
         public UnitItem(IntPtr ptrUnit) : base(ptrUnit)
         {
@@ -30,6 +31,7 @@ namespace MapAssist.Types
                 using (var processContext = GameManager.GetProcessContext())
                 {
                     ItemData = processContext.Read<ItemData>(Struct.pUnitData);
+                    MappedItemQuality = GetMappedItemQuality();
                 }
             }
 
@@ -57,7 +59,7 @@ namespace MapAssist.Types
         public bool IsInStore => ItemModeMapped == ItemModeMapped.Vendor;
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
-        
+
         public ushort[] Prefixes => ItemData.Affixes.Take(3).ToArray();
 
         public ushort[] Suffixes => ItemData.Affixes.Skip(3).ToArray();
@@ -111,6 +113,80 @@ namespace MapAssist.Types
 
                 return ItemModeMapped.Unknown; // Items that appeared in the trade window before will appear here
             }
+        }
+
+        public Color ItemBaseColor
+        {
+            get
+            {
+                if (MappedItemQuality == null) return Color.Empty;
+
+                var ItemColors = new Dictionary<ItemQuality, Color>()
+                {
+                    {ItemQuality.INFERIOR, Color.White},
+                    {ItemQuality.NORMAL, Color.White},
+                    {ItemQuality.SUPERIOR, MapAssistConfiguration.Loaded.ItemLog.SuperiorColor},
+                    {ItemQuality.MAGIC, MapAssistConfiguration.Loaded.ItemLog.MagicColor},
+                    {ItemQuality.RARE, MapAssistConfiguration.Loaded.ItemLog.RareColor},
+                    {ItemQuality.SET, MapAssistConfiguration.Loaded.ItemLog.SetColor},
+                    {ItemQuality.UNIQUE, MapAssistConfiguration.Loaded.ItemLog.UniqueColor},
+                    {ItemQuality.CRAFTED, MapAssistConfiguration.Loaded.ItemLog.CraftedColor},
+                };
+
+                return ItemColors[(ItemQuality)MappedItemQuality];
+            }
+        }
+
+        private ItemQuality? GetMappedItemQuality()
+        {
+            var ItemQualities = new List<ItemQuality>()
+            {
+                ItemQuality.INFERIOR,
+                ItemQuality.NORMAL,
+                ItemQuality.SUPERIOR,
+                ItemQuality.MAGIC,
+                ItemQuality.RARE,
+                ItemQuality.SET,
+                ItemQuality.UNIQUE,
+                ItemQuality.CRAFTED,
+            };
+
+            if (!ItemQualities.Contains(ItemData.ItemQuality))
+            {
+                // Invalid item quality
+                return null;
+            }
+
+            if (IsEthereal && ItemData.ItemQuality <= ItemQuality.NORMAL)
+            {
+                return ItemQuality.SUPERIOR;
+            }
+
+            if (Stats.ContainsKey(Types.Stats.Stat.NumSockets) && ItemData.ItemQuality <= ItemQuality.NORMAL)
+            {
+                return ItemQuality.SUPERIOR;
+            }
+
+            if (TxtFileNo >= 610 && TxtFileNo <= 642)
+            {
+                // Runes
+                return ItemQuality.CRAFTED;
+            }
+
+            switch (TxtFileNo)
+            {
+                case 647: // Key of Terror
+                case 648: // Key of Hate
+                case 649: // Key of Destruction
+                case 653: // Token of Absolution
+                case 654: // Twisted Essence of Suffering
+                case 655: // Charged Essense of Hatred
+                case 656: // Burning Essence of Terror
+                case 657: // Festering Essence of Destruction
+                    return ItemQuality.CRAFTED;
+            }
+
+            return ItemData.ItemQuality;
         }
 
         public override string HashString => Item + "/" + Position.X + "/" + Position.Y;
