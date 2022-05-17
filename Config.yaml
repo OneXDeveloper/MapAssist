@@ -262,6 +262,7 @@ ItemLog:
   CheckVendorItems: true
   CheckItemOnIdentify: true
   PlaySoundOnDrop: true
+  PlaySoundOnGem: true
   ShowDistanceToItem: true
   ShowDirectionToItem: true
   SoundFile: ''

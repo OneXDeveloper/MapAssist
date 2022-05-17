@@ -143,6 +143,7 @@
             this.lblItemLogPosition = new System.Windows.Forms.Label();
             this.soundVolume = new System.Windows.Forms.TrackBar();
             this.chkPlaySound = new System.Windows.Forms.CheckBox();
+            this.chkPlaySoundGem = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -1500,6 +1501,7 @@
             this.groupBox6.Controls.Add(this.lblItemLogPosition);
             this.groupBox6.Controls.Add(this.soundVolume);
             this.groupBox6.Controls.Add(this.chkPlaySound);
+            this.groupBox6.Controls.Add(this.chkPlaySoundGem);
             this.groupBox6.Controls.Add(this.label10);
             this.groupBox6.Controls.Add(this.label17);
             this.groupBox6.Controls.Add(this.label18);
@@ -1671,6 +1673,17 @@
             this.chkPlaySound.Text = "Play Sound On Drop";
             this.chkPlaySound.UseVisualStyleBackColor = true;
             this.chkPlaySound.CheckedChanged += new System.EventHandler(this.chkPlaySound_CheckedChanged);
+            // 
+            // chkPlaySoundGem
+            // 
+            this.chkPlaySoundGem.AutoSize = true;
+            this.chkPlaySoundGem.Location = new System.Drawing.Point(191, 127);
+            this.chkPlaySoundGem.Name = "chkPlaySoundGem";
+            this.chkPlaySoundGem.Size = new System.Drawing.Size(123, 17);
+            this.chkPlaySoundGem.TabIndex = 43;
+            this.chkPlaySoundGem.Text = "Play Sound On Gem Shrines";
+            this.chkPlaySoundGem.UseVisualStyleBackColor = true;
+            this.chkPlaySoundGem.CheckedChanged += new System.EventHandler(this.chkPlaySoundGem_CheckedChanged);
             // 
             // label10
             // 
@@ -2176,6 +2189,7 @@
         private System.Windows.Forms.TextBox txtSoundFile;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkPlaySound;
+        private System.Windows.Forms.CheckBox chkPlaySoundGem;
         private System.Windows.Forms.TextBox txtFilterFile;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkItemLogEnabled;

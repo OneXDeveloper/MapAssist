@@ -120,6 +120,7 @@ namespace MapAssist
             chkShowDistanceToItem.Checked = MapAssistConfiguration.Loaded.ItemLog.ShowDistanceToItem;
             chkShowDirectionToItem.Checked = MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem;
             chkPlaySound.Checked = MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop;
+            chkPlaySoundGem.Checked = MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnGem;
             txtFilterFile.Text = MapAssistConfiguration.Loaded.ItemLog.FilterFileName;
             txtSoundFile.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
             soundVolume.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.SoundVolume / 5d);
@@ -696,6 +697,11 @@ namespace MapAssist
         private void chkPlaySound_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop = chkPlaySound.Checked;
+        }
+
+        private void chkPlaySoundGem_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnGem = chkPlaySoundGem.Checked;
         }
 
         private void txtSoundFile_TextChanged(object sender, EventArgs e)

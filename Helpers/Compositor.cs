@@ -36,6 +36,7 @@ namespace MapAssist.Helpers
         private float scaleHeight = 1;
         private const int WALKABLE = 0;
         private const int BORDER = 1;
+        private UnitObject lastgemshrine;
 
         public Compositor()
         {
@@ -262,8 +263,16 @@ namespace MapAssist.Helpers
                     {
                         var label = Shrine.ShrineDisplayName(gameObject);
                         drawPoiLabels.Add((MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position, label, null));
-                    }
 
+                        if (label == "Gem" && gameObject != lastgemshrine)
+                        {
+                            if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnGem)
+                            {
+                                lastgemshrine = gameObject;
+                                AudioPlayer.PlayItemAlert();
+                            }
+                        }
+                    }
                     continue;
                 }
 
