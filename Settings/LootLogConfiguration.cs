@@ -47,7 +47,9 @@ namespace MapAssist.Settings
                 }
                 else
                 {
-                    foreach (var rule in Filters[itemClass])
+                    // copy it for class may quote the item in class
+                    var rules = new List<ItemFilter>(Filters[itemClass]);
+                    foreach (var rule in rules)
                     {
                         assignRule(rule);
                     }
