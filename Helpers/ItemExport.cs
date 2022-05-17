@@ -146,7 +146,7 @@ namespace MapAssist.Helpers
                     baseName = item.ItemBaseName,
                     quality = item.ItemData.ItemQuality.ToString(),
                     fullName = Items.ItemFullName(item),
-                    ethereal = ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL),
+                    ethereal = item.IsEthereal,
                     identified = item.IsIdentified,
                     numSockets = numSockets,
                     position = new Position() { x = (uint)item.Position.X, y = (uint)item.Position.Y },

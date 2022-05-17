@@ -37,7 +37,7 @@ namespace MapAssist.Helpers
                 {
                     ["Qualities"]       = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
                     ["Sockets"]         = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
-                    ["Ethereal"]        = () => ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL) == rule.Ethereal,
+                    ["Ethereal"]        = () => item.IsEthereal == rule.Ethereal,
                     ["MinAreaLevel"]    = () => areaLevel >= rule.MinAreaLevel,
                     ["MaxAreaLevel"]    = () => areaLevel <= rule.MaxAreaLevel,
                     ["MinPlayerLevel"]  = () => playerLevel >= rule.MinPlayerLevel,

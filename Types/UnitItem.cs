@@ -1,4 +1,4 @@
-﻿using MapAssist.Helpers;
+using MapAssist.Helpers;
 using MapAssist.Settings;
 using MapAssist.Structs;
 using System;
@@ -43,6 +43,8 @@ namespace MapAssist.Types
         public void MarkInvalid() => _isInvalid = true;
 
         public bool IsValidItem => !_isInvalid && UnitId != uint.MaxValue;
+
+        public bool IsEthereal => (ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
 
         public bool IsIdentified => ItemData.ItemQuality >= ItemQuality.MAGIC && (ItemData.ItemFlags & ItemFlags.IFLAG_IDENTIFIED) == ItemFlags.IFLAG_IDENTIFIED;
 

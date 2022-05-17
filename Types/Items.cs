@@ -96,7 +96,7 @@ namespace MapAssist.Types
 
             if (rule == null) return itemPrefix + itemBaseName;
 
-            if ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL)
+            if (item.IsEthereal)
             {
                 itemPrefix += "[Eth] ";
             }
@@ -462,8 +462,7 @@ namespace MapAssist.Types
                 return Color.Empty;
             }
 
-            var isEth = (unit.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
-            if (isEth && fontColor == Color.White)
+            if (unit.IsEthereal && fontColor == Color.White)
             {
                 return ItemColors[ItemQuality.SUPERIOR];
             }
