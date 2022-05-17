@@ -342,7 +342,7 @@ namespace MapAssist.Helpers
                 var allUnits = ((UnitAny[])playerList.Values.ToArray()).Concat(monsterList).Concat(mercList).Concat(rawObjectUnits).Concat(rawItemUnits);
 
                 var hoveredUnits = allUnits.Where(x => x.IsHovered).ToArray();
-                if (hoveredUnits.Length > 0 && hoveredUnits[0].UnitId != lastHoverData.UnitId) hoveredUnits[0].IsHovered = false;
+                if (hoveredUnits.Length > 0) hoveredUnits[0].IsHovered = false;
 
                 if (lastHoverData.IsHovered)
                 {
