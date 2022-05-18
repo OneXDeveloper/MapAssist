@@ -912,7 +912,7 @@ namespace MapAssist.Helpers
                     DrawGraphicsEventArgs e, bool errorLoadingAreaData)
         {
             var isTopLeft = MapAssistConfiguration.Loaded.GameInfo.Position == GameInfoPosition.TopLeft;
-            if ((_gameData.MenuPanelOpen & (isTopLeft ? 0x2 : 0x1)) > 0)
+            if (isTopLeft ? _gameData.MenuOpen.IsLeftMenuOpen() : _gameData.MenuOpen.IsRightMenuOpen())
             {
                 return anchor;
             }
@@ -1007,7 +1007,7 @@ namespace MapAssist.Helpers
         public void DrawItemLog(Graphics gfx, Point anchor)
         {
             var isTopLeft = MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopLeft;
-            if ((_gameData.MenuPanelOpen & (isTopLeft ? 0x2 : 0x1)) > 0)
+            if (isTopLeft ? _gameData.MenuOpen.IsLeftMenuOpen() : _gameData.MenuOpen.IsRightMenuOpen())
             {
                 return;
             }

@@ -27,7 +27,6 @@ namespace MapAssist.Helpers
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _ExpansionCheckOffset;
         private static IntPtr _GameNameOffset;
-        private static IntPtr _MenuPanelOpenOffset;
         private static IntPtr _MenuDataOffset;
         private static IntPtr _MapSeedOffset;
         private static IntPtr _RosterDataOffset;
@@ -125,7 +124,6 @@ namespace MapAssist.Helpers
             _UnitHashTableOffset = IntPtr.Zero;
             _ExpansionCheckOffset = IntPtr.Zero;
             _GameNameOffset = IntPtr.Zero;
-            _MenuPanelOpenOffset = IntPtr.Zero;
             _MenuDataOffset = IntPtr.Zero;
             _MapSeedOffset = IntPtr.Zero;
             _RosterDataOffset = IntPtr.Zero;
@@ -210,21 +208,6 @@ namespace MapAssist.Helpers
                 PopulateMissingOffsets();
 
                 return _GameNameOffset;
-            }
-        }
-
-        public static IntPtr MenuOpenOffset
-        {
-            get
-            {
-                if (_MenuPanelOpenOffset != IntPtr.Zero)
-                {
-                    return _MenuPanelOpenOffset;
-                }
-
-                PopulateMissingOffsets();
-
-                return _MenuPanelOpenOffset;
             }
         }
 
@@ -327,12 +310,6 @@ namespace MapAssist.Helpers
                 {
                     _GameNameOffset = processContext.GetGameNameOffset(buffer);
                     _log.Info($"Found offset {nameof(_GameNameOffset)} 0x{_GameNameOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
-                }
-
-                if (_MenuPanelOpenOffset == IntPtr.Zero)
-                {
-                    _MenuPanelOpenOffset = processContext.GetMenuOpenOffset(buffer);
-                    _log.Info($"Found offset {nameof(_MenuPanelOpenOffset)} 0x{_MenuPanelOpenOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
                 }
 
                 if (_MenuDataOffset == IntPtr.Zero)

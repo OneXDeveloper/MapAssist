@@ -2,6 +2,7 @@
 using GameOverlay.Windows;
 using MapAssist.Helpers;
 using MapAssist.Settings;
+using MapAssist.Structs;
 using MapAssist.Types;
 using System;
 using System.Windows.Forms;
@@ -69,8 +70,7 @@ namespace MapAssist
                             var overlayHidden = !_show ||
                                 errorLoadingAreaData ||
                                 (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
-                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
-                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
+                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.IsAnyMenuOpen()) ||
                                 Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
                                 _gameData.Area == Area.None ||
                                 gfx.Width == 1 ||

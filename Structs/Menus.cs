@@ -1,5 +1,4 @@
 ﻿using MapAssist.Types;
-using System;
 using System.Runtime.InteropServices;
 
 namespace MapAssist.Structs
@@ -33,7 +32,9 @@ namespace MapAssist.Structs
         [FieldOffset(0x0D)] public bool Anvil; // Imbue and sockets
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x0E)] public bool QuestLog;
-        //missing 4
+        //missing 3
+        [MarshalAs(UnmanagedType.U1)]
+        [FieldOffset(0x12)] public bool HasMercenary;
         [MarshalAs(UnmanagedType.U1)]
         [FieldOffset(0x13)] public bool Waypoint;
         //missing 1
@@ -64,5 +65,33 @@ namespace MapAssist.Structs
         [FieldOffset(0x01)] public bool IsItemTooltip;
         [FieldOffset(0x04)] public UnitType UnitType;
         [FieldOffset(0x08)] public uint UnitId;
+    }
+
+    public static class MenuDataExtensions
+    {
+        public static bool IsLeftMenuOpen(this MenuData menuData) =>
+            menuData.Character ||
+            menuData.NpcShop ||
+            menuData.Anvil ||
+            menuData.QuestLog ||
+            menuData.Waypoint ||
+            menuData.Party ||
+            menuData.Stash ||
+            menuData.Cube ||
+            menuData.MercenaryInventory ||
+            // Menus that cover the whole screen
+            menuData.EscMenu ||
+            menuData.Help;
+
+        public static bool IsRightMenuOpen(this MenuData menuData) =>
+            menuData.Inventory ||
+            menuData.SkillTree ||
+            // Menus that cover the whole screen
+            menuData.EscMenu ||
+            menuData.Help;
+
+        public static bool IsAnyMenuOpen(this MenuData menuData) =>
+            menuData.IsLeftMenuOpen() ||
+            menuData.IsRightMenuOpen();
     }
 }
