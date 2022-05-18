@@ -47,7 +47,7 @@ namespace MapAssist.Settings
                 }
                 else
                 {
-                    foreach (var rule in Filters[itemClass])
+                    foreach (var rule in Filters[itemClass].ToArray())
                     {
                         assignRule(rule);
                     }
