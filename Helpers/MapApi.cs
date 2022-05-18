@@ -91,60 +91,57 @@ namespace MapAssist.Helpers
 
         private static string FindD2LoD()
         {
-            var providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
-            if (!string.IsNullOrEmpty(providedPath))
+            while (true)
             {
-                if (!File.GetAttributes($@"{providedPath}").HasFlag(FileAttributes.Directory))
+                var providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
+                if (!string.IsNullOrEmpty(providedPath) && !IsValidD2LoDPath(providedPath))
                 {
-                    MessageBox.Show("Provided D2 LoD path is not set to a directory." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
+                    _log.Info("User provided D2 LoD path not found or invalid");
+                    var diabloResult = MessageBox.Show("Provided D2 LoD path is not valid." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist", MessageBoxButtons.OKCancel);
 
-                    var config1 = new ConfigEditor();
-                    config1.ShowDialog();
+                    if (diabloResult == DialogResult.Cancel)
+                    {
+                        Environment.Exit(0);
+                    }
+
+                    var config = new ConfigEditor();
+                    config.ShowDialog();
 
                     providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
+
+                    if (IsValidD2LoDPath(providedPath))
+                    {
+                        _log.Info("User provided D2 LoD path is valid");
+                        return providedPath;
+                    }
+
+                    continue;
                 }
 
-                if (IsValidD2LoDPath(providedPath))
+                var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
+                if (installPath == "INVALID" || !IsValidD2LoDPath(installPath))
                 {
-                    _log.Info("User provided D2 LoD path is valid");
-                    return providedPath;
+                    _log.Info("Registry provided D2 LoD path not found or invalid");
+                    MessageBox.Show("Unable to automatically locate D2 LoD installation." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
+
+                    var config = new ConfigEditor();
+                    config.ShowDialog();
+
+                    continue;
                 }
 
-                _log.Info("User provided D2 LoD path is invalid");
-                MessageBox.Show("Provided path is either not a valid D2 LoD path or not the correct version.", "MapAssist");
-                Environment.Exit(0);
+                _log.Info("Registry provided D2 LoD path is valid");
+                return installPath;
             }
-
-            var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
-            if (installPath == "INVALID" || !IsValidD2LoDPath(installPath))
-            {
-                _log.Info("Registry-provided D2 LoD path not found or invalid");
-                MessageBox.Show("Unable to automatically locate D2 LoD installation." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
-
-                var config = new ConfigEditor();
-                config.ShowDialog();
-
-                installPath = MapAssistConfiguration.Loaded.D2LoDPath;
-
-                if (!string.IsNullOrEmpty(installPath) && File.GetAttributes($@"{installPath}").HasFlag(FileAttributes.Directory) && IsValidD2LoDPath(installPath))
-                {
-                    _log.Info("User provided D2 LoD path is valid");
-                    return installPath;
-                }
-
-                _log.Info("User provided D2 LoD path is invalid");
-                MessageBox.Show("Provided path is either not a valid D2 LoD path or not the correct version.", "MapAssist");
-                Environment.Exit(0);
-            }
-
-            _log.Info("Registry-provided D2 LoD path is valid");
-            return installPath;
         }
 
         private static bool IsValidD2LoDPath(string path)
         {
             try
             {
+                if (!string.IsNullOrEmpty(path)) return false;
+                if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory)) return false;
+
                 var gamePath = Path.Combine(path, "game.exe");
                 if (File.Exists(gamePath))
                 {
