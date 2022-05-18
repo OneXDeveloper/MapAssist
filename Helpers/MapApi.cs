@@ -94,28 +94,28 @@ namespace MapAssist.Helpers
             while (true)
             {
                 var providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
-                if (!string.IsNullOrEmpty(providedPath) && !IsValidD2LoDPath(providedPath))
+                if (!string.IsNullOrEmpty(providedPath))
                 {
-                    _log.Info("User provided D2 LoD path not found or invalid");
-                    var diabloResult = MessageBox.Show("Provided D2 LoD path is not valid." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist", MessageBoxButtons.OKCancel);
-
-                    if (diabloResult == DialogResult.Cancel)
-                    {
-                        Environment.Exit(0);
-                    }
-
-                    var config = new ConfigEditor();
-                    config.ShowDialog();
-
-                    providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
-
                     if (IsValidD2LoDPath(providedPath))
                     {
                         _log.Info("User provided D2 LoD path is valid");
                         return providedPath;
                     }
+                    else
+                    {
+                        _log.Info("User provided D2 LoD path not found or invalid");
+                        var diabloResult = MessageBox.Show("Provided D2 LoD path is not valid." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist", MessageBoxButtons.OKCancel);
 
-                    continue;
+                        if (diabloResult == DialogResult.Cancel)
+                        {
+                            Environment.Exit(0);
+                        }
+
+                        var config = new ConfigEditor();
+                        config.ShowDialog();
+
+                        continue;
+                    }
                 }
 
                 var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
