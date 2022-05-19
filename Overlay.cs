@@ -49,12 +49,12 @@ namespace MapAssist
             {
                 lock (_lock)
                 {
-                    var (gameData, areaData, pointsOfInterest, changed) = _gameDataReader.Get();
+                    var (gameData, areaData, changed) = _gameDataReader.Get();
                     _gameData = gameData;
 
                     if (changed)
                     {
-                        _compositor.SetArea(areaData, pointsOfInterest);
+                        _compositor.SetArea(areaData);
                     }
 
                     gfx.ClearScene();

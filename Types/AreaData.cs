@@ -25,6 +25,7 @@ namespace MapAssist.Types
         public Rectangle ViewOutputRect;
         public Dictionary<Npc, Point[]> NPCs;
         public Dictionary<GameObject, Point[]> Objects;
+        public List<PointOfInterest> PointsOfInterest;
 
         public void CalcViewAreas(float angleRadians)
         {

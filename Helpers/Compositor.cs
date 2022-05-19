@@ -21,7 +21,6 @@ namespace MapAssist.Helpers
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         public GameData _gameData;
         public AreaData _areaData;
-        private IReadOnlyList<PointOfInterest> _pointsOfInterest;
         private int _frameCount = 0;
         private ExocetFont _exocetFont;
         private FormalFont _formalFont;
@@ -45,7 +44,7 @@ namespace MapAssist.Helpers
             _formalFont = new FormalFont();
         }
 
-        public void SetArea(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
+        public void SetArea(AreaData areaData)
         {
             _areaData = areaData;
             if (_areaData == null) return;
@@ -56,8 +55,6 @@ namespace MapAssist.Helpers
             {
                 adjacentArea.CalcViewAreas(_rotateRadians);
             }
-
-            _pointsOfInterest = pointsOfInterest;
 
             gamemaps = new HashSet<(Bitmap, Point)>();
         }
@@ -198,74 +195,82 @@ namespace MapAssist.Helpers
             var drawPoiIcons = new List<(IconRendering, Point)>();
             var drawPoiLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
-            foreach (var poi in _pointsOfInterest)
+            var drawnPreviousNextAreas = new List<Point>();
+
+            var areasToRender = (new AreaData[] { _areaData }).Concat(_areaData.AdjacentAreas.Values).ToArray();
+            foreach (var area in areasToRender)
             {
-                if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
-                {
-                    continue;
-                }
+                if (area.PointsOfInterest == null) continue;
 
-                if (poi.RenderingSettings.CanDrawIcon())
+                foreach (var poi in area.PointsOfInterest)
                 {
-                    drawPoiIcons.Add((poi.RenderingSettings, poi.Position));
-                }
-            }
+                    if ((new PoiType[] { PoiType.PreviousArea, PoiType.NextArea }).Contains(poi.Type))
+                    {
+                        if (drawnPreviousNextAreas.Exists(x => x.Subtract(poi.Position).Length() < 5))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            drawnPreviousNextAreas.Add(poi.Position);
+                        }
+                    }
 
-            foreach (var poi in _pointsOfInterest)
-            {
-                if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint, PoiType.AreaPortal }).Contains(poi.Type))
-                {
-                    continue;
-                }
-
-                if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !_areaData.Area.IsTown())
-                {
-                    var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
-                    var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
-                    var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
-                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
-                }
-
-                if (!string.IsNullOrWhiteSpace(poi.Label) && poi.Type != PoiType.Shrine)
-                {
                     if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                     {
                         continue;
                     }
 
-                    if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
+                    if (poi.RenderingSettings.CanDrawIcon())
                     {
-                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
-                        drawPoiLabels.Add((poi.RenderingSettings, poiPosition, poi.Label, null));
+                        drawPoiIcons.Add((poi.RenderingSettings, poi.Position));
                     }
-                    else if (poi.RenderingSettings.CanDrawLabel())
+                }
+
+                foreach (var poi in area.PointsOfInterest)
+                {
+                    if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint, PoiType.AreaPortal }).Contains(poi.Type))
                     {
-                        drawPoiLabels.Add((poi.RenderingSettings, poi.Position, poi.Label, null));
+                        continue;
+                    }
+
+                    if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !area.Area.IsTown())
+                    {
+                        var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
+                        var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
+                        DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(poi.Label))
+                    {
+                        if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
+                        {
+                            continue;
+                        }
+
+                        if (poi.Type == PoiType.Shrine && !IsInBounds(poi.Position, _gameData.PlayerPosition))
+                        {
+                            continue;
+                        }
+
+                        if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
+                        {
+                            var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
+                            drawPoiLabels.Add((poi.RenderingSettings, poiPosition, poi.Label, null));
+                        }
+                        else if (poi.RenderingSettings.CanDrawLabel())
+                        {
+                            drawPoiLabels.Add((poi.RenderingSettings, poi.Position, poi.Label, null));
+                        }
                     }
                 }
             }
 
-            var areasToRender = (new AreaData[] { _areaData }).Concat(_areaData.AdjacentAreas.Values).ToArray();
             foreach (var gameObject in _gameData.Objects)
             {
                 var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(gameObject.Position));
                 if (foundInArea != null && foundInArea.Area != _areaData.Area && !AreaExtensions.RequiresStitching(foundInArea.Area)) continue; // Don't show gamedata objects in another area if areas aren't stitched together
-
-                if (gameObject.IsShrine || gameObject.IsWell)
-                {
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawIcon())
-                    {
-                        drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position));
-                    }
-
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawLabel())
-                    {
-                        var label = Shrine.ShrineDisplayName(gameObject);
-                        drawPoiLabels.Add((MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position, label, null));
-                    }
-
-                    continue;
-                }
 
                 if (gameObject.IsPortal)
                 {
@@ -1498,6 +1503,12 @@ namespace MapAssist.Helpers
                 case MonsterTypeFlags.Unique: return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
             }
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
+        }
+
+        private bool IsInBounds(Point point, Point origin,
+            float padding = 0)
+        {
+            return point == MovePointInBounds(point, origin, padding);
         }
 
         private Point MovePointInBounds(Point point, Point origin,

@@ -28,8 +28,7 @@ namespace MapAssist.Helpers
         private const string _procName = "MAServer.exe";
 
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
-        private Difficulty _difficulty;
-        private uint _mapSeed;
+        private GameData _gameData;
 
         private static int trailingSlash = -1; // -1 = Still trying to figure out, 0 = remove trailing slash, 1 = required trailing slash
         private static int trailingSlashTry = 0; // Which trailing slash preference to try
@@ -301,10 +300,9 @@ namespace MapAssist.Helpers
             return (length, json);
         }
 
-        public MapApi(Difficulty difficulty, uint mapSeed)
+        public MapApi(GameData gameData)
         {
-            _difficulty = difficulty;
-            _mapSeed = mapSeed;
+            _gameData = gameData;
 
             // Cache for pre-fetching maps for the surrounding areas.
             _cache = new ConcurrentDictionary<Area, AreaData>();
@@ -314,9 +312,7 @@ namespace MapAssist.Helpers
         {
             if (!_cache.TryGetValue(area, out AreaData areaData))
             {
-                _log.Info($"Requesting map data for {area} ({_mapSeed} seed, {_difficulty} difficulty)");
                 areaData = GetMapDataInternal(area);
-                _cache[area] = areaData;
             }
             else
             {
@@ -338,9 +334,7 @@ namespace MapAssist.Helpers
                     {
                         if (!_cache.TryGetValue(adjacentArea, out AreaData adjAreaData))
                         {
-                            _log.Info($"Requesting map data for {adjacentArea} ({_mapSeed} seed, {_difficulty} difficulty)");
-                            _cache[adjacentArea] = GetMapDataInternal(adjacentArea);
-                            areaData.AdjacentAreas[adjacentArea] = _cache[adjacentArea];
+                            areaData.AdjacentAreas[adjacentArea] = GetMapDataInternal(adjacentArea);
                         }
                         else
                         {
@@ -388,16 +382,16 @@ namespace MapAssist.Helpers
 
                 case Area.OuterCloister:
                     return new Area[] {
-                        Area.BlackMarsh,
-                        Area.TamoeHighland,
                         Area.Barracks, // Missing adjacent area
+                        Area.TamoeHighland,
+                        Area.BlackMarsh,
                     };
 
                 case Area.Barracks:
                     return new Area[] {
-                        Area.TamoeHighland,
-                        Area.MonasteryGate,
                         Area.OuterCloister, // Missing adjacent area
+                        Area.MonasteryGate,
+                        Area.TamoeHighland,
                     };
 
                 case Area.InnerCloister:
@@ -463,9 +457,11 @@ namespace MapAssist.Helpers
 
         private AreaData GetMapDataInternal(Area area)
         {
+            _log.Info($"Requesting map data for {area} ({_gameData.MapSeed} seed, {_gameData.Difficulty} difficulty)");
+            
             var req = new Req();
-            req.seed = _mapSeed;
-            req.difficulty = (uint)_difficulty;
+            req.seed = _gameData.MapSeed;
+            req.difficulty = (uint)_gameData.Difficulty;
             req.levelId = (uint)area;
 
             lock (_pipeRequestLock)
@@ -489,7 +485,14 @@ namespace MapAssist.Helpers
                 if (json == null) return null;
 
                 var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
-                return rawAreaData.ToInternal(area);
+                var areaData = rawAreaData.ToInternal(area);
+                _cache[area] = areaData;
+                _log.Info($"Loaded data for {areaData.Area}");
+
+                areaData.PointsOfInterest = PointOfInterestHandler.Get(this, areaData, _gameData);
+                _log.Info($"Found {areaData.PointsOfInterest.Count} points of interest in {areaData.Area}");
+                
+                return areaData;
             }
         }
 
