@@ -99,7 +99,11 @@ namespace MapAssist.Types
                 itemPrefix += "[Eth] ";
             }
 
-            if (item.Stats.TryGetValue(Stats.Stat.NumSockets, out var numSockets))
+            if (item.IsRuneWord)
+            {
+                itemPrefix += $"[{Items.GetRunewordFromId(item.Prefixes[0])}] ";
+            }
+            else if (item.Stats.TryGetValue(Stats.Stat.NumSockets, out var numSockets))
             {
                 itemPrefix += "[" + numSockets + " S] ";
             }
