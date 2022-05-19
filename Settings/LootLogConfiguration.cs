@@ -257,32 +257,27 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Max Quality Level")]
         public int? MaxQualityLevel { get; set; }
-    }
 
-    public static class ItemFilterExtensions
-    {
-        public static bool TargetsUnidItem(this ItemFilter rule)
+        public bool TargetsUnidItem()
         {
-            if (rule == null) return true;
-
-            foreach (var property in rule.GetType().GetProperties())
+            foreach (var property in GetType().GetProperties())
             {
                 if (property.Name == "Defense") continue;
 
                 var propType = property.PropertyType;
                 if (propType == typeof(object)) continue;
 
-                var propertyValue = rule.GetType().GetProperty(property.Name).GetValue(rule, null);
-                if (propertyValue != null && propType == typeof(int?) && (int)propertyValue > 0)
+                var propertyValue = GetType().GetProperty(property.Name).GetValue(this, null);
+                if (propertyValue != null && propType == typeof(int?) && (int)propertyValue != 0)
                 {
                     return false;
                 }
             }
 
-            if (rule.Skills.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.SkillCharges.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.ClassSkills.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.SkillTrees.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (Skills.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (SkillCharges.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (ClassSkills.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (SkillTrees.Where(subrule => subrule.Value != null).Count() > 0) return false;
 
             return true;
         }

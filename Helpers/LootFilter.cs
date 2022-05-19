@@ -29,24 +29,24 @@ namespace MapAssist.Helpers
             // Scan the list of rules
             foreach (var rule in matches.SelectMany(kv => kv.Value))
             {
-                // Skip generic unid rules for identified items
-                if (item.IsIdentified && rule.TargetsUnidItem()) continue;
+                // Skip generic unid rules for identified items on ground
+                if (item.IsIdentified && item.IsDropped && rule.TargetsUnidItem()) continue;
 
                 // Requirement check functions
                 var requirementsFunctions = new Dictionary<string, Func<bool>>()
                 {
-                    ["Qualities"]       = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
-                    ["Sockets"]         = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
-                    ["Ethereal"]        = () => item.IsEthereal == rule.Ethereal,
-                    ["MinAreaLevel"]    = () => areaLevel >= rule.MinAreaLevel,
-                    ["MaxAreaLevel"]    = () => areaLevel <= rule.MaxAreaLevel,
-                    ["MinPlayerLevel"]  = () => playerLevel >= rule.MinPlayerLevel,
-                    ["MaxPlayerLevel"]  = () => playerLevel <= rule.MaxPlayerLevel,
+                    ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
+                    ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
+                    ["Ethereal"] = () => item.IsEthereal == rule.Ethereal,
+                    ["MinAreaLevel"] = () => areaLevel >= rule.MinAreaLevel,
+                    ["MaxAreaLevel"] = () => areaLevel <= rule.MaxAreaLevel,
+                    ["MinPlayerLevel"] = () => playerLevel >= rule.MinPlayerLevel,
+                    ["MaxPlayerLevel"] = () => playerLevel <= rule.MaxPlayerLevel,
                     ["MinQualityLevel"] = () => Items.GetQualityLevel(item) >= rule.MinQualityLevel,
                     ["MaxQualityLevel"] = () => Items.GetQualityLevel(item) <= rule.MaxQualityLevel,
-                    ["AllAttributes"]   = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
-                    ["AllResist"]       = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
-                    ["SumResist"]       = () => Items.GetItemStatResists(item, true) >= rule.SumResist,
+                    ["AllAttributes"] = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
+                    ["AllResist"] = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
+                    ["SumResist"] = () => Items.GetItemStatResists(item, true) >= rule.SumResist,
                     ["ClassSkills"] = () =>
                     {
                         if (rule.ClassSkills.Count() == 0) return true;
