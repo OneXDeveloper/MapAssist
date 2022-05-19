@@ -146,6 +146,7 @@ namespace MapAssist.Helpers
                     baseName = item.ItemBaseName,
                     quality = item.ItemData.ItemQuality.ToString(),
                     fullName = Items.ItemFullName(item),
+                    runeWord = item.IsRuneWord ? Items.GetRunewordFromId(item.Prefixes[0]) : null,
                     ethereal = item.IsEthereal,
                     identified = item.IsIdentified,
                     numSockets = numSockets,
