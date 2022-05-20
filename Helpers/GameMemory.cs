@@ -40,6 +40,7 @@ namespace MapAssist.Helpers
             using (processContext)
             {
                 _currentProcessId = processContext.ProcessId;
+                var currentWindowHandle = GameManager.MainWindowHandle;
 
                 var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
@@ -353,12 +354,12 @@ namespace MapAssist.Helpers
                 _firstMemoryRead = false;
                 _errorThrown = false;
 
-                if (_currentProcessId != processContext.ProcessId)
+                if (currentWindowHandle != GameManager.MainWindowHandle)
                 {
                     if (_errorThrown) return null;
 
                     _errorThrown = true;
-                    throw new Exception("Process ID changed in the middle of the frame.");
+                    throw new Exception("Window handle changed in the middle of the frame");
                 }
 
                 return new GameData
@@ -367,7 +368,7 @@ namespace MapAssist.Helpers
                     MapSeed = mapSeed,
                     Area = levelId,
                     Difficulty = gameDifficulty,
-                    MainWindowHandle = GameManager.MainWindowHandle,
+                    MainWindowHandle = currentWindowHandle,
                     PlayerName = playerUnit.Name,
                     PlayerUnit = playerUnit,
                     Players = playerList,

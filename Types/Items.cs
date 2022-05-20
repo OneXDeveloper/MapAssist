@@ -9,6 +9,8 @@ namespace MapAssist.Types
 {
     public static class Items
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
         public static Dictionary<int, HashSet<string>> ItemUnitHashesSeen = new Dictionary<int, HashSet<string>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsSeen = new Dictionary<int, HashSet<uint>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsToSkip = new Dictionary<int, HashSet<uint>>();
@@ -48,13 +50,17 @@ namespace MapAssist.Types
 
             item.IsIdentifiedForLog = item.IsIdentified;
 
-            ItemLog[processId].Add(new ItemLogEntry()
+            var newLogEntry = new ItemLogEntry()
             {
                 ItemHashString = item.HashString,
                 UnitItem = item,
                 Rule = rule,
                 Area = area
-            });
+            };
+
+            ItemLog[processId].Add(newLogEntry);
+
+            _log.Info($"Added item to log: {newLogEntry.Text}");
         }
 
         public static bool CheckInventoryItem(UnitItem item, int processId) =>

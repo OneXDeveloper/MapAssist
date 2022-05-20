@@ -6,8 +6,6 @@ using MapAssist.Structs;
 using MapAssist.Types;
 using System;
 using System.Windows.Forms;
-
-//using WK.Libraries.HotkeyListenerNS;
 using Graphics = GameOverlay.Drawing.Graphics;
 
 namespace MapAssist

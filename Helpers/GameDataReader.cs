@@ -1,8 +1,5 @@
-﻿using GameOverlay.Drawing;
-using MapAssist.Settings;
+﻿using MapAssist.Settings;
 using MapAssist.Types;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MapAssist.Helpers
@@ -47,7 +44,7 @@ namespace MapAssist.Helpers
             }
 
             _gameData = gameData;
-            
+
             ImportFromGameData();
 
             return (_gameData, _areaData, changed);
