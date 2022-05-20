@@ -29,8 +29,8 @@ namespace MapAssist.Helpers
             // Scan the list of rules
             foreach (var rule in matches.SelectMany(kv => kv.Value))
             {
-                // Skip generic unid rules for identified items on ground
-                if (item.IsIdentified && item.IsDropped && rule.TargetsUnidItem()) continue;
+                // Skip generic unid rules for identified items on ground or in inventory
+                if (item.IsIdentified && (item.IsDropped || item.IsAnyPlayerHolding) && rule.TargetsUnidItem()) continue;
 
                 // Requirement check functions
                 var requirementsFunctions = new Dictionary<string, Func<bool>>()
