@@ -533,7 +533,7 @@ namespace MapAssist.Types
             MaxDurability,
             ReplenishLife,
             MaxDurabilityPercent,
-            MaxHPPercent,
+            MaxLifePercent,
             MaxManaPercent,
             AttackerTakesDamage,
             GoldFind,
