@@ -3,7 +3,6 @@ using MapAssist.Settings;
 using MapAssist.Types;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MapAssist.Helpers
 {
@@ -190,14 +189,15 @@ namespace MapAssist.Helpers
                         Area.TalRashasTomb5, Area.TalRashasTomb6, Area.TalRashasTomb7
                     };
                     var realTomb = Area.None;
-                    Parallel.ForEach(tombs, tombArea =>
+                    foreach (var tombArea in tombs)
                     {
                         AreaData tombData = mapApi.GetMapData(tombArea);
                         if (tombData.Objects.ContainsKey(GameObject.HoradricOrifice))
                         {
                             realTomb = tombArea;
+                            break;
                         }
-                    });
+                    }
 
                     if (realTomb != Area.None && areaData.AdjacentLevels[realTomb].Exits.Any())
                     {
