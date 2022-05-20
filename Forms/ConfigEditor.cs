@@ -79,6 +79,10 @@ namespace MapAssist
 
             buffSize.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize * 10d);
             lblBuffSizeValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.ToString();
+            chkBuffs.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarBuffs;
+            chkAuras.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarAuras;
+            chkPassives.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarPassives;
+            chkDebuffs.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarDebuffs;
             chkAlertLowerRes.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes;
             cboBuffPosition.SelectedIndex = cboBuffPosition.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition.ToString().ToProperCase());
             cboMapLinesMode.SelectedIndex = cboMapLinesMode.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode.ToString().ToProperCase());
@@ -269,6 +273,26 @@ namespace MapAssist
                 MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize = 0;
             }
             lblBuffSizeValue.Text = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffSize.ToString();
+        }
+
+        private void chkBuffs_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarBuffs = chkBuffs.Checked;
+        }
+
+        private void chkAuras_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarAuras = chkAuras.Checked;
+        }
+
+        private void chkPassives_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarPassives = chkPassives.Checked;
+        }
+
+        private void chkDebuffs_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarDebuffs = chkDebuffs.Checked;
         }
 
         private void chkAlertLowerRes_CheckedChanged(object sender, EventArgs e)

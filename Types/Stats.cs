@@ -9,16 +9,16 @@ namespace MapAssist.Types
     {
         public static readonly int StateCount = (int)Enum.GetValues(typeof(State)).Cast<State>().Max();
 
-        public static readonly Color DebuffColor = Color.FromArgb(255, 35, 55);
-        public static readonly Color PassiveColor = Color.FromArgb(180, 180, 180); //255, 35, 55 = red/debuff //180, 180, 180 = gray/passive
         public static readonly Color BuffColor = Color.FromArgb(0, 135, 235);
         public static readonly Color AuraColor = Color.FromArgb(245, 220, 80);
+        public static readonly Color PassiveColor = Color.FromArgb(180, 180, 180); //255, 35, 55 = red/debuff //180, 180, 180 = gray/passive
+        public static readonly Color DebuffColor = Color.FromArgb(255, 35, 55);
 
         public static Color StateColor(State state)
         {
-            if (PassiveStates.Contains(state)) { return PassiveColor; }
             if (BuffStates.Contains(state)) { return BuffColor; }
             if (AuraStates.Contains(state)) { return AuraColor; }
+            if (PassiveStates.Contains(state)) { return PassiveColor; }
             if (DebuffStates.Contains(state)) { return DebuffColor; }
             return Color.Gray;
         }

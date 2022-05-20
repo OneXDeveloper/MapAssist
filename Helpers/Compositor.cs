@@ -721,10 +721,10 @@ namespace MapAssist.Helpers
             var buffsByColor = new Dictionary<Color, List<Bitmap>>();
             var totalBuffs = 0;
 
-            buffsByColor.Add(States.DebuffColor, new List<Bitmap>());
-            buffsByColor.Add(States.PassiveColor, new List<Bitmap>());
-            buffsByColor.Add(States.AuraColor, new List<Bitmap>());
-            buffsByColor.Add(States.BuffColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarBuffs) buffsByColor.Add(States.BuffColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarAuras) buffsByColor.Add(States.AuraColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarPassives) buffsByColor.Add(States.PassiveColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarDebuffs) buffsByColor.Add(States.DebuffColor, new List<Bitmap>());
 
             var alertLoweredRes = false;
 
@@ -785,14 +785,14 @@ namespace MapAssist.Helpers
 
             if (buffImageScale > 0)
             {
-                var buffIndex = 1;
+                var buffIndex = 0;
                 foreach (var buff in buffsByColor)
                 {
                     for (var i = 0; i < buff.Value.Count; i++)
                     {
                         var buffImg = buff.Value[i];
                         var buffColor = buff.Key;
-                        var drawPoint = new Point((gfx.Width / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
+                        var drawPoint = new Point((gfx.Width / 2f) - (totalBuffs * imgDimensions / 2f) + (buffIndex * imgDimensions), buffYPos);
                         DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
 
                         var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);

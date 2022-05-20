@@ -21,6 +21,10 @@ RenderingConfiguration:
   Size: 800
   ZoomLevel: 1
   BuffSize: 1
+  ShowBuffBarBuffs: true
+  ShowBuffBarAuras: true
+  ShowBuffBarPassives: true
+  ShowBuffBarDebuffs: true
   BuffAlertLowRes: true
   BuffPosition: Bottom
   ShowLife: false

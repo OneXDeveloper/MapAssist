@@ -224,6 +224,18 @@ public class RenderingConfiguration
     [YamlMember(Alias = "BuffSize", ApplyNamingConventions = false)]
     public double BuffSize { get; set; }
 
+    [YamlMember(Alias = "ShowBuffBarBuffs", ApplyNamingConventions = false)]
+    public bool ShowBuffBarBuffs { get; set; }
+
+    [YamlMember(Alias = "ShowBuffBarAuras", ApplyNamingConventions = false)]
+    public bool ShowBuffBarAuras { get; set; }
+
+    [YamlMember(Alias = "ShowBuffBarPassives", ApplyNamingConventions = false)]
+    public bool ShowBuffBarPassives { get; set; }
+
+    [YamlMember(Alias = "ShowBuffBarDebuffs", ApplyNamingConventions = false)]
+    public bool ShowBuffBarDebuffs { get; set; }
+
     [YamlMember(Alias = "BuffAlertLowRes", ApplyNamingConventions = false)]
     public bool BuffAlertLowRes { get; set; }
 
