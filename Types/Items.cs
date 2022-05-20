@@ -32,13 +32,18 @@ namespace MapAssist.Types
                 ItemUnitHashesSeen[processId].Add(item.HashString);
             }
 
-            if (item.IsPlayerOwned && item.IsIdentified)
+            ItemUnitIdsSeen[processId].Add(item.UnitId);
+
+            if (item.IsAnyPlayerHolding && item.IsIdentified)
             {
                 InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
                 ItemUnitIdsToSkip[processId].Add(item.UnitId);
-            }
 
-            ItemUnitIdsSeen[processId].Add(item.UnitId);
+                if (!item.IsPlayerOwned)
+                {
+                    return;
+                }
+            }
 
             var (logItem, rule) = LootFilter.Filter(item, areaLevel, playerLevel);
             if (!logItem) return;
