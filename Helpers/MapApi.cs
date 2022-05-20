@@ -489,8 +489,11 @@ namespace MapAssist.Helpers
                 _cache[area] = areaData;
                 _log.Info($"Loaded data for {areaData.Area}");
 
-                areaData.PointsOfInterest = PointOfInterestHandler.Get(this, areaData, _gameData);
-                _log.Info($"Found {areaData.PointsOfInterest.Count} points of interest in {areaData.Area}");
+                if (areaData.Area != Area.CanyonOfTheMagi)
+                {
+                    areaData.PointsOfInterest = PointOfInterestHandler.Get(this, areaData, _gameData);
+                    _log.Info($"Found {areaData.PointsOfInterest.Count} points of interest in {areaData.Area}");
+                }
                 
                 return areaData;
             }
