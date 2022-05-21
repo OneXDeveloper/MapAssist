@@ -99,6 +99,13 @@ namespace MapAssist.Types
             Npc.Mephisto,
             Npc.Diablo,
             Npc.BaalCrab,
+            Npc.DiabloClone,
+            Npc.UberMephisto,
+            Npc.UberDiablo,
+            Npc.UberIzual,
+            Npc.Lilith,
+            Npc.UberDuriel,
+            Npc.UberBaal,
         };
 
         public static Dictionary<int, string> SuperUniques = ExcelDataLoader.Parse(Properties.Resources.SuperUniques).ToDictionary(x => int.Parse(x["hcIdx"]), x => x["Name"]);
@@ -931,7 +938,7 @@ namespace MapAssist.Types
 
         public static string Name(this Npc npc)
         {
-            var key = _npcLocalizationKeys.TryGetValue(npc, out var label) ? label : npc.ToString();
+            var key = _npcLocalizationKeys.TryGetValue(npc, out var label) ? label : npc.ToString().Replace("Uber", "").Replace("Clone", "");
 
             return LocalizedName(key);
         }
