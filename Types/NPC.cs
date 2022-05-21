@@ -168,15 +168,15 @@ namespace MapAssist.Types
         {
             [Area.Travincal] = new Dictionary<string, string>()
             {
-                { "Ismail Vilehand", "councilmember1" },
-                { "Geleb Flamefinger", "councilmember2" },
-                { "Bremm Sparkfist", "councilmember3" },
+                { "Toorc Icefist", "29" },
+                { "Geleb Flamefinger", "27" },
+                { "Ismail Vilehand", "26" },
             },
             [Area.DuranceOfHateLevel3] = new Dictionary<string, string>()
             {
-                { "Toorc Icefist", "councilmember1" },
-                { "Wyand Voidfinger", "councilmember2" },
-                { "Maffer Dragonhand", "councilmember3" },
+                { "Wyand Voidfinger", "30" },
+                { "Maffer Dragonhand", "31" },
+                { "Bremm Sparkfist", "28" },
             }
         };
     }

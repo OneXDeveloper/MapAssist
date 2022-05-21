@@ -860,7 +860,7 @@ namespace MapAssist.Helpers
 
                     if (NPC.AreaSpecificSuperUniques.ContainsKey(_areaData.Area))
                     {
-                        superUniques = superUniques.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monsterClass)).ToArray();
+                        superUniques = superUniques.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monster.MonsterData.BossLineID.ToString())).ToArray();
                     }
 
                     if (superUniques.Length == 1 && (monster.MonsterType == MonsterTypeFlags.SuperUnique || monster.MonsterType == MonsterTypeFlags.Unique))
