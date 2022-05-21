@@ -127,6 +127,7 @@
     <Compile Include="Files\Font\ResourceFontFileStream.cs" />
     <Compile Include="Files\Font\ResourceFontLoader.cs" />
     <Compile Include="Helpers\AudioPlayer.cs" />
+    <Compile Include="Helpers\ExcelDataLoader.cs" />
     <Compile Include="Helpers\GameDataReader.cs" />
     <Compile Include="Helpers\GameManager.cs" />
     <Compile Include="Helpers\Hotkey.cs" />
@@ -267,6 +268,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\QualityLevels.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SuperUniques.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Salvation.png" />

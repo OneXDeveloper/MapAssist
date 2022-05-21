@@ -34,6 +34,9 @@ namespace MapAssist.Types
             return null;
         }
 
+        public bool IsSuperUnique => (MonsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique || Npc == Npc.Summoner; // Summoner seems to be an odd exception
+        public string SuperUniqueName => Npc == Npc.Summoner ? "The Summoner" : NPC.SuperUniques[MonsterData.BossLineID];
+
         private List<Resist> GetImmunities()
         {
             Stats.TryGetValue(Types.Stats.Stat.DamageReduced, out var resistanceDamage);

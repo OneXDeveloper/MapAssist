@@ -844,72 +844,59 @@ namespace MapAssist.Helpers
         {
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar) return;
 
-            Func<(UnitMonster, string)> getActiveMonster = () =>
+            (UnitMonster, string)[] getActiveMonsters()
             {
                 var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
                 var boss = _gameData.Monsters.FirstOrDefault(x => NPC.Bosses.Contains(x.Npc));
-                if (boss != null && (boss.IsHovered || hoveredUnit.Count() == 0)) return (boss, NpcExtensions.Name(boss.Npc));
+                if (boss != null && (boss.IsHovered || hoveredUnit.Count() == 0)) return new[] { (boss, NpcExtensions.Name(boss.Npc)) };
 
-                var monstersAround = new List<(UnitMonster, string)>();
+                var superUniques = _gameData.Monsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
+                if (superUniques.Count() > 0) return superUniques;
 
-                foreach (var monster in _gameData.Monsters)
-                {
-                    var monsterClass = Encoding.UTF8.GetString(monster.MonsterStats.Name).TrimEnd((char)0);
-                    var monsterName = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
-
-                    if (monsterName.Length == 1 && (monster.MonsterData.BossLineID > 0 || monster.Npc == Npc.Summoner)) // Summoner seems to be an odd exception
-                    {
-                        monstersAround.Add((monster, NpcExtensions.LocalizedName(monsterName[0].Key)));
-                    }
-                }
-
-                if (monstersAround.Count == 1 && hoveredUnit.Count() == 0) return monstersAround[0];
-                else if (monstersAround.Count == 0) return (null, null);
-
-                var hoveredMonster = monstersAround.Where(x => x.Item1.IsHovered).ToArray();
-                if (hoveredMonster.Length == 1) return hoveredMonster[0];
-
-                return (null, null);
+                return new (UnitMonster, string)[] { };
             };
 
-            var (activeMonster, name) = getActiveMonster();
-            if (activeMonster == null) return;
+            var activeMonsters = getActiveMonsters();
+            if (activeMonsters.Length == 0) return;
 
-            // Health
-            var healthPerc = activeMonster.HealthPercentage;
-            var infoText = $"{name} HP: {healthPerc:P}";
-
-            var barWidth = gfx.Width * 0.3f;
-            var barHeight = gfx.Height * 0.04f;
-            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
-
-            var fontSize = barHeight / 2f;
-            var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
-            var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
-            var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
-
-            var center = new Point(gfx.Width / 2, gfx.Height * 0.043f);
-            var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
-            var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
-
-            gfx.FillRectangle(lightFillBrush, barRect);
-            gfx.FillRectangle(darkFillBrush, fillRect);
-            gfx.DrawRectangle(blackBrush, barRect, 2);
-
-            var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
-
-            DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
-
-            // Immunities
-            var immunityFontSize = gfx.ScaleFontSize(14);
-            var immunitiesDistanceBetween = gfx.ScaleFontSize(10);
-            var immunitiesWidth = activeMonster.Immunities.Select(x => gfx.MeasureString(CreateFont(gfx, font, immunityFontSize), x.ToString()).X).ToArray();
-            var immunitiesTotalWidth = immunitiesWidth.Sum() + immunitiesDistanceBetween * (activeMonster.Immunities.Count() - 1);
-
-            foreach (var (i, immunity) in activeMonster.Immunities.Select((x, i) => (i, x)))
+            foreach (var (i, (activeMonster, name)) in activeMonsters.Select((value, i) => (i, value)))
             {
-                DrawText(gfx, new Point(gfx.Width / 2 - immunitiesTotalWidth / 2 + immunitiesWidth.Take(i).Sum() + immunitiesWidth[i] / 2 + i * immunitiesDistanceBetween, gfx.Height * 0.053f), immunity.ToString(), font, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+                // Health
+                var healthPerc = activeMonster.HealthPercentage;
+                var infoText = $"{name} HP: {healthPerc:P}";
+
+                var barWidth = gfx.Width * 0.3f;
+                var barHeight = gfx.Height * 0.04f;
+                var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+
+                var fontSize = barHeight / 2f;
+                var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
+                var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
+                var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
+
+                var center = new Point(gfx.Width / 2, gfx.Height * (0.043f + i * 0.05f));
+                var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
+                var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
+
+                gfx.FillRectangle(lightFillBrush, barRect);
+                gfx.FillRectangle(darkFillBrush, fillRect);
+                gfx.DrawRectangle(blackBrush, barRect, 2);
+
+                var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
+
+                DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
+
+                // Immunities
+                var immunityFontSize = gfx.ScaleFontSize(14);
+                var immunitiesDistanceBetween = gfx.ScaleFontSize(10);
+                var immunitiesWidth = activeMonster.Immunities.Select(x => gfx.MeasureString(CreateFont(gfx, font, immunityFontSize), x.ToString()).X).ToArray();
+                var immunitiesTotalWidth = immunitiesWidth.Sum() + immunitiesDistanceBetween * (activeMonster.Immunities.Count() - 1);
+
+                foreach (var (j, immunity) in activeMonster.Immunities.Select((x, j) => (j, x)))
+                {
+                    DrawText(gfx, new Point(gfx.Width / 2 - immunitiesTotalWidth / 2 + immunitiesWidth.Take(j).Sum() + immunitiesWidth[j] / 2 + j * immunitiesDistanceBetween, center.Y + gfx.Height * 0.01f), immunity.ToString(), font, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+                }
             }
         }
 
