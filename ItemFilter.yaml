@@ -68,10 +68,83 @@ x-bases:
     Ethereal: true
     Qualities: [normal, superior]
     Sockets: [4]
-
+# 新增法师双手杖规则 ES、Nova、Hyra    //Ivan新增规则20220512
+  - &player-sor-wep-base-ES
+    Qualities: [normal, superior]
+    Sockets: [0, 4, 5, 6]
+    Skills:
+      Energy Shield: 2
+  - &player-sor-wep-base-Nova
+    Qualities: [normal, superior]
+    Sockets: [0, 4, 5, 6]
+    Skills:
+      Nova: 2
+  - &player-sor-wep-base-HYDRA
+    Qualities: [normal, superior]
+    Sockets: [0, 4, 5, 6]
+    Skills:
+      Hydra: 2
+# 新增圣骑权杖规则  天堂之拳、祝福之锤   //Ivan新增规则20220512
+  - &player-pal-wep-base-FOH
+    Qualities: [normal, superior]
+    Sockets: [0, 4, 5]
+    Skills:
+      Fist Of The Heavens: 2
+  - &player-pal-wep-base-BH
+    Qualities: [normal, superior]
+    Sockets: [0, 4, 5]
+    Skills:
+      Blessed Hammer: 2
+# 新增圣骑权杖规则  天堂之拳    蓝色  //Ivan新增规则20220520
+  - &player-pal-wep-magic-FOH
+    Qualities: magic
+    Skills:
+      Fist Of The Heavens: 2
+# 新增圣骑士+3Pal规则  //Ivan新增规则20220516
+  - &player-pal-wep-magic-3skills
+    Qualities: magic
+    Class Skills:
+      Paladin: 3
+# 新增圣骑士+3进攻灵气/2信念规则 //Ivan新增规则20220516
+  - &player-pal-wep-magic-5Conviction
+    Qualities: magic
+    Class Skill Tree:
+      Paladin Offensive Auras: 3
+    Skills:
+      Conviction: 2
+# 新增圣骑士+2信念规则   //Ivan新增规则20220516
+  - &player-pal-wep-magic-2Conviction
+    Qualities: magic
+    Skills:
+      Conviction: 2
+# 新增圣骑士+3进攻灵气 //Ivan新增规则20220516
+  - &player-pal-wep-magic-3Offensive
+    Qualities: magic
+    Class Skill Tree:
+      Paladin Offensive Auras: 3
+# 新增野蛮人+3战吼武器规则 //Ivan新增规则20220513
+  - &player-bar-wep-base-bo
+    Qualities: magic
+    Class Skill Tree:
+      Barbarian Warcries: 3
+# 新增野蛮人+3战吼头盔底材规则 //Ivan新增规则20220516
+  - &player-bar-helm-base-bo
+    Qualities: [normal, superior]
+    Sockets: [0, 3]
+    Skills:
+      Battle Orders: 2
+# 新增野蛮人+1战吼/+1战斗命令蓝色头盔规则    //Ivan新增规则20220516
+  - &player-bar-heml-magic-bo
+    Qualities: magic
+    Class Skill Tree:
+      Barbarian Warcries: 1
+    Skills:
+      Battle Orders: 1
+    
 # This ring rule will show all unidentified magic, rare, and unique rings that drop on the ground
+#Ivan修改 取消显示蓝色未辨识戒指
 Ring:
-  - Qualities: [magic, rare, unique]
+  - Qualities: [rare, unique]
   # The rings below have stats that are only possible on identified items, so these rules
   # will alert you when a matching item is identified by you or picked up as identified
   - Qualities: magic
@@ -98,11 +171,66 @@ Ring:
     All Skills: 1
 
 # This will show Barbarian Warcry Sticks when you trade a town vendor that has them for sale
+# 大长刀
 Glaive:
   - Qualities: magic
     Class Skill Tree:
       Barbarian Warcries: 3
-
+# 平衡小刀  //20220512 Ivan添加
+Balanced Knife:
+  - *player-bar-wep-base-bo
+# 巨战飞镖  //20220512 Ivan添加
+War Dart:
+  - *player-bar-wep-base-bo
+# 翼刀    //20220512 Ivan添加
+Winged Knife:
+  - *player-bar-wep-base-bo
+# 飞矛    //20220512 Ivan添加
+Throwing Spear:
+  - *player-bar-wep-base-bo
+# ------------------------------------野蛮人3bo头盔底材和>2bo蓝色头盔区  //Ivan新增规则20220516
+Jawbone Cap:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Fanged Helm:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Horned Helm:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Assault Helmet:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Avenger Guard:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Jawbone Visor:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Lion Helm:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Rage Mask:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Savage Helmet:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Carnage Helm:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Fury Visor:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Destroyer Helm:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Conqueror Crown:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
+Guardian Crown:
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
 ### Some items are inactive
 ### To activate them for the loot log, remove the ## in front of them
 ### To inactivate items, include a ## in front of them or delete it completely, then save this file.
@@ -163,24 +291,180 @@ Archon Plate:
 Flail:
   - Qualities: [normal, superior]
     Sockets: [4, 5]
+# 水晶剑   普通/超强 3s/4s/5s  +3战吼    //Ivan修改规则 20220512
 Crystal Sword:
   - Qualities: [normal, superior]
-    Sockets: [4, 5]
+    Sockets: [3, 4, 5]
+  - Qualities: magic
+    Class Skill Tree:
+      Barbarian Warcries: 3
+# 幻化之刃  普通/超强 3s/5s    //Ivan修改规则 20220512
 Phase Blade:
   - Qualities: [normal, superior]
-    Sockets: [5]
+    Sockets: [3, 5]
 Matriarchal Javelin:
   - Qualities: [magic, rare]
   - Qualities: unique # Thunderstroke
+# 新增刺客+2雷光守卫武器  //Ivan新增规则20220517
 Assassin Katars:
-  - Tiers: [exceptional, elite]
+  - Tiers: [elite]
     Qualities: [normal, superior]
     Sockets: [3]
-
+  - Tiers: [normal, exceptional, elite]
+    Qualities: [magic]
+    Skills:
+      Lightning Sentry: 2
+# 冥河之枪  无形  普通/超强   0s/4s/5s    //Ivan新增规则 20220507
+Stygian Pike:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 4, 5]
+# 战枪    无形  普通/超强   0s/4s/5s    //Ivan新增规则 20220507
+War Pike:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 4, 5]
+# 鬼魂长矛    无形  普通/超强   0s/4s/5s  //Ivan新增规则 20220507
+Ghost Spear:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 4, 5]
+# 三叉戟（手持无限材料）   普通/超强   0s/4s/5s  //Ivan新增规则 20220507
+Trident:
+  - Qualities: [normal, superior]
+    Sockets: [0, 4]
+# 女族长长矛  普通/超强   0s/4s  //Ivan新增规则 20220507
+Matriarchal Spear:
+  - Qualities: [normal, superior]
+    Sockets: [0, 4]
+# 多节棍   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Gnarled Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 战斗法杖   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Battle Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 巨战法杖   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+War Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 杉木之棍   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Cedar Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 歌德之棍   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Gothic Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 符文之棍   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Rune Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 树皮之杖   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Shillelagh:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 执政官之杖   普通/超强   0s/4s/5s/6s +2Nova/Hydra/Es //Ivan新增规则 20220512
+Archon Staff:
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
+# 秘仪之剑（瘟疫底材）    普通/超强   0s/3s   //Ivan新增规则 20220512
+Mythical Sword:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 3]
+# 征服之剑（瘟疫底材）    普通/超强   0s/3s   //Ivan新增规则 20220512
+Conquest Sword:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 3]
+# 神秘之剑（瘟疫底材）    普通/超强   0s/3s   //Ivan新增规则 20220516
+Cryptic Sword:
+  - Qualities: [normal, superior]
+    Ethereal: true
+    Sockets: [0, 3]
+# 巨战权杖（刚毅、CTA底材）    普通/超强   0s/4s/5s    +2天堂之拳/+2祝福之锤   //Ivan新增规则 20220512
+War Scepter:
+  - *player-pal-wep-base-BH
+  - *player-pal-wep-base-FOH
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+# 神属权杖（刚毅、CTA底材）    普通/超强   0s/4s/5s    +2天堂之拳/+2祝福之锤   //Ivan新增规则 20220512
+Divine Scepter:
+  - *player-pal-wep-base-BH
+  - *player-pal-wep-base-FOH
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+# 神使之杖（刚毅、CTA底材）    普通/超强   0s/4s/5s    +2天堂之拳/+2祝福之锤   //Ivan新增规则 20220512
+Caduceus:
+  - *player-pal-wep-base-BH
+  - *player-pal-wep-base-FOH
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+# -------------------------------------------信念战神杖专区 //Ivan新增规则 20220516
+Scepter:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+Grand Scepter:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+Rune Scepter:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+Holy Water Sprinkler:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+Mighty Scepter:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-FOH
+  - Qualities: [unique]
+  - *player-pal-wep-magic-2Conviction
+Seraph Rod:
+  - *player-pal-wep-magic-3skills
+  - *player-pal-wep-magic-5Conviction
+  - *player-pal-wep-magic-3Offensive
+  - *player-pal-wep-magic-2Conviction
+  - *player-pal-wep-magic-FOH
+#狂战士斧   普通/超强   0s/5s    悔恨材料    //Ivan新增规则 20220516
+Berserker Axe:
+  - Qualities: [normal, superior]
+    Sockets: [0, 5]
 ### Misc
 Amulet:
   - Qualities:
-    - magic
+    #- magic    //Ivan修改 取消显示蓝色项链
     - rare
     - unique
     - set
@@ -255,11 +539,14 @@ Barbarian Helms:
 Paladin Shields:
   - Tiers: elite
     Qualities: [normal, superior]
-    All Resist: 25
+    All Resist: 30
     Sockets: [0, 4]
 
 ### Runes
+# 符文 8 15 20-33
+Ral Rune:
 Hel Rune:
+Lem Rune:
 Pul Rune:
 Um Rune:
 Mal Rune:
@@ -343,6 +630,8 @@ Eldritch Orb:
 # Arreat's Face
 Slayer Guard:
   - Qualities: unique
+  - *player-bar-helm-base-bo
+  - *player-bar-heml-magic-bo
 # Death's Web
 Unearthed Wand:
   - Qualities: unique
@@ -380,8 +669,12 @@ Vampirefang Belt:
 War Belt:
   - Qualities: unique
 # Ondal's Wisdom
+# 长老之杖  普通/超强   0s/4s   能量护盾//Ivan新增规则 20220512
 Elder Staff:
   - Qualities: unique
+  - *player-sor-wep-base-ES
+  - *player-sor-wep-base-HYDRA
+  - *player-sor-wep-base-Nova
 # Goblin Toe
 Light Plated Boots:
   - Qualities: unique
