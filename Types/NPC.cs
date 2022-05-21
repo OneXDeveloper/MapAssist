@@ -129,12 +129,6 @@ namespace MapAssist.Types
             { "Stormtree", "thornhulk3" },
             { "Sarina the Battlemaid", "corruptrogue5" },
             { "Icehawk Riftwing", "batdemon3" },
-            //{ "Ismail Vilehand", "councilmember1" },
-            //{ "Geleb Flamefinger", "councilmember2" },
-            //{ "Bremm Sparkfist", "councilmember3" },
-            //{ "Toorc Icefist", "councilmember1" },
-            //{ "Wyand Voidfinger", "councilmember2" },
-            //{ "Maffer Dragonhand", "councilmember3" },
             //{ "Winged Death", "megademon3" },
             { "The Tormentor", "willowisp3" },
             { "Taintbreeder", "vilemother2" },
@@ -168,6 +162,22 @@ namespace MapAssist.Types
             { "Baal Subject 3", "baalhighpriest" },
             { "Baal Subject 4", "venomlord" },
             { "Baal Subject 5", "baalminion1" },
+        };
+
+        public static Dictionary<Area, Dictionary<string, string>> AreaSpecificSuperUniques = new Dictionary<Area, Dictionary<string, string>>()
+        {
+            [Area.Travincal] = new Dictionary<string, string>()
+            {
+                { "Ismail Vilehand", "councilmember1" },
+                { "Geleb Flamefinger", "councilmember2" },
+                { "Bremm Sparkfist", "councilmember3" },
+            },
+            [Area.DuranceOfHateLevel3] = new Dictionary<string, string>()
+            {
+                { "Toorc Icefist", "councilmember1" },
+                { "Wyand Voidfinger", "councilmember2" },
+                { "Maffer Dragonhand", "councilmember3" },
+            }
         };
     }
 

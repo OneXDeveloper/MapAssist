@@ -856,15 +856,21 @@ namespace MapAssist.Helpers
                 foreach (var monster in _gameData.Monsters)
                 {
                     var monsterClass = Encoding.UTF8.GetString(monster.MonsterStats.Name).TrimEnd((char)0);
-                    var monsterName = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
+                    var superUniques = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
 
-                    if (monsterName.Length == 1 && (monster.MonsterData.BossLineID > 0 || monster.Npc == Npc.Summoner)) // Summoner seems to be an odd exception
+                    if (NPC.AreaSpecificSuperUniques.ContainsKey(_areaData.Area))
                     {
-                        monstersAround.Add((monster, NpcExtensions.LocalizedName(monsterName[0].Key)));
+                        superUniques = superUniques.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monsterClass)).ToArray();
+                    }
+
+                    if (superUniques.Length == 1 && (monster.MonsterType == MonsterTypeFlags.SuperUnique || monster.MonsterType == MonsterTypeFlags.Unique))
+                    {
+                        monstersAround.Add((monster, NpcExtensions.LocalizedName(superUniques[0].Key)));
                     }
                 }
 
                 if (monstersAround.Count == 1 && hoveredUnit.Count() == 0) return monstersAround[0];
+                else if (monstersAround.Count > 1 && hoveredUnit.Count() == 0) return monstersAround.OrderBy(m => m.Item1.HealthPercentage).First();
                 else if (monstersAround.Count == 0) return (null, null);
 
                 var hoveredMonster = monstersAround.Where(x => x.Item1.IsHovered).ToArray();
