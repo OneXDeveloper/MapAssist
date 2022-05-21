@@ -856,11 +856,11 @@ namespace MapAssist.Helpers
                 foreach (var monster in _gameData.Monsters)
                 {
                     var monsterClass = Encoding.UTF8.GetString(monster.MonsterStats.Name).TrimEnd((char)0);
-                    var monsterNames = NPC.SuperUniques.Where(x => x.Value == monsterClass).Select(kvp => kvp.Key).ToArray();
+                    var monsterNames = NPC.SuperUniques.Where(x => x.Value == monsterClass).Select(x => x.Key).ToArray();
 
                     if (NPC.AreaSpecificSuperUniques.ContainsKey(_areaData.Area))
                     {
-                        monsterNames = monsterNames.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monster.MonsterData.BossLineID).Select(kvp => kvp.Key).ToArray()).ToArray();
+                        monsterNames = monsterNames.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monster.MonsterData.BossLineID).Select(x => x.Key).ToArray()).ToArray();
                     }
 
                     if (monsterNames.Length == 1 && (monster.MonsterType == MonsterTypeFlags.SuperUnique || monster.MonsterType == MonsterTypeFlags.Unique))
