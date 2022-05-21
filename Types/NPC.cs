@@ -164,19 +164,19 @@ namespace MapAssist.Types
             { "Baal Subject 5", "baalminion1" },
         };
 
-        public static Dictionary<Area, Dictionary<string, string>> AreaSpecificSuperUniques = new Dictionary<Area, Dictionary<string, string>>()
+        public static Dictionary<Area, Dictionary<string, int>> AreaSpecificSuperUniques = new Dictionary<Area, Dictionary<string, int>>()
         {
-            [Area.Travincal] = new Dictionary<string, string>()
+            [Area.Travincal] = new Dictionary<string, int>()
             {
-                { "Toorc Icefist", "29" },
-                { "Geleb Flamefinger", "27" },
-                { "Ismail Vilehand", "26" },
+                { "Ismail Vilehand", 26 },
+                { "Geleb Flamefinger", 27 },
+                { "Toorc Icefist", 29 },
             },
-            [Area.DuranceOfHateLevel3] = new Dictionary<string, string>()
+            [Area.DuranceOfHateLevel3] = new Dictionary<string, int>()
             {
-                { "Wyand Voidfinger", "30" },
-                { "Maffer Dragonhand", "31" },
-                { "Bremm Sparkfist", "28" },
+                { "Bremm Sparkfist", 28 },
+                { "Wyand Voidfinger", 30 },
+                { "Maffer Dragonhand", 31 },
             }
         };
     }

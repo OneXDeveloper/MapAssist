@@ -856,16 +856,16 @@ namespace MapAssist.Helpers
                 foreach (var monster in _gameData.Monsters)
                 {
                     var monsterClass = Encoding.UTF8.GetString(monster.MonsterStats.Name).TrimEnd((char)0);
-                    var superUniques = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
+                    var monsterNames = NPC.SuperUniques.Where(x => x.Value == monsterClass).Select(kvp => kvp.Key).ToArray();
 
                     if (NPC.AreaSpecificSuperUniques.ContainsKey(_areaData.Area))
                     {
-                        superUniques = superUniques.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monster.MonsterData.BossLineID.ToString())).ToArray();
+                        monsterNames = monsterNames.Concat(NPC.AreaSpecificSuperUniques[_areaData.Area].Where(x => x.Value == monster.MonsterData.BossLineID).Select(kvp => kvp.Key).ToArray()).ToArray();
                     }
 
-                    if (superUniques.Length == 1 && (monster.MonsterType == MonsterTypeFlags.SuperUnique || monster.MonsterType == MonsterTypeFlags.Unique))
+                    if (monsterNames.Length == 1 && (monster.MonsterType == MonsterTypeFlags.SuperUnique || monster.MonsterType == MonsterTypeFlags.Unique))
                     {
-                        monstersAround.Add((monster, NpcExtensions.LocalizedName(superUniques[0].Key)));
+                        monstersAround.Add((monster, NpcExtensions.LocalizedName(monsterNames[0])));
                     }
                 }
 
