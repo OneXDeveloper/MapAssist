@@ -134,7 +134,7 @@ x-bases:
     Skills:
       Battle Orders: 2
 # 新增野蛮人+1战吼/+1战斗命令蓝色头盔规则    //Ivan新增规则20220516
-  - &player-bar-heml-magic-bo
+  - &player-bar-helm-magic-bo
     Qualities: magic
     Class Skill Tree:
       Barbarian Warcries: 1
@@ -191,46 +191,46 @@ Throwing Spear:
 # ------------------------------------野蛮人3bo头盔底材和>2bo蓝色头盔区  //Ivan新增规则20220516
 Jawbone Cap:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Fanged Helm:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Horned Helm:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Assault Helmet:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Avenger Guard:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Jawbone Visor:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Lion Helm:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Rage Mask:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Savage Helmet:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Carnage Helm:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Fury Visor:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Destroyer Helm:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Conqueror Crown:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 Guardian Crown:
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 ### Some items are inactive
 ### To activate them for the loot log, remove the ## in front of them
 ### To inactivate items, include a ## in front of them or delete it completely, then save this file.
@@ -631,7 +631,7 @@ Eldritch Orb:
 Slayer Guard:
   - Qualities: unique
   - *player-bar-helm-base-bo
-  - *player-bar-heml-magic-bo
+  - *player-bar-helm-magic-bo
 # Death's Web
 Unearthed Wand:
   - Qualities: unique
