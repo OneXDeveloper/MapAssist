@@ -134,7 +134,7 @@ namespace MapAssist
 
         public void KeyDownHandler(object sender, KeyEventArgs args)
         {
-            if (InGame() && GameManager.IsGameInForeground)
+            if (InGame() && GameManager.IsGameInForeground && !_gameData.MenuOpen.Chat)
             {
                 var keys = new Hotkey(args.Modifiers, args.KeyCode);
 
