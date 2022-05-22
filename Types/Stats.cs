@@ -473,7 +473,7 @@ namespace MapAssist.Types
             Experience,
             Gold,
             StashGold,
-            ArmorPercent,
+            EnhancedDefense,
             EnhancedDamageMax,
             EnhancedDamage,
             AttackRating,

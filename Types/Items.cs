@@ -482,7 +482,9 @@ namespace MapAssist.Types
 
         public static int GetItemStat(UnitItem item, Stats.Stat stat)
         {
-            return item.Stats.TryGetValue(stat, out var statValue) ? statValue : 0;
+            return item.Stats.TryGetValue(stat, out var statValue) ? statValue :
+                item.StatsAdded != null && item.StatsAdded.TryGetValue(stat, out var statAddedValue) ? statAddedValue :
+                item.StaffMods != null && item.StaffMods.TryGetValue(stat, out var staffModValue) ? staffModValue : 0;
         }
 
         public static int GetItemStatShifted(UnitItem item, Stats.Stat stat)
