@@ -234,7 +234,7 @@ namespace MapAssist.Helpers
                         continue;
                     }
 
-                    if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !area.Area.IsTown())
+                    if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !area.Area.IsTown() && poi.Area == _areaData.Area)
                     {
                         var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
                         var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
