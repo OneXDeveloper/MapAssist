@@ -56,6 +56,8 @@ namespace MapAssist.Types
 
         public bool IsDropped => ItemModeMapped == ItemModeMapped.Ground;
 
+        public bool IsInInventory => ItemModeMapped == ItemModeMapped.Inventory;
+
         public bool IsInStore => ItemModeMapped == ItemModeMapped.Vendor;
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;

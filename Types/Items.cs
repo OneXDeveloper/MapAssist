@@ -70,7 +70,7 @@ namespace MapAssist.Types
 
         public static bool CheckInventoryItem(UnitItem item, int processId) =>
             MapAssistConfiguration.Loaded.ItemLog.CheckItemOnIdentify &&
-            item.IsIdentified && item.IsPlayerOwned && !item.IsInSocket &&
+            item.IsIdentified && item.IsPlayerOwned && item.IsInInventory &&
             !InventoryItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
         public static bool CheckDroppedItem(UnitItem item, int processId) =>
