@@ -133,8 +133,6 @@ namespace MapAssist.Types
 
         public bool IsPlayer => Struct.UnitType == UnitType.Player && Struct.pAct != IntPtr.Zero;
 
-        public bool IsPlayerOwned => IsMerc && Stats.ContainsKey(Types.Stats.Stat.Strength); // This is ugly, but seems to work.
-
         public bool IsMonster
         {
             get
@@ -147,8 +145,6 @@ namespace MapAssist.Types
                 return true;
             }
         }
-
-        public bool IsMerc => new List<Npc> { Npc.Rogue2, Npc.Guard, Npc.IronWolf, Npc.Act5Hireling1Hand, Npc.Act5Hireling2Hand }.Contains((Npc)TxtFileNo);
 
         public bool IsCorpse => Struct.isCorpse && UnitId != GameMemory.PlayerUnit.UnitId && Area != Area.None;
 

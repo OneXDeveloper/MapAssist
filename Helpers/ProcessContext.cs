@@ -183,6 +183,23 @@ namespace MapAssist.Helpers
             return IntPtr.Add(_baseAddr, offsetAddressToInt);
         }
 
+        public IntPtr GetPetsOffset(byte[] buffer)
+        {
+            var pattern = new Pattern("48 8B 05 ? ? ? ? 48 89 41 30 89 59 08");
+            IntPtr patternAddress = FindPattern(buffer, pattern);
+
+            var offsetBuffer = new byte[4];
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
+            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
+            {
+                _log.Info($"Failed to find pattern {pattern}");
+                return IntPtr.Zero;
+            }
+            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
+            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
+            return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
+        }
+
         public T[] Read<T>(IntPtr address, int count) where T : struct
         {
             var sz = Marshal.SizeOf<T>();

@@ -27,6 +27,9 @@ namespace MapAssist.Structs
         [FieldOffset(0x0C)] public uint dwOwnerID; //which unitId owns this item (online only) - otherwise 0 = body, 1 = personal stash, 2 = sharedstash1, 3 = sharedstash2, 4 = sharedstash3, 5 = belt
         [FieldOffset(0x18)] public ItemFlags ItemFlags;
         [FieldOffset(0x34)] public uint uniqueOrSetId;
+        [FieldOffset(0x42)] public short RarePrefix;
+        [FieldOffset(0x44)] public short RareSuffix;
+        [FieldOffset(0x46)] public short AutoAffix;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
         [FieldOffset(0x48)] public ushort[] Affixes;
         [FieldOffset(0x54)] public BodyLoc BodyLoc;

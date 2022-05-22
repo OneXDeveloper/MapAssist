@@ -32,6 +32,7 @@ namespace MapAssist.Helpers
         private static IntPtr _RosterDataOffset;
         private static IntPtr _InteractedNpcOffset;
         private static IntPtr _LastHoverDataOffset;
+        private static IntPtr _PetsOffsetOffset;
 
         private static WindowsExternal.WinEventDelegate _eventDelegate = null;
 
@@ -129,6 +130,7 @@ namespace MapAssist.Helpers
             _RosterDataOffset = IntPtr.Zero;
             _InteractedNpcOffset = IntPtr.Zero;
             _LastHoverDataOffset = IntPtr.Zero;
+            _PetsOffsetOffset = IntPtr.Zero;
 
             _lastGameHwnd = hwnd;
             _lastGameProcess = process;
@@ -286,6 +288,21 @@ namespace MapAssist.Helpers
             }
         }
 
+        public static IntPtr PetsOffset
+        {
+            get
+            {
+                if (_PetsOffsetOffset != IntPtr.Zero)
+                {
+                    return _PetsOffsetOffset;
+                }
+
+                PopulateMissingOffsets();
+
+                return _PetsOffsetOffset;
+            }
+        }
+
         private static void PopulateMissingOffsets()
         {
             // The fact we are here means we are missing some offset,
@@ -340,6 +357,12 @@ namespace MapAssist.Helpers
                 {
                     _InteractedNpcOffset = processContext.GetInteractedNpcOffset(buffer);
                     _log.Info($"Found offset {nameof(_InteractedNpcOffset)} 0x{_InteractedNpcOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
+                }
+
+                if (_PetsOffsetOffset == IntPtr.Zero)
+                {
+                    _PetsOffsetOffset = processContext.GetPetsOffset(buffer);
+                    _log.Info($"Found offset {nameof(_PetsOffsetOffset)} 0x{_PetsOffsetOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
                 }
             }
         }

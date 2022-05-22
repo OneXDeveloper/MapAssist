@@ -168,6 +168,7 @@
     <Compile Include="Structs\RoomEx.cs" />
     <Compile Include="Structs\Session.cs" />
     <Compile Include="Structs\Skill.cs" />
+    <Compile Include="Structs\Pet.cs" />
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Chest.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Types\UnitPlayer.cs" />
     <Compile Include="Types\UnitMonster.cs" />
     <Compile Include="Types\UnitItem.cs" />
+    <Compile Include="Types\Pets.cs" />
     <Compile Include="Types\UnitType.cs" />
     <EmbeddedResource Include="Forms\AddAreaForm.resx">
       <DependentUpon>AddAreaForm.cs</DependentUpon>

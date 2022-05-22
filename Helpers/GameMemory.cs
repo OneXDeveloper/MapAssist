@@ -46,6 +46,7 @@ namespace MapAssist.Helpers
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
                 var lastNpcInteracted = (Npc)processContext.Read<ushort>(GameManager.InteractedNpcOffset);
                 var rosterData = new Roster(GameManager.RosterDataOffset);
+                var pets = new Pets(GameManager.PetsOffset);
 
                 if (!menuData.InGame)
                 {
@@ -211,7 +212,19 @@ namespace MapAssist.Helpers
                     .Where(x => x != null && x.UnitId < uint.MaxValue).ToArray();
 
                 var monsterList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMonster).ToArray();
-                var mercList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMerc).ToArray();
+
+                foreach (var petEntry in pets.List.Where(x => x.IsMerc).ToArray())
+                {
+                    var merc = rawMonsterUnits.FirstOrDefault(x => x.UnitId == petEntry.UnitId);
+
+                    if (merc != null)
+                    {
+                        petEntry.IsPlayerOwned = playerUnit.UnitId == petEntry.OwnerId;
+                        merc.PetEntry = petEntry;
+                    }
+                }
+
+                var mercList = rawMonsterUnits.Where(x => x.IsMerc).ToArray();
 
                 // Objects
                 var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);

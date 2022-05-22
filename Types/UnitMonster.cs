@@ -11,6 +11,7 @@ namespace MapAssist.Types
         public MonStats MonsterStats { get; private set; }
         public List<Resist> Immunities { get; set; }
         public Npc Npc => (Npc)TxtFileNo;
+        public PetEntry PetEntry { get; set; }
 
         public UnitMonster(IntPtr ptrUnit) : base(ptrUnit)
         {
@@ -35,7 +36,12 @@ namespace MapAssist.Types
         }
 
         public bool IsSuperUnique => (MonsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique || Npc == Npc.Summoner; // Summoner seems to be an odd exception
+        
         public string SuperUniqueName => Npc == Npc.Summoner ? "The Summoner" : NPC.SuperUniques[MonsterData.BossLineID];
+
+        public bool IsMerc => PetEntry != null && PetEntry.IsMerc;
+
+        public bool IsPlayerOwned => PetEntry != null && PetEntry.IsPlayerOwned;
 
         private List<Resist> GetImmunities()
         {
