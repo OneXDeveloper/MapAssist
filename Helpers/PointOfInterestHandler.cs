@@ -22,7 +22,7 @@ namespace MapAssist.Helpers
             [Area.RockyWaste] = Area.DryHills,
             [Area.DryHills] = Area.FarOasis,
             [Area.FarOasis] = Area.LostCity,
-            [Area.SpiderForest] = Area.GreatMarsh,
+            [Area.SpiderForest] = Area.FlayerJungle,
             [Area.FlayerJungle] = Area.LowerKurast,
             [Area.KurastBazaar] = Area.UpperKurast,
             [Area.UpperKurast] = Area.KurastCauseway,
@@ -40,7 +40,7 @@ namespace MapAssist.Helpers
             [Area.LostCity] = Area.ValleyOfSnakes,
             [Area.SpiderForest] = Area.SpiderCavern,
             [Area.FlayerJungle] = Area.FlayerDungeonLevel1,
-            [Area.KurastBazaar] = Area.RuinedTemple,
+            [Area.KurastBazaar] = Area.SewersLevel1Act3,
             [Area.CrystallinePassage] = Area.FrozenRiver,
         };
 
