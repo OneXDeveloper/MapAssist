@@ -22,7 +22,6 @@ namespace MapAssist.Helpers
             [Area.RockyWaste] = Area.DryHills,
             [Area.DryHills] = Area.FarOasis,
             [Area.FarOasis] = Area.LostCity,
-            [Area.SpiderForest] = Area.FlayerJungle,
             [Area.FlayerJungle] = Area.LowerKurast,
             [Area.KurastBazaar] = Area.UpperKurast,
             [Area.UpperKurast] = Area.KurastCauseway,
@@ -296,6 +295,51 @@ namespace MapAssist.Helpers
                         Type = PoiType.NextArea
                     });
                     areaRenderDecided.Add(Area.InnerCloister);
+                }
+                else if (areaData.Area == Area.SpiderForest)
+                {
+                    if (areaData.AdjacentLevels.TryGetValue(Area.FlayerJungle, out var flayerJungleLevel))
+                    {
+                        pointsOfInterest.Add(new PointOfInterest
+                        {
+                            Area = areaData.Area,
+                            NextArea = Area.FlayerJungle,
+                            Label = Area.FlayerJungle.MapLabel(gameData.Difficulty),
+                            Position = flayerJungleLevel.Exits[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                            Type = PoiType.NextArea
+                        });
+                        areaRenderDecided.Add(Area.FlayerJungle);
+                    }
+                    else if (areaData.AdjacentLevels.TryGetValue(Area.GreatMarsh, out var greatMarshLevel))
+                    {
+                        pointsOfInterest.Add(new PointOfInterest
+                        {
+                            Area = areaData.Area,
+                            NextArea = Area.GreatMarsh,
+                            Label = Area.GreatMarsh.MapLabel(gameData.Difficulty),
+                            Position = greatMarshLevel.Exits[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                            Type = PoiType.NextArea
+                        });
+                        areaRenderDecided.Add(Area.GreatMarsh);
+                    }
+                }
+                else if (areaData.Area == Area.GreatMarsh)
+                {
+                    if (areaData.AdjacentLevels.TryGetValue(Area.FlayerJungle, out var flayerJungleLevel))
+                    {
+                        pointsOfInterest.Add(new PointOfInterest
+                        {
+                            Area = areaData.Area,
+                            NextArea = Area.FlayerJungle,
+                            Label = Area.FlayerJungle.MapLabel(gameData.Difficulty),
+                            Position = flayerJungleLevel.Exits[0],
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                            Type = PoiType.NextArea
+                        });
+                        areaRenderDecided.Add(Area.FlayerJungle);
+                    }
                 }
                 else if (AreaPreferredNextArea.TryGetValue(areaData.Area, out var nextArea))
                 {
