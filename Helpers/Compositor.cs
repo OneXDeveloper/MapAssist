@@ -1213,7 +1213,7 @@ namespace MapAssist.Helpers
                 anchor.X + bitmapDX.Size.Width * size,
                 anchor.Y + bitmapDX.Size.Height * size);
 
-            renderTarget.DrawBitmap(bitmapDX, destRect, opacity, BitmapInterpolationMode.Linear, sourceRect);
+            renderTarget.DrawBitmap(bitmapDX, destRect, opacity, BitmapInterpolationMode.NearestNeighbor, sourceRect);
         }
 
         private void DrawIcon(Graphics gfx, IconRendering rendering, Point position,
