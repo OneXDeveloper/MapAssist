@@ -854,8 +854,8 @@ namespace MapAssist.Helpers
             {
                 var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
-                var boss = _gameData.Monsters.FirstOrDefault(x => NPC.Bosses.Contains(x.Npc));
-                if (boss != null && (boss.IsHovered || hoveredUnit.Count() == 0)) return new[] { (boss, NpcExtensions.Name(boss.Npc)) };
+                var bosses = _gameData.Monsters.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
+                if (bosses.Count() > 0) return bosses;
 
                 var superUniques = _gameData.Monsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
                 if (superUniques.Count() > 0) return superUniques;
