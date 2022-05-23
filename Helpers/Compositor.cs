@@ -203,7 +203,6 @@ namespace MapAssist.Helpers
                 areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
             }
 
-
             foreach (var area in areasToRender)
             {
                 if (area.PointsOfInterest == null) continue;
@@ -850,14 +849,21 @@ namespace MapAssist.Helpers
         {
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar) return;
 
+            var areasToRender = new AreaData[] { _areaData };
+            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            {
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+            }
+
             (UnitMonster, string)[] getActiveMonsters()
             {
+                var areaMonsters = _gameData.Monsters.Where(x => areasToRender.Any(y => y.IncludesPoint(x.Position))).ToArray();
                 var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
-                var bosses = _gameData.Monsters.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
+                var bosses = areaMonsters.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
                 if (bosses.Count() > 0) return bosses;
 
-                var superUniques = _gameData.Monsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
+                var superUniques = areaMonsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
                 if (superUniques.Count() > 0) return superUniques;
 
                 return new (UnitMonster, string)[] { };
