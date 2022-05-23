@@ -29,11 +29,11 @@ namespace MapAssist.Helpers
 
         public IntPtr GetUnitHashtableOffset(byte[] buffer)
         {
-            var pattern = new Pattern("48 8D 0D ? ? ? ? 48 C1 E0 0A 48 03 C1 C3 CC");
+            var pattern = new Pattern("48 03 C7 49 8B 8C C6");
             var patternAddress = FindPattern(buffer, pattern);
 
             var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, 3);
+            var resultRelativeAddress = IntPtr.Add(patternAddress, 7);
             if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
             {
                 _log.Info($"Failed to find pattern {pattern}");
@@ -41,8 +41,7 @@ namespace MapAssist.Helpers
             }
 
             var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
-            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
-            return IntPtr.Add(_baseAddr, (int)(delta + 7 + offsetAddressToInt));
+            return IntPtr.Add(_baseAddr, offsetAddressToInt);
         }
 
         public IntPtr GetExpansionOffset(byte[] buffer)

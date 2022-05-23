@@ -11,7 +11,7 @@ namespace MapAssist.Helpers
 
         public Pattern(string pattern)
         {
-            List<string> cleanPattern = pattern
+            var cleanPattern = pattern
                 .Replace("\\x", " ")
                 .Replace("??", "?")
                 .Trim()
@@ -23,7 +23,7 @@ namespace MapAssist.Helpers
 
             _pattern = cleanPattern
                 .Select(o => byte.Parse(o, NumberStyles.HexNumber))
-                .ToArray();            
+                .ToArray();
         }
 
         public bool Match(byte[] data, int offset)
@@ -42,9 +42,7 @@ namespace MapAssist.Helpers
 
         public override string ToString()
         {
-            return "Pattern: " + string.Join(
-                " ", _mask.Select((c, i) => c == '?' ? "?" : _pattern[i].ToString("X"))
-            );
+            return "Pattern: " + string.Join(" ", _mask.Select((c, i) => c == '?' ? "?" : _pattern[i].ToString("X").PadLeft(2, '0')));
         }
     }
 }
