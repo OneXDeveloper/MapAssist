@@ -51,14 +51,19 @@ namespace MapAssist
                     return;
                 }
 
-                var configurationOk = LoadLoggingConfiguration() && LoadMainConfiguration() && LoadLootLogConfiguration();
+                var logConfigurationOk = LoadLoggingConfiguration();
+                if (githubSha.Length == 40)
+                {
+                    _log.Info($"Running from commit {githubSha}");
+                }
+                else
+                {
+                    _log.Info($"Running a self-compiled build");
+                }
+
+                var configurationOk = logConfigurationOk && LoadMainConfiguration() && LoadLootLogConfiguration();
                 if (configurationOk)
                 {
-                    if (githubSha.Length == 40)
-                    {
-                        _log.Info($"Running from commit {githubSha}");
-                    }
-
                     if (MapAssistConfiguration.Loaded.DPIAware)
                     {
                         SetProcessDPIAware();
