@@ -20,6 +20,7 @@ namespace MapAssist
         private Compositor _compositor = new Compositor();
         private bool _show = true;
         private static readonly object _lock = new object();
+        private bool frameDone = true;
 
         public Overlay()
         {
@@ -41,6 +42,9 @@ namespace MapAssist
         {
             if (disposed) return;
 
+            if (!frameDone) return;
+            frameDone = false;
+
             var gfx = e.Graphics;
 
             try
@@ -57,7 +61,7 @@ namespace MapAssist
 
                     gfx.ClearScene();
 
-                    if (_compositor != null && InGame() && _compositor != null && _gameData != null)
+                    if (_compositor != null && _gameData != null && InGame())
                     {
                         UpdateLocation();
 
@@ -119,6 +123,8 @@ namespace MapAssist
             {
                 _log.Error(ex);
             }
+
+            frameDone = true;
         }
 
         public void Run()

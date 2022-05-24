@@ -287,17 +287,28 @@ namespace MapAssist
             _log.Info("Disposing");
 
             overlay.Dispose();
+            _log.Info("Disposed Overlay");
+
             GameManager.Dispose();
+            _log.Info("Disposed GameManager");
+
             MapApi.Dispose();
+            _log.Info("Disposed MapApi");
+
             globalHook.Dispose();
+            _log.Info("Disposed keyboard hook");
+
             trayIcon.Dispose();
+            _log.Info("Disposed tray icon");
 
             if (backWorkOverlay.IsBusy)
             {
                 backWorkOverlay.CancelAsync();
+                _log.Info("Cancelled overlay background worker");
             }
 
             mutex.Dispose();
+            _log.Info("Disposed mutex");
 
             _log.Info("Finished disposing");
             LogManager.Flush();

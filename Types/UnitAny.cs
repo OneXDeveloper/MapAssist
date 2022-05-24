@@ -82,15 +82,18 @@ namespace MapAssist.Types
                             (Stats, StatLayers) = ReadStats(StatsStruct.Stats);
                             (StatsBase, StatLayersBase) = ReadStats(StatsStruct.BaseStats.Stats);
 
-                            var addedStatsStruct = GetAddedStatsListPtr();
-                            if (addedStatsStruct.HasValue)
+                            if (UnitType == UnitType.Item)
                             {
-                                (StatsAdded, StatLayersAdded) = ReadStats(addedStatsStruct.Value.BaseStats.Stats);
-
-                                if (addedStatsStruct.Value.pPrevLink != IntPtr.Zero)
+                                var addedStatsStruct = GetAddedStatsListPtr();
+                                if (addedStatsStruct.HasValue)
                                 {
-                                    var staffModsStruct = processContext.Read<StatListExStruct>(addedStatsStruct.Value.pPrevLink);
-                                    (StaffMods, StaffModsLayers) = ReadStats(staffModsStruct.BaseStats.Stats);
+                                    (StatsAdded, StatLayersAdded) = ReadStats(addedStatsStruct.Value.BaseStats.Stats);
+
+                                    if (addedStatsStruct.Value.pPrevLink != IntPtr.Zero)
+                                    {
+                                        var staffModsStruct = processContext.Read<StatListExStruct>(addedStatsStruct.Value.pPrevLink);
+                                        (StaffMods, StaffModsLayers) = ReadStats(staffModsStruct.BaseStats.Stats);
+                                    }
                                 }
                             }
                         }
@@ -171,11 +174,21 @@ namespace MapAssist.Types
                     return null;
                 }
 
+                var tries = 0;
                 while ((flags & statList.BaseStats.Flags & 0xFFFFDFFF) == 0)
                 {
+                    if (tries++ >= 10) return null; // Just to be safe
+
                     if (StatsStruct.pPrevLink != IntPtr.Zero)
                     {
-                        statList = processContext.Read<StatListExStruct>(statList.pPrevLink);
+                        var addressToRead = statList.pPrevLink;
+
+                        statList = processContext.Read<StatListExStruct>(addressToRead);
+
+                        if (addressToRead == statList.pPrevLink) // Memory didn't change
+                        {
+                            return null;
+                        }
                     }
                     else
                     {
