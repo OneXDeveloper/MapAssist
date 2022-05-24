@@ -458,7 +458,7 @@ namespace MapAssist.Helpers
         private AreaData GetMapDataInternal(Area area)
         {
             _log.Info($"Requesting map data for {area} ({_gameData.MapSeed} seed, {_gameData.Difficulty} difficulty)");
-            
+
             var req = new Req();
             req.seed = _gameData.MapSeed;
             req.difficulty = (uint)_gameData.Difficulty;
@@ -491,7 +491,7 @@ namespace MapAssist.Helpers
 
                 areaData.PointsOfInterest = PointOfInterestHandler.Get(this, areaData, _gameData);
                 _log.Info($"Found {areaData.PointsOfInterest.Count} points of interest in {areaData.Area}");
-                
+
                 return areaData;
             }
         }

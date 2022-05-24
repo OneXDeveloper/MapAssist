@@ -9,11 +9,15 @@ namespace MapAssist.Settings
 {
     public class LootLogConfiguration
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
         public static Dictionary<Item, List<ItemFilter>> Filters { get; set; }
 
         public static void Load()
         {
             Filters = ConfigurationParser<Dictionary<Item, List<ItemFilter>>>.ParseConfigurationFile($"./{MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
+
+            _log.Info($"Parsed {Filters.Count()} item filter entries in {MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
 
             for (var itemClass = Item.ClassAxes; ; itemClass += 1)
             {
