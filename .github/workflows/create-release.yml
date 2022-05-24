@@ -1,4 +1,4 @@
-name: Deploy
+name: Create release
 on: workflow_dispatch
 
 env:
@@ -11,13 +11,8 @@ env:
   BUILD_CONFIGURATION: Release
 
 jobs:
-  deploy:
-    name: Deploy 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+  build:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -28,14 +23,30 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
+      - name: Lookup deploy details
+        uses: kanga333/variable-mapper@master
+        with:
+          key: "${{github.ref}}"
+          map: |
+            {
+              "refs/heads/main": {
+                "RELEASE_TAG": "stable"
+              },
+              "refs/heads/develop": {
+                "RELEASE_TAG": "beta"
+              }
+            }
+
       - name: Set github run variables
-        working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           sed -i 's/GITHUB_SHA/${{github.SHA}}/g' Program.cs
-          sed -i 's/GITHUB_RUN_NUMBER/${{github.RUN_NUMBER}}/g' Program.cs
+          sed -i "s/GITHUB_REPO/$(echo "${{github.REPOSITORY}}" | sed "s/\//\\\//g")/g" Program.cs
+          sed -i 's/GITHUB_RELEASE_TAG/${{env.RELEASE_TAG}}/g' Program.cs
+
+          sed -i -E 's/([0-9]+\.[0-9]+\.[0-9]+)\.0/\\1.${{github.RUN_NUMBER}}/g' Properties/AssemblyInfo.cs
+          echo "RELEASE_VERSION=$(awk 'match($0, /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) {print substr($0, RSTART, RLENGTH); exit }' Properties/AssemblyInfo.cs)" >> $env:GITHUB_ENV
 
       - name: Build
-        working-directory: ${{env.GITHUB_WORKSPACE}}
         # Add additional options to the MSBuild command line here (like platform or verbosity level).
         # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
         run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:DebugSymbols=false
@@ -47,27 +58,27 @@ jobs:
           recursive: true
           dest: MapAssist.zip
 
-      - name: Publish beta
+      - name: Publish
         uses: "marvinpinto/action-automatic-releases@latest"
-        if: ${{ github.ref == 'refs/heads/develop' }}
+        if: ${{ env.RELEASE_TAG != '' }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "beta"
+          automatic_release_tag: ${{env.RELEASE_TAG}}
           prerelease: false
           files: |
             LICENSE
             README.md
             MapAssist.zip
-            
-      - name: Publish stable
-        uses: "marvinpinto/action-automatic-releases@latest"
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "stable"
-          prerelease: false
-          files: |
-            LICENSE
-            README.md
-            MapAssist.zip
-  
+
+      - name: Update releases branch
+        run: |
+          git fetch origin
+          git config user.name 'ItzRabbs'
+          git config user.email '1294559+ItzRabbs@users.noreply.github.com'
+          git reset --hard
+          git clean -fd
+          git checkout releases
+          sed -i -E "s/<version>.+<\/version>/<version>$(echo "${{env.RELEASE_VERSION}}" | sed "s/\./\\\./g")<\/version>/g" ${{env.RELEASE_TAG}}.xml
+          git add --all
+          git commit -m "Updated ${{env.RELEASE_TAG}} release version"
+          git push

@@ -1,3 +1,4 @@
+using AutoUpdaterDotNET;
 using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
@@ -14,9 +15,12 @@ namespace MapAssist
     internal static class Program
     {
         private static readonly string githubSha = "GITHUB_SHA";
-        private static readonly string githubRunNumber = "GITHUB_RUN_NUMBER";
+        private static readonly string githubRepo = @"GITHUB_REPO";
+        private static readonly string githubReleaseTag = "GITHUB_RELEASE_TAG";
+        private static readonly bool isPrecompiled = githubSha.Length == 40;
+
         private static readonly string appName = "MapAssist";
-        private static string messageBoxTitle = $"{appName} v1.0.0";
+        private static string messageBoxTitle = $"{appName} v{typeof(Program).Assembly.GetName().Version}";
         private static Mutex mutex = null;
 
         private static ConfigEditor configEditor;
@@ -34,11 +38,6 @@ namespace MapAssist
         {
             try
             {
-                if (githubSha.Length == 40)
-                {
-                    messageBoxTitle += $".{githubRunNumber}";
-                }
-
                 bool createdNew;
                 mutex = new Mutex(true, appName, out createdNew);
 
@@ -52,9 +51,15 @@ namespace MapAssist
                 }
 
                 var logConfigurationOk = LoadLoggingConfiguration();
-                if (githubSha.Length == 40)
+                if (isPrecompiled)
                 {
-                    _log.Info($"Running from commit {githubSha}");
+                    _log.Info($"Running from commit {githubSha} on the {githubReleaseTag} release");
+
+                    AutoUpdater.OpenDownloadPage = true;
+                    AutoUpdater.ApplicationExitEvent += AutoUpdaterExit;
+
+                    var xmlUrl = $"https://raw.githubusercontent.com/{githubRepo}/releases/{githubReleaseTag}.xml";
+                    AutoUpdater.Start(xmlUrl);
                 }
                 else
                 {
@@ -330,6 +335,14 @@ namespace MapAssist
         private static void TrayExit(object sender, EventArgs e)
         {
             _log.Info("Exiting from tray icon");
+            Dispose();
+
+            Application.Exit();
+        }
+
+        private static void AutoUpdaterExit()
+        {
+            _log.Info("Exiting from outdated version");
             Dispose();
 
             Application.Exit();
