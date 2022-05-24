@@ -301,22 +301,24 @@ namespace MapAssist.Helpers
                                 });
                                 areaRenderDecided.Add(Area.GreatMarsh);
                             }
-                            break;
                         }
+                        break;
 
                     case Area.GreatMarsh:
-                        if (areaData.AdjacentLevels.TryGetValue(Area.FlayerJungle, out var flayerJungleLevel))
                         {
-                            pointsOfInterest.Add(new PointOfInterest
+                            if (areaData.AdjacentLevels.TryGetValue(Area.FlayerJungle, out var flayerJungleLevel))
                             {
-                                Area = areaData.Area,
-                                NextArea = Area.FlayerJungle,
-                                Label = Area.FlayerJungle.MapLabel(gameData.Difficulty),
-                                Position = flayerJungleLevel.Exits[0],
-                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
-                                Type = PoiType.NextArea
-                            });
-                            areaRenderDecided.Add(Area.FlayerJungle);
+                                pointsOfInterest.Add(new PointOfInterest
+                                {
+                                    Area = areaData.Area,
+                                    NextArea = Area.FlayerJungle,
+                                    Label = Area.FlayerJungle.MapLabel(gameData.Difficulty),
+                                    Position = flayerJungleLevel.Exits[0],
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.NextArea,
+                                    Type = PoiType.NextArea
+                                });
+                                areaRenderDecided.Add(Area.FlayerJungle);
+                            }
                         }
                         break;
 
@@ -382,60 +384,78 @@ namespace MapAssist.Helpers
                 }
 
                 // Previous Area Point of Interest
-                if (areaData.Area == Area.MonasteryGate)
+                switch (areaData.Area)
                 {
-                    var outerCloister = areaData.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
-                    var tamoe = areaData.AdjacentLevels.First(level => level.Key == Area.TamoeHighland).Value;
+                    case Area.MonasteryGate:
+                        var outerCloister = areaData.AdjacentLevels.First(level => level.Key == Area.OuterCloister).Value;
+                        var tamoe = areaData.AdjacentLevels.First(level => level.Key == Area.TamoeHighland).Value;
 
-                    pointsOfInterest.Add(new PointOfInterest
-                    {
-                        Area = areaData.Area,
-                        NextArea = tamoe.Area,
-                        Label = tamoe.Area.MapLabel(gameData.Difficulty),
-                        Position = new Point(outerCloister.Exits[0].X, tamoe.Exits[0].Y),
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                        Type = PoiType.PreviousArea
-                    });
-                }
-                else if (areaData.Area == Area.Barracks)
-                {
-                    var outerCloisterArea = mapApi.GetMapData(Area.OuterCloister);
-                    var barracksAreaData = Get(mapApi, outerCloisterArea, gameData);
-                    var barracks = barracksAreaData.FirstOrDefault(poi => poi.Type == PoiType.NextArea);
-
-                    pointsOfInterest.Add(new PointOfInterest
-                    {
-                        Area = areaData.Area,
-                        NextArea = Area.OuterCloister,
-                        Label = Area.OuterCloister.MapLabel(gameData.Difficulty),
-                        Position = barracks.Position,
-                        RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                        Type = PoiType.PreviousArea
-                    });
-                }
-                else
-                {
-                    foreach (var level in areaData.AdjacentLevels.Values)
-                    {
-                        // Already made render decision for this.
-                        if (areaRenderDecided.Contains(level.Area))
+                        pointsOfInterest.Add(new PointOfInterest
                         {
-                            continue;
-                        }
+                            Area = areaData.Area,
+                            NextArea = tamoe.Area,
+                            Label = tamoe.Area.MapLabel(gameData.Difficulty),
+                            Position = new Point(outerCloister.Exits[0].X, tamoe.Exits[0].Y),
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                            Type = PoiType.PreviousArea
+                        });
+                        break;
 
-                        foreach (var position in level.Exits)
+                    case Area.Barracks:
+                        var outerCloisterArea = mapApi.GetMapData(Area.OuterCloister);
+                        var barracksAreaData = Get(mapApi, outerCloisterArea, gameData);
+                        var barracks = barracksAreaData.FirstOrDefault(poi => poi.Type == PoiType.NextArea);
+
+                        pointsOfInterest.Add(new PointOfInterest
                         {
-                            pointsOfInterest.Add(new PointOfInterest
+                            Area = areaData.Area,
+                            NextArea = Area.OuterCloister,
+                            Label = Area.OuterCloister.MapLabel(gameData.Difficulty),
+                            Position = barracks.Position,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                            Type = PoiType.PreviousArea
+                        });
+                        break;
+
+                    case Area.Cathedral:
+                        var innerCloisterArea = mapApi.GetMapData(Area.InnerCloister);
+                        var cathedralAreaData = Get(mapApi, innerCloisterArea, gameData);
+                        var cathedral = cathedralAreaData.FirstOrDefault(poi => poi.Type == PoiType.NextArea);
+
+                        pointsOfInterest.Add(new PointOfInterest
+                        {
+                            Area = areaData.Area,
+                            NextArea = Area.InnerCloister,
+                            Label = Area.InnerCloister.MapLabel(gameData.Difficulty),
+                            Position = cathedral.Position,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                            Type = PoiType.PreviousArea
+                        });
+                        break;
+
+                    default:
+                        foreach (var level in areaData.AdjacentLevels.Values)
+                        {
+                            // Already made render decision for this.
+                            if (areaRenderDecided.Contains(level.Area))
                             {
-                                Area = areaData.Area,
-                                NextArea = level.Area,
-                                Label = level.Area.MapLabel(gameData.Difficulty),
-                                Position = position,
-                                RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
-                                Type = PoiType.PreviousArea
-                            });
+                                continue;
+                            }
+
+                            foreach (var position in level.Exits)
+                            {
+                                pointsOfInterest.Add(new PointOfInterest
+                                {
+                                    Area = areaData.Area,
+                                    NextArea = level.Area,
+                                    Label = level.Area.MapLabel(gameData.Difficulty),
+                                    Position = position,
+                                    RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.PreviousArea,
+                                    Type = PoiType.PreviousArea
+                                });
+                            }
                         }
-                    }
+                        break;
                 }
             }
 
