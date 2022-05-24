@@ -99,6 +99,7 @@ namespace MapAssist
             chkShowGameName.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameName;
             chkShowGameTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer;
             chkShowAreaTimer.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer;
+            chkShowBossKillCount.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowBossKillCount;
             chkShowArea.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowArea;
             chkShowAreaLevel.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowAreaLevel;
             chkShowDifficulty.Checked = MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty;
@@ -383,6 +384,11 @@ namespace MapAssist
         private void chkShowGameName_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.GameInfo.ShowGameName = chkShowGameName.Checked;
+        }
+        
+        private void chkShowBossKillCount_CheckedChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.GameInfo.ShowBossKillCount = chkShowBossKillCount.Checked;
         }
 
         private void chkShowGameTimer_CheckedChanged(object sender, EventArgs e)

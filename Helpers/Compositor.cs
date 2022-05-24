@@ -24,6 +24,7 @@ namespace MapAssist.Helpers
         private int _frameCount = 0;
         private ExocetFont _exocetFont;
         private FormalFont _formalFont;
+        private BossStateTracker _bossStateTracker;
 
         private Matrix3x2 mapTransformMatrix;
         private Matrix3x2 areaTransformMatrix;
@@ -59,10 +60,11 @@ namespace MapAssist.Helpers
             gamemaps = new HashSet<(Bitmap, Point)>();
         }
 
-        public void Init(Graphics gfx, GameData gameData, Rectangle drawBounds)
+        public void Init(Graphics gfx, GameData gameData, BossStateTracker bossStateTracker, Rectangle drawBounds)
         {
             _gameData = gameData;
             _drawBounds = drawBounds;
+            _bossStateTracker = bossStateTracker;
             _frameCount += 1;
             (scaleWidth, scaleHeight) = GetScaleRatios();
 
@@ -860,8 +862,20 @@ namespace MapAssist.Helpers
                 var areaMonsters = _gameData.Monsters.Where(x => areasToRender.Any(y => y.IncludesPoint(x.Position))).ToArray();
                 var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
-                var bosses = areaMonsters.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
-                if (bosses.Count() > 0) return bosses;
+                var bossesInRoom = areaMonsters.Where(x => NPC.Bosses.Contains(x.Npc)).ToList();
+                
+                if(bossesInRoom.Any())
+                    _bossStateTracker.Activate(bossesInRoom.First());
+                else
+                    _bossStateTracker.Clear();
+
+                var bosses = bossesInRoom.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
+                if (bosses.Count() > 0)
+                {
+                    
+                    return bosses;
+                }
+                
 
                 var superUniques = areaMonsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
                 if (superUniques.Count() > 0) return superUniques;
@@ -913,7 +927,7 @@ namespace MapAssist.Helpers
         }
 
         public Point DrawGameInfo(Graphics gfx, Point anchor,
-                    DrawGraphicsEventArgs e, bool errorLoadingAreaData)
+            DrawGraphicsEventArgs e, bool errorLoadingAreaData, BossKillCountRepository bossKillCountRepository)
         {
             var isTopLeft = MapAssistConfiguration.Loaded.GameInfo.Position == GameInfoPosition.TopLeft;
             if (isTopLeft ? _gameData.MenuOpen.IsLeftMenuOpen() : _gameData.MenuOpen.IsRightMenuOpen())
@@ -996,6 +1010,15 @@ namespace MapAssist.Helpers
             {
                 var fpsText = "FPS: " + gfx.FPS.ToString() + " / DeltaTime: " + e.DeltaTime.ToString();
                 DrawText(gfx, anchor, fpsText, font, fontSize, textColor, textShadow, textAlign);
+                anchor.Y += lineHeight;
+            }
+            
+            // Overlay Boss Count
+            if (MapAssistConfiguration.Loaded.GameInfo.ShowBossKillCount)
+            {
+                var bossKillCount = bossKillCountRepository.Get().Result;
+                var bosskillcountstring = "Andy: " + bossKillCount.Andariel + " Duriel: " + bossKillCount.Duriel + " Mephisto: " + bossKillCount.Mephisto + " Diablo: " + bossKillCount.Diablo + " Baal: " + bossKillCount.Baal;
+                DrawText(gfx, anchor, bosskillcountstring, font, fontSize, textColor, textShadow, textAlign);
                 anchor.Y += lineHeight;
             }
 

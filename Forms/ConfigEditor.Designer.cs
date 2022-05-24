@@ -51,6 +51,7 @@
             this.chkShowGameTimer = new System.Windows.Forms.CheckBox();
             this.chkShowArea = new System.Windows.Forms.CheckBox();
             this.chkShowGameName = new System.Windows.Forms.CheckBox();
+            this.chkShowBossKillCount = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkMonsterHealthBar = new System.Windows.Forms.CheckBox();
@@ -364,6 +365,7 @@
             this.grpGameInfo.Controls.Add(this.chkShowGameTimer);
             this.grpGameInfo.Controls.Add(this.chkShowArea);
             this.grpGameInfo.Controls.Add(this.chkShowGameName);
+            this.grpGameInfo.Controls.Add(this.chkShowBossKillCount);
             this.grpGameInfo.Location = new System.Drawing.Point(11, 9);
             this.grpGameInfo.Name = "grpGameInfo";
             this.grpGameInfo.Size = new System.Drawing.Size(388, 144);
@@ -376,7 +378,7 @@
             this.chkShowAreaLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowAreaLevel.AutoSize = true;
-            this.chkShowAreaLevel.Location = new System.Drawing.Point(192, 65);
+            this.chkShowAreaLevel.Location = new System.Drawing.Point(150, 65);
             this.chkShowAreaLevel.Name = "chkShowAreaLevel";
             this.chkShowAreaLevel.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaLevel.TabIndex = 39;
@@ -423,7 +425,7 @@
             this.chkShowOverlayFPS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowOverlayFPS.AutoSize = true;
-            this.chkShowOverlayFPS.Location = new System.Drawing.Point(192, 88);
+            this.chkShowOverlayFPS.Location = new System.Drawing.Point(150, 88);
             this.chkShowOverlayFPS.Name = "chkShowOverlayFPS";
             this.chkShowOverlayFPS.Size = new System.Drawing.Size(85, 17);
             this.chkShowOverlayFPS.TabIndex = 2;
@@ -471,7 +473,7 @@
             this.chkShowAreaTimer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowAreaTimer.AutoSize = true;
-            this.chkShowAreaTimer.Location = new System.Drawing.Point(192, 42);
+            this.chkShowAreaTimer.Location = new System.Drawing.Point(150, 42);
             this.chkShowAreaTimer.Name = "chkShowAreaTimer";
             this.chkShowAreaTimer.Size = new System.Drawing.Size(77, 17);
             this.chkShowAreaTimer.TabIndex = 41;
@@ -495,7 +497,7 @@
             this.chkShowArea.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowArea.AutoSize = true;
-            this.chkShowArea.Location = new System.Drawing.Point(192, 19);
+            this.chkShowArea.Location = new System.Drawing.Point(150, 19);
             this.chkShowArea.Name = "chkShowArea";
             this.chkShowArea.Size = new System.Drawing.Size(48, 17);
             this.chkShowArea.TabIndex = 16;
@@ -513,6 +515,17 @@
             this.chkShowGameName.Text = "Game Name && Pass";
             this.chkShowGameName.UseVisualStyleBackColor = true;
             this.chkShowGameName.CheckedChanged += new System.EventHandler(this.chkShowGameName_CheckedChanged);
+            // 
+            // chkShowBossKillCount
+            // 
+            this.chkShowBossKillCount.AutoSize = true;
+            this.chkShowBossKillCount.Location = new System.Drawing.Point(210, 19);
+            this.chkShowBossKillCount.Name = "chkShowBossKillCount";
+            this.chkShowBossKillCount.Size = new System.Drawing.Size(120, 17);
+            this.chkShowBossKillCount.TabIndex = 38;
+            this.chkShowBossKillCount.Text = "Boss Kill Count";
+            this.chkShowBossKillCount.UseVisualStyleBackColor = true;
+            this.chkShowBossKillCount.CheckedChanged += new System.EventHandler(this.chkShowBossKillCount_CheckedChanged);
             // 
             // tabPage1
             // 
@@ -1869,7 +1882,7 @@
             // lblItemLogPosition
             // 
             this.lblItemLogPosition.AutoSize = true;
-            this.lblItemLogPosition.Location = new System.Drawing.Point(192, 20);
+            this.lblItemLogPosition.Location = new System.Drawing.Point(150, 20);
             this.lblItemLogPosition.Name = "lblItemLogPosition";
             this.lblItemLogPosition.Size = new System.Drawing.Size(44, 13);
             this.lblItemLogPosition.TabIndex = 37;
@@ -2507,6 +2520,7 @@
         private System.Windows.Forms.CheckBox chkPotionBelt;
         private System.Windows.Forms.CheckBox chkShowAreaTimer;
         private System.Windows.Forms.CheckBox chkShowGameTimer;
+        private System.Windows.Forms.CheckBox chkShowBossKillCount;
         private System.Windows.Forms.TextBox txtHideMapKey;
         private System.Windows.Forms.Label lblHideMapKey;
         private System.Windows.Forms.GroupBox groupBox8;

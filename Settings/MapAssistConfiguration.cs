@@ -316,6 +316,9 @@ public class GameInfoConfiguration
 
     [YamlMember(Alias = "ShowAreaTimer", ApplyNamingConventions = false)]
     public bool ShowAreaTimer { get; set; }
+    
+    [YamlMember(Alias = "ShowBossKillCount", ApplyNamingConventions = false)]
+    public bool ShowBossKillCount { get; set; }
 
     [YamlMember(Alias = "LabelFont", ApplyNamingConventions = false)]
     public string LabelFont { get; set; }

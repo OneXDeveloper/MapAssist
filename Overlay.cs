@@ -16,6 +16,8 @@ namespace MapAssist
 
         private readonly GraphicsWindow _window;
         private GameDataReader _gameDataReader;
+        private readonly BossKillCountRepository _bossKillCountRepository;
+        private readonly BossStateTracker _bossStateTracker;
         private GameData _gameData;
         private Compositor _compositor = new Compositor();
         private bool _show = true;
@@ -24,6 +26,8 @@ namespace MapAssist
         public Overlay()
         {
             _gameDataReader = new GameDataReader();
+            _bossKillCountRepository = new BossKillCountRepository();
+            _bossStateTracker = new BossStateTracker(_bossKillCountRepository);
 
             GameOverlay.TimerService.EnableHighPrecisionTimers();
 
@@ -88,7 +92,7 @@ namespace MapAssist
                                     break;
                             }
 
-                            _compositor.Init(gfx, _gameData, drawBounds);
+                            _compositor.Init(gfx, _gameData, _bossStateTracker, drawBounds);
 
                             if (!overlayHidden)
                             {
@@ -105,7 +109,7 @@ namespace MapAssist
                             _compositor.DrawPlayerInfo(gfx);
 
                             var gameInfoAnchor = GameInfoAnchor(MapAssistConfiguration.Loaded.GameInfo.Position);
-                            var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData);
+                            var nextAnchor = _compositor.DrawGameInfo(gfx, gameInfoAnchor, e, errorLoadingAreaData, _bossKillCountRepository);
 
                             var itemLogAnchor = (MapAssistConfiguration.Loaded.ItemLog.Position == MapAssistConfiguration.Loaded.GameInfo.Position)
                                 ? nextAnchor.Add(0, GameInfoPadding())
