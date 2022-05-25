@@ -1018,6 +1018,7 @@ namespace MapAssist.Helpers
 
             // Setup
             var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
+            var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
             var lineHeight = gfx.LineHeight(fontSize);
             var textShadow = MapAssistConfiguration.Loaded.ItemLog.LabelTextShadow;
             var shadowBrush = CreateSolidBrush(gfx, Color.Black, 0.6f);
@@ -1028,11 +1029,10 @@ namespace MapAssist.Helpers
             for (var i = 0; i < itemsToShow.Length; i++)
             {
                 var item = itemsToShow[i];
-
-                var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
+                var itemText = item.Text;
                 var position = anchor.Add(0, i * lineHeight);
                 var brush = CreateSolidBrush(gfx, item.UnitItem.ItemBaseColor, 1);
-                var stringSize = gfx.MeasureString(font, item.Text);
+                var stringSize = gfx.MeasureString(font, itemText);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
                 {
@@ -1069,9 +1069,9 @@ namespace MapAssist.Helpers
 
                 if (textShadow)
                 {
-                    gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, item.Text);
+                    gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, itemText);
                 }
-                gfx.DrawText(font, brush, position, item.Text);
+                gfx.DrawText(font, brush, position, itemText);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem && item.Area == _gameData.Area && item.UnitItem.IsDropped)
                 {

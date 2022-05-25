@@ -461,6 +461,7 @@ namespace MapAssist.Helpers
                 Items.InventoryItemUnitIdsToSkip.Add(_currentProcessId, new HashSet<uint>());
                 Items.ItemVendors.Add(_currentProcessId, new Dictionary<uint, Npc>());
                 Items.ItemLog.Add(_currentProcessId, new List<ItemLogEntry>());
+                Items.ItemDisplayNames.Add(_currentProcessId, new Dictionary<uint, string>());
             }
             else
             {
@@ -470,6 +471,7 @@ namespace MapAssist.Helpers
                 Items.InventoryItemUnitIdsToSkip[_currentProcessId].Clear();
                 Items.ItemVendors[_currentProcessId].Clear();
                 Items.ItemLog[_currentProcessId].Clear();
+                Items.ItemDisplayNames[_currentProcessId].Clear();
             }
 
             if (!Corpses.ContainsKey(_currentProcessId))
