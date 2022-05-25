@@ -299,12 +299,9 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
-                if (gameObject.IsArmorWeapRack)
+                if (gameObject.IsArmorWeapRack && MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
                 {
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
-                    {
-                        drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position));
-                    }
+                    drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position));
                 }
 
                 if (gameObject.IsChest)
