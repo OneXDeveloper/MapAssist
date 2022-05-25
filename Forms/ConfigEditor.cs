@@ -520,8 +520,8 @@ namespace MapAssist
 
         private void btnIconColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 var iconProp = SelectedProperty.PropertyType.GetProperty("IconColor");
                 iconProp.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), colorDlg.Color, null);
@@ -544,8 +544,8 @@ namespace MapAssist
 
         private void btnIconOutlineColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 var iconProp = SelectedProperty.PropertyType.GetProperty("IconOutlineColor");
                 iconProp.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), colorDlg.Color, null);
@@ -597,8 +597,8 @@ namespace MapAssist
 
         private void btnLabelColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 var labelPropColor = SelectedProperty.PropertyType.GetProperty("LabelColor");
                 labelPropColor.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), colorDlg.Color, null);
@@ -658,8 +658,8 @@ namespace MapAssist
 
         private void btnLineColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 var linePropColor = SelectedProperty.PropertyType.GetProperty("LineColor");
                 linePropColor.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), colorDlg.Color, null);
@@ -804,8 +804,8 @@ namespace MapAssist
 
         private void btnSuperiorColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.SuperiorColor = colorDlg.Color;
                 btnSuperiorColor.BackColor = colorDlg.Color;
@@ -817,8 +817,8 @@ namespace MapAssist
 
         private void btnMagicColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.MagicColor = colorDlg.Color;
                 btnMagicColor.BackColor = colorDlg.Color;
@@ -830,8 +830,8 @@ namespace MapAssist
 
         private void btnRareColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.RareColor = colorDlg.Color;
                 btnRareColor.BackColor = colorDlg.Color;
@@ -843,8 +843,8 @@ namespace MapAssist
 
         private void btnSetColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.SetColor = colorDlg.Color;
                 btnSetColor.BackColor = colorDlg.Color;
@@ -856,8 +856,8 @@ namespace MapAssist
 
         private void btnUniqueColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.UniqueColor = colorDlg.Color;
                 btnUniqueColor.BackColor = colorDlg.Color;
@@ -869,8 +869,8 @@ namespace MapAssist
 
         private void btnCraftedColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.CraftedColor = colorDlg.Color;
                 btnCraftedColor.BackColor = colorDlg.Color;
@@ -972,8 +972,8 @@ namespace MapAssist
 
         private void btnWalkableColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable = colorDlg.Color;
                 btnWalkableColor.BackColor = colorDlg.Color;
@@ -994,8 +994,8 @@ namespace MapAssist
 
         private void btnBorderColor_Click(object sender, EventArgs e)
         {
-            var colorDlg = new ColorDialog();
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.MapColorConfiguration.Border = colorDlg.Color;
                 btnBorderColor.BackColor = colorDlg.Color;
@@ -1099,6 +1099,26 @@ namespace MapAssist
         private void chkDPIAware_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.DPIAware = chkDPIAware.Checked;
+        }
+
+        private List<Color> customColors = new List<Color>();
+        private (ColorDialog, DialogResult) SelectColor()
+        {
+            var colorDlg = new ColorDialog();
+            colorDlg.FullOpen = true;
+            if (customColors.Count > 0)
+            {
+                colorDlg.CustomColors = customColors.Select(color => ColorTranslator.ToOle(color)).ToArray();
+                colorDlg.Color = customColors.First();
+            }
+            var result = colorDlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                customColors = colorDlg.CustomColors.Select(color => ColorTranslator.FromOle(color)).Where(color => color != Color.White).ToList();
+                customColors.Remove(colorDlg.Color);
+                customColors.Insert(0, colorDlg.Color);
+            }
+            return (colorDlg, result);
         }
     }
 }
