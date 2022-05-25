@@ -145,6 +145,29 @@ namespace MapAssist.Types
             GameObject.NotSoGoodChest
         };
 
+        public static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
+        {
+            GameObject.GoodChest,
+            GameObject.SparklyChest,
+            GameObject.ArcaneLargeChestLeft,
+            GameObject.ArcaneLargeChestRight,
+            GameObject.ArcaneSmallChestLeft,
+            GameObject.ArcaneSmallChestRight,
+            GameObject.ExpansionSpecialChest,
+        };
+
+        public static readonly HashSet<GameObject> ArmorWeapRacks = new HashSet<GameObject>
+        {
+            GameObject.ExpansionArmorStandRight,
+            GameObject.ExpansionArmorStandLeft,
+            GameObject.ArmorStandRight,
+            GameObject.ArmorStandLeft,
+            GameObject.ExpansionWeaponRackRight,
+            GameObject.ExpansionWeaponRackLeft,
+            GameObject.WeaponRackRight,
+            GameObject.WeaponRackLeft,
+        };
+
         [Flags]
         public enum InteractFlags
         {

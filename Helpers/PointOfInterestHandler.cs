@@ -59,29 +59,6 @@ namespace MapAssist.Helpers
             },
         };
 
-        private static readonly HashSet<GameObject> SuperChests = new HashSet<GameObject>
-        {
-            GameObject.GoodChest,
-            GameObject.SparklyChest,
-            GameObject.ArcaneLargeChestLeft,
-            GameObject.ArcaneLargeChestRight,
-            GameObject.ArcaneSmallChestLeft,
-            GameObject.ArcaneSmallChestRight,
-            GameObject.ExpansionSpecialChest,
-        };
-
-        private static readonly HashSet<GameObject> ArmorWeapRacks = new HashSet<GameObject>
-        {
-            GameObject.ExpansionArmorStandRight,
-            GameObject.ExpansionArmorStandLeft,
-            GameObject.ArmorStandRight,
-            GameObject.ArmorStandLeft,
-            GameObject.ExpansionWeaponRackRight,
-            GameObject.ExpansionWeaponRackLeft,
-            GameObject.WeaponRackRight,
-            GameObject.WeaponRackLeft,
-        };
-
         private static readonly HashSet<GameObject> Shrines = new HashSet<GameObject>
         {
             GameObject.Shrine,
@@ -546,7 +523,7 @@ namespace MapAssist.Helpers
                     }
                 }
                 // Super Chest
-                else if (SuperChests.Contains(obj))
+                else if (Chest.SuperChests.Contains(obj))
                 {
                     foreach (var point in points)
                     {
@@ -557,21 +534,6 @@ namespace MapAssist.Helpers
                             Position = point,
                             RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.SuperChest,
                             Type = PoiType.SuperChest
-                        });
-                    }
-                }
-                // Armor Stands & Weapon Racks
-                else if (ArmorWeapRacks.Contains(obj))
-                {
-                    foreach (var point in points)
-                    {
-                        pointsOfInterest.Add(new PointOfInterest
-                        {
-                            Area = areaData.Area,
-                            Label = obj.ToString(),
-                            Position = point,
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack,
-                            Type = PoiType.ArmorWeapRack
                         });
                     }
                 }

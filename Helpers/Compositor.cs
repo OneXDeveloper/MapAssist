@@ -299,9 +299,17 @@ namespace MapAssist.Helpers
                     continue;
                 }
 
+                if (gameObject.IsArmorWeapRack)
+                {
+                    if (MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
+                    {
+                        drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position));
+                    }
+                }
+
                 if (gameObject.IsChest)
                 {
-                    if ((gameObject.ObjectData.InteractType & ((byte)Chest.InteractFlags.Trap)) != ((byte)Chest.InteractFlags.None))
+                    if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Trap) == (byte)Chest.InteractFlags.Trap)
                     {
                         if (MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest.CanDrawIcon())
                         {
@@ -309,7 +317,7 @@ namespace MapAssist.Helpers
                         }
                     }
 
-                    if ((gameObject.ObjectData.InteractType & ((byte)Chest.InteractFlags.Locked)) != ((byte)Chest.InteractFlags.None))
+                    if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Locked) == (byte)Chest.InteractFlags.Locked)
                     {
                         if (MapAssistConfiguration.Loaded.MapConfiguration.LockedChest.CanDrawIcon())
                         {

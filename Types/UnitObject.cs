@@ -49,6 +49,8 @@ namespace MapAssist.Types
 
         public bool IsChest => UnitType == UnitType.Object && ObjectData.pObjectTxt != IntPtr.Zero && Struct.Mode == 0 && Chest.NormalChests.Contains(GameObject);
 
+        public bool IsArmorWeapRack => UnitType == UnitType.Object && ObjectData.pObjectTxt != IntPtr.Zero && Struct.Mode == 0 && Chest.ArmorWeapRacks.Contains(GameObject);
+
         public override string HashString => GameObject + "/" + Position.X + "/" + Position.Y;
     }
 }
