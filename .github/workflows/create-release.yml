@@ -79,6 +79,6 @@ jobs:
           git clean -fd
           git checkout releases
           sed -i -E "s/<version>.+<\/version>/<version>$(echo "${{env.RELEASE_VERSION}}" | sed "s/\./\\\./g")<\/version>/g" ${{env.RELEASE_TAG}}.xml
-          git add --all
+          git add ${{env.RELEASE_TAG}}.xml
           git commit -m "Updated ${{env.RELEASE_TAG}} release version"
           git push
