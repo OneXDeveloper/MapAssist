@@ -129,7 +129,6 @@ namespace MapAssist.Types
             State.STATE_TERROR,
             State.STATE_WEAKEN,
             State.STATE_CONVICTED,
-            State.STATE_CONVICTION,
             State.STATE_POISON,
             State.STATE_COLD,
             State.STATE_SLOWED,

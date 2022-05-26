@@ -746,16 +746,9 @@ namespace MapAssist.Helpers
                 if (resImg != null)
                 {
                     Color buffColor = States.StateColor(state);
-                    if (state == State.STATE_CONVICTION)
+                    if (state == State.STATE_CONVICTION && _gameData.PlayerUnit.Skills.RightSkillId != Skill.Conviction && !_gameData.PlayerUnit.IsActiveInfinity)
                     {
-                        if (_gameData.PlayerUnit.Skills.RightSkillId == Skill.Conviction || _gameData.PlayerUnit.IsActiveInfinity)
-                        {
-                            buffColor = States.BuffColor;
-                        }
-                        else
-                        {
-                            buffColor = States.DebuffColor;
-                        }
+                        buffColor = States.DebuffColor;
                     }
 
                     if (buffsByColor.ContainsKey(buffColor))
