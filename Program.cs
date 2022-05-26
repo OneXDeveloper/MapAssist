@@ -53,7 +53,7 @@ namespace MapAssist
                 var logConfigurationOk = LoadLoggingConfiguration();
                 if (isPrecompiled)
                 {
-                    _log.Info($"Running from commit {githubSha} on the {githubReleaseTag} release");
+                    _log.Info($"Running from commit {githubSha} ({githubRepo} repo, {githubReleaseTag} release)");
 
                     AutoUpdater.OpenDownloadPage = true;
                     AutoUpdater.ApplicationExitEvent += AutoUpdaterExit;

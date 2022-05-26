@@ -67,7 +67,7 @@ namespace MapAssist.Types
 
             ItemLog[processId].Add(newLogEntry);
 
-            _log.Info($"Added item to log: {newLogEntry.Text}");
+            _log.Info($"Added item to log: {newLogEntry.UnitItem.MappedItemQuality} {newLogEntry.UnitItem.Item}");
         }
 
         public static bool CheckInventoryItem(UnitItem item, int processId) =>
