@@ -214,11 +214,8 @@ namespace MapAssist.Helpers
         {
             if (parser.TryConsume<Scalar>(out var scalar))
             {
-                if (Enum.TryParse("Class" + scalar.Value.Replace(" ", "").Replace("-", ""), true, out Item itemClass))
-                {
-                    return itemClass;
-                }
-                else if (Enum.TryParse(scalar.Value.Replace(" ", "").Replace("-", ""), true, out Item item))
+                var item = Items.ParseFromString(scalar.Value);
+                if (item != null)
                 {
                     return item;
                 }

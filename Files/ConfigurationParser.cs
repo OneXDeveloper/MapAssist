@@ -1,16 +1,14 @@
-﻿using System.Text;
+﻿using MapAssist.Helpers;
+using MapAssist.Settings;
+using MapAssist.Types;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using MapAssist.Helpers;
-using MapAssist.Settings;
-using System.Collections.Generic;
-using System.Collections;
-using YamlDotNet.Core;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Drawing;
 
 namespace MapAssist.Files
 {
@@ -38,39 +36,64 @@ namespace MapAssist.Files
             }
 
             var YamlString = fileManager.ReadFile();
+            CheckDuplicateKeys(YamlString);
 
-            var configuration = TryDeserialize<T>(YamlString);
+            var configuration = deserializer.Deserialize<T>(YamlString);
             return configuration;
+        }
+
+        public static void CheckDuplicateKeys(string YamlString)
+        {
+            var seen = new List<Item>();
+            foreach (var (textRaw, line) in YamlString.Split(new char[] { '\n', '\r' }, StringSplitOptions.None).Select((text, line) => (text, line)))
+            {
+                if (textRaw.Length == 0) continue;
+
+                var text = textRaw.Substring(0, textRaw.Length - 1);
+
+                var item = Items.ParseFromString(text);
+                if (item == null) continue;
+
+                if (!seen.Contains((Item)item))
+                {
+                    seen.Add((Item)item);
+                }
+                else
+                {
+                    throw new Exception($"Duplicate {text} entry on line {line + 1}");
+                }
+            }
         }
 
         /**
          * Parses the dual configuration setup so that the custom configuration can override individual values in the
          * default configuration. Note that for fields like the MapConfiguration.Mapcolors, the entire value will
          * be overwritten.
-         * 
+         *
          * The approach here is to first deserialize the yaml configs into Dictionary<object, object>, then perform
-         * a recursive merge on a field by field basis. The result of this merging is then serialized back to yaml, 
+         * a recursive merge on a field by field basis. The result of this merging is then serialized back to yaml,
          * then deserialized again into our MapAssistConfiguration POCO.
          */
+
         public static MapAssistConfiguration ParseConfigurationMain(byte[] resourcePrimary, string fileNameOverride = null)
         {
             var yamlPrimary = Encoding.Default.GetString(resourcePrimary);
 
             if (fileNameOverride == null)
             {
-                return TryDeserialize<MapAssistConfiguration>(yamlPrimary);
+                return deserializer.Deserialize<MapAssistConfiguration>(yamlPrimary);
             }
 
             var fileManagerOverride = new FileManager(fileNameOverride);
             if (!fileManagerOverride.FileExists())
             {
-                return TryDeserialize<MapAssistConfiguration>(yamlPrimary);
+                return deserializer.Deserialize<MapAssistConfiguration>(yamlPrimary);
             }
 
             var yamlOverride = fileManagerOverride.ReadFile();
 
-            var primaryConfig = TryDeserialize<Dictionary<object, object>>(yamlPrimary);
-            var overrideConfig = TryDeserialize<Dictionary<object, object>>(yamlOverride);
+            var primaryConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlPrimary);
+            var overrideConfig = deserializer.Deserialize<Dictionary<object, object>>(yamlOverride);
 
             // Have to check here for a null customized config - either a blank or fully commented out yaml file will result in a null dict
             // from the deserializer.
@@ -81,7 +104,7 @@ namespace MapAssist.Files
 
             var serializer = new SerializerBuilder().Build();
             var yaml = serializer.Serialize(primaryConfig);
-            var configuration = TryDeserialize<MapAssistConfiguration>(yaml);
+            var configuration = deserializer.Deserialize<MapAssistConfiguration>(yaml);
             return configuration;
         }
 
@@ -123,28 +146,6 @@ namespace MapAssist.Files
                         Merge((Dictionary<object, object>)primaryValue, (Dictionary<object, object>)secondary[tuple.Key]);
                     }
                 }
-            }
-        }
-        
-        public static U TryDeserialize<U>(string data)
-        {
-            try
-            {
-                return deserializer.Deserialize<U>(data);
-            }
-            catch (YamlException ex)
-            {
-                if (ex.Start.Line > 1 || ex.Start.Column > 1 || ex.Start.Index > 0)
-                {
-                    var lines = data.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
-                    var numLinesToLog = 5;
-                    var linesToLog = lines.Skip(Math.Max(ex.Start.Line - numLinesToLog + 1, 0)).Take(5).ToArray();
-
-                    _log.Info("Invalid yaml block" + Environment.NewLine + string.Join(Environment.NewLine, linesToLog));
-                }
-
-                throw ex;
             }
         }
 

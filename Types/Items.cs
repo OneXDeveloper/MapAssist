@@ -682,6 +682,20 @@ namespace MapAssist.Types
             return (0, 0, 0);
         }
 
+        public static Item? ParseFromString(string text)
+        {
+            if (Enum.TryParse("Class" + text.Replace(" ", "").Replace("-", ""), true, out Item itemClass))
+            {
+                return itemClass;
+            }
+            else if (Enum.TryParse(text.Replace(" ", "").Replace("-", ""), true, out Item item))
+            {
+                return item;
+            }
+
+            return null;
+        }
+
         public static readonly Dictionary<uint, string> _SetFromId = new Dictionary<uint, string>()
         {
             {0, "Civerb's Ward"},

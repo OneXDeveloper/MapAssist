@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using YamlDotNet.Core;
 
 namespace MapAssist
 {
@@ -51,7 +52,7 @@ namespace MapAssist
                     return;
                 }
 
-                var logConfigurationOk = LoadLoggingConfiguration();
+                LoadLoggingConfiguration();
                 if (isPrecompiled)
                 {
                     _log.Info($"Running from commit {githubSha} ({githubRepo} repo, {githubReleaseTag} release)");
@@ -67,48 +68,48 @@ namespace MapAssist
                     _log.Info($"Running a self-compiled build");
                 }
 
-                var configurationOk = logConfigurationOk && LoadMainConfiguration() && LoadLootLogConfiguration();
-                if (configurationOk)
+                LoadMainConfiguration();
+                LoadLootLogConfiguration();
+
+                if (MapAssistConfiguration.Loaded.DPIAware)
                 {
-                    if (MapAssistConfiguration.Loaded.DPIAware)
+                    SetProcessDPIAware();
+                }
+
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                try
+                {
+                    if (!MapApi.StartPipedChild())
                     {
-                        SetProcessDPIAware();
-                    }
-
-                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                    Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                    AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-
-                    try
-                    {
-                        if (!MapApi.StartPipedChild())
-                        {
-                            MessageBox.Show($"{messageBoxTitle}: Unable to start d2mapapi pipe", messageBoxTitle, MessageBoxButtons.OK);
-                            return;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Fatal(e);
-                        _log.Fatal(e, "Unable to start d2mapapi pipe.");
-
-                        var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
-                        MessageBox.Show(message, $"{messageBoxTitle}: Unable to start d2mapapi pipe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"{messageBoxTitle}: Unable to start d2mapapi pipe", messageBoxTitle, MessageBoxButtons.OK);
                         return;
                     }
+                }
+                catch (Exception e)
+                {
+                    _log.Fatal(e);
+                    _log.Fatal(e, "Unable to start d2mapapi pipe.");
 
-                    var contextMenu = new ContextMenuStrip();
+                    var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
+                    MessageBox.Show(message, $"{messageBoxTitle}: Unable to start d2mapapi pipe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                    var configMenuItem = new ToolStripMenuItem("Config", null, ShowConfigEditor);
-                    var lootFilterMenuItem = new ToolStripMenuItem("Loot Filter", null, LootFilter);
-                    var restartMenuItem = new ToolStripMenuItem("Restart", null, TrayRestart);
-                    var exitMenuItem = new ToolStripMenuItem("Exit", null, TrayExit);
-                    contextMenu.Items.Add(exitMenuItem);
+                var contextMenu = new ContextMenuStrip();
 
-                    contextMenu.Items.AddRange(new ToolStripItem[] {
+                var configMenuItem = new ToolStripMenuItem("Config", null, ShowConfigEditor);
+                var lootFilterMenuItem = new ToolStripMenuItem("Loot Filter", null, LootFilter);
+                var restartMenuItem = new ToolStripMenuItem("Restart", null, TrayRestart);
+                var exitMenuItem = new ToolStripMenuItem("Exit", null, TrayExit);
+                contextMenu.Items.Add(exitMenuItem);
+
+                contextMenu.Items.AddRange(new ToolStripItem[] {
                         configMenuItem,
                         lootFilterMenuItem,
                         new ToolStripSeparator(),
@@ -116,39 +117,38 @@ namespace MapAssist
                         exitMenuItem
                     });
 
-                    trayIcon = new NotifyIcon()
+                trayIcon = new NotifyIcon()
+                {
+                    Icon = Properties.Resources.Icon1,
+                    ContextMenuStrip = contextMenu,
+                    Text = appName,
+                    Visible = true
+                };
+
+                globalHook.KeyDown += (sender, args) =>
+                {
+                    if (overlay != null)
                     {
-                        Icon = Properties.Resources.Icon1,
-                        ContextMenuStrip = contextMenu,
-                        Text = appName,
-                        Visible = true
-                    };
+                        overlay.KeyDownHandler(sender, args);
+                    }
+                };
 
-                    globalHook.KeyDown += (sender, args) =>
-                    {
-                        if (overlay != null)
-                        {
-                            overlay.KeyDownHandler(sender, args);
-                        }
-                    };
+                backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
+                backWorkOverlay.WorkerSupportsCancellation = true;
+                backWorkOverlay.RunWorkerAsync();
 
-                    backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
-                    backWorkOverlay.WorkerSupportsCancellation = true;
-                    backWorkOverlay.RunWorkerAsync();
+                GameManager.OnGameAccessDenied += (_, __) =>
+                {
+                    var message = $"MapAssist could not read {GameManager.ProcessName} memory. Please reopen MapAssist as an administrator.";
+                    Dispose();
+                    MessageBox.Show(message, $"{messageBoxTitle}: Error opening handle to {GameManager.ProcessName}", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    Application.Exit();
+                    Environment.Exit(0);
+                };
 
-                    GameManager.OnGameAccessDenied += (_, __) =>
-                    {
-                        var message = $"MapAssist could not read {GameManager.ProcessName} memory. Please reopen MapAssist as an administrator.";
-                        Dispose();
-                        MessageBox.Show(message, $"{messageBoxTitle}: Error opening handle to {GameManager.ProcessName}", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                        Application.Exit();
-                        Environment.Exit(0);
-                    };
+                GameManager.MonitorForegroundWindow();
 
-                    GameManager.MonitorForegroundWindow();
-
-                    Application.Run();
-                }
+                Application.Run();
             }
             catch (Exception e)
             {
@@ -169,6 +169,14 @@ namespace MapAssist
             _log.Fatal(e);
 
             var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
+
+            if (e.GetType() == typeof(YamlException) && e.InnerException != null)
+            {
+                message = e.Message + Environment.NewLine + Environment.NewLine +
+                    e.InnerException.Message + Environment.NewLine + Environment.NewLine +
+                    e.InnerException.StackTrace;
+            }
+
             MessageBox.Show(message, $"{messageBoxTitle}: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Application.Exit();
@@ -184,90 +192,41 @@ namespace MapAssist
             ProcessException(e.Exception);
         }
 
-        private static bool LoadMainConfiguration()
+        private static void LoadMainConfiguration()
         {
-            try
-            {
-                MapAssistConfiguration.Load();
-                MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
-                return true;
-            }
-            catch (YamlDotNet.Core.YamlException e)
-            {
-                _log.Fatal(e);
-                _log.Fatal(e, "Invalid yaml for configuration file");
-
-                var message = e.InnerException != null ? e.InnerException.Message : e.Message;
-                MessageBox.Show(message, $"{messageBoxTitle}: MapAssist configuration yaml parsing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception e)
-            {
-                _log.Fatal(e, "Unknown error loading main configuration");
-                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return false;
+            MapAssistConfiguration.Load();
+            MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
         }
 
-        private static bool LoadLootLogConfiguration()
+        private static void LoadLootLogConfiguration()
         {
-            try
-            {
-                LootLogConfiguration.Load();
-                return true;
-            }
-            catch (YamlDotNet.Core.YamlException e)
-            {
-                _log.Fatal(e);
-                _log.Fatal("Invalid item log yaml file");
-
-                var message = e.InnerException != null ? e.InnerException.Message : e.Message;
-                MessageBox.Show(message, $"{messageBoxTitle}: Item filter yaml parsing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception e)
-            {
-                _log.Fatal(e, $"Unable to initialize Loot Log configuration");
-                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return false;
+            LootLogConfiguration.Load();
         }
 
-        private static bool LoadLoggingConfiguration()
+        private static void LoadLoggingConfiguration()
         {
-            try
+            ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("InvariantCulture", typeof(InvariantCultureLayoutRendererWrapper));
+            var config = new LoggingConfiguration();
+
+            var logfile = new NLog.Targets.FileTarget("logfile")
             {
-                ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("InvariantCulture", typeof(InvariantCultureLayoutRendererWrapper));
-                var config = new LoggingConfiguration();
+                FileName = "logs\\log.txt",
+                CreateDirs = true,
+                ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.DateAndSequence,
+                ArchiveOldFileOnStartup = true,
+                MaxArchiveFiles = 5,
+                Encoding = System.Text.Encoding.UTF8,
+                // Default layout with forcing invariant culture for messages, especially for stacktrace
+                Layout = NLog.Layouts.Layout.FromString("${longdate}|${level:uppercase=true}|${logger}|${InvariantCulture:${message:withexception=true}}")
+            };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
 
-                var logfile = new NLog.Targets.FileTarget("logfile")
-                {
-                    FileName = "logs\\log.txt",
-                    CreateDirs = true,
-                    ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.DateAndSequence,
-                    ArchiveOldFileOnStartup = true,
-                    MaxArchiveFiles = 5,
-                    Encoding = System.Text.Encoding.UTF8,
-                    // Default layout with forcing invariant culture for messages, especially for stacktrace
-                    Layout = NLog.Layouts.Layout.FromString("${longdate}|${level:uppercase=true}|${logger}|${InvariantCulture:${message:withexception=true}}")
-                };
-                var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            // Rules for mapping loggers to targets
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
 
-                // Rules for mapping loggers to targets
-                config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
-                config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
-
-                // Apply config
-                LogManager.Configuration = config;
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return false;
+            // Apply config
+            LogManager.Configuration = config;
         }
 
         private static void ShowConfigEditor(object sender, EventArgs e)
