@@ -748,7 +748,7 @@ namespace MapAssist.Helpers
                     Color buffColor = States.StateColor(state);
                     if (state == State.STATE_CONVICTION)
                     {
-                        if (_gameData.PlayerUnit.Skills.RightSkillId == Skill.Conviction) // add check later for if infinity is equipped
+                        if (_gameData.PlayerUnit.Skills.RightSkillId == Skill.Conviction || _gameData.PlayerUnit.IsActiveInfinity)
                         {
                             buffColor = States.BuffColor;
                         }

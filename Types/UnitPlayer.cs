@@ -126,6 +126,8 @@ namespace MapAssist.Types
             return false;
         }
 
+        public UnitItem[] WearingItems { get; set; } = new UnitItem[] { };
+        public bool IsActiveInfinity => WearingItems.Any(item => item.IsRuneWord && item.Prefixes[0] == 20566 && (item.ItemData.ItemFlags & ItemFlags.IFLAG_SWITCHOUT) == 0); // When joining a game IFLAG_SWITCHIN/IFLAG_SWITCHOUT isn't set, so need to check whether IFLAG_SWITCHOUT doesn't exist
         public UnitItem[][] BeltItems { get; set; } = new UnitItem[][] { };
         public int BeltSize => BeltItems.Length > 0 ? BeltItems[0].Length : 0;
         public float Life => Stats.TryGetValue(Types.Stats.Stat.Life, out var val) && Types.Stats.StatShifts.TryGetValue(Types.Stats.Stat.Life, out var shift) ? val >> shift : 0;

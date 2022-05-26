@@ -343,6 +343,9 @@ namespace MapAssist.Helpers
                     return item.UnitItem;
                 }).Where(x => x != null).ToArray();
 
+                // Player wearing items
+                playerUnit.WearingItems = allItems.Where(x => x.IsPlayerOwned && x.ItemModeMapped == ItemModeMapped.Player).ToArray();
+
                 // Belt items
                 var belt = allItems.FirstOrDefault(x => x.IsPlayerOwned && x.ItemModeMapped == ItemModeMapped.Player && x.ItemData.BodyLoc == BodyLoc.BELT);
                 var beltItems = allItems.Where(x => _playerCubeOwnerID[_currentProcessId] != uint.MaxValue && x.ItemModeMapped == ItemModeMapped.Belt).ToArray();
