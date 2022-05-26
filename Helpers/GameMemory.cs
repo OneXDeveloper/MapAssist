@@ -244,8 +244,20 @@ namespace MapAssist.Helpers
                 var serverMissileList = rawServerMissileUnits.Where(x => x != null && x.UnitType == UnitType.Missile && x.UnitId < uint.MaxValue).ToArray();
                 var missileList = clientMissileList.Concat(serverMissileList).ToArray();
 
-                // Items
+                // Set Cube Owner
                 var allItems = GetUnits<UnitItem>(UnitType.Item, true).Where(x => x.UnitId < uint.MaxValue).ToArray();
+                if (_playerMapChanged[_currentProcessId] || _playerCubeOwnerID[_currentProcessId] == uint.MaxValue)
+                {
+                    var cube = allItems.FirstOrDefault(x => x.Item == Item.HoradricCube);
+
+                    if (cube != null)
+                    {
+                        cube.Update();
+                        _playerCubeOwnerID[_currentProcessId] = cube.ItemData.dwOwnerID;
+                    }
+                }
+
+                // Items
                 var rawItemUnits = new List<UnitItem>();
                 foreach (var item in allItems)
                 {
@@ -330,16 +342,6 @@ namespace MapAssist.Helpers
 
                     return item.UnitItem;
                 }).Where(x => x != null).ToArray();
-
-                // Set Cube Owner
-                if (_playerMapChanged[_currentProcessId] || _playerCubeOwnerID[_currentProcessId] == uint.MaxValue)
-                {
-                    var cube = allItems.FirstOrDefault(x => x.Item == Item.HoradricCube);
-                    if (cube != null)
-                    {
-                        _playerCubeOwnerID[_currentProcessId] = cube.ItemData.dwOwnerID;
-                    }
-                }
 
                 // Belt items
                 var belt = allItems.FirstOrDefault(x => x.IsPlayerOwned && x.ItemModeMapped == ItemModeMapped.Player && x.ItemData.BodyLoc == BodyLoc.BELT);
