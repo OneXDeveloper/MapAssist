@@ -3,6 +3,7 @@ using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using NLog;
+using NLog.Config;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -185,12 +186,11 @@ namespace MapAssist
 
         private static bool LoadMainConfiguration()
         {
-            var configurationOk = false;
             try
             {
                 MapAssistConfiguration.Load();
                 MapAssistConfiguration.Loaded.RenderingConfiguration.InitialSize = MapAssistConfiguration.Loaded.RenderingConfiguration.Size;
-                configurationOk = true;
+                return true;
             }
             catch (YamlDotNet.Core.YamlException e)
             {
@@ -206,16 +206,15 @@ namespace MapAssist
                 MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return configurationOk;
+            return false;
         }
 
         private static bool LoadLootLogConfiguration()
         {
-            var configurationOk = false;
             try
             {
                 LootLogConfiguration.Load();
-                configurationOk = true;
+                return true;
             }
             catch (YamlDotNet.Core.YamlException e)
             {
@@ -231,16 +230,15 @@ namespace MapAssist
                 MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return configurationOk;
+            return false;
         }
 
         private static bool LoadLoggingConfiguration()
         {
-            var configurationOk = false;
-
             try
             {
-                var config = new NLog.Config.LoggingConfiguration();
+                ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("InvariantCulture", typeof(InvariantCultureLayoutRendererWrapper));
+                var config = new LoggingConfiguration();
 
                 var logfile = new NLog.Targets.FileTarget("logfile")
                 {
@@ -248,7 +246,10 @@ namespace MapAssist
                     CreateDirs = true,
                     ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.DateAndSequence,
                     ArchiveOldFileOnStartup = true,
-                    MaxArchiveFiles = 5
+                    MaxArchiveFiles = 5,
+                    Encoding = System.Text.Encoding.UTF8,
+                    // Default layout with forcing invariant culture for messages, especially for stacktrace
+                    Layout = NLog.Layouts.Layout.FromString("${longdate}|${level:uppercase=true}|${logger}|${InvariantCulture:${message:withexception=true}}")
                 };
                 var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
 
@@ -259,14 +260,14 @@ namespace MapAssist
                 // Apply config
                 LogManager.Configuration = config;
 
-                configurationOk = true;
+                return true;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, $"{messageBoxTitle}: General error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return configurationOk;
+            return false;
         }
 
         private static void ShowConfigEditor(object sender, EventArgs e)

@@ -140,6 +140,7 @@
     <Compile Include="Helpers\QualityLevels.cs" />
     <Compile Include="Helpers\YamlConverters.cs" />
     <Compile Include="Interfaces\IUpdatable.cs" />
+    <Compile Include="InvariantCultureLayoutRendererWrapper.cs" />
     <Compile Include="Overlay.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\PointOfInterestHandler.cs" />
