@@ -163,7 +163,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.txtSoundFile = new System.Windows.Forms.TextBox();
             this.cboItemLogPosition = new System.Windows.Forms.ComboBox();
             this.txtFilterFile = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -197,6 +196,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.soundSelect = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1550,6 +1550,7 @@
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.soundSelect);
             this.groupBox6.Controls.Add(this.btnClearSuperiorColor);
             this.groupBox6.Controls.Add(this.btnSuperiorColor);
             this.groupBox6.Controls.Add(this.btnClearUniqueColor);
@@ -1579,7 +1580,6 @@
             this.groupBox6.Controls.Add(this.label10);
             this.groupBox6.Controls.Add(this.label17);
             this.groupBox6.Controls.Add(this.label18);
-            this.groupBox6.Controls.Add(this.txtSoundFile);
             this.groupBox6.Controls.Add(this.cboItemLogPosition);
             this.groupBox6.Controls.Add(this.txtFilterFile);
             this.groupBox6.Controls.Add(this.label20);
@@ -1929,17 +1929,6 @@
             this.label18.Size = new System.Drawing.Size(75, 13);
             this.label18.TabIndex = 6;
             this.label18.Text = "Hide item after";
-            // 
-            // txtSoundFile
-            // 
-            this.txtSoundFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSoundFile.Location = new System.Drawing.Point(256, 88);
-            this.txtSoundFile.Name = "txtSoundFile";
-            this.txtSoundFile.Size = new System.Drawing.Size(122, 20);
-            this.txtSoundFile.TabIndex = 5;
-            this.txtSoundFile.TextChanged += new System.EventHandler(this.txtSoundFile_TextChanged);
-            this.txtSoundFile.LostFocus += new System.EventHandler(this.txtSoundFile_LostFocus);
             // 
             // cboItemLogPosition
             // 
@@ -2294,6 +2283,15 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
+            // soundSelect
+            // 
+            this.soundSelect.FormattingEnabled = true;
+            this.soundSelect.Location = new System.Drawing.Point(256, 88);
+            this.soundSelect.Name = "soundSelect";
+            this.soundSelect.Size = new System.Drawing.Size(121, 21);
+            this.soundSelect.TabIndex = 55;
+            this.soundSelect.SelectedIndexChanged += new System.EventHandler(this.soundSelect_SelectedIndexChanged);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2393,7 +2391,6 @@
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.Button btnLogFont;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox txtSoundFile;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkPlaySound;
         private System.Windows.Forms.TextBox txtFilterFile;
@@ -2531,5 +2528,6 @@
         private System.Windows.Forms.CheckBox chkDebuffs;
         private System.Windows.Forms.CheckBox chkPassives;
         private System.Windows.Forms.CheckBox chkAuras;
+        private System.Windows.Forms.ComboBox soundSelect;
     }
 }
