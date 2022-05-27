@@ -268,7 +268,7 @@ ItemLog:
   PlaySoundOnDrop: true
   ShowDistanceToItem: true
   ShowDirectionToItem: true
-  SoundFile: ''
+  SoundFile: 'Ching.wav'
   SoundVolume: 100
   DisplayForSeconds: 45
   LabelFont: Exocet Blizzard Mixed Caps

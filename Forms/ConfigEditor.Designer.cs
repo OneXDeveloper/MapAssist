@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEditor));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -134,6 +133,7 @@
             this.cboRenderOption = new System.Windows.Forms.ComboBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.cboItemLogSound = new System.Windows.Forms.ComboBox();
             this.btnClearSuperiorColor = new System.Windows.Forms.Button();
             this.btnSuperiorColor = new System.Windows.Forms.Button();
             this.btnClearUniqueColor = new System.Windows.Forms.Button();
@@ -196,7 +196,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.soundSelect = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1550,7 +1549,7 @@
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.soundSelect);
+            this.groupBox6.Controls.Add(this.cboItemLogSound);
             this.groupBox6.Controls.Add(this.btnClearSuperiorColor);
             this.groupBox6.Controls.Add(this.btnSuperiorColor);
             this.groupBox6.Controls.Add(this.btnClearUniqueColor);
@@ -1591,6 +1590,15 @@
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Item Log";
+            // 
+            // cboItemLogSound
+            // 
+            this.cboItemLogSound.FormattingEnabled = true;
+            this.cboItemLogSound.Location = new System.Drawing.Point(256, 88);
+            this.cboItemLogSound.Name = "cboItemLogSound";
+            this.cboItemLogSound.Size = new System.Drawing.Size(121, 21);
+            this.cboItemLogSound.TabIndex = 55;
+            this.cboItemLogSound.SelectedIndexChanged += new System.EventHandler(this.soundSelect_SelectedIndexChanged);
             // 
             // btnClearSuperiorColor
             // 
@@ -2283,15 +2291,6 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
-            // soundSelect
-            // 
-            this.soundSelect.FormattingEnabled = true;
-            this.soundSelect.Location = new System.Drawing.Point(256, 88);
-            this.soundSelect.Name = "soundSelect";
-            this.soundSelect.Size = new System.Drawing.Size(121, 21);
-            this.soundSelect.TabIndex = 55;
-            this.soundSelect.SelectedIndexChanged += new System.EventHandler(this.soundSelect_SelectedIndexChanged);
-            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2299,7 +2298,6 @@
             this.ClientSize = new System.Drawing.Size(442, 374);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConfigEditor";
@@ -2528,6 +2526,6 @@
         private System.Windows.Forms.CheckBox chkDebuffs;
         private System.Windows.Forms.CheckBox chkPassives;
         private System.Windows.Forms.CheckBox chkAuras;
-        private System.Windows.Forms.ComboBox soundSelect;
+        private System.Windows.Forms.ComboBox cboItemLogSound;
     }
 }

@@ -130,7 +130,7 @@ namespace MapAssist
             chkShowDirectionToItem.Checked = MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem;
             chkPlaySound.Checked = MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop;
             txtFilterFile.Text = MapAssistConfiguration.Loaded.ItemLog.FilterFileName;
-            soundSelect.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
+            cboItemLogSound.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
             soundVolume.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.SoundVolume / 5d);
             lblSoundVolumeValue.Text = $"{soundVolume.Value * 5}";
             itemDisplayForSeconds.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds / 5d);
@@ -200,7 +200,11 @@ namespace MapAssist
             chkDPIAware.Checked = MapAssistConfiguration.Loaded.DPIAware;
 
             filePaths = Directory.GetFiles(soundPath, @"*.wav");
-            BuildFilePaths();
+            foreach (var filePath in filePaths)
+            {
+                var fileName = System.IO.Path.GetFileName(filePath);
+                cboItemLogSound.Items.Add(fileName);
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -1119,18 +1123,9 @@ namespace MapAssist
             return (colorDlg, result);
         }
 
-        public void BuildFilePaths()
-        {
-            foreach (var filePath in filePaths)
-            {
-                var fileName = System.IO.Path.GetFileName(filePath);
-                soundSelect.Items.Add(fileName);
-            }
-        }
-
         private void soundSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MapAssistConfiguration.Loaded.ItemLog.SoundFile = soundSelect.Text;
+            MapAssistConfiguration.Loaded.ItemLog.SoundFile = cboItemLogSound.Text;
             AudioPlayer.LoadNewSound(true);
         }
     }
