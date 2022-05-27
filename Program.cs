@@ -7,6 +7,7 @@ using NLog.Config;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -57,11 +58,7 @@ namespace MapAssist
                 {
                     _log.Info($"Running from commit {githubSha} ({githubRepo} repo, {githubReleaseTag} release)");
 
-                    AutoUpdater.OpenDownloadPage = true;
-                    AutoUpdater.ApplicationExitEvent += AutoUpdaterExit;
-
-                    var xmlUrl = $"https://raw.githubusercontent.com/{githubRepo}/releases/{githubReleaseTag}.xml";
-                    AutoUpdater.Start(xmlUrl);
+                    CheckForUpdates();
                 }
                 else
                 {
@@ -154,6 +151,35 @@ namespace MapAssist
             {
                 ProcessException(e);
             }
+        }
+
+        private static void CheckForUpdates()
+        {
+            var xmlUrl = $"https://raw.githubusercontent.com/{githubRepo}/releases/{githubReleaseTag}.xml";
+
+            void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
+            {
+                if (args.Error == null && args.IsUpdateAvailable && args.Mandatory.Value && args.InstalledVersion < new System.Version(args.Mandatory.MinimumVersion))
+                {
+                    if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                    {
+                        AutoUpdater.ShowUpdateForm(args);
+                    }
+                    else
+                    {
+                        var thread = new Thread(new ThreadStart(delegate { AutoUpdater.ShowUpdateForm(args); }));
+                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.Start();
+                        thread.Join();
+                    }
+                }
+            }
+
+            AutoUpdater.OpenDownloadPage = true;
+            AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+            AutoUpdater.ApplicationExitEvent += AutoUpdaterExit;
+            AutoUpdater.Start(xmlUrl);
         }
 
         public static void RunOverlay(object sender, DoWorkEventArgs e)
