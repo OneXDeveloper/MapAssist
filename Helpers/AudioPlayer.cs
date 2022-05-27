@@ -42,7 +42,7 @@ namespace MapAssist.Helpers
             {
                 var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 var directory = Path.GetDirectoryName(exePath);
-                var soundPath = Path.Combine(directory, MapAssistConfiguration.Loaded.ItemLog.SoundFile);
+                var soundPath = Path.Combine(directory + @"/Sounds/", MapAssistConfiguration.Loaded.ItemLog.SoundFile);
                 _itemAlertPlayer = new SoundPlayer(soundPath);
                 Console.Write("Loaded new sound file");
             }
