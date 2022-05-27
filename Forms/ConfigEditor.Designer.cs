@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEditor));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -165,7 +166,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.cboItemLogPosition = new System.Windows.Forms.ComboBox();
             this.txtFilterFile = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
             this.chkItemLogItemsOnIdentify = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -1581,7 +1581,6 @@
             this.groupBox6.Controls.Add(this.label18);
             this.groupBox6.Controls.Add(this.cboItemLogPosition);
             this.groupBox6.Controls.Add(this.txtFilterFile);
-            this.groupBox6.Controls.Add(this.label20);
             this.groupBox6.Controls.Add(this.chkItemLogItemsOnIdentify);
             this.groupBox6.Controls.Add(this.label21);
             this.groupBox6.Location = new System.Drawing.Point(11, 9);
@@ -1960,17 +1959,6 @@
             this.txtFilterFile.TabIndex = 2;
             this.txtFilterFile.TextChanged += new System.EventHandler(this.txtFilterFile_TextChanged);
             // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label20.Location = new System.Drawing.Point(255, 111);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(115, 13);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "Leave blank for default";
-            // 
             // chkItemLogItemsOnIdentify
             // 
             this.chkItemLogItemsOnIdentify.AutoSize = true;
@@ -2298,6 +2286,7 @@
             this.ClientSize = new System.Drawing.Size(442, 374);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConfigEditor";
@@ -2394,7 +2383,6 @@
         private System.Windows.Forms.TextBox txtFilterFile;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkItemLogEnabled;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblItemDisplayForSecondsValue;

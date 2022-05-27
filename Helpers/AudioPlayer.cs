@@ -34,8 +34,16 @@ namespace MapAssist.Helpers
             {
                 var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 var soundPath = Path.Combine(directory, "Sounds", MapAssistConfiguration.Loaded.ItemLog.SoundFile);
-                _itemAlertPlayer = new SoundPlayer(soundPath);
-                _log.Info($"Loaded new sound file: {MapAssistConfiguration.Loaded.ItemLog.SoundFile}");
+
+                if (File.Exists(soundPath))
+                {
+                    _itemAlertPlayer = new SoundPlayer(soundPath);
+                    _log.Info($"Loaded new sound file: {MapAssistConfiguration.Loaded.ItemLog.SoundFile}");
+                }
+                else
+                {
+                    _log.Info($"Sound file not found: {MapAssistConfiguration.Loaded.ItemLog.SoundFile}");
+                }
             }
         }
 
