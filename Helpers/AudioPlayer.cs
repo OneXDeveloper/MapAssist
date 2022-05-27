@@ -1,4 +1,5 @@
 ﻿using MapAssist.Settings;
+using NLog;
 using System;
 using System.IO;
 using System.Media;
@@ -8,45 +9,34 @@ namespace MapAssist.Helpers
 {
     public class AudioPlayer
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        
         private static DateTime _itemAlertLastPlayed = DateTime.MinValue;
         private static SoundPlayer _itemAlertPlayer = null;
 
         public static void PlayItemAlert()
         {
             LoadNewSound();
+
             var now = DateTime.Now;
             if (now - _itemAlertLastPlayed >= TimeSpan.FromSeconds(1))
             {
                 SetSoundVolume();
                 _itemAlertLastPlayed = now;
-                try
-                {
-                    _itemAlertPlayer.Play();
-                }
-                catch
-                {
-                    _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching);
-                    _itemAlertPlayer.Play();
-                }
+
+                if (_itemAlertPlayer != null) _itemAlertPlayer.Play();
             }
         }
 
         public static void LoadNewSound(bool ignoreIfAlreadyLoaded = false)
         {
-            if (ignoreIfAlreadyLoaded)
-            {
-                _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching);
-            }
-
             if (!string.IsNullOrEmpty(MapAssistConfiguration.Loaded.ItemLog.SoundFile) && (_itemAlertPlayer == null || ignoreIfAlreadyLoaded))
             {
-                var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                var directory = Path.GetDirectoryName(exePath);
-                var soundPath = Path.Combine(directory + @"/Sounds/", MapAssistConfiguration.Loaded.ItemLog.SoundFile);
+                var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                var soundPath = Path.Combine(directory, "Sounds", MapAssistConfiguration.Loaded.ItemLog.SoundFile);
                 _itemAlertPlayer = new SoundPlayer(soundPath);
-                Console.Write("Loaded new sound file");
+                _log.Info($"Loaded new sound file: {MapAssistConfiguration.Loaded.ItemLog.SoundFile}");
             }
-            if (_itemAlertPlayer == null) { _itemAlertPlayer = new SoundPlayer(Properties.Resources.Ching); }
         }
 
         private static void SetSoundVolume()
