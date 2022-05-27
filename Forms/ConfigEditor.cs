@@ -16,10 +16,6 @@ namespace MapAssist
         private PropertyInfo SelectedProperty;
         private AddAreaForm areaForm;
 
-        private static string applicationPath = Application.StartupPath;
-        private static string soundPath = applicationPath + "/Sounds/";
-        private string[] filePaths;
-
         public ConfigEditor()
         {
             InitializeComponent();
@@ -199,7 +195,7 @@ namespace MapAssist
 
             chkDPIAware.Checked = MapAssistConfiguration.Loaded.DPIAware;
 
-            filePaths = Directory.GetFiles(soundPath, @"*.wav");
+            var filePaths = Directory.GetFiles(System.IO.Path.Combine(Application.StartupPath, "Sounds"), @"*.wav");
             foreach (var filePath in filePaths)
             {
                 var fileName = System.IO.Path.GetFileName(filePath);
