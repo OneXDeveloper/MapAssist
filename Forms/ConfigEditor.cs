@@ -2,7 +2,6 @@
 using MapAssist.Settings;
 using MapAssist.Types;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,10 +14,6 @@ namespace MapAssist
     {
         private PropertyInfo SelectedProperty;
         private AddAreaForm areaForm;
-
-        private static string applicationPath = Application.StartupPath;
-        private static string soundPath = applicationPath + "/Sounds/";
-        private string[] filePaths;
 
         public ConfigEditor()
         {
@@ -130,7 +125,7 @@ namespace MapAssist
             chkShowDirectionToItem.Checked = MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem;
             chkPlaySound.Checked = MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop;
             txtFilterFile.Text = MapAssistConfiguration.Loaded.ItemLog.FilterFileName;
-            soundSelect.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
+            txtSoundFile.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
             soundVolume.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.SoundVolume / 5d);
             lblSoundVolumeValue.Text = $"{soundVolume.Value * 5}";
             itemDisplayForSeconds.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds / 5d);
@@ -198,9 +193,6 @@ namespace MapAssist
             }
 
             chkDPIAware.Checked = MapAssistConfiguration.Loaded.DPIAware;
-
-            filePaths = Directory.GetFiles(soundPath, @"*.wav");
-            BuildFilePaths();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -754,6 +746,16 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop = chkPlaySound.Checked;
         }
 
+        private void txtSoundFile_TextChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.SoundFile = txtSoundFile.Text;
+        }
+
+        private void txtSoundFile_LostFocus(object sender, EventArgs e)
+        {
+            AudioPlayer.LoadNewSound(true);
+        }
+
         private void soundVolume_Scroll(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.ItemLog.SoundVolume = soundVolume.Value * 5;
@@ -1097,21 +1099,6 @@ namespace MapAssist
         private void chkDPIAware_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.DPIAware = chkDPIAware.Checked;
-        }
-
-        public void BuildFilePaths()
-        {
-            foreach (var filePath in filePaths)
-            {
-                var fileName = System.IO.Path.GetFileName(filePath);
-                soundSelect.Items.Add(fileName);
-            }
-        }
-
-        private void soundSelect_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MapAssistConfiguration.Loaded.ItemLog.SoundFile = soundSelect.Text;
-            AudioPlayer.LoadNewSound(true);
         }
     }
 }
