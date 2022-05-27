@@ -42,13 +42,14 @@ namespace MapAssist.Helpers
                 _currentProcessId = processContext.ProcessId;
                 var currentWindowHandle = GameManager.MainWindowHandle;
 
+                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
                 var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
                 var lastNpcInteracted = (Npc)processContext.Read<ushort>(GameManager.InteractedNpcOffset);
                 var rosterData = new Roster(GameManager.RosterDataOffset);
                 var pets = new Pets(GameManager.PetsOffset);
 
-                if (!menuData.InGame)
+                if (!menuData.InGame || rawObjectUnits.Count() == 0)
                 {
                     if (_sessions.ContainsKey(_currentProcessId))
                     {
@@ -227,7 +228,6 @@ namespace MapAssist.Helpers
                 var mercList = rawMonsterUnits.Where(x => x.IsMerc).ToArray();
 
                 // Objects
-                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
                 foreach (var obj in rawObjectUnits)
                 {
                     obj.Update();
