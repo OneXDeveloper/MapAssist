@@ -1592,6 +1592,7 @@
             // 
             // cboItemLogSound
             // 
+            this.cboItemLogSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboItemLogSound.FormattingEnabled = true;
             this.cboItemLogSound.Location = new System.Drawing.Point(256, 88);
             this.cboItemLogSound.Name = "cboItemLogSound";

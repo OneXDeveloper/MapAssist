@@ -13,11 +13,14 @@ namespace MapAssist
 {
     public partial class ConfigEditor : Form
     {
+        private bool formReady = false;
+
         private PropertyInfo SelectedProperty;
         private AddAreaForm areaForm;
 
         public ConfigEditor()
         {
+            formReady = false;
             InitializeComponent();
 
             var propertyList = MapAssistConfiguration.Loaded.MapConfiguration.GetType().GetProperties();
@@ -126,7 +129,6 @@ namespace MapAssist
             chkShowDirectionToItem.Checked = MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem;
             chkPlaySound.Checked = MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop;
             txtFilterFile.Text = MapAssistConfiguration.Loaded.ItemLog.FilterFileName;
-            cboItemLogSound.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
             soundVolume.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.SoundVolume / 5d);
             lblSoundVolumeValue.Text = $"{soundVolume.Value * 5}";
             itemDisplayForSeconds.Value = (int)Math.Round(MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds / 5d);
@@ -201,6 +203,9 @@ namespace MapAssist
                 var fileName = System.IO.Path.GetFileName(filePath);
                 cboItemLogSound.Items.Add(fileName);
             }
+            cboItemLogSound.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
+
+            formReady = true;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -749,6 +754,13 @@ namespace MapAssist
             MapAssistConfiguration.Loaded.ItemLog.FilterFileName = txtFilterFile.Text;
         }
 
+        private void soundSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.ItemLog.SoundFile = cboItemLogSound.SelectedItem.ToString();
+            AudioPlayer.LoadNewSound(true);
+            if (formReady) AudioPlayer.PlayItemAlert(true);
+        }
+
         private void chkPlaySound_CheckedChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop = chkPlaySound.Checked;
@@ -1117,12 +1129,6 @@ namespace MapAssist
                 customColors.Insert(0, colorDlg.Color);
             }
             return (colorDlg, result);
-        }
-
-        private void soundSelect_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MapAssistConfiguration.Loaded.ItemLog.SoundFile = cboItemLogSound.Text;
-            AudioPlayer.LoadNewSound(true);
         }
     }
 }

@@ -14,17 +14,21 @@ namespace MapAssist.Helpers
         private static DateTime _itemAlertLastPlayed = DateTime.MinValue;
         private static SoundPlayer _itemAlertPlayer = null;
 
-        public static void PlayItemAlert()
+        public static void PlayItemAlert(bool stopPreviousAlert = false)
         {
             LoadNewSound();
 
             var now = DateTime.Now;
-            if (now - _itemAlertLastPlayed >= TimeSpan.FromSeconds(1))
+            if (now - _itemAlertLastPlayed >= TimeSpan.FromSeconds(1) || stopPreviousAlert)
             {
                 SetSoundVolume();
                 _itemAlertLastPlayed = now;
 
-                if (_itemAlertPlayer != null) _itemAlertPlayer.Play();
+                if (_itemAlertPlayer != null)
+                {
+                    _itemAlertPlayer.Stop();
+                    _itemAlertPlayer.Play();
+                }
             }
         }
 
