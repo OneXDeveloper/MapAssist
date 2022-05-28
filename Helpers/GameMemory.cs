@@ -42,14 +42,14 @@ namespace MapAssist.Helpers
                 _currentProcessId = processContext.ProcessId;
                 var currentWindowHandle = GameManager.MainWindowHandle;
 
-                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
+                var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
                 var menuData = processContext.Read<Structs.MenuData>(GameManager.MenuDataOffset);
                 var lastHoverData = processContext.Read<Structs.HoverData>(GameManager.LastHoverDataOffset);
                 var lastNpcInteracted = (Npc)processContext.Read<ushort>(GameManager.InteractedNpcOffset);
                 var rosterData = new Roster(GameManager.RosterDataOffset);
                 var pets = new Pets(GameManager.PetsOffset);
 
-                if (!menuData.InGame || rawObjectUnits.Count() == 0)
+                if (!menuData.InGame || rawPlayerUnits.Count() == 0)
                 {
                     if (_sessions.ContainsKey(_currentProcessId))
                     {
@@ -79,7 +79,6 @@ namespace MapAssist.Helpers
                     _sessions.Add(_currentProcessId, new Session(GameManager.GameNameOffset));
                 }
 
-                var rawPlayerUnits = GetUnits<UnitPlayer>(UnitType.Player).Select(x => x.Update()).Where(x => x != null).ToArray();
                 var playerUnit = rawPlayerUnits.FirstOrDefault(x => x.IsPlayer && x.IsPlayerUnit);
 
                 if (playerUnit == null)
@@ -228,6 +227,7 @@ namespace MapAssist.Helpers
                 var mercList = rawMonsterUnits.Where(x => x.IsMerc).ToArray();
 
                 // Objects
+                var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
                 foreach (var obj in rawObjectUnits)
                 {
                     obj.Update();
