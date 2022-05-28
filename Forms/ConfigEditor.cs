@@ -2,9 +2,9 @@
 using MapAssist.Settings;
 using MapAssist.Types;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -757,8 +757,7 @@ namespace MapAssist
         private void soundSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.ItemLog.SoundFile = cboItemLogSound.SelectedItem.ToString();
-            AudioPlayer.LoadNewSound(true);
-            if (formReady) AudioPlayer.PlayItemAlert(true);
+            if (formReady) AudioPlayer.PlayItemAlert(MapAssistConfiguration.Loaded.ItemLog.SoundFile, stopPreviousAlert: true);
         }
 
         private void chkPlaySound_CheckedChanged(object sender, EventArgs e)
@@ -1112,6 +1111,7 @@ namespace MapAssist
         }
 
         private List<Color> customColors = new List<Color>();
+
         private (ColorDialog, DialogResult) SelectColor()
         {
             var colorDlg = new ColorDialog();

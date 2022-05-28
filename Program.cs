@@ -282,6 +282,9 @@ namespace MapAssist
         {
             _log.Info("Disposing");
 
+            AudioPlayer.Dispose();
+            _log.Info("Disposed sound files");
+
             overlay.Dispose();
             _log.Info("Disposed Overlay");
 
