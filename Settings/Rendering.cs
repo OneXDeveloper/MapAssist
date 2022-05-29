@@ -116,6 +116,8 @@ namespace MapAssist.Settings
         Portal,
         Dress,
         Kite,
+        Stick,
+        Leg
     }
 
     public enum TextAlign

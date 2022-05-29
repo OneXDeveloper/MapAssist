@@ -1508,6 +1508,26 @@ namespace MapAssist.Helpers
                         new Point(0.50f, 1),
                         new Point(0.85f, 0.35f)
                     }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                case Shape.Stick:
+                    return new Point[]
+                    {
+                        new Point(0.42f, 0),
+                        new Point(0.58f, 0),
+                        new Point(0.50f, 0.65f),
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                case Shape.Leg:
+                    return new Point[]
+                    {
+                        new Point(0.2f, 0.6f),
+                        new Point(0.4f, 0f),
+                        new Point(0.50f, 0),
+                        new Point(0.35f, 0.40f),
+                        new Point(0.4f, 0.40f),
+                        new Point(0.50f, 0.50f),
+
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
             }
 
             return new Point[]
