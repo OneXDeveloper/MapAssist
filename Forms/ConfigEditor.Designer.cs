@@ -196,6 +196,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnClearExpRangeColor = new System.Windows.Forms.Button();
+            this.btnExpRangeColor = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -530,6 +532,8 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.btnClearExpRangeColor);
+            this.groupBox1.Controls.Add(this.btnExpRangeColor);
             this.groupBox1.Controls.Add(this.chkMonsterHealthBar);
             this.groupBox1.Controls.Add(this.btnClearBorderColor);
             this.groupBox1.Controls.Add(this.btnClearWalkableColor);
@@ -576,7 +580,7 @@
             this.btnClearBorderColor.FlatAppearance.BorderSize = 0;
             this.btnClearBorderColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClearBorderColor.Location = new System.Drawing.Point(232, 273);
+            this.btnClearBorderColor.Location = new System.Drawing.Point(229, 273);
             this.btnClearBorderColor.Name = "btnClearBorderColor";
             this.btnClearBorderColor.Size = new System.Drawing.Size(23, 23);
             this.btnClearBorderColor.TabIndex = 23;
@@ -611,7 +615,7 @@
             // btnBorderColor
             // 
             this.btnBorderColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBorderColor.Location = new System.Drawing.Point(140, 273);
+            this.btnBorderColor.Location = new System.Drawing.Point(137, 273);
             this.btnBorderColor.Name = "btnBorderColor";
             this.btnBorderColor.Size = new System.Drawing.Size(91, 23);
             this.btnBorderColor.TabIndex = 23;
@@ -2280,6 +2284,30 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
+            // btnClearExpRangeColor
+            // 
+            this.btnClearExpRangeColor.FlatAppearance.BorderSize = 0;
+            this.btnClearExpRangeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearExpRangeColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            this.btnClearExpRangeColor.Location = new System.Drawing.Point(360, 273);
+            this.btnClearExpRangeColor.Name = "btnClearExpRangeColor";
+            this.btnClearExpRangeColor.Size = new System.Drawing.Size(23, 23);
+            this.btnClearExpRangeColor.TabIndex = 27;
+            this.btnClearExpRangeColor.Text = "X";
+            this.btnClearExpRangeColor.UseVisualStyleBackColor = true;
+            this.btnClearExpRangeColor.Click += new System.EventHandler(this.btnClearExpRangeColor_Click);
+            // 
+            // btnExpRangeColor
+            // 
+            this.btnExpRangeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExpRangeColor.Location = new System.Drawing.Point(262, 273);
+            this.btnExpRangeColor.Name = "btnExpRangeColor";
+            this.btnExpRangeColor.Size = new System.Drawing.Size(97, 23);
+            this.btnExpRangeColor.TabIndex = 28;
+            this.btnExpRangeColor.Text = "Exp Range Color";
+            this.btnExpRangeColor.UseVisualStyleBackColor = true;
+            this.btnExpRangeColor.Click += new System.EventHandler(this.btnExpRangeColor_Click);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2516,5 +2544,7 @@
         private System.Windows.Forms.CheckBox chkPassives;
         private System.Windows.Forms.CheckBox chkAuras;
         private System.Windows.Forms.ComboBox cboItemLogSound;
+        private System.Windows.Forms.Button btnClearExpRangeColor;
+        private System.Windows.Forms.Button btnExpRangeColor;
     }
 }

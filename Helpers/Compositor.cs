@@ -181,6 +181,7 @@ namespace MapAssist.Helpers
 
             renderTarget.Transform = areaTransformMatrix.ToDXMatrix();
 
+            DrawExpRange(gfx);
             DrawPointsOfInterest(gfx);
             DrawMonsters(gfx);
             DrawMissiles(gfx);
@@ -188,6 +189,31 @@ namespace MapAssist.Helpers
             DrawPlayers(gfx);
 
             renderTarget.PopAxisAlignedClip();
+        }
+
+        private void DrawExpRange(Graphics gfx)
+        {
+            var color = MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange;
+
+            if (color != null && !_areaData.Area.IsTown())
+            {
+                var distance = 60;
+                var snap = 40;
+                var offset = -20;
+
+                var offsetX = offset - (_areaData.Origin.X % snap);
+                var offsetY = offset - (_areaData.Origin.Y % snap);
+
+                var opacity = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity;
+                var brush = CreateSolidBrush(gfx, (Color)color, opacity);
+                
+                var center = _gameData.PlayerUnit.Position;
+                center.X = (float)Math.Round((center.X + offsetX) / snap) * snap - offsetX;
+                center.Y = (float)Math.Round((center.Y + offsetY) / snap) * snap - offsetY;
+
+                var rect = new Rectangle(center.X - distance, center.Y - distance, center.X + distance, center.Y + distance);
+                gfx.DrawRectangle(brush, rect, 0.5f);
+            }
         }
 
         private void DrawPointsOfInterest(Graphics gfx)

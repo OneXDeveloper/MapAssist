@@ -185,6 +185,18 @@ namespace MapAssist
                 btnClearBorderColor.Visible = false;
             }
 
+            if (MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange != null)
+            {
+                var color = (Color)MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange;
+                btnExpRangeColor.BackColor = color;
+                btnExpRangeColor.ForeColor = ContrastTextColor(color);
+                btnClearExpRangeColor.Visible = color.A > 0;
+            }
+            else
+            {
+                btnClearExpRangeColor.Visible = false;
+            }
+
             foreach (var area in MapAssistConfiguration.Loaded.HiddenAreas)
             {
                 lstHidden.Items.Add(AreaExtensions.Name(area));
@@ -1021,6 +1033,28 @@ namespace MapAssist
             btnBorderColor.ForeColor = ContrastTextColor(btnBorderColor.BackColor);
 
             btnClearBorderColor.Visible = false;
+        }
+
+        private void btnExpRangeColor_Click(object sender, EventArgs e)
+        {
+            var (colorDlg, colorResult) = SelectColor();
+            if (colorResult == DialogResult.OK)
+            {
+                MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange = colorDlg.Color;
+                btnExpRangeColor.BackColor = colorDlg.Color;
+                btnExpRangeColor.ForeColor = ContrastTextColor(btnExpRangeColor.BackColor);
+
+                btnClearExpRangeColor.Visible = true;
+            }
+        }
+
+        private void btnClearExpRangeColor_Click(object sender, EventArgs e)
+        {
+            MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange = null;
+            btnExpRangeColor.BackColor = Color.Empty;
+            btnExpRangeColor.ForeColor = ContrastTextColor(btnExpRangeColor.BackColor);
+
+            btnClearExpRangeColor.Visible = false;
         }
 
         private void btnAddHidden_Click(object sender, EventArgs e)

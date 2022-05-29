@@ -67,6 +67,9 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Border", ApplyNamingConventions = false)]
         public Color? Border { get; set; }
+
+        [YamlMember(Alias = "ExpRange", ApplyNamingConventions = false)]
+        public Color? ExpRange { get; set; }
     }
 
     public class MapConfiguration
