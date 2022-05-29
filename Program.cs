@@ -192,16 +192,19 @@ namespace MapAssist
 
         private static void ProcessException(Exception e)
         {
-            _log.Fatal(e);
 
             var message = e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace;
 
             if (e.GetType() == typeof(YamlException) && e.InnerException != null)
             {
+                _log.Fatal(e.InnerException);
+
                 message = e.Message + Environment.NewLine + Environment.NewLine +
                     e.InnerException.Message + Environment.NewLine + Environment.NewLine +
                     e.InnerException.StackTrace;
             }
+
+            _log.Fatal(e);
 
             MessageBox.Show(message, $"{messageBoxTitle}: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
