@@ -51,7 +51,7 @@ namespace MapAssist.Types
 
             if (MapAssistConfiguration.Loaded.ItemLog.PlaySoundOnDrop && (rule == null || rule.PlaySoundOnDrop))
             {
-                AudioPlayer.PlayItemAlert(rule.SoundFile ?? MapAssistConfiguration.Loaded.ItemLog.SoundFile);
+                AudioPlayer.PlayItemAlert(rule?.SoundFile ?? MapAssistConfiguration.Loaded.ItemLog.SoundFile);
             }
 
             item.IsIdentifiedForLog = item.IsIdentified;
