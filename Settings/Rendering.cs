@@ -24,7 +24,7 @@ namespace MapAssist.Settings
 
         public bool CanDrawIcon()
         {
-            return IconSize > 0 && (IconColor != Color.Transparent || IconOutlineColor != Color.Transparent);
+            return IconSize > 0 && ((IconColor != Color.Transparent && IconColor != Color.Empty) || (IconOutlineColor != Color.Transparent && IconOutlineColor != Color.Empty));
         }
 
         public object Clone()
@@ -58,7 +58,7 @@ namespace MapAssist.Settings
 
         public bool CanDrawLine()
         {
-            return LineColor != Color.Transparent && LineThickness > 0;
+            return LineColor != Color.Transparent && LineColor != Color.Empty && LineThickness > 0;
         }
 
         public bool CanDrawArrowHead()
@@ -68,8 +68,7 @@ namespace MapAssist.Settings
 
         public bool CanDrawLabel()
         {
-            return LabelColor != Color.Transparent && !string.IsNullOrWhiteSpace(LabelFont) &&
-                LabelFontSize > 0;
+            return LabelColor != Color.Transparent && LabelColor != Color.Empty && !string.IsNullOrWhiteSpace(LabelFont) && LabelFontSize > 0;
         }
     }
 
