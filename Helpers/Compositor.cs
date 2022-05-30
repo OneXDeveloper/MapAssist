@@ -305,6 +305,17 @@ namespace MapAssist.Helpers
                 }
             }
 
+            Action<UnitObject, Chest.InteractFlags, PointOfInterestRendering> tryAddChest = (obj, flag, config) =>
+            {
+                if ((obj.ObjectData.InteractType & (byte)flag) == (byte)flag)
+                {
+                    if (config.CanDrawIcon())
+                    {
+                        drawPoiIcons.Add((config, obj.Position));
+                    }
+                }
+            };
+
             foreach (var gameObject in _gameData.Objects)
             {
                 var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(gameObject.Position));
@@ -328,17 +339,18 @@ namespace MapAssist.Helpers
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
                         drawPoiLabels.Add((MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label, null));
                     }
-
-                    continue;
                 }
 
-                if (gameObject.IsArmorWeapRack && MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
+                else if (gameObject.IsArmorWeapRack && MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
                 {
                     drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position));
                 }
 
-                if (gameObject.IsChest)
+                else if (gameObject.IsChest)
                 {
+                    tryAddChest(gameObject, Chest.InteractFlags.Trap, MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest);
+                    tryAddChest(gameObject, Chest.InteractFlags.Locked, MapAssistConfiguration.Loaded.MapConfiguration.LockedChest);
+                    tryAddChest(gameObject, Chest.InteractFlags.None, MapAssistConfiguration.Loaded.MapConfiguration.NormalChest);
                     if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Trap) == (byte)Chest.InteractFlags.Trap)
                     {
                         if (MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest.CanDrawIcon())
@@ -448,61 +460,49 @@ namespace MapAssist.Helpers
                 MapAssistConfiguration.Loaded.MapConfiguration.SuperUniqueMonster,
             };
 
-            foreach (var mobRender in monsterRenderingOrder)
+            foreach ((var rendering, var monster) in drawMonsterIcons.OrderBy(x => Array.IndexOf(monsterRenderingOrder, x.Item1)))
             {
-                foreach ((var rendering, var monster) in drawMonsterIcons)
+                var monsterPosition = monster.Position;
+
+                DrawIcon(gfx, rendering, monsterPosition);
+
+                // Draw Monster Immunities on top of monster icon
+                var iCount = monster.Immunities.Count;
+                if (iCount > 0)
                 {
-                    if (mobRender == rendering)
+                    monsterPosition = Vector2.Transform(monsterPosition.ToVector(), areaTransformMatrix).ToPoint();
+
+                    var currentTransform = renderTarget.Transform;
+                    renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
+
+                    var iconShape = GetIconShape(rendering).ToRectangle();
+
+                    var ellipseSize = Math.Max(iconShape.Height / 12, 3 / scaleWidth); // Arbirarily set to be a fraction of the the mob icon size. The important point is that it scales with the mob icon consistently.
+                    var dx = ellipseSize * scaleWidth * 1.5f; // Amount of space each indicator will take up, including spacing
+
+                    var iX = -dx * (iCount - 1) / 2f; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
+
+                    foreach (var immunity in monster.Immunities)
                     {
-                        var monsterPosition = monster.Position;
-
-                        DrawIcon(gfx, rendering, monsterPosition);
-
-                        // Draw Monster Immunities on top of monster icon
-                        var iCount = monster.Immunities.Count;
-                        if (iCount > 0)
+                        var render = new IconRendering()
                         {
-                            monsterPosition = Vector2.Transform(monsterPosition.ToVector(), areaTransformMatrix).ToPoint();
+                            IconShape = Shape.Ellipse,
+                            IconColor = ResistColors.ResistColor[immunity],
+                            IconSize = ellipseSize
+                        };
 
-                            var currentTransform = renderTarget.Transform;
-                            renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
-
-                            var iconShape = GetIconShape(mobRender).ToRectangle();
-
-                            var ellipseSize = Math.Max(iconShape.Height / 12, 3 / scaleWidth); // Arbirarily set to be a fraction of the the mob icon size. The important point is that it scales with the mob icon consistently.
-                            var dx = ellipseSize * scaleWidth * 1.5f; // Amount of space each indicator will take up, including spacing
-
-                            var iX = -dx * (iCount - 1) / 2f; // Moves the first indicator sufficiently left so that the whole group of indicators will be centered.
-
-                            foreach (var immunity in monster.Immunities)
-                            {
-                                var render = new IconRendering()
-                                {
-                                    IconShape = Shape.Ellipse,
-                                    IconColor = ResistColors.ResistColor[immunity],
-                                    IconSize = ellipseSize
-                                };
-
-                                var iPoint = monsterPosition.Add(new Point(iX, -iconShape.Height - render.IconSize));
-                                DrawIcon(gfx, render, iPoint, equalScaling: true);
-                                iX += dx;
-                            }
-
-                            renderTarget.Transform = currentTransform;
-                        }
+                        var iPoint = monsterPosition.Add(new Point(iX, -iconShape.Height - render.IconSize));
+                        DrawIcon(gfx, render, iPoint, equalScaling: true);
+                        iX += dx;
                     }
+
+                    renderTarget.Transform = currentTransform;
                 }
             }
 
-            foreach (var mobRender in monsterRenderingOrder)
+            foreach ((var rendering, var position, var text, Color? color) in drawMonsterLabels.OrderBy(x => Array.IndexOf(monsterRenderingOrder, x.Item1)))
             {
-                foreach ((var rendering, var position, var text, Color? color) in drawMonsterLabels)
-                {
-                    if (mobRender == rendering)
-                    {
-                        DrawText(gfx, rendering, position, text, color);
-                    }
-                }
+                DrawText(gfx, rendering, position, text, color);
             }
         }
 
@@ -703,26 +703,14 @@ namespace MapAssist.Helpers
                 MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer,
             };
 
-            foreach (var renderOrder in playersRenderingOrder)
+            foreach ((var rendering, var position) in drawPlayerIcons.OrderBy(x => Array.IndexOf(playersRenderingOrder, x.Item1)))
             {
-                foreach ((var rendering, var position) in drawPlayerIcons)
-                {
-                    if (renderOrder == rendering)
-                    {
-                        DrawIcon(gfx, rendering, position);
-                    }
-                }
+                DrawIcon(gfx, rendering, position);
             }
 
-            foreach (var renderOrder in playersRenderingOrder)
+            foreach ((var rendering, var position, var text, Color? color) in drawPlayerLabels.OrderBy(x => Array.IndexOf(playersRenderingOrder, x.Item1)))
             {
-                foreach ((var rendering, var position, var text, Color? color) in drawPlayerLabels)
-                {
-                    if (renderOrder == rendering)
-                    {
-                        DrawText(gfx, rendering, position, text, color);
-                    }
-                }
+                DrawText(gfx, rendering, position, text, color);
             }
         }
 
@@ -1439,6 +1427,16 @@ namespace MapAssist.Helpers
             bool equalScaling = false)
         {
             var _scaleHeight = equalScaling ? scaleWidth : scaleHeight;
+            var halfSize = render.IconSize / 2f;
+
+            Func<Point, float, bool, Point> basicTransform = (point, heightScale, addRotation) =>
+            {
+                var p = point.Subtract(halfSize);
+                if (addRotation)
+                    p = p.Rotate(_rotateRadians);
+                return p.Multiply(scaleWidth, heightScale);
+            };
+            Func<Point, Point> multipliedTransform = point => basicTransform(point.Multiply(render.IconSize), scaleWidth, false);
 
             switch (render.IconShape)
             {
@@ -1449,7 +1447,7 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, 0),
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                    }.Select(point => basicTransform(point, _scaleHeight, true)).ToArray();
 
                 case Shape.Ellipse: // Use a rectangle since that's effectively the same size and that's all this function is used for at the moment
                     return new Point[]
@@ -1458,7 +1456,7 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, 0),
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                    }.Select(point => basicTransform(point, _scaleHeight, true)).ToArray();
 
                 case Shape.Portal: // Use a rectangle since that's effectively the same size and that's all this function is used for at the moment
                     return new Point[]
@@ -1467,9 +1465,8 @@ namespace MapAssist.Helpers
                         new Point(render.IconSize, 0),
                         new Point(render.IconSize, render.IconSize),
                         new Point(0, render.IconSize)
-                    }.Select(point => point.Subtract(render.IconSize / 2f).Rotate(_rotateRadians).Multiply(scaleWidth, scaleWidth * 2)).ToArray(); // Use scaleWidth so it doesn't shrink the height in overlay mode, allows portal to look the same in both modes
+                    }.Select(point => basicTransform(point, scaleWidth * 2, true)).ToArray(); // Use scaleWidth so it doesn't shrink the height in overlay mode, allows portal to look the same in both modes
                 case Shape.Polygon:
-                    var halfSize = render.IconSize / 2f;
                     var cutSize = render.IconSize / 10f;
 
                     return new Point[]
@@ -1480,7 +1477,7 @@ namespace MapAssist.Helpers
                         new Point(halfSize + cutSize, halfSize + cutSize),
                         new Point(halfSize, render.IconSize),
                         new Point(halfSize - cutSize, halfSize + cutSize)
-                    }.Select(point => point.Subtract(halfSize).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                    }.Select(point => basicTransform(point, _scaleHeight, false)).ToArray();
 
                 case Shape.Cross:
                     var a = render.IconSize * 0.25f;
@@ -1493,7 +1490,7 @@ namespace MapAssist.Helpers
                         new Point(0, a), new Point(a, 0), new Point(b, a), new Point(c, 0),
                         new Point(d, a), new Point(c, b), new Point(d, c), new Point(c, d),
                         new Point(b, c), new Point(a, d), new Point(0, c), new Point(a, b)
-                    }.Select(point => point.Subtract(render.IconSize / 2f).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                    }.Select(point => basicTransform(point, _scaleHeight, false)).ToArray();
 
                 case Shape.Dress:
                     return new Point[]
@@ -1504,7 +1501,7 @@ namespace MapAssist.Helpers
                         new Point(0.50f, 1),
                         new Point(0.78f, 0.85f),
                         new Point(0.40f, 0.20f)
-                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+                    }.Select(multipliedTransform).ToArray();
 
                 case Shape.Kite:
                     return new Point[]
@@ -1513,7 +1510,7 @@ namespace MapAssist.Helpers
                         new Point(0.15f, 0.35f),
                         new Point(0.50f, 1),
                         new Point(0.85f, 0.35f)
-                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+                    }.Select(multipliedTransform).ToArray();
 
                 case Shape.Stick:
                     return new Point[]
@@ -1521,7 +1518,7 @@ namespace MapAssist.Helpers
                         new Point(0.42f, 0),
                         new Point(0.58f, 0),
                         new Point(0.50f, 0.65f),
-                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+                    }.Select(multipliedTransform).ToArray();
 
                 case Shape.Leg:
                     return new Point[]
@@ -1532,7 +1529,8 @@ namespace MapAssist.Helpers
                         new Point(0.35f, 0.40f),
                         new Point(0.4f, 0.40f),
                         new Point(0.50f, 0.50f),
-                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                    }.Select(multipliedTransform).ToArray();
             }
 
             return new Point[]
