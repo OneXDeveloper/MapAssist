@@ -1543,13 +1543,13 @@ namespace MapAssist.Helpers
                 case Shape.Pentagram:
                     return new Point[]
                     {
-                        new Point(0.50f, 0f),
-                        new Point(0.22f, 0.9f),
-                        new Point(0.96f, 0.38f),
-                        new Point(0.04f, 0.38f),
-                        new Point(0.78f, 0.9f),
-                        new Point(0.50f, 0f),
-                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
+                        new Point(0.50f, 1f),
+                        new Point(0.22f, 0.1f),
+                        new Point(0.96f, 0.62f),
+                        new Point(0.04f, 0.62f),
+                        new Point(0.78f, 0.1f),
+                        new Point(0.50f, 1f),
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2).Multiply(scaleWidth, _scaleHeight)).ToArray();
             }
 
             return new Point[]
