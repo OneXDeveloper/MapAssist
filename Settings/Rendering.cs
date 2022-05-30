@@ -116,7 +116,8 @@ namespace MapAssist.Settings
         Dress,
         Kite,
         Stick,
-        Leg
+        Leg,
+        Pentagram
     }
 
     public enum TextAlign

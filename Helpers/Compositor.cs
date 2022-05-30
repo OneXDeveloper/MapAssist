@@ -1312,6 +1312,12 @@ namespace MapAssist.Helpers
                             gfx.DrawGeometry(geo, outlineBrush, rendering.IconThickness);
                         }
 
+                        if (rendering.IconShape == Shape.Pentagram && (rendering.IconColor.A > 0 || rendering.IconOutlineColor.A > 0))
+                        {
+                            var brush = rendering.IconOutlineColor.A > 0 ? outlineBrush : fillBrush;
+                            gfx.DrawEllipse(brush, position, rendering.IconSize * scaleWidth / 2 + rendering.IconThickness, rendering.IconSize * _scaleHeight / 2 + rendering.IconThickness, rendering.IconThickness); // Divide by 2 because the parameter requires a radius
+                        }
+
                         break;
                 }
             }
@@ -1533,6 +1539,17 @@ namespace MapAssist.Helpers
                         new Point(0.4f, 0.40f),
                         new Point(0.50f, 0.50f),
                     }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
+
+                case Shape.Pentagram:
+                    return new Point[]
+                    {
+                        new Point(0.50f, 0f),
+                        new Point(0.22f, 0.9f),
+                        new Point(0.96f, 0.38f),
+                        new Point(0.04f, 0.38f),
+                        new Point(0.78f, 0.9f),
+                        new Point(0.50f, 0f),
+                    }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2).Rotate(_rotateRadians).Multiply(scaleWidth, _scaleHeight)).ToArray();
             }
 
             return new Point[]
