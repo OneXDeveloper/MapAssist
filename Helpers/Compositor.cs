@@ -305,14 +305,17 @@ namespace MapAssist.Helpers
                 }
             }
 
-            Action<UnitObject, Chest.InteractFlags, PointOfInterestRendering> tryAddChest = (obj, flag, config) =>
+            PointOfInterestRendering getChestRendering(UnitObject obj)
             {
-                if ((obj.ObjectData.InteractType & (byte)flag) == (byte)flag)
+                var flag = Chest.InteractFlags.Locked | Chest.InteractFlags.Trap;
+                switch ((Chest.InteractFlags)obj.ObjectData.InteractType & flag)
                 {
-                    if (config.CanDrawIcon())
-                    {
-                        drawPoiIcons.Add((config, obj.Position));
-                    }
+                    case Chest.InteractFlags.Locked:
+                        return MapAssistConfiguration.Loaded.MapConfiguration.LockedChest;
+                    case Chest.InteractFlags.Trap:
+                        return MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest;
+                    default:
+                        return MapAssistConfiguration.Loaded.MapConfiguration.NormalChest;
                 }
             };
 
@@ -348,30 +351,10 @@ namespace MapAssist.Helpers
 
                 else if (gameObject.IsChest)
                 {
-                    tryAddChest(gameObject, Chest.InteractFlags.Trap, MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest);
-                    tryAddChest(gameObject, Chest.InteractFlags.Locked, MapAssistConfiguration.Loaded.MapConfiguration.LockedChest);
-                    tryAddChest(gameObject, Chest.InteractFlags.None, MapAssistConfiguration.Loaded.MapConfiguration.NormalChest);
-                    if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Trap) == (byte)Chest.InteractFlags.Trap)
+                    var rendering = getChestRendering(gameObject);
+                    if (rendering.CanDrawIcon())
                     {
-                        if (MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest.CanDrawIcon())
-                        {
-                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest, gameObject.Position));
-                        }
-                    }
-
-                    if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Locked) == (byte)Chest.InteractFlags.Locked)
-                    {
-                        if (MapAssistConfiguration.Loaded.MapConfiguration.LockedChest.CanDrawIcon())
-                        {
-                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.LockedChest, gameObject.Position));
-                        }
-                    }
-                    else
-                    {
-                        if (MapAssistConfiguration.Loaded.MapConfiguration.NormalChest.CanDrawIcon())
-                        {
-                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.NormalChest, gameObject.Position));
-                        }
+                        drawPoiIcons.Add((rendering, gameObject.Position));
                     }
                 }
             }
