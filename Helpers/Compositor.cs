@@ -213,7 +213,7 @@ namespace MapAssist.Helpers
 
                 var opacity = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity;
                 var brush = CreateSolidBrush(gfx, (Color)color, opacity);
-                
+
                 var center = _gameData.PlayerUnit.Position;
                 center.X = (float)Math.Round((center.X + offsetX) / snap) * snap - offsetX;
                 center.Y = (float)Math.Round((center.Y + offsetY) / snap) * snap - offsetY;
@@ -1069,8 +1069,7 @@ namespace MapAssist.Helpers
                 {
                     position = position.Subtract(stringSize.X, 0);
                 }
-
-                if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem)
+                else if (MapAssistConfiguration.Loaded.ItemLog.ShowDirectionToItem)
                 {
                     position = position.Add(stringSize.Y, 0);
                 }
@@ -1533,7 +1532,6 @@ namespace MapAssist.Helpers
                         new Point(0.35f, 0.40f),
                         new Point(0.4f, 0.40f),
                         new Point(0.50f, 0.50f),
-
                     }.Select(point => point.Multiply(render.IconSize).Subtract(render.IconSize / 2f).Multiply(scaleWidth, scaleWidth)).ToArray();
             }
 
@@ -1604,7 +1602,7 @@ namespace MapAssist.Helpers
             {
                 var zoomLevel = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.ZoomLevel;
                 multiplier = 4.5f * (float)Math.Pow(zoomLevel > 1 ? 2 : 4, -zoomLevel + 1); // Hitting +/- should make the map bigger/smaller, respectively, like in overlay = false mode
-                
+
                 if (MapAssistConfiguration.Loaded.RenderingConfiguration.Position != MapPosition.Center)
                 {
                     multiplier *= 0.5f;

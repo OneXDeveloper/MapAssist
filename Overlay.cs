@@ -18,6 +18,7 @@ namespace MapAssist
         private GameDataReader _gameDataReader;
         private GameData _gameData;
         private Compositor _compositor = new Compositor();
+        private (MapPosition, bool) _lastMapConfiguration;
         private bool _show = true;
         private static readonly object _lock = new object();
         private bool frameDone = true;
@@ -51,12 +52,18 @@ namespace MapAssist
             {
                 lock (_lock)
                 {
+                    (MapPosition, bool) MapConfiguration()
+                    {
+                        return (MapAssistConfiguration.Loaded.RenderingConfiguration.Position, MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode);
+                    }
+
                     var (gameData, areaData, changed) = _gameDataReader.Get();
                     _gameData = gameData;
 
-                    if (changed)
+                    if (changed || _lastMapConfiguration != MapConfiguration())
                     {
                         _compositor.SetArea(areaData);
+                        _lastMapConfiguration = MapConfiguration();
                     }
 
                     gfx.ClearScene();
@@ -85,12 +92,11 @@ namespace MapAssist
                             switch (MapAssistConfiguration.Loaded.RenderingConfiguration.Position)
                             {
                                 case MapPosition.TopLeft:
-                                    drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 100, 0, PlayerIconWidth() + 100 + height);
+                                    drawBounds = new Rectangle(PlayerIconWidth() + 40, PlayerIconWidth() + 60, 0, PlayerIconWidth() + 60 + height); // Right will be reset inside compositor
                                     break;
 
                                 case MapPosition.TopRight:
-                                    var drawWidth = MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode ? gfx.Width : gfx.Width - GameInfoRightMargin();
-                                    drawBounds = new Rectangle(0, PlayerIconWidth() + 100, drawWidth, PlayerIconWidth() + 100 + height);
+                                    drawBounds = new Rectangle(0, PlayerIconWidth() + 60, gfx.Width, PlayerIconWidth() + 60 + height); // Left will be reset inside compositor
                                     break;
                             }
 
@@ -115,7 +121,7 @@ namespace MapAssist
 
                             var itemLogAnchor = (MapAssistConfiguration.Loaded.ItemLog.Position == MapAssistConfiguration.Loaded.GameInfo.Position)
                                 ? nextAnchor.Add(0, GameInfoPadding())
-                                : gameInfoAnchor;
+                                : GameInfoAnchor(MapAssistConfiguration.Loaded.ItemLog.Position);
                             _compositor.DrawItemLog(gfx, itemLogAnchor);
                         }
                     }
@@ -233,11 +239,6 @@ namespace MapAssist
             return rect.Height / 100f;
         }
 
-        private float GameInfoRightMargin()
-        {
-            return _window.Width / 60f;
-        }
-
         private Point GameInfoAnchor(GameInfoPosition position)
         {
             switch (position)
@@ -247,8 +248,9 @@ namespace MapAssist
                     return new Point(PlayerIconWidth() + margin, PlayerIconWidth() + margin);
 
                 case GameInfoPosition.TopRight:
+                    var rightMargin = _window.Width / 60f;
                     var topMargin = _window.Height / 35f;
-                    return new Point(_window.Width - GameInfoRightMargin(), topMargin);
+                    return new Point(_window.Width - rightMargin, topMargin);
             }
             return new Point();
         }
