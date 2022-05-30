@@ -50,6 +50,8 @@ namespace MapAssist.Helpers
 
         public static Point Rotate(this Point point, float angleRadians, Point centerPoint)
         {
+            if (angleRadians == 0) return point;
+
             return new Point(
               (float)(centerPoint.X + Math.Cos(angleRadians) * (point.X - centerPoint.X) - Math.Sin(angleRadians) * (point.Y - centerPoint.Y)),
               (float)(centerPoint.Y + Math.Sin(angleRadians) * (point.X - centerPoint.X) + Math.Cos(angleRadians) * (point.Y - centerPoint.Y))
