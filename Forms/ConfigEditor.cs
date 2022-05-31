@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace MapAssist
     {
         private bool formReady = false;
         private bool formShown = false;
+        private CancellationTokenSource formShownCancelToken;
 
         private PropertyInfo SelectedProperty;
         private AddAreaForm areaForm;
@@ -227,11 +229,12 @@ namespace MapAssist
         {
             Activate();
 
+            formShownCancelToken = new CancellationTokenSource();
             Task.Run(() =>
             {
                 Task.Delay(500).Wait(); // Allow a timeout if holding down the hotkey for too long
-                formShown = true;
-            });
+                if (!formShownCancelToken.IsCancellationRequested) formShown = true;
+            }, formShownCancelToken.Token);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -240,6 +243,7 @@ namespace MapAssist
 
             if (keyData == Keys.Escape)
             {
+                formShownCancelToken.Cancel();
                 Close();
                 return true;
             }
@@ -247,6 +251,7 @@ namespace MapAssist
             {
                 if (!formShown) return false;
 
+                formShownCancelToken.Cancel();
                 Close();
                 return true;
             }
