@@ -162,7 +162,8 @@ namespace MapAssist.Helpers
         public static List<Affix> GetAffixes(UnitItem item)
         {
             var affixes = new List<Affix>();
-            foreach (var (stat, values) in item.StatLayers.Select(x => (x.Key, x.Value)))
+
+            foreach (var (stat, values) in item.StatLayers.Select(x => (x.Key, x.Value)).ToArray())
             {
                 var name = AddSpaces(stat.ToString());
 
@@ -241,6 +242,29 @@ namespace MapAssist.Helpers
                     affixes.Add(thisAffix);
                 }
             }
+
+            foreach (var stat in new[] { Stats.Stat.EnhancedDefense, Stats.Stat.EnhancedDamage })
+            {
+                var name = AddSpaces(stat.ToString());
+
+                var finalValue = 0;
+
+                if (item.Stats != null && item.Stats.TryGetValue(stat, out var value1)) finalValue += value1;
+                if (item.StatsBase != null && item.StatsBase.TryGetValue(stat, out var value2)) finalValue += value2;
+                if (item.StatsAdded != null && item.StatsAdded.TryGetValue(stat, out var value3)) finalValue += value3;
+                if (item.StaffMods != null && item.StaffMods.TryGetValue(stat, out var value4)) finalValue += value4;
+
+                if (finalValue > 0)
+                {
+                    var thisAffix = new Affix()
+                    {
+                        name = name,
+                        value = finalValue.ToString()
+                    };
+                    affixes.Add(thisAffix);
+                }
+            }
+
             return affixes;
         }
 
