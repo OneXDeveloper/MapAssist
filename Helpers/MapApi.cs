@@ -192,7 +192,7 @@ namespace MapAssist.Helpers
         {
             if (_pipeClient.HasExited)
             {
-                _log.Warn($"{_procName} has exited unexpectedly");
+                _log.Warn($"{_procName} has exited unexpectedly with error code {_pipeClient.ExitCode}");
             }
 
             if (disposed || _pipeClient.HasExited)
@@ -218,7 +218,7 @@ namespace MapAssist.Helpers
                 }
 
                 if (disposed) _log.Warn($"{_procName} has been disposed");
-                else if (_pipeClient.HasExited) _log.Warn($"{_procName} has exited unexpectedly");
+                else if (_pipeClient.HasExited) _log.Warn($"{_procName} has exited unexpectedly with error code {_pipeClient.ExitCode}");
                 else if (cts.IsCancellationRequested) _log.Warn($"{_procName} request has been cancelled");
 
                 var response = !disposed && !_pipeClient.HasExited && !cts.IsCancellationRequested ? data : null;
