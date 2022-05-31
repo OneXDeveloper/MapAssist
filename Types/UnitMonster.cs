@@ -41,6 +41,8 @@ namespace MapAssist.Types
 
         public bool IsMerc => PetEntry != null && PetEntry.IsMerc;
 
+        public bool IsSummon => PetEntry != null && !PetEntry.IsMerc;
+
         public bool IsPlayerOwned => PetEntry != null && PetEntry.IsPlayerOwned;
 
         private List<Resist> GetImmunities()

@@ -213,18 +213,19 @@ namespace MapAssist.Helpers
 
                 var monsterList = rawMonsterUnits.Where(x => x.UnitType == UnitType.Monster && x.IsMonster).ToArray();
 
-                foreach (var petEntry in pets.List.Where(x => x.IsMerc).ToArray())
+                foreach (var petEntry in pets.List)
                 {
-                    var merc = rawMonsterUnits.FirstOrDefault(x => x.UnitId == petEntry.UnitId);
+                    var pet = rawMonsterUnits.FirstOrDefault(x => x.UnitId == petEntry.UnitId);
 
-                    if (merc != null)
+                    if (pet != null)
                     {
                         petEntry.IsPlayerOwned = playerUnit.UnitId == petEntry.OwnerId;
-                        merc.PetEntry = petEntry;
+                        pet.PetEntry = petEntry;
                     }
                 }
 
                 var mercList = rawMonsterUnits.Where(x => x.IsMerc).ToArray();
+                var summonsList = rawMonsterUnits.Where(x => x.IsSummon).ToArray();
 
                 // Objects
                 var rawObjectUnits = GetUnits<UnitObject>(UnitType.Object, true);
@@ -393,6 +394,7 @@ namespace MapAssist.Helpers
                     Corpses = corpseList,
                     Monsters = monsterList,
                     Mercs = mercList,
+                    Summons = summonsList,
                     Objects = objectList,
                     Missiles = missileList,
                     Items = itemList,

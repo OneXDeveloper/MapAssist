@@ -152,6 +152,16 @@ MapConfiguration:
     IconShape: Cross
     IconSize: 6
     IconThickness: 1
+  MySummons:
+    IconOutlineColor: 77, 120, 124
+    IconShape: Cross
+    IconSize: 6
+    IconThickness: 0
+  OtherSummons:
+    IconOutlineColor: 81, 167, 60
+    IconShape: Cross
+    IconSize: 6
+    IconThickness: 0
   Corpse:
     IconOutlineColor: Magenta
     IconShape: Cross

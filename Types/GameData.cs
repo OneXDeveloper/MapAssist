@@ -18,6 +18,7 @@ namespace MapAssist.Types
         public UnitPlayer[] Corpses;
         public UnitMonster[] Monsters;
         public UnitMonster[] Mercs;
+        public UnitMonster[] Summons;
         public UnitObject[] Objects;
         public UnitMissile[] Missiles;
         public UnitItem[] Items;

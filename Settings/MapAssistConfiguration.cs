@@ -122,6 +122,12 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "OtherMercs", ApplyNamingConventions = false)]
         public PointOfInterestRendering OtherMercs { get; set; }
 
+        [YamlMember(Alias = "MySummons", ApplyNamingConventions = false)]
+        public PointOfInterestRendering MySummons { get; set; }
+
+        [YamlMember(Alias = "OtherSummons", ApplyNamingConventions = false)]
+        public PointOfInterestRendering OtherSummons { get; set; }
+
         [YamlMember(Alias = "Corpse", ApplyNamingConventions = false)]
         public PointOfInterestRendering Corpse { get; set; }
 

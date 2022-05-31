@@ -540,6 +540,17 @@ namespace MapAssist.Helpers
                 areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
             }
 
+            foreach (var pet in _gameData.Summons.ToArray())
+            {
+                var rendering = MapAssistConfiguration.Loaded.MapConfiguration.MySummons;
+                if (!pet.IsPlayerOwned) rendering = MapAssistConfiguration.Loaded.MapConfiguration.OtherSummons;
+
+                if (rendering.CanDrawIcon())
+                {
+                    drawPlayerIcons.Add((rendering, pet.Position));
+                }
+            }
+
             foreach (var merc in _gameData.Mercs.ToArray())
             {
                 if (merc.IsCorpse) continue;
