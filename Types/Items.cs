@@ -2,7 +2,6 @@ using MapAssist.Helpers;
 using MapAssist.Settings;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using YamlDotNet.Serialization;
 
@@ -10,6 +9,8 @@ namespace MapAssist.Types
 {
     public static class Items
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
         public static Dictionary<int, HashSet<string>> ItemUnitHashesSeen = new Dictionary<int, HashSet<string>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsSeen = new Dictionary<int, HashSet<uint>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsToSkip = new Dictionary<int, HashSet<uint>>();
@@ -31,13 +32,18 @@ namespace MapAssist.Types
                 ItemUnitHashesSeen[processId].Add(item.HashString);
             }
 
-            if (item.IsPlayerOwned && item.IsIdentified)
+            ItemUnitIdsSeen[processId].Add(item.UnitId);
+
+            if (item.IsAnyPlayerHolding && item.IsIdentified)
             {
                 InventoryItemUnitIdsToSkip[processId].Add(item.UnitId);
                 ItemUnitIdsToSkip[processId].Add(item.UnitId);
-            }
 
-            ItemUnitIdsSeen[processId].Add(item.UnitId);
+                if (!item.IsPlayerOwned)
+                {
+                    return;
+                }
+            }
 
             var (logItem, rule) = LootFilter.Filter(item, areaLevel, playerLevel);
             if (!logItem) return;
@@ -49,19 +55,22 @@ namespace MapAssist.Types
 
             item.IsIdentifiedForLog = item.IsIdentified;
 
-            ItemLog[processId].Add(new ItemLogEntry()
+            var newLogEntry = new ItemLogEntry()
             {
-                Color = item.ItemBaseColor,
                 ItemHashString = item.HashString,
                 UnitItem = item,
                 Rule = rule,
                 Area = area
-            });
+            };
+
+            ItemLog[processId].Add(newLogEntry);
+
+            _log.Info($"Added item to log: {newLogEntry.Text}");
         }
 
         public static bool CheckInventoryItem(UnitItem item, int processId) =>
             MapAssistConfiguration.Loaded.ItemLog.CheckItemOnIdentify &&
-            item.IsIdentified && item.IsPlayerOwned && !item.IsInSocket &&
+            item.IsIdentified && item.IsPlayerOwned && item.IsInInventory &&
             !InventoryItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
         public static bool CheckDroppedItem(UnitItem item, int processId) =>
@@ -96,7 +105,7 @@ namespace MapAssist.Types
 
             if (rule == null) return itemPrefix + itemBaseName;
 
-            if ((item.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL)
+            if (item.IsEthereal)
             {
                 itemPrefix += "[Eth] ";
             }
@@ -418,27 +427,29 @@ namespace MapAssist.Types
 
             return prop.ToString();
         }
-        
+
         public static int? GetQualityLevel(UnitItem item)
-        { 
+        {
             string itemCode;
             if (!_ItemCodes.TryGetValue(item.TxtFileNo, out itemCode))
             {
                 return null;
             }
-            
+
             string namedCode;
             switch (item.ItemData.ItemQuality)
             {
                 case ItemQuality.UNIQUE:
-                    if(_UniqueFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Unique") {
+                    if (_UniqueFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Unique")
+                    {
                         itemCode = namedCode;
                     }
 
                     break;
 
                 case ItemQuality.SET:
-                    if(_SetFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Set") {
+                    if (_SetFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Set")
+                    {
                         itemCode = namedCode;
                     }
                     break;
@@ -451,48 +462,6 @@ namespace MapAssist.Types
             }
 
             return qualityLevel.qlvl;
-        }
-
-        public static Color GetItemBaseColor(UnitItem unit)
-        {
-            Color fontColor;
-            if (unit == null || !ItemColors.TryGetValue(unit.ItemData.ItemQuality, out fontColor))
-            {
-                // Invalid item quality
-                return Color.Empty;
-            }
-
-            var isEth = (unit.ItemData.ItemFlags & ItemFlags.IFLAG_ETHEREAL) == ItemFlags.IFLAG_ETHEREAL;
-            if (isEth && fontColor == Color.White)
-            {
-                return ItemColors[ItemQuality.SUPERIOR];
-            }
-
-            if (unit.Stats.ContainsKey(Stats.Stat.NumSockets) && fontColor == Color.White)
-            {
-                return ItemColors[ItemQuality.SUPERIOR];
-            }
-
-            if (unit.TxtFileNo >= 610 && unit.TxtFileNo <= 642)
-            {
-                // Runes
-                return ItemColors[ItemQuality.CRAFT];
-            }
-
-            switch (unit.TxtFileNo)
-            {
-                case 647: // Key of Terror
-                case 648: // Key of Hate
-                case 649: // Key of Destruction
-                case 653: // Token of Absolution
-                case 654: // Twisted Essence of Suffering
-                case 655: // Charged Essense of Hatred
-                case 656: // Burning Essence of Terror
-                case 657: // Festering Essence of Destruction
-                    return ItemColors[ItemQuality.CRAFT];
-            }
-
-            return fontColor;
         }
 
         public static ItemTier GetItemTier(UnitItem item)
@@ -508,12 +477,14 @@ namespace MapAssist.Types
             var itemClass = itemClasses.First();
             if (itemClass.Key == Item.ClassCirclets) return ItemTier.NotApplicable;
 
-            return (ItemTier)(Array.IndexOf(itemClass.Value, item) * 3 / itemClass.Value.Length); // All items with each class (except circlets) come in equal amounts within each tier
+            return (ItemTier)(Array.IndexOf(itemClass.Value, item) * 3 / itemClass.Value.Length); // All items within each class (except circlets) come in equal amounts within each tier
         }
 
         public static int GetItemStat(UnitItem item, Stats.Stat stat)
         {
-            return item.Stats.TryGetValue(stat, out var statValue) ? statValue : 0;
+            return item.Stats.TryGetValue(stat, out var statValue) ? statValue :
+                item.StatsAdded != null && item.StatsAdded.TryGetValue(stat, out var statAddedValue) ? statAddedValue :
+                item.StaffMods != null && item.StaffMods.TryGetValue(stat, out var staffModValue) ? staffModValue : 0;
         }
 
         public static int GetItemStatShifted(UnitItem item, Stats.Stat stat)
@@ -696,18 +667,6 @@ namespace MapAssist.Types
             }
             return (0, 0, 0);
         }
-
-        public static readonly Dictionary<ItemQuality, Color> ItemColors = new Dictionary<ItemQuality, Color>()
-        {
-            {ItemQuality.INFERIOR, Color.White},
-            {ItemQuality.NORMAL, Color.White},
-            {ItemQuality.SUPERIOR, Color.Gray},
-            {ItemQuality.MAGIC, ColorTranslator.FromHtml("#4169E1")},
-            {ItemQuality.SET, ColorTranslator.FromHtml("#00FF00")},
-            {ItemQuality.RARE, ColorTranslator.FromHtml("#FFFF00")},
-            {ItemQuality.UNIQUE, ColorTranslator.FromHtml("#A59263")},
-            {ItemQuality.CRAFT, ColorTranslator.FromHtml("#FFAE00")},
-        };
 
         public static readonly Dictionary<uint, string> _SetFromId = new Dictionary<uint, string>()
         {
@@ -2419,7 +2378,6 @@ namespace MapAssist.Types
     public class ItemLogEntry
     {
         public string Text => Items.ItemLogDisplayName(UnitItem, Rule);
-        public Color Color { get; set; }
         public DateTime LogDate { get; private set; } = DateTime.Now;
         public bool ItemLogExpired => DateTime.Now.Subtract(LogDate).TotalSeconds > MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds;
         public string ItemHashString { get; set; }
@@ -2481,7 +2439,7 @@ namespace MapAssist.Types
         SET = 0x05, //0x05 Set
         RARE = 0x06, //0x06 Rare
         UNIQUE = 0x07, //0x07 Unique
-        CRAFT = 0x08, //0x08 Crafted
+        CRAFTED = 0x08, //0x08 Crafted
         TEMPERED = 0x09 //0x09 Tempered
     }
 

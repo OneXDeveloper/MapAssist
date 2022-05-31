@@ -21,7 +21,6 @@ namespace MapAssist.Helpers
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         public GameData _gameData;
         public AreaData _areaData;
-        private IReadOnlyList<PointOfInterest> _pointsOfInterest;
         private int _frameCount = 0;
         private ExocetFont _exocetFont;
         private FormalFont _formalFont;
@@ -45,7 +44,7 @@ namespace MapAssist.Helpers
             _formalFont = new FormalFont();
         }
 
-        public void SetArea(AreaData areaData, IReadOnlyList<PointOfInterest> pointsOfInterest)
+        public void SetArea(AreaData areaData)
         {
             _areaData = areaData;
             if (_areaData == null) return;
@@ -56,8 +55,6 @@ namespace MapAssist.Helpers
             {
                 adjacentArea.CalcViewAreas(_rotateRadians);
             }
-
-            _pointsOfInterest = pointsOfInterest;
 
             gamemaps = new HashSet<(Bitmap, Point)>();
         }
@@ -198,74 +195,87 @@ namespace MapAssist.Helpers
             var drawPoiIcons = new List<(IconRendering, Point)>();
             var drawPoiLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
-            foreach (var poi in _pointsOfInterest)
-            {
-                if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
-                {
-                    continue;
-                }
+            var drawnPreviousNextAreas = new List<Point>();
 
-                if (poi.RenderingSettings.CanDrawIcon())
-                {
-                    drawPoiIcons.Add((poi.RenderingSettings, poi.Position));
-                }
+            var areasToRender = new AreaData[] { _areaData };
+            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            {
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
             }
 
-            foreach (var poi in _pointsOfInterest)
+            foreach (var area in areasToRender)
             {
-                if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint, PoiType.AreaPortal }).Contains(poi.Type))
-                {
-                    continue;
-                }
+                if (area.PointsOfInterest == null) continue;
 
-                if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !_areaData.Area.IsTown())
+                foreach (var poi in area.PointsOfInterest)
                 {
-                    var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
-                    var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
-                    var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
-                    DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
-                }
+                    if ((new PoiType[] { PoiType.PreviousArea, PoiType.NextArea }).Contains(poi.Type))
+                    {
+                        if (drawnPreviousNextAreas.Exists(x => x.Subtract(poi.Position).Length() < 5))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            drawnPreviousNextAreas.Add(poi.Position);
+                        }
+                    }
 
-                if (!string.IsNullOrWhiteSpace(poi.Label) && poi.Type != PoiType.Shrine)
-                {
                     if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                     {
                         continue;
                     }
 
-                    if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
+                    if (poi.RenderingSettings.CanDrawIcon())
                     {
-                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
-                        drawPoiLabels.Add((poi.RenderingSettings, poiPosition, poi.Label, null));
+                        drawPoiIcons.Add((poi.RenderingSettings, poi.Position));
                     }
-                    else if (poi.RenderingSettings.CanDrawLabel())
+                }
+
+                foreach (var poi in area.PointsOfInterest)
+                {
+                    if (poi.Area != _areaData.Area && (new PoiType[] { PoiType.PreviousArea, PoiType.NextArea, PoiType.Quest, PoiType.Waypoint, PoiType.AreaPortal }).Contains(poi.Type))
                     {
-                        drawPoiLabels.Add((poi.RenderingSettings, poi.Position, poi.Label, null));
+                        continue;
+                    }
+
+                    if (CanDrawMapLines(MapLinesMode.PVE) && poi.RenderingSettings.CanDrawLine() && !area.Area.IsTown() && poi.Area == _areaData.Area)
+                    {
+                        var fontSize = gfx.ScaleFontSize((float)poi.RenderingSettings.LabelFontSize);
+                        var padding = poi.RenderingSettings.CanDrawLabel() ? fontSize * 1.3f / 2 : 0; // 1.3f is the line height adjustment
+                        var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition, padding);
+                        DrawLine(gfx, poi.RenderingSettings, _gameData.PlayerPosition, poiPosition);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(poi.Label))
+                    {
+                        if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
+                        {
+                            continue;
+                        }
+
+                        if (poi.Type == PoiType.Shrine && !IsInBounds(poi.Position, _gameData.PlayerPosition))
+                        {
+                            continue;
+                        }
+
+                        if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
+                        {
+                            var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
+                            drawPoiLabels.Add((poi.RenderingSettings, poiPosition, poi.Label, null));
+                        }
+                        else if (poi.RenderingSettings.CanDrawLabel())
+                        {
+                            drawPoiLabels.Add((poi.RenderingSettings, poi.Position, poi.Label, null));
+                        }
                     }
                 }
             }
 
-            var areasToRender = (new AreaData[] { _areaData }).Concat(_areaData.AdjacentAreas.Values).ToArray();
             foreach (var gameObject in _gameData.Objects)
             {
                 var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(gameObject.Position));
                 if (foundInArea != null && foundInArea.Area != _areaData.Area && !AreaExtensions.RequiresStitching(foundInArea.Area)) continue; // Don't show gamedata objects in another area if areas aren't stitched together
-
-                if (gameObject.IsShrine || gameObject.IsWell)
-                {
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawIcon())
-                    {
-                        drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position));
-                    }
-
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawLabel())
-                    {
-                        var label = Shrine.ShrineDisplayName(gameObject);
-                        drawPoiLabels.Add((MapAssistConfiguration.Loaded.MapConfiguration.Shrine, gameObject.Position, label, null));
-                    }
-
-                    continue;
-                }
 
                 if (gameObject.IsPortal)
                 {
@@ -716,10 +726,10 @@ namespace MapAssist.Helpers
             var buffsByColor = new Dictionary<Color, List<Bitmap>>();
             var totalBuffs = 0;
 
-            buffsByColor.Add(States.DebuffColor, new List<Bitmap>());
-            buffsByColor.Add(States.PassiveColor, new List<Bitmap>());
-            buffsByColor.Add(States.AuraColor, new List<Bitmap>());
-            buffsByColor.Add(States.BuffColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarBuffs) buffsByColor.Add(States.BuffColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarAuras) buffsByColor.Add(States.AuraColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarPassives) buffsByColor.Add(States.PassiveColor, new List<Bitmap>());
+            if (MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarDebuffs) buffsByColor.Add(States.DebuffColor, new List<Bitmap>());
 
             var alertLoweredRes = false;
 
@@ -780,14 +790,14 @@ namespace MapAssist.Helpers
 
             if (buffImageScale > 0)
             {
-                var buffIndex = 1;
+                var buffIndex = 0;
                 foreach (var buff in buffsByColor)
                 {
                     for (var i = 0; i < buff.Value.Count; i++)
                     {
                         var buffImg = buff.Value[i];
                         var buffColor = buff.Key;
-                        var drawPoint = new Point((gfx.Width / 2f) - (buffIndex * imgDimensions) - (buffIndex * buffImageScale) - (totalBuffs * buffImageScale / 2f) + (totalBuffs * imgDimensions / 2f) + (totalBuffs * buffImageScale), buffYPos);
+                        var drawPoint = new Point((gfx.Width / 2f) - (totalBuffs * imgDimensions / 2f) + (buffIndex * imgDimensions), buffYPos);
                         DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
 
                         var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
@@ -839,72 +849,66 @@ namespace MapAssist.Helpers
         {
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar) return;
 
-            Func<(UnitMonster, string)> getActiveMonster = () =>
+            var areasToRender = new AreaData[] { _areaData };
+            if (AreaExtensions.RequiresStitching(_areaData.Area))
             {
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+            }
+
+            (UnitMonster, string)[] getActiveMonsters()
+            {
+                var areaMonsters = _gameData.Monsters.Where(x => areasToRender.Any(y => y.IncludesPoint(x.Position))).ToArray();
                 var hoveredUnit = _gameData.Monsters.Where(x => x.IsHovered).ToArray();
 
-                var boss = _gameData.Monsters.FirstOrDefault(x => NPC.Bosses.Contains(x.Npc));
-                if (boss != null && (boss.IsHovered || hoveredUnit.Count() == 0)) return (boss, NpcExtensions.Name(boss.Npc));
+                var bosses = areaMonsters.Where(x => NPC.Bosses.Contains(x.Npc) && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.Name(x.Npc))).ToArray();
+                if (bosses.Count() > 0) return bosses;
 
-                var monstersAround = new List<(UnitMonster, string)>();
+                var superUniques = areaMonsters.Where(x => x.IsSuperUnique && (x.IsHovered || hoveredUnit.Count() == 0)).Select(x => (x, NpcExtensions.LocalizedName(x.SuperUniqueName))).ToArray();
+                if (superUniques.Count() > 0) return superUniques;
 
-                foreach (var monster in _gameData.Monsters)
-                {
-                    var monsterClass = Encoding.UTF8.GetString(monster.MonsterStats.Name).TrimEnd((char)0);
-                    var monsterName = NPC.SuperUniques.Where(x => x.Value == monsterClass).ToArray();
-
-                    if (monsterName.Length == 1 && (monster.MonsterData.BossLineID > 0 || monster.Npc == Npc.Summoner)) // Summoner seems to be an odd exception
-                    {
-                        monstersAround.Add((monster, NpcExtensions.LocalizedName(monsterName[0].Key)));
-                    }
-                }
-
-                if (monstersAround.Count == 1 && hoveredUnit.Count() == 0) return monstersAround[0];
-                else if (monstersAround.Count == 0) return (null, null);
-
-                var hoveredMonster = monstersAround.Where(x => x.Item1.IsHovered).ToArray();
-                if (hoveredMonster.Length == 1) return hoveredMonster[0];
-
-                return (null, null);
+                return new (UnitMonster, string)[] { };
             };
 
-            var (activeMonster, name) = getActiveMonster();
-            if (activeMonster == null) return;
+            var activeMonsters = getActiveMonsters();
+            if (activeMonsters.Length == 0) return;
 
-            // Health
-            var healthPerc = activeMonster.HealthPercentage;
-            var infoText = $"{name} HP: {healthPerc:P}";
-
-            var barWidth = gfx.Width * 0.3f;
-            var barHeight = gfx.Height * 0.04f;
-            var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
-
-            var fontSize = barHeight / 2f;
-            var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
-            var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
-            var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
-
-            var center = new Point(gfx.Width / 2, gfx.Height * 0.043f);
-            var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
-            var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
-
-            gfx.FillRectangle(lightFillBrush, barRect);
-            gfx.FillRectangle(darkFillBrush, fillRect);
-            gfx.DrawRectangle(blackBrush, barRect, 2);
-
-            var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
-
-            DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
-
-            // Immunities
-            var immunityFontSize = gfx.ScaleFontSize(14);
-            var immunitiesDistanceBetween = gfx.ScaleFontSize(10);
-            var immunitiesWidth = activeMonster.Immunities.Select(x => gfx.MeasureString(CreateFont(gfx, font, immunityFontSize), x.ToString()).X).ToArray();
-            var immunitiesTotalWidth = immunitiesWidth.Sum() + immunitiesDistanceBetween * (activeMonster.Immunities.Count() - 1);
-
-            foreach (var (i, immunity) in activeMonster.Immunities.Select((x, i) => (i, x)))
+            foreach (var (i, (activeMonster, name)) in activeMonsters.Select((value, i) => (i, value)))
             {
-                DrawText(gfx, new Point(gfx.Width / 2 - immunitiesTotalWidth / 2 + immunitiesWidth.Take(i).Sum() + immunitiesWidth[i] / 2 + i * immunitiesDistanceBetween, gfx.Height * 0.053f), immunity.ToString(), font, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+                // Health
+                var healthPerc = activeMonster.HealthPercentage;
+                var infoText = $"{name} HP: {healthPerc:P}";
+
+                var barWidth = gfx.Width * 0.3f;
+                var barHeight = gfx.Height * 0.04f;
+                var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
+
+                var fontSize = barHeight / 2f;
+                var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
+                var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
+                var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
+
+                var center = new Point(gfx.Width / 2, gfx.Height * (0.043f + i * 0.05f));
+                var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
+                var fillRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X - barWidth / 2 + barWidth * healthPerc, center.Y + barHeight / 2);
+
+                gfx.FillRectangle(lightFillBrush, barRect);
+                gfx.FillRectangle(darkFillBrush, fillRect);
+                gfx.DrawRectangle(blackBrush, barRect, 2);
+
+                var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
+
+                DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
+
+                // Immunities
+                var immunityFontSize = gfx.ScaleFontSize(14);
+                var immunitiesDistanceBetween = gfx.ScaleFontSize(10);
+                var immunitiesWidth = activeMonster.Immunities.Select(x => gfx.MeasureString(CreateFont(gfx, font, immunityFontSize), x.ToString()).X).ToArray();
+                var immunitiesTotalWidth = immunitiesWidth.Sum() + immunitiesDistanceBetween * (activeMonster.Immunities.Count() - 1);
+
+                foreach (var (j, immunity) in activeMonster.Immunities.Select((x, j) => (j, x)))
+                {
+                    DrawText(gfx, new Point(gfx.Width / 2 - immunitiesTotalWidth / 2 + immunitiesWidth.Take(j).Sum() + immunitiesWidth[j] / 2 + j * immunitiesDistanceBetween, center.Y + gfx.Height * 0.01f), immunity.ToString(), font, immunityFontSize, ResistColors.ResistColor[immunity], true, TextAlign.Center, 0.8f);
+                }
             }
         }
 
@@ -912,7 +916,7 @@ namespace MapAssist.Helpers
                     DrawGraphicsEventArgs e, bool errorLoadingAreaData)
         {
             var isTopLeft = MapAssistConfiguration.Loaded.GameInfo.Position == GameInfoPosition.TopLeft;
-            if ((_gameData.MenuPanelOpen & (isTopLeft ? 0x2 : 0x1)) > 0)
+            if (isTopLeft ? _gameData.MenuOpen.IsLeftMenuOpen() : _gameData.MenuOpen.IsRightMenuOpen())
             {
                 return anchor;
             }
@@ -1007,7 +1011,7 @@ namespace MapAssist.Helpers
         public void DrawItemLog(Graphics gfx, Point anchor)
         {
             var isTopLeft = MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopLeft;
-            if ((_gameData.MenuPanelOpen & (isTopLeft ? 0x2 : 0x1)) > 0)
+            if (isTopLeft ? _gameData.MenuOpen.IsLeftMenuOpen() : _gameData.MenuOpen.IsRightMenuOpen())
             {
                 return;
             }
@@ -1020,14 +1024,14 @@ namespace MapAssist.Helpers
             var shadowOffset = fontSize * 0.0625f; // 1/16th
 
             // Item Log
-            var itemsToShow = _gameData.ItemLog.Where(item => item != null && !item.ItemLogExpired && item.Color != Color.Empty).ToArray();
+            var itemsToShow = _gameData.ItemLog.Where(item => item != null && !item.ItemLogExpired && item.UnitItem.ItemBaseColor != Color.Empty).ToArray();
             for (var i = 0; i < itemsToShow.Length; i++)
             {
                 var item = itemsToShow[i];
 
                 var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
                 var position = anchor.Add(0, i * lineHeight);
-                var brush = CreateSolidBrush(gfx, item.Color, 1);
+                var brush = CreateSolidBrush(gfx, item.UnitItem.ItemBaseColor, 1);
                 var stringSize = gfx.MeasureString(font, item.Text);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
@@ -1082,7 +1086,7 @@ namespace MapAssist.Helpers
 
                     var rendering = new PointOfInterestRendering()
                     {
-                        LineColor = item.Color,
+                        LineColor = item.UnitItem.ItemBaseColor,
                         LineThickness = 2,
                         ArrowHeadSize = 8
                     };
@@ -1215,7 +1219,7 @@ namespace MapAssist.Helpers
                 anchor.X + bitmapDX.Size.Width * size,
                 anchor.Y + bitmapDX.Size.Height * size);
 
-            renderTarget.DrawBitmap(bitmapDX, destRect, opacity, BitmapInterpolationMode.Linear, sourceRect);
+            renderTarget.DrawBitmap(bitmapDX, destRect, opacity, BitmapInterpolationMode.NearestNeighbor, sourceRect);
         }
 
         private void DrawIcon(Graphics gfx, IconRendering rendering, Point position,
@@ -1498,6 +1502,12 @@ namespace MapAssist.Helpers
                 case MonsterTypeFlags.Unique: return MapAssistConfiguration.Loaded.MapConfiguration.UniqueMonster;
             }
             return MapAssistConfiguration.Loaded.MapConfiguration.NormalMonster;
+        }
+
+        private bool IsInBounds(Point point, Point origin,
+            float padding = 0)
+        {
+            return point == MovePointInBounds(point, origin, padding);
         }
 
         private Point MovePointInBounds(Point point, Point origin,

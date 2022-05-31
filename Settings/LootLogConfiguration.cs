@@ -9,11 +9,15 @@ namespace MapAssist.Settings
 {
     public class LootLogConfiguration
     {
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
         public static Dictionary<Item, List<ItemFilter>> Filters { get; set; }
 
         public static void Load()
         {
             Filters = ConfigurationParser<Dictionary<Item, List<ItemFilter>>>.ParseConfigurationFile($"./{MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
+
+            _log.Info($"Parsed {Filters.Count()} item filter entries in {MapAssistConfiguration.Loaded.ItemLog.FilterFileName}");
 
             for (var itemClass = Item.ClassAxes; ; itemClass += 1)
             {
@@ -47,19 +51,10 @@ namespace MapAssist.Settings
                 }
                 else
                 {
-                    foreach (var rule in Filters[itemClass])
+                    foreach (var rule in Filters[itemClass].ToArray())
                     {
                         assignRule(rule);
                     }
-                }
-            }
-
-            // Validation for Enhanced Damage
-            foreach (var item in Filters.Where(kv => kv.Value != null && kv.Value.Exists(x => x.EnhancedDamage != null)))
-            {
-                if (item.Key != Item.Any && item.Key != Item.Jewel && item.Key != Item.ClassPaladinShields && Items.ItemClasses.FirstOrDefault(x => x.Value.Contains(item.Key)).Key != Item.ClassPaladinShields)
-                {
-                    throw new Exception($"Enhanced Damage was found on an ItemFilter rule for {item.Key}.\n\nIt is currently supported for Jewels and Paladin Shields.");
                 }
             }
         }
@@ -240,6 +235,9 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "Enhanced Damage")]
         public int? EnhancedDamage { get; set; }
 
+        [YamlMember(Alias = "Enhanced Defense")]
+        public int? EnhancedDefense { get; set; }
+
         [YamlMember(Alias = "Min Area Level")]
         public int? MinAreaLevel { get; set; }
 
@@ -257,32 +255,27 @@ namespace MapAssist.Settings
 
         [YamlMember(Alias = "Max Quality Level")]
         public int? MaxQualityLevel { get; set; }
-    }
 
-    public static class ItemFilterExtensions
-    {
-        public static bool TargetsUnidItem(this ItemFilter rule)
+        public bool TargetsUnidItem()
         {
-            if (rule == null) return true;
-
-            foreach (var property in rule.GetType().GetProperties())
+            foreach (var property in GetType().GetProperties())
             {
                 if (property.Name == "Defense") continue;
 
                 var propType = property.PropertyType;
                 if (propType == typeof(object)) continue;
 
-                var propertyValue = rule.GetType().GetProperty(property.Name).GetValue(rule, null);
-                if (propertyValue != null && propType == typeof(int?) && (int)propertyValue > 0)
+                var propertyValue = GetType().GetProperty(property.Name).GetValue(this, null);
+                if (propertyValue != null && propType == typeof(int?) && (int)propertyValue != 0)
                 {
                     return false;
                 }
             }
 
-            if (rule.Skills.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.SkillCharges.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.ClassSkills.Where(subrule => subrule.Value != null).Count() > 0) return false;
-            if (rule.SkillTrees.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (Skills.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (SkillCharges.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (ClassSkills.Where(subrule => subrule.Value != null).Count() > 0) return false;
+            if (SkillTrees.Where(subrule => subrule.Value != null).Count() > 0) return false;
 
             return true;
         }

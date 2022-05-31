@@ -14,6 +14,7 @@ namespace MapAssist.Types
         public string baseName { get; set; }
         public string quality { get; set; }
         public string fullName { get; set; }
+        public string runeWord { get; set; }
         public bool ethereal { get; set; }
         public bool identified { get; set; }
         public int numSockets { get; set; }

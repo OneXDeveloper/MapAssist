@@ -28,8 +28,7 @@ namespace MapAssist.Helpers
         private const string _procName = "MAServer.exe";
 
         private readonly ConcurrentDictionary<Area, AreaData> _cache;
-        private Difficulty _difficulty;
-        private uint _mapSeed;
+        private GameData _gameData;
 
         private static int trailingSlash = -1; // -1 = Still trying to figure out, 0 = remove trailing slash, 1 = required trailing slash
         private static int trailingSlashTry = 0; // Which trailing slash preference to try
@@ -91,60 +90,57 @@ namespace MapAssist.Helpers
 
         private static string FindD2LoD()
         {
-            var providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
-            if (!string.IsNullOrEmpty(providedPath))
+            while (true)
             {
-                if (!File.GetAttributes($@"{providedPath}").HasFlag(FileAttributes.Directory))
+                var providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
+                if (!string.IsNullOrEmpty(providedPath))
                 {
-                    MessageBox.Show("Provided D2 LoD path is not set to a directory." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
+                    if (IsValidD2LoDPath(providedPath))
+                    {
+                        _log.Info("User provided D2 LoD path is valid");
+                        return providedPath;
+                    }
+                    else
+                    {
+                        _log.Info("User provided D2 LoD path not found or invalid");
+                        var diabloResult = MessageBox.Show("Provided D2 LoD path is not valid." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist", MessageBoxButtons.OKCancel);
 
-                    var config1 = new ConfigEditor();
-                    config1.ShowDialog();
+                        if (diabloResult == DialogResult.Cancel)
+                        {
+                            Environment.Exit(0);
+                        }
 
-                    providedPath = MapAssistConfiguration.Loaded.D2LoDPath;
+                        var config = new ConfigEditor();
+                        config.ShowDialog();
+
+                        continue;
+                    }
                 }
 
-                if (IsValidD2LoDPath(providedPath))
+                var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
+                if (installPath == "INVALID" || !IsValidD2LoDPath(installPath))
                 {
-                    _log.Info("User provided D2 LoD path is valid");
-                    return providedPath;
+                    _log.Info("Registry provided D2 LoD path not found or invalid");
+                    MessageBox.Show("Unable to automatically locate D2 LoD installation." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
+
+                    var config = new ConfigEditor();
+                    config.ShowDialog();
+
+                    continue;
                 }
 
-                _log.Info("User provided D2 LoD path is invalid");
-                MessageBox.Show("Provided path is either not a valid D2 LoD path or not the correct version.", "MapAssist");
-                Environment.Exit(0);
+                _log.Info("Registry provided D2 LoD path is valid");
+                return installPath;
             }
-
-            var installPath = Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Blizzard Entertainment\\Diablo II", "InstallPath", "INVALID") as string;
-            if (installPath == "INVALID" || !IsValidD2LoDPath(installPath))
-            {
-                _log.Info("Registry-provided D2 LoD path not found or invalid");
-                MessageBox.Show("Unable to automatically locate D2 LoD installation." + Environment.NewLine + Environment.NewLine + "Please provide a path to a D2 LoD 1.13c installation.", "MapAssist");
-
-                var config = new ConfigEditor();
-                config.ShowDialog();
-
-                installPath = MapAssistConfiguration.Loaded.D2LoDPath;
-
-                if (!string.IsNullOrEmpty(installPath) && File.GetAttributes($@"{installPath}").HasFlag(FileAttributes.Directory) && IsValidD2LoDPath(installPath))
-                {
-                    _log.Info("User provided D2 LoD path is valid");
-                    return installPath;
-                }
-
-                _log.Info("User provided D2 LoD path is invalid");
-                MessageBox.Show("Provided path is either not a valid D2 LoD path or not the correct version.", "MapAssist");
-                Environment.Exit(0);
-            }
-
-            _log.Info("Registry-provided D2 LoD path is valid");
-            return installPath;
         }
 
         private static bool IsValidD2LoDPath(string path)
         {
             try
             {
+                if (string.IsNullOrEmpty(path)) return false;
+                if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory)) return false;
+
                 var gamePath = Path.Combine(path, "game.exe");
                 if (File.Exists(gamePath))
                 {
@@ -304,10 +300,9 @@ namespace MapAssist.Helpers
             return (length, json);
         }
 
-        public MapApi(Difficulty difficulty, uint mapSeed)
+        public MapApi(GameData gameData)
         {
-            _difficulty = difficulty;
-            _mapSeed = mapSeed;
+            _gameData = gameData;
 
             // Cache for pre-fetching maps for the surrounding areas.
             _cache = new ConcurrentDictionary<Area, AreaData>();
@@ -317,9 +312,7 @@ namespace MapAssist.Helpers
         {
             if (!_cache.TryGetValue(area, out AreaData areaData))
             {
-                _log.Info($"Requesting map data for {area} ({_mapSeed} seed, {_difficulty} difficulty)");
                 areaData = GetMapDataInternal(area);
-                _cache[area] = areaData;
             }
             else
             {
@@ -341,9 +334,7 @@ namespace MapAssist.Helpers
                     {
                         if (!_cache.TryGetValue(adjacentArea, out AreaData adjAreaData))
                         {
-                            _log.Info($"Requesting map data for {adjacentArea} ({_mapSeed} seed, {_difficulty} difficulty)");
-                            _cache[adjacentArea] = GetMapDataInternal(adjacentArea);
-                            areaData.AdjacentAreas[adjacentArea] = _cache[adjacentArea];
+                            areaData.AdjacentAreas[adjacentArea] = GetMapDataInternal(adjacentArea);
                         }
                         else
                         {
@@ -391,16 +382,16 @@ namespace MapAssist.Helpers
 
                 case Area.OuterCloister:
                     return new Area[] {
-                        Area.BlackMarsh,
-                        Area.TamoeHighland,
                         Area.Barracks, // Missing adjacent area
+                        Area.TamoeHighland,
+                        Area.BlackMarsh,
                     };
 
                 case Area.Barracks:
                     return new Area[] {
-                        Area.TamoeHighland,
-                        Area.MonasteryGate,
                         Area.OuterCloister, // Missing adjacent area
+                        Area.MonasteryGate,
+                        Area.TamoeHighland,
                     };
 
                 case Area.InnerCloister:
@@ -466,9 +457,11 @@ namespace MapAssist.Helpers
 
         private AreaData GetMapDataInternal(Area area)
         {
+            _log.Info($"Requesting map data for {area} ({_gameData.MapSeed} seed, {_gameData.Difficulty} difficulty)");
+
             var req = new Req();
-            req.seed = _mapSeed;
-            req.difficulty = (uint)_difficulty;
+            req.seed = _gameData.MapSeed;
+            req.difficulty = (uint)_gameData.Difficulty;
             req.levelId = (uint)area;
 
             lock (_pipeRequestLock)
@@ -492,7 +485,14 @@ namespace MapAssist.Helpers
                 if (json == null) return null;
 
                 var rawAreaData = JsonConvert.DeserializeObject<RawAreaData>(json);
-                return rawAreaData.ToInternal(area);
+                var areaData = rawAreaData.ToInternal(area);
+                _cache[area] = areaData;
+                _log.Info($"Loaded data for {areaData.Area}");
+
+                areaData.PointsOfInterest = PointOfInterestHandler.Get(this, areaData, _gameData);
+                _log.Info($"Found {areaData.PointsOfInterest.Count} points of interest in {areaData.Area}");
+
+                return areaData;
             }
         }
 

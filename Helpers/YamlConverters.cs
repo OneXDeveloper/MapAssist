@@ -29,6 +29,27 @@ namespace MapAssist.Helpers
         }
     }
 
+    internal sealed class ColorConfigurationTypeConverter : IYamlTypeConverter
+    {
+        public bool Accepts(Type type)
+        {
+            return type == typeof(Color) || type == typeof(Color?);
+        }
+
+        public object ReadYaml(IParser parser, Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            if (value != null)
+            {
+                emitter.Emit(new Scalar(null, Helpers.GetColorName((Color)value)));
+            }
+        }
+    }
+
     internal sealed class MapColorConfigurationTypeConverter : IYamlTypeConverter
     {
         public bool Accepts(Type type)
@@ -48,15 +69,13 @@ namespace MapAssist.Helpers
             var node = (MapColorConfiguration)value;
             if (node.Walkable != null)
             {
-                var col = (Color)node.Walkable;
                 emitter.Emit(new Scalar(null, "Walkable"));
-                emitter.Emit(new Scalar(null, col.R + ", " + col.G + ", " + col.B));
+                emitter.Emit(new Scalar(null, Helpers.GetColorName((Color)node.Walkable)));
             }
             if (node.Border != null)
             {
-                var col = (Color)node.Border;
                 emitter.Emit(new Scalar(null, "Border"));
-                emitter.Emit(new Scalar(null, col.R + ", " + col.G + ", " + col.B));
+                emitter.Emit(new Scalar(null, Helpers.GetColorName((Color)node.Border)));
             }
 
             emitter.Emit(new MappingEnd());

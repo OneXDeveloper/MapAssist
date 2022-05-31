@@ -27,12 +27,12 @@ namespace MapAssist.Helpers
         private static IntPtr _UnitHashTableOffset;
         private static IntPtr _ExpansionCheckOffset;
         private static IntPtr _GameNameOffset;
-        private static IntPtr _MenuPanelOpenOffset;
         private static IntPtr _MenuDataOffset;
         private static IntPtr _MapSeedOffset;
         private static IntPtr _RosterDataOffset;
         private static IntPtr _InteractedNpcOffset;
         private static IntPtr _LastHoverDataOffset;
+        private static IntPtr _PetsOffsetOffset;
 
         private static WindowsExternal.WinEventDelegate _eventDelegate = null;
 
@@ -125,12 +125,12 @@ namespace MapAssist.Helpers
             _UnitHashTableOffset = IntPtr.Zero;
             _ExpansionCheckOffset = IntPtr.Zero;
             _GameNameOffset = IntPtr.Zero;
-            _MenuPanelOpenOffset = IntPtr.Zero;
             _MenuDataOffset = IntPtr.Zero;
             _MapSeedOffset = IntPtr.Zero;
             _RosterDataOffset = IntPtr.Zero;
             _InteractedNpcOffset = IntPtr.Zero;
             _LastHoverDataOffset = IntPtr.Zero;
+            _PetsOffsetOffset = IntPtr.Zero;
 
             _lastGameHwnd = hwnd;
             _lastGameProcess = process;
@@ -213,21 +213,6 @@ namespace MapAssist.Helpers
             }
         }
 
-        public static IntPtr MenuOpenOffset
-        {
-            get
-            {
-                if (_MenuPanelOpenOffset != IntPtr.Zero)
-                {
-                    return _MenuPanelOpenOffset;
-                }
-
-                PopulateMissingOffsets();
-
-                return _MenuPanelOpenOffset;
-            }
-        }
-
         public static IntPtr MenuDataOffset
         {
             get
@@ -303,6 +288,21 @@ namespace MapAssist.Helpers
             }
         }
 
+        public static IntPtr PetsOffset
+        {
+            get
+            {
+                if (_PetsOffsetOffset != IntPtr.Zero)
+                {
+                    return _PetsOffsetOffset;
+                }
+
+                PopulateMissingOffsets();
+
+                return _PetsOffsetOffset;
+            }
+        }
+
         private static void PopulateMissingOffsets()
         {
             // The fact we are here means we are missing some offset,
@@ -327,12 +327,6 @@ namespace MapAssist.Helpers
                 {
                     _GameNameOffset = processContext.GetGameNameOffset(buffer);
                     _log.Info($"Found offset {nameof(_GameNameOffset)} 0x{_GameNameOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
-                }
-
-                if (_MenuPanelOpenOffset == IntPtr.Zero)
-                {
-                    _MenuPanelOpenOffset = processContext.GetMenuOpenOffset(buffer);
-                    _log.Info($"Found offset {nameof(_MenuPanelOpenOffset)} 0x{_MenuPanelOpenOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
                 }
 
                 if (_MenuDataOffset == IntPtr.Zero)
@@ -363,6 +357,12 @@ namespace MapAssist.Helpers
                 {
                     _InteractedNpcOffset = processContext.GetInteractedNpcOffset(buffer);
                     _log.Info($"Found offset {nameof(_InteractedNpcOffset)} 0x{_InteractedNpcOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
+                }
+
+                if (_PetsOffsetOffset == IntPtr.Zero)
+                {
+                    _PetsOffsetOffset = processContext.GetPetsOffset(buffer);
+                    _log.Info($"Found offset {nameof(_PetsOffsetOffset)} 0x{_PetsOffsetOffset.ToInt64() - processContext.BaseAddr.ToInt64():X}");
                 }
             }
         }

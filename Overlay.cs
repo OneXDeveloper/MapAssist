@@ -2,11 +2,10 @@
 using GameOverlay.Windows;
 using MapAssist.Helpers;
 using MapAssist.Settings;
+using MapAssist.Structs;
 using MapAssist.Types;
 using System;
 using System.Windows.Forms;
-
-//using WK.Libraries.HotkeyListenerNS;
 using Graphics = GameOverlay.Drawing.Graphics;
 
 namespace MapAssist
@@ -21,6 +20,7 @@ namespace MapAssist
         private Compositor _compositor = new Compositor();
         private bool _show = true;
         private static readonly object _lock = new object();
+        private bool frameDone = true;
 
         public Overlay()
         {
@@ -42,23 +42,26 @@ namespace MapAssist
         {
             if (disposed) return;
 
+            if (!frameDone) return;
+            frameDone = false;
+
             var gfx = e.Graphics;
 
             try
             {
                 lock (_lock)
                 {
-                    var (gameData, areaData, pointsOfInterest, changed) = _gameDataReader.Get();
+                    var (gameData, areaData, changed) = _gameDataReader.Get();
                     _gameData = gameData;
 
                     if (changed)
                     {
-                        _compositor.SetArea(areaData, pointsOfInterest);
+                        _compositor.SetArea(areaData);
                     }
 
                     gfx.ClearScene();
 
-                    if (_compositor != null && InGame() && _compositor != null && _gameData != null)
+                    if (_compositor != null && _gameData != null && InGame())
                     {
                         UpdateLocation();
 
@@ -69,8 +72,7 @@ namespace MapAssist
                             var overlayHidden = !_show ||
                                 errorLoadingAreaData ||
                                 (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGameMap && !_gameData.MenuOpen.Map) ||
-                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuPanelOpen > 0) ||
-                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.EscMenu) ||
+                                (MapAssistConfiguration.Loaded.RenderingConfiguration.ToggleViaInGamePanels && _gameData.MenuOpen.IsAnyMenuOpen()) ||
                                 Array.Exists(MapAssistConfiguration.Loaded.HiddenAreas, area => area == _gameData.Area) ||
                                 _gameData.Area == Area.None ||
                                 gfx.Width == 1 ||
@@ -121,6 +123,8 @@ namespace MapAssist
             {
                 _log.Error(ex);
             }
+
+            frameDone = true;
         }
 
         public void Run()
@@ -136,7 +140,7 @@ namespace MapAssist
 
         public void KeyDownHandler(object sender, KeyEventArgs args)
         {
-            if (InGame() && GameManager.IsGameInForeground)
+            if (InGame() && GameManager.IsGameInForeground && !_gameData.MenuOpen.Chat)
             {
                 var keys = new Hotkey(args.Modifiers, args.KeyCode);
 

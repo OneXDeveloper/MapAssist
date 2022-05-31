@@ -57,20 +57,26 @@ namespace MapAssist.Structs
     }
 
     [StructLayout(LayoutKind.Explicit)]
+    public readonly struct StatListStruct
+    {
+        [FieldOffset(0x1C)] public readonly uint Flags;
+        [FieldOffset(0x30)] public readonly StatArrayStruct Stats;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
     public readonly struct StatArrayStruct
     {
         [FieldOffset(0x0)] public readonly IntPtr pFirstStat;
         [FieldOffset(0x8)] public readonly ulong Size;
-        [FieldOffset(0x10)] public readonly ulong Capacity;
     }
 
     [StructLayout(LayoutKind.Explicit)]
-    public readonly struct StatListStruct
+    public readonly struct StatListExStruct
     {
-        [FieldOffset(0x8)] public readonly uint OwnerType;
-        [FieldOffset(0xC)] public readonly uint OwnerId;
-        [FieldOffset(0x1C)] public readonly uint Flags;
-        [FieldOffset(0x30)] public readonly StatArrayStruct BaseStats;
+        [FieldOffset(0x0)] public readonly StatListStruct BaseStats;
+        [FieldOffset(0x48)] public readonly IntPtr pPrevLink;
+        [FieldOffset(0x68)] public readonly IntPtr pLastList;
+        [FieldOffset(0x70)] public readonly IntPtr pMyStats;
         [FieldOffset(0x80)] public readonly StatArrayStruct Stats;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]

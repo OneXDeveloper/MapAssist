@@ -183,6 +183,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BladesOfIce {
+            get {
+                object obj = ResourceManager.GetObject("BladesOfIce", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Blaze {
             get {
                 object obj = ResourceManager.GetObject("Blaze", resourceCulture);
@@ -252,6 +262,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ClawsOfThunder {
+            get {
+                object obj = ResourceManager.GetObject("ClawsOfThunder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Cleansing {
             get {
                 object obj = ResourceManager.GetObject("Cleansing", resourceCulture);
@@ -275,6 +295,16 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap CloakOfShadows {
             get {
                 object obj = ResourceManager.GetObject("CloakOfShadows", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CobraStrike {
+            get {
+                object obj = ResourceManager.GetObject("CobraStrike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -522,6 +552,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FistsOfFire {
+            get {
+                object obj = ResourceManager.GetObject("FistsOfFire", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Frenzy {
             get {
                 object obj = ResourceManager.GetObject("Frenzy", resourceCulture);
@@ -668,21 +708,19 @@ namespace MapAssist.Properties {
         ///            font-family: Verdana;
         ///            background: black;
         ///            color: white;
+        ///            width: 100%;
+        ///            height: 100vh;
+        ///            margin: 0.5rem;
+        ///            overflow: hidden;
         ///            display: flex;
         ///            flex-direction: column;
         ///            align-items: center;
         ///        }
         ///
-        ///        #footer {
-        ///            font-size: xx-small;
+        ///        .footer {
+        ///            font-size: 0.7rem;
         ///            text-align: center;
-        ///            color: #606060;
-        ///        }
-        ///
-        ///        .header {
-        ///            margin: 2rem;
-        ///            font-size: 2rem;
-        ///      [rest of string was truncated]&quot;;.
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InventoryExportTemplate {
             get {
@@ -813,6 +851,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PhoenixStrike {
+            get {
+                object obj = ResourceManager.GetObject("PhoenixStrike", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pierce {
             get {
                 object obj = ResourceManager.GetObject("Pierce", resourceCulture);
@@ -846,66 +894,6 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap Prayer {
             get {
                 object obj = ResourceManager.GetObject("Prayer", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap BladesOfIce {
-            get {
-                object obj = ResourceManager.GetObject("BladesOfIce", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TigerStrike {
-            get {
-                object obj = ResourceManager.GetObject("TigerStrike", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap FistsOfFire {
-            get {
-                object obj = ResourceManager.GetObject("FistsOfFire", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ClawsOfThunder {
-            get {
-                object obj = ResourceManager.GetObject("ClawsOfThunder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PhoenixStrike {
-            get {
-                object obj = ResourceManager.GetObject("PhoenixStrike", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap CobraStrike {
-            get {
-                object obj = ResourceManager.GetObject("CobraStrike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1071,6 +1059,19 @@ namespace MapAssist.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Superunique	Name	Class	hcIdx	MonSound	Mod1	Mod2	Mod3	MinGrp	MaxGrp	AutoPos	Stacks	Replaceable	Utrans	Utrans(N)	Utrans(H)	TC	TC(N)	TC(H)	*eol
+        ///Bishibosh	Bishibosh	fallenshaman1	0		8	9	0	2	2	1	0		11	11	11	Act 1 Super A	Act 1 (N) Super A	Act 1 (H) Super A	0
+        ///Bonebreak	Bonebreak	skeleton1	1		5	8	0	5	5	1	0		5	5	5	Act 1 Super A	Act 1 (N) Super A	Act 1 (H) Super A	0
+        ///Coldcrow	Coldcrow	cr_archer1	2		18	0	0	4	4	1	0		18	18	18	Act 1 Super A	Act 1 (N) Super A	Act 1 (H) Super A	0
+        ///Rakanishu	Rakanishu	fallen2	3		17	6	0	8 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SuperUniques {
+            get {
+                return ResourceManager.GetString("SuperUniques", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Teleport {
@@ -1116,6 +1117,16 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap ThunderStorm {
             get {
                 object obj = ResourceManager.GetObject("ThunderStorm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TigerStrike {
+            get {
+                object obj = ResourceManager.GetObject("TigerStrike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -17,15 +17,22 @@ namespace MapAssist.Types
         public Point Position => new Point(X, Y);
         public float X => IsMovable ? Path.DynamicX : (float)Path.StaticX;
         public float Y => IsMovable ? Path.DynamicY : (float)Path.StaticY;
-        public StatListStruct StatsStruct { get; private set; }
-        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
-        public Dictionary<Stats.Stat, int> Stats { get; private set; }
+        public StatListExStruct StatsStruct { get; private set; }
         public uint[] StateFlags { get; set; }
         public List<State> StateList { get; set; }
         public DateTime FoundTime { get; set; } = DateTime.Now;
         public bool IsHovered { get; set; } = false;
         public bool IsCached { get; set; } = false;
         private Path Path { get; set; }
+
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayers { get; private set; }
+        public Dictionary<Stats.Stat, int> Stats { get; private set; }
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayersBase { get; private set; }
+        public Dictionary<Stats.Stat, int> StatsBase { get; private set; }
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayersAdded { get; private set; }
+        public Dictionary<Stats.Stat, int> StatsAdded { get; private set; }
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StaffModsLayers { get; private set; }
+        public Dictionary<Stats.Stat, int> StaffMods { get; private set; }
 
         public UnitAny(IntPtr ptrUnit)
         {
@@ -69,32 +76,26 @@ namespace MapAssist.Types
 
                         if (Struct.pStatsListEx != IntPtr.Zero)
                         {
-                            var stats = new Dictionary<Stats.Stat, int>();
-                            var statLayers = new Dictionary<Stats.Stat, Dictionary<ushort, int>>();
-
-                            StatsStruct = processContext.Read<StatListStruct>(Struct.pStatsListEx);
+                            StatsStruct = processContext.Read<StatListExStruct>(Struct.pStatsListEx);
                             StateFlags = StatsStruct.StateFlags;
 
-                            var statValues = processContext.Read<StatValue>(StatsStruct.Stats.pFirstStat, Convert.ToInt32(StatsStruct.Stats.Size));
-                            foreach (var stat in statValues)
+                            (Stats, StatLayers) = ReadStats(StatsStruct.Stats);
+                            (StatsBase, StatLayersBase) = ReadStats(StatsStruct.BaseStats.Stats);
+
+                            if (UnitType == UnitType.Item)
                             {
-                                if (statLayers.ContainsKey(stat.Stat))
+                                var addedStatsStruct = GetAddedStatsListPtr();
+                                if (addedStatsStruct.HasValue)
                                 {
-                                    if (stat.Layer == 0) continue;
-                                    if (!statLayers[stat.Stat].ContainsKey(stat.Layer))
+                                    (StatsAdded, StatLayersAdded) = ReadStats(addedStatsStruct.Value.BaseStats.Stats);
+
+                                    if (addedStatsStruct.Value.pPrevLink != IntPtr.Zero)
                                     {
-                                        statLayers[stat.Stat].Add(stat.Layer, stat.Value);
+                                        var staffModsStruct = processContext.Read<StatListExStruct>(addedStatsStruct.Value.pPrevLink);
+                                        (StaffMods, StaffModsLayers) = ReadStats(staffModsStruct.BaseStats.Stats);
                                     }
                                 }
-                                else
-                                {
-                                    stats.Add(stat.Stat, stat.Value);
-                                    statLayers.Add(stat.Stat, new Dictionary<ushort, int>() { { stat.Layer, stat.Value } });
-                                }
                             }
-
-                            Stats = stats;
-                            StatLayers = statLayers;
                         }
 
                         if (GameMemory.cache.ContainsKey(UnitId)) IsCached = true;
@@ -105,6 +106,36 @@ namespace MapAssist.Types
             }
 
             return UpdateResult.InvalidUpdate;
+        }
+
+        protected (Dictionary<Stats.Stat, int>, Dictionary<Stats.Stat, Dictionary<ushort, int>>) ReadStats(StatArrayStruct statArray)
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                var stats = new Dictionary<Stats.Stat, int>();
+                var statLayers = new Dictionary<Stats.Stat, Dictionary<ushort, int>>();
+
+                var statValues = processContext.Read<StatValue>(statArray.pFirstStat, Convert.ToInt32(statArray.Size));
+
+                foreach (var stat in statValues)
+                {
+                    if (statLayers.ContainsKey(stat.Stat))
+                    {
+                        if (stat.Layer == 0) continue;
+                        if (!statLayers[stat.Stat].ContainsKey(stat.Layer))
+                        {
+                            statLayers[stat.Stat].Add(stat.Layer, stat.Value);
+                        }
+                    }
+                    else
+                    {
+                        stats.Add(stat.Stat, stat.Value);
+                        statLayers.Add(stat.Stat, new Dictionary<ushort, int>() { { stat.Layer, stat.Value } });
+                    }
+                }
+
+                return (stats, statLayers);
+            }
         }
 
         protected List<State> GetStateList()
@@ -120,6 +151,55 @@ namespace MapAssist.Types
             return stateList;
         }
 
+        protected StatListExStruct? GetAddedStatsListPtr(int flags = 0x40)
+        {
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                if ((StatsStruct.BaseStats.Flags & 0x80000000) == 0)
+                {
+                    return null;
+                }
+
+                StatListExStruct statList;
+                if (StatsStruct.pMyStats != IntPtr.Zero && (flags & 0x2000) != 0)
+                {
+                    statList = processContext.Read<StatListExStruct>(StatsStruct.pMyStats);
+                }
+                else if (StatsStruct.pLastList != IntPtr.Zero)
+                {
+                    statList = processContext.Read<StatListExStruct>(StatsStruct.pLastList);
+                }
+                else
+                {
+                    return null;
+                }
+
+                var tries = 0;
+                while ((flags & statList.BaseStats.Flags & 0xFFFFDFFF) == 0)
+                {
+                    if (tries++ >= 10) return null; // Just to be safe
+
+                    if (StatsStruct.pPrevLink != IntPtr.Zero)
+                    {
+                        var addressToRead = statList.pPrevLink;
+
+                        statList = processContext.Read<StatListExStruct>(addressToRead);
+
+                        if (addressToRead == statList.pPrevLink) // Memory didn't change
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+                return statList;
+            }
+        }
+
         private bool GetState(State state)
         {
             return (StateFlags[(int)state >> 5] & StateMasks.gdwBitMasks[(int)state & 31]) > 0;
@@ -133,8 +213,6 @@ namespace MapAssist.Types
 
         public bool IsPlayer => Struct.UnitType == UnitType.Player && Struct.pAct != IntPtr.Zero;
 
-        public bool IsPlayerOwned => IsMerc && Stats.ContainsKey(Types.Stats.Stat.Strength); // This is ugly, but seems to work.
-
         public bool IsMonster
         {
             get
@@ -147,8 +225,6 @@ namespace MapAssist.Types
                 return true;
             }
         }
-
-        public bool IsMerc => new List<Npc> { Npc.Rogue2, Npc.Guard, Npc.IronWolf, Npc.Act5Hireling1Hand, Npc.Act5Hireling2Hand }.Contains((Npc)TxtFileNo);
 
         public bool IsCorpse => Struct.isCorpse && UnitId != GameMemory.PlayerUnit.UnitId && Area != Area.None;
 

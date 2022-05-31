@@ -44,7 +44,7 @@ namespace MapAssist
             var list = formParent.Controls.Find(listToAddTo, true).FirstOrDefault() as ListBox;
             if (!list.Items.Contains(areaName))
             {
-                list.Items.Add(areaName);
+                list.Items.Add(AreaExtensions.Name(areaToAdd));
                 switch (listToAddTo)
                 {
                     case "lstHidden":
