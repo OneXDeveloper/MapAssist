@@ -222,6 +222,17 @@ namespace MapAssist
             }
             cboItemLogSound.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
 
+            void RemoveTabStop(Control container)
+            {
+                foreach (Control control in container.Controls)
+                {
+                    control.TabStop = false;
+                    RemoveTabStop(control);
+                }
+            }
+
+            RemoveTabStop(this);
+
             formReady = true;
         }
 
