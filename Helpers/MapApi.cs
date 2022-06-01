@@ -321,32 +321,23 @@ namespace MapAssist.Helpers
 
             if (areaData != null)
             {
-                Area[] adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
+                var adjacentAreas = areaData.AdjacentLevels.Keys.ToArray();
+                var stitchedAreas = areaData.Area.StitchedAreas()?.Where(x => !adjacentAreas.Contains(x)).ToArray() ?? new Area[] { };
 
-                var additionalAreas = GetAdjacentLevelsForWideArea(areaData.Area);
-                adjacentAreas = adjacentAreas.Concat(additionalAreas).ToArray();
-
-                if (adjacentAreas.Length > 0)
+                foreach (var adjacentArea in adjacentAreas.Concat(stitchedAreas).ToArray())
                 {
-                    _log.Info($"{adjacentAreas.Length} adjacent areas to {area} found");
-
-                    foreach (var adjacentArea in adjacentAreas)
+                    if (!_cache.TryGetValue(adjacentArea, out AreaData adjAreaData))
                     {
-                        if (!_cache.TryGetValue(adjacentArea, out AreaData adjAreaData))
-                        {
-                            areaData.AdjacentAreas[adjacentArea] = GetMapDataInternal(adjacentArea);
-                        }
-                        else
-                        {
-                            _log.Info($"Cache found for {adjacentArea}");
-                            areaData.AdjacentAreas[adjacentArea] = adjAreaData;
-                        }
+                        areaData.AdjacentAreas[adjacentArea] = GetMapDataInternal(adjacentArea);
+                    }
+                    else
+                    {
+                        _log.Info($"Cache found for {adjacentArea}");
+                        areaData.AdjacentAreas[adjacentArea] = adjAreaData;
                     }
                 }
-                else
-                {
-                    _log.Info($"No adjacent areas to {area} found");
-                }
+
+                _log.Info($"{adjacentAreas.Length} adjacent and {stitchedAreas.Length} stitched areas to {area} found");
             }
             else
             {
@@ -354,105 +345,6 @@ namespace MapAssist.Helpers
             }
 
             return areaData;
-        }
-
-        private Area[] GetAdjacentLevelsForWideArea(Area area)
-        {
-            // Improve stitching by rendering more areas than directly adjacent levels
-            // Sometimes render areas 2 maps away to get a better picture
-            switch (area)
-            {
-                case Area.BlackMarsh:
-                    return new Area[] {
-                        Area.MonasteryGate,
-                        Area.OuterCloister,
-                    };
-
-                case Area.TamoeHighland:
-                    return new Area[] {
-                        Area.OuterCloister,
-                        Area.Barracks,
-                    };
-
-                case Area.MonasteryGate:
-                    return new Area[] {
-                        Area.BlackMarsh,
-                        Area.Barracks,
-                    };
-
-                case Area.OuterCloister:
-                    return new Area[] {
-                        Area.Barracks, // Missing adjacent area
-                        Area.TamoeHighland,
-                        Area.BlackMarsh,
-                    };
-
-                case Area.Barracks:
-                    return new Area[] {
-                        Area.OuterCloister, // Missing adjacent area
-                        Area.MonasteryGate,
-                        Area.TamoeHighland,
-                    };
-
-                case Area.InnerCloister:
-                    return new Area[] {
-                        Area.Cathedral, // Missing adjacent area
-                    };
-
-                case Area.Cathedral:
-                    return new Area[] {
-                        Area.InnerCloister, // Missing adjacent area
-                    };
-
-                case Area.LutGholein:
-                    return new Area[] {
-                        Area.DryHills,
-                    };
-
-                case Area.DryHills:
-                    return new Area[] {
-                        Area.LutGholein,
-                        Area.LostCity,
-                    };
-
-                case Area.RockyWaste:
-                    return new Area[] {
-                        Area.FarOasis,
-                    };
-
-                case Area.LostCity:
-                    return new Area[] {
-                        Area.DryHills,
-                    };
-
-                case Area.FarOasis:
-                    return new Area[] {
-                        Area.RockyWaste,
-                    };
-
-                case Area.GreatMarsh:
-                    return new Area[] {
-                        Area.FlayerJungle,
-                    };
-
-                case Area.FlayerJungle:
-                    return new Area[] {
-                        Area.GreatMarsh,
-                    };
-
-                case Area.UpperKurast:
-                    return new Area[] {
-                        Area.Travincal,
-                    };
-
-                case Area.Travincal:
-                    return new Area[] {
-                        Area.UpperKurast,
-                    };
-
-                default:
-                    return new Area[] { };
-            }
         }
 
         private AreaData GetMapDataInternal(Area area)

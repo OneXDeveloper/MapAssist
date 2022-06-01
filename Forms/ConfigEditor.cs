@@ -204,7 +204,7 @@ namespace MapAssist
 
             foreach (var area in MapAssistConfiguration.Loaded.HiddenAreas)
             {
-                lstHidden.Items.Add(AreaExtensions.Name(area));
+                lstHidden.Items.Add(area.Name());
             }
 
             foreach (var authorizedWindowTitle in MapAssistConfiguration.Loaded.AuthorizedWindowTitles)

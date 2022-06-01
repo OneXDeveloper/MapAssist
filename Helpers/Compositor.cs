@@ -99,9 +99,9 @@ namespace MapAssist.Helpers
             RenderTarget renderTarget = gfx.GetRenderTarget();
 
             var areasToRender = new AreaData[] { _areaData };
-            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            if (_areaData.Area.RequiresStitching())
             {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
             }
 
             foreach (var renderArea in areasToRender)
@@ -231,9 +231,9 @@ namespace MapAssist.Helpers
             var drawnPreviousNextAreas = new List<Point>();
 
             var areasToRender = new AreaData[] { _areaData };
-            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            if (_areaData.Area.RequiresStitching())
             {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
             }
 
             foreach (var area in areasToRender)
@@ -308,7 +308,7 @@ namespace MapAssist.Helpers
             foreach (var gameObject in _gameData.Objects)
             {
                 var foundInArea = areasToRender.FirstOrDefault(area => area.IncludesPoint(gameObject.Position));
-                if (foundInArea != null && foundInArea.Area != _areaData.Area && !AreaExtensions.RequiresStitching(foundInArea.Area)) continue; // Don't show gamedata objects in another area if areas aren't stitched together
+                if (foundInArea != null && foundInArea.Area != _areaData.Area && !foundInArea.Area.RequiresStitching()) continue; // Don't show gamedata objects in another area if areas aren't stitched together
 
                 if (gameObject.IsPortal)
                 {
@@ -493,9 +493,9 @@ namespace MapAssist.Helpers
         private void DrawItems(Graphics gfx)
         {
             var areasToRender = new AreaData[] { _areaData };
-            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            if (_areaData.Area.RequiresStitching())
             {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
             }
 
             var drawItemIcons = new List<(IconRendering, Point)>();
@@ -535,9 +535,9 @@ namespace MapAssist.Helpers
             var drawPlayerLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
             var areasToRender = new AreaData[] { _areaData };
-            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            if (_areaData.Area.RequiresStitching())
             {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
             }
 
             foreach (var pet in _gameData.Summons.ToArray())
@@ -864,9 +864,9 @@ namespace MapAssist.Helpers
             if (!MapAssistConfiguration.Loaded.RenderingConfiguration.MonsterHealthBar) return;
 
             var areasToRender = new AreaData[] { _areaData };
-            if (AreaExtensions.RequiresStitching(_areaData.Area))
+            if (_areaData.Area.RequiresStitching())
             {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => AreaExtensions.RequiresStitching(area.Area))).ToArray();
+                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
             }
 
             (UnitMonster, string)[] getActiveMonsters()

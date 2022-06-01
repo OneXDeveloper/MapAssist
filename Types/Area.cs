@@ -1,7 +1,7 @@
 ﻿using MapAssist.Helpers;
 using MapAssist.Settings;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MapAssist.Types
 {
@@ -154,6 +154,7 @@ namespace MapAssist.Types
     public static class AreaExtensions
     {
         public static Dictionary<string, LocalizedObj> LocalizedAreas = new Dictionary<string, LocalizedObj>();
+
         private static readonly Dictionary<Area, AreaLabel> _areaLabels = new Dictionary<Area, AreaLabel>()
         {
             [Area.None] = new AreaLabel() {
@@ -706,47 +707,63 @@ namespace MapAssist.Types
             },
         };
 
-        private static readonly HashSet<Area> StitchedAreas = new HashSet<Area>()
+        private static readonly List<HashSet<Area>> _StitchedAreas = new List<HashSet<Area>>()
         {
-            Area.RogueEncampment,
-            Area.BloodMoor,
-            Area.ColdPlains,
-            Area.StonyField,
-            Area.DarkWood,
-            Area.BlackMarsh,
-            Area.TamoeHighland,
-            Area.BurialGrounds,
-            Area.MonasteryGate,
-            Area.OuterCloister,
-            Area.Barracks,
-            Area.InnerCloister,
-            Area.Cathedral,
-            Area.LutGholein,
-            Area.RockyWaste,
-            Area.DryHills,
-            Area.FarOasis,
-            Area.LostCity,
-            Area.ValleyOfSnakes,
-            Area.CanyonOfTheMagi,
-            Area.KurastDocks,
-            Area.SpiderForest,
-            Area.GreatMarsh,
-            Area.FlayerJungle,
-            Area.LowerKurast,
-            Area.KurastBazaar,
-            Area.UpperKurast,
-            Area.KurastCauseway,
-            Area.Travincal,
-            Area.ThePandemoniumFortress,
-            Area.OuterSteppes,
-            Area.PlainsOfDespair,
-            Area.CityOfTheDamned,
-            Area.RiverOfFlame,
-            Area.ChaosSanctuary,
-            Area.Harrogath,
-            Area.BloodyFoothills,
-            Area.FrigidHighlands,
-            Area.ArreatPlateau,
+            new HashSet<Area> {
+                Area.RogueEncampment,
+                Area.BloodMoor,
+                Area.ColdPlains,
+                Area.StonyField,
+                Area.BurialGrounds,
+            },
+            new HashSet<Area> {
+                Area.DarkWood,
+                Area.BlackMarsh,
+                Area.TamoeHighland,
+                Area.BurialGrounds,
+                Area.MonasteryGate,
+                Area.OuterCloister,
+                Area.Barracks,
+            },
+            new HashSet<Area> {
+                Area.InnerCloister,
+                Area.Cathedral,
+            },
+            new HashSet<Area> {
+                Area.LutGholein,
+                Area.RockyWaste,
+                Area.DryHills,
+                Area.FarOasis,
+                Area.LostCity,
+                Area.ValleyOfSnakes,
+            },
+            new HashSet<Area> {
+                Area.KurastDocks,
+                Area.SpiderForest,
+                Area.GreatMarsh,
+                Area.FlayerJungle,
+                Area.LowerKurast,
+                Area.KurastBazaar,
+                Area.UpperKurast,
+                Area.KurastCauseway,
+                Area.Travincal,
+            },
+            new HashSet<Area> {
+                Area.ThePandemoniumFortress,
+                Area.OuterSteppes,
+                Area.PlainsOfDespair,
+                Area.CityOfTheDamned,
+            },
+            new HashSet<Area> {
+                Area.RiverOfFlame,
+                Area.ChaosSanctuary,
+            },
+            new HashSet<Area> {
+                Area.Harrogath,
+                Area.BloodyFoothills,
+                Area.FrigidHighlands,
+                Area.ArreatPlateau,
+            },
         };
 
         public static string MapLabel(this Area area, Difficulty difficulty)
@@ -823,8 +840,14 @@ namespace MapAssist.Types
 
         public static bool RequiresStitching(this Area area)
         {
-            return MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && StitchedAreas.Contains(area);
+            return MapAssistConfiguration.Loaded.RenderingConfiguration.OverlayMode && area.StitchedAreas() != null;
         }
+
+        public static HashSet<Area> StitchedAreas(this Area area)
+        {
+            return _StitchedAreas.FirstOrDefault(x => x.Contains(area))?.Where(x => x != area).ToHashSet();
+        }
+
         public static bool IsTown(this Area area)
         {
             return area == Area.RogueEncampment ||
