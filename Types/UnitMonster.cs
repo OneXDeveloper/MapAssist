@@ -36,7 +36,7 @@ namespace MapAssist.Types
         }
 
         public bool IsSuperUnique => (MonsterData.MonsterType & MonsterTypeFlags.SuperUnique) == MonsterTypeFlags.SuperUnique || Npc == Npc.Summoner; // Summoner seems to be an odd exception
-        
+
         public string SuperUniqueName => Npc == Npc.Summoner ? "The Summoner" : NPC.SuperUniques[MonsterData.BossLineID];
 
         public bool IsMerc => PetEntry != null && PetEntry.IsMerc;

@@ -1210,5 +1210,10 @@ namespace MapAssist
             }
             return (colorDlg, result);
         }
+
+        private void linkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(linkWebsite.Text);
+        }
     }
 }

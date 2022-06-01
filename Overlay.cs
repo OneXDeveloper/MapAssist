@@ -126,6 +126,8 @@ namespace MapAssist
                                 ? nextAnchor.Add(0, GameInfoPadding())
                                 : GameInfoAnchor(MapAssistConfiguration.Loaded.ItemLog.Position);
                             _compositor.DrawItemLog(gfx, itemLogAnchor);
+
+                            if (Program.isPrecompiled) _compositor.DrawWatermark(gfx);
                         }
                     }
                 }

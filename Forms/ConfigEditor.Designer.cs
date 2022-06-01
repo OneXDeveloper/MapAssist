@@ -200,6 +200,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.linkWebsite = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -235,6 +239,8 @@
             this.groupBox2.SuspendLayout();
             this.groupBoxAuthorizedWindowTitle.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -249,10 +255,10 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(12, 135);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(420, 351);
+            this.tabControl1.Size = new System.Drawing.Size(420, 353);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.TabStop = false;
             // 
@@ -263,7 +269,7 @@
             this.tabPage5.Controls.Add(this.grpGameInfo);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(412, 325);
+            this.tabPage5.Size = new System.Drawing.Size(412, 327);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Main";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -278,7 +284,7 @@
             this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Location = new System.Drawing.Point(11, 256);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(388, 58);
+            this.groupBox5.Size = new System.Drawing.Size(388, 60);
             this.groupBox5.TabIndex = 25;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Translation";
@@ -524,7 +530,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(412, 325);
+            this.tabPage1.Size = new System.Drawing.Size(412, 327);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Map";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -561,7 +567,7 @@
             this.groupBox1.Controls.Add(this.chkToggleViaPanels);
             this.groupBox1.Location = new System.Drawing.Point(11, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(388, 305);
+            this.groupBox1.Size = new System.Drawing.Size(388, 308);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rendering";
@@ -874,7 +880,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(412, 325);
+            this.tabPage3.Size = new System.Drawing.Size(412, 327);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Overlay";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1162,7 +1168,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(412, 325);
+            this.tabPage2.Size = new System.Drawing.Size(412, 327);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Drawing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1570,7 +1576,7 @@
             this.tabPage6.Controls.Add(this.groupBox6);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(412, 325);
+            this.tabPage6.Size = new System.Drawing.Size(412, 327);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Item Log";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -2018,7 +2024,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(412, 325);
+            this.tabPage7.Size = new System.Drawing.Size(412, 327);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Hotkeys";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -2063,7 +2069,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 183);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(130, 13);
+            this.label4.Size = new System.Drawing.Size(136, 13);
             this.label4.TabIndex = 21;
             this.label4.Text = "Toggle Config Window Key";
             // 
@@ -2188,7 +2194,7 @@
             this.tabPage4.Controls.Add(this.groupBox8);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(412, 325);
+            this.tabPage4.Size = new System.Drawing.Size(412, 327);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Advanced";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2331,11 +2337,57 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.label6);
+            this.groupBox9.Controls.Add(this.linkWebsite);
+            this.groupBox9.Location = new System.Drawing.Point(12, 494);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(418, 64);
+            this.groupBox9.TabIndex = 5;
+            this.groupBox9.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(400, 23);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "100% Free Software and Support. If you paid for anything, you got scammed.";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // linkWebsite
+            // 
+            this.linkWebsite.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkWebsite.Location = new System.Drawing.Point(6, 12);
+            this.linkWebsite.Name = "linkWebsite";
+            this.linkWebsite.Size = new System.Drawing.Size(400, 23);
+            this.linkWebsite.TabIndex = 5;
+            this.linkWebsite.TabStop = true;
+            this.linkWebsite.Text = "https://mapassist.github.io/";
+            this.linkWebsite.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkWebsite.VisitedLinkColor = System.Drawing.Color.Blue;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MapAssist.Properties.Resources.Banner;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(416, 117);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 374);
+            this.ClientSize = new System.Drawing.Size(442, 570);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2343,7 +2395,7 @@
             this.MinimizeBox = false;
             this.Name = "ConfigEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Configuration - MapAssist";
+            this.Text = "MapAssist - Configuration";
             this.TopMost = true;
             this.Shown += new System.EventHandler(this.ConfigEditor_Shown);
             this.tabControl1.ResumeLayout(false);
@@ -2396,6 +2448,8 @@
             this.groupBoxAuthorizedWindowTitle.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2573,5 +2627,9 @@
         private System.Windows.Forms.Button btnExpRangeColor;
         private System.Windows.Forms.TextBox txtToggleConfigKey;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel linkWebsite;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -20,7 +20,7 @@ namespace MapAssist
         private static readonly string githubSha = "GITHUB_SHA";
         private static readonly string githubRepo = @"GITHUB_REPO";
         private static readonly string githubReleaseTag = "GITHUB_RELEASE_TAG";
-        private static readonly bool isPrecompiled = githubSha.Length == 40;
+        public static readonly bool isPrecompiled = githubSha.Length == 40;
 
         private static readonly string appName = "MapAssist";
         private static string messageBoxTitle = $"{appName} v{typeof(Program).Assembly.GetName().Version}";

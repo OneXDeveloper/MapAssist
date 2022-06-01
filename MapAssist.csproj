@@ -600,6 +600,7 @@
     <Content Include="MAServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Banner.png" />
     <Content Include="Sounds\Ching.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

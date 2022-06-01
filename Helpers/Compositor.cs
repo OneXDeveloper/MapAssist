@@ -1219,6 +1219,25 @@ namespace MapAssist.Helpers
             }
         }
 
+        public void DrawWatermark(Graphics gfx)
+        {
+            var font = "Exocet Blizzard Mixed Caps";
+            var fontSize = gfx.ScaleFontSize(18);
+            var textColor = Color.FromArgb(199, 179, 119);
+
+            var text = "https://mapassist.github.io";
+            var textSize = gfx.MeasureString(CreateFont(gfx, font, fontSize), text);
+            var anchor = new Point(gfx.Width - 5, gfx.Height - textSize.Y);
+            DrawText(gfx, anchor, text, font, fontSize, textColor, true, TextAlign.Right, opacity: 0.5f);
+
+            fontSize = gfx.ScaleFontSize(12);
+            text = "100% Free Software and Support";
+            textSize = gfx.MeasureString(CreateFont(gfx, font, fontSize), text);
+
+            anchor = anchor.Subtract(0, textSize.Y);
+            DrawText(gfx, anchor, text, font, fontSize, textColor, true, TextAlign.Right, opacity: 0.5f);
+        }
+
         // Drawing Utility Functions
         private void DrawBitmap(Graphics gfx, Bitmap bitmapDX, Point anchor, float opacity,
             float size = 1)
@@ -1468,7 +1487,7 @@ namespace MapAssist.Helpers
                         new Point(1, 1),
                         new Point(0, 1)
                     }.Select(Transform(scaleWidth * 2, true)).ToArray(); // Use scaleWidth so it doesn't shrink the height in overlay mode, allows portal to look the same in both modes
-                
+
                 case Shape.Polygon:
                     var cutSize = 0.1f;
 
