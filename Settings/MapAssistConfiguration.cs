@@ -4,6 +4,7 @@ using MapAssist.Settings;
 using MapAssist.Types;
 using System.Drawing;
 using YamlDotNet.Serialization;
+using Drawing = GameOverlay.Drawing;
 
 namespace MapAssist.Settings
 {
@@ -226,6 +227,7 @@ public class RenderingConfiguration
     public int Size { get; set; }
 
     internal int InitialSize { get; set; }
+    internal Drawing.Point Offset { get; set; } = new Drawing.Point(0, 0);
 
     [YamlMember(Alias = "ZoomLevel", ApplyNamingConventions = false)]
     public double ZoomLevel { get; set; }

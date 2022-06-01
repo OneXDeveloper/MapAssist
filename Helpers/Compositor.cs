@@ -1669,6 +1669,8 @@ namespace MapAssist.Helpers
                     mapTransformMatrix *= Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Left, _drawBounds.Top))
                         * Matrix3x2.CreateTranslation(new Vector2(_drawBounds.Width / 2.12f, _drawBounds.Height / 2.42f));
                 }
+
+                mapTransformMatrix *= Matrix3x2.CreateTranslation(MapAssistConfiguration.Loaded.RenderingConfiguration.Offset.ToVector());
             }
             else
             {
