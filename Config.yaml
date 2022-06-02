@@ -36,7 +36,6 @@ RenderingConfiguration:
   ShowExpProgress: true
   ShowPotionBelt: true
   ShowResistances: false
-  LinesMode: All
 MapConfiguration:
   SuperUniqueMonster:
     IconOutlineColor: Yellow

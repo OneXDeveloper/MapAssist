@@ -33,6 +33,11 @@ namespace MapAssist
                 cboRenderOption.Items.Add(property.Name.ToProperCase());
             }
 
+            if (cboRenderOption.Items.Count > 0)
+            {
+                cboRenderOption.SelectedIndex = 0;
+            }
+
             foreach (var element in Enum.GetNames(typeof(BuffPosition)))
             {
                 cboBuffPosition.Items.Add(element.ToProperCase());
@@ -51,11 +56,6 @@ namespace MapAssist
             foreach (Locale element in Enum.GetValues(typeof(Locale)))
             {
                 cboLanguage.Items.Add(LocaleExtensions.Name(element));
-            }
-
-            foreach (var element in Enum.GetNames(typeof(MapLinesMode)))
-            {
-                cboMapLinesMode.Items.Add(element);
             }
 
             foreach (var element in Enum.GetNames(typeof(GameInfoPosition)))
@@ -93,7 +93,13 @@ namespace MapAssist
             chkDebuffs.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowBuffBarDebuffs;
             chkAlertLowerRes.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes;
             cboBuffPosition.SelectedIndex = cboBuffPosition.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition.ToString().ToProperCase());
-            cboMapLinesMode.SelectedIndex = cboMapLinesMode.FindStringExact(MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode.ToString().ToProperCase());
+
+            chkLinesHostiles.Checked = MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.CanDrawLine();
+            chkLinesCorpse.Checked = MapAssistConfiguration.Loaded.MapConfiguration.Corpse.CanDrawLine();
+            chkLinesNextArea.Checked = MapAssistConfiguration.Loaded.MapConfiguration.NextArea.CanDrawLine();
+            chkLinesQuest.Checked = MapAssistConfiguration.Loaded.MapConfiguration.Quest.CanDrawLine();
+            chkLinesWaypoint.Checked = MapAssistConfiguration.Loaded.MapConfiguration.Waypoint.CanDrawLine();
+            chkLinesShrines.Checked = MapAssistConfiguration.Loaded.MapConfiguration.Shrine.CanDrawLine();
 
             chkLife.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowLife;
             chkMana.Checked = MapAssistConfiguration.Loaded.RenderingConfiguration.ShowMana;
@@ -450,11 +456,6 @@ namespace MapAssist
         private void cboBuffPosition_SelectedIndexChanged(object sender, EventArgs e)
         {
             MapAssistConfiguration.Loaded.RenderingConfiguration.BuffPosition = (BuffPosition)cboBuffPosition.SelectedIndex;
-        }
-
-        private void cboMapLinesMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MapAssistConfiguration.Loaded.RenderingConfiguration.LinesMode = (MapLinesMode)cboMapLinesMode.SelectedIndex;
         }
 
         private void chkShowGameName_CheckedChanged(object sender, EventArgs e)
@@ -1225,6 +1226,45 @@ namespace MapAssist
         private void linkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(linkWebsite.Text);
+        }
+
+        private void HandleLineToggle(CheckBox input, PointOfInterestRendering rendering)
+        {
+            if (input.Checked == rendering.CanDrawLine())
+            {
+                return;
+            }
+            rendering.ToggleLine();
+        }
+
+        private void chkLinesHostiles_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesHostiles, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer);
+        }
+
+        private void chkLinesCorpse_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesCorpse, MapAssistConfiguration.Loaded.MapConfiguration.Corpse);
+        }
+
+        private void chkLinesNextArea_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesNextArea, MapAssistConfiguration.Loaded.MapConfiguration.NextArea);
+        }
+
+        private void chkLinesQuest_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesQuest, MapAssistConfiguration.Loaded.MapConfiguration.Quest);
+        }
+
+        private void chkLinesWaypoint_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesWaypoint, MapAssistConfiguration.Loaded.MapConfiguration.Waypoint);
+        }
+
+        private void chkLinesShrines_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleLineToggle(chkLinesShrines, MapAssistConfiguration.Loaded.MapConfiguration.Shrine);
         }
     }
 }

@@ -276,9 +276,6 @@ public class RenderingConfiguration
 
     [YamlMember(Alias = "ShowResistances", ApplyNamingConventions = false)]
     public bool ShowResistances { get; set; }
-
-    [YamlMember(Alias = "LinesMode", ApplyNamingConventions = false)]
-    public MapLinesMode LinesMode { get; set; }
 }
 
 public class HotkeyConfiguration

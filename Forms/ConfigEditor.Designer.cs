@@ -88,9 +88,12 @@
             this.chkMana = new System.Windows.Forms.CheckBox();
             this.chkLifePerc = new System.Windows.Forms.CheckBox();
             this.chkLife = new System.Windows.Forms.CheckBox();
-            this.grpPresets = new System.Windows.Forms.GroupBox();
-            this.lblMapLinesMode = new System.Windows.Forms.Label();
-            this.cboMapLinesMode = new System.Windows.Forms.ComboBox();
+            this.grpLines = new System.Windows.Forms.GroupBox();
+            this.chkLinesWaypoint = new System.Windows.Forms.CheckBox();
+            this.chkLinesQuest = new System.Windows.Forms.CheckBox();
+            this.chkLinesNextArea = new System.Windows.Forms.CheckBox();
+            this.chkLinesCorpse = new System.Windows.Forms.CheckBox();
+            this.chkLinesHostiles = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkDebuffs = new System.Windows.Forms.CheckBox();
             this.chkPassives = new System.Windows.Forms.CheckBox();
@@ -199,11 +202,13 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chkDPIAware = new System.Windows.Forms.CheckBox();
+            this.chkLinesMagicFindArea = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.linkWebsite = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkLinesShrines = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -217,7 +222,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.opacity)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.grpPresets.SuspendLayout();
+            this.grpLines.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buffSize)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -875,7 +880,7 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.groupBox7);
-            this.tabPage3.Controls.Add(this.grpPresets);
+            this.tabPage3.Controls.Add(this.grpLines);
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -897,7 +902,7 @@
             this.groupBox7.Controls.Add(this.chkMana);
             this.groupBox7.Controls.Add(this.chkLifePerc);
             this.groupBox7.Controls.Add(this.chkLife);
-            this.groupBox7.Location = new System.Drawing.Point(11, 153);
+            this.groupBox7.Location = new System.Drawing.Point(11, 140);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(388, 90);
             this.groupBox7.TabIndex = 25;
@@ -918,7 +923,7 @@
             // chkResistances
             // 
             this.chkResistances.AutoSize = true;
-            this.chkResistances.Location = new System.Drawing.Point(102, 65);
+            this.chkResistances.Location = new System.Drawing.Point(116, 65);
             this.chkResistances.Name = "chkResistances";
             this.chkResistances.Size = new System.Drawing.Size(84, 17);
             this.chkResistances.TabIndex = 24;
@@ -929,7 +934,7 @@
             // chkExpProgress
             // 
             this.chkExpProgress.AutoSize = true;
-            this.chkExpProgress.Location = new System.Drawing.Point(240, 42);
+            this.chkExpProgress.Location = new System.Drawing.Point(233, 42);
             this.chkExpProgress.Name = "chkExpProgress";
             this.chkExpProgress.Size = new System.Drawing.Size(88, 17);
             this.chkExpProgress.TabIndex = 5;
@@ -940,7 +945,7 @@
             // chkCurrentLevel
             // 
             this.chkCurrentLevel.AutoSize = true;
-            this.chkCurrentLevel.Location = new System.Drawing.Point(240, 19);
+            this.chkCurrentLevel.Location = new System.Drawing.Point(233, 19);
             this.chkCurrentLevel.Name = "chkCurrentLevel";
             this.chkCurrentLevel.Size = new System.Drawing.Size(89, 17);
             this.chkCurrentLevel.TabIndex = 4;
@@ -951,7 +956,7 @@
             // chkManaPerc
             // 
             this.chkManaPerc.AutoSize = true;
-            this.chkManaPerc.Location = new System.Drawing.Point(102, 42);
+            this.chkManaPerc.Location = new System.Drawing.Point(116, 42);
             this.chkManaPerc.Name = "chkManaPerc";
             this.chkManaPerc.Size = new System.Drawing.Size(93, 17);
             this.chkManaPerc.TabIndex = 3;
@@ -973,7 +978,7 @@
             // chkLifePerc
             // 
             this.chkLifePerc.AutoSize = true;
-            this.chkLifePerc.Location = new System.Drawing.Point(102, 19);
+            this.chkLifePerc.Location = new System.Drawing.Point(116, 19);
             this.chkLifePerc.Name = "chkLifePerc";
             this.chkLifePerc.Size = new System.Drawing.Size(83, 17);
             this.chkLifePerc.TabIndex = 1;
@@ -992,40 +997,78 @@
             this.chkLife.UseVisualStyleBackColor = true;
             this.chkLife.CheckedChanged += new System.EventHandler(this.chkLife_CheckedChanged);
             // 
-            // grpPresets
+            // grpLines
             // 
-            this.grpPresets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.grpLines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpPresets.Controls.Add(this.lblMapLinesMode);
-            this.grpPresets.Controls.Add(this.cboMapLinesMode);
-            this.grpPresets.Location = new System.Drawing.Point(11, 263);
-            this.grpPresets.Name = "grpPresets";
-            this.grpPresets.Size = new System.Drawing.Size(388, 51);
-            this.grpPresets.TabIndex = 24;
-            this.grpPresets.TabStop = false;
-            this.grpPresets.Text = "Presets";
+            this.grpLines.Controls.Add(this.chkLinesShrines);
+            this.grpLines.Controls.Add(this.chkLinesWaypoint);
+            this.grpLines.Controls.Add(this.chkLinesQuest);
+            this.grpLines.Controls.Add(this.chkLinesNextArea);
+            this.grpLines.Controls.Add(this.chkLinesCorpse);
+            this.grpLines.Controls.Add(this.chkLinesHostiles);
+            this.grpLines.Location = new System.Drawing.Point(11, 236);
+            this.grpLines.Name = "grpLines";
+            this.grpLines.Size = new System.Drawing.Size(388, 71);
+            this.grpLines.TabIndex = 24;
+            this.grpLines.TabStop = false;
+            this.grpLines.Text = "Toggle Map Lines";
             // 
-            // lblMapLinesMode
+            // chkLinesWaypoint
             // 
-            this.lblMapLinesMode.AutoSize = true;
-            this.lblMapLinesMode.Location = new System.Drawing.Point(6, 24);
-            this.lblMapLinesMode.Name = "lblMapLinesMode";
-            this.lblMapLinesMode.Size = new System.Drawing.Size(86, 13);
-            this.lblMapLinesMode.TabIndex = 21;
-            this.lblMapLinesMode.Text = "Map Lines Mode";
-            this.lblMapLinesMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkLinesWaypoint.AutoSize = true;
+            this.chkLinesWaypoint.Location = new System.Drawing.Point(233, 46);
+            this.chkLinesWaypoint.Name = "chkLinesWaypoint";
+            this.chkLinesWaypoint.Size = new System.Drawing.Size(76, 17);
+            this.chkLinesWaypoint.TabIndex = 6;
+            this.chkLinesWaypoint.Text = "Waypoints";
+            this.chkLinesWaypoint.UseVisualStyleBackColor = true;
+            this.chkLinesWaypoint.CheckedChanged += new System.EventHandler(this.chkLinesWaypoint_CheckedChanged);
             // 
-            // cboMapLinesMode
+            // chkLinesQuest
             // 
-            this.cboMapLinesMode.AllowDrop = true;
-            this.cboMapLinesMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboMapLinesMode.FormattingEnabled = true;
-            this.cboMapLinesMode.Location = new System.Drawing.Point(117, 21);
-            this.cboMapLinesMode.Name = "cboMapLinesMode";
-            this.cboMapLinesMode.Size = new System.Drawing.Size(124, 21);
-            this.cboMapLinesMode.TabIndex = 20;
-            this.cboMapLinesMode.SelectedIndexChanged += new System.EventHandler(this.cboMapLinesMode_SelectedIndexChanged);
+            this.chkLinesQuest.AutoSize = true;
+            this.chkLinesQuest.Location = new System.Drawing.Point(116, 46);
+            this.chkLinesQuest.Name = "chkLinesQuest";
+            this.chkLinesQuest.Size = new System.Drawing.Size(54, 17);
+            this.chkLinesQuest.TabIndex = 4;
+            this.chkLinesQuest.Text = "Quest";
+            this.chkLinesQuest.UseVisualStyleBackColor = true;
+            this.chkLinesQuest.CheckedChanged += new System.EventHandler(this.chkLinesQuest_CheckedChanged);
+            // 
+            // chkLinesNextArea
+            // 
+            this.chkLinesNextArea.AutoSize = true;
+            this.chkLinesNextArea.Location = new System.Drawing.Point(116, 23);
+            this.chkLinesNextArea.Name = "chkLinesNextArea";
+            this.chkLinesNextArea.Size = new System.Drawing.Size(73, 17);
+            this.chkLinesNextArea.TabIndex = 3;
+            this.chkLinesNextArea.Text = "Next Area";
+            this.chkLinesNextArea.UseVisualStyleBackColor = true;
+            this.chkLinesNextArea.CheckedChanged += new System.EventHandler(this.chkLinesNextArea_CheckedChanged);
+            // 
+            // chkLinesCorpse
+            // 
+            this.chkLinesCorpse.AutoSize = true;
+            this.chkLinesCorpse.Location = new System.Drawing.Point(9, 46);
+            this.chkLinesCorpse.Name = "chkLinesCorpse";
+            this.chkLinesCorpse.Size = new System.Drawing.Size(59, 17);
+            this.chkLinesCorpse.TabIndex = 2;
+            this.chkLinesCorpse.Text = "Corpse";
+            this.chkLinesCorpse.UseVisualStyleBackColor = true;
+            this.chkLinesCorpse.CheckedChanged += new System.EventHandler(this.chkLinesCorpse_CheckedChanged);
+            // 
+            // chkLinesHostiles
+            // 
+            this.chkLinesHostiles.AutoSize = true;
+            this.chkLinesHostiles.Location = new System.Drawing.Point(9, 23);
+            this.chkLinesHostiles.Name = "chkLinesHostiles";
+            this.chkLinesHostiles.Size = new System.Drawing.Size(95, 17);
+            this.chkLinesHostiles.TabIndex = 1;
+            this.chkLinesHostiles.Text = "Hostile Players";
+            this.chkLinesHostiles.UseVisualStyleBackColor = true;
+            this.chkLinesHostiles.CheckedChanged += new System.EventHandler(this.chkLinesHostiles_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -2337,6 +2380,16 @@
             this.chkDPIAware.UseVisualStyleBackColor = true;
             this.chkDPIAware.CheckedChanged += new System.EventHandler(this.chkDPIAware_CheckedChanged);
             // 
+            // chkLinesMagicFindArea
+            // 
+            this.chkLinesMagicFindArea.AutoSize = true;
+            this.chkLinesMagicFindArea.Location = new System.Drawing.Point(116, 23);
+            this.chkLinesMagicFindArea.Name = "chkLinesMagicFindArea";
+            this.chkLinesMagicFindArea.Size = new System.Drawing.Size(103, 17);
+            this.chkLinesMagicFindArea.TabIndex = 5;
+            this.chkLinesMagicFindArea.Text = "Magic Find Area";
+            this.chkLinesMagicFindArea.UseVisualStyleBackColor = true;
+            // 
             // groupBox9
             // 
             this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2381,6 +2434,17 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // chkLinesShrines
+            // 
+            this.chkLinesShrines.AutoSize = true;
+            this.chkLinesShrines.Location = new System.Drawing.Point(233, 23);
+            this.chkLinesShrines.Name = "chkLinesShrines";
+            this.chkLinesShrines.Size = new System.Drawing.Size(61, 17);
+            this.chkLinesShrines.TabIndex = 7;
+            this.chkLinesShrines.Text = "Shrines";
+            this.chkLinesShrines.UseVisualStyleBackColor = true;
+            this.chkLinesShrines.CheckedChanged += new System.EventHandler(this.chkLinesShrines_CheckedChanged);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2416,8 +2480,8 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.grpPresets.ResumeLayout(false);
-            this.grpPresets.PerformLayout();
+            this.grpLines.ResumeLayout(false);
+            this.grpLines.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buffSize)).EndInit();
@@ -2564,9 +2628,7 @@
         private System.Windows.Forms.CheckBox chkToggleViaMap;
         private System.Windows.Forms.Label lblIconOpacity;
         private System.Windows.Forms.CheckBox chkToggleViaPanels;
-        private System.Windows.Forms.GroupBox grpPresets;
-        private System.Windows.Forms.Label lblMapLinesMode;
-        private System.Windows.Forms.ComboBox cboMapLinesMode;
+        private System.Windows.Forms.GroupBox grpLines;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label lblBuffSizeValue;
         private System.Windows.Forms.Label label5;
@@ -2631,5 +2693,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel linkWebsite;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox chkLinesWaypoint;
+        private System.Windows.Forms.CheckBox chkLinesMagicFindArea;
+        private System.Windows.Forms.CheckBox chkLinesQuest;
+        private System.Windows.Forms.CheckBox chkLinesNextArea;
+        private System.Windows.Forms.CheckBox chkLinesCorpse;
+        private System.Windows.Forms.CheckBox chkLinesHostiles;
+        private System.Windows.Forms.CheckBox chkLinesShrines;
     }
 }

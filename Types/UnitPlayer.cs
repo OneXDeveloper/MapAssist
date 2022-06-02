@@ -97,7 +97,7 @@ namespace MapAssist.Types
 
         private ushort PartyID => RosterEntry != null ? RosterEntry.PartyID : ushort.MaxValue;
 
-        private bool IsHostileTo(RosterEntry otherUnit)
+        public bool IsHostileTo(RosterEntry otherUnit)
         {
             if (UnitId == otherUnit.UnitId)
             {

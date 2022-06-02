@@ -58,7 +58,7 @@ namespace MapAssist.Settings
 
         public bool CanDrawLine()
         {
-            return LineColor != Color.Transparent && LineColor != Color.Empty && LineThickness > 0;
+            return LineColor.A > 0 && LineThickness > 0;
         }
 
         public bool CanDrawArrowHead()
@@ -68,7 +68,32 @@ namespace MapAssist.Settings
 
         public bool CanDrawLabel()
         {
-            return LabelColor != Color.Transparent && LabelColor != Color.Empty && !string.IsNullOrWhiteSpace(LabelFont) && LabelFontSize > 0;
+            return LabelColor.A > 0 && !string.IsNullOrWhiteSpace(LabelFont) && LabelFontSize > 0;
+        }
+
+        public void ToggleLine()
+        {
+            if (LineThickness != 0)
+            {
+                LineThickness = 0;
+                return;
+            }
+
+            LineThickness = 2;
+
+            if (ArrowHeadSize == 0)
+            {
+                ArrowHeadSize = 15;
+            }
+
+            if (LineColor.A == 0)
+            {
+                LineColor = IconColor.A > 0
+                    ? IconColor
+                    : IconOutlineColor.A > 0
+                        ? IconOutlineColor
+                        : Color.Red;
+            }
         }
     }
 
