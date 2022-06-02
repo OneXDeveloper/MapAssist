@@ -77,6 +77,11 @@ namespace MapAssist.Helpers
                 emitter.Emit(new Scalar(null, "Border"));
                 emitter.Emit(new Scalar(null, Helpers.GetColorName((Color)node.Border)));
             }
+            if (node.ExpRange != null)
+            {
+                emitter.Emit(new Scalar(null, "ExpRange"));
+                emitter.Emit(new Scalar(null, Helpers.GetColorName((Color)node.ExpRange)));
+            }
 
             emitter.Emit(new MappingEnd());
         }
