@@ -187,8 +187,13 @@ namespace MapAssist.Helpers
                 // Players
                 var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
                     .Select(x => x.UpdateRosterEntry(rosterData)).ToArray()
-                    .Select(x => x.UpdateParties(playerUnit.RosterEntry)).ToArray()
                     .Where(x => x != null && x.UnitId < uint.MaxValue).ToDictionary(x => x.UnitId, x => x);
+
+                // Roster
+                foreach (var entry in rosterData.List)
+                {
+                    entry.UpdateParties(playerUnit.RosterEntry);
+                }
 
                 // Corpses
                 var corpseList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsCorpse).Concat(Corpses[_currentProcessId].Values).Distinct().ToArray();

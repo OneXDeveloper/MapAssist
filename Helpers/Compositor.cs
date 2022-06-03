@@ -1,4 +1,4 @@
-﻿using GameOverlay.Drawing;
+using GameOverlay.Drawing;
 using GameOverlay.Windows;
 using MapAssist.Files.Font;
 using MapAssist.Settings;
@@ -605,7 +605,7 @@ namespace MapAssist.Helpers
                         if (!myPlayer && !areasToRender.Any(area => area.IncludesPoint(playerUnit.Position))) continue; // Don't show player if not in drawn areas
 
                         // use data from the unit table if available
-                        if (playerUnit.InParty)
+                        if (playerUnit.RosterEntry.InParty)
                         {
                             var rendering = myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
@@ -634,7 +634,7 @@ namespace MapAssist.Helpers
                             // not in my party
                             var rendering = (myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
-                                : (!playerUnit.IsCorpse && (playerUnit.IsHostile || _gameData.PlayerUnit.IsHostileTo(player))
+                                : (!playerUnit.IsCorpse && (playerUnit.RosterEntry.IsHostile || _gameData.PlayerUnit.RosterEntry.IsHostileTo(player))
                                     ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer
                                     : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer));
 

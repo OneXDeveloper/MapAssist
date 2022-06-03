@@ -22,6 +22,52 @@ namespace MapAssist.Types
         public uint FirstHostileUnitId;
         public HostileInfo HostileInfo;
         public IntPtr pNext;
+
+        public bool InParty { get; private set; }
+        public bool IsHostile { get; private set; }
+
+        public RosterEntry UpdateParties(RosterEntry player)
+        {
+            if (player != null)
+            {
+                if (player.PartyID != ushort.MaxValue && PartyID == player.PartyID)
+                {
+                    InParty = true;
+                    IsHostile = false;
+                }
+                else
+                {
+                    InParty = false;
+                    IsHostile = IsHostileTo(player);
+                }
+            }
+
+            return this;
+        }
+
+        public bool IsHostileTo(RosterEntry otherUnit)
+        {
+            if (UnitId == otherUnit.UnitId)
+            {
+                return false;
+            }
+
+            using (var processContext = GameManager.GetProcessContext())
+            {
+                while (true)
+                {
+                    if (HostileInfo.UnitId == otherUnit.UnitId)
+                    {
+                        return HostileInfo.HostileFlag > 0;
+                    }
+
+                    if (HostileInfo.NextHostileInfo == IntPtr.Zero) break;
+                    HostileInfo = processContext.Read<HostileInfo>(HostileInfo.NextHostileInfo);
+                }
+            }
+
+            return false;
+        }
     }
 
     public class Roster : IUpdatable<Roster>
