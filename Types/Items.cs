@@ -15,7 +15,7 @@ namespace MapAssist.Types
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsSeen = new Dictionary<int, HashSet<uint>>();
         public static Dictionary<int, HashSet<uint>> ItemUnitIdsToSkip = new Dictionary<int, HashSet<uint>>();
         public static Dictionary<int, HashSet<uint>> InventoryItemUnitIdsToSkip = new Dictionary<int, HashSet<uint>>();
-        public static Dictionary<int, Dictionary<uint, string>> ItemDisplayNames = new Dictionary<int, Dictionary<uint, string>>();
+        public static Dictionary<int, Dictionary<string, string>> ItemDisplayNames = new Dictionary<int, Dictionary<string, string>>();
         public static Dictionary<int, Dictionary<uint, Npc>> ItemVendors = new Dictionary<int, Dictionary<uint, Npc>>();
         public static Dictionary<int, List<ItemLogEntry>> ItemLog = new Dictionary<int, List<ItemLogEntry>>();
         public static Dictionary<string, LocalizedObj> LocalizedItems = new Dictionary<string, LocalizedObj>();
@@ -87,9 +87,10 @@ namespace MapAssist.Types
             !ItemUnitIdsSeen[processId].Contains(item.UnitId) &&
             !ItemUnitIdsToSkip[processId].Contains(item.UnitId);
 
-        public static string ItemLogDisplayName(UnitItem item, ItemFilter rule, int processId)
+        public static string ItemLogDisplayName(UnitItem item, ItemFilter rule, int processId, DateTime logDate)
         {
-            if (ItemDisplayNames[processId].TryGetValue(item.UnitId, out var itemDisplayName))
+            var cacheKey = item.UnitId + "/" + logDate.Second;
+            if (ItemDisplayNames[processId].TryGetValue(cacheKey, out var itemDisplayName))
             {
                 return itemDisplayName;
             }
@@ -113,7 +114,7 @@ namespace MapAssist.Types
             if (rule == null)
             {
                 var itemShortName = itemPrefix + itemBaseName;
-                ItemDisplayNames[processId].Add(item.UnitId, itemShortName);
+                ItemDisplayNames[processId].Add(cacheKey, itemShortName);
                 return itemShortName;
             }
 
@@ -285,7 +286,7 @@ namespace MapAssist.Types
             }
 
             var itemFullName = itemPrefix + itemSpecialName + itemBaseName + itemSuffix;
-            ItemDisplayNames[processId].Add(item.UnitId, itemFullName);
+            ItemDisplayNames[processId].Add(cacheKey, itemFullName);
             return itemFullName;
         }
 
@@ -2405,7 +2406,7 @@ namespace MapAssist.Types
 
     public class ItemLogEntry
     {
-        public string Text => Items.ItemLogDisplayName(UnitItem, Rule, ProcessId);
+        public string Text => Items.ItemLogDisplayName(UnitItem, Rule, ProcessId, LogDate);
         public DateTime LogDate { get; private set; } = DateTime.Now;
         public bool ItemLogExpired => DateTime.Now.Subtract(LogDate).TotalSeconds > MapAssistConfiguration.Loaded.ItemLog.DisplayForSeconds;
         public string ItemHashString { get; set; }

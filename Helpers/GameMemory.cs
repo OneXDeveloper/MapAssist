@@ -468,7 +468,7 @@ namespace MapAssist.Helpers
                 Items.InventoryItemUnitIdsToSkip.Add(_currentProcessId, new HashSet<uint>());
                 Items.ItemVendors.Add(_currentProcessId, new Dictionary<uint, Npc>());
                 Items.ItemLog.Add(_currentProcessId, new List<ItemLogEntry>());
-                Items.ItemDisplayNames.Add(_currentProcessId, new Dictionary<uint, string>());
+                Items.ItemDisplayNames.Add(_currentProcessId, new Dictionary<string, string>());
             }
             else
             {
