@@ -756,29 +756,27 @@ namespace MapAssist.Helpers
 
             foreach (var state in stateList)
             {
-                var stateStr = Enum.GetName(typeof(State), state).Substring(6);
-                Buffs.BuffNames.TryGetValue(state, out var buffName);
-                var resImg = Properties.Resources.ResourceManager.GetObject(stateStr);
+                var resImg = Properties.Resources.ResourceManager.GetObject(state.ToString());
 
                 if (resImg != null)
                 {
                     Color buffColor = States.StateColor(state);
-                    if (state == State.STATE_CONVICTION && _gameData.PlayerUnit.Skills.RightSkillId != Skill.Conviction && !_gameData.PlayerUnit.IsActiveInfinity)
+                    if (state == State.Conviction && _gameData.PlayerUnit.Skills.RightSkillId != Skill.Conviction && !_gameData.PlayerUnit.IsActiveInfinity)
                     {
                         buffColor = States.DebuffColor;
                     }
 
                     if (buffsByColor.ContainsKey(buffColor))
                     {
-                        var bmp = CreateResourceBitmap(gfx, stateStr);
-                        bmp.Tag = buffName;
+                        var bmp = CreateResourceBitmap(gfx, state.ToString());
+                        bmp.Tag = state.ToString().ToProperCase();
                         buffsByColor[buffColor].Add(bmp);
                         totalBuffs++;
                     }
 
-                    var loweredRes = (state == State.STATE_CONVICTION && buffColor == States.DebuffColor)
-                         || state == State.STATE_CONVICTED
-                         || state == State.STATE_LOWERRESIST;
+                    var loweredRes = (state == State.Conviction && buffColor == States.DebuffColor)
+                         || state == State.Convicted
+                         || state == State.LowerResist;
 
                     if (MapAssistConfiguration.Loaded.RenderingConfiguration.BuffAlertLowRes && loweredRes)
                     {
@@ -819,25 +817,12 @@ namespace MapAssist.Helpers
                         var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
                         var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
 
-                        if (mouseRelativePos.X > drawPoint.X & mouseRelativePos.X < drawPoint.X + size.X)
+                        if (rect.IncludesPoint(mouseRelativePos))
                         {
-                            if (mouseRelativePos.Y > drawPoint.Y & mouseRelativePos.Y < drawPoint.Y + size.Y)
-                            {
-                                var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
-                                var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
-                                var orignSetting = font.TextFormat.TextAlignment;
-                                font.TextFormat.TextAlignment = SharpDX.DirectWrite.TextAlignment.Center;
-                                var brush = CreateSolidBrush(gfx, Color.White, 1);
-                                var shadowBrush = CreateSolidBrush(gfx, Color.Black, 0.6f);
-                                var shadowOffset = fontSize * 0.0625f; // 1/16th
+                            var fontFamily = MapAssistConfiguration.Loaded.ItemLog.LabelFont;
+                            var fontSize = (float)MapAssistConfiguration.Loaded.ItemLog.LabelFontSize;
 
-                                var textOffsetX = 0;
-                                var textOffsetY = 30;
-                                gfx.DrawText(font, shadowBrush, shadowOffset + textOffsetX, drawPoint.Y + shadowOffset - textOffsetY, (string) buffImg.Tag);
-                                gfx.DrawText(font, brush, textOffsetX, drawPoint.Y- textOffsetY, (string)buffImg.Tag);
-                                font.TextFormat.TextAlignment = orignSetting;
-
-                            }
+                            DrawText(gfx, new Point(drawPoint.X + size.X / 2, drawPoint.Y - 15), (string)buffImg.Tag, fontFamily, fontSize, Color.White, true, TextAlign.Center, 0.8f);
                         }
 
                         var pen = new Pen(buffColor, buffImageScale);
@@ -931,7 +916,7 @@ namespace MapAssist.Helpers
                 gfx.FillRectangle(lightFillBrush, barRect);
                 gfx.FillRectangle(darkFillBrush, fillRect);
                 gfx.DrawRectangle(blackBrush, barRect, 2);
-                
+
                 var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
 
                 DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);

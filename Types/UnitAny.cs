@@ -220,7 +220,7 @@ namespace MapAssist.Types
                 if (Struct.UnitType != UnitType.Monster) return false;
                 if (Struct.Mode == 0 || Struct.Mode == 12) return false;
                 if (NPC.Dummies.ContainsKey(TxtFileNo)) return false;
-                if (StateList.Contains(State.STATE_REVIVE)) return false;
+                if (StateList.Contains(State.Revive)) return false;
 
                 return true;
             }

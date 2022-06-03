@@ -313,16 +313,6 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Cold {
-            get {
-                object obj = ResourceManager.GetObject("Cold", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ColdMastery {
             get {
                 object obj = ResourceManager.GetObject("ColdMastery", resourceCulture);
@@ -566,6 +556,16 @@ namespace MapAssist.Properties {
         internal static System.Drawing.Bitmap Frenzy {
             get {
                 object obj = ResourceManager.GetObject("Frenzy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Frozen {
+            get {
+                object obj = ResourceManager.GetObject("Frozen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

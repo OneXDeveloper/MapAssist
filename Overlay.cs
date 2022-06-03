@@ -151,14 +151,12 @@ namespace MapAssist
         {
             return _gameData != null && _gameData.MainWindowHandle != IntPtr.Zero;
         }
+
         public void MouseMoveHandler(object sender, MouseEventArgs args)
         {
-            if (GameManager.IsGameInForeground && (_gameData == null || !_gameData.MenuOpen.Chat))
+            if (GameManager.IsGameInForeground && InGame())
             {
-                if (InGame())
-                {
-                    _mouseRelativePos = new Point((int)(args.X - _window.X), (int)(args.Y - _window.Y));
-                }
+                _mouseRelativePos = new Point(args.X - _window.X, args.Y - _window.Y);
             }
         }
 
