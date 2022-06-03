@@ -328,7 +328,7 @@
     <None Include="Resources\Valkyrie.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VenomClaws.png" />
+    <None Include="Resources\Venom.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Vigor.png" />

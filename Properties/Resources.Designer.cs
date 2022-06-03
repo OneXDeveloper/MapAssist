@@ -1145,9 +1145,9 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VenomClaws {
+        internal static System.Drawing.Bitmap Venom {
             get {
-                object obj = ResourceManager.GetObject("VenomClaws", resourceCulture);
+                object obj = ResourceManager.GetObject("Venom", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

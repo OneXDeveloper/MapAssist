@@ -111,7 +111,7 @@ namespace MapAssist.Types
             State.SlowMissiles,
             State.ThunderStorm,
             State.Valkyrie,
-            State.VenomClaws,
+            State.Venom,
             State.Wolf,
             State.Fade
         };
@@ -248,7 +248,7 @@ namespace MapAssist.Types
         Conviction,
         Convicted,
         EnergyShield,
-        VenomClaws,
+        Venom,
         BattleOrders,
         Might,
         Prayer,
