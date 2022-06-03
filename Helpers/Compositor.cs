@@ -709,7 +709,7 @@ namespace MapAssist.Helpers
             }
         }
 
-        public void DrawBuffs(Graphics gfx)
+        public void DrawBuffs(Graphics gfx, Point mouseRelativePos)
         {
             RenderTarget renderTarget = gfx.GetRenderTarget();
             renderTarget.Transform = Matrix3x2.Identity.ToDXMatrix();
@@ -757,6 +757,7 @@ namespace MapAssist.Helpers
             foreach (var state in stateList)
             {
                 var stateStr = Enum.GetName(typeof(State), state).Substring(6);
+                Buffs.BuffNames.TryGetValue(state, out var buffName);
                 var resImg = Properties.Resources.ResourceManager.GetObject(stateStr);
 
                 if (resImg != null)
@@ -769,7 +770,9 @@ namespace MapAssist.Helpers
 
                     if (buffsByColor.ContainsKey(buffColor))
                     {
-                        buffsByColor[buffColor].Add(CreateResourceBitmap(gfx, stateStr));
+                        var bmp = CreateResourceBitmap(gfx, stateStr);
+                        bmp.Tag = buffName;
+                        buffsByColor[buffColor].Add(bmp);
                         totalBuffs++;
                     }
 
@@ -813,9 +816,29 @@ namespace MapAssist.Helpers
                         var buffColor = buff.Key;
                         var drawPoint = new Point((gfx.Width / 2f) - (totalBuffs * imgDimensions / 2f) + (buffIndex * imgDimensions), buffYPos);
                         DrawBitmap(gfx, buffImg, drawPoint, 1, size: buffImageScale);
-
                         var size = new Point(imgDimensions + buffImageScale, imgDimensions + buffImageScale);
                         var rect = new Rectangle(drawPoint.X, drawPoint.Y, drawPoint.X + size.X, drawPoint.Y + size.Y);
+
+                        if (mouseRelativePos.X > drawPoint.X & mouseRelativePos.X < drawPoint.X + size.X)
+                        {
+                            if (mouseRelativePos.Y > drawPoint.Y & mouseRelativePos.Y < drawPoint.Y + size.Y)
+                            {
+                                var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.ItemLog.LabelFontSize);
+                                var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
+                                var orignSetting = font.TextFormat.TextAlignment;
+                                font.TextFormat.TextAlignment = SharpDX.DirectWrite.TextAlignment.Center;
+                                var brush = CreateSolidBrush(gfx, Color.White, 1);
+                                var shadowBrush = CreateSolidBrush(gfx, Color.Black, 0.6f);
+                                var shadowOffset = fontSize * 0.0625f; // 1/16th
+
+                                var textOffsetX = 0;
+                                var textOffsetY = 30;
+                                gfx.DrawText(font, shadowBrush, shadowOffset + textOffsetX, drawPoint.Y + shadowOffset - textOffsetY, (string) buffImg.Tag);
+                                gfx.DrawText(font, brush, textOffsetX, drawPoint.Y- textOffsetY, (string)buffImg.Tag);
+                                font.TextFormat.TextAlignment = orignSetting;
+
+                            }
+                        }
 
                         var pen = new Pen(buffColor, buffImageScale);
                         if (buffColor == States.DebuffColor)
@@ -908,7 +931,7 @@ namespace MapAssist.Helpers
                 gfx.FillRectangle(lightFillBrush, barRect);
                 gfx.FillRectangle(darkFillBrush, fillRect);
                 gfx.DrawRectangle(blackBrush, barRect, 2);
-
+                
                 var infoTextPosition = center.Add(0, gfx.Height * (activeMonster.Immunities.Count() > 0 ? -0.007f : 0));
 
                 DrawText(gfx, infoTextPosition, infoText, font, fontSize, Color.FromArgb(190, 171, 113), false, TextAlign.Center);
