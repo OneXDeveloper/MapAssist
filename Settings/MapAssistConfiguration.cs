@@ -132,8 +132,17 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "Corpse", ApplyNamingConventions = false)]
         public PointOfInterestRendering Corpse { get; set; }
 
-        [YamlMember(Alias = "Portal", ApplyNamingConventions = false)]
-        public PortalRendering Portal { get; set; }
+        [YamlMember(Alias = "MyPortal", ApplyNamingConventions = false)]
+        public PortalRendering MyPortal { get; set; }
+
+        [YamlMember(Alias = "PartyPortal", ApplyNamingConventions = false)]
+        public PortalRendering PartyPortal { get; set; }
+
+        [YamlMember(Alias = "NonPartyPortal", ApplyNamingConventions = false)]
+        public PortalRendering NonPartyPortal { get; set; }
+
+        [YamlMember(Alias = "GamePortal", ApplyNamingConventions = false)]
+        public PortalRendering GamePortal { get; set; }
 
         [YamlMember(Alias = "SuperChest", ApplyNamingConventions = false)]
         public PointOfInterestRendering SuperChest { get; set; }

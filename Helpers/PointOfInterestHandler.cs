@@ -476,7 +476,7 @@ namespace MapAssist.Helpers
                             Area = areaData.Area,
                             Label = AreaPortals[areaData.Area][obj].PortalLabel(gameData.Difficulty),
                             Position = points[0],
-                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.Portal,
+                            RenderingSettings = MapAssistConfiguration.Loaded.MapConfiguration.GamePortal,
                             Type = PoiType.AreaPortal
                         });
                     }

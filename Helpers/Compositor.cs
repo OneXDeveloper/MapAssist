@@ -314,19 +314,27 @@ namespace MapAssist.Helpers
                 {
                     var destinationArea = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
 
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawIcon())
+                    var playerNameUnicode = Encoding.UTF8.GetString(gameObject.ObjectData.Owner).TrimEnd((char)0);
+                    var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null;
+
+                    var rosterEntry = _gameData.Roster.List.FirstOrDefault(x => x.Name == playerNameUnicode);
+
+                    var render = rosterEntry != null && rosterEntry.UnitId == _gameData.PlayerUnit.UnitId ? MapAssistConfiguration.Loaded.MapConfiguration.MyPortal :
+                        rosterEntry != null && rosterEntry.InParty ? MapAssistConfiguration.Loaded.MapConfiguration.PartyPortal :
+                        rosterEntry != null ? MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPortal :
+                        MapAssistConfiguration.Loaded.MapConfiguration.GamePortal;
+
+                    if (render.CanDrawIcon())
                     {
-                        drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position));
+                        drawPoiIcons.Add((render, gameObject.Position));
                     }
 
-                    if (MapAssistConfiguration.Loaded.MapConfiguration.Portal.CanDrawLabel(destinationArea))
+                    if (render.CanDrawLabel(destinationArea))
                     {
-                        var playerNameUnicode = Encoding.UTF8.GetString(gameObject.ObjectData.Owner).TrimEnd((char)0);
-                        var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null;
                         var label = destinationArea.PortalLabel(_gameData.Difficulty, playerName);
 
                         if (string.IsNullOrWhiteSpace(label) || label == "None") continue;
-                        drawPoiLabels.Add((MapAssistConfiguration.Loaded.MapConfiguration.Portal, gameObject.Position, label, null));
+                        drawPoiLabels.Add((render, gameObject.Position, label, null));
                     }
                 }
                 else if (gameObject.IsArmorWeapRack && MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())

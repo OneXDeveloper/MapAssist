@@ -173,12 +173,39 @@ MapConfiguration:
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
-  Portal:
+  MyPortal:
     IconOutlineColor: Yellow
     IconShape: Portal
     IconSize: 3
     IconThickness: 2
     LabelColor: Yellow
+    LabelFontSize: 14
+    LabelFont: Formal 436
+    LabelTextShadow: true
+  PartyPortal:
+    IconOutlineColor: Yellow
+    IconShape: Portal
+    IconSize: 3
+    IconThickness: 2
+    LabelColor: Yellow
+    LabelFontSize: 14
+    LabelFont: Formal 436
+    LabelTextShadow: true
+  NonPartyPortal:
+    IconOutlineColor: Orange
+    IconShape: Portal
+    IconSize: 3
+    IconThickness: 2
+    LabelColor: Orange
+    LabelFontSize: 14
+    LabelFont: Formal 436
+    LabelTextShadow: true
+  GamePortal:
+    IconOutlineColor: 225, 30, 30
+    IconShape: Portal
+    IconSize: 3
+    IconThickness: 2
+    LabelColor: 225, 30, 30
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
