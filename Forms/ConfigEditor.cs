@@ -598,7 +598,7 @@ namespace MapAssist
 
         private void btnIconColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnIconColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 var iconProp = SelectedProperty.PropertyType.GetProperty("IconColor");
@@ -622,7 +622,7 @@ namespace MapAssist
 
         private void btnIconOutlineColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnIconOutlineColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 var iconProp = SelectedProperty.PropertyType.GetProperty("IconOutlineColor");
@@ -675,7 +675,7 @@ namespace MapAssist
 
         private void btnLabelColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnLabelColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 var labelPropColor = SelectedProperty.PropertyType.GetProperty("LabelColor");
@@ -736,7 +736,7 @@ namespace MapAssist
 
         private void btnLineColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnLineColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 var linePropColor = SelectedProperty.PropertyType.GetProperty("LineColor");
@@ -878,7 +878,7 @@ namespace MapAssist
 
         private void btnSuperiorColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnSuperiorColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.SuperiorColor = colorDlg.Color;
@@ -891,7 +891,7 @@ namespace MapAssist
 
         private void btnMagicColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnMagicColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.MagicColor = colorDlg.Color;
@@ -904,7 +904,7 @@ namespace MapAssist
 
         private void btnRareColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnRareColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.RareColor = colorDlg.Color;
@@ -917,7 +917,7 @@ namespace MapAssist
 
         private void btnSetColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnSetColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.SetColor = colorDlg.Color;
@@ -930,7 +930,7 @@ namespace MapAssist
 
         private void btnUniqueColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnUniqueColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.UniqueColor = colorDlg.Color;
@@ -943,7 +943,7 @@ namespace MapAssist
 
         private void btnCraftedColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnCraftedColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.ItemLog.CraftedColor = colorDlg.Color;
@@ -1051,7 +1051,7 @@ namespace MapAssist
 
         private void btnWalkableColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnWalkableColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.MapColorConfiguration.Walkable = colorDlg.Color;
@@ -1073,7 +1073,7 @@ namespace MapAssist
 
         private void btnBorderColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnBorderColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.MapColorConfiguration.Border = colorDlg.Color;
@@ -1095,7 +1095,7 @@ namespace MapAssist
 
         private void btnExpRangeColor_Click(object sender, EventArgs e)
         {
-            var (colorDlg, colorResult) = SelectColor();
+            var (colorDlg, colorResult) = SelectColor(btnExpRangeColor.BackColor);
             if (colorResult == DialogResult.OK)
             {
                 MapAssistConfiguration.Loaded.MapColorConfiguration.ExpRange = colorDlg.Color;
@@ -1204,14 +1204,14 @@ namespace MapAssist
 
         private List<Color> customColors = new List<Color>();
 
-        private (ColorDialog, DialogResult) SelectColor()
+        private (ColorDialog, DialogResult) SelectColor(Color presetColor)
         {
             var colorDlg = new ColorDialog();
             colorDlg.FullOpen = true;
+            colorDlg.Color = presetColor;
             if (customColors.Count > 0)
             {
                 colorDlg.CustomColors = customColors.Select(color => ColorTranslator.ToOle(color)).ToArray();
-                colorDlg.Color = customColors.First();
             }
             var result = colorDlg.ShowDialog();
             if (result == DialogResult.OK)
