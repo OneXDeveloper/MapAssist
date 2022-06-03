@@ -634,7 +634,7 @@ namespace MapAssist.Helpers
                             // not in my party
                             var rendering = (myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
-                                : (!playerUnit.IsCorpse && (playerUnit.RosterEntry.IsHostile || _gameData.PlayerUnit.RosterEntry.IsHostileTo(player))
+                                : (!playerUnit.IsCorpse && (playerUnit.RosterEntry.IsHostile || playerUnit.RosterEntry.IsHostileTo)
                                     ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer
                                     : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer));
 

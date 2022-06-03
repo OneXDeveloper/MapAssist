@@ -24,7 +24,8 @@ namespace MapAssist.Types
         public IntPtr pNext;
 
         public bool InParty { get; private set; }
-        public bool IsHostile { get; private set; }
+        public bool IsHostile { get; private set; } // Is this player hostile to me
+        public bool IsHostileTo { get; private set; } // Am I hostile to this player
 
         public RosterEntry UpdateParties(RosterEntry player)
         {
@@ -34,18 +35,20 @@ namespace MapAssist.Types
                 {
                     InParty = true;
                     IsHostile = false;
+                    IsHostileTo = false;
                 }
                 else
                 {
                     InParty = false;
-                    IsHostile = IsHostileTo(player);
+                    IsHostile = GetIsHostileTo(player);
+                    IsHostileTo = player.GetIsHostileTo(this);
                 }
             }
 
             return this;
         }
 
-        public bool IsHostileTo(RosterEntry otherUnit)
+        private bool GetIsHostileTo(RosterEntry otherUnit)
         {
             if (UnitId == otherUnit.UnitId)
             {
