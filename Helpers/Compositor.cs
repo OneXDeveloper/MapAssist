@@ -492,12 +492,6 @@ namespace MapAssist.Helpers
 
         private void DrawItems(Graphics gfx)
         {
-            var areasToRender = new AreaData[] { _areaData };
-            if (_areaData.Area.RequiresStitching())
-            {
-                areasToRender = areasToRender.Concat(_areaData.AdjacentAreas.Values.Where(area => area.Area.RequiresStitching())).ToArray();
-            }
-
             var drawItemIcons = new List<(IconRendering, Point)>();
             var drawItemLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
@@ -507,7 +501,7 @@ namespace MapAssist.Helpers
                 {
                     if (item.IsValidItem && item.IsDropped && !item.IsIdentified)
                     {
-                        if (!areasToRender.Any(area => area.IncludesPoint(item.Position))) continue; // Don't show item if not in drawn areas
+                        if (!_areaData.IncludesPoint(item.Position) && !IsInBounds(item.Position, _gameData.PlayerPosition)) continue; // Don't show item if not in drawn areas
 
                         var itemPosition = item.Position;
                         var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
