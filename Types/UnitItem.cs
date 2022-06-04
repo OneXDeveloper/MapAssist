@@ -62,9 +62,9 @@ namespace MapAssist.Types
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
 
-        public bool IsGem => (Item)TxtFileNo >= Item.ChippedAmethyst && (Item)TxtFileNo <= Item.PerfectSkull;
+        public bool IsGem => Item >= Item.ChippedAmethyst && Item <= Item.PerfectSkull;
 
-        public bool IsRune => (Item)TxtFileNo >= Item.ElRune && (Item)TxtFileNo <= Item.ZodRune;
+        public bool IsRune => Item >= Item.ElRune && Item <= Item.ZodRune;
 
         public ushort[] Prefixes => ItemData.Affixes.Take(3).ToArray();
 
@@ -178,7 +178,7 @@ namespace MapAssist.Types
                 return ItemQuality.CRAFTED;
             }
 
-            switch ((Item)TxtFileNo)
+            switch (Item)
             {
                 case Item.KeyOfTerror:
                 case Item.KeyOfHate:
