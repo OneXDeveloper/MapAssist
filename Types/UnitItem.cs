@@ -56,11 +56,15 @@ namespace MapAssist.Types
 
         public bool IsDropped => ItemModeMapped == ItemModeMapped.Ground;
 
-        public bool IsInInventory => ItemModeMapped == ItemModeMapped.Inventory;
+        public bool IsInInventoryOrCube => ItemModeMapped == ItemModeMapped.Inventory || ItemModeMapped == ItemModeMapped.Cube;
 
         public bool IsInStore => ItemModeMapped == ItemModeMapped.Vendor;
 
         public bool IsInSocket => ItemModeMapped == ItemModeMapped.Socket;
+
+        public bool IsGem => (Item)TxtFileNo >= Item.ChippedAmethyst && (Item)TxtFileNo <= Item.PerfectSkull;
+
+        public bool IsRune => (Item)TxtFileNo >= Item.ElRune && (Item)TxtFileNo <= Item.ZodRune;
 
         public ushort[] Prefixes => ItemData.Affixes.Take(3).ToArray();
 
@@ -169,22 +173,24 @@ namespace MapAssist.Types
                 return ItemQuality.SUPERIOR;
             }
 
-            if (TxtFileNo >= 610 && TxtFileNo <= 642)
+            if (IsRune)
             {
-                // Runes
                 return ItemQuality.CRAFTED;
             }
 
-            switch (TxtFileNo)
+            switch ((Item)TxtFileNo)
             {
-                case 647: // Key of Terror
-                case 648: // Key of Hate
-                case 649: // Key of Destruction
-                case 653: // Token of Absolution
-                case 654: // Twisted Essence of Suffering
-                case 655: // Charged Essense of Hatred
-                case 656: // Burning Essence of Terror
-                case 657: // Festering Essence of Destruction
+                case Item.KeyOfTerror:
+                case Item.KeyOfHate:
+                case Item.KeyOfDestruction:
+                case Item.DiablosHorn:
+                case Item.BaalsEye:
+                case Item.MephistosBrain:
+                case Item.TokenofAbsolution:
+                case Item.TwistedEssenceOfSuffering:
+                case Item.ChargedEssenceOfHatred:
+                case Item.BurningEssenceOfTerror:
+                case Item.FesteringEssenceOfDestruction:
                     return ItemQuality.CRAFTED;
             }
 
