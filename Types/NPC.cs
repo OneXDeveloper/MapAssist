@@ -87,6 +87,8 @@ namespace MapAssist.Types
             { 425, Npc.DruidPlaguePoppy },
             { 428, Npc.DruidBear },
             { 543, Npc.BaalThrone },
+            { 560, Npc.Act5Hireling1Hand },
+            { 561, Npc.Act5Hireling2Hand },
             { 567, Npc.InjuredBarbarian },
             { 568, Npc.InjuredBarbarian2 },
             { 569, Npc.InjuredBarbarian3 },
