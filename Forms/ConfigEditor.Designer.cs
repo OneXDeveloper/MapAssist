@@ -69,14 +69,14 @@
             this.lblMapZoomValue = new System.Windows.Forms.Label();
             this.lblZoom = new System.Windows.Forms.Label();
             this.lblMapSizeValue = new System.Windows.Forms.Label();
-            this.iconOpacity = new System.Windows.Forms.TrackBar();
+            this.allIconOpacity = new System.Windows.Forms.TrackBar();
             this.lblMapSize = new System.Windows.Forms.Label();
-            this.lblIconOpacityValue = new System.Windows.Forms.Label();
+            this.lblAllIconOpacityValue = new System.Windows.Forms.Label();
             this.lblOpacityValue = new System.Windows.Forms.Label();
             this.opacity = new System.Windows.Forms.TrackBar();
             this.lblOpacity = new System.Windows.Forms.Label();
             this.chkToggleViaMap = new System.Windows.Forms.CheckBox();
-            this.lblIconOpacity = new System.Windows.Forms.Label();
+            this.lblAllIconOpacity = new System.Windows.Forms.Label();
             this.chkToggleViaPanels = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -89,6 +89,7 @@
             this.chkLifePerc = new System.Windows.Forms.CheckBox();
             this.chkLife = new System.Windows.Forms.CheckBox();
             this.grpLines = new System.Windows.Forms.GroupBox();
+            this.chkLinesShrines = new System.Windows.Forms.CheckBox();
             this.chkLinesWaypoint = new System.Windows.Forms.CheckBox();
             this.chkLinesQuest = new System.Windows.Forms.CheckBox();
             this.chkLinesNextArea = new System.Windows.Forms.CheckBox();
@@ -108,6 +109,9 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabDrawing = new System.Windows.Forms.TabControl();
             this.tabIcon = new System.Windows.Forms.TabPage();
+            this.lblIconOpacityValue = new System.Windows.Forms.Label();
+            this.lblIconOpacity = new System.Windows.Forms.Label();
+            this.iconOpacity = new System.Windows.Forms.TrackBar();
             this.btnIconColor = new System.Windows.Forms.Button();
             this.btnIconOutlineColor = new System.Windows.Forms.Button();
             this.btnClearOutlineColor = new System.Windows.Forms.Button();
@@ -208,7 +212,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.linkWebsite = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.chkLinesShrines = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -218,7 +221,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapZoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mapSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconOpacity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.allIconOpacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.opacity)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -228,6 +231,7 @@
             this.tabPage2.SuspendLayout();
             this.tabDrawing.SuspendLayout();
             this.tabIcon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconOpacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconThickness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconSize)).BeginInit();
             this.tabLabel.SuspendLayout();
@@ -561,14 +565,14 @@
             this.groupBox1.Controls.Add(this.lblMapZoomValue);
             this.groupBox1.Controls.Add(this.lblZoom);
             this.groupBox1.Controls.Add(this.lblMapSizeValue);
-            this.groupBox1.Controls.Add(this.iconOpacity);
+            this.groupBox1.Controls.Add(this.allIconOpacity);
             this.groupBox1.Controls.Add(this.lblMapSize);
-            this.groupBox1.Controls.Add(this.lblIconOpacityValue);
+            this.groupBox1.Controls.Add(this.lblAllIconOpacityValue);
             this.groupBox1.Controls.Add(this.lblOpacityValue);
             this.groupBox1.Controls.Add(this.opacity);
             this.groupBox1.Controls.Add(this.lblOpacity);
             this.groupBox1.Controls.Add(this.chkToggleViaMap);
-            this.groupBox1.Controls.Add(this.lblIconOpacity);
+            this.groupBox1.Controls.Add(this.lblAllIconOpacity);
             this.groupBox1.Controls.Add(this.chkToggleViaPanels);
             this.groupBox1.Location = new System.Drawing.Point(11, 9);
             this.groupBox1.Name = "groupBox1";
@@ -771,20 +775,20 @@
             this.lblMapSizeValue.Text = "1000";
             this.lblMapSizeValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // iconOpacity
+            // allIconOpacity
             // 
-            this.iconOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.allIconOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.iconOpacity.AutoSize = false;
-            this.iconOpacity.BackColor = System.Drawing.Color.White;
-            this.iconOpacity.LargeChange = 1;
-            this.iconOpacity.Location = new System.Drawing.Point(79, 52);
-            this.iconOpacity.Maximum = 20;
-            this.iconOpacity.Name = "iconOpacity";
-            this.iconOpacity.Size = new System.Drawing.Size(266, 27);
-            this.iconOpacity.TabIndex = 3;
-            this.iconOpacity.Scroll += new System.EventHandler(this.iconOpacity_Scroll);
-            this.iconOpacity.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.IgnoreMouseWheel);
+            this.allIconOpacity.AutoSize = false;
+            this.allIconOpacity.BackColor = System.Drawing.Color.White;
+            this.allIconOpacity.LargeChange = 1;
+            this.allIconOpacity.Location = new System.Drawing.Point(79, 52);
+            this.allIconOpacity.Maximum = 20;
+            this.allIconOpacity.Name = "allIconOpacity";
+            this.allIconOpacity.Size = new System.Drawing.Size(266, 27);
+            this.allIconOpacity.TabIndex = 3;
+            this.allIconOpacity.Scroll += new System.EventHandler(this.allIconOpacity_Scroll);
+            this.allIconOpacity.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.IgnoreMouseWheel);
             // 
             // lblMapSize
             // 
@@ -796,17 +800,17 @@
             this.lblMapSize.TabIndex = 11;
             this.lblMapSize.Text = "Map Size";
             // 
-            // lblIconOpacityValue
+            // lblAllIconOpacityValue
             // 
-            this.lblIconOpacityValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblIconOpacityValue.AutoSize = true;
-            this.lblIconOpacityValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconOpacityValue.Location = new System.Drawing.Point(351, 55);
-            this.lblIconOpacityValue.Name = "lblIconOpacityValue";
-            this.lblIconOpacityValue.Size = new System.Drawing.Size(31, 13);
-            this.lblIconOpacityValue.TabIndex = 5;
-            this.lblIconOpacityValue.Text = "1000";
-            this.lblIconOpacityValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblAllIconOpacityValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAllIconOpacityValue.AutoSize = true;
+            this.lblAllIconOpacityValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblAllIconOpacityValue.Location = new System.Drawing.Point(351, 55);
+            this.lblAllIconOpacityValue.Name = "lblAllIconOpacityValue";
+            this.lblAllIconOpacityValue.Size = new System.Drawing.Size(31, 13);
+            this.lblAllIconOpacityValue.TabIndex = 5;
+            this.lblAllIconOpacityValue.Text = "1000";
+            this.lblAllIconOpacityValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblOpacityValue
             // 
@@ -856,15 +860,15 @@
             this.chkToggleViaMap.UseVisualStyleBackColor = true;
             this.chkToggleViaMap.CheckedChanged += new System.EventHandler(this.chkToggleViaMap_CheckedChanged);
             // 
-            // lblIconOpacity
+            // lblAllIconOpacity
             // 
-            this.lblIconOpacity.AutoSize = true;
-            this.lblIconOpacity.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconOpacity.Location = new System.Drawing.Point(6, 55);
-            this.lblIconOpacity.Name = "lblIconOpacity";
-            this.lblIconOpacity.Size = new System.Drawing.Size(67, 13);
-            this.lblIconOpacity.TabIndex = 4;
-            this.lblIconOpacity.Text = "Icon Opacity";
+            this.lblAllIconOpacity.AutoSize = true;
+            this.lblAllIconOpacity.BackColor = System.Drawing.Color.Transparent;
+            this.lblAllIconOpacity.Location = new System.Drawing.Point(6, 55);
+            this.lblAllIconOpacity.Name = "lblAllIconOpacity";
+            this.lblAllIconOpacity.Size = new System.Drawing.Size(67, 13);
+            this.lblAllIconOpacity.TabIndex = 4;
+            this.lblAllIconOpacity.Text = "Icon Opacity";
             // 
             // chkToggleViaPanels
             // 
@@ -902,7 +906,7 @@
             this.groupBox7.Controls.Add(this.chkMana);
             this.groupBox7.Controls.Add(this.chkLifePerc);
             this.groupBox7.Controls.Add(this.chkLife);
-            this.groupBox7.Location = new System.Drawing.Point(11, 140);
+            this.groupBox7.Location = new System.Drawing.Point(11, 145);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(388, 90);
             this.groupBox7.TabIndex = 25;
@@ -1008,12 +1012,23 @@
             this.grpLines.Controls.Add(this.chkLinesNextArea);
             this.grpLines.Controls.Add(this.chkLinesCorpse);
             this.grpLines.Controls.Add(this.chkLinesHostiles);
-            this.grpLines.Location = new System.Drawing.Point(11, 236);
+            this.grpLines.Location = new System.Drawing.Point(11, 245);
             this.grpLines.Name = "grpLines";
             this.grpLines.Size = new System.Drawing.Size(388, 71);
             this.grpLines.TabIndex = 24;
             this.grpLines.TabStop = false;
             this.grpLines.Text = "Toggle Map Lines";
+            // 
+            // chkLinesShrines
+            // 
+            this.chkLinesShrines.AutoSize = true;
+            this.chkLinesShrines.Location = new System.Drawing.Point(233, 23);
+            this.chkLinesShrines.Name = "chkLinesShrines";
+            this.chkLinesShrines.Size = new System.Drawing.Size(61, 17);
+            this.chkLinesShrines.TabIndex = 7;
+            this.chkLinesShrines.Text = "Shrines";
+            this.chkLinesShrines.UseVisualStyleBackColor = true;
+            this.chkLinesShrines.CheckedChanged += new System.EventHandler(this.chkLinesShrines_CheckedChanged);
             // 
             // chkLinesWaypoint
             // 
@@ -1224,16 +1239,19 @@
             this.tabDrawing.Controls.Add(this.tabIcon);
             this.tabDrawing.Controls.Add(this.tabLabel);
             this.tabDrawing.Controls.Add(this.tabLine);
-            this.tabDrawing.Location = new System.Drawing.Point(3, 33);
+            this.tabDrawing.Location = new System.Drawing.Point(9, 33);
             this.tabDrawing.Name = "tabDrawing";
             this.tabDrawing.SelectedIndex = 0;
-            this.tabDrawing.Size = new System.Drawing.Size(406, 286);
+            this.tabDrawing.Size = new System.Drawing.Size(397, 286);
             this.tabDrawing.TabIndex = 10;
             this.tabDrawing.Visible = false;
             this.tabDrawing.SelectedIndexChanged += new System.EventHandler(this.tabDrawing_SelectedIndexChanged);
             // 
             // tabIcon
             // 
+            this.tabIcon.Controls.Add(this.lblIconOpacityValue);
+            this.tabIcon.Controls.Add(this.lblIconOpacity);
+            this.tabIcon.Controls.Add(this.iconOpacity);
             this.tabIcon.Controls.Add(this.btnIconColor);
             this.tabIcon.Controls.Add(this.btnIconOutlineColor);
             this.tabIcon.Controls.Add(this.btnClearOutlineColor);
@@ -1249,10 +1267,47 @@
             this.tabIcon.Location = new System.Drawing.Point(4, 22);
             this.tabIcon.Name = "tabIcon";
             this.tabIcon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabIcon.Size = new System.Drawing.Size(398, 260);
+            this.tabIcon.Size = new System.Drawing.Size(389, 260);
             this.tabIcon.TabIndex = 0;
             this.tabIcon.Text = "Icon";
             this.tabIcon.UseVisualStyleBackColor = true;
+            // 
+            // lblIconOpacityValue
+            // 
+            this.lblIconOpacityValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblIconOpacityValue.AutoSize = true;
+            this.lblIconOpacityValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblIconOpacityValue.Location = new System.Drawing.Point(352, 211);
+            this.lblIconOpacityValue.Name = "lblIconOpacityValue";
+            this.lblIconOpacityValue.Size = new System.Drawing.Size(31, 13);
+            this.lblIconOpacityValue.TabIndex = 29;
+            this.lblIconOpacityValue.Text = "1000";
+            this.lblIconOpacityValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblIconOpacity
+            // 
+            this.lblIconOpacity.AutoSize = true;
+            this.lblIconOpacity.BackColor = System.Drawing.Color.Transparent;
+            this.lblIconOpacity.Location = new System.Drawing.Point(8, 211);
+            this.lblIconOpacity.Name = "lblIconOpacity";
+            this.lblIconOpacity.Size = new System.Drawing.Size(43, 13);
+            this.lblIconOpacity.TabIndex = 28;
+            this.lblIconOpacity.Text = "Opacity";
+            // 
+            // iconOpacity
+            // 
+            this.iconOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconOpacity.AutoSize = false;
+            this.iconOpacity.BackColor = System.Drawing.Color.White;
+            this.iconOpacity.LargeChange = 1;
+            this.iconOpacity.Location = new System.Drawing.Point(75, 209);
+            this.iconOpacity.Maximum = 20;
+            this.iconOpacity.Name = "iconOpacity";
+            this.iconOpacity.Size = new System.Drawing.Size(271, 27);
+            this.iconOpacity.TabIndex = 27;
+            this.iconOpacity.Value = 1;
+            this.iconOpacity.Scroll += new System.EventHandler(this.iconOpacity_Scroll);
             // 
             // btnIconColor
             // 
@@ -1309,7 +1364,7 @@
             this.lblIconThicknessValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblIconThicknessValue.AutoSize = true;
             this.lblIconThicknessValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconThicknessValue.Location = new System.Drawing.Point(361, 161);
+            this.lblIconThicknessValue.Location = new System.Drawing.Point(352, 161);
             this.lblIconThicknessValue.Name = "lblIconThicknessValue";
             this.lblIconThicknessValue.Size = new System.Drawing.Size(31, 13);
             this.lblIconThicknessValue.TabIndex = 24;
@@ -1321,7 +1376,7 @@
             this.lblIconSizeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblIconSizeValue.AutoSize = true;
             this.lblIconSizeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconSizeValue.Location = new System.Drawing.Point(361, 111);
+            this.lblIconSizeValue.Location = new System.Drawing.Point(352, 111);
             this.lblIconSizeValue.Name = "lblIconSizeValue";
             this.lblIconSizeValue.Size = new System.Drawing.Size(31, 13);
             this.lblIconSizeValue.TabIndex = 23;
@@ -1348,7 +1403,7 @@
             this.iconThickness.Location = new System.Drawing.Point(75, 159);
             this.iconThickness.Maximum = 20;
             this.iconThickness.Name = "iconThickness";
-            this.iconThickness.Size = new System.Drawing.Size(280, 27);
+            this.iconThickness.Size = new System.Drawing.Size(271, 27);
             this.iconThickness.TabIndex = 16;
             this.iconThickness.Value = 1;
             this.iconThickness.Scroll += new System.EventHandler(this.iconThickness_Scroll);
@@ -1374,7 +1429,7 @@
             this.iconSize.Location = new System.Drawing.Point(75, 109);
             this.iconSize.Maximum = 20;
             this.iconSize.Name = "iconSize";
-            this.iconSize.Size = new System.Drawing.Size(280, 27);
+            this.iconSize.Size = new System.Drawing.Size(271, 27);
             this.iconSize.TabIndex = 14;
             this.iconSize.Value = 1;
             this.iconSize.Scroll += new System.EventHandler(this.iconSize_Scroll);
@@ -1409,7 +1464,7 @@
             this.tabLabel.Location = new System.Drawing.Point(4, 22);
             this.tabLabel.Name = "tabLabel";
             this.tabLabel.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLabel.Size = new System.Drawing.Size(398, 260);
+            this.tabLabel.Size = new System.Drawing.Size(389, 260);
             this.tabLabel.TabIndex = 1;
             this.tabLabel.Text = "Label";
             this.tabLabel.UseVisualStyleBackColor = true;
@@ -1487,7 +1542,7 @@
             this.tabLine.Controls.Add(this.btnLineColor);
             this.tabLine.Location = new System.Drawing.Point(4, 22);
             this.tabLine.Name = "tabLine";
-            this.tabLine.Size = new System.Drawing.Size(398, 260);
+            this.tabLine.Size = new System.Drawing.Size(389, 260);
             this.tabLine.TabIndex = 2;
             this.tabLine.Text = "Line";
             this.tabLine.UseVisualStyleBackColor = true;
@@ -1510,7 +1565,7 @@
             this.lblLineThicknessSizeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLineThicknessSizeValue.AutoSize = true;
             this.lblLineThicknessSizeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblLineThicknessSizeValue.Location = new System.Drawing.Point(352, 111);
+            this.lblLineThicknessSizeValue.Location = new System.Drawing.Point(343, 111);
             this.lblLineThicknessSizeValue.Name = "lblLineThicknessSizeValue";
             this.lblLineThicknessSizeValue.Size = new System.Drawing.Size(31, 13);
             this.lblLineThicknessSizeValue.TabIndex = 27;
@@ -1522,7 +1577,7 @@
             this.lblLineArrowSizeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLineArrowSizeValue.AutoSize = true;
             this.lblLineArrowSizeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblLineArrowSizeValue.Location = new System.Drawing.Point(352, 61);
+            this.lblLineArrowSizeValue.Location = new System.Drawing.Point(343, 61);
             this.lblLineArrowSizeValue.Name = "lblLineArrowSizeValue";
             this.lblLineArrowSizeValue.Size = new System.Drawing.Size(31, 13);
             this.lblLineArrowSizeValue.TabIndex = 26;
@@ -1549,7 +1604,7 @@
             this.lineThicknessSize.Location = new System.Drawing.Point(73, 109);
             this.lineThicknessSize.Maximum = 30;
             this.lineThicknessSize.Name = "lineThicknessSize";
-            this.lineThicknessSize.Size = new System.Drawing.Size(273, 27);
+            this.lineThicknessSize.Size = new System.Drawing.Size(264, 27);
             this.lineThicknessSize.TabIndex = 22;
             this.lineThicknessSize.Value = 1;
             this.lineThicknessSize.Scroll += new System.EventHandler(this.lineThicknessSize_Scroll);
@@ -1575,7 +1630,7 @@
             this.lineArrowSize.Location = new System.Drawing.Point(73, 59);
             this.lineArrowSize.Maximum = 20;
             this.lineArrowSize.Name = "lineArrowSize";
-            this.lineArrowSize.Size = new System.Drawing.Size(273, 27);
+            this.lineArrowSize.Size = new System.Drawing.Size(264, 27);
             this.lineArrowSize.TabIndex = 20;
             this.lineArrowSize.Value = 1;
             this.lineArrowSize.Scroll += new System.EventHandler(this.lineArrowSize_Scroll);
@@ -2296,7 +2351,7 @@
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.btnRemoveAuthorizedWindowTitle);
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.btnAddAuthorizedWindowTitle);
             this.groupBoxAuthorizedWindowTitle.Controls.Add(this.lstAuthorizedWindowTitle);
-            this.groupBoxAuthorizedWindowTitle.Location = new System.Drawing.Point(11, 115);
+            this.groupBoxAuthorizedWindowTitle.Location = new System.Drawing.Point(11, 123);
             this.groupBoxAuthorizedWindowTitle.Name = "groupBoxAuthorizedWindowTitle";
             this.groupBoxAuthorizedWindowTitle.Size = new System.Drawing.Size(388, 124);
             this.groupBoxAuthorizedWindowTitle.TabIndex = 2;
@@ -2351,7 +2406,7 @@
             this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox8.Controls.Add(this.label3);
             this.groupBox8.Controls.Add(this.chkDPIAware);
-            this.groupBox8.Location = new System.Drawing.Point(11, 245);
+            this.groupBox8.Location = new System.Drawing.Point(11, 258);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(388, 58);
             this.groupBox8.TabIndex = 29;
@@ -2434,17 +2489,6 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
-            // chkLinesShrines
-            // 
-            this.chkLinesShrines.AutoSize = true;
-            this.chkLinesShrines.Location = new System.Drawing.Point(233, 23);
-            this.chkLinesShrines.Name = "chkLinesShrines";
-            this.chkLinesShrines.Size = new System.Drawing.Size(61, 17);
-            this.chkLinesShrines.TabIndex = 7;
-            this.chkLinesShrines.Text = "Shrines";
-            this.chkLinesShrines.UseVisualStyleBackColor = true;
-            this.chkLinesShrines.CheckedChanged += new System.EventHandler(this.chkLinesShrines_CheckedChanged);
-            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2475,7 +2519,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapZoom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mapSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconOpacity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.allIconOpacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.opacity)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
@@ -2490,6 +2534,7 @@
             this.tabDrawing.ResumeLayout(false);
             this.tabIcon.ResumeLayout(false);
             this.tabIcon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconOpacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconThickness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconSize)).EndInit();
             this.tabLabel.ResumeLayout(false);
@@ -2619,14 +2664,14 @@
         private System.Windows.Forms.Label lblMapZoomValue;
         private System.Windows.Forms.Label lblZoom;
         private System.Windows.Forms.Label lblMapSizeValue;
-        private System.Windows.Forms.TrackBar iconOpacity;
+        private System.Windows.Forms.TrackBar allIconOpacity;
         private System.Windows.Forms.Label lblMapSize;
-        private System.Windows.Forms.Label lblIconOpacityValue;
+        private System.Windows.Forms.Label lblAllIconOpacityValue;
         private System.Windows.Forms.Label lblOpacityValue;
         private System.Windows.Forms.TrackBar opacity;
         private System.Windows.Forms.Label lblOpacity;
         private System.Windows.Forms.CheckBox chkToggleViaMap;
-        private System.Windows.Forms.Label lblIconOpacity;
+        private System.Windows.Forms.Label lblAllIconOpacity;
         private System.Windows.Forms.CheckBox chkToggleViaPanels;
         private System.Windows.Forms.GroupBox grpLines;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -2700,5 +2745,8 @@
         private System.Windows.Forms.CheckBox chkLinesCorpse;
         private System.Windows.Forms.CheckBox chkLinesHostiles;
         private System.Windows.Forms.CheckBox chkLinesShrines;
+        private System.Windows.Forms.Label lblIconOpacityValue;
+        private System.Windows.Forms.Label lblIconOpacity;
+        private System.Windows.Forms.TrackBar iconOpacity;
     }
 }

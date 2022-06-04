@@ -33,11 +33,6 @@ namespace MapAssist
                 cboRenderOption.Items.Add(property.Name.ToProperCase());
             }
 
-            if (cboRenderOption.Items.Count > 0)
-            {
-                cboRenderOption.SelectedIndex = 0;
-            }
-
             foreach (var element in Enum.GetNames(typeof(BuffPosition)))
             {
                 cboBuffPosition.Items.Add(element.ToProperCase());
@@ -69,8 +64,8 @@ namespace MapAssist
             opacity.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity * 100d / 5);
             lblOpacityValue.Text = (opacity.Value * 5).ToString();
 
-            iconOpacity.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity * 100d / 5);
-            lblIconOpacityValue.Text = (iconOpacity.Value * 5).ToString();
+            allIconOpacity.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity * 100d / 5);
+            lblAllIconOpacityValue.Text = (allIconOpacity.Value * 5).ToString();
 
             mapSize.Value = (int)Math.Round(MapAssistConfiguration.Loaded.RenderingConfiguration.Size / 100d);
             lblMapSizeValue.Text = (mapSize.Value * 100).ToString();
@@ -228,6 +223,11 @@ namespace MapAssist
             }
             cboItemLogSound.Text = MapAssistConfiguration.Loaded.ItemLog.SoundFile;
 
+            if (cboRenderOption.Items.Count > 0)
+            {
+                cboRenderOption.SelectedIndex = 0;
+            }
+
             void RemoveTabStop(Control container)
             {
                 foreach (Control control in container.Controls)
@@ -306,17 +306,17 @@ namespace MapAssist
             lblOpacityValue.Text = (opacity.Value * 5).ToString();
         }
 
-        private void iconOpacity_Scroll(object sender, EventArgs e)
+        private void allIconOpacity_Scroll(object sender, EventArgs e)
         {
-            if (iconOpacity.Value > 0)
+            if (allIconOpacity.Value > 0)
             {
-                MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity = Math.Round(iconOpacity.Value * 5 / 100d, 2);
+                MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity = Math.Round(allIconOpacity.Value * 5 / 100d, 2);
             }
             else
             {
                 MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity = 0;
             }
-            lblIconOpacityValue.Text = (iconOpacity.Value * 5).ToString();
+            lblAllIconOpacityValue.Text = (allIconOpacity.Value * 5).ToString();
         }
 
         private void mapSize_Scroll(object sender, EventArgs e)
@@ -563,8 +563,10 @@ namespace MapAssist
             cboIconShape.SelectedIndex = cboIconShape.FindStringExact(Enum.GetName(typeof(Shape), iconProp.IconShape));
             iconSize.Value = (int)iconProp.IconSize;
             iconThickness.Value = (int)iconProp.IconThickness;
+            iconOpacity.Value = (int)Math.Round(iconProp.IconOpacity * 100d / 5);
             lblIconSizeValue.Text = iconSize.Value.ToString();
             lblIconThicknessValue.Text = iconThickness.Value.ToString();
+            lblIconOpacityValue.Text = (iconOpacity.Value * 5).ToString();
             if (SelectedProperty.PropertyType != typeof(PointOfInterestRendering) && SelectedProperty.PropertyType != typeof(PortalRendering))
             {
                 tabDrawing.TabPages.Remove(tabLabel);
@@ -662,6 +664,20 @@ namespace MapAssist
             var iconProp = SelectedProperty.PropertyType.GetProperty("IconThickness");
             iconProp.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), iconThickness.Value, null);
             lblIconThicknessValue.Text = iconThickness.Value.ToString();
+        }
+
+        private void iconOpacity_Scroll(object sender, EventArgs e)
+        {
+            var iconProp = SelectedProperty.PropertyType.GetProperty("IconOpacity");
+            if (iconOpacity.Value > 0)
+            {
+                iconProp.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), (float)Math.Round(iconOpacity.Value * 5 / 100d, 2), null);
+            }
+            else
+            {
+                iconProp.SetValue(SelectedProperty.GetValue(MapAssistConfiguration.Loaded.MapConfiguration, null), 0, null);
+            }
+            lblIconOpacityValue.Text = (iconOpacity.Value * 5).ToString();
         }
 
         private void tabDrawing_SelectedIndexChanged(object sender, EventArgs e)

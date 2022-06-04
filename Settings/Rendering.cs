@@ -22,9 +22,12 @@ namespace MapAssist.Settings
         [YamlMember(Alias = "IconThickness", ApplyNamingConventions = false)]
         public float IconThickness { get; set; }
 
+        [YamlMember(Alias = "IconOpacity", ApplyNamingConventions = false)]
+        public float IconOpacity { get; set; } = 1;
+
         public bool CanDrawIcon()
         {
-            return IconSize > 0 && ((IconColor != Color.Transparent && IconColor != Color.Empty) || (IconOutlineColor != Color.Transparent && IconOutlineColor != Color.Empty));
+            return IconSize > 0 && IconOpacity > 0 && ((IconColor != Color.Transparent && IconColor != Color.Empty) || (IconOutlineColor != Color.Transparent && IconOutlineColor != Color.Empty));
         }
 
         public object Clone()

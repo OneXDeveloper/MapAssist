@@ -211,8 +211,7 @@ namespace MapAssist.Helpers
                 var offsetX = offset - (_areaData.Origin.X % snap);
                 var offsetY = offset - (_areaData.Origin.Y % snap);
 
-                var opacity = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity;
-                var brush = CreateSolidBrush(gfx, (Color)color, opacity);
+                var brush = CreateMapBrush(gfx, (Color)color);
 
                 var center = _gameData.PlayerUnit.Position;
                 center.X = (float)Math.Round((center.X + offsetX) / snap) * snap - offsetX;
@@ -377,7 +376,7 @@ namespace MapAssist.Helpers
             // Draw POI labels (not listed in poiRenderingOrder)
             foreach ((var rendering, var position, var text, Color? color) in drawPoiLabels)
             {
-                DrawText(gfx, rendering, position, text, color);
+                DrawIconText(gfx, rendering, position, text, color);
             }
         }
 
@@ -494,7 +493,7 @@ namespace MapAssist.Helpers
 
             foreach ((var rendering, var position, var text, Color? color) in drawMonsterLabels.OrderBy(x => Array.IndexOf(monsterRenderingOrder, x.Item1)))
             {
-                DrawText(gfx, rendering, position, text, color);
+                DrawIconText(gfx, rendering, position, text, color);
             }
         }
 
@@ -527,7 +526,7 @@ namespace MapAssist.Helpers
 
             foreach ((var rendering, var position, var text, Color? color) in drawItemLabels)
             {
-                DrawText(gfx, rendering, position, text, color);
+                DrawIconText(gfx, rendering, position, text, color);
             }
         }
 
@@ -707,7 +706,7 @@ namespace MapAssist.Helpers
 
             foreach ((var rendering, var position, var text, Color? color) in drawPlayerLabels.OrderBy(x => Array.IndexOf(playersRenderingOrder, x.Item1)))
             {
-                DrawText(gfx, rendering, position, text, color);
+                DrawIconText(gfx, rendering, position, text, color);
             }
         }
 
@@ -832,14 +831,14 @@ namespace MapAssist.Helpers
                         {
                             var debuffColor = States.DebuffColor;
                             debuffColor = Color.FromArgb(100, debuffColor.R, debuffColor.G, debuffColor.B);
-                            var brush = CreateSolidBrush(gfx, debuffColor, 1);
+                            var brush = CreateBrush(gfx, debuffColor);
 
                             gfx.FillRectangle(brush, rect);
                             gfx.DrawRectangle(brush, rect, 1);
                         }
                         else
                         {
-                            var brush = CreateSolidBrush(gfx, buffColor, 1);
+                            var brush = CreateBrush(gfx, buffColor);
                             gfx.DrawRectangle(brush, rect, 1);
                         }
 
@@ -907,9 +906,9 @@ namespace MapAssist.Helpers
                 var font = MapAssistConfiguration.Loaded.GameInfo.LabelFont;
 
                 var fontSize = barHeight / 2f;
-                var blackBrush = CreateSolidBrush(gfx, Color.Black, 1);
-                var darkFillBrush = CreateSolidBrush(gfx, Color.FromArgb(66, 0, 125), 1);
-                var lightFillBrush = CreateSolidBrush(gfx, Color.FromArgb(100, 93, 107), 1);
+                var blackBrush = CreateBrush(gfx, Color.Black);
+                var darkFillBrush = CreateBrush(gfx, Color.FromArgb(66, 0, 125));
+                var lightFillBrush = CreateBrush(gfx, Color.FromArgb(100, 93, 107));
 
                 var center = new Point(gfx.Width / 2, gfx.Height * (0.043f + i * 0.05f));
                 var barRect = new Rectangle(center.X - barWidth / 2, center.Y - barHeight / 2, center.X + barWidth / 2, center.Y + barHeight / 2);
@@ -1045,7 +1044,7 @@ namespace MapAssist.Helpers
             var font = CreateFont(gfx, MapAssistConfiguration.Loaded.ItemLog.LabelFont, fontSize);
             var lineHeight = gfx.LineHeight(fontSize);
             var textShadow = MapAssistConfiguration.Loaded.ItemLog.LabelTextShadow;
-            var shadowBrush = CreateSolidBrush(gfx, Color.Black, 0.6f);
+            var shadowBrush = CreateBrush(gfx, Color.Black, 0.6f);
             var shadowOffset = fontSize * 0.0625f; // 1/16th
 
             // Item Log
@@ -1055,7 +1054,7 @@ namespace MapAssist.Helpers
                 var item = itemsToShow[i];
                 var itemText = item.Text;
                 var position = anchor.Add(0, i * lineHeight);
-                var brush = CreateSolidBrush(gfx, item.UnitItem.ItemBaseColor, 1);
+                var brush = CreateBrush(gfx, item.UnitItem.ItemBaseColor);
                 var stringSize = gfx.MeasureString(font, itemText);
 
                 if (MapAssistConfiguration.Loaded.ItemLog.Position == GameInfoPosition.TopRight)
@@ -1165,7 +1164,7 @@ namespace MapAssist.Helpers
             // Player Experience
             if (_gameData.PlayerUnit.Level > 0)
             {
-                var blackBrush = CreateSolidBrush(gfx, Color.Black, 0.7f);
+                var blackBrush = CreateBrush(gfx, Color.Black, 0.7f);
                 var font = CreateFont(gfx, fontFamily, gfx.ScaleFontSize(17));
 
                 var anchor = new Point(centerX, gfx.Height * 0.94f);
@@ -1274,8 +1273,8 @@ namespace MapAssist.Helpers
             position = Vector2.Transform(position.ToVector(), currentTransform.ToMatrix()).ToPoint();
 
             var fill = !rendering.IconShape.ToString().ToLower().EndsWith("outline");
-            var fillBrush = CreateSolidBrush(gfx, rendering.IconColor);
-            var outlineBrush = CreateSolidBrush(gfx, rendering.IconOutlineColor);
+            var fillBrush = CreateIconBrush(gfx, rendering.IconColor, rendering.IconOpacity);
+            var outlineBrush = CreateIconBrush(gfx, rendering.IconOutlineColor, rendering.IconOpacity);
 
             var points = GetIconShape(rendering, equalScaling).Select(point => point.Add(position)).ToArray();
 
@@ -1353,7 +1352,7 @@ namespace MapAssist.Helpers
             var angle = endPosition.Subtract(startPosition).Angle();
             var length = endPosition.Rotate(-angle, startPosition).X - startPosition.X;
 
-            var brush = CreateSolidBrush(gfx, rendering.LineColor);
+            var brush = CreateIconBrush(gfx, rendering.LineColor, rendering.IconOpacity);
 
             startPosition = startPosition.Rotate(-angle, startPosition).Add(spacing * scaleWidth, 0).Rotate(angle, startPosition); // Add a little extra spacing from the start point
 
@@ -1384,7 +1383,7 @@ namespace MapAssist.Helpers
             renderTarget.Transform = currentTransform;
         }
 
-        private void DrawText(Graphics gfx, PointOfInterestRendering rendering, Point position, string text,
+        private void DrawIconText(Graphics gfx, PointOfInterestRendering rendering, Point position, string text,
             Color? color = null)
         {
             var renderTarget = gfx.GetRenderTarget();
@@ -1395,7 +1394,7 @@ namespace MapAssist.Helpers
             position = Vector2.Transform(position.ToVector(), areaTransformMatrix).ToPoint();
 
             var useColor = color ?? rendering.LabelColor;
-            var opacity = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity;
+            var opacity = (float)(MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity * rendering.IconOpacity);
 
             var fontSize = gfx.ScaleFontSize((float)rendering.LabelFontSize);
             var font = CreateFont(gfx, rendering.LabelFont, fontSize);
@@ -1421,7 +1420,7 @@ namespace MapAssist.Helpers
             Color color, bool textShadow, TextAlign align, float opacity = 1f)
         {
             var font = CreateFont(gfx, fontFamily, fontSize);
-            var brush = CreateSolidBrush(gfx, color, opacity);
+            var brush = CreateBrush(gfx, color, opacity);
 
             var stringSize = gfx.MeasureString(font, text);
             if (align == TextAlign.Center)
@@ -1436,7 +1435,7 @@ namespace MapAssist.Helpers
             if (textShadow)
             {
                 var shadowOpacity = opacity * 0.6f;
-                var shadowBrush = CreateSolidBrush(gfx, Color.Black, shadowOpacity);
+                var shadowBrush = CreateBrush(gfx, Color.Black, shadowOpacity);
                 var shadowOffset = fontSize * 0.0625f;
                 gfx.DrawText(font, shadowBrush, position.X + shadowOffset, position.Y + shadowOffset, text);
             }
@@ -1571,6 +1570,11 @@ namespace MapAssist.Helpers
             {
                 new Point(0, 0)
             };
+        }
+
+        private float GetIconOpacity(IconRendering rendering)
+        {
+            return (float)(MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity * rendering.IconOpacity);
         }
 
         private IconRendering GetMonsterIconRendering(UnitMonster monster)
@@ -1763,11 +1767,21 @@ namespace MapAssist.Helpers
 
         private Dictionary<(Color, float?), SolidBrush> cacheBrushes = new Dictionary<(Color, float?), SolidBrush>();
 
-        private SolidBrush CreateSolidBrush(Graphics gfx, Color color,
-            float? opacity = null)
+        private SolidBrush CreateMapBrush(Graphics gfx, Color color,
+            float opacity = 1)
         {
-            if (opacity == null) opacity = (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity;
+            return CreateBrush(gfx, color, opacity * (float)MapAssistConfiguration.Loaded.RenderingConfiguration.Opacity);
+        }
 
+        private SolidBrush CreateIconBrush(Graphics gfx, Color color,
+            float opacity = 1)
+        {
+            return CreateBrush(gfx, color, opacity * (float)MapAssistConfiguration.Loaded.RenderingConfiguration.IconOpacity);
+        }
+
+        private SolidBrush CreateBrush(Graphics gfx, Color color,
+            float opacity = 1)
+        {
             var key = (color, opacity);
             if (!cacheBrushes.ContainsKey(key)) cacheBrushes[key] = gfx.CreateSolidBrush(color.SetOpacity((float)opacity).ToGameOverlayColor());
             return cacheBrushes[key];
