@@ -203,6 +203,7 @@
     <Compile Include="Types\PointOfInterest.cs" />
     <Compile Include="Types\RawAreaData.cs" />
     <Compile Include="Settings\Rendering.cs" />
+    <Compile Include="Types\FilteredItem.cs" />
     <Compile Include="Types\UnitAny.cs" />
     <Compile Include="Types\UnitMissile.cs" />
     <Compile Include="Types\UnitObject.cs" />

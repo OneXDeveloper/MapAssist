@@ -22,7 +22,7 @@ namespace MapAssist.Types
         public UnitMonster[] Summons;
         public UnitObject[] Objects;
         public UnitMissile[] Missiles;
-        public UnitItem[] Items;
+        public FilteredItem[] FilteredItems;
         public UnitItem[] AllItems;
         public ItemLogEntry[] ItemLog;
         public Session Session;

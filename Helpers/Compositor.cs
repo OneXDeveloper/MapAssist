@@ -504,17 +504,17 @@ namespace MapAssist.Helpers
 
             if (MapAssistConfiguration.Loaded.ItemLog.Enabled)
             {
-                foreach (var item in _gameData.Items)
+                foreach (var item in _gameData.FilteredItems)
                 {
-                    if (item.IsValidItem && item.IsDropped && !item.IsIdentified)
+                    if (item.UnitItem.IsValidItem && item.UnitItem.IsDropped && !item.UnitItem.IsIdentified)
                     {
-                        if (!_areaData.IncludesPoint(item.Position) && !IsInBounds(item.Position, _gameData.PlayerPosition)) continue; // Don't show item if not in drawn areas
+                        if (!_areaData.IncludesPoint(item.UnitItem.Position) && !IsInBounds(item.UnitItem.Position, _gameData.PlayerPosition)) continue; // Don't show item if not in drawn areas
 
-                        var itemPosition = item.Position;
-                        var render = MapAssistConfiguration.Loaded.MapConfiguration.Item;
+                        var itemPosition = item.UnitItem.Position;
+                        var render = item.Rendering ?? MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         drawItemIcons.Add((render, itemPosition));
-                        drawItemLabels.Add((render, item.Position, item.ItemBaseName, item.ItemBaseColor));
+                        drawItemLabels.Add((render, item.UnitItem.Position, item.UnitItem.ItemBaseName, item.UnitItem.ItemBaseColor));
                     }
                 }
             }

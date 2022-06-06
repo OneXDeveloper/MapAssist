@@ -72,6 +72,7 @@ namespace MapAssist.Settings
         public bool PlaySoundOnDrop { get; set; } = true;
         public bool CheckVendor { get; set; } = true;
         public string SoundFile { get; set; }
+        public PointOfInterestRendering Rendering { get; set; } = null;
         public ItemQuality[] Qualities { get; set; }
         public int[] Sockets { get; set; }
         public bool? Ethereal { get; set; }
