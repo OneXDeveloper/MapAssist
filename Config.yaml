@@ -63,94 +63,34 @@ MapConfiguration:
     IconSize: 6
     IconThickness: 1
   Npc:
-    IconOutlineColor: 196, 196, 196
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 1
+    IconSize: 0
     LabelColor: 199, 179, 119
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   NextArea:
-    IconColor: SpringGreen
-    IconShape: Square
-    IconSize: 5
-    LineColor: SpringGreen
-    LineThickness: 2
-    ArrowHeadSize: 15
-    LabelColor: SpringGreen
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   PreviousArea:
-    IconColor: Violet
-    IconShape: Square
-    IconSize: 5
-    LabelColor: Violet
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   Waypoint:
-    IconColor: SteelBlue
-    IconShape: Square
-    IconSize: 5
+    IconSize: 0
   Quest:
-    LineColor: Tomato
-    LineThickness: 2
-    ArrowHeadSize: 15
-    LabelColor: Tomato
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   Player:
-    IconOutlineColor: 33, 136, 253
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
-    LabelColor: Chartreuse
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   PartyPlayer:
-    IconOutlineColor: Chartreuse
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
-    LabelColor: Chartreuse
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   NonPartyPlayer:
-    IconOutlineColor: Orange
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
-    LabelColor: Orange
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   HostilePlayer:
-    IconOutlineColor: Red
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 2
+    IconSize: 0
     LineColor: Red
     LineThickness: 2
     ArrowHeadSize: 15
-    LabelColor: Red
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
   MyMerc:
-    IconOutlineColor: 77, 120, 124
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 1
+    IconSize: 0
   OtherMercs:
-    IconOutlineColor: 81, 167, 60
-    IconShape: Cross
-    IconSize: 6
-    IconThickness: 1
+    IconSize: 0
   MySummons:
     IconOutlineColor: 77, 120, 124
     IconShape: Cross
@@ -174,45 +114,28 @@ MapConfiguration:
     LabelFont: Formal 436
     LabelTextShadow: true
   MyPortal:
-    IconOutlineColor: Yellow
-    IconShape: Portal
-    IconSize: 3
-    IconThickness: 2
+    IconSize: 0
     LabelColor: Yellow
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   PartyPortal:
-    IconOutlineColor: Yellow
-    IconShape: Portal
-    IconSize: 3
-    IconThickness: 2
+    IconSize: 0
     LabelColor: Yellow
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   NonPartyPortal:
-    IconOutlineColor: Orange
-    IconShape: Portal
-    IconSize: 3
-    IconThickness: 2
+    IconSize: 0
     LabelColor: Orange
     LabelFontSize: 14
     LabelFont: Formal 436
     LabelTextShadow: true
   GamePortal:
-    IconOutlineColor: 225, 30, 30
-    IconShape: Portal
-    IconSize: 3
-    IconThickness: 2
-    LabelColor: 225, 30, 30
-    LabelFontSize: 14
-    LabelFont: Formal 436
-    LabelTextShadow: true
+    IconSize: 0
   SuperChest:
-    IconColor: 17, 255, 0
-    IconShape: Square
-    IconSize: 4
+    IconSize: 0
+    LabelFontSize: 0
   NormalChest:
     IconColor: 17, 128, 0
     IconShape: Square
@@ -226,9 +149,7 @@ MapConfiguration:
     IconShape: Square
     IconSize: 4
   Shrine:
-    IconColor: 255, 218, 100
-    IconShape: Polygon
-    IconSize: 5
+    IconSize: 0
     LabelColor: 255, 218, 100
     LabelFontSize: 14
     LabelFont: Formal 436
@@ -238,9 +159,7 @@ MapConfiguration:
     IconShape: Square
     IconSize: 4
   Door:
-    IconColor: 132, 132, 132
-    IconShape: Kite
-    IconSize: 3
+    IconSize: 0
   Item:
     IconColor: DarkOrange
     IconShape: Ellipse
@@ -251,51 +170,63 @@ MapConfiguration:
   MissilePhysicalLarge:
     IconColor: 255, 194, 194
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissilePhysicalSmall:
     IconColor: 201, 157, 157
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
   MissileFireLarge:
     IconColor: Red
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissileFireSmall:
     IconColor: 194, 0, 0
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
   MissileIceLarge:
     IconColor: 0, 208, 255
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissileIceSmall:
     IconColor: 0, 208, 255
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
   MissileLightLarge:
     IconColor: Yellow
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissileLightSmall:
     IconColor: 163, 163, 0
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
   MissilePoisonLarge:
     IconColor: Lime
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissilePoisonSmall:
     IconColor: 0, 156, 0
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
   MissileMagicLarge:
     IconColor: 255, 115, 0
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 8
+    IconOpacity: 0.66
   MissileMagicSmall:
     IconColor: 179, 80, 0
     IconShape: Ellipse
-    IconSize: 0
+    IconSize: 5
+    IconOpacity: 0.66
 ItemLog:
   Enabled: true
   Position: TopLeft

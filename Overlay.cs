@@ -110,7 +110,7 @@ namespace MapAssist
                             {
                                 if (!errorLoadingAreaData)
                                 {
-                                    _compositor.DrawGamemap(gfx);
+                                    //_compositor.DrawGamemap(gfx);
                                     _compositor.DrawOverlay(gfx);
                                 }
 
