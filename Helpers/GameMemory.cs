@@ -14,12 +14,15 @@ namespace MapAssist.Helpers
         private static Dictionary<int, Session> _sessions = new Dictionary<int, Session>();
         private static int _currentProcessId;
 
+        public static Dictionary<int, MapSeed> MapSeeds = new Dictionary<int, MapSeed>();
+        public static Dictionary<int, DateTime> LastGameTime = new Dictionary<int, DateTime>();
         public static Dictionary<int, UnitPlayer> PlayerUnits = new Dictionary<int, UnitPlayer>();
         public static Dictionary<int, Dictionary<string, UnitPlayer>> Corpses = new Dictionary<int, Dictionary<string, UnitPlayer>>();
         public static Dictionary<object, object> cache = new Dictionary<object, object>();
 
         private static bool _firstMemoryRead = true;
         private static bool _errorThrown = false;
+
 
         public static GameData GetGameData()
         {
@@ -68,8 +71,18 @@ namespace MapAssist.Helpers
                         Corpses[_currentProcessId].Clear();
                     }
 
+                    if (MapSeeds.TryGetValue(_currentProcessId, out var mapSeedData))
+                    {
+                        if (mapSeedData.NeedsSeed && DateTime.Now - LastGameTime[_currentProcessId] > TimeSpan.FromSeconds(1))
+                        {
+                            mapSeedData.SetKnownSeed();
+                        }
+                    }
+
                     return null;
                 }
+
+                LastGameTime[_currentProcessId] = DateTime.Now;
 
                 if (!_sessions.ContainsKey(_currentProcessId))
                 {
@@ -88,14 +101,8 @@ namespace MapAssist.Helpers
                 }
                 _errorThrown = false;
 
-                if (!PlayerUnits.ContainsKey(_currentProcessId))
-                {
-                    PlayerUnits.Add(_currentProcessId, playerUnit);
-                }
-                else
-                {
-                    PlayerUnits[_currentProcessId] = playerUnit;
-                }
+                PlayerUnits[_currentProcessId] = playerUnit;
+
                 var stashTabOrder = rawPlayerUnits
                     .Where(o => o.StateList.Contains(State.SharedStash) || o.IsPlayer)
                     .OrderBy(o => o.Struct.UnkSortStashesBy)
@@ -110,6 +117,14 @@ namespace MapAssist.Helpers
                     _errorThrown = true;
                     throw new Exception("Level id out of bounds.");
                 }
+
+                if (!MapSeeds.TryGetValue(_currentProcessId, out var _mapSeedData))
+                {
+                    _mapSeedData = new MapSeed();
+                    MapSeeds[_currentProcessId] = _mapSeedData;
+                }
+
+                if (playerUnit.UnitId == 1 && _mapSeedData.NeedsPlayer) _mapSeedData.SetPlayer(playerUnit);
 
                 // Update area timer
                 var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
@@ -130,30 +145,23 @@ namespace MapAssist.Helpers
                 }
 
                 // Check for map seed
-                var mapSeedData = new MapSeed(GameManager.MapSeedOffset);
-                var mapSeed = mapSeedData.Seed;
+                uint mapSeed = 0;
 
-                if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
+                if (_mapSeedData.IsReady)
                 {
-                    if (_errorThrown) return null;
+                    mapSeed = _mapSeedData.Get(playerUnit.SeedHash);
 
-                    _errorThrown = true;
-                    throw new Exception("Map seed is out of bounds.");
-                }
+                    if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
+                    {
+                        if (_errorThrown) return null;
 
-                // Check if exited the game
-                if (!_lastMapSeeds.ContainsKey(_currentProcessId))
-                {
-                    _lastMapSeeds.Add(_currentProcessId, 0);
-                }
-
-                if (!_playerMapChanged.ContainsKey(_currentProcessId))
-                {
-                    _playerMapChanged.Add(_currentProcessId, false);
+                        _errorThrown = true;
+                        throw new Exception("Map seed is out of bounds.");
+                    }
                 }
 
                 // Check if new game
-                if (mapSeed == _lastMapSeeds[_currentProcessId])
+                if (_lastMapSeeds.ContainsKey(_currentProcessId) && mapSeed == _lastMapSeeds[_currentProcessId])
                 {
                     _playerMapChanged[_currentProcessId] = false;
                 }

@@ -1,36 +1,46 @@
 ﻿using MapAssist.Helpers;
-using MapAssist.Interfaces;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace MapAssist.Types
 {
-    public class MapSeed : IUpdatable<MapSeed>
+    public class MapSeed
     {
-        private readonly IntPtr _pMapSeed;
-        public uint Seed { get; private set; }
+        private string D2sPath { get; set; } = "";
+        private ulong SeedHash { get; set; } = 0;
+        private ulong GameSeedXor { get; set; } = 0;
 
-        public MapSeed(IntPtr pMapSeed)
+        public bool NeedsPlayer => D2sPath == "";
+        public bool NeedsSeed => !NeedsPlayer && GameSeedXor == 0;
+        public bool IsReady => !NeedsPlayer && !NeedsSeed;
+
+        public uint Get(ulong seedHash)
         {
-            _pMapSeed = pMapSeed;
-            Update();
+            if (GameSeedXor == 0) return 0;
+
+            return (uint)(seedHash ^ GameSeedXor);
         }
 
-        public MapSeed Update()
+        public void SetPlayer(UnitPlayer player)
         {
+            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games/Diablo II Resurrected", $"{player.Name}.d2s");
+            if (File.Exists(path))
+            {
+                D2sPath = path;
+                SeedHash = player.SeedHash;
+            }
+        }
+
+        public void SetKnownSeed()
+        {
+            var mapData = File.ReadAllBytes(D2sPath);
+
             using (var processContext = GameManager.GetProcessContext())
             {
-                try
-                {
-                    var pMapSeedData = processContext.Read<IntPtr>(_pMapSeed);
-                    var mapSeedData = processContext.Read<Structs.MapSeed>(pMapSeedData);
-
-                    Seed = mapSeedData.check > 0 ? mapSeedData.mapSeed1 : mapSeedData.mapSeed2; // Use this if check offset is 0x110
-                    //Seed = mapSeedData.check > 0 ? mapSeedData.mapSeed2 : mapSeedData.mapSeed1; // Use this if check offset is 0x124
-                    //Seed = mapSeedData.check > 0 ? mapSeedData.mapSeed1 : mapSeedData.mapSeed2; // Use this if check offset is 0x830
-                }
-                catch (Exception) { }
+                var knownSeed = BitConverter.ToUInt32(mapData.Skip(0xab).Take(0x4).ToArray(), 0);
+                GameSeedXor = (ulong)knownSeed ^ SeedHash;
             }
-            return this;
         }
     }
 }

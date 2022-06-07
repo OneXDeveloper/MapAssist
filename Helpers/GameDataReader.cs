@@ -24,7 +24,7 @@ namespace MapAssist.Helpers
                     _mapApi = new MapApi(gameData);
                 }
 
-                if (gameData.HasMapChanged(_gameData) && gameData.Area != Area.None)
+                if (gameData.HasMapChanged(_gameData) && gameData.MapSeed > 0 && gameData.Area != Area.None)
                 {
                     _log.Info($"Area changed to {gameData.Area}");
                     _areaData = _mapApi.GetMapData(gameData.Area);
