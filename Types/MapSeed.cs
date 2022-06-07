@@ -22,30 +22,16 @@ namespace MapAssist.Types
             {
                 try
                 {
+                    //var k2 = processContext.Read<ulong>(IntPtr.Add(processContext.BaseAddr, (int)(0x20DEA40 + (a5 >> 52))));
+                    //var k3 = processContext.Read<ulong>(IntPtr.Add(processContext.BaseAddr, (int)(0x20DEA40 + (a5 & 0xFFF))));
                     var ldr = GetLdrAddress();
-
                     var dwInitSeedHash = _seedHash;
-
-
-
-                    var qword_7FF7328DEA40 = 0x0C727A64824745172ul;
-                    var a5 = 0xB133105CF0F31CD6ul;
-                    var a6 = 0x176E2BC088CB2DA9ul;
-                    var a8 = dwInitSeedHash; // 0x6AC690C5 * dwInitSeedHash + 666;
-
-                    a5 ^= 0x770AFD680A3D2D6D;
-                    a6 = a6 ^ (ulong)ldr.ToInt64() ^ 0xA23D40A5FD70B4A4;
-
-                    var asdf1 = processContext.Read<ulong>(IntPtr.Add(processContext.BaseAddr, (int)(0x20DEA40 + (a5 >> 52))));
-                    var asdf2 = processContext.Read<ulong>(IntPtr.Add(processContext.BaseAddr, (int)(0x20DEA40 + (a5 & 0xFFF))));
-
-                    var seed = a6 ^ dwInitSeedHash | (a6 ^ dwInitSeedHash | (a6 ^ (dwInitSeedHash | (dwInitSeedHash | a8 & 0xFFFFFFFF00000000 ^ ((dwInitSeedHash ^ ~HiDWord(asdf1)) << 32)) & 0xFFFFFFFF00000000 ^ ((dwInitSeedHash ^ 0x7734D256) << 32))) & 0xFFFFFFFF00000000 ^ ((ror4(HiDWord(asdf2), 11) ^ ~(a6 ^ dwInitSeedHash)) << 32)) & 0xFFFFFFFF00000000 ^ ((a6 ^ dwInitSeedHash ^ ~asdf1) << 32);
-
-
+                    var k1 = 0x176E2BC088CB2DA9ul ^ (ulong)ldr.ToInt64() ^ 0xA23D40A5FD70B4A4;
+                    var k2 = 0x0D6CD757E08A4F816;
+                    var k3 = 0x0DF49DC967C7D96E0;
+                    var seed = k1 ^ dwInitSeedHash | (k1 ^ dwInitSeedHash | (k1 ^ (dwInitSeedHash | (dwInitSeedHash | dwInitSeedHash & 0xFFFFFFFF00000000 ^ ((dwInitSeedHash ^ ~HiDWord(k2)) << 32)) & 0xFFFFFFFF00000000 ^ ((dwInitSeedHash ^ 0x7734D256) << 32))) & 0xFFFFFFFF00000000 ^ ((ror4(HiDWord(k3), 11) ^ ~(k1 ^ dwInitSeedHash)) << 32)) & 0xFFFFFFFF00000000 ^ ((k1 ^ dwInitSeedHash ^ ~k2) << 32);
 
                     Seed = (uint)(int)seed;
-
-                    var sdfsfd = 1;
                 }
                 catch (Exception) { }
             }
