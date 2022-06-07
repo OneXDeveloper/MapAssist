@@ -123,21 +123,21 @@ namespace MapAssist
                     Visible = true
                 };
 
-                globalHook.KeyDown += (sender, args) =>
-                {
-                    if (overlay != null)
-                    {
-                        overlay.KeyDownHandler(sender, args);
-                    }
-                };
+                //globalHook.KeyDown += (sender, args) =>
+                //{
+                //    if (overlay != null)
+                //    {
+                //        overlay.KeyDownHandler(sender, args);
+                //    }
+                //};
 
-                globalHook.MouseMove += (sender, args) =>
-                {
-                    if (overlay != null)
-                    {
-                        overlay.MouseMoveHandler(sender, args);
-                    }
-                };
+                //globalHook.MouseMove += (sender, args) =>
+                //{
+                //    if (overlay != null)
+                //    {
+                //        overlay.MouseMoveHandler(sender, args);
+                //    }
+                //};
 
                 configEditor = new ConfigEditor();
                 backWorkOverlay.DoWork += new DoWorkEventHandler(RunOverlay);
