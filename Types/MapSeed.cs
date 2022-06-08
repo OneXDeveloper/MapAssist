@@ -1,46 +1,59 @@
-﻿using MapAssist.Helpers;
-using System;
-using System.IO;
-using System.Linq;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace MapAssist.Types
 {
     public class MapSeed
     {
-        private string D2sPath { get; set; } = "";
-        private ulong SeedHash { get; set; } = 0;
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
+        private BackgroundWorker BackgroundCalculator;
         private ulong GameSeedXor { get; set; } = 0;
 
-        public bool NeedsPlayer => D2sPath == "";
-        public bool NeedsSeed => !NeedsPlayer && GameSeedXor == 0;
-        public bool IsReady => !NeedsPlayer && !NeedsSeed;
+        public bool IsReady => BackgroundCalculator != null && GameSeedXor != 0;
 
-        public uint Get(ulong seedHash)
+        public uint Get(UnitPlayer player)
         {
-            if (GameSeedXor == 0) return 0;
-
-            return (uint)(seedHash ^ GameSeedXor);
-        }
-
-        public void SetPlayer(UnitPlayer player)
-        {
-            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games/Diablo II Resurrected", $"{player.Name}.d2s");
-            if (File.Exists(path))
+            if (GameSeedXor != 0)
             {
-                D2sPath = path;
-                SeedHash = player.SeedHash;
+                return (uint)(player.InitSeedHash ^ GameSeedXor);
             }
-        }
-
-        public void SetKnownSeed()
-        {
-            var mapData = File.ReadAllBytes(D2sPath);
-
-            using (var processContext = GameManager.GetProcessContext())
+            else if (BackgroundCalculator == null)
             {
-                var knownSeed = BitConverter.ToUInt32(mapData.Skip(0xab).Take(0x4).ToArray(), 0);
-                GameSeedXor = (ulong)knownSeed ^ SeedHash;
+                var InitSeedHash = player.InitSeedHash;
+                var EndSeedHash = player.EndSeedHash;
+
+                BackgroundCalculator = new BackgroundWorker();
+
+                BackgroundCalculator.DoWork += (sender, args) =>
+                {
+                    var isEven = EndSeedHash % 2 == 0;
+
+                    Parallel.For(0, (uint.MaxValue - 1) / 2 + 1, (i, state) =>
+                    {
+                        var trySeed = (isEven ? 0 : 1) + i;
+
+                        if ((((uint)trySeed * 0x6AC690C5 + 666) & 0xFFFFFFFF) == EndSeedHash)
+                        {
+                            GameSeedXor = InitSeedHash ^ (uint)trySeed;
+
+                            state.Stop();
+                        }
+                    });
+
+                    BackgroundCalculator.Dispose();
+
+                    if (GameSeedXor == 0)
+                    {
+                        _log.Info("Failed to brute force map seed");
+                        BackgroundCalculator = null;
+                    }
+                };
+
+                BackgroundCalculator.RunWorkerAsync();
             }
+
+            return 0;
         }
     }
 }

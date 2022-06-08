@@ -25,7 +25,8 @@ namespace MapAssist.Types
             return this;
         }
 
-        public ulong MapSeedHash => ActMisc.MapSeedHash;
+        public ulong InitSeedHash => ActMisc.InitSeedHash;
+        public ulong EndSeedHash => ActMisc.EndSeedHash;
         public uint ActId => _act.ActId;
         public ActMisc ActMisc => new ActMisc(_act.pActMisc);
     }

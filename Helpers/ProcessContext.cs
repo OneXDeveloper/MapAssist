@@ -97,24 +97,6 @@ namespace MapAssist.Helpers
             return IntPtr.Add(_baseAddr, (int)(delta + 11 + offsetAddressToInt));
         }
 
-        public IntPtr GetMapSeedOffset(byte[] buffer)
-        {
-            var pattern = new Pattern("41 8B F9 48 8D 0D ? ? ? ?");
-            var patternAddress = FindPattern(buffer, pattern);
-
-            var offsetBuffer = new byte[4];
-            var resultRelativeAddress = IntPtr.Add(patternAddress, 6);
-            if (!WindowsExternal.ReadProcessMemory(_handle, resultRelativeAddress, offsetBuffer, sizeof(int), out _))
-            {
-                _log.Info($"Failed to find pattern {pattern}");
-                return IntPtr.Zero;
-            }
-
-            var offsetAddressToInt = BitConverter.ToInt32(offsetBuffer, 0);
-            var delta = patternAddress.ToInt64() - _baseAddr.ToInt64();
-            return IntPtr.Add(_baseAddr, (int)(delta + 0xEA + offsetAddressToInt));
-        }
-
         public IntPtr GetRosterDataOffset(byte[] buffer)
         {
             var pattern = new Pattern("02 45 33 D2 4D 8B");

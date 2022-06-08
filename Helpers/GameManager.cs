@@ -29,7 +29,6 @@ namespace MapAssist.Helpers
         private static Dictionary<int, IntPtr> _ExpansionCheckOffset = new Dictionary<int, IntPtr>();
         private static Dictionary<int, IntPtr> _GameNameOffset = new Dictionary<int, IntPtr>();
         private static Dictionary<int, IntPtr> _MenuDataOffset = new Dictionary<int, IntPtr>();
-        private static Dictionary<int, IntPtr> _MapSeedOffset = new Dictionary<int, IntPtr>();
         private static Dictionary<int, IntPtr> _RosterDataOffset = new Dictionary<int, IntPtr>();
         private static Dictionary<int, IntPtr> _InteractedNpcOffset = new Dictionary<int, IntPtr>();
         private static Dictionary<int, IntPtr> _LastHoverDataOffset = new Dictionary<int, IntPtr>();
@@ -130,7 +129,6 @@ namespace MapAssist.Helpers
             if (!_ExpansionCheckOffset.ContainsKey(process.Id)) _ExpansionCheckOffset[process.Id] = IntPtr.Zero;
             if (!_GameNameOffset.ContainsKey(process.Id)) _GameNameOffset[process.Id] = IntPtr.Zero;
             if (!_MenuDataOffset.ContainsKey(process.Id)) _MenuDataOffset[process.Id] = IntPtr.Zero;
-            if (!_MapSeedOffset.ContainsKey(process.Id)) _MapSeedOffset[process.Id] = IntPtr.Zero;
             if (!_RosterDataOffset.ContainsKey(process.Id)) _RosterDataOffset[process.Id] = IntPtr.Zero;
             if (!_InteractedNpcOffset.ContainsKey(process.Id)) _InteractedNpcOffset[process.Id] = IntPtr.Zero;
             if (!_LastHoverDataOffset.ContainsKey(process.Id)) _LastHoverDataOffset[process.Id] = IntPtr.Zero;
@@ -230,21 +228,6 @@ namespace MapAssist.Helpers
             }
         }
 
-        public static IntPtr MapSeedOffset
-        {
-            get
-            {
-                if (_MapSeedOffset[_lastGameProcessId] != IntPtr.Zero)
-                {
-                    return _MapSeedOffset[_lastGameProcessId];
-                }
-
-                PopulateMissingOffsets();
-
-                return _MapSeedOffset[_lastGameProcessId];
-            }
-        }
-
         public static IntPtr RosterDataOffset
         {
             get
@@ -336,12 +319,6 @@ namespace MapAssist.Helpers
                 {
                     _MenuDataOffset[pid] = processContext.GetMenuDataOffset(buffer);
                     _log.Info($"Found offset {nameof(_MenuDataOffset)} 0x{_MenuDataOffset[pid].ToInt64() - processContext.BaseAddr.ToInt64():X}");
-                }
-
-                if (_MapSeedOffset[pid] == IntPtr.Zero)
-                {
-                    _MapSeedOffset[pid] = processContext.GetMapSeedOffset(buffer);
-                    _log.Info($"Found offset {nameof(_MapSeedOffset)} 0x{_MapSeedOffset[pid].ToInt64() - processContext.BaseAddr.ToInt64():X}");
                 }
 
                 if (_RosterDataOffset[pid] == IntPtr.Zero)
