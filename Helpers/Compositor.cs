@@ -1022,10 +1022,15 @@ namespace MapAssist.Helpers
                 anchor.Y += lineHeight;
             }
 
-            if (errorLoadingAreaData)
+            if (!_gameData.MapSeedReady)
+            {
+                DrawText(gfx, anchor, "Finding map seed...", font, fontSize * 1.3f, Color.Orange, textShadow, textAlign);
+                anchor.Y += lineHeight;
+            }
+            else if (errorLoadingAreaData)
             {
                 DrawText(gfx, anchor, "ERROR LOADING AREA!", font, fontSize * 1.5f, Color.Orange, textShadow, textAlign);
-                anchor.Y += lineHeight;
+                anchor.Y += lineHeight; if (_gameData.MapSeedReady);
             }
 
             return anchor;

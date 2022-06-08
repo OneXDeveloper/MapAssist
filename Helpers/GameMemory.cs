@@ -15,14 +15,12 @@ namespace MapAssist.Helpers
         private static int _currentProcessId;
 
         public static Dictionary<int, MapSeed> MapSeeds = new Dictionary<int, MapSeed>();
-        public static Dictionary<int, DateTime> LastGameTime = new Dictionary<int, DateTime>();
         public static Dictionary<int, UnitPlayer> PlayerUnits = new Dictionary<int, UnitPlayer>();
         public static Dictionary<int, Dictionary<string, UnitPlayer>> Corpses = new Dictionary<int, Dictionary<string, UnitPlayer>>();
         public static Dictionary<object, object> cache = new Dictionary<object, object>();
 
         private static bool _firstMemoryRead = true;
         private static bool _errorThrown = false;
-
 
         public static GameData GetGameData()
         {
@@ -71,18 +69,8 @@ namespace MapAssist.Helpers
                         Corpses[_currentProcessId].Clear();
                     }
 
-                    if (MapSeeds.TryGetValue(_currentProcessId, out var mapSeedData))
-                    {
-                        if (mapSeedData.NeedsSeed && DateTime.Now - LastGameTime[_currentProcessId] > TimeSpan.FromSeconds(1))
-                        {
-                            mapSeedData.SetKnownSeed();
-                        }
-                    }
-
                     return null;
                 }
-
-                LastGameTime[_currentProcessId] = DateTime.Now;
 
                 if (!_sessions.ContainsKey(_currentProcessId))
                 {
@@ -124,8 +112,6 @@ namespace MapAssist.Helpers
                     MapSeeds[_currentProcessId] = _mapSeedData;
                 }
 
-                if (playerUnit.UnitId == 1 && _mapSeedData.NeedsPlayer) _mapSeedData.SetPlayer(playerUnit);
-
                 // Update area timer
                 var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
                 if (!areaCacheFound || previousArea != levelId)
@@ -145,12 +131,11 @@ namespace MapAssist.Helpers
                 }
 
                 // Check for map seed
-                uint mapSeed = 0;
+                var mapSeed = _mapSeedData.Get(playerUnit);
+                var mapSeedIsReady = _mapSeedData.IsReady;
 
-                if (_mapSeedData.IsReady)
+                if (mapSeedIsReady)
                 {
-                    mapSeed = _mapSeedData.Get(playerUnit.SeedHash);
-
                     if (mapSeed <= 0 || mapSeed > 0xFFFFFFFF)
                     {
                         if (_errorThrown) return null;
@@ -379,6 +364,7 @@ namespace MapAssist.Helpers
                 {
                     PlayerPosition = playerUnit.Position,
                     MapSeed = mapSeed,
+                    MapSeedReady = mapSeedIsReady,
                     Area = levelId,
                     Difficulty = gameDifficulty,
                     MainWindowHandle = currentWindowHandle,

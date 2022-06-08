@@ -9,6 +9,7 @@ namespace MapAssist.Types
     {
         public Point PlayerPosition;
         public uint MapSeed;
+        public bool MapSeedReady;
         public Difficulty Difficulty;
         public Area Area;
         public IntPtr MainWindowHandle;
