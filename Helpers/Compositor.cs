@@ -1030,7 +1030,7 @@ namespace MapAssist.Helpers
             else if (errorLoadingAreaData)
             {
                 DrawText(gfx, anchor, "ERROR LOADING AREA!", font, fontSize * 1.5f, Color.Orange, textShadow, textAlign);
-                anchor.Y += lineHeight; if (_gameData.MapSeedReady);
+                anchor.Y += lineHeight;
             }
 
             return anchor;

@@ -30,6 +30,6 @@ namespace MapAssist.Types
         public Level LevelFirst => new Level(_actMisc.pLevelFirst);
         public Area RealTombArea => _actMisc.RealTombArea;
         public ulong InitSeedHash => _actMisc.dwInitSeedHash;
-        public ulong EndSeedHash => _actMisc.EndSeedHash;
+        public uint EndSeedHash => _actMisc.EndSeedHash;
     }
 }

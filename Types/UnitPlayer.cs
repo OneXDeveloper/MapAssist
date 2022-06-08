@@ -14,7 +14,7 @@ namespace MapAssist.Types
         public Skills Skills { get; private set; }
         public RosterEntry RosterEntry { get; private set; }
         public ulong InitSeedHash { get; private set; }
-        public ulong EndSeedHash { get; private set; }
+        public uint EndSeedHash { get; private set; }
 
         public UnitPlayer(IntPtr ptrUnit) : base(ptrUnit)
         {

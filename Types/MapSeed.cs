@@ -8,7 +8,7 @@ namespace MapAssist.Types
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
 
         private BackgroundWorker BackgroundCalculator;
-        private ulong GameSeedXor { get; set; } = 0;
+        private uint GameSeedXor { get; set; } = 0;
 
         public bool IsReady => BackgroundCalculator != null && GameSeedXor != 0;
 
@@ -27,16 +27,31 @@ namespace MapAssist.Types
 
                 BackgroundCalculator.DoWork += (sender, args) =>
                 {
-                    var isEven = EndSeedHash % 2 == 0;
+                    uint magic = 0x6AC690C5;
+                    uint offset = 666;
 
-                    Parallel.For(0, (uint.MaxValue - 1) / 2 + 1, (i, state) =>
+                    uint divisor = 2 << 16 - 1;
+                    uint mod = 0;
+
+                    Parallel.For(0, divisor, (trySeed, state) =>
                     {
-                        var trySeed = (isEven ? 0 : 1) + i;
+                        var seedResult = ((uint)trySeed * magic + offset) & 0xFFFFFFFF;
 
-                        if ((((uint)trySeed * 0x6AC690C5 + 666) & 0xFFFFFFFF) == EndSeedHash)
+                        if (seedResult % divisor == EndSeedHash % divisor)
                         {
-                            GameSeedXor = InitSeedHash ^ (uint)trySeed;
+                            mod = (uint)trySeed;
+                            state.Stop();
+                        }
+                    });
 
+                    Parallel.For(0, ((long)uint.MaxValue + 1) / divisor - 1, (i, state) =>
+                    {
+                        var trySeed = mod + i * divisor;
+                        var seedResult = ((uint)trySeed * magic + offset) & 0xFFFFFFFF;
+
+                        if (seedResult == EndSeedHash)
+                        {
+                            GameSeedXor = (uint)InitSeedHash ^ (uint)trySeed;
                             state.Stop();
                         }
                     });
