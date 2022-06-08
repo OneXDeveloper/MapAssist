@@ -15,8 +15,9 @@ namespace MapAssist.Settings
 
         public static void Load()
         {
-            Default = ConfigurationParser<MapAssistConfiguration>.ParseConfigurationMain(Properties.Resources.Config);
-            Loaded = ConfigurationParser<MapAssistConfiguration>.ParseConfigurationMain(Properties.Resources.Config, $"./Config.yaml");
+            var configParser = new ConfigurationParser<MapAssistConfiguration>();
+            Default = configParser.ParseConfigurationMain(Properties.Resources.Config);
+            Loaded = configParser.ParseConfigurationMain(Properties.Resources.Config, $"./Config.yaml");
             Localization.LoadLocalizationFile();
             PointOfInterestHandler.UpdateLocalizationNames();
             QualityLevels.LoadQualityLevelsFile();

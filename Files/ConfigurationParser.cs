@@ -16,7 +16,18 @@ namespace MapAssist.Files
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
 
-        private static IDeserializer deserializer = new DeserializerBuilder()
+        private IDeserializer deserializer;
+
+        public ConfigurationParser()
+        {
+            var builder = new DeserializerBuilder();
+
+            if (typeof(T) == typeof(MapAssistConfiguration))
+            {
+                builder.IgnoreUnmatchedProperties();
+            }
+
+            deserializer = builder
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .WithTypeConverter(new AreaArrayYamlTypeConverter())
                 .WithTypeConverter(new ItemYamlTypeConverter())
@@ -25,8 +36,9 @@ namespace MapAssist.Files
                 .WithTypeConverter(new SkillTreeYamlTypeConverter())
                 .WithTypeConverter(new SkillsYamlTypeConverter())
                 .Build();
+        }
 
-        public static T ParseConfigurationFile(string fileName)
+        public T ParseConfigurationFile(string fileName)
         {
             var fileManager = new FileManager(fileName);
 
@@ -42,7 +54,7 @@ namespace MapAssist.Files
             return configuration;
         }
 
-        public static void CheckDuplicateKeys(string YamlString)
+        public void CheckDuplicateKeys(string YamlString)
         {
             var seen = new List<Item>();
             foreach (var (textRaw, line) in YamlString.Split(new char[] { '\n', '\r' }, StringSplitOptions.None).Select((text, line) => (text, line)))
@@ -75,7 +87,7 @@ namespace MapAssist.Files
          * then deserialized again into our MapAssistConfiguration POCO.
          */
 
-        public static MapAssistConfiguration ParseConfigurationMain(byte[] resourcePrimary, string fileNameOverride = null)
+        public MapAssistConfiguration ParseConfigurationMain(byte[] resourcePrimary, string fileNameOverride = null)
         {
             var yamlPrimary = Encoding.Default.GetString(resourcePrimary);
 
@@ -108,7 +120,7 @@ namespace MapAssist.Files
             return configuration;
         }
 
-        public static void Merge(Dictionary<object, object> primary, Dictionary<object, object> secondary)
+        public void Merge(Dictionary<object, object> primary, Dictionary<object, object> secondary)
         {
             foreach (var tuple in secondary)
             {
