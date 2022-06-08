@@ -22,9 +22,8 @@ namespace MapAssist.Types
         public UnitMonster[] Summons;
         public UnitObject[] Objects;
         public UnitMissile[] Missiles;
-        public UnitItem[] Items;
         public UnitItem[] AllItems;
-        public ItemLogEntry[] ItemLog;
+        public ItemLogEntry[] Items;
         public Session Session;
         public Roster Roster;
         public MenuData MenuOpen;

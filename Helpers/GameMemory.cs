@@ -308,7 +308,7 @@ namespace MapAssist.Helpers
                     rawItemUnits.Add(item);
                 }
 
-                var itemList = Items.ItemLog[_currentProcessId].Select(item =>
+                Items.ItemLog[_currentProcessId].Select(item =>
                 {
                     if (cache.TryGetValue(item.ItemHashString, out var cachedItem) && ((UnitItem)cachedItem).HashString == item.ItemHashString)
                     {
@@ -320,7 +320,7 @@ namespace MapAssist.Helpers
                         item.UnitItem.MarkInvalid();
                     }
 
-                    return item.UnitItem;
+                    return item;
                 }).Where(x => x != null).ToArray();
 
                 // Player wearing items
@@ -377,9 +377,8 @@ namespace MapAssist.Helpers
                     Summons = summonsList,
                     Objects = objectList,
                     Missiles = missileList,
-                    Items = itemList,
+                    Items = Items.ItemLog[_currentProcessId].ToArray(),
                     AllItems = allItems,
-                    ItemLog = Items.ItemLog[_currentProcessId].ToArray(),
                     Session = _sessions[_currentProcessId],
                     Roster = rosterData,
                     MenuOpen = menuData,

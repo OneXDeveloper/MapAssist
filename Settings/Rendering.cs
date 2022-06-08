@@ -134,6 +134,7 @@ namespace MapAssist.Settings
         TopLeft,
         TopRight
     }
+
     public enum Shape
     {
         Square,
