@@ -508,12 +508,12 @@ namespace MapAssist.Helpers
                 {
                     var item = itemEntry.UnitItem;
 
-                    if (item.IsValidItem && item.IsDropped && !item.IsIdentified)
+                    if (item != null && item.IsValidItem && item.IsDropped && !item.IsIdentified)
                     {
                         if (!_areaData.IncludesPoint(item.Position) && !IsInBounds(item.Position, _gameData.PlayerPosition)) continue; // Don't show item if not in drawn areas
 
                         var itemPosition = item.Position;
-                        var render = itemEntry.Rule.Rendering ?? MapAssistConfiguration.Loaded.MapConfiguration.Item;
+                        var render = itemEntry.Rule?.Rendering ?? MapAssistConfiguration.Loaded.MapConfiguration.Item;
 
                         if (render.CanDrawIcon())
                             drawItemIcons.Add((render, itemPosition));
