@@ -31,30 +31,24 @@ namespace MapAssist.Types
                     uint offset = 666;
 
                     uint divisor = 2 << 16 - 1;
-                    uint mod = 0;
 
-                    Parallel.For(0, divisor, (trySeed, state) =>
+                    uint trySeed = 0;
+                    uint incr = 1;
+                    for (; trySeed < uint.MaxValue; trySeed += incr)
                     {
-                        var seedResult = ((uint)trySeed * magic + offset) & 0xFFFFFFFF;
-
-                        if (seedResult % divisor == EndSeedHash % divisor)
-                        {
-                            mod = (uint)trySeed;
-                            state.Stop();
-                        }
-                    });
-
-                    Parallel.For(0, ((long)uint.MaxValue + 1) / divisor - 1, (i, state) =>
-                    {
-                        var trySeed = mod + i * divisor;
                         var seedResult = ((uint)trySeed * magic + offset) & 0xFFFFFFFF;
 
                         if (seedResult == EndSeedHash)
                         {
-                            GameSeedXor = (uint)InitSeedHash ^ (uint)trySeed;
-                            state.Stop();
+                            GameSeedXor = (uint)InitSeedHash ^ trySeed;
+                            break;
                         }
-                    });
+
+                        if (incr == 1 && (seedResult % divisor) == (EndSeedHash % divisor))
+                        {
+                            incr = divisor;
+                        }
+                    }
 
                     BackgroundCalculator.Dispose();
 
