@@ -518,8 +518,7 @@ namespace MapAssist.Helpers
                         if (render.CanDrawIcon())
                             drawItemIcons.Add((render, itemPosition));
 
-                        if (render.CanDrawLabel())
-                            drawItemLabels.Add((render, item.Position, item.ItemBaseName, item.ItemBaseColor));
+                        drawItemLabels.Add((render, item.Position, item.ItemBaseName, render.LabelColor.A > 0 ? render.LabelColor : item.ItemBaseColor));
                     }
                 }
             }
