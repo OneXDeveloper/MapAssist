@@ -1,5 +1,6 @@
 ﻿using MapAssist.Helpers;
 using MapAssist.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -153,6 +154,7 @@ namespace MapAssist.Types
 
     public static class AreaExtensions
     {
+        public static Area ToArea(byte interactType) => (Area)Enum.ToObject(typeof(Area), interactType);
         public static Dictionary<string, LocalizedObj> LocalizedAreas = new Dictionary<string, LocalizedObj>();
 
         private static readonly Dictionary<Area, AreaLabel> _areaLabels = new Dictionary<Area, AreaLabel>()
