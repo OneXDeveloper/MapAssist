@@ -270,7 +270,7 @@ namespace MapAssist.Helpers
 
                     if (Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId)) continue;
 
-                    if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && item.Item != Item.HoradricCube && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
+                    if (_playerMapChanged[_currentProcessId] && item.IsAnyPlayerHolding && (item.IsIdentified || item.ItemData.ItemQuality <= ItemQuality.SUPERIOR) && !Items.ItemUnitIdsToSkip[_currentProcessId].Contains(item.UnitId))
                     {
                         Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
                         continue;
@@ -298,11 +298,6 @@ namespace MapAssist.Helpers
                     if (item.IsValidItem && !item.IsInSocket && (checkDroppedItem || checkVendorItem || checkInventoryItem))
                     {
                         Items.LogItem(item, levelId, areaLevel, PlayerUnit.Level, _currentProcessId);
-                    }
-
-                    if (item.Item == Item.HoradricCube && !item.IsDropped)
-                    {
-                        Items.ItemUnitIdsToSkip[_currentProcessId].Add(item.UnitId);
                     }
 
                     rawItemUnits.Add(item);
