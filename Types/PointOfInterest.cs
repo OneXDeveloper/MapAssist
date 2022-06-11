@@ -1,6 +1,7 @@
 ﻿using GameOverlay.Drawing;
 using MapAssist.Settings;
 using System;
+using System.Linq;
 
 namespace MapAssist.Types
 {
@@ -15,21 +16,7 @@ namespace MapAssist.Types
 
         public bool PoiMatchesPortal(UnitObject[] gameDataObjectList, Difficulty difficulty)
         {
-            if (Type == PoiType.AreaPortal)
-            {
-                foreach (var gameObject in gameDataObjectList)
-                {
-                    if (gameObject.IsPortal)
-                    {
-                        var area = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
-                        if (area.PortalLabel(difficulty) == Label)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+            return Type == PoiType.AreaPortal && gameDataObjectList.Any(x => x.IsPortal && AreaExtensions.ToArea(x.ObjectData.InteractType).PortalLabel(difficulty) == Label);
         }
     }
 
