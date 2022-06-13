@@ -1245,7 +1245,7 @@ namespace MapAssist.Helpers
             if (MapAssistConfiguration.Loaded.Portraits.ShowArea || MapAssistConfiguration.Loaded.Portraits.ShowPlayerLevel)
             {
                 var portraitCount = 1;
-                var marginX = gfx.Height / 45;
+                var marginX = gfx.Height / 46;
                 var marginY = gfx.Height / 10.6f;
                 var offsetLevelY = marginY * .27f;
                 var padding = 6;
