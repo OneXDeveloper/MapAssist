@@ -617,20 +617,12 @@ namespace MapAssist.Helpers
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
                                 : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer;
 
-                            var canDrawThisIcon = myPlayer
-                                ? canDrawIcon
-                                : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer.CanDrawIcon();
-
-                            if (canDrawThisIcon)
+                            if (rendering.CanDrawIcon())
                             {
                                 drawPlayerIcons.Add((rendering, playerUnit.Position));
                             }
 
-                            var canDrawThisLabel = myPlayer
-                                ? canDrawLabel
-                                : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer.CanDrawLabel();
-
-                            if (canDrawThisLabel && !myPlayer)
+                            if (rendering.CanDrawLabel() && !myPlayer)
                             {
                                 drawPlayerLabels.Add((rendering, playerUnit.Position, playerName, rendering.LabelColor));
                             }
@@ -638,11 +630,11 @@ namespace MapAssist.Helpers
                         else
                         {
                             // not in my party
-                            var rendering = (myPlayer
+                            var rendering = myPlayer
                                 ? MapAssistConfiguration.Loaded.MapConfiguration.Player
                                 : (!playerUnit.IsCorpse && (playerUnit.RosterEntry.IsHostile || playerUnit.RosterEntry.IsHostileTo)
                                     ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer
-                                    : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer));
+                                    : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer);
 
                             if (rendering.CanDrawIcon())
                             {
