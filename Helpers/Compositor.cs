@@ -227,12 +227,6 @@ namespace MapAssist.Helpers
             var drawPoiIcons = new List<(IconRendering, Point)>();
             var drawPoiLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
-            void addPoiIcon(IconRendering render, Point position)
-            {
-                if (render.CanDrawIcon())
-                    drawPoiIcons.Add((render, position));
-            }
-
             var drawnPreviousNextAreas = new List<Point>();
 
             var areasToRender = new AreaData[] { _areaData };
@@ -243,7 +237,6 @@ namespace MapAssist.Helpers
 
             foreach (var area in areasToRender.Where(a => a.PointsOfInterest != null).ToArray())
             {
-
                 foreach (var poi in area.PointsOfInterest)
                 {
                     if ((new PoiType[] { PoiType.PreviousArea, PoiType.NextArea }).Contains(poi.Type))
@@ -258,9 +251,14 @@ namespace MapAssist.Helpers
                         }
                     }
 
-                    if (!poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
+                    if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                     {
-                        addPoiIcon(poi.RenderingSettings, poi.Position);
+                        continue;
+                    }
+
+                    if (poi.RenderingSettings.CanDrawIcon())
+                    {
+                        drawPoiIcons.Add((poi.RenderingSettings, poi.Position));
                     }
                 }
 
@@ -281,10 +279,24 @@ namespace MapAssist.Helpers
 
                     if (!string.IsNullOrWhiteSpace(poi.Label))
                     {
-                        if (!poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty) && (poi.Type != PoiType.Shrine || IsInBounds(poi.Position, _gameData.PlayerPosition)) && poi.RenderingSettings.CanDrawLabel())
+                        if (poi.PoiMatchesPortal(_gameData.Objects, _gameData.Difficulty))
                         {
-                            var poiPosition = poi.RenderingSettings.CanDrawLine() ? MovePointInBounds(poi.Position, _gameData.PlayerPosition) : poi.Position;
+                            continue;
+                        }
+
+                        if (poi.Type == PoiType.Shrine && !IsInBounds(poi.Position, _gameData.PlayerPosition))
+                        {
+                            continue;
+                        }
+
+                        if (poi.RenderingSettings.CanDrawLine() && poi.RenderingSettings.CanDrawLabel())
+                        {
+                            var poiPosition = MovePointInBounds(poi.Position, _gameData.PlayerPosition);
                             drawPoiLabels.Add((poi.RenderingSettings, poiPosition, poi.Label, null));
+                        }
+                        else if (poi.RenderingSettings.CanDrawLabel())
+                        {
+                            drawPoiLabels.Add((poi.RenderingSettings, poi.Position, poi.Label, null));
                         }
                     }
                 }
@@ -297,7 +309,7 @@ namespace MapAssist.Helpers
 
                 if (gameObject.IsPortal)
                 {
-                    var destinationArea = AreaExtensions.ToArea(gameObject.ObjectData.InteractType);
+                    var destinationArea = (Area)Enum.ToObject(typeof(Area), gameObject.ObjectData.InteractType);
 
                     var playerNameUnicode = Encoding.UTF8.GetString(gameObject.ObjectData.Owner).TrimEnd((char)0);
                     var playerName = !string.IsNullOrWhiteSpace(playerNameUnicode) ? playerNameUnicode : null;
@@ -309,7 +321,10 @@ namespace MapAssist.Helpers
                         rosterEntry != null ? MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPortal :
                         MapAssistConfiguration.Loaded.MapConfiguration.GamePortal;
 
-                    addPoiIcon(render, gameObject.Position);
+                    if (render.CanDrawIcon())
+                    {
+                        drawPoiIcons.Add((render, gameObject.Position));
+                    }
 
                     if (render.CanDrawLabel(destinationArea))
                     {
@@ -319,24 +334,33 @@ namespace MapAssist.Helpers
                         drawPoiLabels.Add((render, gameObject.Position, label, null));
                     }
                 }
-                else if (gameObject.IsArmorWeapRack)
+                else if (gameObject.IsArmorWeapRack && MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack.CanDrawIcon())
                 {
-                    addPoiIcon(MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position);
+                    drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.ArmorWeapRack, gameObject.Position));
                 }
                 else if (gameObject.IsChest)
                 {
                     if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Trap) == (byte)Chest.InteractFlags.Trap)
                     {
-                        addPoiIcon(MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest, gameObject.Position);
+                        if (MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest.CanDrawIcon())
+                        {
+                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.TrappedChest, gameObject.Position));
+                        }
                     }
 
                     if ((gameObject.ObjectData.InteractType & (byte)Chest.InteractFlags.Locked) == (byte)Chest.InteractFlags.Locked)
                     {
-                        addPoiIcon(MapAssistConfiguration.Loaded.MapConfiguration.LockedChest, gameObject.Position);
+                        if (MapAssistConfiguration.Loaded.MapConfiguration.LockedChest.CanDrawIcon())
+                        {
+                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.LockedChest, gameObject.Position));
+                        }
                     }
                     else
                     {
-                        addPoiIcon(MapAssistConfiguration.Loaded.MapConfiguration.NormalChest, gameObject.Position);
+                        if (MapAssistConfiguration.Loaded.MapConfiguration.NormalChest.CanDrawIcon())
+                        {
+                            drawPoiIcons.Add((MapAssistConfiguration.Loaded.MapConfiguration.NormalChest, gameObject.Position));
+                        }
                     }
                 }
             }
@@ -371,6 +395,7 @@ namespace MapAssist.Helpers
                 MapAssistConfiguration.Loaded.MapConfiguration.MissileMagicLarge,
                 MapAssistConfiguration.Loaded.MapConfiguration.MissileMagicSmall,
             };
+
             foreach (var missile in _gameData.Missiles)
             {
                 if (MissileTypes._MissileTypes.TryGetValue(missile.TxtFileNo, out var missileType))
@@ -513,12 +538,6 @@ namespace MapAssist.Helpers
             var drawPlayerIcons = new List<(IconRendering, Point)>();
             var drawPlayerLabels = new List<(PointOfInterestRendering, Point, string, Color?)>();
 
-            void addPlayerIcon(IconRendering render, Point position)
-            {
-                if (render.CanDrawIcon())
-                    drawPlayerIcons.Add((render, position));
-            }
-
             var areasToRender = new AreaData[] { _areaData };
             if (_areaData.Area.RequiresStitching())
             {
@@ -528,13 +547,21 @@ namespace MapAssist.Helpers
             foreach (var pet in _gameData.Summons.ToArray())
             {
                 var rendering = pet.IsPlayerOwned ? MapAssistConfiguration.Loaded.MapConfiguration.MySummons : MapAssistConfiguration.Loaded.MapConfiguration.OtherSummons;
-                addPlayerIcon(rendering, pet.Position);
+
+                if (rendering.CanDrawIcon())
+                {
+                    drawPlayerIcons.Add((rendering, pet.Position));
+                }
             }
 
             foreach (var merc in _gameData.Mercs.Where(x => !x.IsCorpse).ToArray())
             {
                 var rendering = merc.IsPlayerOwned ? MapAssistConfiguration.Loaded.MapConfiguration.MyMerc : MapAssistConfiguration.Loaded.MapConfiguration.OtherMercs;
-                addPlayerIcon(rendering, merc.Position);
+
+                if (rendering.CanDrawIcon())
+                {
+                    drawPlayerIcons.Add((rendering, merc.Position));
+                }
             }
 
             foreach (var corpse in _gameData.Corpses)
@@ -542,12 +569,16 @@ namespace MapAssist.Helpers
                 var rendering = MapAssistConfiguration.Loaded.MapConfiguration.Corpse;
                 var fontSize = gfx.ScaleFontSize((float)rendering.LabelFontSize);
                 var canDrawLabel = rendering.CanDrawLabel();
+                var canDrawIcon = rendering.CanDrawIcon();
                 var canDrawLine = rendering.CanDrawLine();
 
                 if (corpse.Act.ActId != _gameData.PlayerUnit.Act.ActId) continue; // Don't show corpse if not in the same act
                 if (!areasToRender.Any(area => area.Area == corpse.Area)) continue; // Don't show corpse if not in drawn areas
 
-                addPlayerIcon(rendering, corpse.Position);
+                if (canDrawIcon)
+                {
+                    drawPlayerIcons.Add((rendering, corpse.Position));
+                }
 
                 if (canDrawLabel)
                 {
@@ -571,30 +602,53 @@ namespace MapAssist.Helpers
                     var inMyParty = player.PartyID != ushort.MaxValue && player.PartyID == myPlayerEntry.PartyID;
                     var playerName = player.Name;
 
-
-                    PointOfInterestRendering getRendering(UnitPlayer unit)
-                    {
-                        if (myPlayer)
-                            return MapAssistConfiguration.Loaded.MapConfiguration.Player;
-                        if (unit.RosterEntry.InParty)
-                            return MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer;
-                        if (!unit.IsCorpse && (unit.RosterEntry.IsHostile || unit.RosterEntry.IsHostileTo))
-                            return MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer;
-                        return MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer;
-                    }
+                    var canDrawIcon = MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawIcon();
+                    var canDrawLabel = MapAssistConfiguration.Loaded.MapConfiguration.Player.CanDrawLabel();
 
                     if (_gameData.Players.TryGetValue(player.UnitId, out var playerUnit))
                     {
                         if (!myPlayer && playerUnit.Act.ActId != _gameData.PlayerUnit.Act.ActId) continue; // Don't show player if not in the same act
                         if (!myPlayer && !areasToRender.Any(area => area.IncludesPoint(playerUnit.Position))) continue; // Don't show player if not in drawn areas
 
-                        var rendering = getRendering(playerUnit);
-                        addPlayerIcon(rendering, playerUnit.Position);
-
                         // use data from the unit table if available
-                        if (!playerUnit.RosterEntry.InParty)
+                        if (playerUnit.RosterEntry.InParty)
+                        {
+                            var rendering = myPlayer
+                                ? MapAssistConfiguration.Loaded.MapConfiguration.Player
+                                : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer;
+
+                            var canDrawThisIcon = myPlayer
+                                ? canDrawIcon
+                                : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer.CanDrawIcon();
+
+                            if (canDrawThisIcon)
+                            {
+                                drawPlayerIcons.Add((rendering, playerUnit.Position));
+                            }
+
+                            var canDrawThisLabel = myPlayer
+                                ? canDrawLabel
+                                : MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer.CanDrawLabel();
+
+                            if (canDrawThisLabel && !myPlayer)
+                            {
+                                drawPlayerLabels.Add((rendering, playerUnit.Position, playerName, rendering.LabelColor));
+                            }
+                        }
+                        else
                         {
                             // not in my party
+                            var rendering = (myPlayer
+                                ? MapAssistConfiguration.Loaded.MapConfiguration.Player
+                                : (!playerUnit.IsCorpse && (playerUnit.RosterEntry.IsHostile || playerUnit.RosterEntry.IsHostileTo)
+                                    ? MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer
+                                    : MapAssistConfiguration.Loaded.MapConfiguration.NonPartyPlayer));
+
+                            if (rendering.CanDrawIcon())
+                            {
+                                drawPlayerIcons.Add((rendering, playerUnit.Position));
+                            }
+
                             if (rendering.CanDrawLine() && !_areaData.Area.IsTown() && !playerUnit.Area.IsTown())
                             {
                                 var fontSize = gfx.ScaleFontSize((float)MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer.LabelFontSize);
@@ -602,11 +656,11 @@ namespace MapAssist.Helpers
                                 var poiPosition = MovePointInBounds(playerUnit.Position, _gameData.PlayerPosition, padding);
                                 DrawLine(gfx, MapAssistConfiguration.Loaded.MapConfiguration.HostilePlayer, _gameData.PlayerPosition, poiPosition);
                             }
-                        }
 
-                        if (rendering.CanDrawLabel() && !myPlayer)
-                        {
-                            drawPlayerLabels.Add((rendering, playerUnit.Position, playerName, rendering.LabelColor));
+                            if (rendering.CanDrawLabel() && !myPlayer)
+                            {
+                                drawPlayerLabels.Add((rendering, playerUnit.Position, playerName, rendering.LabelColor));
+                            }
                         }
                     }
                     else
@@ -618,9 +672,12 @@ namespace MapAssist.Helpers
                         if (inMyParty && player.PartyID < ushort.MaxValue)
                         {
                             var rendering = MapAssistConfiguration.Loaded.MapConfiguration.PartyPlayer;
-                            addPlayerIcon(rendering, player.Position);
+                            if (canDrawIcon)
+                            {
+                                drawPlayerIcons.Add((rendering, player.Position));
+                            }
 
-                            if (rendering.CanDrawLabel() && !myPlayer)
+                            if (canDrawLabel && !myPlayer)
                             {
                                 drawPlayerLabels.Add((rendering, player.Position, playerName, rendering.LabelColor));
                             }
@@ -897,35 +954,39 @@ namespace MapAssist.Helpers
             var textAlign = MapAssistConfiguration.Loaded.GameInfo.Position == GameInfoPosition.TopRight ? TextAlign.Right : TextAlign.Left;
             var textColor = Color.FromArgb(199, 179, 119);
 
-            var lines = new List<(string, Color, bool)>();
+            void DrawGameInfoText(string text)
+            {
+                DrawText(gfx, anchor, text, font, fontSize, textColor, textShadow, textAlign);
+                anchor.Y += lineHeight;
+            }
 
             // Game Name
             if (MapAssistConfiguration.Loaded.GameInfo.ShowGameName && _gameData.Session.GameName.Length > 0)
             {
-                lines.Add(("Game: " + _gameData.Session.GameName, textColor, true));
+                DrawGameInfoText("Game: " + _gameData.Session.GameName);
 
                 if (_gameData.Session.GamePass.Length > 0)
                 {
-                    lines.Add(("Password: " + _gameData.Session.GamePass, textColor, true));
+                    DrawGameInfoText("Password: " + _gameData.Session.GamePass);
                 }
             }
 
             // Game Timer
             if (MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer)
             {
-                lines.Add(("Game Time: " + _gameData.Session.GameTimerDisplay, textColor, textShadow));
+                DrawGameInfoText("Game Time: " + _gameData.Session.GameTimerDisplay);
             }
 
             // Area
             if (MapAssistConfiguration.Loaded.GameInfo.ShowArea)
             {
-                lines.Add((_gameData.Area.Name(), textColor, textShadow));
+                DrawGameInfoText(_gameData.Area.Name());
             }
 
             // Difficulty
             if (MapAssistConfiguration.Loaded.GameInfo.ShowDifficulty)
             {
-                lines.Add(("Difficulty: " + _gameData.Difficulty.ToString(), textColor, textShadow));
+                DrawGameInfoText("Difficulty: " + _gameData.Difficulty.ToString());
             }
 
             // Area Level
@@ -934,35 +995,30 @@ namespace MapAssist.Helpers
                 var areaLevel = _gameData.Area.Level(_gameData.Difficulty);
                 if (areaLevel > 0)
                 {
-                    lines.Add(("Area Level: " + areaLevel, textColor, textShadow));
+                    DrawGameInfoText("Area Level: " + areaLevel);
                 }
             }
 
             // Area Timer
             if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer)
             {
-                lines.Add(("Area Time: " + _gameData.Session.AreaTimerDisplay, textColor, textShadow));
+                DrawGameInfoText("Area Time: " + _gameData.Session.AreaTimerDisplay);
             }
 
             // Overlay FPS
             if (MapAssistConfiguration.Loaded.GameInfo.ShowOverlayFPS)
             {
-                lines.Add(("FPS: " + gfx.FPS.ToString() + " / DeltaTime: " + e.DeltaTime.ToString(), textColor, textShadow));
+                DrawGameInfoText("FPS: " + gfx.FPS.ToString() + " / DeltaTime: " + e.DeltaTime.ToString());
             }
 
             if (!_gameData.MapSeedReady)
             {
-                lines.Add(("Finding map seed...", Color.Orange, textShadow));
+                DrawText(gfx, anchor, "Finding map seed...", font, fontSize * 1.3f, Color.Orange, textShadow, textAlign);
+                anchor.Y += lineHeight;
             }
             else if (errorLoadingAreaData)
             {
-                lines.Add(("ERROR LOADING AREA!", Color.Orange, textShadow));
-            }
-
-
-            foreach (var (text, color, shadow) in lines)
-            {
-                DrawText(gfx, anchor, text, font, fontSize, color, shadow, textAlign);
+                DrawText(gfx, anchor, "ERROR LOADING AREA!", font, fontSize * 1.5f, Color.Orange, textShadow, textAlign);
                 anchor.Y += lineHeight;
             }
 
