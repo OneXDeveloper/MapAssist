@@ -37,6 +37,7 @@ namespace MapAssist.Helpers
                 // Requirement check functions
                 var requirementsFunctions = new Dictionary<string, Func<bool>>()
                 {
+                    ["Tiers"] = () => rule.Tiers.Contains(item.ItemTier),
                     ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
                     ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
                     ["Ethereal"] = () => item.IsEthereal == rule.Ethereal,

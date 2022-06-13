@@ -70,6 +70,8 @@ namespace MapAssist.Types
 
         public ushort[] Suffixes => ItemData.Affixes.Skip(3).ToArray();
 
+        public ItemTier ItemTier => Items.GetItemTier(Item);
+
         public StashTab StashTab { get; set; } = StashTab.None;
 
         public bool IsAnyPlayerHolding
