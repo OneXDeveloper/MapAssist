@@ -162,10 +162,8 @@ namespace MapAssist.Helpers
 
                 if (_sessions[_currentProcessId].GameStartTime == DateTime.MinValue) _sessions[_currentProcessId].GameStartTime = now;
 
-                for (var i = 0; i < rosterData.List.Count; i++)
+                foreach (var entry in rosterData.List)
                 {
-                    var entry = rosterData.List[i];
-
                     if (!_sessions[_currentProcessId].PlayerAreasTimes.ContainsKey(entry.UnitId))
                     {
                         _sessions[_currentProcessId].PlayerAreasTimes[entry.UnitId] = new Dictionary<Area, List<double>>();
