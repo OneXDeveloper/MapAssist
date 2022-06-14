@@ -280,322 +280,322 @@
     <EmbeddedResource Include="Resources\SuperUniques.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Salvation.png" />
+    <None Include="Resources\Skills\Salvation.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sanctuary.png" />
+    <None Include="Resources\Skills\Sanctuary.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ShadowMaster.png" />
+    <None Include="Resources\Skills\ShadowMaster.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ShadowWarrior.png" />
+    <None Include="Resources\Skills\ShadowWarrior.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ShiverArmor.png" />
+    <None Include="Resources\Skills\ShiverArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shout.png" />
+    <None Include="Resources\Skills\Shout.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SlowMissiles.png" />
+    <None Include="Resources\Skills\SlowMissiles.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SpearMastery.png" />
+    <None Include="Resources\Skills\SpearMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Stamina.png" />
+    <None Include="Resources\Skills\Stamina.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BladeMastery.png" />
+    <None Include="Resources\Skills\BladeMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Teleport.png" />
+    <None Include="Resources\Skills\Teleport.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Terror.png" />
+    <None Include="Resources\Skills\Terror.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Thorns.png" />
+    <None Include="Resources\Skills\Thorns.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ThrowingMastery.png" />
+    <None Include="Resources\Skills\ThrowingMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ThunderStorm.png" />
+    <None Include="Resources\Skills\ThunderStorm.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Valkyrie.png" />
+    <None Include="Resources\Skills\Valkyrie.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Venom.png" />
+    <None Include="Resources\Skills\Venom.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Vigor.png" />
+    <None Include="Resources\Skills\Vigor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Warmth.png" />
+    <None Include="Resources\Skills\Warmth.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Weaken.png" />
+    <None Include="Resources\Skills\Weaken.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WeaponBlock.png" />
+    <None Include="Resources\Skills\WeaponBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Whirlwind.png" />
+    <None Include="Resources\Skills\Whirlwind.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Wolf.png" />
+    <None Include="Resources\Skills\Wolf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Wolverine.png" />
+    <None Include="Resources\Skills\Wolverine.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AmplifyDamage.png" />
+    <None Include="Resources\Skills\AmplifyDamage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Armageddon.png" />
+    <None Include="Resources\Skills\Armageddon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Attract.png" />
+    <None Include="Resources\Skills\Attract.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Avoid.png" />
+    <None Include="Resources\Skills\Avoid.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AxeMastery.png" />
+    <None Include="Resources\Skills\AxeMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Barbs.png" />
+    <None Include="Resources\Skills\Barbs.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BattleCommand.png" />
+    <None Include="Resources\Skills\BattleCommand.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BattleOrders.png" />
+    <None Include="Resources\Skills\BattleOrders.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Bear.png" />
+    <None Include="Resources\Skills\Bear.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Berserk.png" />
+    <None Include="Resources\Skills\Berserk.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BladeShield.png" />
+    <None Include="Resources\Skills\BladeShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Blaze.png" />
+    <None Include="Resources\Skills\Blaze.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BlessedAim.png" />
+    <None Include="Resources\Skills\BlessedAim.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BoneArmor.png" />
+    <None Include="Resources\Skills\BoneArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ChillingArmor.png" />
+    <None Include="Resources\Skills\ChillingArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ClawMastery.png" />
+    <None Include="Resources\Skills\ClawMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Cleansing.png" />
+    <None Include="Resources\Skills\Cleansing.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CloakOfShadows.png" />
+    <None Include="Resources\Skills\CloakOfShadows.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Cloaked.png" />
+    <None Include="Resources\Skills\Cloaked.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ColdMastery.png" />
+    <None Include="Resources\Skills\ColdMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Concentration.png" />
+    <None Include="Resources\Skills\Concentration.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Confuse.png" />
+    <None Include="Resources\Skills\Confuse.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Conversion.png" />
+    <None Include="Resources\Skills\Conversion.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Conviction.png" />
+    <None Include="Resources\Skills\Conviction.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CriticalStrike.png" />
+    <None Include="Resources\Skills\CriticalStrike.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CycloneArmor.png" />
+    <None Include="Resources\Skills\CycloneArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Decoy.png" />
+    <None Include="Resources\Skills\Decoy.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Decrepify.png" />
+    <None Include="Resources\Skills\Decrepify.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Defiance.png" />
+    <None Include="Resources\Skills\Defiance.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DimVision.png" />
+    <None Include="Resources\Skills\DimVision.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Dodge.png" />
+    <None Include="Resources\Skills\Dodge.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Enchant.png" />
+    <None Include="Resources\Skills\Enchant.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\EnergyShield.png" />
+    <None Include="Resources\Skills\EnergyShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Evade.png" />
+    <None Include="Resources\Skills\Evade.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Fanaticism.png" />
+    <None Include="Resources\Skills\Fanaticism.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FenrisRage.png" />
+    <None Include="Resources\Skills\FenrisRage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FeralRage.png" />
+    <None Include="Resources\Skills\FeralRage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FireMastery.png" />
+    <None Include="Resources\Skills\FireMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Frenzy.png" />
+    <None Include="Resources\Skills\Frenzy.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FrozenArmor.png" />
+    <None Include="Resources\Skills\FrozenArmor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HolyFire.png" />
+    <None Include="Resources\Skills\HolyFire.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HolyShield.png" />
+    <None Include="Resources\Skills\HolyShield.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HolyShock.png" />
+    <None Include="Resources\Skills\HolyShock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HolyWind.png" />
+    <None Include="Resources\Skills\HolyWind.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Hurricane.png" />
+    <None Include="Resources\Skills\Hurricane.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Impale.png" />
+    <None Include="Resources\Skills\Impale.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IncreasedSpeed.png" />
+    <None Include="Resources\Skills\IncreasedSpeed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IncreasedStamina.png" />
+    <None Include="Resources\Skills\IncreasedStamina.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Inferno.png" />
+    <None Include="Resources\Skills\Inferno.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\InnerSight.png" />
+    <None Include="Resources\Skills\InnerSight.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IronMaiden.png" />
+    <None Include="Resources\Skills\IronMaiden.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IronSkin.png" />
+    <None Include="Resources\Skills\IronSkin.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LifeTap.png" />
+    <None Include="Resources\Skills\LifeTap.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LightningMastery.png" />
+    <None Include="Resources\Skills\LightningMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LowerResist.png" />
+    <None Include="Resources\Skills\LowerResist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MaceMastery.png" />
+    <None Include="Resources\Skills\MaceMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Meditation.png" />
+    <None Include="Resources\Skills\Meditation.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Might.png" />
+    <None Include="Resources\Skills\Might.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\NaturalResistance.png" />
+    <None Include="Resources\Skills\NaturalResistance.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OakSage.png" />
+    <None Include="Resources\Skills\OakSage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Penetrate.png" />
+    <None Include="Resources\Skills\Penetrate.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Pierce.png" />
+    <None Include="Resources\Skills\Pierce.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PolearmMastery.png" />
+    <None Include="Resources\Skills\PolearmMastery.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Prayer.png" />
+    <None Include="Resources\Skills\Prayer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Quickness.png" />
+    <None Include="Resources\Skills\Quickness.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Redemption.png" />
+    <None Include="Resources\Skills\Redemption.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ResistCold.png" />
+    <None Include="Resources\Skills\ResistCold.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ResistFire.png" />
+    <None Include="Resources\Skills\ResistFire.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ResistLightning.png" />
+    <None Include="Resources\Skills\ResistLightning.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Convicted.png" />
+    <None Include="Resources\Skills\Convicted.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Fade.png" />
+    <None Include="Resources\Skills\Fade.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Poison.png" />
+    <None Include="Resources\Skills\Poison.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Slowed.png" />
+    <None Include="Resources\Skills\Slowed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BloodMana.png" />
+    <None Include="Resources\Skills\BloodMana.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DefenseCurse.png" />
+    <None Include="Resources\Skills\DefenseCurse.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Frozen.png" />
+    <None Include="Resources\Skills\Frozen.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TigerStrike.png" />
+    <None Include="Resources\Skills\TigerStrike.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BladesOfIce.png" />
+    <None Include="Resources\Skills\BladesOfIce.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ClawsOfThunder.png" />
+    <None Include="Resources\Skills\ClawsOfThunder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CobraStrike.png" />
+    <None Include="Resources\Skills\CobraStrike.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FistsOfFire.png" />
+    <None Include="Resources\Skills\FistsOfFire.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PhoenixStrike.png" />
+    <None Include="Resources\Skills\PhoenixStrike.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MAServer.exe">
