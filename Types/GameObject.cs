@@ -588,11 +588,6 @@ namespace MapAssist.Types
     {
         public static Dictionary<string, LocalizedObj> LocalizedObjects = new Dictionary<string, LocalizedObj>();
 
-        public static string Name(UnitObject obj)
-        {
-            return NameFromKey(obj.ObjectType);
-        }
-
         public static string NameFromKey(string key)
         {
             if (!LocalizedObjects.TryGetValue(key, out LocalizedObj localItem))
@@ -602,6 +597,16 @@ namespace MapAssist.Types
 
             var lang = MapAssistConfiguration.Loaded.LanguageCode;
             return localItem.GetType().GetProperty(lang.ToString()).GetValue(localItem, null).ToString();
+        }
+    }
+
+    public static class GameObjectExtensions
+    {
+        public static string Name(this UnitObject obj)
+        {
+            if (obj.IsShrine) return Shrine.ShrineDisplayName(obj);
+
+            return GameObjects.NameFromKey(obj.ObjectType);
         }
     }
 }

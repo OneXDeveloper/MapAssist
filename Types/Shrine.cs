@@ -37,12 +37,7 @@ namespace MapAssist.Types
 
         public static string ShrineDisplayName(UnitObject obj)
         {
-            if (obj.IsWell)
-            {
-                return GameObjects.Name(obj);
-            }
-
-            if (!LocalizedShrines.TryGetValue($"ShrId{obj.ObjectData.InteractType}", out LocalizedObj localItem))
+            if (!LocalizedShrines.TryGetValue($"ShrId{obj.ObjectData.InteractType}", out var localItem))
             {
                 return "Shrine";
             }
