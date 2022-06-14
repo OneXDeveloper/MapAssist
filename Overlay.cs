@@ -7,7 +7,6 @@ using MapAssist.Types;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Graphics = GameOverlay.Drawing.Graphics;
 
 namespace MapAssist
 {
@@ -19,7 +18,6 @@ namespace MapAssist
         private GameDataReader _gameDataReader;
         private GameData _gameData;
         private Compositor _compositor = new Compositor();
-        private Point _mouseRelativePos;
         private static ConfigEditor _configEditor;
         private (MapPosition, bool) _lastMapConfiguration;
         private bool _show = true;
@@ -113,8 +111,8 @@ namespace MapAssist
                                     _compositor.DrawGamemap(gfx);
                                     _compositor.DrawOverlay(gfx);
                                 }
-
-                                _compositor.DrawBuffs(gfx, _mouseRelativePos);
+                                var mouseRelativePos = new Point(GameManager.mouseRelativePos.X - _window.X, GameManager.mouseRelativePos.Y - _window.Y);
+                                _compositor.DrawBuffs(gfx, mouseRelativePos);
                                 _compositor.DrawMonsterBar(gfx);
                             }
 
@@ -150,14 +148,6 @@ namespace MapAssist
         private bool InGame()
         {
             return _gameData != null && _gameData.MainWindowHandle != IntPtr.Zero;
-        }
-
-        public void MouseMoveHandler(object sender, MouseEventArgs args)
-        {
-            if (GameManager.IsGameInForeground && InGame())
-            {
-                _mouseRelativePos = new Point(args.X - _window.X, args.Y - _window.Y);
-            }
         }
 
         public void KeyDownHandler(object sender, KeyEventArgs args)

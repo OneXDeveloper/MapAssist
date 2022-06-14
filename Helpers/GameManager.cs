@@ -1,4 +1,5 @@
-﻿using MapAssist.Settings;
+﻿using GameOverlay.Drawing;
+using MapAssist.Settings;
 using MapAssist.Structs;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Winook;
 
 namespace MapAssist.Helpers
 {
@@ -19,7 +21,10 @@ namespace MapAssist.Helpers
         private static IntPtr _lastGameHwnd = IntPtr.Zero;
         private static Process _lastGameProcess;
         private static int _lastGameProcessId = 0;
+        private static MouseHook _mouseHook;
         private static ProcessContext _processContext;
+
+        public static Point mouseRelativePos;
 
         public delegate void StatusUpdateHandler(object sender, EventArgs e);
 
@@ -124,6 +129,9 @@ namespace MapAssist.Helpers
             _lastGameHwnd = hwnd;
             _lastGameProcess = process;
             _lastGameProcessId = _foregroundProcessId;
+            _mouseHook = new MouseHook(_foregroundProcessId);
+            _mouseHook.MessageReceived += MouseHook_MessageReceived;
+            _mouseHook.InstallAsync();
 
             if (!_UnitHashTableOffset.ContainsKey(process.Id)) _UnitHashTableOffset[process.Id] = IntPtr.Zero;
             if (!_ExpansionCheckOffset.ContainsKey(process.Id)) _ExpansionCheckOffset[process.Id] = IntPtr.Zero;
@@ -133,6 +141,14 @@ namespace MapAssist.Helpers
             if (!_InteractedNpcOffset.ContainsKey(process.Id)) _InteractedNpcOffset[process.Id] = IntPtr.Zero;
             if (!_LastHoverDataOffset.ContainsKey(process.Id)) _LastHoverDataOffset[process.Id] = IntPtr.Zero;
             if (!_PetsOffsetOffset.ContainsKey(process.Id)) _PetsOffsetOffset[process.Id] = IntPtr.Zero;
+        }
+
+        private static void MouseHook_MessageReceived(object sender, MouseMessageEventArgs e)
+        {
+            if (IsGameInForeground)
+            {
+                mouseRelativePos = new Point(e.X, e.Y);
+            }
         }
 
         public static ProcessContext GetProcessContext()
