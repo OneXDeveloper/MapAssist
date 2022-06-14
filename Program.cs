@@ -1,5 +1,4 @@
 using AutoUpdaterDotNET;
-using Gma.System.MouseKeyHook;
 using MapAssist.Helpers;
 using MapAssist.Settings;
 using NLog;
@@ -30,7 +29,6 @@ namespace MapAssist
         private static NotifyIcon trayIcon;
         private static Overlay overlay;
         private static BackgroundWorker backWorkOverlay = new BackgroundWorker();
-        private static IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
@@ -121,14 +119,6 @@ namespace MapAssist
                     ContextMenuStrip = contextMenu,
                     Text = appName,
                     Visible = true
-                };
-
-                globalHook.KeyDown += (sender, args) =>
-                {
-                    if (overlay != null)
-                    {
-                        overlay.KeyDownHandler(sender, args);
-                    }
                 };
 
                 configEditor = new ConfigEditor();
@@ -292,9 +282,6 @@ namespace MapAssist
 
             MapApi.Dispose();
             _log.Info("Disposed MapApi");
-
-            globalHook.Dispose();
-            _log.Info("Disposed keyboard hook");
 
             trayIcon.Dispose();
             _log.Info("Disposed tray icon");
