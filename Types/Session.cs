@@ -38,14 +38,23 @@ namespace MapAssist.Types
         public string GameName => _gameName;
         public string GamePass => _gamePass;
 
-        public DateTime GameTimerStart { get; private set; } = DateTime.Now;
-        public string GameTimerDisplay => FormatTime(DateTime.Now.Subtract(GameTimerStart).TotalSeconds);
+        public DateTime GameStartTime { get; set; } = DateTime.MinValue;
 
-        public DateTime LastAreaChange { get; set; } = DateTime.Now;
-        public double PreviousAreaTime { get; set; } = 0;
-        public double AreaTimeElapsed => PreviousAreaTime + DateTime.Now.Subtract(LastAreaChange).TotalSeconds;
-        public Dictionary<Area, double> TotalAreaTimeElapsed { get; set; } = new Dictionary<Area, double>();
-        public string AreaTimerDisplay => FormatTime(AreaTimeElapsed);
+        public string GameStartTimeDisplay(DateTime now) => FormatTime(now.Subtract(GameStartTime).TotalSeconds);
+
+        public Dictionary<uint, Area> PlayerArea { get; set; } = new Dictionary<uint, Area>();
+        public Dictionary<uint, DateTime> PlayerAreaStart { get; set; } = new Dictionary<uint, DateTime>();
+        public Dictionary<uint, Dictionary<Area, List<double>>> PlayerAreasTimes { get; set; } = new Dictionary<uint, Dictionary<Area, List<double>>>();
+
+        public double AreaTimeElapsed(uint unitId, DateTime now, bool totalTime = true)
+        {
+            if (!PlayerArea.TryGetValue(unitId, out var area)) return 0;
+
+            return (totalTime && PlayerAreasTimes.TryGetValue(unitId, out var playerAreasTimes) && playerAreasTimes.TryGetValue(area, out var areasTimes) ? areasTimes.Sum() : 0) +
+                (PlayerAreaStart.TryGetValue(unitId, out var playerAreaStart) ? now.Subtract(playerAreaStart).TotalSeconds : 0);
+        }
+
+        public string AreaTimeDisplay(uint unitId, DateTime now) => FormatTime(AreaTimeElapsed(unitId, now));
 
         public string FormatTime(double seconds)
         {

@@ -10,7 +10,6 @@ namespace MapAssist.Helpers
     {
         private static Dictionary<int, uint> _lastMapSeeds = new Dictionary<int, uint>();
         private static Dictionary<int, bool> _playerMapChanged = new Dictionary<int, bool>();
-        private static Dictionary<int, Area> _playerArea = new Dictionary<int, Area>();
         private static Dictionary<int, Session> _sessions = new Dictionary<int, Session>();
         private static int _currentProcessId;
 
@@ -54,11 +53,6 @@ namespace MapAssist.Helpers
                         _sessions.Remove(_currentProcessId);
                     }
 
-                    if (_playerArea.ContainsKey(_currentProcessId))
-                    {
-                        _playerArea.Remove(_currentProcessId);
-                    }
-
                     if (_lastMapSeeds.ContainsKey(_currentProcessId))
                     {
                         _lastMapSeeds.Remove(_currentProcessId);
@@ -96,9 +90,9 @@ namespace MapAssist.Helpers
                     .OrderBy(o => o.Struct.UnkSortStashesBy)
                     .Select(o => o.UnitId).ToList();
 
-                var levelId = playerUnit.Area;
+                var playerArea = playerUnit.Area;
 
-                if (!levelId.IsValid())
+                if (!playerArea.IsValid())
                 {
                     if (_errorThrown) return null;
 
@@ -110,24 +104,6 @@ namespace MapAssist.Helpers
                 {
                     _mapSeedData = new MapSeed();
                     MapSeeds[_currentProcessId] = _mapSeedData;
-                }
-
-                // Update area timer
-                var areaCacheFound = _playerArea.TryGetValue(_currentProcessId, out var previousArea);
-                if (!areaCacheFound || previousArea != levelId)
-                {
-                    if (areaCacheFound)
-                    {
-                        _sessions[_currentProcessId].TotalAreaTimeElapsed[previousArea] = _sessions[_currentProcessId].AreaTimeElapsed;
-                    }
-
-                    _playerArea[_currentProcessId] = levelId;
-
-                    if (areaCacheFound)
-                    {
-                        _sessions[_currentProcessId].LastAreaChange = DateTime.Now;
-                        _sessions[_currentProcessId].PreviousAreaTime = _sessions[_currentProcessId].TotalAreaTimeElapsed.TryGetValue(levelId, out var previousTime) ? previousTime : 0d;
-                    }
                 }
 
                 // Check for map seed
@@ -168,7 +144,7 @@ namespace MapAssist.Helpers
                     throw new Exception("Game difficulty out of bounds.");
                 }
 
-                var areaLevel = levelId.Level(gameDifficulty);
+                var areaLevel = playerArea.Level(gameDifficulty);
 
                 // Players
                 var playerList = rawPlayerUnits.Where(x => x.UnitType == UnitType.Player && x.IsPlayer)
@@ -179,6 +155,36 @@ namespace MapAssist.Helpers
                 foreach (var entry in rosterData.List)
                 {
                     entry.UpdateParties(playerUnit.RosterEntry);
+                }
+
+                // Update area timer
+                var now = DateTime.Now;
+
+                if (_sessions[_currentProcessId].GameStartTime == DateTime.MinValue) _sessions[_currentProcessId].GameStartTime = now;
+
+                for (var i = 0; i < rosterData.List.Count; i++)
+                {
+                    var entry = rosterData.List[i];
+
+                    if (!_sessions[_currentProcessId].PlayerAreasTimes.ContainsKey(entry.UnitId))
+                    {
+                        _sessions[_currentProcessId].PlayerAreasTimes[entry.UnitId] = new Dictionary<Area, List<double>>();
+                    }
+
+                    var area = playerUnit.RosterEntry == entry ? playerArea : entry.Area;
+                    var previousArea = _sessions[_currentProcessId].PlayerArea.TryGetValue(entry.UnitId, out var rosterEntrypreviousArea) ? rosterEntrypreviousArea : Area.None;
+
+                    if (previousArea != area)
+                    {
+                        if (!_sessions[_currentProcessId].PlayerAreasTimes[entry.UnitId].ContainsKey(previousArea))
+                        {
+                            _sessions[_currentProcessId].PlayerAreasTimes[entry.UnitId][previousArea] = new List<double>();
+                        }
+
+                        _sessions[_currentProcessId].PlayerAreasTimes[entry.UnitId][previousArea].Add(_sessions[_currentProcessId].AreaTimeElapsed(entry.UnitId, now, false));
+                        _sessions[_currentProcessId].PlayerArea[entry.UnitId] = area;
+                        _sessions[_currentProcessId].PlayerAreaStart[entry.UnitId] = now;
+                    }
                 }
 
                 // Corpses
@@ -297,7 +303,7 @@ namespace MapAssist.Helpers
                     var checkVendorItem = Items.CheckVendorItem(item, _currentProcessId);
                     if (item.IsValidItem && !item.IsInSocket && (checkDroppedItem || checkVendorItem || checkInventoryItem))
                     {
-                        Items.LogItem(item, levelId, areaLevel, PlayerUnit.Level, _currentProcessId);
+                        Items.LogItem(item, playerArea, areaLevel, PlayerUnit.Level, _currentProcessId);
                     }
 
                     rawItemUnits.Add(item);
@@ -360,7 +366,7 @@ namespace MapAssist.Helpers
                     PlayerPosition = playerUnit.Position,
                     MapSeed = mapSeed,
                     MapSeedReady = mapSeedIsReady,
-                    Area = levelId,
+                    Area = playerArea,
                     Difficulty = gameDifficulty,
                     MainWindowHandle = currentWindowHandle,
                     PlayerName = playerUnit.Name,

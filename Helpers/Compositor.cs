@@ -946,6 +946,8 @@ namespace MapAssist.Helpers
             var textAlign = MapAssistConfiguration.Loaded.GameInfo.Position == GameInfoPosition.TopRight ? TextAlign.Right : TextAlign.Left;
             var textColor = Color.FromArgb(199, 179, 119);
 
+            var now = DateTime.Now;
+
             void DrawGameInfoText(string text)
             {
                 DrawText(gfx, anchor, text, font, fontSize, textColor, textShadow, textAlign);
@@ -966,7 +968,7 @@ namespace MapAssist.Helpers
             // Game Timer
             if (MapAssistConfiguration.Loaded.GameInfo.ShowGameTimer)
             {
-                DrawGameInfoText("Game Time: " + _gameData.Session.GameTimerDisplay);
+                DrawGameInfoText("Game Time: " + _gameData.Session.GameStartTimeDisplay(now));
             }
 
             // Area
@@ -994,7 +996,7 @@ namespace MapAssist.Helpers
             // Area Timer
             if (MapAssistConfiguration.Loaded.GameInfo.ShowAreaTimer)
             {
-                DrawGameInfoText("Area Time: " + _gameData.Session.AreaTimerDisplay);
+                DrawGameInfoText("Area Time: " + _gameData.Session.AreaTimeDisplay(_gameData.PlayerUnit.UnitId, now));
             }
 
             // Overlay FPS
