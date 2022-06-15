@@ -1,5 +1,13 @@
 # [MapAssist](https://mapassist.github.io)
 
+> Status: DETECTED
+
+> Do Not Use on B.net
+
+Using this program on B.net will result in a permanent account suspension from D2R online.
+
+MapAssist users reported being banned from D2R online services beginning June 14, 2022.
+
 ## Features
 
 - Reveals the D2R map as a game overlay, includes:
