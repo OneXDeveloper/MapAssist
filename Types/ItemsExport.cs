@@ -20,7 +20,7 @@ namespace MapAssist.Types
         public int numSockets { get; set; }
         public Position position { get; set; }
         public string bodyLoc { get; set; }
-        public List<Affix> affixes { get; set; }
+        public List<string> stats { get; set; }
     }
 
     public class Position

@@ -14,11 +14,18 @@ namespace MapAssist.Helpers
             var lines = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Split('\t').ToArray()).ToArray();
             var headers = lines[0].Select(x => Regex.Replace(x, @"\s+", "")).ToArray();
 
-            foreach (var line in lines.Skip(1).ToArray())
-            {
-                if (line[0] == "Expansion") continue; // Blizz likes to insert stupid nonsense in their files
+            var entries = lines.Skip(1).ToArray();
 
-                items.Add(line.Select((item, index) => new { item, index }).ToDictionary(x => headers[x.index], x => x.item));
+            for (var i = 0; i < entries.Length; i++)
+            {
+                var entry = entries[i];
+
+                if (entry[0] == "Expansion") continue; // Blizz likes to insert stupid nonsense in their files
+
+                var dict = entry.Select((item, index) => new { item, index }).ToDictionary(x => headers[x.index], x => x.item);
+                dict["_index"] = i.ToString();
+
+                items.Add(dict);
             }
 
             return items;

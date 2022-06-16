@@ -39,43 +39,38 @@ namespace MapAssist.Helpers
                 {
                     ["Tiers"] = () => rule.Tiers.Contains(item.ItemTier),
                     ["Qualities"] = () => rule.Qualities.Contains(item.ItemData.ItemQuality),
-                    ["Sockets"] = () => rule.Sockets.Contains(Items.GetItemStat(item, Stats.Stat.NumSockets)),
+                    ["Sockets"] = () => rule.Sockets.Contains(StatReader.GetStatValue(item, Stats.Stat.NumSockets)),
                     ["Ethereal"] = () => item.IsEthereal == rule.Ethereal,
                     ["MinAreaLevel"] = () => areaLevel >= rule.MinAreaLevel,
                     ["MaxAreaLevel"] = () => areaLevel <= rule.MaxAreaLevel,
                     ["MinPlayerLevel"] = () => playerLevel >= rule.MinPlayerLevel,
                     ["MaxPlayerLevel"] = () => playerLevel <= rule.MaxPlayerLevel,
-                    ["MinQualityLevel"] = () => Items.GetQualityLevel(item) >= rule.MinQualityLevel,
-                    ["MaxQualityLevel"] = () => Items.GetQualityLevel(item) <= rule.MaxQualityLevel,
-                    ["AllAttributes"] = () => Items.GetItemStatAllAttributes(item) >= rule.AllAttributes,
-                    ["AllResist"] = () => Items.GetItemStatResists(item, false) >= rule.AllResist,
-                    ["SumResist"] = () => Items.GetItemStatResists(item, true) >= rule.SumResist,
+                    ["MinQualityLevel"] = () => StatReader.GetQualityLevel(item) >= rule.MinQualityLevel,
+                    ["MaxQualityLevel"] = () => StatReader.GetQualityLevel(item) <= rule.MaxQualityLevel,
+                    ["AllAttributes"] = () => StatReader.GetStatAllAttributes(item) >= rule.AllAttributes,
+                    ["AllResist"] = () => StatReader.GetStatAllResists(item, false) >= rule.AllResist,
+                    ["SumResist"] = () => StatReader.GetStatAllResists(item, true) >= rule.SumResist,
                     ["ClassSkills"] = () =>
                     {
                         if (rule.ClassSkills.Count() == 0) return true;
-                        return rule.ClassSkills.All(subrule => Items.GetItemStatAddClassSkills(item, subrule.Key).Item2 >= subrule.Value);
+                        return rule.ClassSkills.All(subrule => StatReader.GetItemStatAddClassSkills(item, subrule.Key).Item2 >= subrule.Value);
                     },
                     ["SkillTrees"] = () =>
                     {
                         if (rule.SkillTrees.Count() == 0) return true;
-                        return rule.SkillTrees.All(subrule => Items.GetItemStatAddSkillTreeSkills(item, subrule.Key).Item2 >= subrule.Value);
+                        return rule.SkillTrees.All(subrule => StatReader.GetItemStatAddSkillTreeSkills(item, subrule.Key).Item2 >= subrule.Value);
                     },
                     ["Skills"] = () =>
                     {
                         if (rule.Skills.Count() == 0) return true;
-                        return rule.Skills.All(subrule => Items.GetItemStatAddSingleSkills(item, subrule.Key).Item2 >= subrule.Value);
+                        return rule.Skills.All(subrule => StatReader.GetItemStatAddSingleSkills(item, subrule.Key).Item2 >= subrule.Value);
                     },
                     ["SkillCharges"] = () =>
                     {
                         if (rule.SkillCharges.Count() == 0) return true;
-                        return rule.SkillCharges.All(subrule => Items.GetItemStatAddSkillCharges(item, subrule.Key).Item1 >= subrule.Value);
+                        return rule.SkillCharges.All(subrule => StatReader.GetItemStatAddSkillCharges(item, subrule.Key).Item1 >= subrule.Value);
                     },
                 };
-
-                foreach (var (stat, shift) in Stats.StatShifts.Select(x => (x.Key, x.Value)))
-                {
-                    requirementsFunctions.Add(stat.ToString(), () => Items.GetItemStatShifted(item, stat) >= (int)rule[stat]);
-                }
 
                 var requirementMet = true;
                 foreach (var property in rule.GetType().GetProperties())
@@ -91,9 +86,9 @@ namespace MapAssist.Helpers
                     }
                     else if (Enum.TryParse<Stats.Stat>(property.Name, out var stat))
                     {
-                        requirementMet &= Stats.NegativeValueStats.Contains(stat)
-                            ? (int)propertyValue < 0 && Items.GetItemStat(item, stat) <= (int)propertyValue
-                            : Items.GetItemStat(item, stat) >= (int)propertyValue;
+                        var value = (int)StatReader.GetAdjustedStatValue(stat, StatReader.GetStatValue(item, stat), adjustNegativeStats: true);
+
+                        requirementMet &= value < 0 ? (int)propertyValue < 0 && value <= (int)propertyValue : (int)propertyValue > 0 && value >= (int)propertyValue;
                     }
                     if (!requirementMet) break;
                 }

@@ -17,6 +17,8 @@ namespace MapAssist.Types
         public ItemMode ItemMode => (ItemMode)Struct.Mode;
         public string ItemBaseName => Items.GetItemBaseName(this);
         public ItemQuality? MappedItemQuality { get; set; } = null;
+        public HashSet<UnitItem> Sockets = new HashSet<UnitItem>();
+        public Inventory Inventory { get; set; }
 
         public UnitItem(IntPtr ptrUnit) : base(ptrUnit)
         {
@@ -32,6 +34,7 @@ namespace MapAssist.Types
                 {
                     ItemData = processContext.Read<ItemData>(Struct.pUnitData);
                     MappedItemQuality = GetMappedItemQuality();
+                    Inventory = processContext.Read<Inventory>(ItemData.pInventory);
                 }
             }
 
@@ -70,7 +73,7 @@ namespace MapAssist.Types
 
         public ushort[] Suffixes => ItemData.Affixes.Skip(3).ToArray();
 
-        public ItemTier ItemTier => Items.GetItemTier(Item);
+        public ItemTier ItemTier => StatReader.GetItemTier(Item);
 
         public StashTab StashTab { get; set; } = StashTab.None;
 

@@ -5,7 +5,9 @@ using MapAssist.Settings;
 using MapAssist.Structs;
 using MapAssist.Types;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Winook;
 
@@ -277,7 +279,18 @@ namespace MapAssist
                     }
                     else
                     {
-                        _configEditor.ShowDialog();
+                        if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                        {
+                            _configEditor.ShowDialog();
+                        }
+                        else
+                        {
+                            var thread = new Thread(new ThreadStart(delegate { _configEditor.ShowDialog(); }));
+                            thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                            thread.SetApartmentState(ApartmentState.STA);
+                            thread.Start();
+                            thread.Join();
+                        }
                     }
                 }
             }

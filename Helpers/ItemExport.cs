@@ -1,11 +1,9 @@
-﻿using MapAssist.Structs;
-using MapAssist.Types;
+﻿using MapAssist.Types;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace MapAssist.Helpers
 {
@@ -59,14 +57,14 @@ namespace MapAssist.Helpers
             var json = new Dictionary<string, object>
             {
                 { "items",  new Dictionary<string, List<JSONItem>> {
-                    { "equipped", ItemsToList(items.equipped)},
-                    { "inventory", ItemsToList(items.inventory) },
-                    { "mercenary", ItemsToList(items.mercenary) },
-                    { "cube", ItemsToList(items.cube) },
-                    { "personalStash", ItemsToList(items.personalStash) },
-                    { "sharedStashTab1", ItemsToList(items.sharedStashTab1) },
-                    { "sharedStashTab2", ItemsToList(items.sharedStashTab2) },
-                    { "sharedStashTab3", ItemsToList(items.sharedStashTab3) },
+                    { "equipped", ItemsToList(player, items.equipped)},
+                    { "inventory", ItemsToList(player,items.inventory) },
+                    { "mercenary", ItemsToList(player,items.mercenary) },
+                    { "cube", ItemsToList(player,items.cube) },
+                    { "personalStash", ItemsToList(player,items.personalStash) },
+                    { "sharedStashTab1", ItemsToList(player,items.sharedStashTab1) },
+                    { "sharedStashTab2", ItemsToList(player,items.sharedStashTab2) },
+                    { "sharedStashTab3", ItemsToList(player,items.sharedStashTab3) },
                 }}
             };
             var finalJSONstr = JsonConvert.SerializeObject(json);
@@ -85,56 +83,56 @@ namespace MapAssist.Helpers
             if (items.equipped.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-equipped}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{equipped-items}}", GetItemHtmlList(items.equipped));
+                finalHTMLstr = finalHTMLstr.Replace("{{equipped-items}}", GetItemHtmlList(player, items.equipped));
             }
 
             if (items.inventory.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-inventory}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{inventory-items}}", GetItemHtmlList(items.inventory));
+                finalHTMLstr = finalHTMLstr.Replace("{{inventory-items}}", GetItemHtmlList(player, items.inventory));
             }
 
             if (items.mercenary.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-merc}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{merc-items}}", GetItemHtmlList(items.mercenary));
+                finalHTMLstr = finalHTMLstr.Replace("{{merc-items}}", GetItemHtmlList(player, items.mercenary));
             }
 
             if (items.personalStash.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-stash-personal}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{stash-personal-items}}", GetItemHtmlList(items.personalStash));
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-personal-items}}", GetItemHtmlList(player, items.personalStash));
             }
 
             if (items.sharedStashTab1.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared1}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared1-items}}", GetItemHtmlList(items.sharedStashTab1));
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared1-items}}", GetItemHtmlList(player, items.sharedStashTab1));
             }
 
             if (items.sharedStashTab2.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared2}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared2-items}}", GetItemHtmlList(items.sharedStashTab2));
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared2-items}}", GetItemHtmlList(player, items.sharedStashTab2));
             }
 
             if (items.sharedStashTab3.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-stash-shared3}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared3-items}}", GetItemHtmlList(items.sharedStashTab3));
+                finalHTMLstr = finalHTMLstr.Replace("{{stash-shared3-items}}", GetItemHtmlList(player, items.sharedStashTab3));
             }
 
             if (items.cube.Count() > 0)
             {
                 finalHTMLstr = finalHTMLstr.Replace("{{show-cube}}", "show");
-                finalHTMLstr = finalHTMLstr.Replace("{{cube-items}}", GetItemHtmlList(items.cube));
+                finalHTMLstr = finalHTMLstr.Replace("{{cube-items}}", GetItemHtmlList(player, items.cube));
             }
 
             File.WriteAllText(outputfile, finalHTMLstr);
             _log.Info($"Created HTML item file {outputfile}");
         }
 
-        public static List<JSONItem> ItemsToList(List<UnitItem> filteredItems)
+        public static List<JSONItem> ItemsToList(UnitPlayer player, List<UnitItem> filteredItems)
         {
             var itemJSONarr = new List<JSONItem>();
             foreach (var item in filteredItems)
@@ -152,135 +150,26 @@ namespace MapAssist.Helpers
                     numSockets = numSockets,
                     position = new Position() { x = (uint)item.Position.X, y = (uint)item.Position.Y },
                     bodyLoc = item.ItemData.BodyLoc.ToString(),
-                    affixes = GetAffixes(item)
+                    stats = StatReader.GetStatsText(item, player)
                 };
                 itemJSONarr.Add(thisItem);
             }
             return itemJSONarr;
         }
 
-        public static List<Affix> GetAffixes(UnitItem item)
-        {
-            var affixes = new List<Affix>();
-
-            foreach (var (stat, values) in item.StatLayers.Select(x => (x.Key, x.Value)).ToArray())
-            {
-                var name = AddSpaces(stat.ToString());
-
-                foreach (var (layer, value) in values.Select(x => (x.Key, x.Value)))
-                {
-                    var finalValue = value.ToString();
-
-                    if (Stats.StatShifts.ContainsKey(stat))
-                    {
-                        finalValue = Items.GetItemStatShifted(item, stat).ToString();
-                    }
-                    else if (Stats.StatDivisors.ContainsKey(stat) || Stats.StatInvertDivisors.ContainsKey(stat))
-                    {
-                        finalValue = Items.GetItemStatDecimal(item, stat).ToString();
-                    }
-                    else if (Stats.NegativeValueStats.Contains(stat))
-                    {
-                        finalValue = (-value).ToString();
-                    }
-                    else if (stat == Stats.Stat.AddClassSkills)
-                    {
-                        var (classSkills, points) = Items.GetItemStatAddClassSkills(item, (PlayerClass)layer);
-                        name = classSkills[0].ToString() + " Skills";
-                        finalValue = points.ToString();
-                    }
-                    else if (stat == Stats.Stat.AddSkillTab)
-                    {
-                        var (skillTrees, points) = Items.GetItemStatAddSkillTreeSkills(item, (SkillTree)layer, false);
-                        name = AddSpaces(skillTrees[0].ToString());
-                        finalValue = points.ToString();
-                    }
-                    else if (stat == Stats.Stat.SingleSkill || stat == Stats.Stat.NonClassSkill)
-                    {
-                        var (skills, points) = Items.GetItemStatAddSingleSkills(item, (Skill)layer, false);
-                        name = AddSpaces(skills[0].ToString());
-                        finalValue = points.ToString();
-                    }
-                    else if (stat == Stats.Stat.ItemChargedSkill)
-                    {
-                        var skill = (Skill)(layer >> 6);
-
-                        var (skillLevel, currentCharges, maxCharges) = Items.GetItemStatAddSkillCharges(item, skill);
-                        name = AddSpaces(skill.ToString()) + " Charges";
-
-                        var chargesText = "";
-                        if (currentCharges > 0 && maxCharges > 0)
-                        {
-                            chargesText = $"{currentCharges}/{maxCharges}";
-                        }
-
-                        finalValue = $"Level {skillLevel} ({chargesText})";
-                    }
-                    else if (stat.ToString().StartsWith("SkillOn"))
-                    {
-                        var skill = (Skill)(layer >> 6);
-                        var level = layer % (1 << 6);
-
-                        name = AddSpaces(skill.ToString()) + " On " + AddSpaces(stat.ToString().Replace("SkillOn", ""));
-
-                        finalValue = $"Level {level} ({value}% chance)";
-                    }
-                    else if (stat == Stats.Stat.Aura)
-                    {
-                        var skill = (Skill)layer;
-
-                        name = AddSpaces(skill.ToString()) + " Aura";
-
-                        finalValue = $"Level {value}";
-                    }
-
-                    var thisAffix = new Affix()
-                    {
-                        name = name,
-                        value = finalValue
-                    };
-                    affixes.Add(thisAffix);
-                }
-            }
-
-            foreach (var stat in new[] { Stats.Stat.EnhancedDefense, Stats.Stat.EnhancedDamage })
-            {
-                var name = AddSpaces(stat.ToString());
-
-                var finalValue = 0;
-
-                if (item.Stats != null && item.Stats.TryGetValue(stat, out var value1)) finalValue += value1;
-                if (item.StatsBase != null && item.StatsBase.TryGetValue(stat, out var value2)) finalValue += value2;
-                if (item.StatsAdded != null && item.StatsAdded.TryGetValue(stat, out var value3)) finalValue += value3;
-                if (item.StaffMods != null && item.StaffMods.TryGetValue(stat, out var value4)) finalValue += value4;
-
-                if (finalValue > 0)
-                {
-                    var thisAffix = new Affix()
-                    {
-                        name = name,
-                        value = finalValue.ToString()
-                    };
-                    affixes.Add(thisAffix);
-                }
-            }
-
-            return affixes;
-        }
-
-        private static string GetItemHtmlList(IEnumerable<UnitItem> items)
+        private static string GetItemHtmlList(UnitPlayer player, IEnumerable<UnitItem> items)
         {
             var result = "";
 
             foreach (var item in items.OrderBy(x => x.TxtFileNo))
             {
-                result += GetItemHtml(item);
+                result += GetItemHtml(player, item);
             }
 
             return result;
         }
 
-        private static string GetItemHtml(UnitItem item)
+        private static string GetItemHtml(UnitPlayer player, UnitItem item)
         {
             var itemName = Items.ItemFullName(item);
 
@@ -298,15 +187,15 @@ namespace MapAssist.Helpers
 
                 if (item.Stats.TryGetValue(Stats.Stat.Defense, out var defense))
                 {
-                    statText += statTemplate.Replace("{{text}}", AddSpaces(Stats.Stat.Defense.ToString()) + ": " + defense);
+                    statText += statTemplate.Replace("{{text}}", Stats.Stat.Defense.ToString().AddSpaces() + ": " + defense);
                 }
             }
             else
             {
-                var affixes = GetAffixes(item);
+                var affixes = StatReader.GetStatsText(item, player);
                 foreach (var affix in affixes)
                 {
-                    statText += statTemplate.Replace("{{text}}", affix.name + ": " + affix.value);
+                    statText += statTemplate.Replace("{{text}}", affix);
                 }
             }
 
@@ -314,7 +203,5 @@ namespace MapAssist.Helpers
 
             return itemText;
         }
-
-        public static string AddSpaces(string text) => Regex.Replace(text.ToString(), "(\\B[A-Z][a-z])", " $1");
     }
 }

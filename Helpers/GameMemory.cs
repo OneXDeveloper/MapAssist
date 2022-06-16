@@ -307,6 +307,16 @@ namespace MapAssist.Helpers
                     rawItemUnits.Add(item);
                 }
 
+                foreach (var item in allItems)
+                {
+                    var parent = allItems.FirstOrDefault(x => x.PtrUnit == item.Inventory.pOwnerUnit);
+
+                    if (parent != null)
+                    {
+                        parent.Sockets.Add(item);
+                    }
+                }
+
                 Items.ItemLog[_currentProcessId].Select(item =>
                 {
                     if (cache.TryGetValue(item.ItemHashString, out var cachedItem) && ((UnitItem)cachedItem).HashString == item.ItemHashString)

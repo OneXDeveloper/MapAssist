@@ -34,7 +34,7 @@ namespace MapAssist.Structs
         [FieldOffset(0x48)] public ushort[] Affixes;
         [FieldOffset(0x54)] public BodyLoc BodyLoc;
         [FieldOffset(0x55)] public InvPage InvPage;
-        [FieldOffset(0x70)] public IntPtr InvPtr;
+        [FieldOffset(0xA0)] public IntPtr pInventory;
         //[FieldOffset(0x88)] public byte nodePos; // char?
         //[FieldOffset(0x89)] public byte nodePosOther; // char?
     }

@@ -1,0 +1,271 @@
+code	*Enabled	func1	stat1	set1	val1	func2	stat2	set2	val2	func3	stat3	set3	val3	func4	stat4	set4	val4	func5	stat5	set5	val5	func6	stat6	set6	val6	func7	stat7	set7	val7	*Tooltip	*Parameter	*Min	*Max	*Notes	*eol
+ac	1	1	armorclass																											+# Defense		Min #	Max #		0
+ac-miss	1	1	armorclass_vs_missile																											+# Defense vs. Missile		Min #	Max #		0
+ac-hth	1	1	armorclass_vs_hth																											+# Defense vs. Melee		Min #	Max #		0
+red-dmg	1	1	normal_damage_reduction																											Damage Reduced by #		Min #	Max #		0
+red-dmg%	1	1	damageresist																											Damage Reduced by #%		Min %	Max %		0
+ac%	1	2	item_armor_percent																											+#% Enhanced Defense		Min %	Max %		0
+red-mag	1	1	magic_damage_reduction																											Magic Damage Reduced by #		Min #	Max #		0
+str	1	1	strength																											+# to Strength		Min #	Max #		0
+dex	1	1	dexterity																											+# to Dexterity		Min #	Max #		0
+vit	1	1	vitality																											+# to Vitality		Min #	Max #		0
+enr	1	1	energy																											+# to Energy		Min #	Max #		0
+mana	1	1	maxmana																											+# to Mana		Min #	Max #		0
+mana%	1	1	item_maxmana_percent																											Increase Maximum Mana #%		Min %	Max %		0
+hp	1	1	maxhp																											+# to Life		Min #	Max #		0
+hp%	1	1	item_maxhp_percent																											Increase Maximum Life #%		Min %	Max %		0
+att	1	1	tohit																											+# to Attack Rating		Min #	Max #		0
+block	1	1	toblock																											#% Increased Chance of Blocking		Min %	Max %		0
+cold-min	1	1	coldmindam																											+# to Minimum Cold Damage		Min #	Max #		0
+cold-max	1	1	coldmaxdam																											+# to Maximum Cold Damage		Min #	Max #		0
+cold-len	1	1	coldlength																													Min #	Max #	# of Frames (25 Frames = 1 Second)	0
+fire-min	1	1	firemindam																											+# to Minimum Fire Damage		Min #	Max #		0
+fire-max	1	1	firemaxdam																											+# to Maximum Fire Damage		Min #	Max #		0
+ltng-min	1	1	lightmindam																											+# to Minimum Lightning Damage		Min #	Max #		0
+ltng-max	1	1	lightmaxdam																											+# to Maximum Lightning Damage		Min #	Max #		0
+pois-min	1	1	poisonmindam																											+# to Minimum Poison Damage		Min #	Max #		0
+pois-max	1	1	poisonmaxdam																											+# to Maximum Poison Damage		Min #	Max #		0
+pois-len	1	1	poisonlength																													Min #	Max #	# of Frames (25 Frames = 1 Second)	0
+dmg-min	1	5																												+# to Minimum Damage		Min #	Max #		0
+dmg-max	1	6																												+# to Maximum Damage		Min #	Max #		0
+dmg%	1	7																												+#% Enhanced Damage		Min %	Max %		0
+dmg-to-mana	1	1	item_damagetomana																											#% Damage Taken Goes To Mana		Min %	Max %		0
+res-fire	1	1	fireresist																											Fire Resist +#%		Min %	Max %		0
+res-fire-max	1	1	maxfireresist																											+#% to Maximum Fire Resist		Min %	Max %		0
+res-ltng	1	1	lightresist																											Lightning Resist +#%		Min %	Max %		0
+res-ltng-max	1	1	maxlightresist																											+#% to Maximum Lightning Resist		Min %	Max %		0
+res-cold	1	1	coldresist																											Cold Resist +#%		Min %	Max %		0
+res-cold-max	1	1	maxcoldresist																											+#% to Maximum Cold Resist		Min %	Max %		0
+res-mag	1	1	magicresist																											Magic Resist +#%		Min %	Max %		0
+res-mag-max	1	1	maxmagicresist																											+#% to Maximum Magic Resist		Min %	Max %		0
+res-pois	1	1	poisonresist																											Poison Resist +#%		Min %	Max %		0
+res-pois-max	1	1	maxpoisonresist																											+#% to Maximum Poison Resist		Min %	Max %		0
+res-all	1	1	fireresist			3	lightresist			3	coldresist			3	poisonresist															All Resistances +#		Min %	Max %		0
+res-all-max	1	1	maxfireresist			3	maxlightresist			3	maxcoldresist			3	maxpoisonresist																	Min %	Max %	Currently Not Used	0
+abs-fire%	1	1	item_absorbfire_percent																											+# Fire Absorb		Min #	Max #		0
+abs-fire	1	1	item_absorbfire																											Fire Absorb #%		Min %	Max %		0
+abs-ltng%	1	1	item_absorblight_percent																											+# Lightning Absorb		Min #	Max #		0
+abs-ltng	1	1	item_absorblight																											Lightning Absorb #%		Min %	Max %		0
+abs-mag%	1	1	item_absorbmagic_percent																											+# Magic Absorb		Min #	Max #		0
+abs-mag	1	1	item_absorbmagic																											Magic Absorb #%		Min %	Max %		0
+abs-cold%	1	1	item_absorbcold_percent																											+# Cold Absorb		Min #	Max #		0
+abs-cold	1	1	item_absorbcold																											Cold Absorb #%		Min %	Max %		0
+dur	1	1	maxdurability																											Durability: # of #		Min #	Max #		0
+dur%	1	13	item_maxdurability_percent																											Increase Maximum Durability #%		Min %	Max %		0
+regen	1	1	hpregen																											Replenish Life +#		Min #	Max #		0
+thorns	1	1	item_attackertakesdamage																											Attacker Takes Damage of #		Min #	Max #		0
+swing1	1	8	item_fasterattackrate																											+#% Increased Attack Speed		Min %	Max %		0
+swing2	1	8	item_fasterattackrate																											+#% Increased Attack Speed		Min %	Max %		0
+swing3	1	8	item_fasterattackrate																											+#% Increased Attack Speed		Min %	Max %		0
+gold%	1	1	item_goldbonus																											#% Extra Gold from Monsters		Min %	Max %		0
+mag%	1	1	item_magicbonus																											#% Better Chance of Getting Magic Items		Min %	Max %		0
+knock	1	1	item_knockback																											Knockback		1	1		0
+regen-stam	1	1	staminarecoverybonus																											Heal Stamina Plus #%		Min %	Max %		0
+regen-mana	1	1	manarecoverybonus																											Regenerate Mana #%		Min %	Max %		0
+stam	1	1	maxstamina																											+# Maximum Stamina		Min #	Max #		0
+time	1	1	item_timeduration																													Min #	Max #	Currently Not Used	0
+manasteal	1	1	manadrainmindam																											#% Mana stolen per hit		Min #	Max #		0
+lifesteal	1	1	lifedrainmindam																											#% Life stolen per hit		Min #	Max #		0
+ama	1	21	item_addclassskills		0																									+# to Amazon Skill Levels		Min #	Max #		0
+pal	1	21	item_addclassskills		3																									+# to Paladin Skill Levels		Min #	Max #		0
+nec	1	21	item_addclassskills		2																									+# to Necromancer Skill Levels		Min #	Max #		0
+sor	1	21	item_addclassskills		1																									+# to Sorceress Skill Levels		Min #	Max #		0
+bar	1	21	item_addclassskills		4																									+#  to Barbarian Skill Levels		Min #	Max #		0
+herb	1	1	item_doubleherbduration																													Min #	Max #	Currently Not Used	0
+light	1	1	item_lightradius																											+# to Light Radius		Min #	Max #		0
+color	1	1	item_lightcolor	1																												Min #	Max #	Currently Not Used	0
+ease	1	1	item_req_percent																											Requirements -#%		Min %	Max %		0
+move1	1	8	item_fastermovevelocity																											+#% Faster Run/Walk		Min %	Max %		0
+move2	1	8	item_fastermovevelocity																											+#% Faster Run/Walk		Min %	Max %		0
+move3	1	8	item_fastermovevelocity																											+#% Faster Run/Walk		Min %	Max %		0
+balance1	1	8	item_fastergethitrate																											+#% Faster Hit Recovery		Min %	Max %		0
+balance2	1	8	item_fastergethitrate																											+#% Faster Hit Recovery		Min %	Max %		0
+balance3	1	8	item_fastergethitrate																											+#% Faster Hit Recovery		Min %	Max %		0
+block1	1	8	item_fasterblockrate																											+#% Faster Block Rate		Min %	Max %		0
+block2	1	8	item_fasterblockrate																											+#% Faster Block Rate		Min %	Max %		0
+block3	1	8	item_fasterblockrate																											+#% Faster Block Rate		Min %	Max %		0
+cast1	1	8	item_fastercastrate																											+#% Faster Cast Rate		Min %	Max %		0
+cast2	1	8	item_fastercastrate																											+#% Faster Cast Rate		Min %	Max %		0
+cast3	1	8	item_fastercastrate																											+#% Faster Cast Rate		Min %	Max %		0
+res-pois-len	1	1	item_poisonlengthresist																											Poison Length Reduced by #%		Min %	Max %		0
+dmg	1	1	item_normaldamage																											Damage +#		Min #	Max #		0
+howl	1	1	item_howl																											Hit Causes Monster to Flee #%		Min %/128	Max %/128		0
+stupidity	1	1	item_stupidity																											Hit Blinds Target +#		Min #	Max #		0
+ignore-ac	1	1	item_ignoretargetac																											Ignore Target's Defense		1	1		0
+reduce-ac	1	1	item_fractionaltargetac																											-#% Target Defense		Min #	Max #		0
+noheal	1	1	item_preventheal																											Prevent Monster Heal		1	1		0
+half-freeze	1	1	item_halffreezeduration																											Half Freeze Duration		1	1		0
+att%	1	1	item_tohit_percent																											#% Bonus to Attack Rating		Min %	Max %		0
+dmg-ac	1	1	item_damagetargetac																											-# to Monster Defense Per Hit		Min #	Max #		0
+dmg-demon	1	1	item_demondamage_percent																											+#% Damage to Demons		Min %	Max %		0
+dmg-undead	1	1	item_undeaddamage_percent																											+#% Damage to Undead		Min %	Max %		0
+att-demon	1	1	item_demon_tohit																											+# to Attack Rating against Demons		Min #	Max #		0
+att-undead	1	1	item_undead_tohit																											+# to Attack Rating against Undead		Min #	Max #		0
+throw	1	1	item_throwable																													1	1	Currently Not Used	0
+fireskill	1	21	item_elemskill		1																									+# to Fire Skills		Min #	Max #		0
+allskills	1	1	item_allskills																											+# to All Skills		Min #	Max #		0
+light-thorns	1	1	item_attackertakeslightdamage																											Attacker Takes Lightning Damage of #		Min #	Max #		0
+freeze	1	1	item_freeze																											Freezes Target +#		Min #	Max #		0
+openwounds	1	1	item_openwounds																											#% Chance of Open Wounds		Min %	Max %		0
+crush	1	1	item_crushingblow																											#% Chance of Crushing Blow		Min %	Max %		0
+kick	1	1	item_kickdamage																											+# Kick Damage		Min %	Max %		0
+mana-kill	1	1	item_manaafterkill																											+# to Mana after each Kill		Min #	Max #		0
+demon-heal	1	1	item_healafterdemonkill																											+# Life after each Demon Kill		Min #	Max #		0
+bloody	1	1	item_extrablood																													Min #	Max #	Visuals Only	0
+deadly	1	1	item_deadlystrike																											#% Deadly Strike		Min #	Max #		0
+slow	1	1	item_slow																											Slows Target by #%		Min #	Max #		0
+nofreeze	1	1	item_cannotbefrozen																											Cannot Be Frozen		1	1		0
+stamdrain	1	1	item_staminadrainpct																											#% Slower Stamina Drain		Min #	Max #		0
+reanimate	1	24	item_reanimate																											Reanimate As: [Returned]	monstats.txt hcIdx	Min %	Max %		0
+pierce	1	1	item_pierce																											Piercing Attack		Min %	Max %		0
+magicarrow	1	1	item_magicarrow																											Fires Magic Arrows		Min #	Max #		0
+explosivearrow	1	1	item_explosivearrow																											Fires Explosive Arrows or Bolts		Min #	Max #		0
+Expansion																																			
+dru	1	21	item_addclassskills		5																									+# to Druid Skill Levels		Min #	Max #		0
+ass	1	21	item_addclassskills		6																									+# to Assassin Skill Levels		Min #	Max #		0
+skill	1	22	item_singleskill																											+# to [Skill] ([Class] only)	Skill	Min #	Max #		0
+skilltab	1	10	item_addskill_tab																											+# to [Class Skill Tab] Skills	Class Skill Tab ID	Min #	Max #	"[Class Skill Tab ID] = (Amazon = 0-2, Sorceress = 3-5, Necromancer = 6-8, Paladin = 9-11, Barbarian = 12-14, Druid = 15-17,  Assassin = 18-20)"	0
+aura	1	22	item_aura																											Level # [Skill] Aura When Equipped	Skill	Min #	Max #		0
+att-skill	1	11	item_skillonattack																											#% Chance to cast level # [Skill] on attack	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+hit-skill	1	11	item_skillonhit																											#% Chance to cast level # [Skill] on striking	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+gethit-skill	1	11	item_skillongethit																											#% Chance to cast level # [Skill] when struck	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+gembonus																																			0
+regen-dur																																			0
+fire-fx																																			0
+ltng-fx																																			0
+sock	1	14	item_numsockets																											Socketed (#)		Min #	Max #		0
+dmg-fire	1	15	firemindam			16	firemaxdam																							Adds #-# Fire Damage		Min #	Max #		0
+dmg-ltng	1	15	lightmindam			16	lightmaxdam																							Adds #-# Lightning Damage		Min #	Max #		0
+dmg-mag	1	15	magicmindam			16	magicmaxdam																							Adds #-# Magic Damage		Min #	Max #		0
+dmg-cold	1	15	coldmindam			16	coldmaxdam			17	coldlength																			Adds #-# Cold Damage	Length (Frames)	Min #	Max #	# of Frames (25 Frames = 1 Second)	0
+dmg-pois	1	15	poisonmindam			16	poisonmaxdam			17	poisonlength																			Adds #-# Poison Damage Over # Seconds	Length (Frames)	Min #	Max #	# of Frames (25 Frames = 1 Second)	0
+dmg-throw	1	15	item_throw_mindamage			16	item_throw_maxdamage																									Min #	Max #	Currently Not Used	0
+dmg-norm	1	15	mindamage			16	maxdamage																							Adds #-# Damage		Min #	Max #		0
+ac/lvl	1	17	item_armor_perlevel																											+# Defense (Based on Character Level)	ac/lvl (8ths)				0
+ac%/lvl	1	17	item_armorpercent_perlevel																											+#% Enhanced Defense (Based on Character Level)	#/8 per Level				0
+hp/lvl	1	17	item_hp_perlevel																											+# to Life (Based on Character Level)	#/8 per Level				0
+mana/lvl	1	17	item_mana_perlevel																											+# to Mana (Based on Character Level)	#/8 per Level				0
+dmg/lvl	1	17	item_maxdamage_perlevel																											+# to Maximum Damage (Based on Character Level)	#/8 per Level				0
+dmg%/lvl	1	17	item_maxdamage_percent_perlevel																											+#% Enhanced Maximum Damage (Based on Character Level)	#/8 per Level				0
+str/lvl	1	17	item_strength_perlevel																											+# to Strength (Based on Character Level)	#/8 per Level				0
+dex/lvl	1	17	item_dexterity_perlevel																											+# to Dexterity (Based on Character Level)	#/8 per Level				0
+enr/lvl	1	17	item_energy_perlevel																											+# to Energy (Based on Character Level)	#/8 per Level			Currently Not Used	0
+vit/lvl	1	17	item_vitality_perlevel																											+# to Vitality (Based on Character Level)	#/8 per Level				0
+att/lvl	1	17	item_tohit_perlevel																											+# to Attack Rating (Based on Character Level)	#/2 per Level				0
+att%/lvl	1	17	item_tohitpercent_perlevel																											#% Bonus to Attack Rating (Based on Character Level)	#/2 per Level				0
+dmg-cold/lvl	1	17	item_cold_damagemax_perlevel																											+# to Maximum Cold Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+dmg-fire/lvl	1	17	item_fire_damagemax_perlevel																											+# to Maximum Fire Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+dmg-ltng/lvl	1	17	item_ltng_damagemax_perlevel																											+# to Maximum Lightning Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+dmg-pois/lvl	1	17	item_pois_damagemax_perlevel																											+# to Maximum Poison Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+res-cold/lvl	1	17	item_resist_cold_perlevel																											Cold Resist +#% (Based on Character Level)	#/8 per Level				0
+res-fire/lvl	1	17	item_resist_fire_perlevel																											Fire Resist +#% (Based on Character Level)	#/8 per Level				0
+res-ltng/lvl	1	17	item_resist_ltng_perlevel																											Lightning Resist +#% (Based on Character Level)	#/8 per Level				0
+res-pois/lvl	1	17	item_resist_pois_perlevel																											Poison Resist +#% (Based on Character Level)	#/8 per Level				0
+abs-cold/lvl	1	17	item_absorb_cold_perlevel																											Absorbs Cold Damage (Based on Character Level)	#/8 per Level				0
+abs-fire/lvl	1	17	item_absorb_fire_perlevel																											Absorbs Fire Damage (Based on Character Level)	#/8 per Level				0
+abs-ltng/lvl	1	17	item_absorb_ltng_perlevel																											Absorbs Lightning Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+abs-pois/lvl	1	17	item_absorb_pois_perlevel																											Absorbs Poison Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+thorns/lvl	1	17	item_thorns_perlevel																											Attacker Takes Damage of # (Based on Character Level)	#/8 per Level				0
+gold%/lvl	1	17	item_find_gold_perlevel																											#% Extra Gold from Monsters (Based on Character Level)	#/8 per Level				0
+mag%/lvl	1	17	item_find_magic_perlevel																											#% Better Chance of Getting Magic Items (Based on Character Level)	#/8 per Level				0
+regen-stam/lvl	1	17	item_regenstamina_perlevel																											Heal Stamina Plus #% (Based on Character Level)	#/8 per Level				0
+stam/lvl	1	17	item_stamina_perlevel																											+# Maximum Stamina (Based on Character Level)	#/8 per Level				0
+dmg-dem/lvl	1	17	item_damage_demon_perlevel																											+#% Damage to Demons (Based on Character Level)	#/8 per Level				0
+dmg-und/lvl	1	17	item_damage_undead_perlevel																											+#% Damage to Undead (Based on Character Level)	#/8 per Level				0
+att-dem/lvl	1	17	item_tohit_demon_perlevel																											+# to Attack Rating against Demons (Based on Character Level)	#/2 per Level				0
+att-und/lvl	1	17	item_tohit_undead_perlevel																											+# to Attack Rating against Undead (Based on Character Level)	#/2 per Level				0
+crush/lvl	1	17	item_crushingblow_perlevel																											#% Chance of Crushing Blow (Based on Character Level)	#/8 per Level			Currently Not Used	0
+wounds/lvl	1	17	item_openwounds_perlevel																											#% Chance of Open Wounds (Based on Character Level)	#/8 per Level			Currently Not Used	0
+kick/lvl	1	17	item_kick_damage_perlevel																											+# Kick Damage (Based on Character Level)	#/8 per Level			Currently Not Used	0
+deadly/lvl	1	17	item_deadlystrike_perlevel																											#% Deadly Strike (Based on Character Level)	#/8 per Level				0
+gems%/lvl																																			0
+rep-dur	1	17	item_replenish_durability																											Repairs 1 durability in # seconds	Repair Speed			Repair 1 Durability every 100/[Repair Speed] seconds	0
+rep-quant	1	17	item_replenish_quantity																											Replenishes quantity	Repair Speed			Replenish 1 Quantity every 100/[Repair Speed] seconds	0
+stack	1	1	item_extra_stack																											Increased Stack Size		Min #	Max #		0
+item%																																			0
+dmg-slash																																			0
+dmg-slash%																																			0
+dmg-crush																																			0
+dmg-crush%																																			0
+dmg-thrust																																			0
+dmg-thrust%																																			0
+abs-slash																																			0
+abs-crush																																			0
+abs-thrust																																			0
+abs-slash%																																			0
+abs-crush%																																			0
+abs-thrust%																																			0
+ac/time	1	18	item_armor_bytime																											+# Defense (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+ac%/time	1	18	item_armorpercent_bytime																											+#% Enhanced Defense (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+hp/time	1	18	item_hp_bytime																											+# to Life (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+mana/time	1	18	item_mana_bytime																											+# to Mana (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg/time	1	18	item_maxdamage_bytime																											+# to Maximum Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg%/time	1	18	item_maxdamage_percent_bytime																											+#% Enhanced Maximum Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+str/time	1	18	item_strength_bytime																											+# to Strength (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dex/time	1	18	item_dexterity_bytime																											+# to Dexterity (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+enr/time	1	18	item_energy_bytime																											+# to Energy (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+vit/time	1	18	item_vitality_bytime																											+# to Vitality (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+att/time	1	18	item_tohit_bytime																											+# to Attack Rating (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+att%/time	1	18	item_tohitpercent_bytime																											#% Bonus to Attack Rating (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-cold/time	1	18	item_cold_damagemax_bytime																											+# to Maximum Cold Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-fire/time	1	18	item_fire_damagemax_bytime																											+# to Maximum Fire Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-ltng/time	1	18	item_ltng_damagemax_bytime																											+# to Maximum Lightning Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-pois/time	1	18	item_pois_damagemax_bytime																											+# to Maximum Poison Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+res-cold/time	1	18	item_resist_cold_bytime																											Cold Resist +#% (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+res-fire/time	1	18	item_resist_fire_bytime																											Fire Resist +#% (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+res-ltng/time	1	18	item_resist_ltng_bytime																											Lightning Resist +#% (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+res-pois/time	1	18	item_resist_pois_bytime																											Poison Resist +#% (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+abs-cold/time	1	18	item_absorb_cold_bytime																											Absorbs Cold Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+abs-fire/time	1	18	item_absorb_fire_bytime																											Absorbs Fire Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+abs-ltng/time	1	18	item_absorb_ltng_bytime																											Absorbs Lightning Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+abs-pois/time	1	18	item_absorb_pois_bytime																											Absorbs Poison Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+gold%/time	1	18	item_find_gold_bytime																											#% Extra Gold from Monsters (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+mag%/time	1	18	item_find_magic_bytime																											#% Better Chance of Getting Magic Items (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+regen-stam/time	1	18	item_regenstamina_bytime																											Heal Stamina Plus #% (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+stam/time	1	18	item_stamina_bytime																											+# Maximum Stamina (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-dem/time	1	18	item_damage_demon_bytime																											+#% Damage to Demons (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+dmg-und/time	1	18	item_damage_undead_bytime																											+#% Damage to Undead (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+att-dem/time	1	18	item_tohit_demon_bytime																											+# to Attack Rating against Demons (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+att-und/time	1	18	item_tohit_undead_bytime																											+# to Attack Rating against Undead (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+crush/time	1	18	item_crushingblow_bytime																											#% Chance of Crushing Blow (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+wounds/time	1	18	item_openwounds_bytime																											#% Chance of Open Wounds (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+kick/time	1	18	item_kick_damage_bytime																											+# Kick Damage (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min #	Max #	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+deadly/time	1	18	item_deadlystrike_bytime																											#% Deadly Strike (Increases near [Day/Dusk/Night/Dawn])	Time Period for Max value	Min %	Max %	"(0=Day, 1=Dusk, 2=Night, 3=Dawn) Min value starts at opposite Time Period (Linear Increase) Currently Not Being Used"	0
+gems%/time																																			0
+pierce-fire	1	1	passive_fire_pierce																											-#% to Enemy Fire Resistance		Min %	Max %		0
+pierce-ltng	1	1	passive_ltng_pierce																											-#% to Enemy Lightning Resistance		Min %	Max %		0
+pierce-cold	1	1	passive_cold_pierce																											-#% to Enemy Cold Resistance		Min %	Max %		0
+pierce-pois	1	1	passive_pois_pierce																											-#% to Enemy Poison Resistance		Min %	Max %		0
+dmg-mon																																			0
+dmg%-mon																																			0
+att-mon																																			0
+att%-mon																																			0
+ac-mon																																			0
+ac%-mon																																			0
+indestruct	1	20																												Indestructible		1	1		0
+charged	1	19	item_charged_skill																											Level # [Skill] (#/# Charges)	Skill	# of Max Charges	Skill Level		0
+extra-fire	1	1	passive_fire_mastery																											+#% to Fire Skill Damage		Min %	Max %		0
+extra-ltng	1	1	passive_ltng_mastery																											+#% to Lightning Skill Damage		Min %	Max %		0
+extra-cold	1	1	passive_cold_mastery																											+#% to Cold Skill Damage		Min %	Max %		0
+extra-pois	1	1	passive_pois_mastery																											+#% to Poison Skill Damage		Min %	Max %		0
+dmg-elem	1	15	firemindam			16	firemaxdam			15	lightmindam			16	lightmaxdam			15	coldmindam			16	coldmaxdam			17	coldlength			Adds #-# Fire/Lightning/Cold Damage		Min #	Max #		0
+dmg-elem-min	1	1	firemindam			3	lightmindam			3	coldmindam																			+# to Minimum Fire/Lightning/Cold Damage		Min #	Max #	Currently Not Used	0
+dmg-elem-max	1	1	firemaxdam			3	lightmaxdam			3	coldmaxdam			17	coldlength															+# to Maximum Fire/Lightning/Cold Damage		Min #	Max #	Currently Not Used	0
+all-stats	1	1	strength			3	energy			3	dexterity			3	vitality															+# to all Attributes		Min #	Max #		0
+addxp	1	1	item_addexperience																											+#% to Experience Gained		Min %	Max %		0
+heal-kill	1	1	item_healafterkill																											+# Life after each Kill		Min #	Max #		0
+cheap	1	1	item_reducedprices																											Reduces all Vendor Prices #%		Min %	Max %		0
+rip	1	1	item_restinpeace																											Slain Monsters Rest in Peace		1	1		0
+att-mon%	1	24	attack_vs_montype																											#% to Attack Rating versus [Monster Type]	monstats.txt MonType	Min #	Max #	Currently Not Used	0
+dmg-mon%	1	24	damage_vs_montype																											#% to Damage versus [Monster Type]	monstats.txt MonType	Min #	Max #	Currently Not Used	0
+kill-skill	1	11	item_skillonkill																											#% Chance to cast level # [Skill] when you Kill an Enemy	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+death-skill	1	11	item_skillondeath																											#% Chance to cast level # [Skill] when you Die	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+levelup-skill	1	11	item_skillonlevelup																											#% Chance to cast level # [Skill] when you Level-Up	Skill	"% Chance (If 0, then default to 5)"	Skill Level		0
+skill-rand	1	12	item_singleskill																											+# to [Skill] ([Class] only)	Skill Level	Min Skill ID	Max Skill ID		0
+fade	1	17	fade																													Min #	Max #	Visuals Only	0
+levelreq	1	1	item_levelreq																											Required Level: #		Min #	Max #		0
+ethereal	1	23																												Ethereal		1	1		0
+oskill	1	22	item_nonclassskill																											+# to [Skill]	Skill	Min #	Max #		0
+state	1	24	state																												State	1	1	Applies a State on the unit	0
+randclassskill	1	36	item_addclassskills		3																									+# to [Class] Skill Levels		Min Class ID	Max Class ID	val1 = # of Skill levels	0
+noconsume		1	item_noconsume																											+# to not Consume Quantity		Min %	Max %		0

@@ -134,6 +134,7 @@
     <Compile Include="Helpers\GameManager.cs" />
     <Compile Include="Helpers\Hotkey.cs" />
     <Compile Include="Helpers\ItemExport.cs" />
+    <Compile Include="Helpers\CTools.cs" />
     <Compile Include="Helpers\Localization.cs" />
     <Compile Include="Helpers\LootFilter.cs" />
     <Compile Include="Helpers\Pattern.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Structs\UnitAny.cs" />
     <Compile Include="Structs\UnitHashTable.cs" />
     <Compile Include="Types\Chest.cs" />
+    <Compile Include="Helpers\StatReader.cs" />
     <Compile Include="Types\ItemsExport.cs" />
     <Compile Include="Types\Locale.cs" />
     <Compile Include="Types\Items.cs" />
@@ -253,6 +255,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Data\item-modifiers.json" />
     <None Include="Resources\Icon1.ico" />
     <None Include="Resources\Icon2.ico" />
     <None Include="ItemFilter.yaml">
@@ -266,15 +269,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Data\QualityLevels.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Data\SuperUniques.txt" />
+    <EmbeddedResource Include="Resources\Data\superuniques.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\item-names.json" />
@@ -606,6 +609,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Banner.png" />
+    <Content Include="Resources\Data\charstats.txt" />
+    <Content Include="Resources\Data\itemstatcost.txt" />
+    <Content Include="Resources\Data\properties.txt" />
     <Content Include="Sounds\Ching.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

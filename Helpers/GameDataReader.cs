@@ -55,7 +55,7 @@ namespace MapAssist.Helpers
                     changed = true;
                 }
 
-                if (_language != MapAssistConfiguration.Loaded.LanguageCode)
+                if (_areaData != null && _language != MapAssistConfiguration.Loaded.LanguageCode)
                 {
                     var areaDatas = new[] { _areaData }.Concat(_areaData.AdjacentAreas.Values).ToArray();
 

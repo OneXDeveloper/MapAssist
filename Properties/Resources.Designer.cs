@@ -241,6 +241,15 @@ namespace MapAssist.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to class	str	dex	int	vit	stamina	hpadd	ManaRegen	ToHitFactor	WalkVelocity	RunVelocity	RunDrain	*Comment	LifePerLevel	StaminaPerLevel	ManaPerLevel	LifePerVitality	StaminaPerVitality	ManaPerMagic	StatPerLevel	SkillsPerLevel	LightRadius	BlockFactor	MinimumCastingDelay	StartSkill	Skill 1	Skill 2	Skill 3	Skill 4	Skill 5	Skill 6	Skill 7	Skill 8	Skill 9	Skill 10	StrAllSkills	StrSkillTab1	StrSkillTab2	StrSkillTab3	StrClassOnly	HealthPotionPercent	ManaPotionPercent	baseWClass	item1	item1loc	item1count	item1quality	item [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CharStats {
+            get {
+                return ResourceManager.GetString("CharStats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ChillingArmor {
@@ -752,6 +761,16 @@ namespace MapAssist.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] ItemModifiers {
+            get {
+                object obj = ResourceManager.GetObject("ItemModifiers", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] ItemNames {
             get {
                 object obj = ResourceManager.GetObject("ItemNames", resourceCulture);
@@ -766,6 +785,16 @@ namespace MapAssist.Properties {
             get {
                 object obj = ResourceManager.GetObject("ItemRunes", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stat	*ID	Send Other	Signed	Send Bits	Send Param Bits	UpdateAnimRate	Saved	CSvSigned	CSvBits	CSvParam	fCallback	fMin	MinAccr	Encode	Add	Multiply	ValShift	1.09-Save Bits	1.09-Save Add	Save Bits	Save Add	Save Param Bits	keepzero	op	op param	op base	op stat1	op stat2	op stat3	direct	maxstat	damagerelated	itemevent1	itemeventfunc1	itemevent2	itemeventfunc2	descpriority	descfunc	descval	descstrpos	descstrneg	descstr2	dgrp	dgrpfunc	dgrpval	dgrpstrpos	dgrpstrneg	dgrpstr2	stuff	advdisplay	*eol
+        ///strength	0	1		11			1	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ItemStatCost {
+            get {
+                return ResourceManager.GetString("ItemStatCost", resourceCulture);
             }
         }
         
@@ -946,6 +975,19 @@ namespace MapAssist.Properties {
             get {
                 object obj = ResourceManager.GetObject("Prayer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to code	*Enabled	func1	stat1	set1	val1	func2	stat2	set2	val2	func3	stat3	set3	val3	func4	stat4	set4	val4	func5	stat5	set5	val5	func6	stat6	set6	val6	func7	stat7	set7	val7	*Tooltip	*Parameter	*Min	*Max	*Notes	*eol
+        ///ac	1	1	armorclass																											+# Defense		Min #	Max #		0
+        ///ac-miss	1	1	armorclass_vs_missile																											+# Defense vs. Missile		Min #	Max #		0
+        ///ac-hth	1	1	armorclass_vs_hth																											+# Defense vs. Melee		Min #	Max #		0
+        ///red-dmg	1	1	normal_damage_reduction	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Properties {
+            get {
+                return ResourceManager.GetString("Properties", resourceCulture);
             }
         }
         

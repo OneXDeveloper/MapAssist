@@ -14,6 +14,7 @@ namespace MapAssist.Helpers
         public static List<LocalizedObj> _npcs;
         public static List<LocalizedObj> _objects;
         public static List<LocalizedObj> _shrines;
+        public static List<LocalizedObj> _itemModifiers;
 
         public static void LoadLocalizationData()
         {
@@ -24,6 +25,7 @@ namespace MapAssist.Helpers
             LoadNpcs();
             LoadShrines();
             LoadObjects();
+            LoadItemModifiers();
         }
 
         private static void LoadItemNames()
@@ -100,6 +102,16 @@ namespace MapAssist.Helpers
             foreach (var item in _objects)
             {
                 GameObjects.LocalizedObjects.Add(item.Key, item);
+            }
+        }
+
+        private static void LoadItemModifiers()
+        {
+            _itemModifiers = LoadObjectsFromResource(Properties.Resources.ItemModifiers);
+
+            foreach (var item in _itemModifiers)
+            {
+                StatReader.LocalizedStatText.Add(item.Key, item);
             }
         }
 

@@ -21,6 +21,8 @@ namespace MapAssist.Helpers
 {
     public static class Extensions
     {
+        public static string AddSpaces(this string text) => Regex.Replace(text.ToString(), "(\\B[A-Z][a-z])", " $1");
+
         public static bool IsWaypoint(this GameObject obj) => obj.ToString().Contains("Waypoint");
 
         // Math

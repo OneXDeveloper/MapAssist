@@ -29,10 +29,10 @@ namespace MapAssist.Types
         public Dictionary<Stats.Stat, int> Stats { get; private set; }
         public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayersBase { get; private set; }
         public Dictionary<Stats.Stat, int> StatsBase { get; private set; }
-        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayersAdded { get; private set; }
-        public Dictionary<Stats.Stat, int> StatsAdded { get; private set; }
-        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StaffModsLayers { get; private set; }
-        public Dictionary<Stats.Stat, int> StaffMods { get; private set; }
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StatLayersAdded { get; private set; } = new Dictionary<Stats.Stat, Dictionary<ushort, int>>();
+        public Dictionary<Stats.Stat, int> StatsAdded { get; private set; } = new Dictionary<Stats.Stat, int>();
+        public Dictionary<Stats.Stat, Dictionary<ushort, int>> StaffModsLayers { get; private set; } = new Dictionary<Stats.Stat, Dictionary<ushort, int>>();
+        public Dictionary<Stats.Stat, int> StaffMods { get; private set; } = new Dictionary<Stats.Stat, int>();
 
         public UnitAny(IntPtr ptrUnit)
         {
@@ -155,11 +155,6 @@ namespace MapAssist.Types
         {
             using (var processContext = GameManager.GetProcessContext())
             {
-                if ((StatsStruct.BaseStats.Flags & 0x80000000) == 0)
-                {
-                    return null;
-                }
-
                 StatListExStruct statList;
                 if (StatsStruct.pMyStats != IntPtr.Zero && (flags & 0x2000) != 0)
                 {
@@ -179,7 +174,7 @@ namespace MapAssist.Types
                 {
                     if (tries++ >= 10) return null; // Just to be safe
 
-                    if (StatsStruct.pPrevLink != IntPtr.Zero)
+                    if (statList.pPrevLink != IntPtr.Zero)
                     {
                         var addressToRead = statList.pPrevLink;
 

@@ -137,7 +137,7 @@ namespace MapAssist.Types
 
             if (rule.MinQualityLevel != null || rule.MaxQualityLevel != null)
             {
-                var qualityLevel = GetQualityLevel(item);
+                var qualityLevel = StatReader.GetQualityLevel(item);
                 if (qualityLevel != null)
                 {
                     itemSuffix += $" (qlvl {qualityLevel})";
@@ -146,7 +146,7 @@ namespace MapAssist.Types
 
             if (rule.AllResist != null)
             {
-                var itemAllRes = GetItemStatResists(item, false);
+                var itemAllRes = StatReader.GetStatAllResists(item, false);
                 if (itemAllRes > 0)
                 {
                     itemSuffix += $" ({itemAllRes} all res)";
@@ -155,7 +155,7 @@ namespace MapAssist.Types
 
             if (rule.SumResist != null)
             {
-                var itemSumRes = GetItemStatResists(item, true);
+                var itemSumRes = StatReader.GetStatAllResists(item, true);
                 if (itemSumRes > 0)
                 {
                     itemSuffix += $" ({itemSumRes} sum res)";
@@ -164,7 +164,7 @@ namespace MapAssist.Types
 
             if (rule.AllSkills != null)
             {
-                var points = GetItemStat(item, Stats.Stat.AllSkills);
+                var points = StatReader.GetStatValue(item, Stats.Stat.AllSkills);
                 if (points > 0)
                 {
                     itemSuffix += $" (+{points} all skills)";
@@ -176,7 +176,7 @@ namespace MapAssist.Types
             {
                 foreach (var subrule in rule.ClassSkills)
                 {
-                    var (classes, points) = GetItemStatAddClassSkills(item, subrule.Key);
+                    var (classes, points) = StatReader.GetItemStatAddClassSkills(item, subrule.Key);
                     if (points > 0)
                     {
                         foreach (var className in classes)
@@ -191,7 +191,7 @@ namespace MapAssist.Types
             {
                 foreach (var subrule in rule.SkillTrees)
                 {
-                    var (skillTrees, points) = GetItemStatAddSkillTreeSkills(item, subrule.Key);
+                    var (skillTrees, points) = StatReader.GetItemStatAddSkillTreeSkills(item, subrule.Key);
                     if (points > 0)
                     {
                         foreach (var skillTree in skillTrees)
@@ -206,7 +206,7 @@ namespace MapAssist.Types
             {
                 foreach (var subrule in rule.Skills)
                 {
-                    var (skills, points) = GetItemStatAddSingleSkills(item, subrule.Key);
+                    var (skills, points) = StatReader.GetItemStatAddSingleSkills(item, subrule.Key);
                     if (points > 0)
                     {
                         foreach (var skill in skills)
@@ -221,7 +221,7 @@ namespace MapAssist.Types
             {
                 foreach (var subrule in rule.SkillCharges)
                 {
-                    var (skillLevel, currentCharges, maxCharges) = GetItemStatAddSkillCharges(item, subrule.Key);
+                    var (skillLevel, currentCharges, maxCharges) = StatReader.GetItemStatAddSkillCharges(item, subrule.Key);
                     if (skillLevel > 0)
                     {
                         var charges = "";
@@ -232,26 +232,6 @@ namespace MapAssist.Types
                         itemSuffix += $" (+{skillLevel} {subrule.Key.Name()} {charges} charges)";
                     }
                 }
-            }
-
-            foreach (var (stat, shift) in Stats.StatShifts.Select(x => (x.Key, x.Value)))
-            {
-                var property = rule.GetType().GetProperty(stat.ToString());
-                if (property == null) continue;
-                var propertyValue = property.GetValue(rule, null);
-                if (propertyValue == null) continue;
-
-                var yamlAttribute = property.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(YamlMemberAttribute));
-                var propName = property.Name;
-
-                if (yamlAttribute != null) propName = yamlAttribute.NamedArguments.FirstOrDefault(x => x.MemberName == "Alias").TypedValue.Value.ToString();
-
-                var statValue = GetItemStatShifted(item, stat);
-                if (statValue > 0)
-                {
-                    itemSuffix += $" ({statValue} {propName})";
-                }
-                statsProcessed.Add(stat);
             }
 
             foreach (var property in rule.GetType().GetProperties())
@@ -268,7 +248,7 @@ namespace MapAssist.Types
                     var propertyValue = rule.GetType().GetProperty(property.Name).GetValue(rule, null);
                     if (propertyValue == null) continue;
 
-                    var statValue = GetItemStat(item, stat);
+                    var statValue = StatReader.GetAdjustedStatValue(stat, StatReader.GetStatValue(item, stat));
                     if (statValue > 0)
                     {
                         itemSuffix += $" ({statValue} {propName})";
@@ -368,7 +348,10 @@ namespace MapAssist.Types
             {
                 if (!LocalizedRunes.TryGetValue(itemCode, out localItem))
                 {
-                    return "ItemNotFound";
+                    if (!StatReader.LocalizedStatText.TryGetValue(itemCode, out localItem))
+                    {
+                        return "ItemNotFound";
+                    }
                 }
             }
 
@@ -446,246 +429,6 @@ namespace MapAssist.Types
             var prop = localItem.GetType().GetProperty(lang.ToString()).GetValue(localItem, null);
 
             return prop.ToString();
-        }
-
-        public static int? GetQualityLevel(UnitItem item)
-        {
-            string itemCode;
-            if (!_ItemCodes.TryGetValue(item.TxtFileNo, out itemCode))
-            {
-                return null;
-            }
-
-            string namedCode;
-            switch (item.ItemData.ItemQuality)
-            {
-                case ItemQuality.UNIQUE:
-                    if (_UniqueFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Unique")
-                    {
-                        itemCode = namedCode;
-                    }
-
-                    break;
-
-                case ItemQuality.SET:
-                    if (_SetFromCode.TryGetValue(itemCode, out namedCode) && namedCode != "Set")
-                    {
-                        itemCode = namedCode;
-                    }
-                    break;
-            }
-
-            QualityLevelsObj qualityLevel;
-            if (!QualityLevels.TryGetValue(itemCode, out qualityLevel))
-            {
-                return null;
-            }
-
-            return qualityLevel.qlvl;
-        }
-
-        public static ItemTier GetItemTier(UnitItem item)
-        {
-            return GetItemTier(item.Item);
-        }
-
-        public static ItemTier GetItemTier(Item item)
-        {
-            var itemClasses = ItemClasses.Where(x => x.Value.Contains(item));
-            if (itemClasses.Count() == 0) return ItemTier.NotApplicable;
-
-            var itemClass = itemClasses.First();
-            if (itemClass.Key == Item.ClassCirclets) return ItemTier.NotApplicable;
-
-            return (ItemTier)(Array.IndexOf(itemClass.Value, item) * 3 / itemClass.Value.Length); // All items within each class (except circlets) come in equal amounts within each tier
-        }
-
-        public static int GetItemStat(UnitItem item, Stats.Stat stat)
-        {
-            return item.Stats.TryGetValue(stat, out var statValue) ? statValue :
-                item.StatsAdded != null && item.StatsAdded.TryGetValue(stat, out var statAddedValue) ? statAddedValue :
-                item.StaffMods != null && item.StaffMods.TryGetValue(stat, out var staffModValue) ? staffModValue : 0;
-        }
-
-        public static int GetItemStatShifted(UnitItem item, Stats.Stat stat)
-        {
-            return item.Stats.TryGetValue(stat, out var statValue) && Stats.StatShifts.TryGetValue(stat, out var shift) ? statValue >> shift : 0;
-        }
-
-        public static double GetItemStatDecimal(UnitItem item, Stats.Stat stat)
-        {
-            return item.Stats.TryGetValue(stat, out var statValue) && Stats.StatDivisors.TryGetValue(stat, out var divisor) ? statValue / divisor :
-                Stats.StatInvertDivisors.TryGetValue(stat, out var invertDivisor) ? Math.Round(invertDivisor / statValue, 0) : 0;
-        }
-
-        public static int GetItemStatResists(UnitItem item, bool sumOfEach)
-        {
-            item.Stats.TryGetValue(Stats.Stat.FireResist, out var fireRes);
-            item.Stats.TryGetValue(Stats.Stat.LightningResist, out var lightRes);
-            item.Stats.TryGetValue(Stats.Stat.ColdResist, out var coldRes);
-            item.Stats.TryGetValue(Stats.Stat.PoisonResist, out var psnRes);
-            var resistances = new[] { fireRes, lightRes, coldRes, psnRes };
-            return sumOfEach ? resistances.Sum() : resistances.Min();
-        }
-
-        public static int GetItemStatAllAttributes(UnitItem item)
-        {
-            item.Stats.TryGetValue(Stats.Stat.Strength, out var strength);
-            item.Stats.TryGetValue(Stats.Stat.Dexterity, out var dexterity);
-            item.Stats.TryGetValue(Stats.Stat.Vitality, out var vitality);
-            item.Stats.TryGetValue(Stats.Stat.Energy, out var energy);
-            return new[] { strength, dexterity, vitality, energy }.Min();
-        }
-
-        public static (Structs.PlayerClass[], int) GetItemStatAddClassSkills(UnitItem item, Structs.PlayerClass playerClass)
-        {
-            var allSkills = GetItemStat(item, Stats.Stat.AllSkills);
-
-            if (playerClass == Structs.PlayerClass.Any)
-            {
-                var maxClassSkills = 0;
-                var maxClasses = new List<Structs.PlayerClass>();
-
-                for (var classId = Structs.PlayerClass.Amazon; classId <= Structs.PlayerClass.Assassin; classId++)
-                {
-                    if (item.StatLayers.TryGetValue(Stats.Stat.AddClassSkills, out var anyItemStats) &&
-                        anyItemStats.TryGetValue((ushort)classId, out var anyClassSkills))
-                    {
-                        if (anyClassSkills > maxClassSkills)
-                        {
-                            maxClasses = new List<Structs.PlayerClass>() { classId };
-                            maxClassSkills = anyClassSkills;
-                        }
-                        else if (anyClassSkills == maxClassSkills)
-                        {
-                            maxClasses.Add(classId);
-                        }
-                    }
-                }
-
-                return (maxClasses.ToArray(), allSkills + maxClassSkills);
-            }
-
-            if (item.StatLayers.TryGetValue(Stats.Stat.AddClassSkills, out var itemStats) &&
-                itemStats.TryGetValue((ushort)playerClass, out var addClassSkills))
-            {
-                return (new Structs.PlayerClass[] { playerClass }, allSkills + addClassSkills);
-            }
-
-            return (new Structs.PlayerClass[] { playerClass }, allSkills);
-        }
-
-        public static (SkillTree[], int) GetItemStatAddSkillTreeSkills(UnitItem item, SkillTree skillTree, bool addClassSkills = true)
-        {
-            if (skillTree == SkillTree.Any)
-            {
-                var maxSkillTreeQuantity = 0;
-                var maxSkillTrees = new List<SkillTree>();
-
-                foreach (var skillTreeId in Enum.GetValues(typeof(SkillTree)).Cast<SkillTree>().Where(x => x != SkillTree.Any).ToList())
-                {
-                    if (item.StatLayers.TryGetValue(Stats.Stat.AddSkillTab, out var anyItemStats) &&
-                        anyItemStats.TryGetValue((ushort)skillTreeId, out var anyTabSkills))
-                    {
-                        anyTabSkills += addClassSkills ? GetItemStatAddClassSkills(item, skillTreeId.GetPlayerClass()).Item2 : 0; // This adds the +class skill points and +all skills points
-
-                        if (anyTabSkills > maxSkillTreeQuantity)
-                        {
-                            maxSkillTrees = new List<SkillTree>() { skillTreeId };
-                            maxSkillTreeQuantity = anyTabSkills;
-                        }
-                        else if (anyTabSkills == maxSkillTreeQuantity)
-                        {
-                            maxSkillTrees.Add(skillTreeId);
-                        }
-                    }
-                }
-
-                return (maxSkillTrees.ToArray(), maxSkillTreeQuantity);
-            }
-
-            var baseAddSkills = addClassSkills ? GetItemStatAddClassSkills(item, skillTree.GetPlayerClass()).Item2 : 0; // This adds the +class skill points and +all skills points
-
-            if (item.StatLayers.TryGetValue(Stats.Stat.AddSkillTab, out var itemStats) &&
-                itemStats.TryGetValue((ushort)skillTree, out var addSkillTab))
-            {
-                return (new SkillTree[] { skillTree }, baseAddSkills + addSkillTab);
-            }
-
-            return (new SkillTree[] { skillTree }, baseAddSkills);
-        }
-
-        public static (Skill[], int) GetItemStatAddSingleSkills(UnitItem item, Skill skill, bool addSkillTree = true)
-        {
-            var itemSkillsStats = new List<Stats.Stat>()
-            {
-                Stats.Stat.SingleSkill,
-                Stats.Stat.NonClassSkill,
-            };
-
-            if (skill == Skill.Any)
-            {
-                var maxSkillQuantity = 0;
-                var maxSkills = new List<Skill>();
-
-                foreach (var statType in itemSkillsStats)
-                {
-                    foreach (var skillId in SkillExtensions.SkillTreeToSkillDict.SelectMany(x => x.Value).ToList())
-                    {
-                        if (item.StatLayers.TryGetValue(statType, out var anyItemStats) &&
-                            anyItemStats.TryGetValue((ushort)skillId, out var anySkillLevel))
-                        {
-                            anySkillLevel += (addSkillTree && statType == Stats.Stat.SingleSkill ? GetItemStatAddSkillTreeSkills(item, skillId.GetSkillTree()).Item2 : 0); // This adds the +skill tree points, +class skill points and +all skills points
-
-                            if (anySkillLevel > maxSkillQuantity)
-                            {
-                                maxSkills = new List<Skill>() { skillId };
-                                maxSkillQuantity = anySkillLevel;
-                            }
-                            else if (anySkillLevel == maxSkillQuantity)
-                            {
-                                maxSkills.Add(skillId);
-                            }
-                        }
-                    }
-                }
-
-                return (maxSkills.ToArray(), maxSkillQuantity);
-            }
-
-            var baseAddSkills = addSkillTree ? GetItemStatAddSkillTreeSkills(item, skill.GetSkillTree()).Item2 : 0; // This adds the +skill tree points, +class skill points and +all skills points
-
-            foreach (var statType in itemSkillsStats)
-            {
-                if (item.StatLayers.TryGetValue(statType, out var itemStats) &&
-                    itemStats.TryGetValue((ushort)skill, out var skillLevel))
-                {
-                    return (new Skill[] { skill }, (statType == Stats.Stat.SingleSkill ? baseAddSkills : 0) + skillLevel);
-                }
-            }
-
-            return (new Skill[] { skill }, baseAddSkills);
-        }
-
-        public static (int, int, int) GetItemStatAddSkillCharges(UnitItem item, Skill skill)
-        {
-            if (item.StatLayers.TryGetValue(Stats.Stat.ItemChargedSkill, out var itemStats))
-            {
-                foreach (var stat in itemStats)
-                {
-                    var skillId = stat.Key >> 6;
-                    var level = stat.Key % (1 << 6);
-
-                    if (skillId == (int)skill && itemStats.TryGetValue(stat.Key, out var data))
-                    {
-                        var maxCharges = data >> 8;
-                        var currentCharges = data % (1 << 8);
-
-                        return (level, currentCharges, maxCharges);
-                    }
-                }
-            }
-            return (0, 0, 0);
         }
 
         public static Item? ParseFromString(string text)

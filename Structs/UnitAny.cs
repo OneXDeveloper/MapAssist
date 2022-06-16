@@ -68,6 +68,7 @@ namespace MapAssist.Structs
     {
         [FieldOffset(0x0)] public readonly IntPtr pFirstStat;
         [FieldOffset(0x8)] public readonly ulong Size;
+        [FieldOffset(0x10)] public readonly ulong Capacity;
     }
 
     [StructLayout(LayoutKind.Explicit)]
